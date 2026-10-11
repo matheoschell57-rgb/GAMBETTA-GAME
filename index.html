@@ -487,6 +487,136 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
   <div class="cmodal" id="cmodal"></div>
 </div>
 
+<!-- ===== Sauvegarde en ligne (Firebase) : uniquement sur le site GitHub, inactif dans Claude ===== -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<style>
+.ggpop{position:absolute;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;background:rgba(10,8,30,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:20px}
+.ggcard{background:var(--card);color:var(--text);border:4px solid var(--ink);border-radius:24px;box-shadow:0 8px 0 var(--ink);padding:22px 20px;text-align:center;max-width:360px;width:100%;animation:pop .4s ease}
+.ggcard h3{font-family:'Lilita One',sans-serif;font-weight:400;font-size:28px;margin:6px 0 4px}
+.ggcard p{margin:6px 0 12px;font-weight:500;line-height:1.4}
+.ggcard .emo{font-size:52px;line-height:1}
+.ggcard .ainput{text-align:center;font-size:18px;font-weight:700;margin-bottom:12px}
+.ggcard .btn{width:100%;margin-top:4px}
+.ggcode{font-family:'Lilita One',sans-serif;font-size:34px;letter-spacing:2px;background:var(--yellow);color:#1b2a3a;border:3px solid var(--ink);border-radius:14px;padding:6px 10px;margin:6px 0 10px;user-select:all;-webkit-user-select:all}
+.gglink{background:none;border:0;color:var(--muted);font:inherit;font-weight:700;font-size:14px;text-decoration:underline;cursor:pointer;margin-top:12px;padding:4px}
+.ggerr{color:var(--red);font-weight:700;min-height:1.2em;margin:-4px 0 8px}
+.colbtn.save{background:#d4f4ff;color:#1b2a3a}
+</style>
+<script>
+(function(){
+  if(window.claude||!window.firebase)return; // dans Claude, le jeu garde sa sauvegarde Claude
+  const ADMIN_EMAIL='matheo.schell57@gmail.com';
+  const firebaseConfig={
+    apiKey:"AIzaSyARSLTTINMQPdvx8oEGAnqM6P4FvA4-8eA",
+    authDomain:"gambetta-game.firebaseapp.com",
+    projectId:"gambetta-game",
+    storageBucket:"gambetta-game.firebasestorage.app",
+    messagingSenderId:"650369270455",
+    appId:"1:650369270455:web:99cfb495879d2ad5778332"
+  };
+  let auth,fs;
+  try{firebase.initializeApp(firebaseConfig);auth=firebase.auth();fs=firebase.firestore();}catch(e){return;}
+  const LS={get:k=>{try{return localStorage.getItem(k);}catch(_){return null;}},set:(k,v)=>{try{localStorage.setItem(k,v);}catch(_){}}};
+  const AL='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const rnd=n=>Array.from(crypto.getRandomValues(new Uint32Array(n)),x=>AL[x%AL.length]).join('');
+  const normCode=c=>{c=(c||'').toUpperCase().replace(/[^A-Z0-9]/g,'');if(c.startsWith('GMB'))c=c.slice(3);return c?'GMB-'+c:'';};
+  const GG=window.GG={code:null,pid:null,name:null,admin:false};
+  const NAMES={};
+  const domReady=()=>new Promise(r=>document.readyState!=='loading'?r():document.addEventListener('DOMContentLoaded',r));
+  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  function pop(html){const d=document.createElement('div');d.className='ggpop';d.innerHTML=`<div class="ggcard">${html}</div>`;(document.getElementById('app')||document.body).appendChild(d);return d;}
+
+  const waitAuth=new Promise(res=>{const un=auth.onAuthStateChanged(u=>{if(u){un();res(u);}else auth.signInAnonymously().catch(()=>{un();res(null);});});});
+
+  async function loadPlayer(code){const s=await fs.doc('players/'+code).get();return s.exists?s.data():null;}
+
+  // Première visite : choisir un pseudo, ou reprendre une partie avec un code
+  async function askPlayer(){await domReady();
+    return new Promise(resolve=>{
+      const d=pop(`<div class="emo">🏊</div><h3>Bienvenue !</h3><p>Choisis ton pseudo pour les classements.</p>
+        <input class="ainput" id="ggName" maxlength="20" placeholder="Ton prénom ou pseudo" autocomplete="off">
+        <div class="ggerr" id="ggErr"></div>
+        <button class="btn" id="ggGo">C'est parti !</button>
+        <button class="gglink" id="ggHave">J'ai déjà un code de sauvegarde</button>`);
+      const err=m=>{d.querySelector('#ggErr').textContent=m;};
+      d.querySelector('#ggGo').onclick=async()=>{const name=d.querySelector('#ggName').value.trim().slice(0,20);if(!name)return err('Écris ton pseudo 🙂');
+        const b=d.querySelector('#ggGo');b.disabled=true;b.textContent='…';
+        try{const code='GMB-'+rnd(6),data={pid:rnd(14),code,name,col:null,created:Date.now(),at:Date.now()};
+          await fs.doc('players/'+code).set(data);d.remove();showCode(code,name,true);resolve({code,data});}
+        catch(e){b.disabled=false;b.textContent="C'est parti !";err('Pas de connexion… réessaie.');}};
+      d.querySelector('#ggHave').onclick=()=>{d.remove();askCode(resolve,true);};
+    });}
+  function askCode(resolve,first){
+    const d=pop(`<div class="emo">🔑</div><h3>Mon code</h3><p>Tape le code de sauvegarde que le jeu t'a donné.</p>
+      <input class="ainput" id="ggCode" maxlength="12" placeholder="GMB-XXXXXX" autocomplete="off" autocapitalize="characters">
+      <div class="ggerr" id="ggErr"></div>
+      <button class="btn" id="ggOk">Récupérer ma partie</button>
+      <button class="gglink" id="ggBack">${first?'Je n\'ai pas de code':'Annuler'}</button>`);
+    const err=m=>{d.querySelector('#ggErr').textContent=m;};
+    d.querySelector('#ggOk').onclick=async()=>{const code=normCode(d.querySelector('#ggCode').value);if(code.length<10)return err('Le code ressemble à GMB-XXXXXX');
+      try{const data=await loadPlayer(code);if(!data)return err('Code inconnu 🤔 Vérifie les lettres.');
+        d.remove();if(first)resolve({code,data});else{LS.set('gg-code',code);location.reload();}}
+      catch(e){err('Pas de connexion… réessaie.');}};
+    d.querySelector('#ggBack').onclick=()=>{d.remove();if(first)askPlayer().then(resolve);};
+  }
+  function showCode(code,name,isNew){
+    const d=pop(`<div class="emo">${isNew?'🎉':'🔑'}</div><h3>${isNew?'Garde ce code !':'Ma sauvegarde'}</h3>
+      <p>${isNew?'C\'est ton code de sauvegarde. Il te permet de retrouver ta partie sur un autre téléphone.':`Joueur : <b>${esc(name)}</b><br>Ton code de sauvegarde :`}</p>
+      <div class="ggcode">${code}</div>
+      <button class="btn" id="ggCopy">📋 Copier le code</button>
+      ${isNew?'':`<button class="btn alt" id="ggOther">Utiliser un autre code</button>`}
+      <button class="btn alt" id="ggClose">${isNew?'C\'est noté !':'Fermer'}</button>
+      ${isNew?'':`<button class="gglink" id="ggAdmin">${GG.admin?'Admin connecté ✅ · Se déconnecter':'Connexion admin'}</button>`}`);
+    d.querySelector('#ggCopy').onclick=e=>{try{navigator.clipboard.writeText(code);e.target.textContent='Copié ✅';}catch(_){}};
+    d.querySelector('#ggClose').onclick=()=>d.remove();
+    const o=d.querySelector('#ggOther');if(o)o.onclick=()=>{d.remove();askCode(null,false);};
+    const a=d.querySelector('#ggAdmin');if(a)a.onclick=async()=>{
+      if(GG.admin){await auth.signOut();location.reload();return;}
+      const p=new firebase.auth.GoogleAuthProvider();
+      try{await auth.signInWithPopup(p);location.reload();}
+      catch(e){if(e&&e.code==='auth/popup-blocked')auth.signInWithRedirect(p);else a.textContent='Connexion impossible : '+(e&&e.code||'erreur');}};
+  }
+
+  const READY=(async()=>{try{
+    const u=await waitAuth;if(!u)return false;
+    GG.admin=!!(u.email&&u.email.toLowerCase()===ADMIN_EMAIL&&u.emailVerified);
+    let code=LS.get('gg-code'),data=null;
+    if(code){try{data=await loadPlayer(code);}catch(_){return false;}}
+    if(!data){const r=await askPlayer();code=r.code;data=r.data;}
+    LS.set('gg-code',code);GG.code=code;GG.pid=data.pid;GG.name=data.name;NAMES[data.pid]=data.name;
+    await fs.doc('owners/'+data.pid).set({uid:auth.currentUser.uid,code});
+    return true;}catch(e){console.warn('Firebase',e);return false;}})();
+
+  // Même interface que la sauvegarde Claude, pour que le jeu n'ait rien à changer
+  const wrapSnap=s=>({exists:s.exists,data:()=>s.data()});
+  const DB={
+    doc(path){
+      if(/^data\/users\/[^/]+\/collection$/.test(path))return{
+        get:async()=>{const s=await fs.doc('players/'+GG.code).get();const d=s.exists?s.data():{};return{exists:!!d.col,data:()=>d.col};},
+        set:o=>fs.doc('players/'+GG.code).set({pid:GG.pid,code:GG.code,name:GG.name,col:o,at:Date.now()})};
+      const r=fs.doc(path);
+      return{get:async()=>wrapSnap(await r.get()),set:o=>r.set(path.startsWith('board/')?Object.assign({},o,{name:GG.name}):o)};},
+    collection(name){return{onSnapshot(cb,err){return fs.collection(name).onSnapshot(q=>{const docs=q.docs.map(d=>{const v=d.data();if(name==='board'&&v&&v.name)NAMES[d.id]=v.name;return{id:d.id,data:()=>v};});cb({docs});},err||(()=>{}));}};}
+  };
+  const USER={id:async()=>GG.pid,isOwner:async()=>GG.admin,profiles:async ids=>{const o={};ids.forEach(i=>o[i]={name:NAMES[i]||''});return o;}};
+  window.claude={use:async n=>{const ok=await READY;if(!ok)return null;return n==='db'?DB:n==='user'?USER:null;}};
+
+  // Outils admin : codes de tout le monde et sauvegarde complète
+  GG.codes=async()=>{if(!GG.admin)return{};const q=await fs.collection('owners').get();const o={};q.docs.forEach(d=>o[d.id]=d.data().code);return o;};
+  GG.backup=async()=>{if(!GG.admin)return;const out={date:new Date().toISOString()};
+    for(const c of ['players','board','gifts','owners']){const q=await fs.collection(c).get();out[c]={};q.docs.forEach(d=>out[c][d.id]=d.data());}
+    const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(out,null,1)],{type:'application/json'}));
+    a.download='gambetta-sauvegarde-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();};
+
+  // Bouton « Ma sauvegarde » sur l'écran des persos
+  domReady().then(async()=>{const box=document.querySelector('.selbtns');if(!box)return;
+    const b=document.createElement('button');b.className='colbtn save';b.textContent='🔑 Ma sauvegarde';b.hidden=true;box.appendChild(b);
+    b.onclick=()=>showCode(GG.code,GG.name,false);if(await READY)b.hidden=false;});
+})();
+</script>
 <script>
 (function(){
 "use strict";
@@ -718,12 +848,18 @@ const CHARS={
   dario:{name:'Dario',game:"L'excuse parfaite",bg:'#ffeccf',
     line:"L'aquajogging ? Ah non, désolé… j'ai une très bonne excuse !",
     look:{skin:'#f0c4a6',hair:'short',hairColor:'#a39e98',shirt:PINK,logo:true,round:true,glasses:true,glassesColor:'#3a3530'}},
+  kayak:{name:'Camille',game:'Les téléphones au fond',bg:'#dcefd6',
+    line:"Nos deux téléphones sont tombés du kayak… Christian, plonge, les poissons sont déjà dessus !",
+    look:{skin:'#f3c9ab',hair:'long',hairColor:'#f0cf7a',shirt:PINK,logo:true}},
+  alix:{name:'Alix',game:'Appelle Hulk !',bg:'#f3e6d6',
+    line:"HULKKKK ! … BLEUARGHULKKK ! Non mais il m'entend pas ou quoi ?!",
+    look:{skin:'#f2cdb4',hair:'bun',hairColor:'#6b4a32',shirt:PINK,logo:true,earrings:true}},
   bonus:{name:'Bonus',game:'Le plat parfait',bg:'#e5dcff',
     line:"Regardez les enfants, je vais vous montrer ce que c'est un vrai plongeon !",
     look:{skin:'#f0c4a2',hair:'short',hairColor:'#2b1d14',shirt:PINK,logo:true,hat:'#1b2a3a',sunglasses:true}}
 };
 /* Le Bonus reste toujours en dernier : ajouter les nouveaux persos avant lui */
-const ORDER=['roland','christian','laetitia','marcel','christophe','agnes','jacky','noel','duo','christine','ethan','aude','nathan','manu','stephane','margaux','richard','jf','david','anthony','gwen','francoise','matheo','zoe','bouchon','dario','bonus'];
+const ORDER=['roland','christian','laetitia','marcel','christophe','agnes','jacky','noel','duo','christine','ethan','aude','nathan','manu','stephane','margaux','richard','jf','david','anthony','gwen','francoise','matheo','zoe','bouchon','dario','kayak','alix','bonus'];
 
 /* Prénoms du club pour le mini-jeu de Christian */
 const NAMES=['Christine','Ethan','Lucie','Agnès','Jean-François','Christophe','David','Françoise','Aude','Nathan','Manue','Angélique','Richard','Stéphane','Margaux','Pascal','Laurent','Karine','Fabrice','Dario','Brigitte','Alain','Audrey','Mickey','Bouchon','Manon','Hélène','Zoé','Camille','Marcel','Laetitia','Mathéo'];
@@ -2632,6 +2768,271 @@ function gameZoe(stage,api){
   };
 }
 
+/* ================= ALIX : appeler Hulk (voix grave, pas articulée) ================= */
+function gameAlix(stage,api){
+  const cv=makeCanvas(stage),ctx=cv.ctx,MAXH=3;
+  const alix=svgImg(avatar(CHARS.alix.look));
+  let t=0,over=false,phase='play',hx=0.6,hdir=-1,hstate='walk',hT=0,dash=0,shame=0,hold=false,needle=0,nd=1,tz=0.62,tw=0.16,call=null,callT=0,wob=0,dist=null,distT=2.5,lick=0,mouth=0;
+  const fx=[],stares=[];
+  const POOL=0.86,HOME=0.2;
+  const ITEMS=[['🎾','une balle'],['🌭','une saucisse'],['🐦','un pigeon'],['🧦','une chaussette'],['🍦','une glace']];
+  const hud=()=>api.hud(`🐶 ${Math.max(0,Math.round((hx-HOME)*40))} m  😳 ${shame}/${MAXH}`);hud();
+  const geo=()=>{const W=cv.W,H=cv.H,s=Math.min(W/400,H/700);return{W,H,s,gy:H*0.5,cy:H*0.68};};
+  function newTarget(){const prog=Math.max(0,Math.min(1,(0.6-hx)/0.4));tw=0.17-prog*0.07;tz=0.35+Math.random()*(0.6-tw);}
+  newTarget();
+  function addShame(m){shame++;hud();fx.push({x:cv.W*0.5,y:cv.H*0.1,txt:m,t:0,c:'#ff6b5b'});
+    stares.push({x:0.3+Math.random()*0.4,t:0});
+    if(shame>=MAXH){over=true;phase='lost';setTimeout(()=>api.end(false,'Trop la honte…','Tout le bassin s\'est retourné… et Hulk fait toujours sa vie.'),900);}}
+  function release(){if(!hold||over)return;hold=false;const v=needle;const g=geo();
+    if(v>=tz&&v<=tz+tw){const c=Math.abs(v-(tz+tw/2))/(tw/2),perfect=c<0.35;
+      call={txt:perfect?'BLEUAARGHULKKKK !!':'BLEUARGHULK !',c:'#2fb36d',big:perfect};dash=perfect?0.17:0.11;hstate='come';hT=0;
+      fx.push({x:g.W*0.5,y:g.H*0.1,txt:perfect?'Parfait ! 🐶💨':'Il arrive ! 🐶',t:0,c:'#2fb36d'});if(dist&&dist.x<hx)dist=null;}
+    else if(v<tz){call={txt:v<0.2?'Hulk ? 🎶':'Huuulk…',c:'#3c8ee6'};hstate='ignore';hT=0;addShame('Trop aigu ! Hulk s\'en fiche 😑');}
+    else{call={txt:'GRRRBLBLBLL…',c:'#8a4a22'};hstate='scared';hT=0;hx=Math.min(POOL-0.02,hx+0.05);addShame('Trop grave… Hulk a eu peur 😨');}
+    callT=1.6;mouth=0.6;newTarget();}
+  const down=e=>{e.preventDefault();if(over||phase!=='play')return;hold=true;needle=0;nd=1;};
+  const up=()=>release();
+  cv.c.addEventListener('pointerdown',down);window.addEventListener('pointerup',up);window.addEventListener('pointercancel',up);
+  return{
+    update(dt){t+=dt;for(let k=fx.length-1;k>=0;k--){fx[k].t+=dt;if(fx[k].t>1.4)fx.splice(k,1);}
+      stares.forEach(s=>s.t+=dt);for(let k=stares.length-1;k>=0;k--)if(stares[k].t>2.5)stares.splice(k,1);
+      if(callT>0)callT-=dt;if(mouth>0)mouth-=dt;
+      if(phase==='won'){lick+=dt;return;}if(over)return;
+      // la voix descend dans les graves en tremblant, puis remonte
+      if(hold){const sp=0.75+Math.min(0.6,(0.68-hx)*0.9);needle+=nd*sp*dt;wob=Math.sin(t*23)*0.025+Math.sin(t*37)*0.015;if(needle>=1){needle=1;nd=-1;}if(needle<=0){needle=0;nd=1;}}
+      // distractions
+      distT-=dt;if(!dist&&distT<=0){const it=pick(ITEMS);dist={e:it[0],n:it[1],x:Math.min(POOL-0.05,hx+0.05+Math.random()*0.15),t:0};distT=4+Math.random()*3;}
+      if(dist)dist.t+=dt;
+      // Hulk
+      hT+=dt;
+      if(hstate==='come'){const k=Math.min(1,hT/0.9);hx-=dash*dt/0.9;hdir=-1;if(k>=1)hstate='walk';}
+      else if(hstate==='ignore'){if(hT>1.2)hstate='walk';}
+      else if(hstate==='scared'){if(hT>1)hstate='walk';}
+      else if(hstate==='sniff'){if(hT>1.6){hstate='walk';dist=null;}}
+      else{const target=dist?dist.x:POOL+0.05;const sp=dist?0.1:0.02;hdir=target>hx?1:-1;hx+=hdir*sp*dt;
+        if(dist&&Math.abs(hx-dist.x)<0.02){hstate='sniff';hT=0;fx.push({x:dist.x*cv.W,y:geo().gy-60,txt:`Hulk a trouvé ${dist.n} !`,t:0,c:'#ffcf33'});}}
+      if(hx>=POOL){fx.push({x:POOL*cv.W,y:geo().gy-40,txt:'PLOUF ! 💦',t:0,c:'#3cb4e6'});hx=0.6;hstate='walk';dist=null;addShame('Hulk est dans le bassin… 🙈');}
+      if(hx<=HOME&&phase==='play'){phase='won';over=true;lick=0;setTimeout(()=>api.end(true,'Hulk est là !','BLEUARGHULKKK… et Hulk est venu ! Personne n\'a compris ce qu\'Alix a dit, mais lui si 🐶❤️'),2200);}
+      hud();
+    },
+    draw(){const g=geo(),{W,H,s,gy,cy}=g;ctx.clearRect(0,0,W,H);
+      drawHall(ctx,0,0,W,gy*0.62);
+      ctx.fillStyle='#ece8df';ctx.fillRect(0,gy*0.62,W,H);ctx.strokeStyle='rgba(120,120,120,.18)';ctx.lineWidth=1.5;for(let x=0;x<W;x+=34){ctx.beginPath();ctx.moveTo(x,gy*0.62);ctx.lineTo(x,gy+30);ctx.stroke();}
+      // bassin à droite
+      const px=POOL*W+20*s;const wg=ctx.createLinearGradient(0,gy*0.62,0,gy+30);wg.addColorStop(0,'#2bb3c7');wg.addColorStop(1,'#1784a8');ctx.fillStyle=wg;ctx.fillRect(px,gy*0.62,W-px,gy*0.38+30);
+      ctx.fillStyle='#fff';ctx.fillRect(px-6,gy*0.62,6,gy*0.38+30);ctx.strokeStyle='rgba(255,255,255,.4)';ctx.lineWidth=2;for(let i=0;i<4;i++){const yy=gy*0.7+i*18;ctx.beginPath();ctx.moveTo(px+6,yy);ctx.quadraticCurveTo(px+(W-px)/2,yy-5+Math.sin(t*2+i)*3,W,yy);ctx.stroke();}
+      ctx.font=`${Math.round(12*s+4)}px sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';
+      // nageurs qui se retournent
+      stares.forEach(st=>{ctx.globalAlpha=Math.min(1,st.t*3,(2.5-st.t)*2);bubbleText(ctx,st.x*W,gy*0.72,['👀','😳','🤨'][Math.floor(st.x*10)%3]+' Ça va, Alix ?',11);ctx.globalAlpha=1;});
+      // distraction
+      if(dist){ctx.font=`${Math.round(30*s)}px sans-serif`;ctx.fillStyle='#000';ctx.fillText(dist.e,dist.x*W,gy+8-Math.abs(Math.sin(t*4))*4);}
+      // Alix
+      const aw=Math.min(W*0.3,130*s),ah=aw*1.15;drawImg(ctx,alix,HOME*W-aw*0.75,gy+12-ah,aw,ah);
+      if(mouth>0){ctx.fillStyle='#7a2230';ctx.beginPath();ctx.ellipse(HOME*W-aw*0.75+aw*0.5,gy+12-ah+ah*(126/230)*1,aw*0.045,aw*0.04*(1+Math.sin(t*40)*0.5),0,0,7);ctx.fill();}
+      // Hulk, cocker anglais marron
+      const x=hx*W,y=gy+6,R=36*s;ctx.save();ctx.translate(x,y);ctx.scale(hdir,1);const step=hstate==='walk'||hstate==='come'?Math.sin(t*(hstate==='come'?22:10)):0;
+      ctx.strokeStyle=INK;ctx.lineWidth=3;ctx.fillStyle='#8a4a22';
+      [[-0.6,1],[-0.3,-1],[0.4,1],[0.7,-1]].forEach(l=>{rr(ctx,R*l[0]-4*s,-R*0.2,8*s,R*0.55+step*l[1]*3*s,4*s);ctx.fill();ctx.stroke();});
+      ctx.beginPath();ctx.ellipse(0,-R*0.45,R*1.05,R*0.55,0,0,7);ctx.fill();ctx.stroke();
+      const wag=Math.sin(t*(hstate==='come'||phase==='won'?30:8))*0.6;ctx.save();ctx.translate(-R*1,-R*0.6);ctx.rotate(-0.8+wag);rr(ctx,-3*s,-R*0.5,7*s,R*0.5,4*s);ctx.fill();ctx.stroke();ctx.restore();
+      ctx.beginPath();ctx.ellipse(R*1.05,-R*1.0,R*0.5,R*0.45,0,0,7);ctx.fill();ctx.stroke();
+      ctx.beginPath();ctx.ellipse(R*1.45,-R*0.88,R*0.25,R*0.2,0,0,7);ctx.fillStyle='#a2643a';ctx.fill();ctx.stroke();
+      ctx.fillStyle=INK;ctx.beginPath();ctx.arc(R*1.66,-R*0.92,R*0.08,0,7);ctx.fill();ctx.beginPath();ctx.arc(R*1.15,-R*1.12,R*0.07,0,7);ctx.fill();
+      ctx.fillStyle='#6b3517';ctx.beginPath();ctx.ellipse(R*0.8,-R*0.75+Math.sin(t*6)*2,R*0.22,R*0.55,0.25,0,7);ctx.fill();ctx.stroke();
+      if(hstate==='come'||phase==='won'){ctx.fillStyle='#ff7eb6';ctx.beginPath();ctx.ellipse(R*1.55,-R*0.62,R*0.08,R*0.16,0,0,7);ctx.fill();}
+      ctx.restore();
+      if(hstate==='ignore')bubbleText(ctx,x,y-R*2.1,'… 😑',11);if(hstate==='scared')bubbleText(ctx,x,y-R*2.1,'😨 ?!',11);if(hstate==='sniff')bubbleText(ctx,x,y-R*2.1,'snif snif 👃',11);
+      if(hstate==='come')bubbleText(ctx,x,y-R*2.1,'Ouaf ! 🐾',11);
+      ctx.font='600 11px Fredoka, sans-serif';ctx.fillStyle=INK;ctx.fillText('Hulk',x,y+16);
+      // la voix d'Alix
+      if(callT>0&&call){ctx.save();const k=Math.min(1,(1.6-callT)*5);ctx.translate(W*0.5,gy*0.44);ctx.scale(0.7+k*0.3,0.7+k*0.3);ctx.rotate(-0.05+Math.sin(t*30)*0.02*(call.big?1:0));
+        ctx.font=`${call.big?30:24}px "Lilita One", Impact, sans-serif`;ctx.textAlign='center';ctx.lineWidth=6;ctx.strokeStyle=INK;ctx.fillStyle=call.c;ctx.strokeText(call.txt,0,0);ctx.fillText(call.txt,0,0);ctx.restore();}
+      // panneau de la voix
+      const pw=Math.min(W*0.9,400),px0=(W-pw)/2,py0=gy+44;rr(ctx,px0,py0,pw,H-py0-14,20);ctx.fillStyle='#fff';ctx.fill();ctx.lineWidth=3;ctx.strokeStyle=INK;ctx.stroke();
+      ctx.font='700 14px Fredoka, sans-serif';ctx.fillStyle=INK;ctx.textAlign='center';ctx.fillText('🎙️ La voix d\'Alix',W/2,py0+20);
+      const mx=px0+20,mw=pw-40,my=py0+40,mh=28;const gr=ctx.createLinearGradient(mx,0,mx+mw,0);gr.addColorStop(0,'#bfe0ff');gr.addColorStop(1,'#6b3517');rr(ctx,mx,my,mw,mh,10);ctx.fillStyle=gr;ctx.fill();
+      rr(ctx,mx+mw*tz,my-4,mw*tw,mh+8,8);ctx.fillStyle='rgba(47,179,109,.85)';ctx.fill();ctx.lineWidth=2.5;ctx.strokeStyle=INK;ctx.stroke();
+      ctx.font='700 10px Fredoka, sans-serif';ctx.fillStyle='#fff';ctx.fillText('BLEUARGH',mx+mw*(tz+tw/2),my+mh/2+1);
+      rr(ctx,mx,my,mw,mh,10);ctx.lineWidth=3;ctx.strokeStyle=INK;ctx.stroke();
+      ctx.font='600 11px Fredoka, sans-serif';ctx.fillStyle=INK;ctx.textAlign='left';ctx.fillText('aigu 🎶',mx,my+mh+14);ctx.textAlign='right';ctx.fillText('🤮 grave',mx+mw,my+mh+14);ctx.textAlign='center';
+      if(hold){const nx=mx+mw*Math.max(0,Math.min(1,needle+wob));ctx.fillStyle=INK;ctx.fillRect(nx-3,my-10,6,mh+20);ctx.beginPath();ctx.moveTo(nx-9,my-14);ctx.lineTo(nx+9,my-14);ctx.lineTo(nx,my-4);ctx.fill();}
+      // bouton
+      const bx=W/2,by=Math.min(H-60*s,my+mh+40+50*s),br=Math.min(52*s,(H-my-mh-30)/2.6);ctx.save();ctx.translate(bx,by);if(hold)ctx.scale(0.94,0.94);
+      ctx.beginPath();ctx.arc(0,4,br,0,7);ctx.fillStyle=INK;ctx.fill();ctx.beginPath();ctx.arc(0,hold?2:0,br,0,7);ctx.fillStyle=hold?'#ff8a3d':'#ffcf33';ctx.fill();ctx.lineWidth=4;ctx.strokeStyle=INK;ctx.stroke();
+      ctx.font=`${Math.round(br*0.7)}px sans-serif`;ctx.fillText('📣',0,-br*0.12);ctx.font=`700 ${Math.max(10,Math.round(br*0.24))}px Fredoka, sans-serif`;ctx.fillStyle=INK;ctx.fillText(hold?'Relâche !':'Maintiens',0,br*0.5);ctx.restore();
+      for(const f of fx)floatText(ctx,f);
+      if(t<6&&phase==='play'&&!hold)bubbleText(ctx,W/2,gy*0.5,'Maintiens 📣 et relâche dans la zone BLEUARGH !',12);
+      if(phase==='won'){for(let i=0;i<5;i++){ctx.font=`${Math.round(22*s)}px sans-serif`;ctx.fillText('❤️',HOME*W+Math.sin(lick*3+i)*40,gy-60-((lick*60+i*25)%90));}
+        bubbleText(ctx,HOME*W+40,gy-120*s,'Slurp ! 👅',13);}
+    },
+    destroy(){cv.c.removeEventListener('pointerdown',down);window.removeEventListener('pointerup',up);window.removeEventListener('pointercancel',up);cv.destroy();}
+  };
+}
+
+/* ================= KAYAK : le téléphone au fond de l'eau trouble ================= */
+function gameKayak(stage,api){
+  const cv=makeCanvas(stage),ctx=cv.ctx,LIVES=3;
+  const cam=svgImg(avatar(CHARS.kayak.look));
+  let t=0,over=false,phase='play',lives=LIVES,o2=1,dx=0.45,dy=0.12,tx=null,ty=null,face=-1,carried=null,silt=0,passCd=2,pingT=0,wonT=0,hurtT=0,inv=0,msgT=0,msg='',done=0;
+  const fx=[],bub=[],pings=[],mud=[],flies=[];
+  const FCOL=['#f2a541','#7fc8a9','#e86a5a','#c9a24a','#8fb3d9','#b58ad6','#9ccf5b','#f28fb0'];
+  const fish=[];for(let i=0;i<8;i++)fish.push({x:0.1+Math.random()*0.8,y:0.35+Math.random()*0.55,a:Math.random()*6.28,turn:1+Math.random()*2,col:FCOL[i],sz:0.8+Math.random()*0.5,flee:0,tired:0,ph:null});
+  // les deux téléphones : celui de Christian (coque bleue) et celui de Camille (coque rose)
+  const PH=[{who:'Christian',col:'#3c8ee6',done:false},{who:'Camille',col:'#ff5fa2',done:false}];
+  fish[0].ph=PH[0];fish[4].ph=PH[1];
+  const silure={x:0.2,y:0.8,a:0,turn:3,rest:0};
+  const geo=()=>{const W=cv.W,H=cv.H,s=Math.min(W/400,H/700);return{W,H,s,surf:H*0.17,bot:H*0.96};};
+  const hud=()=>api.hud(`📱 ${done}/2  ❤️ ${lives}  🫧 ${Math.round(o2*100)}%`);hud();
+  const say=(m,d)=>{msg=m;msgT=d||2;};
+  const down=e=>{e.preventDefault();if(over)return;const q=cv.pt(e);tx=q.x/cv.W;ty=q.y/cv.H;};
+  const move=e=>{if(tx===null)return;const q=cv.pt(e);tx=q.x/cv.W;ty=q.y/cv.H;};
+  const up=()=>{tx=ty=null;};
+  cv.c.addEventListener('pointerdown',down);cv.c.addEventListener('pointermove',move);window.addEventListener('pointerup',up);
+  const free=()=>fish.filter(f=>!f.ph&&!flies.some(fl=>fl.to===f));
+  function nearestFree(x,y,max){const g=geo();let best=null,bd=1e9;free().forEach(f=>{const d=Math.hypot((f.x-x)*g.W,(f.y-y)*g.H);if(d<bd&&d<(max||1e9)){bd=d;best=f;}});return best;}
+  function dropPhone(){if(!carried)return;const to=nearestFree(dx,dy);flies.push({ph:carried,x:dx,y:dy,to,t:0});carried=null;}
+  function grab(ph,txt){carried=ph;fx.push({x:dx*cv.W,y:dy*cv.H-30,txt,t:0,c:'#2fb36d'});say(`Le téléphone de ${ph.who} ! Au kayak 🛶`,2.5);}
+  function loseLife(m){lives--;hud();fx.push({x:dx*cv.W,y:dy*cv.H-30,txt:m,t:0,c:'#ff6b5b'});dropPhone();
+    if(lives<=0){over=true;phase='lost';setTimeout(()=>api.end(false,'Glouglou…',done?'Un téléphone sur deux… l\'autre reste au fond, et les poissons continuent de scroller sur FishApp.':'Les téléphones restent au fond, et les poissons continuent de scroller sur FishApp.'),900);return;}
+    dx=0.45;dy=0.12;o2=1;inv=2;tx=ty=null;}
+  return{
+    update(dt){t+=dt;for(let k=fx.length-1;k>=0;k--){fx[k].t+=dt;if(fx[k].t>1.4)fx.splice(k,1);}
+      for(let k=bub.length-1;k>=0;k--){const b=bub[k];b.y-=b.v*dt;b.t+=dt;if(b.t>2.5)bub.splice(k,1);}
+      for(let k=pings.length-1;k>=0;k--){pings[k].t+=dt;if(pings[k].t>1.2)pings.splice(k,1);}
+      for(let k=mud.length-1;k>=0;k--){mud[k].t+=dt;if(mud[k].t>3)mud.splice(k,1);}
+      if(msgT>0)msgT-=dt;
+      if(phase==='won'){wonT+=dt;return;}if(over)return;
+      const g=geo(),{W,H,s,surf,bot}=g,sy=surf/H,by=bot/H;
+      if(inv>0)inv-=dt;if(hurtT>0)hurtT-=dt;
+      // plongeur
+      let moving=false;
+      if(tx!==null){const ddx=(tx-dx)*W,ddy=(ty-dy)*H,d=Math.hypot(ddx,ddy);if(d>5){const sp=Math.min(d*3,215*s);dx+=ddx/d*sp*dt/W;dy+=ddy/d*sp*dt/H;moving=true;if(Math.abs(ddx)>2)face=ddx>0?1:-1;}}
+      dx=Math.max(0.04,Math.min(0.96,dx));dy=Math.max(sy-0.05,Math.min(by-0.02,dy));
+      const under=dy>sy+0.015;
+      if(under){o2-=dt/16;if(Math.random()<dt*3)bub.push({x:dx+face*0.02,y:dy-0.01,v:0.06+Math.random()*0.05,t:0});}
+      else{if(o2<1&&Math.random()<dt*2)fx.push({x:dx*W,y:surf-20,txt:'🫧',t:0,c:'#fff'});o2=Math.min(1,o2+dt/2);}
+      if(o2<=0){o2=0;loseLife('Plus d\'air ! 😵');return;}
+      if(o2<0.25&&under&&msgT<=0)say('⚠️ Remonte respirer !',1.2);
+      // vase soulevée près du fond
+      if(dy>by-0.05&&moving){silt=Math.min(1,silt+dt*0.9);if(Math.random()<dt*10)mud.push({x:dx+(Math.random()-.5)*0.12,y:by-0.02-Math.random()*0.04,r:20+Math.random()*30,t:0});}
+      silt=Math.max(0,silt-dt*0.22);
+      // poissons
+      fish.forEach(f=>{const dist=Math.hypot((f.x-dx)*W,(f.y-dy)*H);
+        if(f.ph&&dist<140*s&&f.tired<=0&&!carried){f.flee+=dt;const a=Math.atan2((f.y-dy)*H,(f.x-dx)*W);f.a=a+Math.sin(t*5)*0.4;}
+        else{f.flee=Math.max(0,f.flee-dt);f.turn-=dt;if(f.turn<=0){f.turn=1+Math.random()*2.5;f.a+=(Math.random()-.5)*2.4;}}
+        if(f.flee>3.2){f.tired=1.1;f.flee=0;}
+        if(f.tired>0)f.tired-=dt;
+        const sp=(f.ph&&f.flee>0&&f.tired<=0?205:f.tired>0?55:45)*s;
+        f.x+=Math.cos(f.a)*sp*dt/W;f.y+=Math.sin(f.a)*sp*dt/H;
+        if(f.x<0.04||f.x>0.96){f.a=Math.PI-f.a;f.x=Math.max(0.04,Math.min(0.96,f.x));}
+        if(f.y<sy+0.07||f.y>by-0.04){f.a=-f.a;f.y=Math.max(sy+0.07,Math.min(by-0.04,f.y));}});
+      // passes
+      passCd-=dt;
+      if(passCd<=0){const hd=fish.find(f=>f.ph&&f.flee>0.9);if(hd){const to=nearestFree(hd.x,hd.y,260*s);
+        if(to){flies.push({ph:hd.ph,x:hd.x,y:hd.y,to,t:0});hd.ph=null;hd.flee=0;passCd=3.2;fx.push({x:hd.x*W,y:hd.y*H-24,txt:'Passe ! 🐟',t:0,c:'#ffcf33'});}}}
+      for(let k=flies.length-1;k>=0;k--){const fl=flies[k];fl.t+=dt/0.6;const q=Math.min(1,fl.t);
+        fl.cx=fl.x+(fl.to.x-fl.x)*q;fl.cy=fl.y+(fl.to.y-fl.y)*q-Math.sin(q*Math.PI)*0.06;
+        if(!carried&&Math.hypot((fl.cx-dx)*W,(fl.cy-dy)*H)<34*s){flies.splice(k,1);grab(fl.ph,'Intercepté ! 📱');}
+        else if(q>=1){fl.to.ph=fl.ph;flies.splice(k,1);}}
+      // attraper un porteur
+      if(!carried){const h2=fish.find(f=>f.ph&&Math.hypot((f.x-dx)*W,(f.y-dy)*H)<24*s);if(h2){const ph=h2.ph;h2.ph=null;grab(ph,'📱 Récupéré !');}}
+      // vibrations des téléphones encore perdus
+      pingT-=dt;if(pingT<=0){pingT=3.2/Math.max(1,2-done);fish.forEach(f=>{if(f.ph)pings.push({x:f.x,y:f.y,t:0,col:f.ph.col});});flies.forEach(fl=>pings.push({x:fl.cx,y:fl.cy,t:0,col:fl.ph.col}));}
+      // silure
+      silure.turn-=dt;if(silure.turn<=0){silure.turn=2+Math.random()*3;silure.a=Math.random()<0.5?0:Math.PI;}
+      const sd=Math.hypot((silure.x-dx)*W,(silure.y-dy)*H);
+      silure.rest-=dt;const hunt=sd<150*s&&under&&silure.rest<=0;if(hunt){silure.a=Math.atan2((dy-silure.y)*H,(dx-silure.x)*W);}
+      silure.x+=Math.cos(silure.a)*(hunt?95:40)*s*dt/W;silure.y+=Math.sin(silure.a)*(hunt?95:22)*s*dt/H;
+      silure.x=Math.max(0.08,Math.min(0.92,silure.x));silure.y=Math.max(sy+0.25,Math.min(by-0.05,silure.y));
+      if(sd<38*s&&inv<=0){inv=2.5;hurtT=0.5;silure.rest=2.5;silure.a+=Math.PI;o2=Math.max(0.05,o2-0.3);fx.push({x:dx*W,y:dy*H-30,txt:'Le silure ! -30% 🫧',t:0,c:'#ff6b5b'});if(carried){dropPhone();say('Le téléphone t\'a échappé !',1.6);}
+        const a=Math.atan2((dy-silure.y)*H,(dx-silure.x)*W);dx+=Math.cos(a)*0.12;dy+=Math.sin(a)*0.06;}
+      // livraison au kayak
+      const kx=0.7;if(carried&&dy<sy+0.03&&Math.abs(dx-kx)<0.14){carried.done=true;done++;carried=null;
+        if(done>=2){phase='won';over=true;wonT=0;
+          setTimeout(()=>api.end(true,'Téléphones récupérés !','Camille et Christian ont leurs deux téléphones… mais les poissons ont eu le temps de liker tous les selfies sur FishApp 🐟📸'),3200);}
+        else{fx.push({x:kx*W,y:surf-40,txt:'1/2 ! Encore un 📱',t:0,c:'#2fb36d'});say('Plus qu\'un téléphone ! Suis les 📳',2.2);}}
+      hud();
+    },
+    draw(){const g=geo(),{W,H,s,surf,bot}=g;ctx.clearRect(0,0,W,H);
+      // ciel + rive
+      const sk=ctx.createLinearGradient(0,0,0,surf);sk.addColorStop(0,'#9fd9f5');sk.addColorStop(1,'#d8f0e0');ctx.fillStyle=sk;ctx.fillRect(0,0,W,surf);
+      ctx.fillStyle='#6fae55';ctx.beginPath();ctx.moveTo(0,surf);for(let x=0;x<=W;x+=W/8)ctx.lineTo(x,surf-18-Math.sin(x*0.03)*10);ctx.lineTo(W,surf);ctx.fill();
+      ctx.fillStyle='#4e8c3e';[[0.08,0.6],[0.2,0.75],[0.9,0.65]].forEach(p=>{ctx.beginPath();ctx.arc(W*p[0],surf-30*p[1]-20,22*s,0,7);ctx.fill();});
+      // eau trouble
+      const wg=ctx.createLinearGradient(0,surf,0,H);wg.addColorStop(0,'#6f8f5a');wg.addColorStop(0.5,'#55693f');wg.addColorStop(1,'#3b4528');ctx.fillStyle=wg;ctx.fillRect(0,surf,W,H-surf);
+      // fond : vase, cailloux, objets perdus
+      ctx.fillStyle='#4a3b26';ctx.beginPath();ctx.moveTo(0,H);ctx.lineTo(0,bot);for(let x=0;x<=W;x+=20)ctx.lineTo(x,bot-Math.sin(x*0.05)*6);ctx.lineTo(W,H);ctx.fill();
+      ctx.font=`${Math.round(26*s)}px sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#000';
+      [['🥾',0.15],['🛒',0.48],['🪨',0.82],['🧦',0.66]].forEach(o=>ctx.fillText(o[0],W*o[1],bot-10*s));
+      ctx.strokeStyle='#3f6b2e';ctx.lineWidth=4;for(let i=0;i<9;i++){const x=W*(0.05+i*0.11);ctx.beginPath();ctx.moveTo(x,bot);ctx.quadraticCurveTo(x+Math.sin(t+i)*12,bot-50*s,x+Math.sin(t*1.3+i)*8,bot-(70+i%3*25)*s);ctx.stroke();}
+      // vase soulevée
+      mud.forEach(m=>{ctx.fillStyle=`rgba(90,70,40,${0.5*(1-m.t/3)})`;ctx.beginPath();ctx.arc(m.x*W,m.y*H-m.t*10,m.r*s*(1+m.t*0.4),0,7);ctx.fill();});
+      // poissons
+      const drawFish=(f)=>{const x=f.x*W,y=f.y*H,r=16*s*f.sz,fl=Math.cos(f.a)<0?-1:1;ctx.save();ctx.translate(x,y);ctx.scale(fl,1);
+        ctx.fillStyle=f.col;ctx.strokeStyle=INK;ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(-r*0.9,0);ctx.lineTo(-r*1.6,-r*0.6+Math.sin(t*12)*2);ctx.lineTo(-r*1.6,r*0.6+Math.sin(t*12)*2);ctx.closePath();ctx.fill();ctx.stroke();
+        ctx.beginPath();ctx.ellipse(0,0,r,r*0.62,0,0,7);ctx.fill();ctx.stroke();
+        ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(r*0.45,-r*0.15,r*0.22,0,7);ctx.fill();ctx.stroke();ctx.fillStyle=INK;ctx.beginPath();ctx.arc(r*0.5,-r*0.15,r*0.1,0,7);ctx.fill();
+        if(f.ph){ctx.save();ctx.translate(r*1.05,r*0.1);ctx.rotate(0.2);rr(ctx,-r*0.3,-r*0.5,r*0.6,r*1,4);ctx.fillStyle=f.ph.col;ctx.fill();ctx.stroke();ctx.fillStyle=`rgba(200,245,255,${0.7+Math.sin(t*8)*0.3})`;ctx.fillRect(-r*0.22,-r*0.4,r*0.44,r*0.8);ctx.restore();}
+        ctx.restore();if(f.ph&&f.flee>0)bubbleText(ctx,x,y-r-12,'💨',10);if(f.tired>0&&f.ph)bubbleText(ctx,x,y-r-12,'😮‍💨',10);};
+      fish.forEach(drawFish);
+      // silure (caché dans la vase)
+      const sx=silure.x*W,sy2=silure.y*H,R=48*s,sf=Math.cos(silure.a)<0?-1:1;ctx.save();ctx.translate(sx,sy2);ctx.scale(sf,1);ctx.fillStyle='#2c2a22';ctx.strokeStyle='#111';ctx.lineWidth=3;
+      ctx.beginPath();ctx.moveTo(-R,0);ctx.lineTo(-R*1.6,-R*0.35);ctx.lineTo(-R*1.6,R*0.35);ctx.closePath();ctx.fill();ctx.beginPath();ctx.ellipse(0,0,R,R*0.42,0,0,7);ctx.fill();ctx.stroke();
+      ctx.strokeStyle='#2c2a22';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(R*0.9,R*0.1);ctx.quadraticCurveTo(R*1.3,R*0.4,R*1.1,R*0.7);ctx.moveTo(R*0.9,R*0.15);ctx.quadraticCurveTo(R*1.4,R*0.1,R*1.5,R*0.4);ctx.stroke();ctx.restore();
+      // téléphone en vol
+      flies.forEach(fl=>{if(fl.cx==null)return;ctx.font=`${Math.round(24*s)}px sans-serif`;ctx.fillText('📱',fl.cx*W,fl.cy*H);});
+      // plongeur (Christian)
+      const px=dx*W,py=dy*H;ctx.save();ctx.translate(px,py);ctx.scale(face,1);if(inv>0&&Math.floor(t*12)%2)ctx.globalAlpha=0.5;
+      const kick=Math.sin(t*(tx!==null?14:4))*6*s;ctx.strokeStyle=INK;ctx.lineWidth=3;
+      ctx.fillStyle='#ff4fa0';ctx.beginPath();ctx.moveTo(-22*s,-4*s);ctx.lineTo(-44*s,-8*s+kick);ctx.lineTo(-44*s,-1*s+kick);ctx.closePath();ctx.fill();ctx.stroke();
+      ctx.beginPath();ctx.moveTo(-22*s,4*s);ctx.lineTo(-44*s,4*s-kick);ctx.lineTo(-44*s,11*s-kick);ctx.closePath();ctx.fill();ctx.stroke();
+      ctx.fillStyle=PINK;ctx.beginPath();ctx.ellipse(-4*s,0,22*s,10*s,0,0,7);ctx.fill();ctx.stroke();
+      ctx.fillStyle=CHARS.christian.look.skin;ctx.beginPath();ctx.arc(22*s,-2*s,11*s,0,7);ctx.fill();ctx.stroke();
+      ctx.fillStyle='rgba(255,255,255,.6)';ctx.beginPath();ctx.ellipse(19*s,-9*s,4*s,2*s,-0.4,0,7);ctx.fill();
+      ctx.fillStyle='#8fe3ff';rr(ctx,24*s,-6*s,9*s,7*s,3);ctx.fill();ctx.stroke();ctx.strokeStyle='#ffcf33';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(18*s,-14*s);ctx.lineTo(18*s,-24*s);ctx.stroke();
+      if(carried){rr(ctx,26*s,2*s,9*s,15*s,3);ctx.fillStyle=carried.col;ctx.fill();ctx.lineWidth=2;ctx.strokeStyle=INK;ctx.stroke();}
+      ctx.restore();
+      bub.forEach(b=>{ctx.strokeStyle='rgba(255,255,255,.7)';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(b.x*W,b.y*H,3*s,0,7);ctx.stroke();});
+      // eau trouble : on n'y voit qu'autour du plongeur
+      const vis=Math.max(60,100*s*(1-0.5*silt));ctx.save();ctx.beginPath();ctx.rect(0,surf,W,H-surf);ctx.clip();
+      const mg=ctx.createRadialGradient(px,py,0,px,py,vis);mg.addColorStop(0,'rgba(48,58,32,0)');mg.addColorStop(0.55,'rgba(48,58,32,.12)');mg.addColorStop(1,'rgba(40,48,26,.97)');ctx.fillStyle=mg;ctx.fillRect(0,surf,W,H-surf);
+      // ce qui se voit malgré la vase : vibrations du téléphone, yeux du silure
+      pings.forEach(p=>{const k=p.t/1.2;ctx.strokeStyle=p.col;ctx.globalAlpha=0.85*(1-k);ctx.lineWidth=3;ctx.beginPath();ctx.arc(p.x*W,p.y*H,10+k*110*s,0,7);ctx.stroke();ctx.globalAlpha=1;
+        if(p.t<0.5){ctx.font=`${Math.round(16*s)}px sans-serif`;ctx.globalAlpha=1-p.t*2;ctx.fillText('📳',p.x*W,p.y*H-16*s);ctx.globalAlpha=1;}});
+      const eb=0.6+Math.sin(t*2)*0.3;ctx.fillStyle=`rgba(255,220,60,${eb})`;[[0.62,-0.12],[0.75,-0.1]].forEach(e=>{ctx.beginPath();ctx.arc(sx+sf*R*e[0],sy2+R*e[1],3.2*s,0,7);ctx.fill();});
+      ctx.restore();
+      // surface + kayak + Camille
+      ctx.fillStyle='rgba(255,255,255,.35)';for(let x=0;x<W;x+=30){ctx.beginPath();ctx.ellipse(x+(t*20)%30,surf,14,3,0,0,7);ctx.fill();}
+      const kx=0.7*W,ky=surf+2+Math.sin(t*1.5)*2;const cw=58*s,ch=cw*1.15;
+      ctx.save();ctx.beginPath();ctx.rect(0,0,W,ky+2);ctx.clip();drawImg(ctx,cam,kx-cw/2,ky-ch+6*s,cw,ch);ctx.restore();
+      ctx.fillStyle='#ff8a3d';ctx.strokeStyle=INK;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(kx-70*s,ky-8*s);ctx.quadraticCurveTo(kx,ky+18*s,kx+70*s,ky-8*s);ctx.quadraticCurveTo(kx,ky+2*s,kx-70*s,ky-8*s);ctx.fill();ctx.stroke();
+      ctx.strokeStyle='#8a5a35';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(kx-50*s,ky-40*s);ctx.lineTo(kx+40*s,ky+6*s);ctx.stroke();
+      if(Math.sin(t*0.7)>0.3&&phase==='play')bubbleText(ctx,kx-10*s,ky-ch-6*s,carried?'Par ici ! 🙌':done?'Plus qu\'un ! Courage Christian !':'Nos photos sont dedans !! 😱',11);
+      if(carried)bubbleText(ctx,kx,surf+26*s,'⬆️ Ramène-le ici',11);
+      // oxygène
+      const bw=Math.min(200,W*0.5),bx=12,byy=surf+12;rr(ctx,bx,byy,bw,12,6);ctx.fillStyle='rgba(255,255,255,.85)';ctx.fill();rr(ctx,bx,byy,Math.max(6,bw*o2),12,6);ctx.fillStyle=o2>0.5?'#3cb4e6':o2>0.25?'#ffcf33':'#ff3b3b';ctx.fill();rr(ctx,bx,byy,bw,12,6);ctx.lineWidth=2.5;ctx.strokeStyle=INK;ctx.stroke();
+      ctx.font='700 11px Fredoka, sans-serif';ctx.fillStyle='#fff';ctx.textAlign='left';ctx.fillText('🫧 Oxygène',bx+bw+6,byy+7);ctx.textAlign='center';
+      for(const f of fx)floatText(ctx,f);
+      if(msgT>0)bubbleText(ctx,W/2,H*0.5,msg,14);
+      else if(t<7&&phase==='play')bubbleText(ctx,W/2,H*0.55,'Glisse pour nager · suis les 📳 · remonte respirer !',12);
+      // gros plan sur le téléphone : FishApp
+      if(phase==='won'){const k=Math.min(1,wonT*2.5);ctx.fillStyle=`rgba(12,8,32,${0.6*k})`;ctx.fillRect(0,0,W,H);
+        const pw=Math.min(W*0.72,300),ph=Math.min(H*0.7,pw*1.9),x0=W/2-pw/2,y0=H/2-ph/2+(1-k)*H*0.4;
+        rr(ctx,x0,y0,pw,ph,26);ctx.fillStyle='#1b1b22';ctx.fill();ctx.lineWidth=4;ctx.strokeStyle=INK;ctx.stroke();
+        const sx0=x0+10,sy0=y0+14,sw=pw-20,sh=ph-28;rr(ctx,sx0,sy0,sw,sh,18);const sg=ctx.createLinearGradient(0,sy0,0,sy0+sh);sg.addColorStop(0,'#2bb3c7');sg.addColorStop(1,'#14627e');ctx.fillStyle=sg;ctx.fill();
+        ctx.save();rr(ctx,sx0,sy0,sw,sh,18);ctx.clip();
+        ctx.fillStyle='rgba(255,255,255,.15)';ctx.fillRect(sx0,sy0,sw,46);ctx.textAlign='center';ctx.textBaseline='middle';
+        ctx.font='24px "Lilita One", Impact, sans-serif';ctx.fillStyle='#fff';ctx.fillText('🐟 FishApp',sx0+sw/2,sy0+24);
+        const rows=[['🐠','Gérard le Gardon','a aimé ton selfie'],['🐡','Brochet_du_57','te suit maintenant'],['🐟','238 poissons','ont aimé « Mon crâne au soleil »'],['🦐','La Crevette','a commenté : « trop beau 😍 »']];
+        rows.forEach((r,i)=>{const ry=sy0+60+i*Math.min(70,(sh-70)/4);if(wonT<0.4+i*0.35)return;rr(ctx,sx0+8,ry,sw-16,Math.min(60,(sh-90)/4),12);ctx.fillStyle='rgba(255,255,255,.92)';ctx.fill();
+          ctx.font='26px sans-serif';ctx.fillStyle='#000';ctx.fillText(r[0],sx0+32,ry+28);ctx.textAlign='left';ctx.fillStyle=INK;ctx.font='700 13px Fredoka, sans-serif';ctx.fillText(r[1],sx0+52,ry+20);
+          ctx.font='600 11px Fredoka, sans-serif';ctx.fillText(r[2],sx0+52,ry+38);ctx.textAlign='center';});
+        ctx.restore();}
+    },
+    destroy(){cv.c.removeEventListener('pointerdown',down);cv.c.removeEventListener('pointermove',move);window.removeEventListener('pointerup',up);cv.destroy();}
+  };
+}
+
 /* ================= DARIO : l'excuse parfaite (3 niveaux) ================= */
 function gameDario(stage,api){
   const cv=makeCanvas(stage),ctx=cv.ctx,LIVES=3,QT=12;
@@ -3042,7 +3443,7 @@ function bindSwipe(el,locked,cb){
 }
 
 /* ================= Navigation ================= */
-const GAMES={dario:gameDario,bouchon:gameBouchon,zoe:gameZoe,francoise:gameFrancoise,matheo:gameMatheo,gwen:gameGwen,anthony:gameAnthony,david:gameDavid,jf:gameJF,richard:gameRichard,margaux:gameMargaux,stephane:gameStephane,manu:gameManu,christine:gameChristine,ethan:gameEthan,aude:gameAude,nathan:gameNathan,duo:gameDuo,roland:gameRoland,christian:gameChristian,laetitia:gameLaetitia,marcel:gameMarcel,christophe:gameChristophe,agnes:gameAgnes,jacky:gameJacky,noel:gameNoel,bonus:gameBonus};
+const GAMES={alix:gameAlix,kayak:gameKayak,dario:gameDario,bouchon:gameBouchon,zoe:gameZoe,francoise:gameFrancoise,matheo:gameMatheo,gwen:gameGwen,anthony:gameAnthony,david:gameDavid,jf:gameJF,richard:gameRichard,margaux:gameMargaux,stephane:gameStephane,manu:gameManu,christine:gameChristine,ethan:gameEthan,aude:gameAude,nathan:gameNathan,duo:gameDuo,roland:gameRoland,christian:gameChristian,laetitia:gameLaetitia,marcel:gameMarcel,christophe:gameChristophe,agnes:gameAgnes,jacky:gameJacky,noel:gameNoel,bonus:gameBonus};
 let current=null,raf=0,last=0,ended=false,curKey=null,typing=null,freshCard=null;
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));}
 /* ================= COLLECTION DE CARTES ================= */
@@ -3073,6 +3474,8 @@ const MG_CARDS={
   richard:{r:'L',e:'📣',t:"Son coup de sifflet vide le bassin en une seconde… et les oreilles de tout le club avec."},
   matheo:{r:'L',e:'💩',t:"Caca, vomi, courants sous-marins : rien ne résiste à son épuisette en apnée."},
   zoe:{r:'R',e:'🎂',t:"Une part de gâteau, des pas de souris… et SPLAT ! Christian ne l'a jamais vue venir."},
+  alix:{r:'R',e:'🐶',t:"Un cocker anglais marron qui s'appelle Hulk… et une maîtresse qui l'appelle comme si elle allait vomir."},
+  kayak:{r:'R',e:'🛶',t:"Deux téléphones au fond de l'eau trouble, Christian en apnée… et des poissons complètement accros à FishApp."},
   dario:{r:'R',e:'🍦',t:"L'aquajogging ? Il a toujours une excuse en réserve… et une glace à la main."},
   bouchon:{r:'R',e:'🔑',t:"Haute comme trois pommes, mais aucun géant ne l'empêchera de retrouver son trousseau de clés."},
   bonus:{r:'L',e:'🕶️',t:"Casquette, lunettes noires, et le plat le plus spectaculaire du club. Qui est-il vraiment ?"}
@@ -3338,7 +3741,8 @@ function claimGifts(all,me){const out=[];let nb=0;
   $('#app').appendChild(pop);pop.querySelector('#gpOk').onclick=()=>pop.remove();
   const o=pop.querySelector('#gpOpen');if(o)o.onclick=()=>{pop.remove();goAlbumMembers();openBooster();};}
 async function adminPlayers(){const list=Object.entries(BOARD).map(([id,d])=>({id,d:d||{}}));const names=await nameOf(list.map(r=>r.id));
-  return list.map(r=>({id:r.id,name:names[r.id]||'Joueur',cards:r.d.cards||0,recs:Object.keys(r.d.best||{}).length,got:((GIFTS[r.id]||{}).boosters||0)})).sort((a,b)=>a.name.localeCompare(b.name));}
+  let codes={};try{if(window.GG&&GG.admin)codes=await GG.codes();}catch(_){}
+  return list.map(r=>({id:r.id,name:names[r.id]||'Joueur',code:codes[r.id]||'',cards:r.d.cards||0,recs:Object.keys(r.d.best||{}).length,got:((GIFTS[r.id]||{}).boosters||0)})).sort((a,b)=>a.name.localeCompare(b.name));}
 async function buildAdmin(){const b=$('#admBody'),P=await adminPlayers();
   if(ADM.tab==='gift'){
     const toName=ADM.to==='all'?'tout le club':(P.find(p=>p.id===ADM.to)||{}).name||'?';
@@ -3357,8 +3761,9 @@ async function buildAdmin(){const b=$('#admBody'),P=await adminPlayers();
     b.querySelector('#aMsg').oninput=e=>{ADM.msg=e.target.value;};
     b.querySelector('#aSend').onclick=sendGift;}
   else if(ADM.tab==='players'){
-    b.innerHTML=`<div class="rkhead">${P.length} joueur${P.length>1?'s':''}<small>Touche 🎁 pour offrir directement</small></div>`+(P.length?P.map(p=>`<div class="prow"><span class="who">${esc(p.name)}<small>${p.recs} mini-jeu${p.recs>1?'x':''} gagné${p.recs>1?'s':''} · ${p.got} booster${p.got>1?'s':''} offert${p.got>1?'s':''}</small></span><span class="mini">${p.cards} 🃏</span><button class="gift" data-to="${p.id}" aria-label="Offrir">🎁</button></div>`).join(''):'<div class="rkempty">Aucun joueur pour l\'instant.</div>');
-    b.querySelectorAll('.gift').forEach(x=>x.onclick=()=>{ADM.to=x.dataset.to;ADM.tab='gift';setATab();buildAdmin();});}
+    b.innerHTML=`<div class="rkhead">${P.length} joueur${P.length>1?'s':''}<small>Touche 🎁 pour offrir directement</small></div>${window.GG&&GG.admin?'<button class="asend" id="aBackup" style="margin-bottom:12px">💾 Télécharger une sauvegarde</button>':''}`+(P.length?P.map(p=>`<div class="prow"><span class="who">${esc(p.name)}<small>${p.code?'🔑 '+p.code+' · ':''}${p.recs} mini-jeu${p.recs>1?'x':''} gagné${p.recs>1?'s':''} · ${p.got} booster${p.got>1?'s':''} offert${p.got>1?'s':''}</small></span><span class="mini">${p.cards} 🃏</span><button class="gift" data-to="${p.id}" aria-label="Offrir">🎁</button></div>`).join(''):'<div class="rkempty">Aucun joueur pour l\'instant.</div>');
+    b.querySelectorAll('.gift').forEach(x=>x.onclick=()=>{ADM.to=x.dataset.to;ADM.tab='gift';setATab();buildAdmin();});
+    const bk=b.querySelector('#aBackup');if(bk)bk.onclick=async()=>{bk.disabled=true;bk.textContent='Préparation…';try{await GG.backup();bk.textContent='Téléchargé ✅';}catch(e){bk.textContent='Échec, réessaie';}bk.disabled=false;};}
   else{const L=((GIFTS.log||{}).items||[]).slice().reverse();
     b.innerHTML=`<div class="rkhead">Derniers envois</div>`+(L.length?L.map(g=>`<div class="prow"><span class="who">${g.what}<small>${new Date(g.at).toLocaleString('fr-FR',{dateStyle:'short',timeStyle:'short'})}${g.msg?' · « '+esc(g.msg)+' »':''}</small></span></div>`).join(''):'<div class="rkempty">Aucun envoi pour l\'instant.</div>');}}
 function setATab(){document.querySelectorAll('.tab.at').forEach(x=>x.classList.toggle('on',x.dataset.a===ADM.tab));}
