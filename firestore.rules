@@ -1,0 +1,48 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isAdmin() {
+      return signedIn()
+        && request.auth.token.email == 'matheo.schell57@gmail.com'
+        && request.auth.token.email_verified == true;
+    }
+    function okName(n) { return n is string && n.size() > 0 && n.size() <= 20; }
+
+    // Sauvegarde de chaque joueur, rangée sous son code secret
+    match /players/{code} {
+      allow get: if signedIn();
+      allow list, delete: if isAdmin();
+      allow create: if signedIn()
+        && request.resource.data.code == code
+        && request.resource.data.pid is string
+        && okName(request.resource.data.name);
+      allow update: if signedIn()
+        && request.resource.data.code == code
+        && request.resource.data.pid == resource.data.pid
+        && okName(request.resource.data.name);
+    }
+
+    // Quel appareil a le droit d'écrire le score de quel joueur (lisible par l'admin seulement)
+    match /owners/{pid} {
+      allow read, delete: if isAdmin();
+      allow create, update: if signedIn()
+        && request.resource.data.uid == request.auth.uid
+        && get(/databases/$(database)/documents/players/$(request.resource.data.code)).data.pid == pid;
+    }
+
+    // Classements : tout le monde lit, chacun n'écrit que sa ligne
+    match /board/{pid} {
+      allow read: if signedIn();
+      allow write: if isAdmin()
+        || (signedIn() && get(/databases/$(database)/documents/owners/$(pid)).data.uid == request.auth.uid);
+    }
+
+    // Cadeaux : seul l'admin envoie
+    match /gifts/{id} {
+      allow read: if isAdmin() || (signedIn() && id != 'log');
+      allow write: if isAdmin();
+    }
+  }
+}
