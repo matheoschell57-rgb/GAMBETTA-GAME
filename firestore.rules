@@ -44,5 +44,25 @@ service cloud.firestore {
       allow read: if isAdmin() || (signedIn() && id != 'log');
       allow write: if isAdmin();
     }
+
+    // Échanges de cartes entre joueurs
+    match /trades/{tid} {
+      allow read: if signedIn();
+      allow delete: if isAdmin();
+      allow create: if signedIn()
+        && request.resource.data.st == 'wait'
+        && request.resource.data.give is string && request.resource.data.want is string
+        && get(/databases/$(database)/documents/owners/$(request.resource.data.from)).data.uid == request.auth.uid;
+      allow update: if signedIn()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['st', 'done'])
+        && (
+          (resource.data.st == 'wait' && request.resource.data.st in ['yes', 'no']
+            && get(/databases/$(database)/documents/owners/$(resource.data.to)).data.uid == request.auth.uid)
+          || (resource.data.st == 'wait' && request.resource.data.st == 'cancel'
+            && get(/databases/$(database)/documents/owners/$(resource.data.from)).data.uid == request.auth.uid)
+          || (resource.data.st == 'yes' && request.resource.data.st == 'yes'
+            && get(/databases/$(database)/documents/owners/$(resource.data.from)).data.uid == request.auth.uid)
+        );
+    }
   }
 }
