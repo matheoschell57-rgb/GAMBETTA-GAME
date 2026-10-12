@@ -64,5 +64,27 @@ service cloud.firestore {
             && get(/databases/$(database)/documents/owners/$(resource.data.from)).data.uid == request.auth.uid)
         );
     }
+
+    // Duels entre joueurs : chacun n'écrit que son côté
+    match /duels/{id} {
+      function own(p) { return get(/databases/$(database)/documents/owners/$(p)).data.uid == request.auth.uid; }
+      allow read: if signedIn();
+      allow delete: if isAdmin();
+      allow create: if signedIn()
+        && request.resource.data.st == 'wait'
+        && request.resource.data.k is string
+        && request.resource.data.from != request.resource.data.to
+        && own(request.resource.data.from);
+      allow update: if signedIn() && (
+        (own(resource.data.from)
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['a', 'st'])
+          && (request.resource.data.st == resource.data.st
+              || (resource.data.st == 'wait' && request.resource.data.st == 'cancel')))
+        || (own(resource.data.to)
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['b', 'st', 'acc'])
+          && (request.resource.data.st == resource.data.st
+              || (resource.data.st == 'wait' && request.resource.data.st in ['on', 'no'])))
+      );
+    }
   }
 }
