@@ -65,10 +65,50 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 .bubbles i:nth-child(3){left:41%;animation-delay:4.1s}.bubbles i:nth-child(4){left:63%;animation-delay:1.1s;width:22px;height:22px}
 .bubbles i:nth-child(5){left:80%;animation-delay:3.3s}.bubbles i:nth-child(6){left:92%;animation-delay:5.2s;width:10px;height:10px}
 
+/* ---------- Barre de navigation (en bas, comme une appli) ---------- */
+:root{--navh:62px}
+#bnav{position:absolute;left:0;right:0;bottom:0;height:calc(var(--navh) + env(safe-area-inset-bottom,0px));padding:0 4px env(safe-area-inset-bottom,0px);display:flex;background:var(--card);border-top:3px solid var(--ink);z-index:15;box-shadow:0 -4px 14px rgba(0,0,0,.08)}
+#bnav[hidden]{display:none}
+#bnav button{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:none;border:0;color:var(--muted);font:inherit;font-weight:700;font-size:10.5px;cursor:pointer;position:relative;isolation:isolate;padding:4px 0}
+#bnav button span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+#bnav i{font-style:normal;font-size:22px;line-height:1;opacity:.7;filter:grayscale(.4);transition:transform .15s}
+#bnav button.on{color:var(--text)}#bnav button.on i{opacity:1;filter:none;transform:scale(1.12)}
+#bnav button.on::before{content:"";position:absolute;top:6px;left:50%;width:46px;height:30px;margin-left:-23px;border-radius:12px;background:var(--yellow);border:2px solid var(--ink);z-index:-1}
+.nbadge{position:absolute;top:3px;left:calc(50% + 9px);background:var(--coral);color:#fff;border:2px solid var(--ink);border-radius:999px;font-size:10px;padding:0 5px;line-height:15px;min-width:19px;text-align:center}
+.nbadge[hidden]{display:none}
+#select.screen,#collection.screen,#ranks.screen,#trade.screen,#defi.screen{bottom:calc(var(--navh) + env(safe-area-inset-bottom,0px))}
+#colBack,#rkBack,#trBack{display:none}
+.selbtns{position:absolute;top:10px;right:10px;flex-wrap:nowrap;gap:6px;z-index:2}
+.selbtns #openCol,.selbtns #openRanks,.selbtns #openTrade{display:none}
+.selbtns .colbtn{margin:0;padding:5px 8px;font-size:17px;border-radius:12px;box-shadow:0 3px 0 var(--ink)}
+.dchip{margin-top:7px;display:inline-flex;align-items:center;gap:6px;max-width:100%;font:inherit;font-weight:700;font-size:13.5px;padding:6px 12px;border-radius:999px;border:3px solid var(--ink);background:#ffe9a8;color:#1b2a3a;box-shadow:0 3px 0 var(--ink);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dchip:empty{display:none}
+/* ---------- Défis ---------- */
+#defi{padding:12px 12px 0;gap:10px}
+.dsec{font-family:'Lilita One',sans-serif;font-size:21px;margin:14px 2px 8px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.dsec .btn{font-family:inherit;font-size:14px;padding:7px 12px}
+.dgame{display:flex;align-items:center;gap:10px;margin:2px 0 8px}
+.dgame .av{flex:none;width:54px;height:54px;border-radius:14px;border:3px solid var(--ink);overflow:hidden}
+.dgame .av svg{width:100%;height:100%;display:block}
+.dgame b{display:block;font-size:17px}.dgame small{display:block;color:var(--muted);font-weight:600;font-size:12.5px}
+.drew{background:#fff6d6;color:#1b2a3a;border:2px dashed var(--ink);border-radius:12px;padding:7px 9px;font-size:12.5px;font-weight:700;line-height:1.4;margin-bottom:8px}
+.dlist .rkrow{margin-bottom:4px}
+.dvs{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px;text-align:center;margin:6px 0 2px}
+.dvs .p{background:rgba(127,160,190,.14);border:2px solid var(--ink);border-radius:12px;padding:6px 4px;min-width:0}
+.dvs .p b{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dvs .p span{display:block;font-weight:700;font-size:15px}.dvs .p small{color:var(--muted);font-weight:600;font-size:11.5px}
+.dvs .p.win{background:#fff1b8;color:#1b2a3a;border-color:#e0ae12}.dvs .p.win small{color:#4b6378}
+.dvs .vs{font-family:'Lilita One',sans-serif;font-size:20px}
+.dres{text-align:center;font-weight:700;margin-top:8px}
+.ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+.ggrid button{display:flex;flex-direction:column;align-items:center;gap:3px;border:3px solid var(--ink);border-radius:14px;background:var(--card);color:var(--text);font:inherit;font-weight:700;font-size:11.5px;padding:6px 4px;cursor:pointer;line-height:1.15}
+.ggrid button .av{width:46px;height:46px;border-radius:10px;border:2px solid var(--ink);overflow:hidden}.ggrid button .av svg{width:100%;height:100%;display:block}
+.ggrid button.sel{background:var(--yellow);color:#1b2a3a;outline:3px solid var(--ink)}
+.dctx{margin-top:10px;background:#fff6d6;color:#1b2a3a;border:3px solid var(--ink);border-radius:14px;padding:8px 10px;font-weight:700;font-size:14px;line-height:1.35}
+
 /* ---------- Sélection ---------- */
-#select{padding:16px 14px 10px;gap:10px}
+#select{padding:12px 14px 6px;gap:8px}
 .sel-head{text-align:center}
-.sel-head h2{font-family:'Lilita One',sans-serif;font-weight:400;font-size:32px;margin:0}
+.sel-head h2{font-family:'Lilita One',sans-serif;font-weight:400;font-size:27px;margin:0}
 .sel-head p{margin:2px 0 0;color:var(--muted);font-weight:600}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;overflow-y:auto;padding:6px 4px 18px;min-height:0}
 .char{position:relative;background:var(--card);color:var(--text);border:4px solid var(--ink);border-radius:22px;
@@ -176,6 +216,16 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 .rarlegend i{display:inline-block;width:12px;height:12px;border-radius:4px;border:2px solid var(--ink);vertical-align:-2px;margin-right:4px}
 .cscroll{flex:1;min-height:0;overflow-y:auto}
 .cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:12px;padding:6px 4px 24px;align-items:start}
+.recy{grid-column:1/-1;background:#e4fbe9;color:#1b2a3a;border:3px solid var(--ink);border-radius:18px;padding:10px 12px;font-weight:600;line-height:1.3}
+.recy .rhead{display:flex;align-items:center;gap:10px;font-size:14px}.recy .ri{font-size:28px;line-height:1}.recy small{display:block;color:#4b6378;font-size:12px}
+.recy .rbtns{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:9px}
+.recy .rb{border:3px solid var(--ink);border-radius:12px;padding:6px 4px;font:inherit;cursor:pointer;color:#fff;box-shadow:0 3px 0 var(--ink);line-height:1.15}
+.recy .rb b{display:block;font-size:14px}.recy .rb span{font-size:11.5px;font-weight:700}
+.recy .rb.r-R{background:#3c8ee6}.recy .rb.r-E{background:#8a4fe0}.recy .rb.r-L{background:#e0ae12}
+.recy .rb:disabled{opacity:.38;cursor:default;box-shadow:none}.recy .rb:not(:disabled):active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.rconf{background:var(--card);color:var(--text);border:4px solid var(--ink);border-radius:24px;padding:18px;max-width:360px;text-align:center}
+.rconf h3{font-family:'Lilita One',sans-serif;font-weight:400;font-size:24px;margin:0 0 6px}.rconf p{margin:6px 0;line-height:1.35}
+.ruse{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:8px 0 4px}.ruse .tcard{width:52px}
 .cmsg{grid-column:1/-1;text-align:center;background:var(--card);border:3px dashed var(--ink);border-radius:18px;padding:14px;font-weight:600;line-height:1.4}
 /* La carte */
 .tcard{--rc:#9aa7b4;--rc2:#e6ebf0;position:relative;aspect-ratio:63/88;border-radius:12px;border:3px solid var(--ink);background:linear-gradient(160deg,var(--rc2),var(--rc));
@@ -491,7 +541,7 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
   </section>
 
   <section id="select" class="screen" aria-label="Sélection des personnages">
-    <div class="sel-head"><h2>Choisis ton perso</h2><p>Chaque perso a son mini-jeu !</p><div class="selbtns"><button class="colbtn" id="openCol">🃏 Ma collection <span id="colCount"></span></button><button class="colbtn rk" id="openRanks">🏆 Classements</button><button class="colbtn tr" id="openTrade">🔄 Échanges<span class="trbadge" id="trBadge" hidden></span></button><button class="colbtn adm" id="openAdmin" hidden>🛠️ Admin</button></div></div>
+    <div class="sel-head"><h2>Choisis ton perso</h2><p>Chaque perso a son mini-jeu !</p><div class="selbtns"><button class="colbtn" id="openCol">🃏 Ma collection <span id="colCount"></span></button><button class="colbtn rk" id="openRanks">🏆 Classements</button><button class="colbtn tr" id="openTrade">🔄 Échanges</button><button class="colbtn adm" id="openAdmin" hidden title="Gestion" aria-label="Gestion">🛠️</button></div><button class="dchip" id="dChip"></button></div>
     <div class="grid" id="grid"></div>
   </section>
 
@@ -523,6 +573,11 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
     <div class="col-head"><button class="x" id="trBack" aria-label="Retour">✕</button><h2>🔄 Échanges</h2><span class="col-count" id="trDup"></span></div>
     <div class="tabs"><button class="tab tt on" data-tr="market">🛒 Marché</button><button class="tab tt" data-tr="in">📥 Reçues<span id="trInCnt"></span></button><button class="tab tt" data-tr="out">📤 Envoyées</button></div>
     <div class="rkscroll" id="trBody"></div>
+  </section>
+
+  <section id="defi" class="screen" aria-label="Défis">
+    <div class="col-head"><h2>⚔️ Défis</h2><span class="col-count" id="dfLeft"></span></div>
+    <div class="rkscroll" id="dfBody"></div>
   </section>
 
   <section id="admin" class="screen" aria-label="Administration">
@@ -558,6 +613,13 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
       </div>
     </div>
   </section>
+  <nav id="bnav" hidden>
+    <button data-go="select"><i>🏊</i><span>Jeux</span></button>
+    <button data-go="collection"><i>🃏</i><span>Collection</span></button>
+    <button data-go="defi"><i>⚔️</i><span>Défis</span><b class="nbadge" id="dfBadge" hidden></b></button>
+    <button data-go="ranks"><i>🏆</i><span>Classements</span></button>
+    <button data-go="trade"><i>🔄</i><span>Échanges</span><b class="nbadge" id="trBadge" hidden></b></button>
+  </nav>
   <div class="cmodal" id="cmodal"></div>
 </div>
 
@@ -736,10 +798,17 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
     create(o){return fs.collection('trades').add(Object.assign({from:GG.pid,fromName:GG.name,st:'wait',done:false,at:Date.now()},o));},
     set(id,patch){return fs.doc('trades/'+id).update(patch);}
   };
+  GG.duels={
+    listen(cb){let inc=[],out=[];const fire=()=>cb(inc.concat(out));const map=q=>q.docs.map(d=>Object.assign({id:d.id},d.data()));
+      fs.collection('duels').where('to','==',GG.pid).onSnapshot(q=>{inc=map(q);fire();},()=>{});
+      fs.collection('duels').where('from','==',GG.pid).onSnapshot(q=>{out=map(q);fire();},()=>{});},
+    create(o){return fs.collection('duels').add(Object.assign({from:GG.pid,fromName:GG.name,st:'wait',a:{n:0,v:null},b:{n:0,v:null},at:Date.now()},o));},
+    set(id,patch){return fs.doc('duels/'+id).update(patch);}
+  };
   // Outils admin : codes de tout le monde et sauvegarde complète
   GG.codes=async()=>{if(!GG.admin)return{};const q=await fs.collection('owners').get();const o={};q.docs.forEach(d=>o[d.id]=d.data().code);return o;};
   GG.backup=async()=>{if(!GG.admin)return;const out={date:new Date().toISOString()};
-    for(const c of ['players','board','gifts','owners','trades']){const q=await fs.collection(c).get();out[c]={};q.docs.forEach(d=>out[c][d.id]=d.data());}
+    for(const c of ['players','board','gifts','owners','trades','duels']){const q=await fs.collection(c).get();out[c]={};q.docs.forEach(d=>out[c][d.id]=d.data());}
     const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(out,null,1)],{type:'application/json'}));
     a.download='gambetta-sauvegarde-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();};
 
@@ -772,7 +841,7 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
       const g=d.querySelector('#ggGo');d.querySelector('#ggNo').onclick=()=>{clearInterval(tm);d.remove();};
       const tm=setInterval(()=>{s--;if(s>0)g.textContent=`Effacer définitivement (${s})`;else{clearInterval(tm);g.textContent='Effacer définitivement';g.disabled=false;}},1000);
       g.onclick=async()=>{g.disabled=true;g.textContent='Effacement…';
-        try{await wipe('board');if(mode==='all'){await wipe('players');await wipe('owners');await wipe('gifts');await wipe('trades');}
+        try{await wipe('board');if(mode==='all'){await wipe('players');await wipe('owners');await wipe('gifts');await wipe('trades');await wipe('duels');}
           const ss=await fs.doc('gifts/season').get();const n=((ss.exists&&ss.data().n)||0)+1;
           await fs.doc('gifts/season').set({n,mode,at:Date.now()});
           ['gambetta-col','gambetta-wins','gg-code'].forEach(k=>{if(mode==='all')try{localStorage.removeItem(k);}catch(_){}});LS.set('gg-season',String(n));
@@ -784,7 +853,7 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 
   // Bouton « Ma sauvegarde » sur l'écran des persos
   domReady().then(async()=>{const box=document.querySelector('.selbtns');if(!box)return;
-    const b=document.createElement('button');b.className='colbtn save';b.textContent='🔑 Ma sauvegarde';b.hidden=true;box.appendChild(b);
+    const b=document.createElement('button');b.className='colbtn save';b.textContent='🔑';b.title='Ma sauvegarde';b.setAttribute('aria-label','Ma sauvegarde');b.hidden=true;box.appendChild(b);
     b.onclick=()=>showCode(GG.code,GG.name,false);if(await READY)b.hidden=false;});
 })();
 </script>
@@ -3616,7 +3685,7 @@ function bindSwipe(el,locked,cb){
 /* ================= Navigation ================= */
 const GAMES={alix:gameAlix,kayak:gameKayak,dario:gameDario,bouchon:gameBouchon,zoe:gameZoe,francoise:gameFrancoise,matheo:gameMatheo,gwen:gameGwen,anthony:gameAnthony,david:gameDavid,jf:gameJF,richard:gameRichard,margaux:gameMargaux,stephane:gameStephane,manu:gameManu,christine:gameChristine,ethan:gameEthan,aude:gameAude,nathan:gameNathan,duo:gameDuo,roland:gameRoland,christian:gameChristian,laetitia:gameLaetitia,marcel:gameMarcel,christophe:gameChristophe,agnes:gameAgnes,jacky:gameJacky,noel:gameNoel,bonus:gameBonus};
 let current=null,raf=0,last=0,ended=false,curKey=null,typing=null,freshCard=null;
-function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));try{navSync(id);}catch(_){}}
 /* ================= COLLECTION DE CARTES ================= */
 /* Rareté : C commune, R rare, E épique, L légendaire. Une carte par mini-jeu, gagnée en réussissant le mini-jeu. */
 const RAR={R:{n:'Rare',s:'★'},E:{n:'Épique',s:'★★'},L:{n:'Légendaire',s:'★★★'}};
@@ -3661,7 +3730,7 @@ let COL={wins:{},cards:{},members:{},seen:{}},colRef=null,cloudOK=false;
   try{const w=JSON.parse(localStorage.getItem('gambetta-wins')||'{}')||{};for(const k in w){COL.wins[k]=true;if(MG_CARDS[k]&&!COL.cards[k])COL.cards[k]=Date.now();}}catch(_){}})();
 function saveCol(){if(typeof pushBoard==='function')setTimeout(()=>{try{pushBoard();}catch(_){}},0);try{localStorage.setItem('gambetta-col',JSON.stringify(COL));}catch(_){}
   if(colRef)colRef.set(JSON.parse(JSON.stringify(COL))).catch(()=>{});}
-function mergeCol(o){if(!o)return;if(o.trDone){COL.trDone=Object.assign(COL.trDone||{},o.trDone);}COL.boosters=Math.max(COL.boosters||0,o.boosters||0);if((!COL.packs||!COL.packs.length)&&o.packs)COL.packs=o.packs;
+function mergeCol(o){if(!o)return;if(o.chClaim)COL.chClaim=Object.assign(COL.chClaim||{},o.chClaim);if(o.duDone)COL.duDone=Object.assign(COL.duDone||{},o.duDone);if(o.chs){COL.chs=COL.chs||{};for(const d in o.chs){const a=COL.chs[d],b=o.chs[d];if(b&&(!a||(a.k===b.k&&better(b.k,b.v,a.v))))COL.chs[d]=b;}}if(o.trDone){COL.trDone=Object.assign(COL.trDone||{},o.trDone);}COL.boosters=Math.max(COL.boosters||0,o.boosters||0);if((!COL.packs||!COL.packs.length)&&o.packs)COL.packs=o.packs;
   if(o.daily&&(!COL.daily||o.daily>COL.daily))COL.daily=o.daily;if(o.got){COL.got=COL.got||{};for(const k in o.got)COL.got[k]=Math.max(COL.got[k]||0,o.got[k]||0);}
   if(o.rew){COL.rew=COL.rew||{mil:{},all:false};Object.assign(COL.rew.mil,o.rew.mil||{});COL.rew.all=COL.rew.all||o.rew.all;}['wins','cards','members','seen'].forEach(f=>{const src=o[f]||{};COL[f]=COL[f]||{};for(const k in src){if(f==='members')COL[f][k]=Math.max(COL[f][k]||0,src[k]||0);else if(!COL[f][k])COL[f][k]=src[k];}});}
 (async function cloud(){try{if(!window.claude||!window.claude.use)return;
@@ -3803,13 +3872,39 @@ function buildCol(){
   const g=$('#cgrid');$('#rarLegend').style.display=colTab==='mg'?'none':'flex';
   if(colTab==='mg'){g.innerHTML=`<div class="cmsg" style="border-style:solid">🎮 ${ownedMG()} / ${MG_ORDER.length} — Gagne un mini-jeu pour obtenir sa carte !</div>`+MG_ORDER.map(k=>COL.cards[k]?cardHTML(k,false):lockedHTML(k)).join('');}
   else{const own=MEMBERS.filter(m=>COL.members[m.id]).length;
-    g.innerHTML=`<div class="cmsg">👥 ${own} / ${MEMBER_SLOTS} — Les cartes membres s'obtiennent dans les <b>boosters</b>, les <b>pochettes</b> et la <b>carte du jour</b> 🎁</div>`+
+    g.innerHTML=`<div class="cmsg">👥 ${own} / ${MEMBER_SLOTS} — Les cartes membres s'obtiennent dans les <b>boosters</b>, les <b>pochettes</b> et le <b>booster du jour</b> 🎁</div>`+recyHTML()+
     Array.from({length:MEMBER_SLOTS},(_,i)=>{const m=MEMBERS[i];if(m&&COL.members[m.id]){const n=COL.members[m.id];return n>1?`<div class="xwrap">${memberHTML(m.id,false)}<span class="xcnt">×${n}</span></div>`:memberHTML(m.id,false);}
       return `<div class="tcard locked${m?' r-'+m.r:''}" data-member="1"><div class="lq">?</div><div class="lh">#${String(i+1).padStart(2,'0')}${m?'<br>'+RAR[m.r].s:''}</div></div>`;}).join('');}
   $('.cscroll').scrollTop=0;
   $('#cloudNote').textContent=cloudOK?'☁️ Collection sauvegardée sur ton compte':'📱 Collection sauvegardée sur cet appareil';
   g.querySelectorAll('.tcard').forEach(el=>el.onclick=()=>openCard(el));
+  g.querySelectorAll('[data-rr]').forEach(b=>b.onclick=()=>recyConfirm(b.dataset.rr));
 }
+
+/* ================= RECYCLAGE : des doubles contre une carte surprise qui manque ================= */
+const RECY_COST={R:3,E:5,L:10};
+function recyAvail(id){return typeof trAvail==='function'?trAvail(id):(COL.members[id]||0)-1;}
+function recyStock(){let n=0;MEMBERS.forEach(m=>{n+=Math.max(0,recyAvail(m.id));});return n;}
+function recyPick(cnt){const ord={R:0,E:1,L:2},left={};MEMBERS.forEach(m=>{left[m.id]=recyAvail(m.id);});const use=[];
+  for(let k=0;k<cnt;k++){let best=null;MEMBERS.forEach(m=>{if(left[m.id]>0&&(!best||ord[m.r]<ord[best.r]||(ord[m.r]===ord[best.r]&&left[m.id]>left[best.id])))best=m;});if(!best)return null;left[best.id]--;use.push(best.id);}
+  return use;}
+const recyMissing=r=>MEMBERS.filter(m=>(!r||m.r===r)&&!COL.members[m.id]);
+function recyHTML(){if(!recyMissing().length)return '';const n=recyStock();
+  return `<div class="recy"><div class="rhead"><span class="ri">♻️</span><div><b>Recyclage</b> · tu as ${n} double${n>1?'s':''} à recycler<small>Échange tes doubles contre une carte surprise qui te manque</small></div></div>
+    <div class="rbtns">${['R','E','L'].map(r=>{const c=RECY_COST[r],miss=recyMissing(r).length,ok=n>=c&&miss;
+      return `<button class="rb r-${r}" data-rr="${r}"${ok?'':' disabled'}><b>${RAR[r].n}</b><span>${miss?c+' doubles':'Complet ✓'}</span></button>`;}).join('')}</div></div>`;}
+function recyConfirm(r){const c=RECY_COST[r],use=recyPick(c);if(!use||!recyMissing(r).length)return;const m=$('#cmodal');
+  m.innerHTML=`<div class="rconf"><h3>♻️ Une carte ${RAR[r].n.toLowerCase()} surprise</h3><p>Tu vas recevoir une carte <b>${RAR[r].n}</b> qui te manque, au hasard.<br>Ces ${c} doubles vont être recyclés :</p>
+    <div class="ruse">${use.map(x=>mini(x)).join('')}</div><p><small>Tu gardes toujours au moins un exemplaire de chaque carte.</small></p>
+    <div class="endbtns"><button class="btn" id="rcOk">♻️ Recycler</button><button class="btn alt" id="rcNo">Annuler</button></div></div>`;
+  m.classList.add('show');m.onclick=e=>{if(e.target===m)closeCard();};m.querySelector('#rcNo').onclick=closeCard;
+  m.querySelector('#rcOk').onclick=()=>{const u2=recyPick(c),miss=recyMissing(r);if(!u2||!miss.length)return closeCard();
+    const id=miss[Math.floor(Math.random()*miss.length)].id;
+    u2.forEach(x=>{COL.members[x]--;});COL.members[id]=1;saveCol();
+    m.classList.remove('show');buildCol();const pop=document.createElement('div');pop.className='giftpop';
+    pop.innerHTML=`<div class="gcard gc-card"><h3>♻️ Nouvelle carte !</h3>${memberHTML(id,true)}<div class="gfrom">Obtenue grâce au recyclage</div>
+      <div class="endbtns"><button class="btn">Super !</button></div></div>`;
+    $('#app').appendChild(pop);try{tilt(pop.querySelector('.tcard.big'));}catch(_){}pop.querySelector('.btn').onclick=()=>{pop.remove();buildCol();};};}
 function openCard(el){const m=$('#cmodal'),k=el.dataset.k;
   if(el.dataset.mem){const id=el.dataset.mem;COL.seen['m_'+id]=1;saveCol();m.innerHTML=memberHTML(id,true)+`<button class="btn alt" id="cmClose">Fermer</button>`;tilt(m.querySelector('.tcard.big'));}
   else if(el.dataset.member){m.innerHTML=`<div class="hint">🎁 Cette carte membre s'obtiendra dans un booster.<br>Patience, ils arrivent bientôt !</div><button class="btn" id="cmClose">OK</button>`;}
@@ -3836,7 +3931,7 @@ function fitCardTexts(root){(root||document).querySelectorAll('.tcard.big.mem .t
 const WRAP='img/x/cd067210f6b4.webp';
 const PACK_SIZE=5,RAR_W={R:75,E:20,L:5};
 COL.boosters=COL.boosters||0;COL.packs=COL.packs||[];
-/* Récompenses : pochette (1 carte) à la 1re victoire, booster de 3 cartes tous les 5 mini-jeux gagnés, 5 cartes quand tout est gagné, carte du jour */
+/* Récompenses : pochette (1 carte) à la 1re victoire, booster de 5 cartes tous les 5 mini-jeux gagnés, 5 cartes quand tout est gagné, booster du jour (3 cartes) */
 const MILESTONES=[5,10,15,20,25,30,35,40];
 function packCount(){return (COL.boosters||0)+(COL.packs||[]).length;}
 function curPack(){return (COL.packs&&COL.packs.length)?COL.packs[0]:{n:PACK_SIZE,label:'Booster'};}
@@ -3847,10 +3942,11 @@ function winRewards(k){const out=[];COL.rew=COL.rew||{mil:{},all:false};
   grantPack(1,'Pochette « '+CHARS[k].name+' »');out.push({e:'🎴',t:'Une pochette surprise (1 carte)'});
   const n=ownedMGsafe(),tot=MG_ORDER.length;
   if(n>=tot&&!COL.rew.all){COL.rew.all=true;grantPack(5,'Tous les mini-jeux !');out.push({e:'🏆',t:'Tous les mini-jeux gagnés : un booster de 5 cartes !'});}
-  else MILESTONES.forEach(m=>{if(n>=m&&m<tot&&!COL.rew.mil[m]){COL.rew.mil[m]=true;grantPack(3,m+' mini-jeux gagnés');out.push({e:'🎁',t:m+' mini-jeux gagnés : un booster de 3 cartes !'});}});
+  else MILESTONES.forEach(m=>{if(n>=m&&m<tot&&!COL.rew.mil[m]){COL.rew.mil[m]=true;grantPack(5,m+' mini-jeux gagnés');out.push({e:'🎁',t:m+' mini-jeux gagnés : un booster de 5 cartes !'});}});
   saveCol();updBoostBtn();return out;}
-function nextMilestone(){const n=ownedMGsafe(),tot=MG_ORDER.length,m=MILESTONES.find(x=>x>n&&x<tot);return m?{left:m-n,n:3}:(n<tot?{left:tot-n,n:5}:null);}
-function dailyCheck(){const d=new Date(),key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');if(COL.daily===key)return false;COL.daily=key;grantPack(1,'Carte du jour');saveCol();updBoostBtn();return true;}
+function nextMilestone(){const n=ownedMGsafe(),tot=MG_ORDER.length,m=MILESTONES.find(x=>x>n&&x<tot);return m?{left:m-n,n:5}:(n<tot?{left:tot-n,n:5}:null);}
+const DAILY_N=3;
+function dailyCheck(){const d=new Date(),key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');if(COL.daily===key)return false;COL.daily=key;grantPack(DAILY_N,'Booster du jour');saveCol();updBoostBtn();return true;}
 function drawPack(size){size=size||PACK_SIZE;const pool=r=>MEMBERS.filter(m=>m.r===r);const out=[];
   for(let i=0;i<size;i++){let x=Math.random()*100,r='R';if(x<RAR_W.L&&pool('L').length)r='L';else if(x<RAR_W.L+RAR_W.E&&pool('E').length)r='E';
     out.push(pick(pool(r)).id);}
@@ -3928,12 +4024,12 @@ function recordResult(k,win){if(!win)return;const m=metricOf(k);let v;
   if(m.t==='time')v=Math.round((performance.now()-gameT0)/100)/10;
   else if(m.t==='wins'){COL.wins_n[k]=(COL.wins_n[k]||0)+1;v=COL.wins_n[k];}
   else v=pendingScore;
-  if(v!=null&&(m.t==='wins'||better(k,v,COL.best[k]))){COL.best[k]=v;saveCol();pushBoard();}}
+  if(v!=null&&(m.t==='wins'||better(k,v,COL.best[k]))){COL.best[k]=v;saveCol();pushBoard();}return v;}
 let pushT=0;
-function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()=>{boardRef.set({best:Object.assign({},COL.best),cards:cardCount(),dups:myDoubles().map(x=>x.id),at:Date.now()}).catch(()=>{});},400);}
+function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()=>{boardRef.set({best:Object.assign({},COL.best),cards:cardCount(),dups:myDoubles().map(x=>x.id),chs:Object.assign({},COL.chs||{}),at:Date.now()}).catch(()=>{});},400);}
 (async function rkInit(){try{if(!window.claude||!window.claude.use)return;const db=await window.claude.use('db'),u=await window.claude.use('user');if(!db||!u)return;
   USER=u;myId=await u.id();if(!myId)return;boardRef=db.doc('board/'+myId);pushBoard();
-  db.collection('board').onSnapshot(q=>{const o={};q.docs.forEach(d=>{o[d.id]=d.data();});BOARD=o;if($('#ranks').classList.contains('active'))buildRanks();},()=>{});
+  db.collection('board').onSnapshot(q=>{const o={};q.docs.forEach(d=>{o[d.id]=d.data();});BOARD=o;if($('#ranks').classList.contains('active'))buildRanks();chBoardOK=true;try{chClaim();dfBadge();if($('#defi').classList.contains('active'))buildDefi();}catch(_){}},()=>{});
 }catch(_){boardRef=null;}})();
 async function nameOf(ids){const out={};if(USER&&ids.length){try{const ps=await USER.profiles(ids);ids.forEach(i=>out[i]=(ps[i]&&ps[i].name)||'Joueur');return out;}catch(_){}}
   ids.forEach(i=>out[i]=i===myId?'Toi':'Joueur');return out;}
@@ -4144,9 +4240,165 @@ document.querySelectorAll('.tab[data-t]').forEach(b=>b.onclick=()=>{colTab=b.dat
 $('#titleChars').innerHTML=ORDER.slice(0,5).map(k=>`<div>${avatar(CHARS[k].look)}</div>`).join('');
 $('#title').addEventListener('click',()=>{buildSelect();show('select');setTimeout(dailyPop,500);});
 function dailyPop(){if(!dailyCheck())return;const pop=document.createElement('div');pop.className='giftpop';
-  pop.innerHTML=`<div class="gcard"><div class="emo">🌞</div><h3>Ta carte du jour !</h3><p>Une pochette surprise t'attend aujourd'hui.<br>Reviens demain pour la suivante !</p>
-    <div class="endbtns"><button class="btn" id="dOpen">L'ouvrir 🎴</button><button class="btn alt" id="dLater">Plus tard</button></div></div>`;
+  pop.innerHTML=`<div class="gcard"><div class="emo">🌞</div><h3>Ton booster du jour !</h3><p>Un booster de <b>${DAILY_N} cartes</b> t'attend aujourd'hui.<br>Reviens demain pour le suivant !</p>
+    <div class="endbtns"><button class="btn" id="dOpen">L'ouvrir 🎁</button><button class="btn alt" id="dLater">Plus tard</button></div></div>`;
   $('#app').appendChild(pop);pop.querySelector('#dLater').onclick=()=>pop.remove();pop.querySelector('#dOpen').onclick=()=>{pop.remove();goAlbumMembers();openBooster();};}
+
+
+/* ================= NAVIGATION ================= */
+const NAV_SCREENS=['select','collection','defi','ranks','trade'];
+function navSync(id){const n=$('#bnav');if(!n)return;n.hidden=!NAV_SCREENS.includes(id);n.querySelectorAll('[data-go]').forEach(b=>b.classList.toggle('on',b.dataset.go===id));}
+$('#bnav').querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{const g=b.dataset.go;PLAYCTX=null;
+  if(g==='select'){buildSelect();show('select');}else if(g==='collection')$('#openCol').click();else if(g==='ranks')$('#openRanks').click();else if(g==='trade')$('#openTrade').click();else openDefi();
+  const sc=document.querySelector('#'+g+' .rkscroll,#'+g+' .cscroll,#'+g+' .grid');if(sc)sc.scrollTop=0;});
+$('#dChip').onclick=()=>openDefi();
+
+/* ================= DÉFI DU JOUR ================= */
+/* Chaque jour, un mini-jeu tiré au sort pour tout le club. Classement du jour ; le lendemain : 1er booster de 5, 2e et 3e booster de 3, 1 carte pour chaque participant. */
+const CH_REW=[5,3,3];
+let PLAYCTX=null,chBoardOK=false;
+function dayKey(d){d=d||new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function dayShift(key,n){const [y,m,d]=key.split('-').map(Number);return dayKey(new Date(y,m-1,d+n));}
+const CH_GAMES=()=>ORDER.filter(k=>GAMES[k]&&CHARS[k]&&metricOf(k).t!=='wins');
+const hstr=t=>{let x=2166136261;for(const c of t){x^=c.charCodeAt(0);x=Math.imul(x,16777619)>>>0;}return x;};
+function chGame(key){const L=CH_GAMES();let i=hstr('gmb'+key)%L.length;const p=hstr('gmb'+dayShift(key,-1))%L.length;if(i===p)i=(i+1)%L.length;return L[i];}
+function chRecord(k,v){const d=dayKey();if(v==null||chGame(d)!==k)return null;COL.chs=COL.chs||{};const cur=COL.chs[d];const nb=!cur||cur.k!==k||better(k,v,cur.v);
+  if(nb){COL.chs[d]={k,v};Object.keys(COL.chs).forEach(x=>{if(x<dayShift(d,-4))delete COL.chs[x];});saveCol();pushBoard();}return{nb,v:COL.chs[d].v};}
+function chRank(day){const k=chGame(day),L=[];Object.entries(BOARD||{}).forEach(([id,b])=>{const c=b&&b.chs&&b.chs[day];if(id!==myId&&c&&c.k===k&&c.v!=null)L.push({id,v:c.v,name:b.name});});
+  const mine=COL.chs&&COL.chs[day];if(mine&&mine.k===k)L.push({id:myId||'local',v:mine.v});
+  L.sort((a,b)=>metricOf(k).t==='time'?a.v-b.v:b.v-a.v);L.forEach(x=>{x.rank=1+L.filter(y=>y.v!==x.v&&better(k,y.v,x.v)).length;});return L;}
+function chClaim(){if(!boardRef||!chBoardOK)return;const t=dayKey();COL.chClaim=COL.chClaim||{};const out=[];
+  for(let n=1;n<=3;n++){const d=dayShift(t,-n);if(COL.chClaim[d]||!COL.chs||!COL.chs[d])continue;COL.chClaim[d]=1;const L=chRank(d),me=L.find(x=>isMe(x.id));if(!me)continue;
+    const nc=CH_REW[me.rank-1]||1;grantPack(nc,me.rank<=3?'Défi du jour · '+['1er','2e','3e'][me.rank-1]:'Défi du jour');out.push({d,r:me.rank,nc,k:chGame(d),tot:L.length});}
+  if(!out.length){return;}saveCol();updBoostBtn();
+  const o=out[0],med=['🥇','🥈','🥉'][o.r-1]||'🎯',pos=o.r===1?'1er':o.r+'e';
+  const pop=document.createElement('div');pop.className='giftpop';
+  pop.innerHTML=`<div class="gcard"><div class="emo">${med}</div><h3>Défi ${o.d===dayShift(t,-1)?'d\'hier':'du '+o.d.slice(8)+'/'+o.d.slice(5,7)}</h3>
+    <p>« ${CHARS[o.k].game} » : tu as fini <b>${pos}</b> sur ${o.tot} joueur${o.tot>1?'s':''} !<br>Tu gagnes ${o.nc>1?'un <b>booster de '+o.nc+' cartes</b>':'<b>une carte</b>'} 🎁</p>
+    ${out.length>1?`<p><small>+ ${out.length-1} autre${out.length>2?'s':''} récompense${out.length>2?'s':''} de défi</small></p>`:''}
+    <div class="endbtns"><button class="btn" id="chOpen">L'ouvrir 🎁</button><button class="btn alt" id="chLater">Plus tard</button></div></div>`;
+  $('#app').appendChild(pop);pop.querySelector('#chLater').onclick=()=>pop.remove();pop.querySelector('#chOpen').onclick=()=>{pop.remove();goAlbumMembers();openBooster();};}
+function timeLeft(){const n=new Date(),e=new Date(n.getFullYear(),n.getMonth(),n.getDate()+1),m=Math.max(1,Math.round((e-n)/60000));return m>=60?Math.floor(m/60)+' h '+String(m%60).padStart(2,'0'):m+' min';}
+const avSmall=k=>`<span class="av" style="background:${CHARS[k].bg}">${avatar(CHARS[k].look,{viewBox:'30 20 140 140'})}</span>`;
+const goalTxt=k=>metricOf(k).t==='time'?'Gagne le plus vite possible':'Fais le plus de points possible';
+
+/* ================= DUELS ================= */
+/* Un joueur en défie un autre sur un mini-jeu : 3 essais chacun, 24 h max. Chacun peut s'arrêter avant (« J'ai fini »).
+   Le duel se termine quand les deux ont fini (3 essais ou bouton), ou au bout de 24 h. Le meilleur gagne 1 carte. */
+const DU_TRIES=3,DU_H=24,DU_MAX=5;
+let DUELS=[];
+const DUOK=()=>!!(window.GG&&GG.duels&&GG.pid);
+const duMine=d=>d.from===myId?'a':'b';
+const duOther=d=>d.from===myId?{id:d.to,name:d.toName||'Joueur'}:{id:d.from,name:d.fromName||'Joueur'};
+function duEnd(d){return (d.st==='wait'?d.at:(d.acc||d.at))+DU_H*3600e3;}
+function duState(d){if(d.st==='no'||d.st==='cancel')return d.st;if(d.st==='wait')return Date.now()>duEnd(d)?'exp':'wait';
+  return (duDone(d.a)&&duDone(d.b))||Date.now()>duEnd(d)?'end':'on';}
+const duDone=x=>!!x&&(((x.n||0)>=DU_TRIES)||!!x.f);
+function duWinner(d){const a=(d.a||{}).v,b=(d.b||{}).v;if(a==null&&b==null)return null;if(a==null)return 'b';if(b==null)return 'a';if(a===b)return 'tie';return better(d.k,a,b)?'a':'b';}
+function duCanPlay(d){const st=duState(d),me=d[duMine(d)]||{};return (st==='on'||(st==='wait'&&d.from===myId))&&!duDone(me);}
+function duFinish(id,after){const d=DUELS.find(x=>x.id===id);if(!d)return;const side=duMine(d),me=Object.assign({n:0,v:null},d[side]);
+  const sh=document.createElement('div');sh.className='trsheet';$('#app').appendChild(sh);
+  sh.innerHTML=`<div class="in"><h3>🏁 Tu as fini ?</h3><div class="trempty">Ton résultat pour ce duel : <b>${me.v==null?'aucun':fmtVal(d.k,me.v)}</b><br>Tu ne pourras plus utiliser tes ${DU_TRIES-(me.n||0)} essai${DU_TRIES-(me.n||0)>1?'s':''} restant${DU_TRIES-(me.n||0)>1?'s':''}.</div>
+    <div class="trbtns"><button class="btn alt" id="dfNo">Je continue</button><button class="btn" id="dfYes">🏁 Oui, j'ai fini</button></div></div>`;
+  sh.onclick=e=>{if(e.target===sh)sh.remove();};sh.querySelector('#dfNo').onclick=()=>sh.remove();
+  sh.querySelector('#dfYes').onclick=()=>{me.f=true;d[side]=me;if(PLAYCTX&&PLAYCTX.id===id)PLAYCTX={t:'ch'};sh.remove();
+    const w=DUOK()?GG.duels.set(id,{[side]:{n:me.n||0,v:me.v==null?null:me.v,f:true}}):Promise.resolve();w.catch(()=>{}).then(()=>{try{duSettle();}catch(_){}});if(after)after();else buildDefi();};}
+function duLeft(d){const m=Math.max(0,Math.round((duEnd(d)-Date.now())/60000));return m>=60?Math.floor(m/60)+' h':m+' min';}
+function duSettle(){COL.duDone=COL.duDone||{};const won=[];
+  DUELS.forEach(d=>{if(COL.duDone[d.id]||duState(d)!=='end')return;COL.duDone[d.id]=1;const w=duWinner(d);
+    if(w===duMine(d)||w==='tie'){grantPack(1,'Duel contre '+duOther(d).name);won.push({d,tie:w==='tie'});}});
+  if(!won.length)return;saveCol();updBoostBtn();const o=won[0];
+  const pop=document.createElement('div');pop.className='giftpop';
+  pop.innerHTML=`<div class="gcard"><div class="emo">${o.tie?'🤝':'⚔️'}</div><h3>${o.tie?'Égalité !':'Duel gagné !'}</h3>
+    <p>${o.tie?'Égalité parfaite':'Tu as battu'} ${o.tie?'avec':''} <b>${esc(duOther(o.d).name)}</b> sur « ${CHARS[o.d.k].game} ».<br>Tu gagnes <b>une carte</b> 🎁${won.length>1?`<br><small>+ ${won.length-1} autre${won.length>2?'s':''} duel${won.length>2?'s':''} gagné${won.length>2?'s':''}</small>`:''}</p>
+    <div class="endbtns"><button class="btn" id="duOpen">L'ouvrir 🎁</button><button class="btn alt" id="duLater">Plus tard</button></div></div>`;
+  $('#app').appendChild(pop);pop.querySelector('#duLater').onclick=()=>pop.remove();pop.querySelector('#duOpen').onclick=()=>{pop.remove();goAlbumMembers();openBooster();};}
+function dfBadge(){let n=0;DUELS.forEach(d=>{const st=duState(d);if((st==='wait'&&d.to===myId)||(st==='on'&&duCanPlay(d)))n++;});
+  const today=dayKey();if(!(COL.chs&&COL.chs[today]))n++;
+  const b=$('#dfBadge');if(b){b.hidden=!n;b.textContent=n;}}
+(async function duInit(){try{if(!window.claude||!window.claude.use)return;await window.claude.use('db');if(!DUOK())return;
+  GG.duels.listen(list=>{DUELS=list;duSettle();dfBadge();if($('#defi').classList.contains('active'))buildDefi();});}catch(_){}})();
+setTimeout(()=>{try{dfBadge();}catch(_){}},800);
+
+/* Partie lancée depuis un duel : un essai est compté dès le départ */
+function ctxStart(k){if(!PLAYCTX||PLAYCTX.t!=='duel')return;const d=DUELS.find(x=>x.id===PLAYCTX.id);
+  if(!d||d.k!==k||!duCanPlay(d)){PLAYCTX={t:'ch'};return;}
+  const side=duMine(d),me=Object.assign({n:0,v:null},d[side]);me.n=(me.n||0)+1;d[side]=me;PLAYCTX.try=me.n;
+  if(DUOK())GG.duels.set(d.id,{[side]:{n:me.n,v:me.v==null?null:me.v,f:!!me.f}}).catch(()=>{});}
+function ctxAfter(k,win,v){let h='';const c=chRecord(k,win?v:null);
+  if(chGame(dayKey())===k){const mine=COL.chs&&COL.chs[dayKey()];
+    h+=`<div class="dctx">🎯 Défi du jour : ${c&&c.nb?'nouveau meilleur résultat du jour, '+fmtVal(k,c.v)+' !':mine&&mine.k===k?'ton meilleur aujourd\'hui : '+fmtVal(k,mine.v):'gagne une partie pour entrer dans le classement !'}</div>`;}
+  if(PLAYCTX&&PLAYCTX.t==='duel'){const d=DUELS.find(x=>x.id===PLAYCTX.id);if(d){const side=duMine(d),me=Object.assign({n:0,v:null},d[side]);
+      if(win&&v!=null&&(me.v==null||better(k,v,me.v))){me.v=v;d[side]=me;if(DUOK())GG.duels.set(d.id,{[side]:{n:me.n,v,f:!!me.f}}).catch(()=>{});}
+      const left=DU_TRIES-(me.n||0);
+      h+=`<div class="dctx">⚔️ Duel contre ${esc(duOther(d).name)} : essai ${PLAYCTX.try||me.n}/${DU_TRIES} · ton meilleur : ${me.v==null?'–':fmtVal(k,me.v)}${left>0?`<small class="duleft"><br>Encore ${left} essai${left>1?'s':''} : appuie sur « Rejouer »</small><button class="btn alt" data-dfin="${d.id}" style="display:block;width:100%;margin-top:8px;font-size:14px;padding:7px">🏁 J'ai fini, je garde ce résultat</button>`:'<br><small>Tu as utilisé tous tes essais !</small>'}</div>`;
+      if(left<=0)PLAYCTX={t:'ch'};}}
+  return h;}
+
+function openDefi(){show('defi');buildDefi();}
+async function buildDefi(){const b=$('#dfBody'),today=dayKey(),k=chGame(today),c=CHARS[k],L=chRank(today),med=['🥇','🥈','🥉'];
+  $('#dfLeft').textContent='⏳ '+timeLeft();
+  const ids=L.map(x=>x.id);const names=await nameOf(ids.filter(i=>!isMe(i)));
+  const nm=x=>isMe(x.id)?'Toi':esc(x.name||names[x.id]||'Joueur');
+  const meR=L.find(x=>isMe(x.id));let top=L.slice(0,5);if(meR&&!top.includes(meR))top=top.concat([meR]);
+  let h=`<div class="dsec">🎯 Défi du jour</div><div class="trow">
+    <div class="dgame">${avSmall(k)}<div><b>${c.game}</b><small>avec ${c.name} · ${goalTxt(k)}</small></div></div>
+    <div class="drew">🥇 booster de 5 · 🥈 🥉 booster de 3<br>🎴 1 carte pour tous ceux qui gagnent au moins une partie<br><small>Récompenses données demain · tu peux rejouer autant que tu veux</small></div>
+    ${boardRef?(L.length?`<div class="dlist">${top.map(x=>`<div class="rkrow${isMe(x.id)?' me':''}"><span class="pos">${med[x.rank-1]||x.rank}</span><span class="who">${nm(x)}</span><span class="v">${fmtVal(k,x.v)}</span></div>`).join('')}</div>`
+      :'<div class="rkempty">Personne n\'a encore réussi le défi aujourd\'hui. Sois le premier ! 🏁</div>')
+      :`<div class="rkempty">${meR?'Ton meilleur aujourd\'hui : '+fmtVal(k,meR.v)+'<br>':''}Le classement et les récompenses du défi marchent sur le site du jeu.</div>`}
+    <div class="trbtns"><button class="btn" id="chPlay">Jouer au défi ▶</button></div></div>`;
+  h+=`<div class="dsec">⚔️ Duels ${DUOK()?'<button class="btn" id="duNew">+ Lancer un duel</button>':''}</div>`;
+  if(!DUOK()){h+='<div class="trempty">⚔️ Les duels marchent sur le site du jeu, avec ta sauvegarde en ligne.</div>';}
+  else{const order={wait:0,on:1,end:2,exp:3,no:4,cancel:5};
+    const list=DUELS.filter(d=>{const st=duState(d);return st!=='cancel'&&!(st==='exp'&&d.to===myId)&&(st!=='end'&&st!=='no'&&st!=='exp'||Date.now()-duEnd(d)<3*86400e3);})
+      .sort((x,y)=>(order[duState(x)]-order[duState(y)])||((y.at||0)-(x.at||0)));
+    h+=list.length?list.map(d=>{const st=duState(d),o=duOther(d),side=duMine(d),me=d[side]||{},ot=d[side==='a'?'b':'a']||{},w=st==='end'?duWinner(d):null,inc=d.to===myId;
+      const chip=st==='wait'?(inc?'<span class="trstat wait">Invitation</span>':'<span class="trstat wait">En attente ⏳</span>'):st==='on'?`<span class="trstat wait">⏳ ${duLeft(d)}</span>`:st==='end'?(w===side?'<span class="trstat yes">Gagné 🏆</span>':w==='tie'?'<span class="trstat yes">Égalité</span>':w?'<span class="trstat nope">Perdu</span>':'<span class="trstat nope">Personne n\'a gagné</span>'):st==='no'?'<span class="trstat nope">Refusé</span>':'<span class="trstat nope">Expiré</span>';
+      const hide=st!=='end';
+      return `<div class="trow"><div class="top"><span>${inc?esc(o.name)+' te défie !':'Contre '+esc(o.name)}</span>${chip}</div>
+        <div class="dgame">${avSmall(d.k)}<div><b>${CHARS[d.k].game}</b><small>${goalTxt(d.k)} · ${DU_TRIES} essais chacun</small></div></div>
+        ${st==='no'||st==='exp'?'':`<div class="dvs"><div class="p${w===side?' win':''}"><b>Toi</b><span>${me.v==null?'–':fmtVal(d.k,me.v)}</span><small>${me.f&&(me.n||0)<DU_TRIES?'🏁 a fini':(me.n||0)+'/'+DU_TRIES+' essais'}</small></div><div class="vs">VS</div>
+          <div class="p${w&&w!=='tie'&&w!==side?' win':''}"><b>${esc(o.name)}</b><span>${hide?(ot.n?'🔒 secret':'–'):(ot.v==null?'–':fmtVal(d.k,ot.v))}</span><small>${ot.f&&(ot.n||0)<DU_TRIES?'🏁 a fini':(ot.n||0)+'/'+DU_TRIES+' essais'}</small></div></div>`}
+        ${st==='end'?`<div class="dres">${w===side?'🎉 Tu gagnes une carte !':w==='tie'?'🤝 Une carte pour chacun !':w?'💦 Ce sera pour la prochaine fois !':''}</div>`:''}
+        ${st==='wait'&&inc?`<div class="trbtns"><button class="btn no" data-dno="${d.id}">✖ Refuser</button><button class="btn ok" data-dok="${d.id}">⚔️ Accepter</button></div>`:''}
+        ${duCanPlay(d)?`<div class="trbtns"><button class="btn" data-dplay="${d.id}">Jouer · essai ${(me.n||0)+1}/${DU_TRIES} ▶</button>${st==='wait'&&!inc?`<button class="btn alt" data-dcancel="${d.id}">Annuler</button>`:''}</div>${(me.n||0)>0?`<div class="trbtns" style="margin-top:8px"><button class="btn alt" data-dfin="${d.id}" style="font-size:14px;padding:8px">🏁 J'ai fini, je garde ${me.v==null?'mon résultat':fmtVal(d.k,me.v)}</button></div>`:''}`:(st==='wait'&&!inc?`<div class="trbtns"><button class="btn alt" data-dcancel="${d.id}">Annuler le duel</button></div>`:'')}
+        ${st==='on'&&!duCanPlay(d)?'<div class="dres"><small>Tu as fini ! Résultat quand '+esc(o.name)+' aura fini aussi (au plus tard dans '+duLeft(d)+').</small></div>':''}</div>`;}).join('')
+      :'<div class="trempty">Aucun duel pour l\'instant.<br>Défie un joueur du club sur le mini-jeu de ton choix : le meilleur des deux gagne une carte !</div>';}
+  b.innerHTML=h;
+  $('#chPlay').onclick=()=>{PLAYCTX={t:'ch'};openIntro(k);};
+  const nw=$('#duNew');if(nw)nw.onclick=duNew;
+  b.querySelectorAll('[data-dplay]').forEach(x=>x.onclick=()=>{const d=DUELS.find(y=>y.id===x.dataset.dplay);if(!d)return;PLAYCTX={t:'duel',id:d.id};openIntro(d.k);});
+  b.querySelectorAll('[data-dok]').forEach(x=>x.onclick=()=>{x.disabled=true;GG.duels.set(x.dataset.dok,{st:'on',acc:Date.now()}).catch(()=>{x.disabled=false;});});
+  b.querySelectorAll('[data-dno]').forEach(x=>x.onclick=()=>{x.disabled=true;GG.duels.set(x.dataset.dno,{st:'no'}).catch(()=>{x.disabled=false;});});
+  b.querySelectorAll('[data-dfin]').forEach(x=>x.onclick=()=>duFinish(x.dataset.dfin));
+  b.querySelectorAll('[data-dcancel]').forEach(x=>x.onclick=()=>{x.disabled=true;GG.duels.set(x.dataset.dcancel,{st:'cancel'}).catch(()=>{x.disabled=false;});});
+  dfBadge();}
+function duNew(){const mineActive=DUELS.filter(d=>d.from===myId&&['wait','on'].includes(duState(d))).length;
+  const sh=document.createElement('div');sh.className='trsheet';$('#app').appendChild(sh);
+  if(mineActive>=DU_MAX){sh.innerHTML=`<div class="in"><h3>⚔️ Lancer un duel</h3><div class="trempty">Tu as déjà ${DU_MAX} duels en cours.<br>Termine-les avant d'en lancer un autre !</div><div class="trbtns"><button class="btn alt" id="duX">Fermer</button></div></div>`;
+    sh.querySelector('#duX').onclick=()=>sh.remove();return;}
+  const players=Object.entries(BOARD||{}).filter(([id,d])=>id!==myId&&d&&d.name).map(([id,d])=>({id,name:d.name})).sort((a,b)=>a.name.localeCompare(b.name));
+  let who=null,game=null,q='';const norm=t=>t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  function renderList(){const L=players.filter(p=>norm(p.name).includes(norm(q)));
+    sh.querySelector('#duList').innerHTML=L.length?L.map(p=>`<button class="prow trown" data-p="${p.id}"><span class="who">${esc(p.name)}</span><span class="mini">Défier ›</span></button>`).join(''):'<div class="trempty">Personne avec ce nom…</div>';
+    sh.querySelectorAll('[data-p]').forEach(x=>x.onclick=()=>{who=players.find(p=>p.id===x.dataset.p);render();});}
+  function render(){
+    if(!who){sh.innerHTML=`<div class="in"><h3>⚔️ Qui veux-tu défier ?</h3><input class="ainput" id="duQ" placeholder="🔍 Rechercher un joueur…" autocomplete="off" value="${esc(q)}"><div id="duList" style="margin-top:10px"></div>
+      <div class="trbtns"><button class="btn alt" id="duX">Fermer</button></div></div>`;
+      sh.querySelector('#duQ').oninput=e=>{q=e.target.value;renderList();};renderList();}
+    else{sh.innerHTML=`<div class="in"><h3>⚔️ Duel contre ${esc(who.name)}</h3><div class="sec">Sur quel mini-jeu ? <button class="gglink" id="duChg" style="margin:0 0 0 6px;font-size:13px">changer de joueur</button></div>
+      <div class="ggrid">${CH_GAMES().map(k=>`<button data-g="${k}" class="${game===k?'sel':''}">${avSmall(k)}<span>${CHARS[k].game}</span></button>`).join('')}</div>
+      <div class="drew" style="margin-top:12px">${DU_TRIES} essais chacun (ou « J'ai fini » pour s'arrêter avant), ${DU_H} h maximum. Le meilleur résultat gagne <b>une carte</b>.</div>
+      <div class="ggerr" id="duErr" style="color:var(--coral);font-weight:700;text-align:center"></div>
+      <div class="trbtns"><button class="btn alt" id="duX">Annuler</button><button class="btn" id="duGo"${game?'':' disabled'}>⚔️ Lancer le duel</button></div></div>`;
+      sh.querySelector('#duChg').onclick=()=>{who=null;render();};
+      sh.querySelectorAll('[data-g]').forEach(x=>x.onclick=()=>{game=x.dataset.g;const sc=sh.querySelector('.in').scrollTop;render();sh.querySelector('.in').scrollTop=sc;});
+      sh.querySelector('#duGo').onclick=async e=>{e.target.disabled=true;e.target.textContent='…';
+        try{await GG.duels.create({to:who.id,toName:who.name,k:game});sh.remove();openDefi();}
+        catch(_){e.target.disabled=false;e.target.textContent='⚔️ Lancer le duel';sh.querySelector('#duErr').textContent='Pas de connexion… réessaie.';}};}
+    sh.querySelector('#duX').onclick=()=>sh.remove();sh.onclick=e=>{if(e.target===sh)sh.remove();};}
+  render();}
 
 function buildSelect(){
   const w=wins();$('#colCount').textContent=`(${ownedMG()}/${MG_ORDER.length})`;
@@ -4157,7 +4409,8 @@ function buildSelect(){
   const main=ORDER.filter(k=>k!=='bonus');
   $('#grid').innerHTML=main.map(card).join('')+
     `<div class="char soon"><div class="q">?</div><div class="gm">D'autres persos arrivent…</div></div>`+card('bonus');
-  $('#grid').querySelectorAll('button.char').forEach(b=>b.onclick=()=>openIntro(b.dataset.k));
+  $('#grid').querySelectorAll('button.char').forEach(b=>b.onclick=()=>{PLAYCTX=null;openIntro(b.dataset.k);});
+  try{const k=chGame(dayKey());$('#dChip').innerHTML=`🎯 Défi du jour : <b>${CHARS[k].game}</b> ›`;}catch(_){}
 }
 function openIntro(k){
   curKey=k;const c=CHARS[k];
@@ -4176,15 +4429,17 @@ const api={
   score(v){pendingScore=v;},
   hud(t){const h=$('#hudInfo');if(h.textContent!==t)h.textContent=t;},
   unlock(){if(saveWin(curKey))freshCard=curKey;},
-  end(win,title,msg){if(ended)return;ended=true;try{recordResult(curKey,win);}catch(_){}pendingScore=null;if(win&&saveWin(curKey))freshCard=curKey;const fc=freshCard;freshCard=null;
+  end(win,title,msg){if(ended)return;ended=true;let rv=null;try{rv=recordResult(curKey,win);}catch(_){}let xl='';try{xl=ctxAfter(curKey,win,rv);}catch(_){}pendingScore=null;if(win&&saveWin(curKey))freshCard=curKey;const fc=freshCard;freshCard=null;
     setTimeout(()=>{$('#endEmo').textContent=win?'🏆':'💦';$('#endTitle').textContent=title;$('#endMsg').textContent=msg;
       const ec=$('#endCard');const rw=fc?winRewards(fc):[];ec.innerHTML=(fc?`<div class="newcard">🃏 Nouvelle carte !${cardHTML(fc,false)}</div>`:'')
-        +(rw.length?`<div class="rewbox">${rw.map(r=>`<div class="rew"><span>${r.e}</span>${r.t}</div>`).join('')}<button class="btn" id="rewOpen">Ouvrir maintenant 🎁</button></div>`:'');
+        +(rw.length?`<div class="rewbox">${rw.map(r=>`<div class="rew"><span>${r.e}</span>${r.t}</div>`).join('')}<button class="btn" id="rewOpen">Ouvrir maintenant 🎁</button></div>`:'')+xl;
       const ro=ec.querySelector('#rewOpen');if(ro)ro.onclick=()=>{$('#end').classList.remove('show');stopGame();goAlbumMembers();openBooster();};
       const nc=ec.querySelector('.tcard');if(nc)nc.onclick=()=>openCard(nc);
-      $('#end').classList.add('show');$('#again').focus();},400);}
+      const dfn=ec.querySelector('[data-dfin]');if(dfn)dfn.onclick=()=>duFinish(dfn.dataset.dfin,()=>{dfn.outerHTML='<div style="margin-top:6px">🏁 Résultat gardé !</div>';const dl=ec.querySelector('.duleft');if(dl)dl.remove();$('#toSel').textContent='⚔️ Défis';});
+      $('#toSel').textContent=PLAYCTX?'⚔️ Défis':'Persos';$('#end').classList.add('show');$('#again').focus();},400);}
 };
 function startGame(k){
+  try{ctxStart(k);}catch(_){}
   stopGame();curKey=k;show('game');$('#hudTitle').textContent=CHARS[k].game;$('#end').classList.remove('show');
   const st=$('#stage');st.innerHTML='';ended=false;
   pendingScore=null;gameT0=performance.now();current=GAMES[k](st,api);last=performance.now();raf=requestAnimationFrame(tick);
@@ -4195,7 +4450,7 @@ function tick(t){
   raf=requestAnimationFrame(tick);
 }
 function stopGame(){cancelAnimationFrame(raf);if(current&&current.destroy)current.destroy();current=null;}
-function toSelect(){stopGame();$('#end').classList.remove('show');buildSelect();show('select');}
+function toSelect(){stopGame();$('#end').classList.remove('show');if(PLAYCTX){PLAYCTX=null;openDefi();return;}buildSelect();show('select');}
 $('#quit').onclick=toSelect;$('#toSel').onclick=toSelect;$('#again').onclick=()=>startGame(curKey);
 })();
 </script>
