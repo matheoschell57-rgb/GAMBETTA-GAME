@@ -70,6 +70,8 @@ service cloud.firestore {
       function own(p) { return get(/databases/$(database)/documents/owners/$(p)).data.uid == request.auth.uid; }
       allow read: if signedIn();
       allow delete: if isAdmin();
+      // l'admin crée et arrête les matchs des tournois
+      allow create, update: if isAdmin();
       allow create: if signedIn()
         && request.resource.data.st == 'wait'
         && request.resource.data.k is string
@@ -85,6 +87,21 @@ service cloud.firestore {
           && (request.resource.data.st == resource.data.st
               || (resource.data.st == 'wait' && request.resource.data.st in ['on', 'no'])))
       );
+    }
+
+    // Tournois : l'admin gère tout, chaque joueur peut seulement s'inscrire ou se désinscrire
+    match /tournaments/{tid} {
+      function own(p) { return get(/databases/$(database)/documents/owners/$(p)).data.uid == request.auth.uid; }
+      function joinOnly() {
+        let ks = request.resource.data.players.diff(resource.data.players).affectedKeys();
+        return ks.size() == 1 && own(ks.toList()[0]);
+      }
+      allow read: if signedIn();
+      allow create, update, delete: if isAdmin();
+      allow update: if signedIn()
+        && resource.data.st == 'reg'
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['players'])
+        && joinOnly();
     }
   }
 }
