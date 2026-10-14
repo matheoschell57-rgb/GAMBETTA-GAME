@@ -123,5 +123,30 @@ service cloud.firestore {
         && ((request.resource.data.diff(resource.data).affectedKeys().hasOnly(['players']) && selfReg())
           || (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['played']) && selfPlayed()));
     }
+
+    // Cartes bonus utilisées contre / pour un autre joueur (cadeau, voleur, supprimer, effacer)
+    match /actions/{aid} {
+      function own(p) { return get(/databases/$(database)/documents/owners/$(p)).data.uid == request.auth.uid; }
+      allow read: if signedIn();
+      allow delete: if isAdmin();
+      allow create: if signedIn()
+        && request.resource.data.st == 'wait'
+        && request.resource.data.type in ['cadeau', 'voleur', 'suppr', 'efface']
+        && request.resource.data.from != request.resource.data.to
+        && own(request.resource.data.from);
+      // la cible applique la carte
+      allow update: if signedIn() && resource.data.st == 'wait' && own(resource.data.to)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['st', 'take']);
+      // le voleur note qu'il a récupéré sa carte
+      allow update: if signedIn() && own(resource.data.from)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['got']);
+    }
+
+    // Demandes des cartes « Photo à Mathéo » et « Mini-jeu à Mathéo »
+    match /requests/{rid} {
+      function own(p) { return get(/databases/$(database)/documents/owners/$(p)).data.uid == request.auth.uid; }
+      allow create: if signedIn() && own(request.resource.data.from);
+      allow read, update, delete: if isAdmin();
+    }
   }
 }
