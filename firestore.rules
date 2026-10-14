@@ -103,5 +103,25 @@ service cloud.firestore {
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['players'])
         && joinOnly();
     }
+
+    // Événements spéciaux : chaque joueur peut seulement s'inscrire et noter qu'il a joué, avant l'heure de fin
+    match /events/{eid} {
+      function own(p) { return get(/databases/$(database)/documents/owners/$(p)).data.uid == request.auth.uid; }
+      function selfReg() {
+        let ks = request.resource.data.players.diff(resource.data.players).affectedKeys();
+        return ks.size() == 1 && own(ks.toList()[0]);
+      }
+      function selfPlayed() {
+        let ks = request.resource.data.played.diff(resource.data.played).affectedKeys();
+        return ks.size() == 1 && own(ks.toList()[0]);
+      }
+      allow read: if signedIn();
+      allow create, update, delete: if isAdmin();
+      allow update: if signedIn()
+        && resource.data.st == 'open'
+        && request.time.toMillis() < resource.data.endAt
+        && ((request.resource.data.diff(resource.data).affectedKeys().hasOnly(['players']) && selfReg())
+          || (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['played']) && selfPlayed()));
+    }
   }
 }
