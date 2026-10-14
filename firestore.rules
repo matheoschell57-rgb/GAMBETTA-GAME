@@ -142,7 +142,7 @@ service cloud.firestore {
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['got']);
     }
 
-    // Primes (carte bonus 🎯) : le premier qui bat la cible en duel la remporte
+    // Primes (carte bonus 🎯) : le premier qui bat la cible en duel dans les 4 h la remporte
     match /bounties/{bid} {
       function own(p) { return get(/databases/$(database)/documents/owners/$(p)).data.uid == request.auth.uid; }
       allow read: if signedIn();
@@ -150,6 +150,7 @@ service cloud.firestore {
       allow create: if signedIn() && request.resource.data.st == 'open'
         && own(request.resource.data.by) && request.resource.data.on != request.resource.data.by;
       allow update: if signedIn() && resource.data.st == 'open'
+        && request.time.toMillis() < resource.data.at + 4 * 3600 * 1000
         && request.resource.data.st == 'won'
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['st', 'winner', 'winnerName'])
         && request.resource.data.winner != resource.data.on
