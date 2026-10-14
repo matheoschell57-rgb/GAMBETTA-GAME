@@ -142,6 +142,20 @@ service cloud.firestore {
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['got']);
     }
 
+    // Primes (carte bonus 🎯) : le premier qui bat la cible en duel la remporte
+    match /bounties/{bid} {
+      function own(p) { return get(/databases/$(database)/documents/owners/$(p)).data.uid == request.auth.uid; }
+      allow read: if signedIn();
+      allow delete: if isAdmin();
+      allow create: if signedIn() && request.resource.data.st == 'open'
+        && own(request.resource.data.by) && request.resource.data.on != request.resource.data.by;
+      allow update: if signedIn() && resource.data.st == 'open'
+        && request.resource.data.st == 'won'
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['st', 'winner', 'winnerName'])
+        && request.resource.data.winner != resource.data.on
+        && own(request.resource.data.winner);
+    }
+
     // Demandes des cartes « Photo à Mathéo » et « Mini-jeu à Mathéo »
     match /requests/{rid} {
       function own(p) { return get(/databases/$(database)/documents/owners/$(p)).data.uid == request.auth.uid; }
