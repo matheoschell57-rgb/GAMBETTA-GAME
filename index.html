@@ -78,9 +78,12 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 .nbadge[hidden]{display:none}
 #select.screen,#collection.screen,#ranks.screen,#trade.screen,#defi.screen{bottom:calc(var(--navh) + env(safe-area-inset-bottom,0px))}
 #colBack,#rkBack,#trBack{display:none}
-.selbtns{position:absolute;top:10px;right:10px;flex-wrap:nowrap;gap:6px;z-index:2}
+.sel-head{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:8px;text-align:left}
+.sel-head h2{grid-column:1;grid-row:1;text-align:left;font-size:clamp(20px,6vw,27px)!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sel-head p{grid-column:1/-1;grid-row:2;text-align:left}.sel-head .dchip{grid-column:1/-1;grid-row:3;justify-self:start}
+.selbtns{grid-column:2;grid-row:1;position:static;flex-wrap:nowrap;gap:5px;z-index:2}
 .selbtns #openCol,.selbtns #openRanks,.selbtns #openTrade{display:none}
-.selbtns .colbtn{margin:0;padding:5px 8px;font-size:17px;border-radius:12px;box-shadow:0 3px 0 var(--ink)}
+.selbtns .colbtn{margin:0;padding:4px 7px;font-size:16px;border-radius:12px;box-shadow:0 3px 0 var(--ink)}
 .dchip{margin-top:7px;display:inline-flex;align-items:center;gap:6px;max-width:100%;font:inherit;font-weight:700;font-size:13.5px;padding:6px 12px;border-radius:999px;border:3px solid var(--ink);background:#ffe9a8;color:#1b2a3a;box-shadow:0 3px 0 var(--ink);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dchip:empty{display:none}
 /* ---------- Défis ---------- */
@@ -105,6 +108,54 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 .ggrid button.sel{background:var(--yellow);color:#1b2a3a;outline:3px solid var(--ink)}
 .dctx{margin-top:10px;background:#fff6d6;color:#1b2a3a;border:3px solid var(--ink);border-radius:14px;padding:8px 10px;font-weight:700;font-size:14px;line-height:1.35}
 
+/* ---------- Quêtes, profil, séries, tournois ---------- */
+.colbtn.me{background:#fff;color:#1b2a3a}
+.qrow{display:flex;align-items:center;gap:10px;padding:7px 2px;border-bottom:2px dashed rgba(127,160,190,.35)}
+.qrow:last-of-type{border-bottom:0}
+.qrow .qi{font-size:22px;width:28px;text-align:center}.qrow .qt{flex:1;min-width:0;font-weight:700;font-size:14px}
+.qrow .qb{height:7px;background:rgba(127,160,190,.25);border-radius:5px;margin-top:4px;overflow:hidden}.qrow .qb i{display:block;height:100%;background:#2fb36d}
+.qrow .qn{font-weight:700;font-size:13px;color:var(--muted);white-space:nowrap}.qrow.ok .qt{text-decoration:line-through;opacity:.65}
+.pfhead{display:flex;gap:14px;align-items:center;margin-bottom:12px}
+.pfhead .fav{width:96px;flex:none}.pfhead .fav .tcard{width:100%}
+.pfhead .nofav{width:96px;aspect-ratio:63/88;border:3px dashed var(--ink);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:34px;flex:none;background:rgba(127,160,190,.15)}
+.pfhead h3{margin:0 0 4px!important;text-align:left!important}.pfhead small{display:block;color:var(--muted);font-weight:700;line-height:1.4}
+.pfstats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.pfstats div{background:rgba(127,160,190,.14);border:2px solid var(--ink);border-radius:12px;padding:6px 4px;text-align:center}
+.pfstats b{display:block;font-size:19px;font-family:'Lilita One',sans-serif;font-weight:400}.pfstats span{font-size:11px;font-weight:700;color:var(--muted);line-height:1.15;display:block}
+.bdg{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
+.bdg div{border:2px solid var(--ink);border-radius:12px;padding:7px 4px;text-align:center;background:#fff6d6;color:#1b2a3a}
+.bdg div i{font-style:normal;font-size:26px;display:block;line-height:1.1}.bdg div b{display:block;font-size:11.5px;line-height:1.15;margin-top:3px}.bdg div small{display:block;font-size:10px;color:#4b6378;line-height:1.15;margin-top:2px}
+.bdg div.off{background:rgba(127,160,190,.12);color:var(--muted);filter:grayscale(1);opacity:.55}.bdg div.off small{color:var(--muted)}
+.bdg div.fail{background:#ffe1dc}
+[data-pid]{cursor:pointer}[data-pid]:hover{text-decoration:underline}
+.sercard{grid-column:1/-1;background:var(--card);color:var(--text);border:3px solid var(--ink);border-radius:18px;padding:10px 12px;box-shadow:0 4px 0 var(--ink)}
+.sercard.done{background:#e4fbe9;color:#1b2a3a}
+.sercard .sh{display:flex;align-items:center;gap:8px;font-weight:700}.sercard .sh b{flex:1;font-size:16px}.sercard .sh span{font-size:13px}
+.sercard .sb{height:8px;background:rgba(127,160,190,.25);border-radius:6px;margin:7px 0 9px;overflow:hidden}.sercard .sb i{display:block;height:100%;background:#2fb36d}
+.sercard .sc{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:12px 7px}
+.sercard .sc .tcard.locked .lq{font-size:22px}.sercard .sc .tcard.locked .lh{font-size:10px}
+.sercard .srole{font-size:10.5px;font-weight:700;text-align:center;line-height:1.15;margin-top:9px;color:var(--muted)}.sercard.done .srole{color:#2a7a4a}
+.sercard .sr{font-size:12.5px;font-weight:700;margin-top:8px;color:var(--muted)}.sercard.done .sr{color:#2a7a4a}
+.tbr{display:flex;flex-direction:column;gap:6px;margin:8px 0}
+.tbr .rd{font-weight:700;font-size:12.5px;color:var(--muted);margin-top:4px}
+.tbr .m{display:grid;grid-template-columns:1fr auto 1fr;gap:6px;align-items:center;font-weight:700;font-size:13px}
+.tbr .m span{background:rgba(127,160,190,.14);border:2px solid var(--ink);border-radius:10px;padding:4px 6px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tbr .m span.w{background:#fff1b8;color:#1b2a3a;border-color:#e0ae12}.tbr .m span.l{opacity:.5;text-decoration:line-through}.tbr .m span.me{outline:3px solid #2fb36d}
+.tbr .m em{font-style:normal;font-size:12px;color:var(--muted)}
+.tab.at{font-size:13px;padding:8px 10px;flex:none}#admin .tabs{overflow-x:auto;scrollbar-width:none;padding-bottom:4px}#admin .tabs::-webkit-scrollbar{display:none}.tbr .m.bye{grid-template-columns:1fr}
+.atour .apill{margin:2px}.atour .arow{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.toast{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:45;width:max-content;max-width:min(92%,380px);background:var(--card);color:var(--text);border:3px solid var(--ink);border-radius:16px;box-shadow:0 5px 0 var(--ink);padding:8px 14px;display:flex;align-items:center;gap:10px;font-weight:700;max-width:92%;animation:toastin .4s ease}
+.toast i{font-style:normal;font-size:28px}.toast small{display:block;font-weight:600;color:var(--muted);font-size:12px}
+@keyframes toastin{from{transform:translate(-50%,-30px);opacity:0}to{transform:translate(-50%,0);opacity:1}}
+
+.tcard.mem.bon{--rc:#16b8b0;--rc2:#c9fbf4}
+.xwrap.used .tcard{filter:grayscale(.85);opacity:.6}.usedtag{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%) rotate(-12deg);background:#1b2a3a;color:#fff;font-weight:700;font-size:12px;padding:3px 9px;border-radius:8px;border:2px solid #fff;z-index:3;white-space:nowrap}
+.tcard.locked.bonl{background:repeating-linear-gradient(45deg,#155e66 0 8px,#124f57 8px 16px)}.tcard.locked.bonl .lq{font-size:30cqw}.tcard.locked.bonl .lh{color:#c9fbf4}
+.asktxt{background:#fff6d6;color:#1b2a3a;border:2px dashed var(--ink);border-radius:14px;padding:10px 12px;font-weight:600;line-height:1.5;font-size:14.5px;margin-bottom:10px;user-select:text;-webkit-user-select:text}
+.tabs .tab[data-t]{font-size:13px;padding:9px 1px;white-space:nowrap}#booster.on~#bnav{display:none}
+.mystflip{perspective:900px;width:min(64vw,250px);margin:0 auto}.mystflip .mf-in{position:relative;transition:transform .8s cubic-bezier(.3,1.4,.5,1);transform-style:preserve-3d}
+.mystflip.on .mf-in{transform:rotateY(180deg)}.mystflip .mf-a,.mystflip .mf-b{backface-visibility:hidden;-webkit-backface-visibility:hidden}.mystflip .mf-b{position:absolute;inset:0;transform:rotateY(180deg)}
+.mystflip .tcard.big{width:100%!important;animation:none}
 /* ---------- Sélection ---------- */
 #select{padding:12px 14px 6px;gap:8px}
 .sel-head{text-align:center}
@@ -541,14 +592,14 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
   </section>
 
   <section id="select" class="screen" aria-label="Sélection des personnages">
-    <div class="sel-head"><h2>Choisis ton perso</h2><p>Chaque perso a son mini-jeu !</p><div class="selbtns"><button class="colbtn" id="openCol">🃏 Ma collection <span id="colCount"></span></button><button class="colbtn rk" id="openRanks">🏆 Classements</button><button class="colbtn tr" id="openTrade">🔄 Échanges</button><button class="colbtn adm" id="openAdmin" hidden title="Gestion" aria-label="Gestion">🛠️</button></div><button class="dchip" id="dChip"></button></div>
+    <div class="sel-head"><h2>Choisis ton perso</h2><p>Chaque perso a son mini-jeu !</p><div class="selbtns"><button class="colbtn" id="openCol">🃏 Ma collection <span id="colCount"></span></button><button class="colbtn rk" id="openRanks">🏆 Classements</button><button class="colbtn tr" id="openTrade">🔄 Échanges</button><button class="colbtn me" id="openProf" title="Mon profil" aria-label="Mon profil">👤</button><button class="colbtn adm" id="openAdmin" hidden title="Gestion" aria-label="Gestion">🛠️</button></div><button class="dchip" id="dChip"></button></div>
     <div class="grid" id="grid"></div>
   </section>
 
   <section id="collection" class="screen" aria-label="Collection de cartes">
     <div class="col-head"><button class="x" id="colBack" aria-label="Retour">✕</button><h2>Ma collection</h2><span class="col-count" id="colTotal"></span></div>
     <button class="boostbtn" id="openBoost">🎁 Ouvrir un booster</button><div class="boostgoal" id="boostGoal"></div>
-    <div class="tabs"><button class="tab on" data-t="mg">🎮 Mini-jeux</button><button class="tab" data-t="mem">👥 Membres du club</button></div>
+    <div class="tabs"><button class="tab on" data-t="mg">🎮 Jeux</button><button class="tab" data-t="mem">👥 Membres</button><button class="tab" data-t="bon">⚡ Bonus</button><button class="tab" data-t="ser">📚 Séries</button></div>
     <div class="rarlegend" id="rarLegend"><span><i style="background:#3c8ee6"></i>Rare</span><span><i style="background:#8a4fe0"></i>Épique</span><span><i style="background:#f2c230"></i>Légendaire</span></div>
     <div class="cscroll"><div class="cgrid" id="cgrid"></div></div>
     <div class="cloudnote" id="cloudNote"></div>
@@ -582,7 +633,7 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 
   <section id="admin" class="screen" aria-label="Administration">
     <div class="col-head"><button class="x" id="admBack" aria-label="Retour">✕</button><h2>🛠️ Gestion</h2><span class="col-count">Toi seul</span></div>
-    <div class="tabs"><button class="tab at on" data-a="gift">🎁 Offrir</button><button class="tab at" data-a="players">👥 Joueurs</button><button class="tab at" data-a="log">📜 Envois</button></div>
+    <div class="tabs"><button class="tab at on" data-a="gift">🎁 Offrir</button><button class="tab at" data-a="players">👥 Joueurs</button><button class="tab at" data-a="log">📜 Envois</button><button class="tab at" data-a="tourn">🏆 Tournois</button><button class="tab at" data-a="event">🎉 Événements</button><button class="tab at" data-a="req">📬 Demandes</button></div>
     <div class="rkscroll" id="admBody"></div>
   </section>
 
@@ -805,10 +856,40 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
     create(o){return fs.collection('duels').add(Object.assign({from:GG.pid,fromName:GG.name,st:'wait',a:{n:0,v:null},b:{n:0,v:null},at:Date.now()},o));},
     set(id,patch){return fs.doc('duels/'+id).update(patch);}
   };
+  GG.actions={
+    listen(cb){let inc=[],out=[];const fire=()=>cb(inc,out);const map=q=>q.docs.map(d=>Object.assign({id:d.id},d.data()));
+      fs.collection('actions').where('to','==',GG.pid).onSnapshot(q=>{inc=map(q);fire();},()=>{});
+      fs.collection('actions').where('from','==',GG.pid).onSnapshot(q=>{out=map(q);fire();},()=>{});},
+    create(o){return fs.collection('actions').add(o);},
+    set(id,patch){return fs.doc('actions/'+id).update(patch);},
+    request(o){return fs.collection('requests').add(o);},
+    listenReq(cb){fs.collection('requests').onSnapshot(q=>cb(q.docs.map(d=>Object.assign({id:d.id},d.data()))),()=>{});},
+    setReq(id,patch){return fs.doc('requests/'+id).update(patch);}
+  };
+  GG.bounty={
+    listen(cb){fs.collection('bounties').onSnapshot(q=>cb(q.docs.map(d=>Object.assign({id:d.id},d.data()))),()=>{});},
+    create(o){return fs.collection('bounties').add(o);},
+    claim(id){return fs.doc('bounties/'+id).update({st:'won',winner:GG.pid,winnerName:GG.name||'Joueur'});}
+  };
+  GG.events={
+    listen(cb){fs.collection('events').onSnapshot(q=>cb(q.docs.map(d=>Object.assign({id:d.id},d.data()))),()=>{});},
+    create(o){return fs.collection('events').add(Object.assign({at:Date.now()},o));},
+    set(id,patch){return fs.doc('events/'+id).update(patch);},
+    mark(id,field,val){return fs.doc('events/'+id).update({[field+'.'+GG.pid]:val});}
+  };
+  GG.tourn={
+    listen(cb){fs.collection('tournaments').onSnapshot(q=>cb(q.docs.map(d=>Object.assign({id:d.id},d.data()))),()=>{});},
+    create(o){return fs.collection('tournaments').add(Object.assign({at:Date.now()},o));},
+    set(id,patch){return fs.doc('tournaments/'+id).update(patch);},
+    join(id,on){return fs.doc('tournaments/'+id).update({['players.'+GG.pid]:on?GG.name:firebase.firestore.FieldValue.delete()});},
+    addDuel(o){return fs.collection('duels').add(o);},
+    duels(tid,cb){fs.collection('duels').where('t','==',tid).onSnapshot(q=>cb(q.docs.map(d=>Object.assign({id:d.id},d.data()))),()=>{});},
+    setDuel(id,patch){return fs.doc('duels/'+id).update(patch);}
+  };
   // Outils admin : codes de tout le monde et sauvegarde complète
   GG.codes=async()=>{if(!GG.admin)return{};const q=await fs.collection('owners').get();const o={};q.docs.forEach(d=>o[d.id]=d.data().code);return o;};
   GG.backup=async()=>{if(!GG.admin)return;const out={date:new Date().toISOString()};
-    for(const c of ['players','board','gifts','owners','trades','duels']){const q=await fs.collection(c).get();out[c]={};q.docs.forEach(d=>out[c][d.id]=d.data());}
+    for(const c of ['players','board','gifts','owners','trades','duels','tournaments','events','actions','requests','bounties']){const q=await fs.collection(c).get();out[c]={};q.docs.forEach(d=>out[c][d.id]=d.data());}
     const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(out,null,1)],{type:'application/json'}));
     a.download='gambetta-sauvegarde-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();};
 
@@ -841,7 +922,7 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
       const g=d.querySelector('#ggGo');d.querySelector('#ggNo').onclick=()=>{clearInterval(tm);d.remove();};
       const tm=setInterval(()=>{s--;if(s>0)g.textContent=`Effacer définitivement (${s})`;else{clearInterval(tm);g.textContent='Effacer définitivement';g.disabled=false;}},1000);
       g.onclick=async()=>{g.disabled=true;g.textContent='Effacement…';
-        try{await wipe('board');if(mode==='all'){await wipe('players');await wipe('owners');await wipe('gifts');await wipe('trades');await wipe('duels');}
+        try{await wipe('board');if(mode==='all'){await wipe('players');await wipe('owners');await wipe('gifts');await wipe('trades');await wipe('duels');await wipe('tournaments');await wipe('events');await wipe('actions');await wipe('requests');await wipe('bounties');}
           const ss=await fs.doc('gifts/season').get();const n=((ss.exists&&ss.data().n)||0)+1;
           await fs.doc('gifts/season').set({n,mode,at:Date.now()});
           ['gambetta-col','gambetta-wins','gg-code'].forEach(k=>{if(mode==='all')try{localStorage.removeItem(k);}catch(_){}});LS.set('gg-season',String(n));
@@ -3728,9 +3809,9 @@ let MEMBER_SLOTS=60;
 let COL={wins:{},cards:{},members:{},seen:{}},colRef=null,cloudOK=false;
 (function loadLocal(){try{const c=JSON.parse(localStorage.getItem('gambetta-col')||'null');if(c&&typeof c==='object')COL=Object.assign(COL,c);}catch(_){}
   try{const w=JSON.parse(localStorage.getItem('gambetta-wins')||'{}')||{};for(const k in w){COL.wins[k]=true;if(MG_CARDS[k]&&!COL.cards[k])COL.cards[k]=Date.now();}}catch(_){}})();
-function saveCol(){if(typeof pushBoard==='function')setTimeout(()=>{try{pushBoard();}catch(_){}},0);try{localStorage.setItem('gambetta-col',JSON.stringify(COL));}catch(_){}
+function saveCol(){if(typeof progLater==='function')progLater();if(typeof pushBoard==='function')setTimeout(()=>{try{pushBoard();}catch(_){}},0);try{localStorage.setItem('gambetta-col',JSON.stringify(COL));}catch(_){}
   if(colRef)colRef.set(JSON.parse(JSON.stringify(COL))).catch(()=>{});}
-function mergeCol(o){if(!o)return;if(o.chClaim)COL.chClaim=Object.assign(COL.chClaim||{},o.chClaim);if(o.duDone)COL.duDone=Object.assign(COL.duDone||{},o.duDone);if(o.chs){COL.chs=COL.chs||{};for(const d in o.chs){const a=COL.chs[d],b=o.chs[d];if(b&&(!a||(a.k===b.k&&better(b.k,b.v,a.v))))COL.chs[d]=b;}}if(o.trDone){COL.trDone=Object.assign(COL.trDone||{},o.trDone);}COL.boosters=Math.max(COL.boosters||0,o.boosters||0);if((!COL.packs||!COL.packs.length)&&o.packs)COL.packs=o.packs;
+function mergeCol(o){if(!o)return;if(o.st){COL.st=COL.st||{};for(const k in o.st)COL.st[k]=Math.max(COL.st[k]||0,o.st[k]||0);}if(o.bUsed){COL.bUsed=COL.bUsed||{};for(const k in o.bUsed)COL.bUsed[k]=Math.max(COL.bUsed[k]||0,o.bUsed[k]||0);}['badges','ser','tSeen','qHist','evGot','acDone','noRew','bSeen'].forEach(f=>{if(o[f])COL[f]=Object.assign({},o[f],COL[f]||{});});if(o.fav&&!COL.fav)COL.fav=o.fav;if(o.q&&(!COL.q||o.q.d>COL.q.d))COL.q=o.q;if(o.chClaim)COL.chClaim=Object.assign(COL.chClaim||{},o.chClaim);if(o.duDone)COL.duDone=Object.assign(COL.duDone||{},o.duDone);if(o.chs){COL.chs=COL.chs||{};for(const d in o.chs){const a=COL.chs[d],b=o.chs[d];if(b&&(!a||(a.k===b.k&&better(b.k,b.v,a.v))))COL.chs[d]=b;}}if(o.trDone){COL.trDone=Object.assign(COL.trDone||{},o.trDone);}COL.boosters=Math.max(COL.boosters||0,o.boosters||0);if((!COL.packs||!COL.packs.length)&&o.packs)COL.packs=o.packs;
   if(o.daily&&(!COL.daily||o.daily>COL.daily))COL.daily=o.daily;if(o.got){COL.got=COL.got||{};for(const k in o.got)COL.got[k]=Math.max(COL.got[k]||0,o.got[k]||0);}
   if(o.rew){COL.rew=COL.rew||{mil:{},all:false};Object.assign(COL.rew.mil,o.rew.mil||{});COL.rew.all=COL.rew.all||o.rew.all;}['wins','cards','members','seen'].forEach(f=>{const src=o[f]||{};COL[f]=COL[f]||{};for(const k in src){if(f==='members')COL[f][k]=Math.max(COL[f][k]||0,src[k]||0);else if(!COL[f][k])COL[f][k]=src[k];}});}
 (async function cloud(){try{if(!window.claude||!window.claude.use)return;
@@ -3765,7 +3846,7 @@ const MEMBERS=[
  {"id": "gendarmes", "n": "Les gendarmes du club", "r": "E", "t": "Prêts à tout pour protéger leur mère patrie : Gambetta !", "pos": "50% 30%", "img": "img/m/gendarmes.webp",ar:0.746, "full": 0, "thumb": "img/m/gendarmes_s.webp"},
  {"id": "nageurs_fous", "n": "Les nageurs fous", "r": "E", "t": "Nager sans se noyer : la mission de 2 skieurs et d’un plongeur (normal qu’il coule, il n’a pas l’habitude).", "pos": "50% 12%", "img": "img/m/nageurs_fous.webp",ar:0.746, "full": 0, "thumb": "img/m/nageurs_fous_s.webp"},
  {"id": "selfies_christian", "n": "Les mythiques selfies de Christian", "r": "E", "t": "Toujours au premier plan avec son crâne luisant.", "pos": "25% 60%", "img": "img/m/selfies_christian.webp",ar:1.333, "full": 0, "thumb": "img/m/selfies_christian_s.webp"},
- {"id": "plus_qu_un_club", "n": "Club Gambetta, plus qu’un club", "r": "L", "t": "", "pos": "50% 50%", "img": "img/m/plus_qu_un_club.webp",ar:0.754, "full": 1, "fit": 1, "thumb": "img/m/plus_qu_un_club_s.webp"},
+ {"id": "plus_qu_un_club", "n": "Club Gambetta, plus qu’un club", "r": "L", "t": "", "pos": "50% 50%", "img": "img/m/plus_qu_un_club.webp",ar:0.528, "full": 1, "thumb": "img/m/plus_qu_un_club_s.webp"},
  {"id": "mascottes", "n": "Les mascottes", "r": "E", "t": "Fêtes du club ou Messine : les mascottes du club sont toujours mobilisées !", "pos": "50% 50%", "img": "img/m/mascottes.webp",ar:0.805, "full": 0, "thumb": "img/m/mascottes_s.webp"},
  {"id": "laetitia_matin", "n": "Laetitia le matin", "r": "E", "t": "Quand c'est pas le moment, c'est pas le moment. D'ailleurs, c'est rarement le moment avant 12 h.", "pos": "50% 0%", "img": "img/m/laetitia_matin.webp",ar:0.745, "full": 0, "thumb": "img/m/laetitia_matin_s.webp"},
  {"id": "alan", "n": "Alan", "r": "R", "t": "Propriétaire de Hulk et Alix.", "pos": "50% 25%", "img": "img/m/alan.webp",ar:0.746, "full": 0, "thumb": "img/m/alan_s.webp"},
@@ -3847,38 +3928,52 @@ const MEMBERS=[
  {"id": "tony", "n": "Tony", "r": "R", "t": "C’est du vieux pour celle-là ! Mais il faut se rappeler des gens qui ont compté pour le club.", "pos": "50% 35%", "ar": 0.729, "full": 0, "img": "img/m/tony.webp", "thumb": "img/m/tony_s.webp"},
  {"id": "marie", "n": "Marie", "r": "R", "t": "Elle a sauté dans le grand bain de bouche (rapport à son métier de dentiste).", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/marie.webp", "thumb": "img/m/marie_s.webp"},
  {"id": "les_6_bellules", "n": "Les 6-bellules", "r": "L", "t": "Les premiers à avoir fait de la natation désicônisée, et parfaitement assumée !", "pos": "50% 35%", "ar": 0.808, "full": 0, "img": "img/m/les_6_bellules.webp", "thumb": "img/m/les_6_bellules_s.webp"},
- {"id": "chouky", "n": "Chouky", "r": "R", "t": "La sœur de la fratrie Schell au club.", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/chouky.webp", "thumb": "img/m/chouky_s.webp"}
+ {"id": "chouky", "n": "Chouky", "r": "R", "t": "La sœur de la fratrie Schell au club.", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/chouky.webp", "thumb": "img/m/chouky_s.webp"},
+{"id": "christian", "n": "Christian", "r": "R", "t": "Un crâne chauve, un gros ventre et un tee-shirt moche. Pas de doute, c'est bien lui !", "pos": "50% 40%", "img": "img/m/christian.webp", "full": 0, "thumb": "img/m/christian_s.webp"},
+{"id": "laetitia", "n": "Laetitia", "r": "R", "t": "On n'oubliera jamais cette vidéo, JAMAIS !", "pos": "50% 40%", "img": "img/m/laetitia.webp", "full": 0, "thumb": "img/m/laetitia_s.webp"},
+{"id": "helene", "n": "Hélène", "r": "R", "t": "Soyez gentils avec elle. Si vous vous faites opérer, c'est elle qui vous réveille. Je dis ça, je dis rien.", "pos": "50% 35%", "img": "img/m/helene.webp", "full": 0, "thumb": "img/m/helene_s.webp"},
+{"id": "willi", "n": "Willi", "r": "R", "t": "Heureusement qu'il a sa moto pour venir nous voir sans sa femme et ses enfants. Ce qui se passe à Metz reste à Metz !", "pos": "50% 35%", "img": "img/m/willi.webp", "full": 0, "thumb": "img/m/willi_s.webp"},
+{"id": "virginie", "n": "Virginie", "r": "R", "t": "", "pos": "50% 35%", "img": "img/m/virginie.webp", "full": 0, "thumb": "img/m/virginie_s.webp"},
+{"id": "francoise", "n": "Françoise", "r": "R", "t": "Son accent chantant nous manque. Mais depuis qu'elle est partie, on saute moins à la baignade ludique !", "pos": "50% 35%", "img": "img/m/francoise.webp", "full": 0, "thumb": "img/m/francoise_s.webp"}
 ];
 MEMBER_SLOTS=Math.max(60,MEMBERS.length);
 const memIdx=id=>MEMBERS.findIndex(m=>m.id===id);
-function memberHTML(id,big){const m=MEMBERS[memIdx(id)],num=String(memIdx(id)+1).padStart(2,'0'),isNew=!big&&COL.members[id]&&!COL.seen['m_'+id];
+/* Cartes spéciales : seulement pendant un événement, introuvables ailleurs */
+const SPECIALS=[{id:'sp_shooter',n:'Offrir un shooter à Mathéo',r:'L',sp:1,t:'Il te remercie d\'avance d\'avoir eu cette carte. Maintenant, t\'es obligé de le faire !',img:'img/x/ef7b082515c2.webp'}];
+/* Cartes bonus (visuels provisoires en attendant ceux de Mathéo) */
+const BONUS=[{"id": "b_cadeau", "e": "🎁", "n": "Cadeau", "w": 31, "t": "Offre un booster de 5 cartes au joueur de ton choix (pas à toi !).", "r": "E", "bonus": 1, "img": "img/x/b7bb67f36f56.webp"}, {"id": "b_voleur", "e": "🦝", "n": "Voleur", "w": 24, "t": "Vole une carte au hasard au joueur de ton choix !", "r": "E", "bonus": 1, "img": "img/x/8d8b5809b585.webp"}, {"id": "b_joker", "e": "🌟", "n": "Joker", "w": 16, "t": "Choisis n'importe quelle carte membre qui te manque.", "r": "E", "bonus": 1, "img": "img/x/172d3081f9cf.webp"}, {"id": "b_myst", "e": "🃏", "n": "Carte mystère", "w": 8, "t": "Retourne-la : elle se transforme en une autre carte bonus au hasard !", "r": "E", "bonus": 1, "img": "img/x/e3e9172b0051.webp"}, {"id": "b_nouv", "e": "🆕", "n": "Paquet de nouveautés", "w": 9, "t": "Un booster de 5 cartes que tu n'as pas encore.", "r": "E", "bonus": 1, "img": "img/x/98a5146bf0fa.webp"}, {"id": "b_photo", "e": "📸", "n": "Photo à Mathéo", "w": 8, "t": "Propose une photo à Mathéo : il en fera une nouvelle carte, que tu recevras gratuitement !", "r": "E", "bonus": 1, "img": "img/x/5467679a7306.webp"}, {"id": "b_prime", "e": "🎯", "n": "Prime", "w": 6, "t": "Mets une prime sur un joueur : le prochain qui le bat en duel dans les 4 h gagne un booster de 5 cartes !", "r": "E", "bonus": 1, "img": "img/x/d1de55ec796d.webp"}, {"id": "b_mjeu", "e": "🎮", "n": "Mini-jeu à Mathéo", "w": 5, "t": "Propose une idée de mini-jeu à Mathéo : il le mettra dans le jeu !", "r": "E", "bonus": 1, "img": "img/x/9aee7cdf7aa8.webp"}, {"id": "b_suppr", "e": "💥", "n": "Supprimer la plus rare", "w": 5, "t": "Choisis un joueur et supprime une de ses cartes les plus rares (tous les exemplaires).", "r": "E", "bonus": 1, "img": "img/x/6b585af950a8.webp"}, {"id": "b_efface", "e": "🧹", "n": "Effacer les mini-jeux", "w": 2, "t": "Toutes les cartes mini-jeux du joueur de ton choix repassent « non réussies ».", "r": "E", "bonus": 1, "img": "img/x/61a2c238257f.webp"}];
+const memObj=id=>MEMBERS[memIdx(id)]||SPECIALS.find(x=>x.id===id)||BONUS.find(x=>x.id===id);
+function memberHTML(id,big){const m=memObj(id),RR=m.bonus?{n:'Bonus',s:'⚡'}:m.sp?{n:'Spéciale',s:'🎉'}:RAR[m.r],num=m.bonus?'B'+(BONUS.indexOf(m)+1):m.sp?'SP':String(memIdx(id)+1).padStart(2,'0'),isNew=!big&&COL.members[id]&&!COL.seen['m_'+id];
   if(m.full)return `<div class="tcard mem full${m.fit?' fit':''} r-${m.r}${big?' big':''}" data-mem="${id}" role="button" aria-label="Carte ${m.n}">
     ${m.fit?`<img class="fitbg" src="${big?m.img:(m.thumb||m.img)}" ${big?'':'loading="lazy" '}decoding="async" alt="">`:''}<img class="fullimg" src="${big?m.img:(m.thumb||m.img)}" ${big?'':'loading="lazy" '}decoding="async" alt="${m.n}" style="object-position:${m.fit?'50% 30%':m.pos}">
     ${isNew?'<span class="newtag">NOUVEAU</span>':''}
-    <div class="tc-top"><span class="tc-num">#${num}</span><span class="tc-rar" title="${RAR[m.r].n}">${RAR[m.r].s}</span></div>
+    <div class="tc-top"><span class="tc-num">#${num}</span><span class="tc-rar" title="${RR.n}">${RR.s}</span></div>
     <div class="tc-name">${m.n}</div></div>`;
-  return `<div class="tcard mem r-${m.r}${big?' big':''}" data-mem="${id}" role="button" aria-label="Carte ${m.n}" style="--ar:${m.ar||1}">
+  return `<div class="tcard mem r-${m.r}${m.bonus?' bon':''}${big?' big':''}" data-mem="${id}" role="button" aria-label="Carte ${m.n}" style="--ar:${m.ar||1}">
     ${isNew?'<span class="newtag">NOUVEAU</span>':''}
-    <div class="tc-top"><span class="tc-num">#${num}</span><span class="tc-rar" title="${RAR[m.r].n}">${RAR[m.r].s}</span></div>
+    <div class="tc-top"><span class="tc-num">#${num}</span><span class="tc-rar" title="${RR.n}">${RR.s}</span></div>
     <div class="tc-art">${m.fit?`<img class="fitbg" src="${big?m.img:(m.thumb||m.img)}" ${big?'':'loading="lazy" '}decoding="async" alt="">`:''}<img class="${m.fit?'fitimg':''}" src="${big?m.img:(m.thumb||m.img)}" ${big?'':'loading="lazy" '}decoding="async" alt="${m.n}" style="object-position:${m.fit?'50% 50%':m.pos}"></div>
     <div class="tc-name${m.n.length>13?' lng':''}">${m.n}</div>
-    <div class="tc-who">${RAR[m.r].n}</div>
+    <div class="tc-who">${RR.n}</div>
     <div class="tc-txt${m.t.length>165?' xxlong':m.t.length>120?' xlong':m.t.length>75?' long':''}">${m.t}</div>
-    <div class="tc-foot"><span>Gambetta Game</span><span>Carte membre</span></div></div>`;}
+    <div class="tc-foot"><span>Gambetta Game</span><span>${m.bonus?'Carte bonus':m.sp?'Carte spéciale':'Carte membre'}</span></div></div>`;}
 let colTab='mg';
 function buildCol(){
   updBoostBtn();
-  $('#colTotal').textContent=`${ownedMG()+MEMBERS.filter(m=>COL.members[m.id]).length} cartes`;
-  const g=$('#cgrid');$('#rarLegend').style.display=colTab==='mg'?'none':'flex';
-  if(colTab==='mg'){g.innerHTML=`<div class="cmsg" style="border-style:solid">🎮 ${ownedMG()} / ${MG_ORDER.length} — Gagne un mini-jeu pour obtenir sa carte !</div>`+MG_ORDER.map(k=>COL.cards[k]?cardHTML(k,false):lockedHTML(k)).join('');}
+  $('#colTotal').textContent=`${cardCount()} cartes`;
+  const g=$('#cgrid');$('#rarLegend').style.display=colTab==='mem'?'flex':'none';
+  if(colTab==='ser'){g.innerHTML=serHTML();}
+  else if(colTab==='bon'){g.innerHTML=bonusTabHTML();}
+  else if(colTab==='mg'){g.innerHTML=`<div class="cmsg" style="border-style:solid">🎮 ${ownedMG()} / ${MG_ORDER.length} — Gagne un mini-jeu pour obtenir sa carte !</div>`+MG_ORDER.map(k=>COL.cards[k]?cardHTML(k,false):lockedHTML(k)).join('');}
   else{const own=MEMBERS.filter(m=>COL.members[m.id]).length;
     g.innerHTML=`<div class="cmsg">👥 ${own} / ${MEMBER_SLOTS} — Les cartes membres s'obtiennent dans les <b>boosters</b>, les <b>pochettes</b> et le <b>booster du jour</b> 🎁</div>`+recyHTML()+
+    (SPECIALS.some(x=>COL.members[x.id])?`<div class="cmsg" style="border-style:solid;background:#ffe9a8;color:#1b2a3a">🎉 Cartes spéciales d'événement</div>`+SPECIALS.filter(x=>COL.members[x.id]).map(x=>memberHTML(x.id,false)).join('')+`<div class="cmsg" style="border-style:solid">👥 Cartes membres</div>`:'')+
     Array.from({length:MEMBER_SLOTS},(_,i)=>{const m=MEMBERS[i];if(m&&COL.members[m.id]){const n=COL.members[m.id];return n>1?`<div class="xwrap">${memberHTML(m.id,false)}<span class="xcnt">×${n}</span></div>`:memberHTML(m.id,false);}
       return `<div class="tcard locked${m?' r-'+m.r:''}" data-member="1"><div class="lq">?</div><div class="lh">#${String(i+1).padStart(2,'0')}${m?'<br>'+RAR[m.r].s:''}</div></div>`;}).join('');}
   $('.cscroll').scrollTop=0;
   $('#cloudNote').textContent=cloudOK?'☁️ Collection sauvegardée sur ton compte':'📱 Collection sauvegardée sur cet appareil';
   g.querySelectorAll('.tcard').forEach(el=>el.onclick=()=>openCard(el));
-  g.querySelectorAll('[data-rr]').forEach(b=>b.onclick=()=>recyConfirm(b.dataset.rr));
+  g.querySelectorAll('[data-rr]').forEach(b=>b.onclick=()=>recyConfirm(b.dataset.rr));const br=g.querySelector('#bRecy');if(br)br.onclick=bRecycle;
 }
 
 /* ================= RECYCLAGE : des doubles contre une carte surprise qui manque ================= */
@@ -3900,12 +3995,14 @@ function recyConfirm(r){const c=RECY_COST[r],use=recyPick(c);if(!use||!recyMissi
   m.classList.add('show');m.onclick=e=>{if(e.target===m)closeCard();};m.querySelector('#rcNo').onclick=closeCard;
   m.querySelector('#rcOk').onclick=()=>{const u2=recyPick(c),miss=recyMissing(r);if(!u2||!miss.length)return closeCard();
     const id=miss[Math.floor(Math.random()*miss.length)].id;
-    u2.forEach(x=>{COL.members[x]--;});COL.members[id]=1;saveCol();
+    u2.forEach(x=>{COL.members[x]--;});COL.members[id]=1;stat('recy');qHit('recy');saveCol();
     m.classList.remove('show');buildCol();const pop=document.createElement('div');pop.className='giftpop';
     pop.innerHTML=`<div class="gcard gc-card"><h3>♻️ Nouvelle carte !</h3>${memberHTML(id,true)}<div class="gfrom">Obtenue grâce au recyclage</div>
       <div class="endbtns"><button class="btn">Super !</button></div></div>`;
     $('#app').appendChild(pop);try{tilt(pop.querySelector('.tcard.big'));}catch(_){}pop.querySelector('.btn').onclick=()=>{pop.remove();buildCol();};};}
 function openCard(el){const m=$('#cmodal'),k=el.dataset.k;
+  if(el.dataset.mem&&isBonus(el.dataset.mem)){COL.seen['m_'+el.dataset.mem]=1;saveCol();return bonusOpen(el.dataset.mem);}
+  if(el.classList.contains('bonl')){m.innerHTML=`<div class="hint">⚡ Cette carte bonus sort dans les boosters.<br>Ton booster du jour en contient toujours une !</div><button class="btn" id="cmClose">OK</button>`;m.classList.add('show');m.onclick=e=>{if(e.target===m)closeCard();};m.querySelector('#cmClose').onclick=closeCard;return;}
   if(el.dataset.mem){const id=el.dataset.mem;COL.seen['m_'+id]=1;saveCol();m.innerHTML=memberHTML(id,true)+`<button class="btn alt" id="cmClose">Fermer</button>`;tilt(m.querySelector('.tcard.big'));}
   else if(el.dataset.member){m.innerHTML=`<div class="hint">🎁 Cette carte membre s'obtiendra dans un booster.<br>Patience, ils arrivent bientôt !</div><button class="btn" id="cmClose">OK</button>`;}
   else if(el.dataset.locked){const c=CHARS[k];m.innerHTML=`<div class="hint">🔒 ${k==='bonus'?'Fais au moins <b>300 points</b> au':'Gagne'} <b>« ${c.game} »</b>${k==='bonus'?'':' avec '+c.name} pour obtenir cette carte !</div><div class="endbtns"><button class="btn" id="cmPlay">Jouer ▶</button><button class="btn alt" id="cmClose">Fermer</button></div>`;}
@@ -3935,22 +4032,26 @@ COL.boosters=COL.boosters||0;COL.packs=COL.packs||[];
 const MILESTONES=[5,10,15,20,25,30,35,40];
 function packCount(){return (COL.boosters||0)+(COL.packs||[]).length;}
 function curPack(){return (COL.packs&&COL.packs.length)?COL.packs[0]:{n:PACK_SIZE,label:'Booster'};}
-function grantPack(n,label){COL.packs=COL.packs||[];COL.packs.push({n,label});}
+function grantPack(n,label,x){COL.packs=COL.packs||[];COL.packs.push(Object.assign({n,label},x||{}));}
 (function initRew(){if(COL.rew)return;const n=ownedMGsafe();COL.rew={mil:{},all:false};MILESTONES.forEach(m=>{if(n>=m)COL.rew.mil[m]=true;});})();
 function ownedMGsafe(){try{return Object.keys(COL.cards||{}).filter(k=>MG_CARDS[k]).length;}catch(_){return 0;}}
 function winRewards(k){const out=[];COL.rew=COL.rew||{mil:{},all:false};
-  grantPack(1,'Pochette « '+CHARS[k].name+' »');out.push({e:'🎴',t:'Une pochette surprise (1 carte)'});
+  if(!(COL.noRew&&COL.noRew[k])){grantPack(1,'Pochette « '+CHARS[k].name+' »');out.push({e:'🎴',t:'Une pochette surprise (1 carte)'});}
   const n=ownedMGsafe(),tot=MG_ORDER.length;
   if(n>=tot&&!COL.rew.all){COL.rew.all=true;grantPack(5,'Tous les mini-jeux !');out.push({e:'🏆',t:'Tous les mini-jeux gagnés : un booster de 5 cartes !'});}
   else MILESTONES.forEach(m=>{if(n>=m&&m<tot&&!COL.rew.mil[m]){COL.rew.mil[m]=true;grantPack(5,m+' mini-jeux gagnés');out.push({e:'🎁',t:m+' mini-jeux gagnés : un booster de 5 cartes !'});}});
   saveCol();updBoostBtn();return out;}
 function nextMilestone(){const n=ownedMGsafe(),tot=MG_ORDER.length,m=MILESTONES.find(x=>x>n&&x<tot);return m?{left:m-n,n:5}:(n<tot?{left:tot-n,n:5}:null);}
 const DAILY_N=3;
-function dailyCheck(){const d=new Date(),key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');if(COL.daily===key)return false;COL.daily=key;grantPack(DAILY_N,'Booster du jour');saveCol();updBoostBtn();return true;}
-function drawPack(size){size=size||PACK_SIZE;const pool=r=>MEMBERS.filter(m=>m.r===r);const out=[];
-  for(let i=0;i<size;i++){let x=Math.random()*100,r='R';if(x<RAR_W.L&&pool('L').length)r='L';else if(x<RAR_W.L+RAR_W.E&&pool('E').length)r='E';
-    out.push(pick(pool(r)).id);}
-  const ord={R:0,E:1,L:2};return out.sort((a,b)=>ord[MEMBERS[memIdx(a)].r]-ord[MEMBERS[memIdx(b)].r]);}
+function dailyCheck(){const d=new Date(),key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');if(COL.daily===key)return false;COL.daily=key;grantPack(DAILY_N,'Booster du jour',{bonus:1});saveCol();updBoostBtn();return true;}
+function drawPack(size,o){size=size||PACK_SIZE;o=o||{};const out=[];
+  if(o.nw){let miss=MEMBERS.filter(m=>!COL.members[m.id]);for(let i=0;i<size&&miss.length;i++){const has=r=>miss.some(m=>m.r===r);let x=Math.random()*100,r='R';
+      if(x<RAR_W.L&&has('L'))r='L';else if(x<RAR_W.L+RAR_W.E&&has('E'))r='E';if(!has(r))r=['R','E','L'].find(has);const c=pick(miss.filter(m=>m.r===r));out.push(c.id);miss=miss.filter(m=>m!==c);}}
+  else{const pool=r=>MEMBERS.filter(m=>m.r===r);
+    for(let i=0;i<size;i++){if(Math.random()<BONUS_P){out.push(bonusRoll());continue;}let x=Math.random()*100,r='R';if(x<RAR_W.L&&pool('L').length)r='L';else if(x<RAR_W.L+RAR_W.E&&pool('E').length)r='E';
+      out.push(pick(pool(r)).id);}
+    if(o.bonus)out.push(bonusRoll());}
+  const ord={R:0,E:1,L:2},key=id=>{const m=memObj(id);return m.bonus?3:ord[m.r];};return out.sort((a,b)=>key(a)-key(b));}
 function updBoostBtn(){const b=$('#openBoost');if(!b)return;const n=packCount();b.disabled=!n;b.textContent=n?`🎁 Ouvrir ${n>1?'mes paquets':'mon paquet'} (${n})`:'🎁 Aucun booster pour l\'instant';
   const g=$('#boostGoal');if(g){const m=nextMilestone();g.innerHTML=m?`🎯 Encore <b>${m.left}</b> mini-jeu${m.left>1?'x':''} à gagner pour ton prochain booster de ${m.n} cartes`:'🏆 Tous les mini-jeux sont gagnés !';}}
 let BST=null;
@@ -3959,14 +4060,15 @@ function closeBooster(){$('#booster').classList.remove('on');$('#bstage').innerH
 function sparks(x,y,n,cols){const st=$('#bstage');for(let i=0;i<n;i++){const d=document.createElement('div');d.className='spark';const a=Math.random()*Math.PI*2,r=60+Math.random()*120;
   d.style.cssText=`left:${x}px;top:${y}px;background:${pick(cols)};--dx:${Math.cos(a)*r}px;--dy:${Math.sin(a)*r}px`;st.appendChild(d);setTimeout(()=>d.remove(),950);}}
 function startPack(){
+  try{stat('boosters');qHit('open');}catch(_){}
   const st=$('#bstage');st.innerHTML='';const cp=curPack();$('#bcount').textContent=`🎁 ${packCount()} à ouvrir · ${cp.label}`;
-  st.innerHTML=`<div class="pkwrap" id="pkwrap"><div class="pkshadow"></div><div class="pack" id="pack" style="--wrap:url(${WRAP})"><div class="pk-body"></div><div class="pk-top"></div><div class="pk-relief"></div><div class="pk-line"></div><div class="pk-cut" id="pkcut"></div><div class="pk-scissors" id="pksc">✂️</div><div class="pk-label">✂ DÉCHIRER ICI ✂</div><div class="pk-shine"></div><div class="pk-size">${cp.n} carte${cp.n>1?'s':''}</div></div></div>`;
+  st.innerHTML=`<div class="pkwrap" id="pkwrap"><div class="pkshadow"></div><div class="pack" id="pack" style="--wrap:url(${WRAP})"><div class="pk-body"></div><div class="pk-top"></div><div class="pk-relief"></div><div class="pk-line"></div><div class="pk-cut" id="pkcut"></div><div class="pk-scissors" id="pksc">✂️</div><div class="pk-label">✂ DÉCHIRER ICI ✂</div><div class="pk-shine"></div><div class="pk-size">${cp.n+(cp.bonus?1:0)} carte${cp.n+(cp.bonus?1:0)>1?'s':''}</div></div></div>`;
   const pk=$('#pack');const setW=()=>pk.style.setProperty('--pw',pk.getBoundingClientRect().width+'px');setW();
   setTimeout(()=>pk.classList.add('idle'),750);
   const pw=$('#pkwrap');$('#booster').onpointermove=e=>{if(!BST||BST.phase!=='pack'||(BST.down&&BST.down.strip))return;const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;
     pw.style.transform=`perspective(900px) rotateY(${x*22}deg) rotateX(${-y*16}deg)`;pk.style.setProperty('--lx',(50+x*80)+'%');};
   $('#bhint').textContent='Touche le paquet, ou glisse le doigt sur la bande du haut pour le découper ✂️';
-  BST={phase:'pack',cards:drawPack(cp.n),n:cp.n,i:0,cut:0,down:null};if(cp.n<5)$('#pack').classList.add('small');
+  const dc=drawPack(cp.n,cp);BST={phase:'pack',cards:dc,n:dc.length,i:0,cut:0,down:null};if(dc.length<5)$('#pack').classList.add('small');
   pk.addEventListener('pointerdown',e=>{if(BST.phase!=='pack')return;e.preventDefault();const r=pk.getBoundingClientRect();
     BST.down={x:e.clientX,y:e.clientY,t:performance.now(),moved:0,strip:e.clientY<r.top+r.height*0.28};try{pk.setPointerCapture(e.pointerId);}catch(_){}});
   pk.addEventListener('pointermove',e=>{const d=BST&&BST.down;if(!d||BST.phase!=='pack')return;d.moved=Math.max(d.moved,Math.hypot(e.clientX-d.x,e.clientY-d.y));
@@ -3986,14 +4088,14 @@ function tear(){if(BST.phase==='open')return;BST.phase='open';const pk=$('#pack'
   setTimeout(()=>{pk.classList.add('out');const w=$('#pkwrap');w.style.transform='';w.style.pointerEvents='none';setTimeout(()=>w.remove(),800);showStack();},650);}
 function showStack(){const st=$('#bstage');const stack=document.createElement('div');stack.className='cstack';st.appendChild(stack);
   const fresh=new Set();
-  BST.cards.slice().reverse().forEach((id,k)=>{const m=MEMBERS[memIdx(id)],i=BST.cards.length-1-k;const isNew=BST.newIds.includes(id)&&!fresh.has(id);if(isNew)fresh.add(id);
+  BST.cards.slice().reverse().forEach((id,k)=>{const m=memObj(id),i=BST.cards.length-1-k;const isNew=BST.newIds.includes(id)&&!fresh.has(id);if(isNew)fresh.add(id);
     const f=document.createElement('div');f.className=`fcard rise g${m.r}${i>0?' wait':''}`;f.style.setProperty('--wrap',`url(${WRAP})`);f.addEventListener('animationend',ev=>{if(ev.animationName==='cardrise')f.classList.remove('rise');});f.style.animationDelay=(0.15+k*0.07)+'s';f.style.zIndex=10-i;f.dataset.i=i;
-    f.innerHTML=`<div class="fglow"></div><div class="fin"><div class="fback"><img src="${LOGO}" alt=""></div><div class="fface">${memberHTML(id,true)}</div></div><div class="rtag">${m.r==='L'?'✨ LÉGENDAIRE ✨':m.r==='E'?'ÉPIQUE !':''}</div>${isNew?'<div class="ntag">NOUVEAU</div>':''}`;
+    f.innerHTML=`<div class="fglow"></div><div class="fin"><div class="fback"><img src="${LOGO}" alt=""></div><div class="fface">${memberHTML(id,true)}</div></div><div class="rtag">${m.bonus?'⚡ CARTE BONUS !':m.r==='L'?'✨ LÉGENDAIRE ✨':m.r==='E'?'ÉPIQUE !':''}</div>${isNew?'<div class="ntag">NOUVEAU</div>':''}`;
     stack.appendChild(f);});
   BST.phase='reveal';BST.i=0;BST.flipped=false;$('#bhint').textContent='Touche pour retourner la carte';
   stack.addEventListener('click',onStackTap);}
 function onStackTap(){if(BST.phase!=='reveal')return;const f=document.querySelector(`.fcard[data-i="${BST.i}"]`);if(!f)return;
-  if(!BST.flipped){f.classList.add('flip');BST.flipped=true;const m=MEMBERS[memIdx(BST.cards[BST.i])];
+  if(!BST.flipped){f.classList.add('flip');BST.flipped=true;const m=memObj(BST.cards[BST.i]);
     if(m.r!=='R'){const r=f.getBoundingClientRect(),sr=$('#bstage').getBoundingClientRect();setTimeout(()=>sparks(r.left-sr.left+r.width/2,r.top-sr.top+r.height/2,m.r==='L'?50:24,m.r==='L'?['#ffe36b','#fff3a0','#fff']:['#b77cff','#d6b4ff','#fff']),300);}
     $('#bhint').textContent=BST.i<BST.cards.length-1?`Carte ${BST.i+1}/${BST.cards.length} · touche pour la suivante`:'Touche pour voir ton booster';}
   else{f.classList.remove('rise');f.style.animation='none';f.classList.add('away');BST.i++;const nx=document.querySelector(`.fcard[data-i="${BST.i}"]`);if(nx){nx.classList.remove('wait');nx.style.animation='none';void nx.offsetWidth;nx.style.animation='';nx.classList.add('rise');}BST.flipped=false;
@@ -4019,14 +4121,14 @@ COL.best=COL.best||{};COL.wins_n=COL.wins_n||{};
 let BOARD={},boardRef=null,myId=null,USER=null,rkTab='time',rkGame=null,pendingScore=null,gameT0=0;
 function fmtVal(k,v){const m=metricOf(k);if(v==null)return '–';if(m.t==='time'){const mm=Math.floor(v/60),ss=(v%60).toFixed(1);return mm?`${mm} min ${ss.padStart(4,'0')} s`:`${ss} s`;}return `${v} ${m.t==='wins'&&v<2?'victoire':m.u}`;}
 function better(k,a,b){if(b==null)return true;return metricOf(k).t==='time'?a<b:a>b;}
-function cardCount(){return ownedMG()+MEMBERS.filter(m=>COL.members[m.id]).length;}
+function cardCount(){return ownedMG()+MEMBERS.filter(m=>COL.members[m.id]).length+BONUS.filter(b=>(COL.members[b.id]||0)>0||((COL.bUsed||{})[b.id]||0)>0).length;}
 function recordResult(k,win){if(!win)return;const m=metricOf(k);let v;
   if(m.t==='time')v=Math.round((performance.now()-gameT0)/100)/10;
   else if(m.t==='wins'){COL.wins_n[k]=(COL.wins_n[k]||0)+1;v=COL.wins_n[k];}
   else v=pendingScore;
-  if(v!=null&&(m.t==='wins'||better(k,v,COL.best[k]))){COL.best[k]=v;saveCol();pushBoard();}return v;}
+  if(v!=null&&(m.t==='wins'||better(k,v,COL.best[k]))){const had=COL.best[k]!=null;COL.best[k]=v;if(had&&m.t!=='wins'){try{stat('rec');qHit('rec');}catch(_){}}saveCol();pushBoard();}return v;}
 let pushT=0;
-function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()=>{boardRef.set({best:Object.assign({},COL.best),cards:cardCount(),dups:myDoubles().map(x=>x.id),chs:Object.assign({},COL.chs||{}),at:Date.now()}).catch(()=>{});},400);}
+function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()=>{boardRef.set({best:Object.assign({},COL.best),cards:cardCount(),dups:myDoubles().map(x=>x.id),chs:Object.assign({},COL.chs||{}),pf:pfPublic(),own:MEMBERS.filter(m=>COL.members[m.id]).map(m=>m.id),at:Date.now()}).catch(()=>{});},400);}
 (async function rkInit(){try{if(!window.claude||!window.claude.use)return;const db=await window.claude.use('db'),u=await window.claude.use('user');if(!db||!u)return;
   USER=u;myId=await u.id();if(!myId)return;boardRef=db.doc('board/'+myId);pushBoard();
   db.collection('board').onSnapshot(q=>{const o={};q.docs.forEach(d=>{o[d.id]=d.data();});BOARD=o;if($('#ranks').classList.contains('active'))buildRanks();chBoardOK=true;try{chClaim();dfBadge();if($('#defi').classList.contains('active'))buildDefi();}catch(_){}},()=>{});
@@ -4053,14 +4155,14 @@ async function buildRanks(){
           <span class="av">${avatar(CHARS[k].look,{viewBox:'30 20 140 140'})}</span>
           <span class="rkg-t"><b>${CHARS[k].game}</b><small>${top?'🥇 '+esc(nm(top.id)):'Pas encore de record'}</small></span>
           <span class="rkg-v">${top?fmtVal(k,top.v):'–'}</span><span class="chev">▾</span></button>
-        ${open?`<div class="rkg-body"><div class="rkg-sub">${m.t==='time'?'Temps pour gagner':m.t==='wins'?'Nombre de victoires':'Meilleur score'}</div>${L.length?L.map((r,i)=>`<div class="rkrow${isMe(r.id)?' me':''}"><span class="pos">${med[i]||i+1}</span><span class="who">${esc(nm(r.id))}</span><span class="v">${fmtVal(k,r.v)}</span></div>`).join(''):'<div class="rkempty">Personne n\'a encore gagné ce mini-jeu. Sois le premier ! 🏁</div>'}</div>`:''}
+        ${open?`<div class="rkg-body"><div class="rkg-sub">${m.t==='time'?'Temps pour gagner':m.t==='wins'?'Nombre de victoires':'Meilleur score'}</div>${L.length?L.map((r,i)=>`<div class="rkrow${isMe(r.id)?' me':''}"><span class="pos">${med[i]||i+1}</span><span class="who" data-pid="${r.id}">${esc(nm(r.id))}</span><span class="v">${fmtVal(k,r.v)}</span></div>`).join(''):'<div class="rkempty">Personne n\'a encore gagné ce mini-jeu. Sois le premier ! 🏁</div>'}</div>`:''}
       </div>`;}).join('');
     $('#rkList').querySelectorAll('.rkg-head').forEach(b=>b.onclick=()=>{const k=b.parentNode.dataset.k;rkGame=rkGame===k?null:k;buildRanks().then(()=>{const el=$(`.rkgame[data-k="${k}"]`);if(el&&rkGame)el.scrollIntoView({block:'nearest',behavior:'smooth'});});});
   }else{
     const list=rows().filter(r=>(r.d.cards||0)>0).sort((a,b)=>(b.d.cards||0)-(a.d.cards||0));const names=await nameOf(list.map(r=>r.id));
     const nm=id=>isMe(id)?((names[id]&&names[id]!=='Joueur'&&names[id]!=='Toi')?names[id]+' (toi)':'Toi'):names[id];
-    $('#rkList').innerHTML=`<div class="rkhead">Cartes récoltées<small>Sur ${MG_ORDER.length+MEMBERS.length} cartes existantes</small></div>`+
-      (list.length?list.map((r,i)=>`<div class="rkrow${isMe(r.id)?' me':''}"><span class="pos">${med[i]||i+1}</span><span class="who">${esc(nm(r.id))}</span><span class="v">${r.d.cards} 🃏</span></div>`).join(''):'<div class="rkempty">Aucune carte récoltée pour l\'instant.</div>');
+    $('#rkList').innerHTML=`<div class="rkhead">Cartes récoltées<small>Sur ${MG_ORDER.length+MEMBERS.length+BONUS.length} cartes existantes</small></div>`+
+      (list.length?list.map((r,i)=>`<div class="rkrow${isMe(r.id)?' me':''}"><span class="pos">${med[i]||i+1}</span><span class="who" data-pid="${r.id}">${esc(nm(r.id))}</span><span class="v">${r.d.cards} 🃏</span></div>`).join(''):'<div class="rkempty">Aucune carte récoltée pour l\'instant.</div>');
   }}
 $('#openRanks').onclick=()=>{rkTab='time';rkGame=null;document.querySelectorAll('.tab.rt').forEach(b=>b.classList.toggle('on',b.dataset.r==='time'));show('ranks');buildRanks();};
 $('#rkBack').onclick=()=>{buildSelect();show('select');};
@@ -4080,7 +4182,7 @@ let DB=null,IS_ADMIN=false,GIFTS={},ADM={tab:'gift',to:'all',mode:'boost',n:1,ms
 function claimGifts(all,me){const out=[];let nb=0;
   const ab=(all.boosters||0)-(COL.got.all||0);if(ab>0){nb+=ab;COL.got.all=all.boosters;if(all.msg)out.push(all.msg);}
   const mb=(me.boosters||0)-(COL.got.me||0);if(mb>0){nb+=mb;COL.got.me=me.boosters;if(me.msg)out.push(me.msg);}
-  const cl=(me.cards||[]).slice(COL.got.cards||0);const cards=[];cl.forEach(c=>{if(memIdx(c.id)>=0){COL.members[c.id]=(COL.members[c.id]||0)+1;cards.push({id:c.id,msg:c.msg||''});}});COL.got.cards=(me.cards||[]).length;
+  const cl=(me.cards||[]).slice(COL.got.cards||0);const cards=[];cl.forEach(c=>{if(memObj(c.id)){COL.members[c.id]=(COL.members[c.id]||0)+1;cards.push({id:c.id,msg:c.msg||''});}});COL.got.cards=(me.cards||[]).length;
   if(!nb&&!cards.length)return;COL.boosters=(COL.boosters||0)+nb;saveCol();updBoostBtn();
   const pages=[];if(nb)pages.push({t:'boost',n:nb,msgs:[...new Set(out)]});cards.forEach(c=>pages.push({t:'card',id:c.id,msg:c.msg}));
   giftShow(pages);}
@@ -4091,7 +4193,7 @@ function giftShow(pages){let i=0;const pop=document.createElement('div');pop.cla
       <p><b>${pg.n} booster${pg.n>1?'s':''}</b> ${pg.n>1?'ont été ajoutés':'a été ajouté'} à ta collection.</p>
       ${pg.msgs.map(m=>`<q>« ${esc(m)} »</q>`).join('')}${dots()}
       <div class="endbtns">${last?'<button class="btn" id="gpOpen">Ouvrir maintenant</button><button class="btn alt" id="gpOk">Plus tard</button>':'<button class="btn" id="gpNext">Suivant ▶</button>'}</div></div>`;}
-    else{const m=MEMBERS[memIdx(pg.id)];pop.innerHTML=`<div class="gcard gc-card"><h3>🎁 Une carte pour toi !</h3>
+    else{const m=memObj(pg.id);pop.innerHTML=`<div class="gcard gc-card"><h3>🎁 Une carte pour toi !</h3>
       ${memberHTML(pg.id,true)}<div class="gfrom">Offerte par Mathéo</div>${pg.msg?`<q>« ${esc(pg.msg)} »</q>`:''}${dots()}
       <div class="endbtns">${last?'<button class="btn" id="gpSee">Voir ma collection</button><button class="btn alt" id="gpOk">Super !</button>':'<button class="btn" id="gpNext">Suivante ▶</button>'}</div></div>`;}
     const q=s=>pop.querySelector(s);
@@ -4110,9 +4212,9 @@ async function buildAdmin(){const b=$('#admBody'),P=await adminPlayers();
       ${P.length?'':'<p class="asum">Les joueurs apparaîtront ici dès qu\'ils auront ouvert le jeu.</p>'}</div>
       <div class="abox"><h4>2. Quoi ?</h4><div class="amode"><button class="apill${ADM.mode==='boost'?' on':''}" data-mode="boost">🎁 Des boosters</button><button class="apill${ADM.mode==='card'?' on':''}" data-mode="card"${ADM.to==='all'?' disabled style="opacity:.4"':''}>🃏 Une carte précise</button></div>
       ${ADM.mode==='boost'?`<div class="astep"><button id="aMinus">−</button><b>${ADM.n}</b><button id="aPlus">+</button><span>booster${ADM.n>1?'s':''}</span></div>`:
-        `<div class="acards">${MEMBERS.map(m=>`<div class="${ADM.card===m.id?'sel':''}" data-card="${m.id}">${memberHTML(m.id,false).replace(/<span class="newtag">NOUVEAU<\/span>/,'')}</div>`).join('')}</div>`}</div>
+        `<div class="acards">${MEMBERS.concat(SPECIALS).map(m=>`<div class="${ADM.card===m.id?'sel':''}" data-card="${m.id}">${memberHTML(m.id,false).replace(/<span class="newtag">NOUVEAU<\/span>/,'')}</div>`).join('')}</div>`}</div>
       <div class="abox"><h4>3. Un petit mot ? (facultatif)</h4><input class="ainput" id="aMsg" maxlength="120" placeholder="Ex. : Bravo pour ta compétition !" value="${esc(ADM.msg)}"></div>
-      <div class="asum">${ADM.mode==='boost'?`${ADM.n} booster${ADM.n>1?'s':''} pour <b>${esc(toName)}</b>`:ADM.card?`La carte <b>${esc(MEMBERS[memIdx(ADM.card)].n)}</b> pour <b>${esc(toName)}</b>`:'Choisis une carte'}</div>
+      <div class="asum">${ADM.mode==='boost'?`${ADM.n} booster${ADM.n>1?'s':''} pour <b>${esc(toName)}</b>`:ADM.card?`La carte <b>${esc(memObj(ADM.card).n)}</b> pour <b>${esc(toName)}</b>`:'Choisis une carte'}</div>
       <button class="asend" id="aSend"${(ADM.mode==='card'&&!ADM.card)?' disabled':''}>Envoyer 🚀</button>`;
     b.querySelectorAll('[data-to]').forEach(x=>x.onclick=()=>{ADM.to=x.dataset.to;if(ADM.to==='all')ADM.mode='boost';buildAdmin();});
     b.querySelectorAll('[data-mode]').forEach(x=>x.onclick=()=>{if(x.disabled)return;ADM.mode=x.dataset.mode;buildAdmin();});
@@ -4125,6 +4227,9 @@ async function buildAdmin(){const b=$('#admBody'),P=await adminPlayers();
     b.querySelectorAll('.gift').forEach(x=>x.onclick=()=>{ADM.to=x.dataset.to;ADM.tab='gift';setATab();buildAdmin();});
     const rs=b.querySelector('#aReset');if(rs)rs.onclick=()=>GG.resetFlow();
     const bk=b.querySelector('#aBackup');if(bk)bk.onclick=async()=>{bk.disabled=true;bk.textContent='Préparation…';try{await GG.backup();bk.textContent='Téléchargé ✅';}catch(e){bk.textContent='Échec, réessaie';}bk.disabled=false;};}
+  else if(ADM.tab==='tourn'){adminTourn(b,P);}
+  else if(ADM.tab==='event'){adminEvent(b);}
+  else if(ADM.tab==='req'){adminReqs(b);}
   else{const L=((GIFTS.log||{}).items||[]).slice().reverse();
     b.innerHTML=`<div class="rkhead">Derniers envois</div>`+(L.length?L.map(g=>`<div class="prow"><span class="who">${g.what}<small>${new Date(g.at).toLocaleString('fr-FR',{dateStyle:'short',timeStyle:'short'})}${g.msg?' · « '+esc(g.msg)+' »':''}</small></span></div>`).join(''):'<div class="rkempty">Aucun envoi pour l\'instant.</div>');}}
 function setATab(){document.querySelectorAll('.tab.at').forEach(x=>x.classList.toggle('on',x.dataset.a===ADM.tab));}
@@ -4132,20 +4237,20 @@ async function sendGift(){const btn=$('#aSend');btn.disabled=true;btn.textConten
   try{const P=await adminPlayers(),toName=ADM.to==='all'?'Tout le club':(P.find(p=>p.id===ADM.to)||{}).name||'Joueur';
     const ref=DB.doc('gifts/'+ADM.to),cur=(await ref.get()).data()||{};let what;
     if(ADM.mode==='boost'){await ref.set(Object.assign({},cur,{boosters:(cur.boosters||0)+ADM.n,msg:ADM.msg||''}));what=`🎁 ${ADM.n} booster${ADM.n>1?'s':''} → ${esc(toName)}`;}
-    else{await ref.set(Object.assign({},cur,{cards:(cur.cards||[]).concat([{id:ADM.card,msg:ADM.msg||'',at:Date.now()}])}));what=`🃏 ${esc(MEMBERS[memIdx(ADM.card)].n)} → ${esc(toName)}`;}
+    else{await ref.set(Object.assign({},cur,{cards:(cur.cards||[]).concat([{id:ADM.card,msg:ADM.msg||'',at:Date.now()}])}));what=`🃏 ${esc(memObj(ADM.card).n)} → ${esc(toName)}`;}
     const lg=DB.doc('gifts/log'),lc=(await lg.get()).data()||{};await lg.set({items:(lc.items||[]).concat([{what,msg:ADM.msg||'',at:Date.now()}]).slice(-100)});
     btn.textContent='Envoyé ✅';ADM.msg='';setTimeout(buildAdmin,1200);
   }catch(e){btn.textContent='Échec, réessaie';btn.disabled=false;}}
 
 /* ================= ÉCHANGES DE CARTES (interface) ================= */
 let TR={tab:'market',filter:'miss',market:[],incoming:[],outgoing:[]};
-function myDoubles(){return MEMBERS.filter(m=>(COL.members[m.id]||0)>=2).map(m=>({id:m.id,n:COL.members[m.id]}));}
+function myDoubles(){return MEMBERS.concat(BONUS).filter(m=>(COL.members[m.id]||0)>=2).map(m=>({id:m.id,n:COL.members[m.id]}));}
 let LIVE=null;
 const LIVEOK=()=>!!(window.GG&&GG.trades&&GG.pid);
 function trAgo(at){const m=Math.max(1,Math.round((Date.now()-(at||Date.now()))/60000));return m<60?m+' min':m<1440?Math.round(m/60)+' h':Math.round(m/1440)+' j';}
 function trData(){if(window.__TRDEMO&&!TR._d){TR._d=1;Object.assign(TR,window.__TRDEMO());return;}
   if(!LIVEOK())return;const m={};
-  Object.entries(BOARD||{}).forEach(([pid,d])=>{if(pid===myId||!d||!Array.isArray(d.dups))return;d.dups.forEach(c=>{if(memIdx(c)<0)return;(m[c]=m[c]||[]).push({id:pid,name:d.name||'Joueur'});});});
+  Object.entries(BOARD||{}).forEach(([pid,d])=>{if(pid===myId||!d||!Array.isArray(d.dups))return;d.dups.forEach(c=>{if(!memObj(c))return;(m[c]=m[c]||[]).push({id:pid,name:d.name||'Joueur'});});});
   TR.market=Object.entries(m).map(([card,owners])=>({card,owners:owners.sort((a,b)=>a.name.localeCompare(b.name))})).sort((a,b)=>memIdx(a.card)-memIdx(b.card));
   const L=LIVE||{inc:[],out:[]},by=(a,b)=>(b.at||0)-(a.at||0);
   TR.incoming=L.inc.filter(t=>t.st!=='cancel').sort(by).map(t=>({id:t.id,from:t.fromName||'Joueur',give:t.give,want:t.want,msg:t.msg||'',st:t.st,ago:trAgo(t.at)}));
@@ -4154,7 +4259,7 @@ function trAvail(id){const pend=TR.outgoing.filter(t=>t.st==='wait'&&t.give===id
 function trApplyAccepted(){if(!LIVE)return;COL.trDone=COL.trDone||{};
   LIVE.out.forEach(t=>{if(t.st!=='yes'||COL.trDone[t.id])return;COL.trDone[t.id]=1;
     if((COL.members[t.give]||0)>0){COL.members[t.give]--;if(!COL.members[t.give])delete COL.members[t.give];}
-    COL.members[t.want]=(COL.members[t.want]||0)+1;saveCol();GG.trades.set(t.id,{done:true}).catch(()=>{});
+    COL.members[t.want]=(COL.members[t.want]||0)+1;stat('trades');saveCol();GG.trades.set(t.id,{done:true}).catch(()=>{});
     const a=document.createElement('div');a.className='giftpop';
     a.innerHTML=`<div class="gcard"><div class="emo">🤝</div><h3>Échange accepté !</h3><p><b>${esc(t.toName||'Un joueur')}</b> a accepté ton échange.</p>
       <div class="trswap"><div><div class="lbl">Tu as donné</div>${mini(t.give)}</div><div class="arrow">⇄</div><div><div class="lbl">Tu as reçu</div>${mini(t.want)}</div></div>
@@ -4217,13 +4322,13 @@ function trPropose(item){const d=myDoubles().map(x=>({id:x.id,n:x.n,av:trAvail(x
     sh.onclick=e=>{if(e.target===sh)sh.remove();};
     sh.querySelector('#trSend').onclick=async e=>{if(!give)return;const bt=e.target;bt.disabled=true;bt.textContent='Envoi…';
       if(LIVEOK()){try{await GG.trades.create({to:owner.id,toName:owner.name,give,want:item.card,msg:msg.slice(0,80)});}catch(err){bt.disabled=false;bt.textContent='Échec, réessaie';return;}}
-      else TR.outgoing.unshift({to:owner.name,give,want:item.card,msg,st:'wait'});
+      else TR.outgoing.unshift({to:owner.name,give,want:item.card,msg,st:'wait'});try{qHit('trade');}catch(_){}
       sh.remove();TR.tab='out';setTrTab();buildTrade();};}
   render();}
 async function trAccept(t){if((COL.members[t.want]||0)<1)return;
   if(LIVEOK()&&t.id){try{await GG.trades.set(t.id,{st:'yes'});}catch(_){alert('Échange impossible pour l\'instant, réessaie.');return;}COL.trDone=COL.trDone||{};COL.trDone[t.id]=1;}
   const a=document.createElement('div');a.className='swapanim';a.innerHTML=`<div class="pair"><div>${mini(t.want)}</div><div>${mini(t.give)}</div></div><h3>Échange réussi ! 🤝</h3>`;$('#app').appendChild(a);
-  COL.members[t.want]--;if(COL.members[t.want]<=0)delete COL.members[t.want];COL.members[t.give]=(COL.members[t.give]||0)+1;saveCol();t.st='yes';
+  COL.members[t.want]--;if(COL.members[t.want]<=0)delete COL.members[t.want];COL.members[t.give]=(COL.members[t.give]||0)+1;stat('trades');saveCol();t.st='yes';
   setTimeout(()=>{a.remove();buildTrade();},1900);}
 function setTrTab(){document.querySelectorAll('.tab.tt').forEach(x=>x.classList.toggle('on',x.dataset.tr===TR.tab));}
 $('#openTrade').onclick=()=>{TR.tab='market';setTrTab();show('trade');buildTrade();};
@@ -4240,7 +4345,7 @@ document.querySelectorAll('.tab[data-t]').forEach(b=>b.onclick=()=>{colTab=b.dat
 $('#titleChars').innerHTML=ORDER.slice(0,5).map(k=>`<div>${avatar(CHARS[k].look)}</div>`).join('');
 $('#title').addEventListener('click',()=>{buildSelect();show('select');setTimeout(dailyPop,500);});
 function dailyPop(){if(!dailyCheck())return;const pop=document.createElement('div');pop.className='giftpop';
-  pop.innerHTML=`<div class="gcard"><div class="emo">🌞</div><h3>Ton booster du jour !</h3><p>Un booster de <b>${DAILY_N} cartes</b> t'attend aujourd'hui.<br>Reviens demain pour le suivant !</p>
+  pop.innerHTML=`<div class="gcard"><div class="emo">🌞</div><h3>Ton booster du jour !</h3><p>Un booster de <b>${DAILY_N} cartes + 1 carte bonus ⚡</b> t'attend aujourd'hui.<br>Reviens demain pour le suivant !</p>
     <div class="endbtns"><button class="btn" id="dOpen">L'ouvrir 🎁</button><button class="btn alt" id="dLater">Plus tard</button></div></div>`;
   $('#app').appendChild(pop);pop.querySelector('#dLater').onclick=()=>pop.remove();pop.querySelector('#dOpen').onclick=()=>{pop.remove();goAlbumMembers();openBooster();};}
 
@@ -4269,7 +4374,7 @@ function chRank(day){const k=chGame(day),L=[];Object.entries(BOARD||{}).forEach(
   L.sort((a,b)=>metricOf(k).t==='time'?a.v-b.v:b.v-a.v);L.forEach(x=>{x.rank=1+L.filter(y=>y.v!==x.v&&better(k,y.v,x.v)).length;});return L;}
 function chClaim(){if(!boardRef||!chBoardOK)return;const t=dayKey();COL.chClaim=COL.chClaim||{};const out=[];
   for(let n=1;n<=3;n++){const d=dayShift(t,-n);if(COL.chClaim[d]||!COL.chs||!COL.chs[d])continue;COL.chClaim[d]=1;const L=chRank(d),me=L.find(x=>isMe(x.id));if(!me)continue;
-    const nc=CH_REW[me.rank-1]||1;grantPack(nc,me.rank<=3?'Défi du jour · '+['1er','2e','3e'][me.rank-1]:'Défi du jour');out.push({d,r:me.rank,nc,k:chGame(d),tot:L.length});}
+    if(me.rank<=3)stat('chPod');if(me.rank===1)stat('chFirst');if(L.length>=5&&me.rank===L.length&&me.rank>1)stat('chLast');const nc=CH_REW[me.rank-1]||1;grantPack(nc,me.rank<=3?'Défi du jour · '+['1er','2e','3e'][me.rank-1]:'Défi du jour');out.push({d,r:me.rank,nc,k:chGame(d),tot:L.length});}
   if(!out.length){return;}saveCol();updBoostBtn();
   const o=out[0],med=['🥇','🥈','🥉'][o.r-1]||'🎯',pos=o.r===1?'1er':o.r+'e';
   const pop=document.createElement('div');pop.className='giftpop';
@@ -4290,7 +4395,7 @@ let DUELS=[];
 const DUOK=()=>!!(window.GG&&GG.duels&&GG.pid);
 const duMine=d=>d.from===myId?'a':'b';
 const duOther=d=>d.from===myId?{id:d.to,name:d.toName||'Joueur'}:{id:d.from,name:d.fromName||'Joueur'};
-function duEnd(d){return (d.st==='wait'?d.at:(d.acc||d.at))+DU_H*3600e3;}
+function duEnd(d){if(d.exp)return d.exp;return (d.st==='wait'?d.at:(d.acc||d.at))+DU_H*3600e3;}
 function duState(d){if(d.st==='no'||d.st==='cancel')return d.st;if(d.st==='wait')return Date.now()>duEnd(d)?'exp':'wait';
   return (duDone(d.a)&&duDone(d.b))||Date.now()>duEnd(d)?'end':'on';}
 const duDone=x=>!!x&&(((x.n||0)>=DU_TRIES)||!!x.f);
@@ -4305,16 +4410,16 @@ function duFinish(id,after){const d=DUELS.find(x=>x.id===id);if(!d)return;const 
     const w=DUOK()?GG.duels.set(id,{[side]:{n:me.n||0,v:me.v==null?null:me.v,f:true}}):Promise.resolve();w.catch(()=>{}).then(()=>{try{duSettle();}catch(_){}});if(after)after();else buildDefi();};}
 function duLeft(d){const m=Math.max(0,Math.round((duEnd(d)-Date.now())/60000));return m>=60?Math.floor(m/60)+' h':m+' min';}
 function duSettle(){COL.duDone=COL.duDone||{};const won=[];
-  DUELS.forEach(d=>{if(COL.duDone[d.id]||duState(d)!=='end')return;COL.duDone[d.id]=1;const w=duWinner(d);
+  let chg=false;DUELS.forEach(d=>{if(COL.duDone[d.id]||duState(d)!=='end')return;COL.duDone[d.id]=1;chg=true;const w=duWinner(d);duStat(d,w);try{bClaim(d,w);}catch(_){}if(d.t)return;
     if(w===duMine(d)||w==='tie'){grantPack(1,'Duel contre '+duOther(d).name);won.push({d,tie:w==='tie'});}});
-  if(!won.length)return;saveCol();updBoostBtn();const o=won[0];
+  if(!won.length){if(chg)saveCol();return;}saveCol();updBoostBtn();const o=won[0];
   const pop=document.createElement('div');pop.className='giftpop';
   pop.innerHTML=`<div class="gcard"><div class="emo">${o.tie?'🤝':'⚔️'}</div><h3>${o.tie?'Égalité !':'Duel gagné !'}</h3>
     <p>${o.tie?'Égalité parfaite':'Tu as battu'} ${o.tie?'avec':''} <b>${esc(duOther(o.d).name)}</b> sur « ${CHARS[o.d.k].game} ».<br>Tu gagnes <b>une carte</b> 🎁${won.length>1?`<br><small>+ ${won.length-1} autre${won.length>2?'s':''} duel${won.length>2?'s':''} gagné${won.length>2?'s':''}</small>`:''}</p>
     <div class="endbtns"><button class="btn" id="duOpen">L'ouvrir 🎁</button><button class="btn alt" id="duLater">Plus tard</button></div></div>`;
   $('#app').appendChild(pop);pop.querySelector('#duLater').onclick=()=>pop.remove();pop.querySelector('#duOpen').onclick=()=>{pop.remove();goAlbumMembers();openBooster();};}
 function dfBadge(){let n=0;DUELS.forEach(d=>{const st=duState(d);if((st==='wait'&&d.to===myId)||(st==='on'&&duCanPlay(d)))n++;});
-  const today=dayKey();if(!(COL.chs&&COL.chs[today]))n++;
+  const today=dayKey();if(!(COL.chs&&COL.chs[today]))n++;try{const e=EVENTS.find(x=>x.st==='open'&&!evOver(x));if(e&&!(e.played&&e.played[myId]))n++;}catch(_){}
   const b=$('#dfBadge');if(b){b.hidden=!n;b.textContent=n;}}
 (async function duInit(){try{if(!window.claude||!window.claude.use)return;await window.claude.use('db');if(!DUOK())return;
   GG.duels.listen(list=>{DUELS=list;duSettle();dfBadge();if($('#defi').classList.contains('active'))buildDefi();});}catch(_){}})();
@@ -4323,9 +4428,9 @@ setTimeout(()=>{try{dfBadge();}catch(_){}},800);
 /* Partie lancée depuis un duel : un essai est compté dès le départ */
 function ctxStart(k){if(!PLAYCTX||PLAYCTX.t!=='duel')return;const d=DUELS.find(x=>x.id===PLAYCTX.id);
   if(!d||d.k!==k||!duCanPlay(d)){PLAYCTX={t:'ch'};return;}
-  const side=duMine(d),me=Object.assign({n:0,v:null},d[side]);me.n=(me.n||0)+1;d[side]=me;PLAYCTX.try=me.n;
+  const side=duMine(d),me=Object.assign({n:0,v:null},d[side]);me.n=(me.n||0)+1;d[side]=me;PLAYCTX.try=me.n;try{qHit('dplay');}catch(_){}
   if(DUOK())GG.duels.set(d.id,{[side]:{n:me.n,v:me.v==null?null:me.v,f:!!me.f}}).catch(()=>{});}
-function ctxAfter(k,win,v){let h='';const c=chRecord(k,win?v:null);
+function ctxAfter(k,win,v){let h='';const c=chRecord(k,win?v:null);if(c){try{qHit('ch');chDay();}catch(_){}}
   if(chGame(dayKey())===k){const mine=COL.chs&&COL.chs[dayKey()];
     h+=`<div class="dctx">🎯 Défi du jour : ${c&&c.nb?'nouveau meilleur résultat du jour, '+fmtVal(k,c.v)+' !':mine&&mine.k===k?'ton meilleur aujourd\'hui : '+fmtVal(k,mine.v):'gagne une partie pour entrer dans le classement !'}</div>`;}
   if(PLAYCTX&&PLAYCTX.t==='duel'){const d=DUELS.find(x=>x.id===PLAYCTX.id);if(d){const side=duMine(d),me=Object.assign({n:0,v:null},d[side]);
@@ -4341,10 +4446,10 @@ async function buildDefi(){const b=$('#dfBody'),today=dayKey(),k=chGame(today),c
   const ids=L.map(x=>x.id);const names=await nameOf(ids.filter(i=>!isMe(i)));
   const nm=x=>isMe(x.id)?'Toi':esc(x.name||names[x.id]||'Joueur');
   const meR=L.find(x=>isMe(x.id));let top=L.slice(0,5);if(meR&&!top.includes(meR))top=top.concat([meR]);
-  let h=`<div class="dsec">🎯 Défi du jour</div><div class="trow">
+  let h=evHTML()+qHTML()+bountyHTML()+tournHTML()+`<div class="dsec">🎯 Défi du jour</div><div class="trow">
     <div class="dgame">${avSmall(k)}<div><b>${c.game}</b><small>avec ${c.name} · ${goalTxt(k)}</small></div></div>
     <div class="drew">🥇 booster de 5 · 🥈 🥉 booster de 3<br>🎴 1 carte pour tous ceux qui gagnent au moins une partie<br><small>Récompenses données demain · tu peux rejouer autant que tu veux</small></div>
-    ${boardRef?(L.length?`<div class="dlist">${top.map(x=>`<div class="rkrow${isMe(x.id)?' me':''}"><span class="pos">${med[x.rank-1]||x.rank}</span><span class="who">${nm(x)}</span><span class="v">${fmtVal(k,x.v)}</span></div>`).join('')}</div>`
+    ${boardRef?(L.length?`<div class="dlist">${top.map(x=>`<div class="rkrow${isMe(x.id)?' me':''}"><span class="pos">${med[x.rank-1]||x.rank}</span><span class="who" data-pid="${x.id}">${nm(x)}</span><span class="v">${fmtVal(k,x.v)}</span></div>`).join('')}</div>`
       :'<div class="rkempty">Personne n\'a encore réussi le défi aujourd\'hui. Sois le premier ! 🏁</div>')
       :`<div class="rkempty">${meR?'Ton meilleur aujourd\'hui : '+fmtVal(k,meR.v)+'<br>':''}Le classement et les récompenses du défi marchent sur le site du jeu.</div>`}
     <div class="trbtns"><button class="btn" id="chPlay">Jouer au défi ▶</button></div></div>`;
@@ -4354,32 +4459,32 @@ async function buildDefi(){const b=$('#dfBody'),today=dayKey(),k=chGame(today),c
     const list=DUELS.filter(d=>{const st=duState(d);return st!=='cancel'&&!(st==='exp'&&d.to===myId)&&(st!=='end'&&st!=='no'&&st!=='exp'||Date.now()-duEnd(d)<3*86400e3);})
       .sort((x,y)=>(order[duState(x)]-order[duState(y)])||((y.at||0)-(x.at||0)));
     h+=list.length?list.map(d=>{const st=duState(d),o=duOther(d),side=duMine(d),me=d[side]||{},ot=d[side==='a'?'b':'a']||{},w=st==='end'?duWinner(d):null,inc=d.to===myId;
-      const chip=st==='wait'?(inc?'<span class="trstat wait">Invitation</span>':'<span class="trstat wait">En attente ⏳</span>'):st==='on'?`<span class="trstat wait">⏳ ${duLeft(d)}</span>`:st==='end'?(w===side?'<span class="trstat yes">Gagné 🏆</span>':w==='tie'?'<span class="trstat yes">Égalité</span>':w?'<span class="trstat nope">Perdu</span>':'<span class="trstat nope">Personne n\'a gagné</span>'):st==='no'?'<span class="trstat nope">Refusé</span>':'<span class="trstat nope">Expiré</span>';
+      const tt=d.t?TOURNS.find(x=>x.id===d.t):null;const chip=st==='wait'?(inc?'<span class="trstat wait">Invitation</span>':'<span class="trstat wait">En attente ⏳</span>'):st==='on'?`<span class="trstat wait">⏳ ${duLeft(d)}</span>`:st==='end'?(w===side?'<span class="trstat yes">Gagné 🏆</span>':w==='tie'?'<span class="trstat yes">Égalité</span>':w?'<span class="trstat nope">Perdu</span>':'<span class="trstat nope">Personne n\'a gagné</span>'):st==='no'?'<span class="trstat nope">Refusé</span>':'<span class="trstat nope">Expiré</span>';
       const hide=st!=='end';
-      return `<div class="trow"><div class="top"><span>${inc?esc(o.name)+' te défie !':'Contre '+esc(o.name)}</span>${chip}</div>
+      return `<div class="trow"><div class="top"><span>${d.t?'🏆 '+(tt?esc(tt.name):'Tournoi')+' · manche '+d.r+' · ':''}${inc&&!d.t?'<span data-pid="'+o.id+'">'+esc(o.name)+'</span> te défie !':'Contre <span data-pid="'+o.id+'">'+esc(o.name)+'</span>'}</span>${chip}</div>
         <div class="dgame">${avSmall(d.k)}<div><b>${CHARS[d.k].game}</b><small>${goalTxt(d.k)} · ${DU_TRIES} essais chacun</small></div></div>
         ${st==='no'||st==='exp'?'':`<div class="dvs"><div class="p${w===side?' win':''}"><b>Toi</b><span>${me.v==null?'–':fmtVal(d.k,me.v)}</span><small>${me.f&&(me.n||0)<DU_TRIES?'🏁 a fini':(me.n||0)+'/'+DU_TRIES+' essais'}</small></div><div class="vs">VS</div>
           <div class="p${w&&w!=='tie'&&w!==side?' win':''}"><b>${esc(o.name)}</b><span>${hide?(ot.n?'🔒 secret':'–'):(ot.v==null?'–':fmtVal(d.k,ot.v))}</span><small>${ot.f&&(ot.n||0)<DU_TRIES?'🏁 a fini':(ot.n||0)+'/'+DU_TRIES+' essais'}</small></div></div>`}
-        ${st==='end'?`<div class="dres">${w===side?'🎉 Tu gagnes une carte !':w==='tie'?'🤝 Une carte pour chacun !':w?'💦 Ce sera pour la prochaine fois !':''}</div>`:''}
+        ${st==='end'?`<div class="dres">${d.t?(w===side?'🎉 Tu passes au tour suivant !':w==='tie'||!w?'🎲 Égalité : tirage au sort par Mathéo':'💦 Éliminé… bravo quand même !'):(w===side?'🎉 Tu gagnes une carte !':w==='tie'?'🤝 Une carte pour chacun !':w?'💦 Ce sera pour la prochaine fois !':'')}</div>`:''}
         ${st==='wait'&&inc?`<div class="trbtns"><button class="btn no" data-dno="${d.id}">✖ Refuser</button><button class="btn ok" data-dok="${d.id}">⚔️ Accepter</button></div>`:''}
         ${duCanPlay(d)?`<div class="trbtns"><button class="btn" data-dplay="${d.id}">Jouer · essai ${(me.n||0)+1}/${DU_TRIES} ▶</button>${st==='wait'&&!inc?`<button class="btn alt" data-dcancel="${d.id}">Annuler</button>`:''}</div>${(me.n||0)>0?`<div class="trbtns" style="margin-top:8px"><button class="btn alt" data-dfin="${d.id}" style="font-size:14px;padding:8px">🏁 J'ai fini, je garde ${me.v==null?'mon résultat':fmtVal(d.k,me.v)}</button></div>`:''}`:(st==='wait'&&!inc?`<div class="trbtns"><button class="btn alt" data-dcancel="${d.id}">Annuler le duel</button></div>`:'')}
         ${st==='on'&&!duCanPlay(d)?'<div class="dres"><small>Tu as fini ! Résultat quand '+esc(o.name)+' aura fini aussi (au plus tard dans '+duLeft(d)+').</small></div>':''}</div>`;}).join('')
       :'<div class="trempty">Aucun duel pour l\'instant.<br>Défie un joueur du club sur le mini-jeu de ton choix : le meilleur des deux gagne une carte !</div>';}
   b.innerHTML=h;
   $('#chPlay').onclick=()=>{PLAYCTX={t:'ch'};openIntro(k);};
-  const nw=$('#duNew');if(nw)nw.onclick=duNew;
+  const nw=$('#duNew');if(nw)nw.onclick=duNew;tournBind(b);evBind(b);b.querySelectorAll('[data-bh]').forEach(x=>x.onclick=()=>duNew(x.dataset.bh,x.dataset.bn));
   b.querySelectorAll('[data-dplay]').forEach(x=>x.onclick=()=>{const d=DUELS.find(y=>y.id===x.dataset.dplay);if(!d)return;PLAYCTX={t:'duel',id:d.id};openIntro(d.k);});
   b.querySelectorAll('[data-dok]').forEach(x=>x.onclick=()=>{x.disabled=true;GG.duels.set(x.dataset.dok,{st:'on',acc:Date.now()}).catch(()=>{x.disabled=false;});});
   b.querySelectorAll('[data-dno]').forEach(x=>x.onclick=()=>{x.disabled=true;GG.duels.set(x.dataset.dno,{st:'no'}).catch(()=>{x.disabled=false;});});
   b.querySelectorAll('[data-dfin]').forEach(x=>x.onclick=()=>duFinish(x.dataset.dfin));
   b.querySelectorAll('[data-dcancel]').forEach(x=>x.onclick=()=>{x.disabled=true;GG.duels.set(x.dataset.dcancel,{st:'cancel'}).catch(()=>{x.disabled=false;});});
   dfBadge();}
-function duNew(){const mineActive=DUELS.filter(d=>d.from===myId&&['wait','on'].includes(duState(d))).length;
+function duNew(pre,preName){if(typeof pre!=='string')pre=null;const mineActive=DUELS.filter(d=>d.from===myId&&['wait','on'].includes(duState(d))).length;
   const sh=document.createElement('div');sh.className='trsheet';$('#app').appendChild(sh);
   if(mineActive>=DU_MAX){sh.innerHTML=`<div class="in"><h3>⚔️ Lancer un duel</h3><div class="trempty">Tu as déjà ${DU_MAX} duels en cours.<br>Termine-les avant d'en lancer un autre !</div><div class="trbtns"><button class="btn alt" id="duX">Fermer</button></div></div>`;
     sh.querySelector('#duX').onclick=()=>sh.remove();return;}
   const players=Object.entries(BOARD||{}).filter(([id,d])=>id!==myId&&d&&d.name).map(([id,d])=>({id,name:d.name})).sort((a,b)=>a.name.localeCompare(b.name));
-  let who=null,game=null,q='';const norm=t=>t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  let who=pre?(players.find(p=>p.id===pre)||{id:pre,name:preName||'Joueur'}):null,game=null,q='';const norm=t=>t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
   function renderList(){const L=players.filter(p=>norm(p.name).includes(norm(q)));
     sh.querySelector('#duList').innerHTML=L.length?L.map(p=>`<button class="prow trown" data-p="${p.id}"><span class="who">${esc(p.name)}</span><span class="mini">Défier ›</span></button>`).join(''):'<div class="trempty">Personne avec ce nom…</div>';
     sh.querySelectorAll('[data-p]').forEach(x=>x.onclick=()=>{who=players.find(p=>p.id===x.dataset.p);render();});}
@@ -4387,18 +4492,468 @@ function duNew(){const mineActive=DUELS.filter(d=>d.from===myId&&['wait','on'].i
     if(!who){sh.innerHTML=`<div class="in"><h3>⚔️ Qui veux-tu défier ?</h3><input class="ainput" id="duQ" placeholder="🔍 Rechercher un joueur…" autocomplete="off" value="${esc(q)}"><div id="duList" style="margin-top:10px"></div>
       <div class="trbtns"><button class="btn alt" id="duX">Fermer</button></div></div>`;
       sh.querySelector('#duQ').oninput=e=>{q=e.target.value;renderList();};renderList();}
-    else{sh.innerHTML=`<div class="in"><h3>⚔️ Duel contre ${esc(who.name)}</h3><div class="sec">Sur quel mini-jeu ? <button class="gglink" id="duChg" style="margin:0 0 0 6px;font-size:13px">changer de joueur</button></div>
+    else{const lock=!!(pre&&who&&who.id===pre);sh.innerHTML=`<div class="in"><h3>${lock?'🎯 Défier '+esc(who.name):'⚔️ Duel contre '+esc(who.name)}</h3>${lock?`<div class="drew">🎯 Il y a une prime sur ${esc(who.name)} : bats-le en duel dans le temps restant pour gagner un booster de 5 cartes !</div>`:''}<div class="sec">Sur quel mini-jeu ?${lock?'':' <button class="gglink" id="duChg" style="margin:0 0 0 6px;font-size:13px">changer de joueur</button>'}</div>
       <div class="ggrid">${CH_GAMES().map(k=>`<button data-g="${k}" class="${game===k?'sel':''}">${avSmall(k)}<span>${CHARS[k].game}</span></button>`).join('')}</div>
       <div class="drew" style="margin-top:12px">${DU_TRIES} essais chacun (ou « J'ai fini » pour s'arrêter avant), ${DU_H} h maximum. Le meilleur résultat gagne <b>une carte</b>.</div>
       <div class="ggerr" id="duErr" style="color:var(--coral);font-weight:700;text-align:center"></div>
       <div class="trbtns"><button class="btn alt" id="duX">Annuler</button><button class="btn" id="duGo"${game?'':' disabled'}>⚔️ Lancer le duel</button></div></div>`;
-      sh.querySelector('#duChg').onclick=()=>{who=null;render();};
+      const chg=sh.querySelector('#duChg');if(chg)chg.onclick=()=>{who=null;render();};
       sh.querySelectorAll('[data-g]').forEach(x=>x.onclick=()=>{game=x.dataset.g;const sc=sh.querySelector('.in').scrollTop;render();sh.querySelector('.in').scrollTop=sc;});
       sh.querySelector('#duGo').onclick=async e=>{e.target.disabled=true;e.target.textContent='…';
-        try{await GG.duels.create({to:who.id,toName:who.name,k:game});sh.remove();openDefi();}
+        try{await GG.duels.create({to:who.id,toName:who.name,k:game});try{stat('duelNew');qHit('dnew');}catch(_){}sh.remove();openDefi();}
         catch(_){e.target.disabled=false;e.target.textContent='⚔️ Lancer le duel';sh.querySelector('#duErr').textContent='Pas de connexion… réessaie.';}};}
     sh.querySelector('#duX').onclick=()=>sh.remove();sh.onclick=e=>{if(e.target===sh)sh.remove();};}
   render();}
+
+/* ================= STATISTIQUES ================= */
+function stat(k,n){COL.st=COL.st||{};COL.st[k]=(COL.st[k]||0)+(n==null?1:n);}
+const ST=k=>(COL.st||{})[k]||0;
+function duStat(d,w){COL.st=COL.st||{};const me=duMine(d);if(w===me){stat('duelW');COL.st.dWs=ST('dWs')+1;COL.st.dLs=0;COL.st.dWsMax=Math.max(ST('dWsMax'),COL.st.dWs);}
+  else if(w&&w!=='tie'){stat('duelL');COL.st.dLs=ST('dLs')+1;COL.st.dWs=0;COL.st.dLsMax=Math.max(ST('dLsMax'),COL.st.dLs);}
+  else{COL.st.dWs=0;COL.st.dLs=0;}}
+function chDay(){const t=dayKey();COL.st=COL.st||{};if(COL.st.chLastD===t)return;
+  COL.st.chStreak=(COL.st.chLastD===dayShift(t,-1)?ST('chStreak'):0)+1;COL.st.chLastD=t;COL.st.chStreakMax=Math.max(ST('chStreakMax'),COL.st.chStreak);stat('chDays');}
+const maxCopies=()=>Math.max(0,...MEMBERS.map(m=>COL.members[m.id]||0));
+const totalCards=()=>MG_ORDER.length+MEMBERS.length+BONUS.length;
+
+/* ================= BADGES ================= */
+/* f:1 = badge « raté » (pour rire) */
+const BADGES=[
+  {id:'c25',e:'🃏',n:'Petit collectionneur',d:'25 cartes',ok:()=>cardCount()>=25},
+  {id:'c50',e:'📒',n:'Collectionneur',d:'50 cartes',ok:()=>cardCount()>=50},
+  {id:'c100',e:'📚',n:'Grand collectionneur',d:'100 cartes',ok:()=>cardCount()>=100},
+  {id:'call',e:'👑',n:'Collection complète',d:'Toutes les cartes',ok:()=>cardCount()>=totalCards()},
+  {id:'mgall',e:'🎮',n:'Champion des mini-jeux',d:'Tous les mini-jeux gagnés',ok:()=>ownedMG()>=MG_ORDER.length},
+  {id:'ser1',e:'🧩',n:'Première série',d:'Une série complète',ok:()=>Object.keys(COL.ser||{}).length>=1},
+  {id:'ser3',e:'🏅',n:'Trois séries',d:'3 séries complètes',ok:()=>Object.keys(COL.ser||{}).length>=3},
+  {id:'d1',e:'⚔️',n:'Premier duel',d:'Gagner un duel',ok:()=>ST('duelW')>=1},
+  {id:'d10',e:'🗡️',n:'Duelliste',d:'10 duels gagnés',ok:()=>ST('duelW')>=10},
+  {id:'dw3',e:'🔥',n:'En feu',d:'3 duels gagnés d\'affilée',ok:()=>ST('dWsMax')>=3},
+  {id:'dl2',e:'🌧️',n:'Pas de chance',d:'2 duels perdus d\'affilée',ok:()=>ST('dLsMax')>=2,f:1},
+  {id:'dl5',e:'🫠',n:'Série noire',d:'5 duels perdus d\'affilée',ok:()=>ST('dLsMax')>=5,f:1},
+  {id:'dl10',e:'😅',n:'Bon perdant',d:'10 duels perdus',ok:()=>ST('duelL')>=10,f:1},
+  {id:'lo20',e:'🙃',n:'Ça arrive…',d:'20 parties perdues',ok:()=>ST('lost')>=20,f:1},
+  {id:'lo100',e:'💪',n:'Jamais abandonner',d:'100 parties perdues',ok:()=>ST('lost')>=100,f:1},
+  {id:'x5',e:'👯',n:'Photocopieuse',d:'Une carte en 5 exemplaires',ok:()=>maxCopies()>=5,f:1},
+  {id:'x10',e:'🧟',n:'Invasion de doublons',d:'Une carte en 10 exemplaires',ok:()=>maxCopies()>=10,f:1},
+  {id:'tr1',e:'🤝',n:'Premier échange',d:'Faire un échange',ok:()=>ST('trades')>=1},
+  {id:'tr10',e:'🛒',n:'Marchand',d:'10 échanges',ok:()=>ST('trades')>=10},
+  {id:'re10',e:'♻️',n:'Écolo',d:'10 recyclages',ok:()=>ST('recy')>=10},
+  {id:'ch7',e:'📅',n:'Assidu',d:'7 jours de suite au Défi du jour',ok:()=>ST('chStreakMax')>=7},
+  {id:'chp',e:'🥉',n:'Sur le podium',d:'Top 3 au Défi du jour',ok:()=>ST('chPod')>=1},
+  {id:'ch1',e:'🥇',n:'Le meilleur du jour',d:'1er au Défi du jour',ok:()=>ST('chFirst')>=1},
+  {id:'chl',e:'🐢',n:'Lanterne rouge',d:'Dernier au Défi du jour',ok:()=>ST('chLast')>=1,f:1},
+  {id:'q7',e:'📋',n:'Bosseur',d:'7 fois les 3 quêtes du jour',ok:()=>ST('quests')>=7},
+  {id:'tp',e:'🎟️',n:'Compétiteur',d:'Jouer un tournoi',ok:()=>ST('tPlayed')>=1},
+  {id:'tw',e:'🏆',n:'Champion',d:'Gagner un tournoi',ok:()=>ST('tWins')>=1},
+  {id:'to1',e:'🚪',n:'Sorti d\'entrée',d:'Éliminé au 1er tour d\'un tournoi',ok:()=>ST('tOut1')>=1,f:1}
+];
+let progT=0,progBusy=false;
+function progLater(){try{if(progBusy)return;clearTimeout(progT);progT=setTimeout(progress,250);}catch(_){}}
+function progress(){if(progBusy)return;progBusy=true;try{serCheck();badgeCheck();}catch(e){console.warn(e);}progBusy=false;}
+const toastQ=[];let toastOn=false;
+function toast(e,t,sub){toastQ.push({e,t,sub});if(!toastOn)toastNext();}
+function toastNext(){const x=toastQ.shift();if(!x){toastOn=false;return;}toastOn=true;const d=document.createElement('div');d.className='toast';
+  d.innerHTML=`<i>${x.e}</i><div>${x.t}${x.sub?`<small>${x.sub}</small>`:''}</div>`;$('#app').appendChild(d);d.onclick=()=>{d.remove();openProfile(myId||'local');};
+  setTimeout(()=>{d.style.transition='opacity .3s';d.style.opacity='0';setTimeout(()=>{d.remove();toastNext();},300);},3200);}
+function badgeCheck(){COL.badges=COL.badges||{};const nw=[];BADGES.forEach(b=>{if(!COL.badges[b.id]&&b.ok()){COL.badges[b.id]=Date.now();nw.push(b);}});
+  if(!nw.length)return;progBusy=true;saveCol();progBusy=false;nw.forEach(b=>toast(b.e,'Nouveau badge : '+b.n,b.d));}
+
+/* ================= SÉRIES À COMPLÉTER ================= */
+/* Liste fournie par Mathéo : {id, n:'Nom', e:'emoji', cards:['id_carte',…]} */
+const SERIES=[
+  {id:'comite',n:'Le comité directeur',e:'🏛️',cards:['roland','christian','genevieve_alain','david','marcel','audrey','matheo','jean_francois','jacky','dario','christophe','nathan','p_christophe'],
+   roles:{roland:'Président d\'honneur',christian:'Président',genevieve_alain:'Vice-présidente',david:'Trésorier',marcel:'Trésorier adjoint',audrey:'Secrétaire',matheo:'Secrétaire adjoint',jean_francois:'Assesseur',jacky:'Assesseur',dario:'Assesseur',christophe:'Assesseur',nathan:'Assesseur',p_christophe:'L\'homme à tout faire'}},
+  {id:'f_schell',n:'Famille Schell',e:'👨‍👩‍👧',cards:['christian','laetitia','matheo','ethan','roland','mickey','bouchon','lucas','chouky']},
+  {id:'f_galgon',n:'Famille Galgon',e:'👨‍👩‍👧',cards:['aude','stephane','nathan','quentin']},
+  {id:'f_lubin',n:'Famille Lubin',e:'👨‍👩‍👧',cards:['camille','romain','petite_zoe']},
+  {id:'f_pigani',n:'Famille Pigani',e:'👨‍👩‍👧',cards:['dario','agnes','lucie']},
+  {id:'f_iwanczuk',n:'Famille Iwanczuk',e:'👨‍👩‍👧',cards:['richard','manue','emma']},
+  {id:'f_duveau',n:'Famille Duveau',e:'👨‍👩‍👧',cards:['alan','alix']},
+  {id:'f_basta',n:'Famille Basta',e:'👨‍👩‍👧',cards:['laurent','audrey','marie']},
+  {id:'f_kiffer',n:'Famille Kiffer',e:'👨‍👩‍👧',cards:['christophe','carole','zoe','noah']},
+  {id:'f_schug',n:'Famille Schug',e:'👨‍👩‍👧',cards:['marcel','helene','manon','lilian']},
+  {id:'f_bruker',n:'Famille Bruker',e:'👨‍👩‍👧',cards:['willi','francoise','mae','mathis']},
+  {id:'f_vanerom',n:'Famille Van Erom',e:'👨‍👩‍👧',cards:['pierre','virginie','louis']}
+];
+const serList=()=>SERIES.concat(window.__SERIES_DEMO||[]);
+const serOwned=s=>s.cards.filter(id=>COL.members[id]).length;
+const serRew=s=>s.cards.length<=5?3:5;
+function serCheck(){COL.ser=COL.ser||{};const nw=[];serList().forEach(s=>{if(COL.ser[s.id]||!s.cards.length)return;if(serOwned(s)>=s.cards.length){COL.ser[s.id]=Date.now();grantPack(serRew(s),'Série « '+s.n+' »');nw.push(s);}});
+  if(!nw.length)return;progBusy=true;saveCol();progBusy=false;updBoostBtn();const s=nw[0];
+  const pop=document.createElement('div');pop.className='giftpop';
+  pop.innerHTML=`<div class="gcard"><div class="emo">${s.e||'📚'}</div><h3>Série complète !</h3><p>Tu as toutes les cartes de « <b>${esc(s.n)}</b> ».<br>Tu gagnes un <b>booster de ${serRew(s)} cartes</b> 🎁</p>
+    <div class="endbtns"><button class="btn" id="srOpen">L'ouvrir 🎁</button><button class="btn alt" id="srLater">Plus tard</button></div></div>`;
+  $('#app').appendChild(pop);pop.querySelector('#srLater').onclick=()=>pop.remove();pop.querySelector('#srOpen').onclick=()=>{pop.remove();goAlbumMembers();openBooster();};}
+function serHTML(){const L=serList();if(!L.length)return `<div class="cmsg">📚 Les séries arrivent bientôt !<br><small>Mathéo prépare des groupes de cartes à compléter. Chaque série complète rapporte un booster et un badge.</small></div>`;
+  const done=L.filter(s=>COL.ser&&COL.ser[s.id]).length;
+  return `<div class="cmsg" style="border-style:solid">📚 ${done} / ${L.length} séries complètes — Complète une série pour gagner un booster !</div>`+L.map(s=>{const o=serOwned(s),t=s.cards.length,ok=COL.ser&&COL.ser[s.id];
+    return `<div class="sercard${ok?' done':''}"><div class="sh"><span style="font-size:22px">${s.e||'📚'}</span><b>${esc(s.n)}</b><span>${o} / ${t}</span></div><div class="sb"><i style="width:${t?o/t*100:0}%"></i></div>
+      <div class="sc">${s.cards.map(id=>{const i=memIdx(id);if(i<0)return '';const m=MEMBERS[i],rl=s.roles&&s.roles[id]?`<div class="srole">${esc(s.roles[id])}</div>`:'';return COL.members[id]?`<div>${mini(id)}${rl}</div>`:`<div><div class="tcard locked r-${m.r}"><div class="lq">?</div><div class="lh">#${String(i+1).padStart(2,'0')}</div></div>${rl}</div>`;}).join('')}</div>
+      <div class="sr">${ok?'✅ Série complète · récompense reçue':'🎁 Récompense : booster de '+serRew(s)+' cartes + badge'}</div></div>`;}).join('');}
+
+/* ================= QUÊTES DU JOUR ================= */
+const QUESTS=[
+  {id:'win2',e:'🏆',t:'Gagne 2 mini-jeux',n:2},
+  {id:'play4',e:'🎮',t:'Joue 4 parties',n:4},
+  {id:'ch',e:'🎯',t:'Réussis une partie du Défi du jour',n:1},
+  {id:'open',e:'🎁',t:'Ouvre un booster ou une pochette',n:1},
+  {id:'rec',e:'⏱️',t:'Bats un de tes records',n:1,need:()=>Object.keys(COL.best||{}).length>0},
+  {id:'trade',e:'🔄',t:'Propose un échange',n:1,need:()=>LIVEOK()},
+  {id:'dplay',e:'⚔️',t:'Joue un essai de duel',n:1,need:()=>DUOK()},
+  {id:'dnew',e:'🤺',t:'Lance un duel',n:1,need:()=>DUOK()},
+  {id:'recy',e:'♻️',t:'Recycle des doubles',n:1,need:()=>recyStock()>=3},
+  {id:'lose',e:'🙃',t:'Perds une partie (ça arrive !)',n:1},
+  {id:'newmg',e:'✨',t:'Gagne un mini-jeu jamais réussi',n:1,need:()=>ownedMG()<MG_ORDER.length}
+];
+const QREW=3;
+function qToday(){const t=dayKey();if(COL.q&&COL.q.d===t)return COL.q;
+  const pool=QUESTS.filter(q=>!q.need||q.need()),pick=[];while(pick.length<3&&pool.length){const i=Math.floor(Math.random()*pool.length);const q=pool.splice(i,1)[0];
+    if(q.id==='dnew'&&pick.includes('dplay')||q.id==='dplay'&&pick.includes('dnew'))continue;pick.push(q.id);}
+  COL.q={d:t,l:pick,p:{},done:false};saveCol();return COL.q;}
+function qHit(id,n){const q=qToday();if(!q.l.includes(id)||q.done)return;const Q=QUESTS.find(x=>x.id===id);q.p[id]=Math.min(Q.n,(q.p[id]||0)+(n||1));
+  if(q.p[id]>=Q.n)toast(Q.e,'Quête réussie !',Q.t);
+  if(q.l.every(x=>(q.p[x]||0)>=QUESTS.find(y=>y.id===x).n)){q.done=true;stat('quests');grantPack(QREW,'Quêtes du jour');updBoostBtn();
+    setTimeout(()=>{const pop=document.createElement('div');pop.className='giftpop';
+      pop.innerHTML=`<div class="gcard"><div class="emo">📋</div><h3>Quêtes terminées !</h3><p>Bravo, tu as fait les 3 quêtes du jour.<br>Tu gagnes un <b>booster de ${QREW} cartes</b> 🎁</p>
+        <div class="endbtns"><button class="btn" id="qOpen">L'ouvrir 🎁</button><button class="btn alt" id="qLater">Plus tard</button></div></div>`;
+      $('#app').appendChild(pop);pop.querySelector('#qLater').onclick=()=>pop.remove();pop.querySelector('#qOpen').onclick=()=>{pop.remove();stopGame();$('#end').classList.remove('show');goAlbumMembers();openBooster();};},1400);}
+  saveCol();try{dfBadge();}catch(_){}}
+function qHTML(){const q=qToday();
+  return `<div class="dsec">📋 Quêtes du jour</div><div class="trow">${q.l.map(id=>{const Q=QUESTS.find(x=>x.id===id),v=q.p[id]||0,ok=v>=Q.n;
+    return `<div class="qrow${ok?' ok':''}"><span class="qi">${ok?'✅':Q.e}</span><div class="qt">${Q.t}<div class="qb"><i style="width:${v/Q.n*100}%"></i></div></div><span class="qn">${v}/${Q.n}</span></div>`;}).join('')}
+    <div class="drew" style="margin:8px 0 0">${q.done?'✅ Quêtes terminées ! Reviens demain pour de nouvelles quêtes.':'🎁 Les 3 quêtes réussies = un booster de '+QREW+' cartes'}</div></div>`;}
+
+/* ================= PROFIL ================= */
+function pfPublic(){const st=COL.st||{};return{fav:COL.fav||null,b:Object.keys(COL.badges||{}),ser:Object.keys(COL.ser||{}).length,mg:ownedMG(),
+  st:{played:st.played||0,won:st.won||0,lost:st.lost||0,duelW:st.duelW||0,duelL:st.duelL||0,trades:st.trades||0,boosters:st.boosters||0,chDays:st.chDays||0,chPod:st.chPod||0,tWins:st.tWins||0,quests:st.quests||0}};}
+function favHTML(fav){if(!fav)return '<div class="nofav">🏊</div>';if(memObj(fav))return `<div class="fav">${mini(fav)}</div>`;if(MG_CARDS[fav])return `<div class="fav">${cardHTML(fav,false)}</div>`;return '<div class="nofav">🏊</div>';}
+async function openProfile(pid){const me=isMe(pid)||pid===myId;let name,pf,cards;
+  if(me){pf=pfPublic();cards=cardCount();name=(window.GG&&GG.name)||'Toi';}
+  else{const b=(BOARD||{})[pid]||{};pf=b.pf||{st:{},b:[]};cards=b.cards||0;name=b.name||((await nameOf([pid]))[pid])||'Joueur';}
+  const st=pf.st||{},has=new Set(pf.b||[]);
+  const sh=document.createElement('div');sh.className='trsheet';$('#app').appendChild(sh);
+  const tiles=[[cards,'cartes'],[pf.mg||0,'mini-jeux réussis'],[pf.ser||0,'séries complètes'],[st.played||0,'parties jouées'],[st.won||0,'victoires'],[st.lost||0,'défaites'],
+    [st.duelW||0,'duels gagnés'],[st.duelL||0,'duels perdus'],[st.trades||0,'échanges'],[st.boosters||0,'boosters ouverts'],[st.chDays||0,'jours de défi'],[st.chPod||0,'podiums du défi'],[st.tWins||0,'tournois gagnés'],[st.quests||0,'fois 3 quêtes']];
+  const list=me?BADGES.filter(b=>has.has(b.id)).concat(BADGES.filter(b=>!has.has(b.id))):BADGES.filter(b=>has.has(b.id));
+  function render(){sh.innerHTML=`<div class="in"><div class="pfhead">${favHTML(me?COL.fav:pf.fav)}<div><h3>${esc(me?name+' (toi)':name)}</h3><small>🃏 ${cards} / ${totalCards()} cartes<br>🏅 ${has.size} badge${has.size>1?'s':''} sur ${BADGES.length}</small>
+      ${me?'<button class="gglink" id="pfFav" style="margin:6px 0 0;padding:0;font-size:13px">⭐ Choisir ma carte préférée</button>':''}</div></div>
+    <div class="sec">📊 Statistiques</div><div class="pfstats">${tiles.map(([v,l])=>`<div><b>${v}</b><span>${l}</span></div>`).join('')}</div>
+    <div class="sec">🏅 Badges${me?'':' ('+has.size+')'}</div>${list.length?`<div class="bdg">${list.map(b=>`<div class="${has.has(b.id)?(b.f?'fail':''):'off'}"><i>${b.e}</i><b>${b.n}</b><small>${b.d}</small></div>`).join('')}</div>`:'<div class="trempty">Pas encore de badge.</div>'}
+    <div class="trbtns"><button class="btn alt" id="pfX">Fermer</button></div></div>`;
+    sh.querySelector('#pfX').onclick=()=>sh.remove();sh.onclick=e=>{if(e.target===sh)sh.remove();};
+    const fb=sh.querySelector('#pfFav');if(fb)fb.onclick=pickFav;}
+  function pickFav(){const own=SPECIALS.concat(MEMBERS).filter(m=>COL.members[m.id]).map(m=>m.id),mg=MG_ORDER.filter(k=>COL.cards[k]);
+    sh.innerHTML=`<div class="in"><h3>⭐ Ma carte préférée</h3><div class="sec">Elle s'affichera en grand sur ton profil.</div>
+      ${own.length+mg.length?`<div class="pick">${own.map(id=>`<div data-f="${id}" class="${COL.fav===id?'sel':''}">${mini(id)}</div>`).join('')}${mg.map(k=>`<div data-f="${k}" class="${COL.fav===k?'sel':''}">${cardHTML(k,false)}</div>`).join('')}</div>`:'<div class="trempty">Tu n\'as pas encore de carte.</div>'}
+      <div class="trbtns"><button class="btn alt" id="pfBack">Retour</button></div></div>`;
+    sh.querySelectorAll('[data-f]').forEach(x=>x.onclick=()=>{COL.fav=x.dataset.f;saveCol();pushBoard();render();});sh.querySelector('#pfBack').onclick=render;}
+  render();}
+document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('[data-pid]');if(!t||t.closest('.trsheet'))return;e.stopPropagation();openProfile(t.dataset.pid);},true);
+$('#openProf').onclick=()=>openProfile(myId||'local');
+
+/* ================= TOURNOIS ================= */
+let TOURNS=[],TDUELS={};const TOK=()=>!!(window.GG&&GG.tourn&&GG.pid);
+(async function tInit(){try{if(!window.claude||!window.claude.use)return;await window.claude.use('db');if(!TOK())return;
+  GG.tourn.listen(list=>{TOURNS=list.sort((a,b)=>(b.at||0)-(a.at||0));tSeen();if($('#defi').classList.contains('active'))buildDefi();if($('#admin').classList.contains('active')&&ADM.tab==='tourn')buildAdmin();try{dfBadge();}catch(_){}});}catch(_){}})();
+const tCur=()=>TOURNS.find(t=>t.st!=='done'&&t.st!=='cancel')||TOURNS.find(t=>t.st==='done'&&Date.now()-(t.endAt||0)<3*86400e3);
+const tName=(t,id)=>id?((t.players||{})[id]||'Joueur'):'—';
+function tSeen(){COL.tSeen=COL.tSeen||{};let ch=false;TOURNS.forEach(t=>{const inT=t.players&&myId&&t.players[myId];if(!inT||t.st==='reg'||t.st==='cancel')return;const S=COL.tSeen[t.id]||{};
+    if(!S.p){S.p=1;stat('tPlayed');ch=true;}
+    const r1=(t.rounds||{})['1']||[];const m1=r1.find(m=>m.a===myId||m.b===myId);if(!S.o1&&m1&&m1.w&&m1.w!==myId){S.o1=1;stat('tOut1');ch=true;}
+    if(t.st==='done'&&!S.d){S.d=1;ch=true;if(t.winner===myId){stat('tWins');setTimeout(()=>toast('🏆','Tu as gagné le tournoi « '+t.name+' » !','Ton lot arrive dans tes cadeaux'),500);}}
+    COL.tSeen[t.id]=S;});if(ch)saveCol();}
+function tBracket(t){const R=t.rounds||{},ks=Object.keys(R).map(Number).sort((a,b)=>a-b);if(!ks.length)return '';
+  const rn=(r,n)=>n===1?'Finale':n===2?'Demi-finales':n===4?'Quarts de finale':'Manche '+r;
+  return `<div class="tbr">${ks.map(r=>`<div class="rd">${rn(r,R[r].length)}</div>`+R[r].map(m=>{const cl=id=>(m.w?(m.w===id?'w':'l'):'')+(id&&id===myId?' me':'');
+    return m.b?`<div class="m"><span class="${cl(m.a)}">${esc(m.an||'—')}</span><em>${m.coin?'🎲':'vs'}</em><span class="${cl(m.b)}">${esc(m.bn)}</span></div>`:`<div class="m bye"><span class="${(m.a===myId?'me':'')}">${esc(m.an||'—')} · qualifié d'office</span></div>`;}).join('')).join('')}</div>`;}
+function tPrize(t){return `🥇 ${t.pw} booster${t.pw>1?'s':''} de 5${t.pf?` · 🥈 ${t.pf} booster${t.pf>1?'s':''} de 5`:''}`;}
+function tournHTML(){const t=tCur();if(!t)return '';const n=Object.keys(t.players||{}).length,inT=myId&&t.players&&t.players[myId];
+  let h=`<div class="dsec">🏆 Tournoi</div><div class="trow"><div class="dgame">${avSmall(t.k)}<div><b>${esc(t.name)}</b><small>${CHARS[t.k].game} · manches de ${fmtDur(t.dur)}</small></div></div><div class="drew">${tPrize(t)}</div>`;
+  if(t.st==='reg')h+=`<div class="dres">👥 ${n} inscrit${n>1?'s':''}${n?' : '+Object.values(t.players).map(esc).join(', '):''}</div><div class="trbtns"><button class="btn${inT?' alt':''}" id="tJoin">${inT?'Se désinscrire':'✋ Je m\'inscris'}</button></div>`;
+  else if(t.st==='run')h+=`<div class="dres">⏳ Manche ${t.round} · ${t.rEnd>Date.now()?'fin dans '+fmtDur(Math.ceil((t.rEnd-Date.now())/60000)):'terminée, en attente de Mathéo'}</div>${tBracket(t)}${inT?'<div class="dres"><small>Ton match est dans tes duels, juste en dessous ⬇️</small></div>':''}`;
+  else h+=`<div class="dres">🏆 Vainqueur : <b>${esc(tName(t,t.winner))}</b></div>${tBracket(t)}`;
+  return h+'</div>';}
+function tournBind(b){const j=b.querySelector('#tJoin');if(!j)return;j.onclick=()=>{const t=tCur();if(!t||!TOK())return;j.disabled=true;GG.tourn.join(t.id,!(t.players&&t.players[myId])).catch(()=>{j.disabled=false;});};}
+function fmtDur(m){m=Math.max(1,Math.round(m));return m>=1440&&m%1440===0?(m/1440)+' j':m>=60?Math.floor(m/60)+' h'+(m%60?' '+String(m%60).padStart(2,'0'):''):m+' min';}
+/* --- côté admin --- */
+const AT={name:'',k:null,dur:30,pw:2,pf:1};let ATD={tid:null,list:[]};
+function adminTourn(b){if(!TOK()){b.innerHTML='<div class="rkempty">🏆 Les tournois se gèrent sur le site du jeu, connecté avec ton compte admin.</div>';return;}
+  const t=TOURNS.find(x=>x.st==='reg'||x.st==='run');
+  if(!t){const durs=[5,10,15,20,30,45,60,120,1440];
+    b.innerHTML=`<div class="abox atour"><h4>1. Nom du tournoi</h4><input class="ainput" id="atN" maxlength="40" placeholder="Ex. : Tournoi de la soirée d'Halloween" value="${esc(AT.name)}"></div>
+      <div class="abox"><h4>2. Mini-jeu</h4><div class="ggrid">${CH_GAMES().map(k=>`<button data-g="${k}" class="${AT.k===k?'sel':''}">${avSmall(k)}<span>${CHARS[k].game}</span></button>`).join('')}</div></div>
+      <div class="abox atour"><h4>3. Durée de chaque manche</h4><div class="arow">${durs.map(d=>`<button class="apill${AT.dur===d?' on':''}" data-d="${d}">${fmtDur(d)}</button>`).join('')}</div><p class="asum" style="margin-top:6px">Tu pourras aussi arrêter une manche quand tu veux.</p></div>
+      <div class="abox"><h4>4. Lots (boosters de 5)</h4><div class="astep"><span>🥇 Vainqueur</span><button data-s="pw-">−</button><b>${AT.pw}</b><button data-s="pw+">+</button></div><div class="astep"><span>🥈 Finaliste</span><button data-s="pf-">−</button><b>${AT.pf}</b><button data-s="pf+">+</button></div></div>
+      <button class="asend" id="atGo"${AT.k&&AT.name.trim()?'':' disabled'}>📣 Ouvrir les inscriptions</button>`;
+    b.querySelector('#atN').oninput=e=>{AT.name=e.target.value;b.querySelector('#atGo').disabled=!(AT.k&&AT.name.trim());};
+    b.querySelectorAll('[data-g]').forEach(x=>x.onclick=()=>{AT.k=x.dataset.g;buildAdmin();});
+    b.querySelectorAll('[data-d]').forEach(x=>x.onclick=()=>{AT.dur=+x.dataset.d;buildAdmin();});
+    b.querySelectorAll('[data-s]').forEach(x=>x.onclick=()=>{const f=x.dataset.s.slice(0,2),d=x.dataset.s.endsWith('+')?1:-1;AT[f]=Math.max(f==='pw'?1:0,Math.min(10,AT[f]+d));buildAdmin();});
+    b.querySelector('#atGo').onclick=async e=>{e.target.disabled=true;e.target.textContent='…';try{await GG.tourn.create({name:AT.name.trim(),k:AT.k,dur:AT.dur,pw:AT.pw,pf:AT.pf,st:'reg',players:{},round:0,rounds:{}});AT.name='';}catch(_){e.target.textContent='Échec, réessaie';e.target.disabled=false;}};
+    return;}
+  const P=t.players||{},n=Object.keys(P).length;
+  if(t.st==='reg'){b.innerHTML=`<div class="abox"><h4>🏆 ${esc(t.name)}</h4><p class="asum">${CHARS[t.k].game} · manches de ${fmtDur(t.dur)} · ${tPrize(t)}</p></div>
+      <div class="abox"><h4>👥 ${n} inscrit${n>1?'s':''}</h4>${n?Object.values(P).map(x=>`<div class="prow"><span class="who">${esc(x)}</span></div>`).join(''):'<p class="asum">Les joueurs s\'inscrivent depuis l\'onglet ⚔️ Défis.</p>'}</div>
+      <button class="asend" id="atStart"${n>=2?'':' disabled'}>▶ Lancer le tournoi${n>=2?' ('+n+' joueurs)':''}</button>
+      <button class="gglink" id="atCancel" style="display:block;margin:14px auto;color:var(--red)">Annuler ce tournoi</button>`;
+    b.querySelector('#atStart').onclick=async e=>{e.target.disabled=true;e.target.textContent='Tirage au sort…';try{await tStart(t);}catch(err){console.warn(err);e.target.textContent='Échec, réessaie';e.target.disabled=false;}};
+    b.querySelector('#atCancel').onclick=()=>{if(confirm('Annuler le tournoi « '+t.name+' » ?'))GG.tourn.set(t.id,{st:'cancel'});};return;}
+  // tournoi en cours
+  if(ATD.tid!==t.id){ATD={tid:t.id,list:[]};GG.tourn.duels(t.id,L=>{ATD.list=L;if($('#admin').classList.contains('active')&&ADM.tab==='tourn')buildAdmin();});}
+  const R=(t.rounds||{})[t.round]||[],DL=ATD.list.filter(d=>d.r===t.round);
+  const mInfo=m=>{if(!m.b)return 'qualifié d\'office';const d=DL.find(x=>x.id===m.d);if(!d)return '…';const a=d.a||{},bb=d.b||{},st=duState(d);
+    const sc=(x,nm)=>`${esc(nm)} : ${x.v==null?'–':fmtVal(t.k,x.v)} (${x.f&&(x.n||0)<DU_TRIES?'fini':(x.n||0)+'/'+DU_TRIES})`;return (st==='end'?'✅ ':'⏳ ')+sc(a,m.an)+' · '+sc(bb,m.bn);};
+  const allEnd=R.every(m=>!m.b||(DL.find(x=>x.id===m.d)&&duState(DL.find(x=>x.id===m.d))==='end'));const last=R.length===1;
+  b.innerHTML=`<div class="abox"><h4>🏆 ${esc(t.name)} · manche ${t.round}</h4><p class="asum">${t.rEnd>Date.now()?'⏳ Fin automatique dans '+fmtDur(Math.ceil((t.rEnd-Date.now())/60000)):'⏹ Manche terminée'}</p>
+      ${R.map(m=>`<div class="prow"><span class="who">${esc(m.an)}${m.b?' vs '+esc(m.bn):''}<small>${mInfo(m)}</small></span></div>`).join('')}</div>
+    ${allEnd?'':`<button class="asend" id="atStop" style="background:var(--coral)">⏹ Arrêter la manche maintenant</button>`}
+    <button class="asend" id="atNext"${allEnd?'':' disabled'} style="margin-top:10px">${last?'🏆 Terminer et donner les lots':'▶ Manche suivante'}</button>
+    ${allEnd?'':'<p class="asum">« Manche suivante » s\'active quand tous les matchs sont finis (ou quand tu arrêtes la manche).</p>'}
+    ${tBracket(t)}`;
+  const sb=b.querySelector('#atStop');if(sb)sb.onclick=async()=>{sb.disabled=true;const now=Date.now();await Promise.all(DL.map(d=>GG.tourn.setDuel(d.id,{exp:now}).catch(()=>{})));await GG.tourn.set(t.id,{rEnd:now});};
+  b.querySelector('#atNext').onclick=async e=>{e.target.disabled=true;e.target.textContent='…';try{await tNext(t,DL);}catch(err){console.warn(err);e.target.textContent='Échec, réessaie';e.target.disabled=false;}};}
+function tShuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+async function tMakeRound(t,ids,r){const P=t.players||{},rEnd=Date.now()+t.dur*60000,ms=[];
+  for(let i=0;i<ids.length;i+=2){const a=ids[i],b=ids[i+1]||null,m={a,an:P[a]||'Joueur',b,bn:b?(P[b]||'Joueur'):null,w:b?null:a,d:null,coin:false};
+    if(b){const ref=await GG.tourn.addDuel({from:a,fromName:m.an,to:b,toName:m.bn,k:t.k,st:'on',a:{n:0,v:null},b:{n:0,v:null},at:Date.now(),acc:Date.now(),exp:rEnd,t:t.id,r});m.d=ref.id;}
+    ms.push(m);}
+  return{ms,rEnd};}
+async function tStart(t){let ids=tShuffle(Object.keys(t.players||{}));let size=1;while(size<ids.length)size*=2;
+  const byes=size-ids.length,first=[];// les qualifiés d'office jouent contre « personne »
+  const withBye=ids.slice(0,byes),rest=ids.slice(byes);withBye.forEach(id=>first.push(id,null));rest.forEach(id=>first.push(id));
+  const P=t.players,rEnd=Date.now()+t.dur*60000,ms=[];
+  for(let i=0;i<first.length;i+=2){const a=first[i],b=first[i+1];const m={a,an:P[a],b:b||null,bn:b?P[b]:null,w:b?null:a,d:null,coin:false};
+    if(b){const ref=await GG.tourn.addDuel({from:a,fromName:P[a],to:b,toName:P[b],k:t.k,st:'on',a:{n:0,v:null},b:{n:0,v:null},at:Date.now(),acc:Date.now(),exp:rEnd,t:t.id,r:1});m.d=ref.id;}
+    ms.push(m);}
+  await GG.tourn.set(t.id,{st:'run',round:1,rEnd,rounds:{'1':ms}});}
+async function tNext(t,DL){const r=t.round,R=((t.rounds||{})[r]||[]).map(m=>Object.assign({},m));
+  R.forEach(m=>{if(!m.b){m.w=m.a;return;}const d=DL.find(x=>x.id===m.d),w=d?duWinner(d):null;if(w==='a')m.w=m.a;else if(w==='b')m.w=m.b;else{m.w=Math.random()<.5?m.a:m.b;m.coin=true;}});
+  const rounds=Object.assign({},t.rounds,{[r]:R}),win=R.map(m=>m.w);
+  if(win.length===1){const fin=R[0],second=fin.b?(fin.w===fin.a?fin.b:fin.a):null;
+    await GG.tourn.set(t.id,{rounds,st:'done',winner:fin.w,endAt:Date.now()});
+    await tGift(fin.w,t.pw,'🏆 Bravo, tu as gagné le tournoi « '+t.name+' » !',t.players[fin.w]);if(second&&t.pf)await tGift(second,t.pf,'🥈 Bravo pour ta 2e place au tournoi « '+t.name+' » !',t.players[second]);return;}
+  const {ms,rEnd}=await tMakeRound(t,win,r+1);rounds[r+1]=ms;await GG.tourn.set(t.id,{rounds,round:r+1,rEnd});}
+async function tGift(pid,n,msg,name){if(!n||!DB)return;const ref=DB.doc('gifts/'+pid),cur=(await ref.get()).data()||{};
+  await ref.set(Object.assign({},cur,{boosters:(cur.boosters||0)+n,msg}));
+  const lg=DB.doc('gifts/log'),lc=(await lg.get()).data()||{};await lg.set({items:(lc.items||[]).concat([{what:`🏆 ${n} booster${n>1?'s':''} → ${esc(name||'Joueur')}`,msg,at:Date.now()}]).slice(-100)});}
+
+/* ================= ÉVÉNEMENTS SPÉCIAUX (cartes piégées) ================= */
+/* L'admin crée un événement sur un mini-jeu avec une heure de fin. Les joueurs s'inscrivent et jouent au moins une partie.
+   À l'heure de fin, tous les participants reçoivent en même temps la même carte spéciale (introuvable ailleurs). */
+let EVENTS=[];const EVOK=()=>!!(window.GG&&GG.events&&GG.pid);
+(async function evInit(){try{if(!window.claude||!window.claude.use)return;await window.claude.use('db');if(!EVOK())return;
+  GG.events.listen(list=>{EVENTS=list.sort((a,b)=>(b.at||0)-(a.at||0));evCheck();evRefresh();});
+  setInterval(()=>{evCheck();if($('#defi').classList.contains('active'))buildDefi();},10000);}catch(_){}})();
+const evOver=e=>e.st==='done'||Date.now()>=(e.endAt||0);
+const evCur=()=>EVENTS.find(e=>e.st==='open'&&!evOver(e))||EVENTS.find(e=>e.st!=='cancel'&&evOver(e)&&Date.now()-(e.endAt||0)<86400e3);
+const hhmm=t=>new Date(t).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+function evRefresh(){try{if($('#defi').classList.contains('active'))buildDefi();if($('#admin').classList.contains('active')&&ADM.tab==='event')buildAdmin();if($('#select').classList.contains('active'))evChip();dfBadge();}catch(_){}}
+function evChip(){const e=EVENTS.find(x=>x.st==='open'&&!evOver(x));const c=$('#dChip');if(!c)return;
+  if(e)c.innerHTML=`🎉 Événement : <b>${esc(e.name)}</b> · fin à ${hhmm(e.endAt)} ›`;}
+function evPlayed(k){const e=EVENTS.find(x=>x.st==='open'&&!evOver(x));if(!e||e.k!==k||!myId)return;
+  if(!(e.players&&e.players[myId])||(e.played&&e.played[myId]))return;e.played=Object.assign({},e.played,{[myId]:true});GG.events.mark(e.id,'played',true).catch(()=>{});}
+function evCheck(){if(!myId)return;COL.evGot=COL.evGot||{};
+  EVENTS.forEach(e=>{if(e.st==='cancel'||!evOver(e)||COL.evGot[e.id])return;if(!(e.players&&e.players[myId]&&e.played&&e.played[myId]))return;
+    const sp=SPECIALS.find(x=>x.id===e.card);if(!sp)return;COL.evGot[e.id]=1;COL.members[sp.id]=(COL.members[sp.id]||0)+1;saveCol();
+    const n=Object.keys(e.played||{}).length;const pop=document.createElement('div');pop.className='giftpop';
+    pop.innerHTML=`<div class="gcard gc-card"><h3>🎉 Fin de l'événement !</h3><p style="margin:0 0 10px">« ${esc(e.name)} » est terminé.<br>Les ${n} participant${n>1?'s':''} reçoivent tous la même carte…</p>
+      ${memberHTML(sp.id,true)}<div class="gfrom">Carte spéciale · introuvable ailleurs</div><div class="endbtns"><button class="btn">😂 Super…</button></div></div>`;
+    $('#app').appendChild(pop);try{tilt(pop.querySelector('.tcard.big'));}catch(_){}pop.querySelector('.btn').onclick=()=>pop.remove();});}
+function evHTML(){const e=evCur();if(!e)return '';const reg=!!(myId&&e.players&&e.players[myId]),pl=!!(myId&&e.played&&e.played[myId]),over=evOver(e),n=Object.keys(e.players||{}).length;
+  const left=Math.max(1,Math.ceil(((e.endAt||0)-Date.now())/60000));
+  let h=`<div class="dsec">🎉 Événement spécial</div><div class="trow evrow"><div class="dgame">${avSmall(e.k)}<div><b>${esc(e.name)}</b><small>${CHARS[e.k].game} · ${over?'terminé':'fin à '+hhmm(e.endAt)+' (dans '+fmtDur(left)+')'}</small></div></div>`;
+  if(over)h+=`<div class="dres">${reg&&pl?'🎉 Tu as reçu la carte surprise ! Va voir ta collection.':'⌛ L\'événement est terminé.'}</div>`;
+  else{h+=`<div class="drew">🎁 Une surprise pour tous les participants à ${hhmm(e.endAt)} !<br><small>Inscris-toi et joue au moins une partie de « ${CHARS[e.k].game} ».</small></div><div class="dres">👥 ${n} participant${n>1?'s':''}</div>`;
+    h+=!reg?`<div class="trbtns"><button class="btn" id="evJoin">✋ Je participe</button></div>`
+      :pl?`<div class="dres">✅ Tu as joué ! Rendez-vous à ${hhmm(e.endAt)} pour la surprise.</div><div class="trbtns"><button class="btn alt" id="evPlay">Rejouer ▶</button></div>`
+      :`<div class="dres">✋ Inscrit ! Il te reste à jouer une partie.</div><div class="trbtns"><button class="btn" id="evPlay">Jouer ▶</button></div>`;}
+  return h+'</div>';}
+function evBind(b){const e=evCur();if(!e)return;const j=b.querySelector('#evJoin');if(j)j.onclick=()=>{j.disabled=true;e.players=Object.assign({},e.players,{[myId]:GG.name||'Joueur'});GG.events.mark(e.id,'players',GG.name||'Joueur').then(()=>buildDefi()).catch(()=>{j.disabled=false;});};
+  const p=b.querySelector('#evPlay');if(p)p.onclick=()=>{PLAYCTX={t:'ch'};openIntro(e.k);};}
+/* --- côté admin --- */
+const AE={name:'',k:null,card:null,end:''};
+function adminEvent(b){if(!EVOK()){b.innerHTML='<div class="rkempty">🎉 Les événements se gèrent sur le site du jeu, connecté avec ton compte admin.</div>';return;}
+  const e=EVENTS.find(x=>x.st==='open'&&!evOver(x));
+  if(!e){if(!AE.card&&SPECIALS.length)AE.card=SPECIALS[0].id;
+    if(!AE.end){const d=new Date(Date.now()+3600e3);d.setSeconds(0,0);AE.end=new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,16);}
+    const past=EVENTS.filter(x=>x.st!=='cancel'&&evOver(x)).slice(0,5);
+    b.innerHTML=`<div class="abox"><h4>1. Nom de l'événement</h4><input class="ainput" id="aeN" maxlength="40" placeholder="Ex. : Soirée spéciale du club" value="${esc(AE.name)}"></div>
+      <div class="abox"><h4>2. Mini-jeu</h4><div class="ggrid">${CH_GAMES().map(k=>`<button data-g="${k}" class="${AE.k===k?'sel':''}">${avSmall(k)}<span>${CHARS[k].game}</span></button>`).join('')}</div></div>
+      <div class="abox"><h4>3. Carte donnée à tous les participants</h4><div class="acards">${SPECIALS.map(s=>`<div class="${AE.card===s.id?'sel':''}" data-c="${s.id}">${mini(s.id)}</div>`).join('')}</div></div>
+      <div class="abox"><h4>4. Fin de l'événement</h4><input class="ainput" type="datetime-local" id="aeE" value="${AE.end}"><p class="asum">À cette heure-là, tous ceux qui se sont inscrits et ont joué reçoivent la carte en même temps. Tu pourras aussi terminer plus tôt.</p></div>
+      <button class="asend" id="aeGo">🎉 Lancer l'événement</button>
+      ${past.length?`<div class="rkhead" style="margin-top:16px">Derniers événements</div>`+past.map(x=>`<div class="prow"><span class="who">${esc(x.name)}<small>${CHARS[x.k].game} · ${Object.keys(x.played||{}).length} carte${Object.keys(x.played||{}).length>1?'s':''} données · ${new Date(x.endAt).toLocaleString('fr-FR',{dateStyle:'short',timeStyle:'short'})}</small></span></div>`).join(''):''}`;
+    const upd=()=>{b.querySelector('#aeGo').disabled=!(AE.name.trim()&&AE.k&&AE.card&&AE.end&&new Date(AE.end).getTime()>Date.now());};upd();
+    b.querySelector('#aeN').oninput=x=>{AE.name=x.target.value;upd();};b.querySelector('#aeE').oninput=x=>{AE.end=x.target.value;upd();};
+    b.querySelectorAll('[data-g]').forEach(x=>x.onclick=()=>{AE.k=x.dataset.g;buildAdmin();});
+    b.querySelectorAll('[data-c]').forEach(x=>x.onclick=()=>{AE.card=x.dataset.c;buildAdmin();});
+    b.querySelector('#aeGo').onclick=async x=>{x.target.disabled=true;x.target.textContent='…';
+      try{await GG.events.create({name:AE.name.trim(),k:AE.k,card:AE.card,endAt:new Date(AE.end).getTime(),st:'open',players:{},played:{}});AE.name='';AE.end='';}catch(_){x.target.textContent='Échec, réessaie';x.target.disabled=false;}};
+    return;}
+  const P=e.players||{},ids=Object.keys(P),np=Object.keys(e.played||{}).length;
+  b.innerHTML=`<div class="abox"><h4>🎉 ${esc(e.name)}</h4><p class="asum">${CHARS[e.k].game} · fin à <b>${hhmm(e.endAt)}</b> (dans ${fmtDur(Math.ceil((e.endAt-Date.now())/60000))})</p>
+      <div style="width:120px;margin:6px auto 0">${mini(e.card)}</div></div>
+    <div class="abox"><h4>👥 ${ids.length} inscrit${ids.length>1?'s':''} · ${np} ont joué</h4>${ids.length?ids.map(id=>`<div class="prow"><span class="who">${esc(P[id])}</span><span class="mini">${e.played&&e.played[id]?'✅ a joué':'⏳ pas encore'}</span></div>`).join(''):'<p class="asum">Les joueurs s\'inscrivent depuis l\'onglet ⚔️ Défis.</p>'}</div>
+    <button class="asend" id="aeStop" style="background:var(--coral)">⏹ Terminer maintenant et donner les cartes</button>
+    <button class="gglink" id="aeCancel" style="display:block;margin:14px auto;color:var(--red)">Annuler l'événement (personne ne reçoit la carte)</button>`;
+  b.querySelector('#aeStop').onclick=x=>{if(!confirm('Terminer « '+e.name+' » maintenant ? Les '+np+' joueurs qui ont joué recevront la carte.'))return;x.target.disabled=true;GG.events.set(e.id,{st:'done',endAt:Date.now()}).catch(()=>{x.target.disabled=false;});};
+  b.querySelector('#aeCancel').onclick=()=>{if(confirm('Annuler « '+e.name+' » ? Personne ne recevra la carte.'))GG.events.set(e.id,{st:'cancel'});};}
+
+/* ================= CARTES BONUS ================= */
+/* 1 carte bonus garantie dans le booster du jour + 5 % de chance pour toute autre carte tirée.
+   Une carte bonus sert une fois (le bouton Utiliser), puis reste dans l'album marquée « utilisée ».
+   Elles comptent dans la collection, s'échangent et se recyclent (3 doubles → 1 autre carte bonus). */
+const BONUS_P=0.05;
+function bonusRoll(excl){const L=BONUS.filter(b=>!(excl||[]).includes(b.id));let x=Math.random()*L.reduce((s,b)=>s+b.w,0);for(const b of L){x-=b.w;if(x<=0)return b.id;}return L[L.length-1].id;}
+const isBonus=id=>!!BONUS.find(b=>b.id===id);
+const bOwned=id=>(COL.members[id]||0)>0||((COL.bUsed||{})[id]||0)>0;
+function bConsume(id){COL.members[id]=(COL.members[id]||0)-1;if(COL.members[id]<=0)delete COL.members[id];COL.bUsed=COL.bUsed||{};COL.bUsed[id]=(COL.bUsed[id]||0)+1;stat('bonusUsed');saveCol();}
+const NEED_ONLINE=['b_cadeau','b_voleur','b_suppr','b_efface','b_photo','b_mjeu','b_prime'];
+const ACTOK=()=>!!(window.GG&&GG.actions&&GG.pid);
+
+/* --- onglet ⚡ Bonus de la collection --- */
+function bRecyStock(){let n=0;BONUS.forEach(b=>{n+=Math.max(0,(COL.members[b.id]||0)-1-((typeof TR!=='undefined'&&TR.outgoing)?TR.outgoing.filter(t=>t.st==='wait'&&t.give===b.id).length:0));});return n;}
+function bRecyPick(){const left={};BONUS.forEach(b=>{left[b.id]=Math.max(0,(COL.members[b.id]||0)-1);});const use=[];
+  for(let k=0;k<3;k++){let best=null;BONUS.forEach(b=>{if(left[b.id]>0&&(!best||left[b.id]>left[best]))best=b.id;});if(!best)return null;left[best]--;use.push(best);}return use;}
+function bonusTabHTML(){const n=bRecyStock();
+  return `<div class="cmsg" style="border-style:solid">⚡ ${BONUS.filter(b=>bOwned(b.id)).length} / ${BONUS.length} cartes bonus — Touche une carte pour l'utiliser. Elles sortent dans les boosters (une garantie dans ton booster du jour).</div>
+    <div class="recy"><div class="rhead"><span class="ri">♻️</span><div><b>Recyclage bonus</b> · ${n} double${n>1?'s':''}<small>3 cartes bonus en double = 1 autre carte bonus au hasard</small></div></div>
+      <div class="rbtns" style="grid-template-columns:1fr"><button class="rb" id="bRecy" style="background:#16b8b0"${n>=3?'':' disabled'}><b>Recycler 3 doubles</b><span>${n>=3?'→ 1 carte bonus surprise':'encore '+(3-n)+' double'+(3-n>1?'s':'')}</span></button></div></div>`+
+    BONUS.map(b=>{const c=COL.members[b.id]||0,u=(COL.bUsed||{})[b.id]||0;
+      if(!c&&!u)return `<div class="tcard locked bonl"><div class="lq">${b.e}</div><div class="lh">${b.n}<br>⚡ bonus</div></div>`;
+      const card=memberHTML(b.id,false);
+      if(!c)return `<div class="xwrap used">${card}<span class="usedtag">utilisée</span></div>`;
+      return c>1?`<div class="xwrap">${card}<span class="xcnt">×${c}</span></div>`:card;}).join('');}
+function bRecycle(){const use=bRecyPick();if(!use)return;const m=$('#cmodal');
+  m.innerHTML=`<div class="rconf"><h3>♻️ Une carte bonus surprise</h3><p>Ces 3 cartes bonus en double vont être recyclées :</p><div class="ruse">${use.map(x=>mini(x)).join('')}</div>
+    <p><small>Tu recevras une autre carte bonus au hasard, jamais une de celles-ci.</small></p><div class="endbtns"><button class="btn" id="rcOk">♻️ Recycler</button><button class="btn alt" id="rcNo">Annuler</button></div></div>`;
+  m.classList.add('show');m.onclick=e=>{if(e.target===m)closeCard();};m.querySelector('#rcNo').onclick=closeCard;
+  m.querySelector('#rcOk').onclick=()=>{const u2=bRecyPick();if(!u2)return closeCard();u2.forEach(x=>{COL.members[x]--;});const id=bonusRoll([...new Set(u2)]);COL.members[id]=(COL.members[id]||0)+1;stat('recy');try{qHit('recy');}catch(_){}saveCol();
+    m.classList.remove('show');buildCol();bReveal(id,'♻️ Nouvelle carte bonus !','Obtenue grâce au recyclage');};}
+function bReveal(id,title,sub,btn){const pop=document.createElement('div');pop.className='giftpop';
+  pop.innerHTML=`<div class="gcard gc-card"><h3>${title}</h3>${memberHTML(id,true)}<div class="gfrom">${sub||''}</div><div class="endbtns"><button class="btn">${btn||'Super !'}</button></div></div>`;
+  $('#app').appendChild(pop);try{tilt(pop.querySelector('.tcard.big'));}catch(_){}pop.querySelector('.btn').onclick=()=>{pop.remove();if($('#collection').classList.contains('active'))buildCol();};}
+
+/* --- utiliser une carte --- */
+function bonusOpen(id){const b=BONUS.find(x=>x.id===id),m=$('#cmodal'),c=COL.members[id]||0;
+  m.innerHTML=memberHTML(id,true)+`<div class="endbtns">${c>0?`<button class="btn" id="bUse">⚡ Utiliser</button>`:''}<button class="btn alt" id="cmClose">Fermer</button></div>${c>0?'':'<div class="hint" style="margin-top:-4px">Carte déjà utilisée</div>'}`;
+  m.classList.add('show');m.onclick=e=>{if(e.target===m)closeCard();};m.querySelector('#cmClose').onclick=closeCard;try{tilt(m.querySelector('.tcard.big'));}catch(_){}
+  const u=m.querySelector('#bUse');if(u)u.onclick=()=>{closeCard();bonusUse(id);};}
+function sheet(html){const sh=document.createElement('div');sh.className='trsheet';sh.innerHTML=`<div class="in">${html}</div>`;$('#app').appendChild(sh);sh.onclick=e=>{if(e.target===sh)sh.remove();};return sh;}
+function bonusUse(id){const b=BONUS.find(x=>x.id===id);if(!(COL.members[id]>0))return;
+  if(NEED_ONLINE.includes(id)&&!ACTOK()){const sh=sheet(`<h3>${b.e} ${b.n}</h3><div class="trempty">Cette carte marche sur le site du jeu, avec ta sauvegarde en ligne.</div><div class="trbtns"><button class="btn alt" id="x">Fermer</button></div>`);sh.querySelector('#x').onclick=()=>sh.remove();return;}
+  ({b_cadeau:useCadeau,b_voleur:useVoleur,b_joker:useJoker,b_nouv:useNouv,b_photo:useAsk,b_mjeu:useAsk,b_suppr:useSuppr,b_efface:useEfface,b_myst:useMyst,b_prime:usePrime})[id](b);}
+/* choisir un joueur + petit mot */
+function pickPlayer(b,intro,onPick,filter){const players=Object.entries(BOARD||{}).filter(([pid,d])=>pid!==myId&&d&&d.name&&(!filter||filter(pid,d))).map(([pid,d])=>({id:pid,name:d.name,d})).sort((x,y)=>x.name.localeCompare(y.name));
+  let q='';const norm=t=>t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  const sh=sheet(`<h3>${b.e} ${b.n}</h3><div class="sec">${intro}</div><input class="ainput" id="bq" placeholder="🔍 Rechercher un joueur…" autocomplete="off"><div id="bl" style="margin-top:10px"></div><div class="trbtns"><button class="btn alt" id="bx">Annuler</button></div>`);
+  const draw=()=>{const L=players.filter(p=>norm(p.name).includes(norm(q)));sh.querySelector('#bl').innerHTML=L.length?L.map(p=>`<button class="prow trown" data-p="${p.id}"><span class="who">${esc(p.name)}<small>${p.d.cards||0} cartes</small></span><span class="mini">Choisir ›</span></button>`).join(''):'<div class="trempty">Personne avec ce nom…</div>';
+    sh.querySelectorAll('[data-p]').forEach(x=>x.onclick=()=>{sh.remove();onPick(players.find(p=>p.id===x.dataset.p));});};
+  sh.querySelector('#bq').oninput=e=>{q=e.target.value;draw();};sh.querySelector('#bx').onclick=()=>sh.remove();draw();}
+function confirmSend(b,who,html,btn,go){const sh=sheet(`<h3>${b.e} ${b.n}</h3>${html}<div class="sec">Un petit mot pour ${esc(who.name)} ? (facultatif)</div><input class="ainput" id="bm" maxlength="80" placeholder="Ex. : Hé hé 😈">
+    <div class="ggerr" id="be" style="color:var(--coral);font-weight:700;text-align:center"></div><div class="trbtns"><button class="btn alt" id="bx">Annuler</button><button class="btn" id="bgo">${btn}</button></div>`);
+  sh.querySelector('#bx').onclick=()=>sh.remove();
+  sh.querySelector('#bgo').onclick=async e=>{e.target.disabled=true;e.target.textContent='…';try{await go(sh.querySelector('#bm').value.trim().slice(0,80));sh.remove();}catch(err){console.warn(err);e.target.disabled=false;e.target.textContent=btn;sh.querySelector('#be').textContent='Pas de connexion… réessaie.';}};}
+const act=(o)=>GG.actions.create(Object.assign({from:GG.pid,fromName:GG.name||'Joueur',st:'wait',at:Date.now()},o));
+function useCadeau(b){pickPlayer(b,'À qui veux-tu offrir un booster de 5 cartes ?',who=>confirmSend(b,who,`<div class="drew">🎁 ${esc(who.name)} va recevoir un booster de 5 cartes de ta part.</div>`,'🎁 Offrir',async msg=>{await act({type:'cadeau',to:who.id,toName:who.name,msg});bConsume(b.id);toast('🎁','Cadeau envoyé à '+who.name+' !');}));}
+function useVoleur(b){pickPlayer(b,'Qui veux-tu voler ? Tu lui prends une de ses cartes au hasard.',who=>confirmSend(b,who,`<div class="drew">🦝 Tu vas voler une carte au hasard à ${esc(who.name)}.</div>`,'🦝 Voler',async msg=>{
+    await act({type:'voleur',to:who.id,toName:who.name,msg});bConsume(b.id);
+    const sh=sheet(`<h3>🦝 Vol lancé !</h3><div class="trempty">Tu découvriras la carte volée quand ${esc(who.name)} ouvrira le jeu.</div><div class="trbtns"><button class="btn" id="bx">OK 😈</button></div>`);sh.querySelector('#bx').onclick=()=>sh.remove();}));}
+function useJoker(b){const miss=MEMBERS.filter(m=>!COL.members[m.id]);if(!miss.length){toast('🌟','Tu as déjà toutes les cartes membres !');return;}let sel=null;
+  const sh=sheet(`<h3>🌟 Joker</h3><div class="sec">Choisis la carte que tu veux (${miss.length} te manquent)</div><div class="pick">${miss.map(m=>`<div data-j="${m.id}">${mini(m.id)}</div>`).join('')}</div><div class="trbtns"><button class="btn alt" id="bx">Annuler</button><button class="btn" id="bgo" disabled>🌟 Prendre cette carte</button></div>`);
+  sh.querySelectorAll('[data-j]').forEach(x=>x.onclick=()=>{sh.querySelectorAll('[data-j]').forEach(y=>y.classList.toggle('sel',y===x));sel=x.dataset.j;sh.querySelector('#bgo').disabled=false;});
+  sh.querySelector('#bx').onclick=()=>sh.remove();sh.querySelector('#bgo').onclick=()=>{if(!sel)return;bConsume(b.id);COL.members[sel]=1;saveCol();sh.remove();bReveal(sel,'🌟 Joker utilisé !','Carte choisie avec le Joker');};}
+function useNouv(b){if(!MEMBERS.some(m=>!COL.members[m.id])){toast('🆕','Tu as déjà toutes les cartes membres !');return;}bConsume(b.id);grantPack(5,'Paquet de nouveautés',{nw:1});COL.packs.unshift(COL.packs.pop());saveCol();updBoostBtn();goAlbumMembers();openBooster();}
+const ASK_TXT={b_photo:`Envoie un message WhatsApp à Mathéo avec :
+La photo que tu veux mettre sur cette nouvelle carte (toi ou quelqu'un du club),
+le style voulu (dessin animé, BD, crayon, manga, peinture…),
+le nom à mettre sur la carte,
+la description de la carte.
+Mathéo l'adaptera, et tu recevras ta carte gratuitement dès qu'elle sera dans le jeu !`,
+b_mjeu:`Envoie un message WhatsApp à Mathéo avec un petit descriptif de ton idée :
+1. le perso du club concerné,
+2. ce qu'il faut faire dans le jeu,
+3. comment on gagne.
+Mathéo te recontactera pour les détails et te montrera la première version !`};
+function useAsk(b){const sh=sheet(`<h3>${b.e} ${b.n}</h3><div class="asktxt">${esc(ASK_TXT[b.id]).replace(/\n/g,'<br>')}</div>
+    <div class="trempty" style="font-size:13px">En utilisant la carte, Mathéo est prévenu que tu as droit à ${b.id==='b_photo'?'une nouvelle carte':'un nouveau mini-jeu'}.</div>
+    <div class="trbtns"><button class="btn alt" id="bx">Plus tard</button><button class="btn" id="bgo">⚡ Utiliser la carte</button></div>`);
+  sh.querySelector('#bx').onclick=()=>sh.remove();
+  sh.querySelector('#bgo').onclick=async e=>{e.target.disabled=true;e.target.textContent='…';try{await GG.actions.request({type:b.id==='b_photo'?'photo':'mjeu',from:GG.pid,fromName:GG.name||'Joueur',at:Date.now(),done:false});}catch(_){e.target.disabled=false;e.target.textContent='⚡ Utiliser la carte';return;}
+    bConsume(b.id);sh.querySelector('.in').innerHTML=`<h3>✅ C'est noté !</h3><div class="asktxt">${esc(ASK_TXT[b.id]).replace(/\n/g,'<br>')}</div><div class="trbtns"><button class="btn" id="bcp">📋 Copier le texte</button><button class="btn alt" id="bx2">Fermer</button></div>`;
+    sh.querySelector('#bx2').onclick=()=>sh.remove();sh.querySelector('#bcp').onclick=ev=>{try{navigator.clipboard.writeText(ASK_TXT[b.id]);ev.target.textContent='Copié ✅';}catch(_){}};};}
+function useSuppr(b){pickPlayer(b,'Choisis un joueur : tu verras ses cartes les plus rares et tu choisiras laquelle supprimer.',who=>{const own=(who.d.own||[]).filter(id=>memIdx(id)>=0);
+  if(!own.length){const sh=sheet(`<h3>💥 ${esc(who.name)}</h3><div class="trempty">${who.d.own?'Ce joueur n\'a pas encore de carte membre.':'Ce joueur doit d\'abord ouvrir la nouvelle version du jeu.'}</div><div class="trbtns"><button class="btn alt" id="bx">Retour</button></div>`);sh.querySelector('#bx').onclick=()=>sh.remove();return;}
+  const top=['L','E','R'].find(r=>own.some(id=>MEMBERS[memIdx(id)].r===r)),L=own.filter(id=>MEMBERS[memIdx(id)].r===top);let sel=L.length===1?L[0]:null;
+  const sh=sheet(`<h3>💥 Les cartes ${RAR[top].n.toLowerCase()}s de ${esc(who.name)}</h3><div class="sec">Laquelle veux-tu supprimer ? (tous ses exemplaires)</div><div class="pick">${L.map(id=>`<div data-s="${id}" class="${sel===id?'sel':''}">${mini(id)}</div>`).join('')}</div>
+    <div class="trbtns"><button class="btn alt" id="bx">Annuler</button><button class="btn" id="bgo"${sel?'':' disabled'}>Suivant ›</button></div>`);
+  sh.querySelectorAll('[data-s]').forEach(x=>x.onclick=()=>{sh.querySelectorAll('[data-s]').forEach(y=>y.classList.toggle('sel',y===x));sel=x.dataset.s;sh.querySelector('#bgo').disabled=false;});
+  sh.querySelector('#bx').onclick=()=>sh.remove();
+  sh.querySelector('#bgo').onclick=()=>{sh.remove();confirmSend(b,who,`<div style="width:120px;margin:0 auto 8px">${mini(sel)}</div><div class="drew">💥 Cette carte va disparaître de la collection de ${esc(who.name)}.</div>`,'💥 Supprimer',async msg=>{await act({type:'suppr',to:who.id,toName:who.name,msg,card:sel});bConsume(b.id);toast('💥','Carte supprimée chez '+who.name+' !');});};});}
+function useEfface(b){pickPlayer(b,'Qui va perdre toutes ses cartes mini-jeux ?',who=>confirmSend(b,who,`<div class="drew">🧹 Toutes les cartes mini-jeux de ${esc(who.name)} vont repasser « non réussies ». Ses records restent.</div>`,'🧹 Effacer',async msg=>{await act({type:'efface',to:who.id,toName:who.name,msg});bConsume(b.id);toast('🧹','Mini-jeux effacés chez '+who.name+' !');}));}
+
+/* --- 🃏 Carte mystère --- */
+function useMyst(b){const id=bonusRoll(['b_myst']);COL.members[b.id]--;if(COL.members[b.id]<=0)delete COL.members[b.id];COL.bUsed=COL.bUsed||{};COL.bUsed[b.id]=(COL.bUsed[b.id]||0)+1;
+  COL.members[id]=(COL.members[id]||0)+1;stat('bonusUsed');saveCol();
+  const pop=document.createElement('div');pop.className='giftpop';
+  pop.innerHTML=`<div class="gcard gc-card"><h3>🃏 Carte mystère…</h3><div class="mystflip"><div class="mf-in"><div class="mf-a">${memberHTML(b.id,true)}</div><div class="mf-b">${memberHTML(id,true)}</div></div></div>
+    <div class="gfrom" id="mfTxt">…</div><div class="endbtns"><button class="btn" id="mfUse" style="visibility:hidden">⚡ L'utiliser</button><button class="btn alt" id="mfOk" style="visibility:hidden">Plus tard</button></div></div>`;
+  $('#app').appendChild(pop);setTimeout(()=>pop.querySelector('.mystflip').classList.add('on'),700);
+  setTimeout(()=>{pop.querySelector('#mfTxt').textContent='Elle est devenue : '+BONUS.find(x=>x.id===id).n+' !';pop.querySelectorAll('.endbtns .btn').forEach(x=>x.style.visibility='visible');},1600);
+  pop.querySelector('#mfOk').onclick=()=>{pop.remove();if($('#collection').classList.contains('active'))buildCol();};
+  pop.querySelector('#mfUse').onclick=()=>{pop.remove();if($('#collection').classList.contains('active'))buildCol();bonusUse(id);};}
+/* --- 🎯 Prime --- */
+let BOUNTIES=[];const BOK=()=>!!(window.GG&&GG.bounty&&GG.pid);const B_H=4;
+(async function bInit(){try{if(!window.claude||!window.claude.use)return;await window.claude.use('db');if(!BOK())return;
+  GG.bounty.listen(L=>{BOUNTIES=L.sort((a,b)=>(b.at||0)-(a.at||0));bNotify();if($('#defi').classList.contains('active'))buildDefi();});}catch(_){}})();
+const bOpen=()=>BOUNTIES.filter(x=>x.st==='open'&&Date.now()-(x.at||0)<B_H*3600e3);
+function bNotify(){COL.bSeen=COL.bSeen||{};let ch=false;BOUNTIES.forEach(x=>{if(COL.bSeen[x.id])return;
+    if(x.on===myId&&x.st==='open'){COL.bSeen[x.id]=1;ch=true;acPop('🎯','Prime sur ta tête !',`<p><b>${esc(x.byName||'Un joueur')}</b> a mis une prime sur toi : le prochain qui te bat en duel dans les ${B_H} prochaines heures gagne un booster de 5 cartes !</p>${x.msg?`<q>« ${esc(x.msg)} »</q>`:''}<p><small>Ne perds pas tes duels 😬</small></p>`);}
+    else if(x.by===myId&&x.st==='won'){COL.bSeen[x.id]=1;ch=true;toast('🎯','Ta prime sur '+(x.onName||'')+' a été remportée',(x.winnerName||'Quelqu\'un')+' l\'a battu en duel');}});if(ch)saveCol();}
+function usePrime(b){pickPlayer(b,'Sur qui veux-tu mettre une prime ? Le prochain qui le bat en duel dans les '+B_H+' h gagnera un booster de 5 cartes.',who=>{
+  if(bOpen().some(x=>x.on===who.id)){toast('🎯','Il y a déjà une prime sur '+who.name+' !');return;}
+  confirmSend(b,who,`<div class="drew">🎯 Tout le club verra « Prime sur ${esc(who.name)} » dans l'onglet Défis. La prime dure ${B_H} heures.</div>`,'🎯 Mettre la prime',async msg=>{
+    await GG.bounty.create({on:who.id,onName:who.name,by:GG.pid,byName:GG.name||'Joueur',msg,st:'open',at:Date.now()});bConsume(b.id);toast('🎯','Prime posée sur '+who.name+' !');});});}
+function bClaim(d,w){if(!BOK()||!w||w==='tie'||w!==duMine(d))return;const loser=duOther(d).id;
+  bOpen().filter(x=>x.on===loser&&x.at<Date.now()).forEach(x=>{x.st='won';GG.bounty.claim(x.id).then(()=>{grantPack(5,'Prime sur '+(x.onName||'un joueur'));saveCol();updBoostBtn();
+    const p=acPop('🎯','Prime remportée !',`<p>Tu as battu <b>${esc(x.onName||'')}</b> en duel : la prime posée par ${esc(x.byName||'un joueur')} est pour toi !<br>Tu gagnes un <b>booster de 5 cartes</b> 🎁</p>`);
+    p.querySelector('.endbtns').insertAdjacentHTML('afterbegin','<button class="btn" id="bpO">L\'ouvrir 🎁</button>');p.querySelector('#bpO').onclick=()=>{p.remove();goAlbumMembers();openBooster();};}).catch(()=>{});});}
+function bountyHTML(){const L=bOpen();if(!L.length)return '';
+  return `<div class="dsec">🎯 Primes</div>`+L.map(x=>`<div class="trow"><div class="top"><span>${x.on===myId?'🎯 Prime sur toi !':`Prime sur <span data-pid="${x.on}">${esc(x.onName||'Joueur')}</span>`}</span><span class="trstat wait">⏳ ${fmtDur(Math.ceil(((x.at||0)+B_H*3600e3-Date.now())/60000))}</span></div>
+    <div class="dres" style="text-align:left;margin:0">Posée par ${esc(x.byName||'un joueur')}${x.msg?` · « ${esc(x.msg)} »`:''}<br><small>Le prochain qui ${x.on===myId?'te':'le'} bat en duel dans les ${B_H} h gagne un booster de 5 cartes.</small></div>
+    ${x.on!==myId&&DUOK()?`<div class="trbtns"><button class="btn" data-bh="${x.on}" data-bn="${esc(x.onName||'Joueur')}">⚔️ Le défier</button></div>`:''}</div>`).join('');}
+
+/* --- recevoir les actions des autres joueurs --- */
+let ACTS={inc:[],out:[]};
+(async function acInit(){try{if(!window.claude||!window.claude.use)return;await window.claude.use('db');if(!ACTOK())return;
+  GG.actions.listen((inc,out)=>{ACTS={inc,out};acApply();});}catch(_){}})();
+function acPop(e,t,body){const pop=document.createElement('div');pop.className='giftpop';pop.innerHTML=`<div class="gcard"><div class="emo">${e}</div><h3>${t}</h3>${body}<div class="endbtns"><button class="btn">OK</button></div></div>`;$('#app').appendChild(pop);pop.querySelector('.btn').onclick=()=>{pop.remove();if($('#collection').classList.contains('active'))buildCol();};return pop;}
+function acApply(){COL.acDone=COL.acDone||{};let ch=false;const q=m=>m?`<q>« ${esc(m)} »</q>`:'';
+  ACTS.inc.forEach(a=>{if(a.st!=='wait'||COL.acDone[a.id])return;COL.acDone[a.id]=1;ch=true;const who=`<b>${esc(a.fromName||'Un joueur')}</b>`;
+    if(a.type==='cadeau'){grantPack(5,'Cadeau de '+(a.fromName||'un joueur'));updBoostBtn();GG.actions.set(a.id,{st:'done'}).catch(()=>{});
+      const p=acPop('🎁','Un cadeau pour toi !',`<p>${who} t'offre un <b>booster de 5 cartes</b> !</p>${q(a.msg)}`);p.querySelector('.endbtns').insertAdjacentHTML('afterbegin','<button class="btn" id="acO">L\'ouvrir 🎁</button>');p.querySelector('#acO').onclick=()=>{p.remove();goAlbumMembers();openBooster();};}
+    else if(a.type==='voleur'){const pool=MEMBERS.concat(BONUS).filter(m=>(COL.members[m.id]||0)>0).map(m=>m.id),take=pool.length?pick(pool):null;
+      if(take){COL.members[take]--;if(COL.members[take]<=0)delete COL.members[take];}
+      GG.actions.set(a.id,{st:'done',take:take||''}).catch(()=>{});stat('robbed');
+      acPop('🦝','On t\'a volé !',`<p>${who} a utilisé la carte Voleur contre toi.</p>${take?`<div style="width:120px;margin:0 auto">${mini(take)}</div><p>Cette carte t'a été volée.</p>`:'<p>…mais tu n\'avais aucune carte à voler 😅</p>'}${q(a.msg)}`);}
+    else if(a.type==='suppr'){const n=COL.members[a.card]||0;if(n)delete COL.members[a.card];GG.actions.set(a.id,{st:'done'}).catch(()=>{});
+      acPop('💥','Carte supprimée !',`<p>${who} a utilisé « Supprimer la plus rare » contre toi.</p><div style="width:120px;margin:0 auto">${mini(a.card)}</div><p>${n?'Tu as perdu cette carte'+(n>1?' (×'+n+')':'')+'.':'Ouf, tu ne l\'avais déjà plus !'}</p>${q(a.msg)}`);}
+    else if(a.type==='efface'){const had=MG_ORDER.filter(k=>COL.cards[k]);COL.noRew=COL.noRew||{};had.forEach(k=>COL.noRew[k]=1);COL.cards={};COL.wins={};try{localStorage.removeItem('gambetta-wins');}catch(_){}
+      GG.actions.set(a.id,{st:'done'}).catch(()=>{});
+      acPop('🧹','Mini-jeux effacés !',`<p>${who} a effacé tes <b>${had.length} cartes mini-jeux</b> !<br>Tes records restent. Regagne-les… mais sans les pochettes cette fois 😅</p>${q(a.msg)}`);}});
+  ACTS.out.forEach(a=>{if(a.type!=='voleur'||a.st!=='done'||a.got||COL.acDone['o_'+a.id])return;COL.acDone['o_'+a.id]=1;ch=true;if(a.take)COL.members[a.take]=(COL.members[a.take]||0)+1;GG.actions.set(a.id,{got:true}).catch(()=>{});
+    acPop('🦝','Vol réussi !',`<p>Tu as volé une carte à <b>${esc(a.toName||'Joueur')}</b> :</p>${a.take?`<div style="width:120px;margin:0 auto">${mini(a.take)}</div>`:'<p>…il n\'avait aucune carte 😅</p>'}`);});
+  if(ch){saveCol();updBoostBtn();if($('#collection').classList.contains('active'))buildCol();}}
+
+/* --- admin : demandes Photo et Mini-jeu --- */
+let REQS=[];
+function adminReqs(b){if(!ACTOK()){b.innerHTML='<div class="rkempty">📬 Les demandes arrivent sur le site du jeu.</div>';return;}
+  if(!adminReqs.on){adminReqs.on=1;GG.actions.listenReq(L=>{REQS=L.sort((x,y)=>(y.at||0)-(x.at||0));if($('#admin').classList.contains('active')&&ADM.tab==='req')buildAdmin();});}
+  const todo=REQS.filter(r=>!r.done),done=REQS.filter(r=>r.done).slice(0,20);
+  const row=r=>`<div class="prow"><span class="who">${r.type==='photo'?'📸 Nouvelle carte':'🎮 Nouveau mini-jeu'} · ${esc(r.fromName||'Joueur')}<small>${new Date(r.at).toLocaleString('fr-FR',{dateStyle:'short',timeStyle:'short'})}${r.type==='photo'&&!r.done?' · offre-lui sa carte avec 🎁 Offrir quand elle est prête':''}</small></span>${r.done?'<span class="mini">✅ fait</span>':`<button class="gift" data-r="${r.id}" aria-label="Fait">✔</button>`}</div>`;
+  b.innerHTML=`<div class="rkhead">📬 ${todo.length} demande${todo.length>1?'s':''} à traiter<small>Le joueur t'envoie les détails sur WhatsApp</small></div>${todo.length?todo.map(row).join(''):'<div class="rkempty">Aucune demande en attente.</div>'}${done.length?'<div class="rkhead" style="margin-top:14px">Déjà faites</div>'+done.map(row).join(''):''}`;
+  b.querySelectorAll('[data-r]').forEach(x=>x.onclick=()=>{x.disabled=true;GG.actions.setReq(x.dataset.r,{done:true}).catch(()=>{x.disabled=false;});});}
 
 function buildSelect(){
   const w=wins();$('#colCount').textContent=`(${ownedMG()}/${MG_ORDER.length})`;
@@ -4410,7 +4965,7 @@ function buildSelect(){
   $('#grid').innerHTML=main.map(card).join('')+
     `<div class="char soon"><div class="q">?</div><div class="gm">D'autres persos arrivent…</div></div>`+card('bonus');
   $('#grid').querySelectorAll('button.char').forEach(b=>b.onclick=()=>{PLAYCTX=null;openIntro(b.dataset.k);});
-  try{const k=chGame(dayKey());$('#dChip').innerHTML=`🎯 Défi du jour : <b>${CHARS[k].game}</b> ›`;}catch(_){}
+  try{const k=chGame(dayKey());$('#dChip').innerHTML=`🎯 Défi du jour : <b>${CHARS[k].game}</b> ›`;evChip();}catch(_){}
 }
 function openIntro(k){
   curKey=k;const c=CHARS[k];
@@ -4429,7 +4984,7 @@ const api={
   score(v){pendingScore=v;},
   hud(t){const h=$('#hudInfo');if(h.textContent!==t)h.textContent=t;},
   unlock(){if(saveWin(curKey))freshCard=curKey;},
-  end(win,title,msg){if(ended)return;ended=true;let rv=null;try{rv=recordResult(curKey,win);}catch(_){}let xl='';try{xl=ctxAfter(curKey,win,rv);}catch(_){}pendingScore=null;if(win&&saveWin(curKey))freshCard=curKey;const fc=freshCard;freshCard=null;
+  end(win,title,msg){if(ended)return;ended=true;let rv=null;try{rv=recordResult(curKey,win);}catch(_){}try{evPlayed(curKey);}catch(_){}try{stat('played');stat(win?'won':'lost');qHit('play4');qHit(win?'win2':'lose');}catch(_){}let xl='';try{xl=ctxAfter(curKey,win,rv);}catch(_){}pendingScore=null;if(win&&saveWin(curKey))freshCard=curKey;const fc=freshCard;freshCard=null;try{if(fc)qHit('newmg');}catch(_){}
     setTimeout(()=>{$('#endEmo').textContent=win?'🏆':'💦';$('#endTitle').textContent=title;$('#endMsg').textContent=msg;
       const ec=$('#endCard');const rw=fc?winRewards(fc):[];ec.innerHTML=(fc?`<div class="newcard">🃏 Nouvelle carte !${cardHTML(fc,false)}</div>`:'')
         +(rw.length?`<div class="rewbox">${rw.map(r=>`<div class="rew"><span>${r.e}</span>${r.t}</div>`).join('')}<button class="btn" id="rewOpen">Ouvrir maintenant 🎁</button></div>`:'')+xl;
