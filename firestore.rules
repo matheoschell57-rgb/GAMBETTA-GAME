@@ -170,8 +170,8 @@ service cloud.firestore {
       match /p/{side} {
         allow read: if signedIn();
         allow write: if signedIn() && (
-          (side == 'a' && own(get(/databases/$(database)/documents/battles/$(bid)).data.from))
-          || (side == 'b' && own(get(/databases/$(database)/documents/battles/$(bid)).data.to)));
+          (side == 'a' && get(/databases/$(database)/documents/owners/$(get(/databases/$(database)/documents/battles/$(bid)).data.from)).data.uid == request.auth.uid)
+          || (side == 'b' && get(/databases/$(database)/documents/owners/$(get(/databases/$(database)/documents/battles/$(bid)).data.to)).data.uid == request.auth.uid));
       }
     }
 
