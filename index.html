@@ -4482,7 +4482,7 @@ function chClaim(){if(!boardRef||!chBoardOK)return;const t=dayKey();COL.chClaim=
   $('#app').appendChild(pop);pop.querySelector('#chLater').onclick=()=>pop.remove();pop.querySelector('#chOpen').onclick=()=>{pop.remove();goAlbumMembers();openBooster();};}
 function timeLeft(){const n=new Date(),e=new Date(n.getFullYear(),n.getMonth(),n.getDate()+1),m=Math.max(1,Math.round((e-n)/60000));return m>=60?Math.floor(m/60)+' h '+String(m%60).padStart(2,'0'):m+' min';}
 const avSmall=k=>k==='bataille'?'<span class="av bbav">⚔️</span>':`<span class="av" style="background:${CHARS[k].bg}">${avatar(CHARS[k].look,{viewBox:'30 20 140 140'})}</span>`;
-const goalTxt=k=>k==='bataille'?'Contre son deck · tours cassées + dégâts':metricOf(k).t==='time'?'Gagne le plus vite possible':'Fais le plus de points possible';
+const goalTxt=k=>k==='bataille'?'Contre son deck joué par l\'ordi · tours cassées + dégâts':metricOf(k).t==='time'?'Gagne le plus vite possible':'Fais le plus de points possible';
 
 /* ================= DUELS ================= */
 /* Un joueur en défie un autre sur un mini-jeu : 3 essais chacun, 24 h max. Chacun peut s'arrêter avant (« J'ai fini »).
@@ -4591,14 +4591,16 @@ function duNew(pre,preName){if(typeof pre!=='string')pre=null;const mineActive=D
       sh.querySelector('#duQ').oninput=e=>{q=e.target.value;renderList();};renderList();}
     else{const lock=!!(pre&&who&&who.id===pre);sh.innerHTML=`<div class="in"><h3>${lock?'🎯 Défier '+esc(who.name):'⚔️ Duel contre '+esc(who.name)}</h3>${lock?`<div class="drew">🎯 Il y a une prime sur ${esc(who.name)} : bats-le en duel dans le temps restant pour gagner un booster de 5 cartes !</div>`:''}<div class="sec">Sur quel mini-jeu ?${lock?'':' <button class="gglink" id="duChg" style="margin:0 0 0 6px;font-size:13px">changer de joueur</button>'}</div>
       <div class="ggrid">${['bataille'].concat(CH_GAMES()).map(k=>`<button data-g="${k}" class="${game===k?'sel':''}">${avSmall(k)}<span>${CHARS[k].game}</span></button>`).join('')}</div>
-      <div class="drew" style="margin-top:12px">${DU_TRIES} essais chacun (ou « J'ai fini » pour s'arrêter avant), ${DU_H} h maximum. Le meilleur résultat gagne <b>une carte</b>.</div>
+      ${game==='bataille'?`<div class="drew" style="margin-top:12px">📡 <b>En direct</b> : vous jouez l'un contre l'autre, maintenant. ${esc(who.name)} doit avoir le jeu ouvert pour accepter (2 min).<br>🤖 <b>Duel en différé</b> : chacun joue quand il veut contre le deck de l'autre, <b>joué par l'ordi</b> (${DU_TRIES} essais, ${DU_H} h, le meilleur score gagne une carte).</div>`
+        :`<div class="drew" style="margin-top:12px">${DU_TRIES} essais chacun (ou « J'ai fini » pour s'arrêter avant), ${DU_H} h maximum. Le meilleur résultat gagne <b>une carte</b>.</div>`}
       <div class="ggerr" id="duErr" style="color:var(--coral);font-weight:700;text-align:center"></div>
-      <div class="trbtns"><button class="btn alt" id="duX">Annuler</button><button class="btn" id="duGo"${game?'':' disabled'}>⚔️ Lancer le duel</button></div></div>`;
+      <div class="trbtns"><button class="btn alt" id="duX">Annuler</button>${game==='bataille'?'<button class="btn" id="duLive">📡 En direct</button>':''}<button class="btn" id="duGo"${game?'':' disabled'}>${game==='bataille'?'🤖 Duel en différé':'⚔️ Lancer le duel'}</button></div></div>`;
+      const lv=sh.querySelector('#duLive');if(lv)lv.onclick=()=>{sh.remove();bbInviteTo(who);};
       const chg=sh.querySelector('#duChg');if(chg)chg.onclick=()=>{who=null;render();};
       sh.querySelectorAll('[data-g]').forEach(x=>x.onclick=()=>{game=x.dataset.g;const sc=sh.querySelector('.in').scrollTop;render();sh.querySelector('.in').scrollTop=sc;});
       sh.querySelector('#duGo').onclick=async e=>{e.target.disabled=true;e.target.textContent='…';
         try{await GG.duels.create({to:who.id,toName:who.name,k:game});try{stat('duelNew');qHit('dnew');}catch(_){}sh.remove();openDefi();}
-        catch(_){e.target.disabled=false;e.target.textContent='⚔️ Lancer le duel';sh.querySelector('#duErr').textContent='Pas de connexion… réessaie.';}};}
+        catch(_){e.target.disabled=false;e.target.textContent=game==='bataille'?'🤖 Duel en différé':'⚔️ Lancer le duel';sh.querySelector('#duErr').textContent='Pas de connexion… réessaie.';}};}
     sh.querySelector('#duX').onclick=()=>sh.remove();sh.onclick=e=>{if(e.target===sh)sh.remove();};}
   render();}
 
@@ -5532,8 +5534,9 @@ function bbInvCheck(){const now=Date.now();
       <div class="endbtns"><button class="btn" id="bbiOk">⚔️ Accepter</button><button class="btn alt" id="bbiNo">Refuser</button></div></div>`;
     $('#app').appendChild(pop);pop.querySelector('#bbiNo').onclick=()=>{pop.remove();GG.battles.set(inc.id,{st:'no'}).catch(()=>{});};
     pop.querySelector('#bbiOk').onclick=()=>{pop.remove();bbAccept(inc);};}}
-function bbInvite(){if(!BBOK())return;pickPlayer({e:'📡',n:'Bataille en direct'},'Choisis qui défier. Il doit avoir le jeu ouvert pour accepter (2 minutes).',async p=>{
-  try{const r=await GG.battles.create({to:p.id,toName:p.name,da:bbMyDeck(),seed:bbSeed(),v:BB_VER});BB.waiting=r.id;bbWaitUI(r.id,p.name);}catch(e){toast('📡','Pas de connexion','Réessaie dans un instant.');}});}
+function bbInvite(){if(!BBOK())return;pickPlayer({e:'📡',n:'Bataille en direct'},'Choisis qui défier. Il doit avoir le jeu ouvert pour accepter (2 minutes).',bbInviteTo);}
+async function bbInviteTo(p){if(!BBOK()){toast('📡','Pas de connexion','Le direct marche seulement dans le jeu en ligne.');return;}
+  try{const r=await GG.battles.create({to:p.id,toName:p.name,da:bbMyDeck(),seed:bbSeed(),v:BB_VER});BB.waiting=r.id;bbWaitUI(r.id,p.name);}catch(e){toast('📡','Pas de connexion','Réessaie dans un instant.');}}
 function bbWaitUI(id,name){const t0=Date.now();const sh=sheet(`<div class="bbwait"></div><div class="emo" style="font-size:44px;text-align:center">📡</div><h3>En attente de ${esc(name)}…</h3>
   <div class="sec" id="bbwT">Il a 2 minutes pour accepter.</div><div class="trbtns"><button class="btn alt" id="bbwX">Annuler</button></div>`);sh.classList.add('bbwait');
   const tm=setInterval(()=>{if(!document.body.contains(sh)){clearInterval(tm);return;}const s=Math.max(0,Math.ceil((BB_INV-(Date.now()-t0))/1000));const e=sh.querySelector('#bbwT');if(e)e.textContent=`Il a encore ${Math.floor(s/60)}:${String(s%60).padStart(2,'0')} pour accepter.`;
