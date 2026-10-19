@@ -157,6 +157,24 @@ service cloud.firestore {
         && own(request.resource.data.winner);
     }
 
+    // Bataille du Bassin en direct : invitation, puis chaque joueur écrit ses cartes posées dans p/a ou p/b
+    match /battles/{bid} {
+      function own(p) { return get(/databases/$(database)/documents/owners/$(p)).data.uid == request.auth.uid; }
+      allow read: if signedIn();
+      allow delete: if isAdmin();
+      allow create: if signedIn() && request.resource.data.st == 'wait'
+        && request.resource.data.from != request.resource.data.to && own(request.resource.data.from);
+      allow update: if signedIn()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['st', 'db', 'acc'])
+        && (own(resource.data.from) || own(resource.data.to));
+      match /p/{side} {
+        allow read: if signedIn();
+        allow write: if signedIn() && (
+          (side == 'a' && own(get(/databases/$(database)/documents/battles/$(bid)).data.from))
+          || (side == 'b' && own(get(/databases/$(database)/documents/battles/$(bid)).data.to)));
+      }
+    }
+
     // Demandes des cartes « Photo à Mathéo » et « Mini-jeu à Mathéo »
     match /requests/{rid} {
       function own(p) { return get(/databases/$(database)/documents/owners/$(p)).data.uid == request.auth.uid; }
