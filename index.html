@@ -770,6 +770,49 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 .ptshop .e{font-size:28px}.ptshop .it>div{flex:1;min-width:0}.ptshop small{display:block;color:var(--muted);font-weight:600;font-size:12px}.ptshop .btn{margin:0;padding:6px 10px;font-size:15px;white-space:nowrap}.ptshop .pr{font-weight:900}
 .ptdice .dies{display:flex;gap:12px}.ptdice .die.gold{background:linear-gradient(#fff3a8,#ffc83d)}
 </style>
+<style>/* ===== Gambetta Party v3 : cartes folles + animations ===== */
+.ptboard .ptpool{display:none}
+.ptart{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.ptroad{stroke:#fff8;stroke-width:7.5}.ptroad2{stroke:#1b2a3a33;stroke-width:1;stroke-dasharray:2 2}
+.mpool .ptroad{stroke:#fff}.mpool .ptinner{stroke:#fff;stroke-width:1.6}
+.mbeach .ptroad{stroke:#c98d4e;stroke-width:6.5}.mbeach .ptroad2{stroke:#f4d6a4;stroke-width:1.2;stroke-dasharray:3 2}.mbeach .ptinner{stroke:#f8e3b0;stroke-width:2}
+.mparty .ptroad{stroke:#ffd23f;stroke-width:6.5;filter:drop-shadow(0 0 2px #ff5fa2)}.mparty .ptroad2{stroke:#fff;stroke-dasharray:1 3}.mparty .ptinner{stroke:#ffd23f;stroke-width:1.2}
+.ptshine{animation:ptshine 4s linear infinite}@keyframes ptshine{to{transform:translateX(180px)}}
+.ptwave{animation:ptwave 3s ease-in-out infinite}.ptwave.w2{animation-delay:-1.5s}@keyframes ptwave{50%{transform:translate(-6px,3px)}}
+.ptspot{animation:ptspot 4s ease-in-out infinite;mix-blend-mode:screen}.ptspot.s2{animation-delay:-2s}@keyframes ptspot{0%,100%{transform:translate(0,0)}50%{transform:translate(18px,14px)}}
+.ptdeco{position:absolute;transform:translate(-50%,-50%);font-size:24px;filter:drop-shadow(0 2px 0 rgba(0,0,0,.25));animation:ptbob 3s ease-in-out infinite}.ptdeco:nth-of-type(2n){animation-delay:-1.4s}
+@keyframes ptbob{50%{transform:translate(-50%,-62%) rotate(-6deg)}}
+.ptboard .ptlogo{position:absolute;left:0;right:0;top:47%;text-align:center;font-family:'Lilita One',sans-serif;color:rgba(255,255,255,.85);font-size:20px;transform:rotate(-8deg);text-shadow:0 2px 4px rgba(0,0,0,.25);pointer-events:none}
+.mbeach .ptlogo{color:#ffffffdd}
+.mparty .ptlogo{top:55%}.ptdisco{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);font-size:30px;animation:ptdisco 3s linear infinite;filter:drop-shadow(0 0 10px #fff)}@keyframes ptdisco{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.ptc{transition:transform .2s}.ptc.tt{background:#00b8c4;font-size:14px}.ptc.tk{background:#2ec4b6;font-size:14px}.ptc.td{background:#ff5fa2;font-size:14px}
+.ptc.hit{animation:pthit .7s ease}@keyframes pthit{0%{transform:translate(-50%,-50%) scale(1)}35%{transform:translate(-50%,-50%) scale(1.55);box-shadow:0 0 0 6px #fff9,0 2px 0 var(--ink)}100%{transform:translate(-50%,-50%) scale(1)}}
+.ptpawn.cur{animation:ptcur 1s ease-in-out infinite;z-index:5}@keyframes ptcur{0%,100%{box-shadow:0 0 0 2px var(--ink),0 0 0 4px #ffd23f00}50%{box-shadow:0 0 0 2px var(--ink),0 0 0 7px #ffd23fcc}}
+.ptpawn.slide{transition:left .12s linear,top .12s linear}.ptpawn.fly{transition:left .9s cubic-bezier(.4,0,.2,1),top .9s cubic-bezier(.4,0,.2,1);animation:ptfly .9s ease}
+@keyframes ptfly{50%{transform:translate(-50%,-50%) scale(1.6) rotate(20deg)}}
+.ptfloat{position:absolute;transform:translate(-50%,-120%);font-family:'Lilita One',sans-serif;font-size:20px;white-space:nowrap;z-index:8;pointer-events:none;animation:ptfloat 1.6s ease-out forwards;text-shadow:0 2px 0 #1b2a3a,0 0 6px #0006}
+.ptfloat.up{color:#ffd23f}.ptfloat.down{color:#ff6b6b}.ptfloat.star{color:#fff59a;font-size:24px}
+@keyframes ptfloat{0%{opacity:0;transform:translate(-50%,-60%) scale(.5)}20%{opacity:1;transform:translate(-50%,-140%) scale(1.15)}100%{opacity:0;transform:translate(-50%,-260%) scale(1)}}
+.ptcoin{position:absolute;transform:translate(-50%,-50%);font-size:14px;z-index:7;pointer-events:none;animation:ptcoin 1.1s ease-out forwards}
+@keyframes ptcoin{0%{opacity:1;transform:translate(-50%,-50%)}60%{opacity:1;transform:translate(calc(-50% + var(--dx)),-260%)}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),-180%)}}
+.ptban{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:9;pointer-events:none;text-align:center;background:#fff;color:#1b2a3a;border:4px solid var(--ink);border-radius:20px;padding:8px 18px;box-shadow:0 5px 0 var(--ink);animation:ptban 1.7s cubic-bezier(.2,1.5,.4,1) forwards}
+.ptban b{display:block;font-family:'Lilita One',sans-serif;font-weight:400;font-size:26px;line-height:1.1}.ptban span{font-size:28px;font-weight:900}
+.ptban.up{background:#4aa8ff;color:#fff}.ptban.down{background:#ff6b6b;color:#fff}.ptban.ev{background:#ffd23f}
+@keyframes ptban{0%{opacity:0;transform:translate(-50%,-50%) scale(.3) rotate(-10deg)}18%{opacity:1;transform:translate(-50%,-50%) scale(1.1) rotate(3deg)}30%{transform:translate(-50%,-50%) scale(1) rotate(0)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-80%) scale(.9)}}
+.ptstarfx{position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;background:radial-gradient(#fff59a88,transparent 60%)}
+.ptstarfx .s{font-size:90px;animation:ptstarin 1.2s cubic-bezier(.2,1.6,.4,1)}.ptstarfx b{font-family:'Lilita One',sans-serif;font-weight:400;font-size:22px;color:#fff;text-shadow:0 2px 0 #1b2a3a,0 0 8px #000;animation:bbtroPop .5s .3s both}
+.ptstarfx i{position:absolute;left:50%;top:45%;font-style:normal;font-size:20px;animation:ptspark 1.4s ease-out forwards}
+@keyframes ptstarin{0%{transform:scale(0) rotate(-180deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes ptspark{0%{opacity:1;transform:rotate(var(--a)) translateY(0)}100%{opacity:0;transform:rotate(var(--a)) translateY(-120px)}}
+.ptmsg.pop{animation:ptmsg .35s ease}@keyframes ptmsg{0%{transform:scale(.96);opacity:.4}100%{transform:scale(1);opacity:1}}
+.ptsci{transition:transform .2s}.ptsci.bump{animation:ptbump .5s ease}@keyframes ptbump{40%{transform:scale(1.15);background:#fff59a}}
+.ptstarq .big.spin{display:inline-block;animation:ptstarin .8s cubic-bezier(.2,1.6,.4,1),ptstar 1.6s 1s ease-in-out infinite}
+.ptstarq .btn{display:block;width:100%;margin:8px 0 0}
+.ptend .big.bounce{display:inline-block;animation:ptbounce 1s ease-in-out infinite}@keyframes ptbounce{50%{transform:translateY(-10px) scale(1.08)}}
+.ptconf{position:fixed;inset:0;pointer-events:none;z-index:41;overflow:hidden}.ptconf i{position:absolute;top:-30px;font-style:normal;font-size:22px;animation:ptconf linear infinite}
+@keyframes ptconf{0%{transform:translateY(0) rotate(0)}100%{transform:translateY(110vh) rotate(540deg)}}
+.ptdice .die{position:relative}.ptdice .die.fin{animation:ptdiefin .5s cubic-bezier(.2,1.6,.4,1)}@keyframes ptdiefin{0%{transform:scale(1.6) rotate(25deg)}100%{transform:scale(1) rotate(0)}}
+</style>
 </head>
 <body>
 <div id="app">
@@ -4918,7 +4961,7 @@ const SERIES=[
    roles:{roland:'Président d\'honneur',christian:'Président',genevieve_alain:'Vice-présidente',david:'Trésorier',marcel:'Trésorier adjoint',audrey:'Secrétaire',matheo:'Secrétaire adjoint',jean_francois:'Assesseur',jacky:'Assesseur',dario:'Assesseur',christophe:'Assesseur',nathan:'Assesseur',p_christophe:'L\'homme à tout faire'}},
   {id:'f_schell',n:'Famille Schell',e:'👨‍👩‍👧',cards:['christian','laetitia','matheo','ethan','roland','mickey','bouchon','lucas','chouky']},
   {id:'f_galgon',n:'Famille Galgon',e:'👨‍👩‍👧',cards:['aude','stephane','nathan','quentin']},
-  {id:'f_lubin',n:'Famille Lubin',e:'👨‍👩‍👧',cards:['camille','romain','petite_zoe']},
+  {id:'f_lubin',n:'Famille Lubin',e:'👨‍👩‍👧',cards:['camille','romain','petite_zoe','victor']},
   {id:'f_pigani',n:'Famille Pigani',e:'👨‍👩‍👧',cards:['dario','agnes','lucie']},
   {id:'f_iwanczuk',n:'Famille Iwanczuk',e:'👨‍👩‍👧',cards:['richard','manue','emma']},
   {id:'f_duveau',n:'Famille Duveau',e:'👨‍👩‍👧',cards:['alan','alix']},
@@ -5523,7 +5566,7 @@ function bbHelp(){const sh=sheet(`<h3>❓ Comment jouer</h3><div class="drew" st
    🏊 Les persos qui ont <b>5 ou plus en nage</b> peuvent aller dans le bassin : plus ils nagent bien, plus ils vont vite. C'est le chemin direct vers le <b>plongeoir</b>.<br>
    🚶 Les autres restent sur les bords et attaquent d'abord les <b>chaises de maître-nageur</b>.<br>✨ Les sorts se lancent n'importe où : dégâts + ralentissement.<br>
    💧 Le chlore remonte tout seul (×2 dans la dernière minute).<br>🏆 Casse le plongeoir pour gagner direct, sinon c'est celui qui a cassé le plus de tours après 3 min.<br>
-   ⬆️ Améliore tes cartes avec leurs doubles : 3, 5, 10, 15, 20… doubles par niveau, jusqu'au niveau ${BB_LVMAX} (+10 % de vie et de dégâts par niveau).<br>
+   ⬆️ Améliore tes cartes avec leurs doubles : 1, 2, 4, 6, 8… doubles par niveau, jusqu'au niveau ${BB_LVMAX} (+10 % de vie et de dégâts par niveau).<br>
    👑 Chaque tour cassée = 1 couronne. Toutes les ${BB_CRW} couronnes : un booster de 3 cartes.</div><div class="trbtns"><button class="btn" id="bx">OK</button></div>`);sh.querySelector('#bx').onclick=()=>sh.remove();}
 function bbUpList(){const L=rlOwned().map(id=>({id,l:bbLvlOf(id),d:bbDups(id),c:bbUpCost(id),ok:bbCanUp(id)}))
     .sort((a,b)=>(b.ok-a.ok)||((b.c?b.d/b.c:-1)-(a.c?a.d/a.c:-1))||(b.l-a.l));const n=L.filter(x=>x.ok).length;
@@ -5547,8 +5590,8 @@ function bbPlayDeck(){pickPlayer({e:'🃏',n:'Contre le deck d\'un joueur'},'L\'
 
 /* ---------- niveaux des cartes (avec les doubles), trophées, bataille du jour, duels, émotes ---------- */
 const BB_LVMAX=10;
-/* coût en doubles de la carte pour passer au niveau suivant : niv 2 = 3, niv 3 = 5, niv 4 = 10, puis +5 à chaque niveau */
-const BB_UPC=[3,5,10,15,20,25,30,35,40];
+/* coût en doubles de la carte pour passer au niveau suivant : niv 2 = 1, niv 3 = 2, puis +2 à chaque niveau (4, 6, 8…) */
+const BB_UPC=[1,2,4,6,8,10,12,14,16];
 /* niveau = 1 + 1 par paire de doubles (2 doubles → niv 2, 4 → niv 3 … max 5) ; +10 % de vie et de dégâts par niveau */
 function bbLvlInit(){if(COL.bbl)return;COL.bbl={};for(const id in (COL.members||{})){const n=COL.members[id]||0,l=Math.min(5,1+Math.floor(Math.max(0,n-1)/2));if(l>1)COL.bbl[id]=l;}}
 function bbLvlOf(id){if(id==='_sub')return 1;bbLvlInit();return Math.max(1,Math.min(BB_LVMAX,COL.bbl[id]||1));}
@@ -5624,7 +5667,7 @@ function bbCardSheet(s,onClose){const m=memObj(s.id)||{},g=BB_GROUP[s.id],mine=s
     ${mine&&cost?`<div class="eb bbupb"><i style="width:${Math.min(100,Math.round(bbDups(s.id)/cost*100))}%"></i></div>`:''}
     <div class="bbatk">${s.fx.e} <b>${esc(s.fx.n)}</b><br><i>« ${esc(s.fx.say)} »</i></div></div></div>
     <table class="bbtab">${rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('')}${s.bonus?`<tr><td>Série</td><td>+1 « ${esc(s.bonus)} »</td></tr>`:''}</table>
-    ${m.t?`<p class="bbdesc">${esc(m.t)}</p>`:''}${mine&&cost&&!BC?`<p class="bbuptx">⬆️ Chaque niveau donne <b>+10 %</b> de vie et de dégâts. Améliorer coûte des doubles de <b>cette carte</b> : 3, 5, 10, 15, 20… (max niveau ${BB_LVMAX}).</p>`:''}
+    ${m.t?`<p class="bbdesc">${esc(m.t)}</p>`:''}${mine&&cost&&!BC?`<p class="bbuptx">⬆️ Chaque niveau donne <b>+10 %</b> de vie et de dégâts. Améliorer coûte des doubles de <b>cette carte</b> : 1, 2, 4, 6, 8… (max niveau ${BB_LVMAX}).</p>`:''}
     <div class="trbtns">${can?`<button class="btn bbup" id="bup">⬆️ Améliorer (${cost} doubles)</button>`:''}<button class="btn${can?' alt':''}" id="bx">Fermer</button></div>`);
   const close=()=>{sh.remove();if(onClose)onClose();};sh.querySelector('#bx').onclick=close;sh.onclick=e=>{if(e.target===sh)close();};
   const up=sh.querySelector('#bup');if(up){let ok=0;up.onclick=()=>{if(!ok){ok=1;up.textContent=`✔️ Sûr ? ${cost} doubles de ${s.n}`;return;}
@@ -6176,13 +6219,27 @@ function bbDraw(){const cv=$('#bbCv');if(!cv)return;const c=cv.getContext('2d'),
    les autres affichent et envoient seulement « je lance le dé » et leur résultat au mini-jeu.
    Si l'hôte part, un autre joueur reprend automatiquement. */
 const PT_SHOPSTAR={on:true,extra:10},PT_2STAR={from:6};const PT_MAX=8,PT_COINS=[10,7,5,4,3,2,1,0],PT_BAG=3,PT_COL=['#ff5a5f','#2f80ed','#2fb35a','#ffb800','#9b51e0','#ff8a00','#00b8c4','#e84393'];
-/* cartes : S départ · b bonus · m malus · e événement · B buvette · c crabe · r requin */
+/* cartes : S départ · b bonus · m malus · e événement · B buvette · c crabe · r requin · t toboggan · k kayak · d piste de danse */
 const PT_MAPS={
-  belletanche:{n:'Piscine Belletanche',e:'🏊',lvl:'Facile',lv:1,star:20,coins:10,cells:'SbbebmBbBbmbbbembbebmBbebmbbeb',deco:['🛝','🍹','🚿','🪜'],logo:'Belletanche',cls:'mpool',d:'Beaucoup de cases bonus, l\'étoile coûte 20 pièces.'},
-  plage:{n:'La plage du club',e:'🏖️',lvl:'Normal',lv:2,star:25,coins:10,cells:'SbmebcbBmbebcmBebmBcbebmebcbm',deco:['⛱️','🐚','🏐','🍦'],logo:'La plage',cls:'mbeach',d:'Attention aux crabes (−5 pièces). L\'étoile coûte 25 pièces.'},
-  soiree:{n:'Soirée au club',e:'🪩',lvl:'Difficile',lv:3,star:25,coins:5,cells:'SmebrmbBemrbmeBmrBembmrebmeb',deco:['🎤','🍕','🎂','🎶'],logo:'Soirée',cls:'mparty',d:'Le requin du grand bain rôde (la moitié de tes pièces !) et on ne commence qu\'avec 5 pièces. L\'étoile coûte 25 pièces.'}};
+  belletanche:{n:'Piscine Belletanche',e:'🏊',lvl:'Facile',lv:1,star:20,coins:10,shape:'kidney',cells:'SbbebmBbBbmtbbembbebmBbetmbbeb',
+    deco:[['🛝',87,62],['🍹',8,6],['🚿',92,6],['🪜',8,119],['⛱️',92,119]],logo:'Belletanche',cls:'mpool',d:'Une piscine en haricot, des toboggans 🛝 qui font glisser de 5 cases. L\'étoile coûte 20 pièces.'},
+  plage:{n:'La plage du club',e:'🏖️',lvl:'Normal',lv:2,star:25,coins:10,shape:'flower',cells:'SbmebcbBmkebcmBebmBcbekmebcbm',
+    deco:[['🌴',7,7],['🐚',93,7],['🏐',7,118],['🍦',93,118]],logo:'La plage',cls:'mbeach',d:'Un lagon en fleur, des kayaks 🛶 pour traverser… et des crabes 🦀 (−5). L\'étoile coûte 25 pièces.'},
+  soiree:{n:'Soirée au club',e:'🪩',lvl:'Difficile',lv:3,star:25,coins:5,shape:'star',cells:'SmebrmbBemrbmdBmrBembmrebmdb',
+    deco:[['🎤',8,7],['🍕',92,7],['🎂',8,118],['🎶',92,118]],logo:'Soirée',cls:'mparty',d:'Une piste en étoile, le requin 🦈 (la moitié de tes pièces !), la danse 🕺 qui échange ta place. 5 pièces au départ, étoile à 25.'}};
 Object.values(PT_MAPS).forEach(m=>{if(typeof m.cells==='string')m.cells=m.cells.split('');});
-const PT_CELL={S:{e:'🏁',n:'Départ'},b:{e:'+3',n:'Bonus'},m:{e:'−3',n:'Malus'},e:{e:'❓',n:'Événement'},B:{e:'🛒',n:'Buvette'},c:{e:'🦀',n:'Crabe'},r:{e:'🦈',n:'Requin'}};
+const PT_CELL={S:{e:'🏁',n:'Départ'},b:{e:'+3',n:'Bonus'},m:{e:'−3',n:'Malus'},e:{e:'❓',n:'Événement'},B:{e:'🛒',n:'Buvette'},c:{e:'🦀',n:'Crabe'},r:{e:'🦈',n:'Requin'},t:{e:'🛝',n:'Toboggan'},k:{e:'🛶',n:'Kayak'},d:{e:'🕺',n:'Danse'}};
+/* formes des chemins (boîte de 100 × 125) */
+const PT_SHAPES={
+  kidney:t=>{const a=Math.atan2(Math.sin(t),Math.cos(t)),k=1-.36*Math.exp(-(a*a)/.22);return[50+41*k*Math.cos(t),62.5+54*k*Math.sin(t)];},
+  flower:t=>{const r=1+.13*Math.sin(6*t);return[50+39*r*Math.cos(t),62.5+50*r*Math.sin(t)];},
+  star:t=>{const r=.66+.34*Math.cos(5*t+Math.PI/2);return[50+44*r*Math.cos(t),62.5+57*r*Math.sin(t)];}};
+function ptCurve(map){if(map._cv)return map._cv;const f=PT_SHAPES[map.shape],M=900,P=[],L=[0];
+  for(let i=0;i<=M;i++){const t=Math.PI/2+i/M*2*Math.PI;P.push(f(t));if(i)L.push(L[i-1]+Math.hypot(P[i][0]-P[i-1][0],P[i][1]-P[i-1][1]));}
+  return map._cv={P,L,tot:L[M]};}
+function ptPts(map){if(map._pts)return map._pts;const C=ptCurve(map),n=map.cells.length,out=[];let j=0;
+  for(let i=0;i<n;i++){const s=i/n*C.tot;while(C.L[j+1]<s)j++;const f=(s-C.L[j])/((C.L[j+1]-C.L[j])||1),x=C.P[j][0]+(C.P[j+1][0]-C.P[j][0])*f,y=C.P[j][1]+(C.P[j+1][1]-C.P[j][1])*f;out.push({x,y:y/125*100,ux:x,uy:y});}
+  return map._pts=out;}
 const PT_ITEMS={gold:{e:'🌟',n:'Dé doré',d:'Lance un dé de 1 à 10',p:8},double:{e:'🎲',n:'Double dé',d:'Lance 2 dés d\'un coup',p:10},
   buoy:{e:'🛟',n:'Bouée',d:'Te protège du prochain malus, vol, crabe ou requin',p:5},whistle:{e:'📣',n:'Sifflet',d:'Le joueur en tête recule de 4 cases',p:6},
   key:{e:'🗝️',n:'Clé des vestiaires',d:'Te téléporte juste avant l\'étoile',p:20}};
@@ -6205,11 +6262,8 @@ const ptRnd=n=>Math.floor(Math.random()*n);
 function ptHumans(P){const pl=(P&&P.players)||{};return Object.keys(pl).filter(p=>!pl[p].bot).sort((a,b)=>(pl[a].at||0)-(pl[b].at||0));}
 function ptOrder(P){const pl=(P&&P.players)||{};return (P&&P.state&&P.state.order)||Object.keys(pl).sort((a,b)=>(pl[a].at||0)-(pl[b].at||0));}
 
-/* ---------- géométrie du plateau (en % d'une boîte 4:5) ---------- */
-function ptXY(i,n){const W=100,H=125,x0=7,x1=93,y0=6.5,y1=H-6.5,w=x1-x0,h=y1-y0,L=2*(w+h);let d=(i/n*L)%L;
-  // départ au milieu du bas, sens des aiguilles d'une montre
-  let x,y;if(d<w/2){x=x0+w/2-d;y=y1;}else if((d-=w/2)<h){x=x0;y=y1-d;}else if((d-=h)<w){x=x0+d;y=y0;}else if((d-=w)<h){x=x1;y=y0+d;}else{d-=h;x=x1-d;y=y1;}
-  return{x:x/W*100,y:y/H*100};}
+/* ---------- position d'une case sur la carte affichée ---------- */
+function ptXY(i,n){const map=PT_MAPS[PT.mapK||'belletanche'],pts=ptPts(map),q=pts[((i%pts.length)+pts.length)%pts.length];return{x:q.x,y:q.y};}
 
 /* ---------- moteur (téléphone de l'hôte) ---------- */
 function ptStarCell(map,avoid,avoid2){const L=map.cells.map((c,i)=>(c==='b'||c==='e')&&i!==avoid&&i!==avoid2&&Math.min(i,map.cells.length-i)>=5?i:-1).filter(i=>i>=0);return L[ptRnd(L.length)];}
@@ -6218,7 +6272,7 @@ function ptInit(P){const map=ptMap(P),order=ptOrder(P).slice(0,PT_MAX),now=ptNow
   S.msg={e:'🎲',t:`La partie commence ! ${ptName(P,order[0])} lance le dé en premier.`};return S;}
 const ptInv=(S,p)=>[].concat((S.inv||{})[p]||[]).filter(Boolean);
 function ptBuoy(S,p){const I=ptInv(S,p),i=I.indexOf('buoy');if(i<0)return false;I.splice(i,1);S.inv[p]=I;return true;}
-function ptLose(P,S,p,k,why){if(ptBuoy(S,p))return `${why}… mais la bouée de ${ptName(P,p)} le protège ! 🛟`;const x=Math.min(k,S.coins[p]);S.coins[p]-=x;return `${why} : −${x} pièce${x>1?'s':''} pour ${ptName(P,p)}`;}
+function ptLose(P,S,p,k,why){if(ptBuoy(S,p))return `${why}… mais la bouée de ${ptName(P,p)} le protège ! 🛟`;const x=Math.min(k,S.coins[p]);S.coins[p]-=x;return x?`${why} : −${x} pièce${x>1?'s':''} pour ${ptName(P,p)}`:`${why}… mais ${ptName(P,p)} n'a plus de pièces 😅`;}
 function ptEvent(P,S,p){const map=ptMap(P),n=map.cells.length,tot=PT_EVENTS.reduce((a,x)=>a+x.w,0);let r=Math.random()*tot,ev=PT_EVENTS[0];for(const x of PT_EVENTS){r-=x.w;if(r<=0){ev=x;break;}}
   let t=ev.t;const others=S.order.filter(q=>q!==p);
   if(ev.k==='apero')S.coins[p]+=5;else if(ev.k==='sifflet')t=ptLose(P,S,p,5,'Coup de sifflet de Roland');else if(ev.k==='cadeau')S.coins[p]+=10;
@@ -6234,6 +6288,11 @@ function ptEvent(P,S,p){const map=ptMap(P),n=map.cells.length,tot=PT_EVENTS.redu
   else if(ev.k==='longueur')S.pos[p]=(S.pos[p]+3)%n;
   else if(ev.k==='etoile')S.star=ptStarCell(map,S.star,S.star2);
   return{e:ev.e,t};}
+/* avance case par case ; s'arrête sur une étoile (sauf celle qu'on vient de refuser) */
+function ptWalk(S,p,n){const W=S.walk,from=S.pos[p];let k=0,lap=false,atStar=false;
+  while(k<W.left){k++;const c=(from+k)%n;if(c===0&&k<W.left){S.coins[p]+=5;lap=true;}
+    if((c===S.star||(S.star2!=null&&c===S.star2))&&c!==W.skip){atStar=true;break;}}
+  S.pos[p]=(from+k)%n;W.left-=k;W.atStar=atStar;return{from,k,lap};}
 function ptOffer(){const K=Object.keys(PT_ITEMS);const o=[];while(o.length<3){const k=K[ptRnd(K.length)];if(!o.includes(k))o.push(k);}return o;}
 function ptRank(k,L){const m=metricOf(k);const cmp=(a,b)=>{if(a.w!==b.w)return b.w-a.w;const as=a.s!=null,bs=b.s!=null;if(as&&bs&&a.s!==b.s)return m.t==='time'?a.s-b.s:b.s-a.s;if(as!==bs)return as?-1:1;return 0;};
   L.sort(cmp);L.forEach((x,i)=>{x.rank=i>0&&cmp(L[i-1],x)===0?L[i-1].rank:i+1;x.coin=PT_COINS[x.rank-1]||0;});return L;}
@@ -6254,22 +6313,37 @@ function ptStep(P){const S=JSON.parse(JSON.stringify(P.state||{})),now=ptNow(),m
     let pre=null;if(it==='key'){S.pos[p]=(S.star-1+n)%n;pre=`${ptName(P,p)} utilise la clé des vestiaires 🗝️`;}
     if(it==='whistle'){const lead=ord.filter(q=>q!==p).sort((x,y)=>(S.stars[y]-S.stars[x])||(S.coins[y]-S.coins[x]))[0];
       if(lead){if(ptBuoy(S,lead))pre=`📣 Sifflet sur ${ptName(P,lead)}… protégé par sa bouée !`;else{S.pos[lead]=(S.pos[lead]-4+n)%n;pre=`📣 ${ptName(P,p)} siffle ${ptName(P,lead)} : il recule de 4 cases !`;}}}
-    const d1=1+ptRnd(it==='gold'?10:6),d2=it==='double'?1+ptRnd(6):0,v=d1+d2,from=S.pos[p];let msg=null,got=false;
-    for(let k=1;k<=v;k++){const c=(from+k)%n;if(c===0&&k<v){S.coins[p]+=5;msg={e:'🏁',t:`${ptName(P,p)} fait un tour complet : +5 pièces`};}
-      const two=S.star2!=null&&c===S.star2;if((c===S.star||two)&&!got){if(S.coins[p]>=map.star){got=true;S.coins[p]-=map.star;S.stars[p]++;if(two)S.star2=ptStarCell(map,S.star2,S.star);else S.star=ptStarCell(map,S.star,S.star2);msg={e:'⭐',t:`${ptName(P,p)} achète une étoile pour ${map.star} pièces !`};}
-        else if(k===v)msg={e:'⭐',t:`${ptName(P,p)} est sur l'étoile, mais il faut ${map.star} pièces…`};}}
-    S.pos[p]=(from+v)%n;S.seq++;S.dice={p,v:d1,v2:d2,it:it||'',seq:S.seq};S.mv={p,from,v,seq:S.seq};
+    const d1=1+ptRnd(it==='gold'?10:6),d2=it==='double'?1+ptRnd(6):0,v=d1+d2;let msg=null;
+    S.walk={p,left:v,skip:-1};const w=ptWalk(S,p,n);if(w.lap)msg={e:'🏁',t:`${ptName(P,p)} fait un tour complet : +5 pièces`};
+    S.seq++;S.dice={p,v:d1,v2:d2,it:it||'',seq:S.seq};S.mv={p,from:w.from,v:w.k,seq:S.seq};
     const say=`${ptName(P,p)} fait ${d2?d1+' + '+d2+' = '+v:v}${it==='gold'?' avec le dé doré 🌟':''} !`;
-    return next('mv',now+1300+v*320+300+(pre?600:0),{msg:msg||{e:pre?'🎒':'🎲',t:pre?pre+' · '+say:say}});}
-  if(S.phase==='mv'){if(now<S.until)return null;const p=ord[S.cur],c=map.cells[S.pos[p]];let m;
+    return next('mv',now+1300+w.k*320+300+(pre?600:0),{msg:msg||{e:pre?'🎒':'🎲',t:pre?pre+' · '+say:say}});}
+  if(S.phase==='mv'){if(now<S.until)return null;const p=ord[S.cur];
+    // arrêt sur une étoile : on demande au joueur s'il veut l'acheter
+    if(S.walk&&S.walk.atStar){S.starN=(S.starN||0)+1;return next('star',now+15000,{sq:{p,cell:S.pos[p],n:S.starN,price:map.star},msg:{e:'⭐',t:`${ptName(P,p)} passe sur l'étoile !`}});}
+    if(S.walk&&S.walk.done)return next('ef',now+300,{});
+    const c=map.cells[S.pos[p]];let m;S.walk={p,left:0,done:1};S.land={p,cell:S.pos[p],k:c,seq:(S.seq||0)+1};
     if(c==='b'){S.coins[p]+=3;m={e:'🟦',t:`${ptName(P,p)} : case bonus, +3 pièces`};}
     else if(c==='m')m={e:'🟥',t:'Case malus · '+ptLose(P,S,p,3,'Aïe')};
     else if(c==='c')m={e:'🦀',t:'Un crabe pince · '+ptLose(P,S,p,5,'Ouille')};
     else if(c==='r'){const h=Math.min(15,Math.ceil(S.coins[p]/2));m={e:'🦈',t:'Le requin du grand bain · '+ptLose(P,S,p,h,'Il croque la moitié des pièces')};}
     else if(c==='B'){S.shopN=(S.shopN||0)+1;return next('shop',now+20000,{shop:{p,n:S.shopN,o:ptOffer()},msg:{e:'🛒',t:`${ptName(P,p)} arrive à la buvette`}});}
     else if(c==='e'){const r=ptEvent(P,S,p);if(r.shop){S.shopN=(S.shopN||0)+1;return next('shop',now+20000,{shop:{p,n:S.shopN,o:ptOffer()},msg:{e:r.e,t:`${ptName(P,p)} : ${r.t}`}});}m={e:r.e,t:`${ptName(P,p)} : ${r.t}`};}
+    else if(c==='t'){const f=S.pos[p];S.pos[p]=(f+5)%n;S.seq++;S.mv={p,from:f,v:5,seq:S.seq,slide:1};m={e:'🛝',t:`${ptName(P,p)} prend le toboggan et glisse de 5 cases !`};}
+    else if(c==='k'){const f=S.pos[p],j=Math.floor(n/2);S.pos[p]=(f+j)%n;S.seq++;S.mv={p,from:f,v:j,seq:S.seq,jump:1};m={e:'🛶',t:`${ptName(P,p)} traverse le lagon en kayak !`};}
+    else if(c==='d'){const lead=ord.filter(q=>q!==p).sort((x,y)=>(S.stars[y]-S.stars[x])||(S.coins[y]-S.coins[x]))[0];
+      if(lead&&(S.stars[lead]>S.stars[p]||(S.stars[lead]===S.stars[p]&&S.coins[lead]>S.coins[p]))){const a2=S.pos[p];S.pos[p]=S.pos[lead];S.pos[lead]=a2;m={e:'🕺',t:`${ptName(P,p)} invite ${ptName(P,lead)} à danser : ils échangent leur place !`};}
+      else{S.coins[p]+=5;m={e:'🕺',t:`${ptName(P,p)} enflamme la piste : +5 pièces !`};}}
     else m={e:'🏁',t:`${ptName(P,p)} est sur la case départ`};
-    return next('ef',now+(c==='e'?3200:2200),{msg:m});}
+    return next('ef',now+(c==='e'?3400:['t','k','d'].includes(c)?3000:2400),{msg:m});}
+  if(S.phase==='star'){const q=S.sq||{},p=q.p,a=act[p];let yes=null;
+    if(a&&a.star===q.n)yes=!!a.yes;else if(auto(p)&&now>S.t0+1600)yes=S.coins[p]>=q.price;else if(now>=S.until)yes=false;if(yes===null)return null;
+    let m;if(yes&&S.coins[p]>=q.price){S.coins[p]-=q.price;S.stars[p]++;if(S.star2!=null&&q.cell===S.star2)S.star2=ptStarCell(map,S.star2,S.star);else S.star=ptStarCell(map,S.star,S.star2);
+      S.fx={k:'star',p,seq:(S.seq||0)+1};m={e:'⭐',t:`${ptName(P,p)} achète une étoile pour ${q.price} pièces !`};}
+    else m={e:'⭐',t:S.coins[p]<q.price?`${ptName(P,p)} n'a pas assez de pièces pour l'étoile… (${q.price} 🪙)`:`${ptName(P,p)} laisse passer l'étoile`};
+    S.walk.skip=q.cell;S.walk.atStar=false;S.sq=null;
+    if(S.walk.left>0){const w=ptWalk(S,p,n);S.seq++;S.mv={p,from:w.from,v:w.k,seq:S.seq,nd:1};if(w.lap)m={e:'🏁',t:m.t+' · tour complet : +5 pièces'};return next('mv',now+(S.fx&&S.fx.p===p&&yes?1800:500)+w.k*320+300,{msg:m});}
+    return next('mv',now+(yes?2200:1400),{msg:m});}
   if(S.phase==='shop'){const sh=S.shop||{},p=sh.p,a=act[p],o=[].concat(sh.o||[]);let buy=null;
     const sp=map.star+PT_SHOPSTAR.extra;if(a&&a.shop===sh.n)buy=a.buy||'';else if(auto(p)&&now>S.t0+1800){const ok=o.filter(k=>PT_ITEMS[k].p<=S.coins[p]);buy=PT_SHOPSTAR.on&&S.coins[p]>=sp?'star':ptInv(S,p).length<PT_BAG&&ok.length&&Math.random()<.75?ok[ptRnd(ok.length)]:'';}
     else if(now>=S.until)buy='';if(buy===null)return null;
@@ -6277,7 +6351,7 @@ function ptStep(P){const S=JSON.parse(JSON.stringify(P.state||{})),now=ptNow(),m
     if(buy==='star'&&PT_SHOPSTAR.on&&S.coins[p]>=sp){S.coins[p]-=sp;S.stars[p]++;m={e:'⭐',t:`${ptName(P,p)} achète une étoile à la buvette (${sp} pièces) !`};}
     else if(buy&&o.includes(buy)&&PT_ITEMS[buy].p<=S.coins[p]&&I.length<PT_BAG){S.coins[p]-=PT_ITEMS[buy].p;I.push(buy);S.inv[p]=I;m={e:PT_ITEMS[buy].e,t:`${ptName(P,p)} achète : ${PT_ITEMS[buy].n} (${PT_ITEMS[buy].p} pièces)`};}
     return next('ef',now+2000,{msg:m,shop:null});}
-  if(S.phase==='ef'){if(now<S.until)return null;S.cur++;
+  if(S.phase==='ef'){if(now<S.until)return null;S.cur++;S.walk=null;S.land=null;
     if(S.cur>=ord.length){const G=ptGames();const k=G[ptRnd(G.length)];return next('mgi',now+6500,{mg:{k,turn:S.turn},msg:{e:'🎮',t:`Mini-jeu : ${CHARS[k].game}`}});}
     S.rollN++;return next('roll',0,{msg:{e:'🎲',t:`Au tour de ${ptName(P,ord[S.cur])} de lancer le dé`}});}
   if(S.phase==='mgi'){if(now<S.until)return null;return next('mg',now+150000);}
@@ -6317,7 +6391,7 @@ function ptHome(b){PT.boardFor=null;const ok=ptOK(),now=Date.now();
      :'<div class="trempty">Aucune partie ouverte pour l\'instant.<br>Crée-en une et donne le code à tes amis !</div>'}`
    :'<div class="trempty">🎲 La Gambetta Party se joue en direct, sur le site du jeu, avec ta sauvegarde en ligne.</div>'}
    <div class="dsec">🗺️ Cartes</div>${Object.values(PT_MAPS).map(m=>`<div class="trow ptmap"><span class="e">${m.e}</span><div><b>${m.n}</b><small>${m.d}</small></div><span class="ptlv l${m.lv}">${m.lvl}</span></div>`).join('')}
-   <div class="drew" style="margin-top:12px;text-align:left"><b>Comment ça marche</b><br>🎲 Chacun son tour, on lance le dé et on avance.<br>🟦 Case bonus : +3 pièces · 🟥 Case malus : −3 pièces · ❓ Événement surprise · 🛒 Buvette : achète des objets.<br>🎒 Objets (3 max) : 🌟 dé doré (1 à 10), 🎲 double dé, 🛟 bouée qui protège, 📣 sifflet qui fait reculer le premier, 🗝️ clé qui t'amène devant l'étoile.<br>⭐ Passe sur l'étoile avec assez de pièces pour l'acheter (20 ou 25 selon la carte), ou achète-la à la buvette (10 pièces de plus). À partir de 6 joueurs, il y a 2 étoiles sur le plateau.<br>🎮 Après chaque tour, un mini-jeu au hasard : le 1er gagne 10 pièces, le 2e 7, le 3e 5…<br>👑 À la fin, le plus d'étoiles gagne (puis le plus de pièces). Le roi des mini-jeux gagne une étoile bonus.<br>🎁 Le gagnant reçoit un booster de 5, les autres 1 carte.</div><div style="height:96px"></div>`;
+   <div class="drew" style="margin-top:12px;text-align:left"><b>Comment ça marche</b><br>🎲 Chacun son tour, on lance le dé et on avance.<br>🟦 Case bonus : +3 pièces · 🟥 Case malus : −3 pièces · ❓ Événement surprise · 🛒 Buvette : achète des objets · 🛝 toboggan, 🛶 kayak, 🕺 danse selon la carte.<br>🎒 Objets (3 max) : 🌟 dé doré (1 à 10), 🎲 double dé, 🛟 bouée qui protège, 📣 sifflet qui fait reculer le premier, 🗝️ clé qui t'amène devant l'étoile.<br>⭐ Quand tu passes sur l'étoile, tu t'arrêtes et tu choisis de l'acheter (20 ou 25 pièces selon la carte), ou achète-la à la buvette (10 pièces de plus). À partir de 6 joueurs, il y a 2 étoiles sur le plateau.<br>🎮 Après chaque tour, un mini-jeu au hasard : le 1er gagne 10 pièces, le 2e 7, le 3e 5…<br>👑 À la fin, le plus d'étoiles gagne (puis le plus de pièces). Le roi des mini-jeux gagne une étoile bonus.<br>🎁 Le gagnant reçoit un booster de 5, les autres 1 carte.</div><div style="height:96px"></div>`;
   const nw=b.querySelector('#ptNew');if(nw)nw.onclick=ptCreate;const jn=b.querySelector('#ptJoin');if(jn)jn.onclick=ptAskCode;
   b.querySelectorAll('[data-pj]').forEach(x=>x.onclick=()=>ptJoin(x.dataset.pj));}
 function ptMeObj(){return{n:(window.GG&&GG.name)||'Joueur',fav:COL.fav||'',at:Date.now(),on:true};}
@@ -6370,31 +6444,69 @@ function ptLobbyUI(b,P){PT.boardFor=null;const me=ptMe(),host=P.host===me,pl=P.p
     b.querySelectorAll('[data-tt]').forEach(x=>x.onclick=()=>GG.party.update(PT.code,{tours:+x.dataset.tt}).catch(()=>{}));
     b.querySelector('#ptGo').onclick=()=>{if(n<2)return;const S=ptInit(P);GG.party.update(PT.code,{st:'play',startAt:ptNow(),state:S}).catch(()=>toast('📡','Pas de connexion',''));};}}
 function ptPawnIn(x){if(x.bot)return'🤖';const m=x.fav&&memObj(x.fav);return m&&(m.thumb||m.img)?`<img src="${m.thumb||m.img}" alt="">`:esc((x.n||'?').slice(0,1).toUpperCase());}
-function ptGameUI(b,P){const S=P.state||{},map=ptMap(P),me=ptMe(),ord=S.order||[],n=map.cells.length;
-  if(PT.boardFor!==PT.code+':'+(P.startAt||0)){PT.boardFor=PT.code+':'+(P.startAt||0);
+/* décor dessiné de la carte (SVG) : le centre reprend la forme du chemin */
+function ptArt(map){const C=ptCurve(map),K=.58,step=6,line=C.P.filter((_,i)=>i%step===0).map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' '),
+  inner=C.P.filter((_,i)=>i%step===0).map(q=>(50+(q[0]-50)*K).toFixed(1)+','+(62.5+(q[1]-62.5)*K).toFixed(1)).join(' ');
+  let fill='',extra='';
+  if(map.cls==='mpool'){fill='url(#ptWater)';extra=`<g clip-path="url(#ptIn)">${[0,1,2,3,4,5].map(i=>`<line x1="${30+i*8}" y1="20" x2="${30+i*8}" y2="105" stroke="#fff" stroke-width=".5" stroke-dasharray="2 2" opacity=".7"/>`).join('')}<rect class="ptshine" x="-60" y="0" width="40" height="125" fill="url(#ptShine)"/></g>`;}
+  else if(map.cls==='mbeach'){fill='url(#ptLagoon)';extra=`<g clip-path="url(#ptIn)"><path class="ptwave" d="M0 52 Q12 48 25 52 T50 52 T75 52 T100 52 V60 H0Z" fill="#ffffff55"/><path class="ptwave w2" d="M0 70 Q12 66 25 70 T50 70 T75 70 T100 70 V76 H0Z" fill="#ffffff44"/></g>`;}
+  else{fill='url(#ptFloor)';extra=`<g clip-path="url(#ptIn)"><circle class="ptspot s1" cx="38" cy="50" r="16" fill="#ffd23f55"/><circle class="ptspot s2" cx="62" cy="76" r="16" fill="#4ad7ff55"/></g>`;}
+  return `<svg class="ptart" viewBox="0 0 100 125" preserveAspectRatio="none"><defs>
+    <clipPath id="ptIn"><polygon points="${inner}"/></clipPath>
+    <linearGradient id="ptWater" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fd6ff"/><stop offset="1" stop-color="#1f8fd6"/></linearGradient>
+    <linearGradient id="ptShine" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <radialGradient id="ptLagoon"><stop offset="0" stop-color="#7fe8f0"/><stop offset=".7" stop-color="#2bb5d8"/><stop offset="1" stop-color="#f8e3b0"/></radialGradient>
+    <pattern id="ptFloor" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#7a5cff"/><rect width="5" height="5" fill="#ff5fa2"/><rect x="5" y="5" width="5" height="5" fill="#ff5fa2"/></pattern></defs>
+    <polyline points="${line} ${line.split(' ')[0]}" fill="none" class="ptroad" stroke-linejoin="round"/>
+    <polyline points="${line} ${line.split(' ')[0]}" fill="none" class="ptroad2" stroke-linejoin="round"/>
+    <polygon points="${inner}" fill="${fill}" class="ptinner"/>${extra}</svg>
+    ${map.deco.map(d=>`<span class="ptdeco" style="left:${d[1]}%;top:${d[2]/125*100}%">${d[0]}</span>`).join('')}<span class="ptlogo">${map.logo}</span>${map.cls==='mparty'?'<span class="ptdisco">🪩</span>':''}`;}
+function ptGameUI(b,P){const S=P.state||{},map=ptMap(P),me=ptMe(),ord=S.order||[],n=map.cells.length;PT.mapK=P.map||'belletanche';
+  if(PT.boardFor!==PT.code+':'+(P.startAt||0)){PT.boardFor=PT.code+':'+(P.startAt||0);PT.prev=null;
     b.innerHTML=`<div class="pttop"><b id="ptTurn"></b><span>${map.e} ${map.n}</span><button class="x" id="ptX" aria-label="Quitter">✕</button></div><div class="ptsc" id="ptSc"></div>
-     <div class="ptboard ${map.cls}" id="ptB"><div class="ptpool">${map.cls==='mpool'?'<i></i><i></i><i></i><i></i>':''}${map.deco.map((d,i)=>`<span class="d d${i+1}">${d}</span>`).join('')}<span class="ptlogo">${map.logo}</span></div>
-       ${map.cells.map((c,i)=>{const q=ptXY(i,n);return `<div class="ptc t${c}" style="left:${q.x}%;top:${q.y}%">${PT_CELL[c].e}</div>`;}).join('')}
+     <div class="ptboard ${map.cls}" id="ptB">${ptArt(map)}
+       ${map.cells.map((c,i)=>{const q=ptXY(i,n);return `<div class="ptc t${c}" data-ci="${i}" style="left:${q.x}%;top:${q.y}%">${PT_CELL[c].e}</div>`;}).join('')}
        <div class="ptstar" id="ptStar">⭐</div><div class="ptstar" id="ptStar2" hidden>⭐</div>${ord.map((p,i)=>`<div class="ptpawn" data-pw="${p}" style="background:${PT_COL[i%8]}">${ptPawnIn(ptPl(P,p))}</div>`).join('')}</div>
      <div class="ptmsg" id="ptMsg"></div><div class="ptact" id="ptAct"></div><div class="ptov" id="ptOv" hidden></div><div style="height:30px"></div>`;
-    b.querySelector('#ptX').onclick=()=>{if(P.st==='end'){ptExit(false);ptRender();return;}const sh=sheet(`<h3>🚪 Quitter la partie ?</h3><div class="sec">L'ordi jouera à ta place jusqu'à la fin. Tu ne gagneras pas de récompense.</div><div class="trbtns"><button class="btn alt" id="n">Rester</button><button class="btn" id="y">Quitter</button></div>`);
+    b.querySelector('#ptX').onclick=()=>{if(PT.P&&PT.P.st==='end'){ptExit(false);ptRender();return;}const sh=sheet(`<h3>🚪 Quitter la partie ?</h3><div class="sec">L'ordi jouera à ta place jusqu'à la fin. Tu ne gagneras pas de récompense.</div><div class="trbtns"><button class="btn alt" id="n">Rester</button><button class="btn" id="y">Quitter</button></div>`);
       sh.querySelector('#n').onclick=()=>sh.remove();sh.querySelector('#y').onclick=()=>{sh.remove();ptLeave();};};
-    PT.lastMv=S.mv?S.mv.seq:0;PT.lastDice=S.dice?S.dice.seq:0;}
+    PT.lastMv=S.mv?S.mv.seq:0;PT.lastDice=S.dice?S.dice.seq:0;PT.lastLand=S.land?S.land.seq:0;PT.lastFx=S.fx?S.fx.seq:0;}
   $('#ptTurn').textContent=P.st==='end'?'🏆 Fin de la partie':`Tour ${S.turn||1}/${P.tours||10}`;
-  $('#ptSc').innerHTML=ord.map((p,i)=>`<div class="ptsci${ord[S.cur]===p&&['roll','mv','ef'].includes(S.phase)?' on':''}${p===me?' me':''}"><span class="dot" style="background:${PT_COL[i%8]}"></span><b>${esc(ptName(P,p))}</b><span>⭐${(S.stars||{})[p]||0} 🪙${(S.coins||{})[p]||0}${ptInv(S,p).length?' 🎒'+ptInv(S,p).length:''}</span></div>`).join('');
+  $('#ptSc').innerHTML=ord.map((p,i)=>`<div class="ptsci${ord[S.cur]===p&&['roll','mv','ef','star','shop'].includes(S.phase)?' on':''}${p===me?' me':''}" data-sc="${p}"><span class="dot" style="background:${PT_COL[i%8]}"></span><b>${esc(ptName(P,p))}</b><span>⭐${(S.stars||{})[p]||0} 🪙${(S.coins||{})[p]||0}${ptInv(S,p).length?' 🎒'+ptInv(S,p).length:''}</span></div>`).join('');
   const sq=ptXY(S.star||0,n),st=$('#ptStar');st.style.left=sq.x+'%';st.style.top=sq.y+'%';const st2=$('#ptStar2');if(st2){st2.hidden=S.star2==null;if(S.star2!=null){const q2=ptXY(S.star2,n);st2.style.left=q2.x+'%';st2.style.top=q2.y+'%';}}
   // dé puis déplacement animé case par case
   if(S.dice&&S.dice.seq!==PT.lastDice){PT.lastDice=S.dice.seq;ptDice(S.dice,P);}
   if(S.mv&&S.mv.seq!==PT.lastMv){PT.lastMv=S.mv.seq;ptAnim(S.mv,n,P);}
-  ptPawns(P);const m=S.msg||{};$('#ptMsg').innerHTML=`<span>${m.e||''}</span> ${esc(m.t||'')}`;ptAction(P);ptOverlay(P);}
+  if(S.land&&S.land.seq!==PT.lastLand){PT.lastLand=S.land.seq;ptLandFx(S.land,P);}
+  if(S.fx&&S.fx.seq!==PT.lastFx){PT.lastFx=S.fx.seq;if(S.fx.k==='star')ptStarFx(S.fx.p,P);}
+  ptDiff(P);ptPawns(P);const m=S.msg||{};const mg=$('#ptMsg'),mh=`<span>${m.e||''}</span> ${esc(m.t||'')}`;if(mg.innerHTML!==mh){mg.innerHTML=mh;mg.classList.remove('pop');void mg.offsetWidth;mg.classList.add('pop');}
+  document.querySelectorAll('.ptpawn').forEach(el=>el.classList.toggle('cur',el.dataset.pw===ord[S.cur]&&P.st==='play'&&['roll','mv','star','shop','ef'].includes(S.phase)));
+  ptAction(P);ptOverlay(P);}
+/* pièces et étoiles gagnées / perdues : petits chiffres qui s'envolent au-dessus du pion */
+function ptDiff(P){const S=P.state||{},cur={};(S.order||[]).forEach(p=>cur[p]={c:(S.coins||{})[p]||0,s:(S.stars||{})[p]||0});
+  if(PT.prev)Object.keys(cur).forEach(p=>{const o=PT.prev[p];if(!o)return;const dc=cur[p].c-o.c,ds=cur[p].s-o.s;
+    const go=(t,cls,d)=>setTimeout(function w(){if(PT.anim[p])return setTimeout(w,200);ptFloat(p,t,cls);},d);
+    if(dc)go((dc>0?'+':'−')+Math.abs(dc)+' 🪙',dc>0?'up':'down',0);if(ds)go((ds>0?'+':'−')+Math.abs(ds)+' ⭐','star',dc?450:0);
+    const chip=document.querySelector(`[data-sc="${p}"]`);if(chip&&(dc||ds)){chip.classList.remove('bump');void chip.offsetWidth;chip.classList.add('bump');}});
+  PT.prev=cur;}
+function ptFloat(p,t,cls){const B=$('#ptB'),el=document.querySelector(`[data-pw="${p}"]`);if(!B||!el)return;const f=document.createElement('div');f.className='ptfloat '+cls;f.textContent=t;
+  f.style.left=el.style.left;f.style.top=el.style.top;B.appendChild(f);setTimeout(()=>f.remove(),1700);
+  if(cls==='up')for(let i=0;i<5;i++){const c=document.createElement('div');c.className='ptcoin';c.textContent='🪙';c.style.left=el.style.left;c.style.top=el.style.top;c.style.setProperty('--dx',(Math.random()*60-30)+'px');c.style.animationDelay=(i*70)+'ms';B.appendChild(c);setTimeout(()=>c.remove(),1300);}}
+const PT_LAND={b:['BONUS !','+3 🪙','up'],m:['MALUS…','−3 🪙','down'],e:['ÉVÉNEMENT !','❓','ev'],B:['BUVETTE !','🛒','ev'],c:['CRABE !','🦀','down'],r:['REQUIN !','🦈','down'],t:['TOBOGGAN !','🛝','ev'],k:['KAYAK !','🛶','ev'],d:['DANSE !','🕺','ev'],S:['DÉPART','🏁','ev']};
+function ptLandFx(L,P){const B=$('#ptB');if(!B)return;const delay=PT.anim[L.p]?500:0;
+  setTimeout(function w(){if(PT.anim[L.p])return setTimeout(w,150);const cell=B.querySelector(`[data-ci="${L.cell}"]`);if(cell){cell.classList.remove('hit');void cell.offsetWidth;cell.classList.add('hit');}
+    const d=PT_LAND[L.k]||PT_LAND.S,ban=document.createElement('div');ban.className='ptban '+d[2];ban.innerHTML=`<b>${d[0]}</b><span>${d[1]}</span>`;B.appendChild(ban);setTimeout(()=>ban.remove(),1700);},delay);}
+function ptStarFx(p,P){const B=$('#ptB');if(!B)return;const ov=document.createElement('div');ov.className='ptstarfx';ov.innerHTML=`<div class="s">⭐</div><b>${esc(ptName(P,p))} gagne une étoile !</b>`+Array.from({length:14},(_,i)=>`<i style="--a:${i*360/14}deg;animation-delay:${(i%3)*60}ms">✨</i>`).join('');B.appendChild(ov);setTimeout(()=>ov.remove(),2200);}
 function ptPawns(P){const S=P.state||{},n=ptMap(P).cells.length,ord=S.order||[],at={};
   ord.forEach(p=>{if(PT.anim[p])return;const c=(S.pos||{})[p]||0;(at[c]=at[c]||[]).push(p);});
   Object.entries(at).forEach(([c,L])=>L.forEach((p,j)=>{const el=document.querySelector(`[data-pw="${p}"]`);if(!el)return;const q=ptXY(+c,n),o=L.length>1?[[-1,-1],[1,-1],[-1,1],[1,1],[0,-1.6],[0,1.6],[-1.6,0],[1.6,0]][j%8]:[0,0];
     el.style.left=`calc(${q.x}% + ${o[0]*9}px)`;el.style.top=`calc(${q.y}% + ${o[1]*9}px)`;}));}
 function ptAnim(mv,n,P){const el=document.querySelector(`[data-pw="${mv.p}"]`);if(!el)return;PT.anim[mv.p]=1;let k=0;
-  const step=()=>{k++;const q=ptXY((mv.from+k)%n,n);el.style.left=q.x+'%';el.style.top=q.y+'%';el.classList.remove('hop');void el.offsetWidth;el.classList.add('hop');
-    if(k<mv.v)setTimeout(step,300);else setTimeout(()=>{PT.anim[mv.p]=0;if(PT.P)ptPawns(PT.P);},350);};
-  setTimeout(step,950);}
+  if(mv.jump){setTimeout(()=>{el.classList.add('fly');const q=ptXY((mv.from+mv.v)%n,n);el.style.left=q.x+'%';el.style.top=q.y+'%';setTimeout(()=>{el.classList.remove('fly');PT.anim[mv.p]=0;if(PT.P)ptPawns(PT.P);},950);},500);return;}
+  const dt=mv.slide?120:300;el.classList.toggle('slide',!!mv.slide);
+  const step=()=>{k++;const q=ptXY((mv.from+k)%n,n);el.style.left=q.x+'%';el.style.top=q.y+'%';if(!mv.slide){el.classList.remove('hop');void el.offsetWidth;el.classList.add('hop');}
+    if(k<mv.v)setTimeout(step,dt);else setTimeout(()=>{el.classList.remove('slide');PT.anim[mv.p]=0;if(PT.P)ptPawns(PT.P);},dt+50);};
+  if(mv.v>0)setTimeout(step,mv.slide?600:mv.nd?250:950);else PT.anim[mv.p]=0;}
 function ptDice(d,P){const ov=document.createElement('div');ov.className='ptdice';const two=!!d.v2;
   ov.innerHTML=`<div class="dies"><div class="die${d.it==='gold'?' gold':''}">🎲</div>${two?'<div class="die">🎲</div>':''}</div><small>${esc(ptName(P,d.p))}</small>`;$('#ptB').appendChild(ov);
   const D=ov.querySelectorAll('.die');let i=0;const t=setInterval(()=>{D.forEach(x=>x.textContent=1+ptRnd(d.it==='gold'?10:6));if(++i>7){clearInterval(t);D[0].textContent=d.v;if(two)D[1].textContent=d.v2;D.forEach(x=>x.classList.add('fin'));}},90);setTimeout(()=>ov.remove(),1500);}
@@ -6409,6 +6521,11 @@ function ptAction(P){const S=P.state||{},me=ptMe(),a=$('#ptAct');if(!a)return;
 function ptOverlay(P){const S=P.state||{},ov=$('#ptOv');if(!ov)return;const me=ptMe(),now=ptNow(),left=Math.max(0,Math.ceil(((S.until||0)-now)/1000));
   let h='';
   if(P.st==='end')h=ptEndHTML(P);
+  else if(S.phase==='star'&&S.sq){const q=S.sq,mine=q.p===me,c=(S.coins||{})[q.p]||0,ok=c>=q.price,sent=((P.act||{})[me]||{}).star===q.n;
+    h=`<div class="ptcard ptstarq"><div class="big spin">⭐</div><b>${mine?'Tu passes sur l\'étoile !':esc(ptName(P,q.p))+' passe sur l\'étoile…'}</b>
+      <div class="cd">${mine?`Acheter l'étoile pour <b>${q.price} 🪙</b> ? Tu as ${c} 🪙`:`Va-t-il l'acheter pour ${q.price} 🪙 ?`}</div>
+      ${mine&&!sent?`<button class="btn" data-sy="1"${ok?'':' disabled'}>${ok?'⭐ Oui, je la prends !':`Il te manque ${q.price-c} 🪙`}</button><button class="btn alt" data-sy="0">${ok?'Non merci':'Tant pis…'}</button>`:''}
+      <div class="cd">${left} s</div></div>`;}
   else if(S.phase==='shop'&&S.shop){const sh=S.shop,mine=sh.p===me,c=(S.coins||{})[sh.p]||0,full=ptInv(S,sh.p).length>=PT_BAG,sent=((P.act||{})[me]||{}).shop===sh.n;
     h=`<div class="ptcard"><div class="big">🛒</div><b>${mine?'Bienvenue à la buvette !':esc(ptName(P,sh.p))+' est à la buvette…'}</b>${mine?`<div class="cd">🪙 ${c} pièces · 🎒 ${ptInv(S,me).length}/${PT_BAG}${full?' (sac plein)':''}</div>`:''}
       <div class="ptshop">${PT_SHOPSTAR.on?(()=>{const sp=ptMap(P).star+PT_SHOPSTAR.extra;return `<div class="it star"><span class="e">⭐</span><div><b>Étoile</b><small>Une étoile tout de suite (plus chère que sur le plateau)</small></div>${mine&&!sent?`<button class="btn" data-buy="star"${sp>c?' disabled':''}>${sp} 🪙</button>`:`<span class="pr">${sp} 🪙</span>`}</div>`;})():''}${[].concat(sh.o||[]).map(k=>{const it=PT_ITEMS[k];return `<div class="it"><span class="e">${it.e}</span><div><b>${it.n}</b><small>${it.d}</small></div>${mine&&!sent?`<button class="btn" data-buy="${k}"${it.p>c||full?' disabled':''}>${it.p} 🪙</button>`:`<span class="pr">${it.p} 🪙</span>`}</div>`;}).join('')}</div>
@@ -6420,11 +6537,12 @@ function ptOverlay(P){const S=P.state||{},ov=$('#ptOv');if(!ov)return;const me=p
   else if(S.phase==='mgr'&&S.mgr){const L=[].concat(S.mgr).filter(Boolean),k=S.mg.k,med=['🥇','🥈','🥉'];
     h=`<div class="ptcard"><b>🎮 ${CHARS[k].game}</b><div class="ptres">${L.map(x=>`<div class="rkrow${x.p===me?' me':''}"><span class="pos">${med[x.rank-1]||x.rank}</span><span class="who">${esc(ptName(P,x.p))}${x.bot?' 🤖':''}</span><span class="v">${x.w?(x.s>=0?fmtVal(k,x.s):'✔️'):x.miss?'pas joué':'raté'}</span><span class="cn">+${x.coin} 🪙</span></div>`).join('')}</div></div>`;}
   const key=(P.st||'')+':'+(S.phase||'')+':'+(S.seq||0);ov.hidden=!h;if(ov._h!==h){ov._h=h;ov.innerHTML=h;const cd=ov.querySelector('.ptcard');if(cd&&ov.dataset.k===key)cd.classList.add('still');}ov.dataset.k=key;const pb=ov.querySelector('#ptPlay');if(pb)pb.onclick=()=>ptPlayMg(S);
+  ov.querySelectorAll('[data-sy]').forEach(x=>x.onclick=()=>{ov.querySelectorAll('[data-sy]').forEach(y=>y.disabled=true);GG.party.set(PT.code,'act/'+me,{star:S.sq.n,yes:x.dataset.sy==='1'}).catch(()=>{});});
   ov.querySelectorAll('[data-buy]').forEach(x=>x.onclick=()=>{ov.querySelectorAll('[data-buy]').forEach(y=>y.disabled=true);GG.party.set(PT.code,'act/'+me,{shop:S.shop.n,buy:x.dataset.buy}).catch(()=>{});});
   const eb=ov.querySelector('#ptEndBack');if(eb)eb.onclick=()=>{ptExit(false);ptRender();};}
 function ptEndHTML(P){const S=P.state||{},me=ptMe(),fin=[].concat(S.fin||[]).filter(Boolean),rk=S.rk||{},med=['🥇','🥈','🥉'],bonus=[].concat(S.bonus||[]).filter(Boolean),mine=rk[me];
   const human=fin.includes(me)&&!ptPl(P,me).bot&&!ptPl(P,me).left;
-  return `<div class="ptcard ptend"><div class="big">🏆</div><h3>${esc(ptName(P,fin[0]))} gagne !</h3>
+  return `<div class="ptconf">${Array.from({length:26},(_,i)=>`<i style="left:${(i*37)%100}%;animation-delay:${(i%7)*.25}s;animation-duration:${2.2+(i%5)*.4}s">${['🎉','⭐','🪙','🎊','✨'][i%5]}</i>`).join('')}</div><div class="ptcard ptend"><div class="big bounce">🏆</div><h3>${esc(ptName(P,fin[0]))} gagne !</h3>
    ${bonus.length?`<div class="drew">👑 Roi des mini-jeux : ${bonus.map(p=>esc(ptName(P,p))).join(', ')} · +1 étoile bonus</div>`:''}
    <div class="ptres">${fin.map(p=>`<div class="rkrow${p===me?' me':''}"><span class="pos">${med[rk[p]-1]||rk[p]}</span><span class="who">${esc(ptName(P,p))}${ptPl(P,p).bot?' 🤖':''}</span><span class="v">⭐${(S.stars||{})[p]||0} · 🪙${(S.coins||{})[p]||0}</span></div>`).join('')}</div>
    ${human?`<div class="drew">🎁 ${mine===1?'Tu gagnes un <b>booster de 5 cartes</b> !':'Tu gagnes <b>1 carte</b> pour ta participation !'} Il t'attend dans ta collection.</div>`:''}
