@@ -813,6 +813,54 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 @keyframes ptconf{0%{transform:translateY(0) rotate(0)}100%{transform:translateY(110vh) rotate(540deg)}}
 .ptdice .die{position:relative}.ptdice .die.fin{animation:ptdiefin .5s cubic-bezier(.2,1.6,.4,1)}@keyframes ptdiefin{0%{transform:scale(1.6) rotate(25deg)}100%{transform:scale(1) rotate(0)}}
 </style>
+<style>/* ===== Gambetta Party v4 : persos, dé, carrefour, duel, chance, équipes, fin ===== */
+.ptav{display:inline-flex;align-items:center;justify-content:center;width:100%;height:100%;border-radius:50%;overflow:hidden}.ptav svg{width:118%;height:118%;margin-top:14%}
+.ptav.mini{width:24px;height:24px;flex:none;border:2px solid var(--ink)}.ptav.big{width:76px;height:76px;border:3px solid var(--ink);box-shadow:0 3px 0 var(--ink)}
+.ptpawn{width:32px;height:32px;padding:2px}.ptpawn .ptav{border:0}.ptpawn .rk{position:absolute;right:-7px;bottom:-6px;font-style:normal;font-size:10px;font-weight:900;background:#fff;color:#1b2a3a;border:1.5px solid var(--ink);border-radius:8px;min-width:14px;height:14px;line-height:11px;text-align:center}
+.ptpawn .rk.crown{background:none;border:0;font-size:16px;right:auto;left:50%;bottom:auto;top:-15px;transform:translateX(-50%);animation:ptcrown 1.6s ease-in-out infinite}
+@keyframes ptcrown{50%{transform:translateX(-50%) translateY(-3px) rotate(-8deg)}}
+.ptpgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.ptpgrid.small .ptpc{cursor:default}
+.ptpc{display:flex;flex-direction:column;align-items:center;gap:1px;background:var(--card);color:var(--text);border:3px solid var(--ink);border-radius:14px;padding:6px 3px 7px;font:inherit;cursor:pointer;box-shadow:0 3px 0 var(--ink);text-align:center}
+.ptpc .ptav{width:48px;height:48px;border:2px solid var(--ink)}.ptpc b{font-size:13px}.ptpc small{font-size:10.5px;font-weight:800;line-height:1.15}.ptpc em{font-style:normal;font-size:9.5px;color:var(--muted);line-height:1.15;font-weight:600}
+.ptpc.on{background:#ffe08a;color:#1b2a3a;transform:translateY(-3px);box-shadow:0 0 0 3px #ffb800,0 3px 0 var(--ink)}.ptpc.off{opacity:.45;cursor:default}
+.ptp .pw{width:30px;height:30px}.ptp small{font-size:16px}
+.ptbridge{stroke:#fff;stroke-width:6.5;stroke-linecap:round}.ptbridge2{stroke:#8a5a2b;stroke-width:1.2;stroke-dasharray:1.5 1.5}.mparty .ptbridge{stroke:#ffd23f;filter:drop-shadow(0 0 2px #ff5fa2)}.mbeach .ptbridge{stroke:#c98d4e}.mbeach .ptbridge2{stroke:#f4d6a4}
+.ptc.br{border-style:dashed;box-shadow:0 0 0 2px #ffffffaa,0 2px 0 var(--ink)}.ptc.fork::after{content:'🔀';position:absolute;top:-13px;right:-11px;font-size:13px;filter:drop-shadow(0 1px 0 #fff)}
+.ptc.tD{background:#ff4d4d;font-size:14px}.ptc.tC{background:#ffffff;font-size:14px;animation:ptchance 2.4s linear infinite}@keyframes ptchance{0%,100%{filter:hue-rotate(0)}50%{filter:hue-rotate(180deg) saturate(2)}}
+.ptboard.hot{box-shadow:0 0 0 3px #ff6b00,0 0 22px #ff6b00aa,0 5px 0 var(--ink);animation:pthot 1.4s ease-in-out infinite}@keyframes pthot{50%{box-shadow:0 0 0 3px #ff2d00,0 0 34px #ff2d00cc,0 5px 0 var(--ink)}}
+.ptsci span:last-child{white-space:nowrap}
+.ptrollbox{display:flex;align-items:center;gap:12px;margin-top:4px}.ptrollbox>div{flex:1;min-width:0}.ptrollbox b{font-family:'Lilita One',sans-serif;font-weight:400;font-size:18px}
+.ptdie{flex:none;width:88px;height:88px;border-radius:20px;border:4px solid var(--ink);background:#fff;color:#1b2a3a;box-shadow:0 6px 0 var(--ink);font-family:'Lilita One',sans-serif;font-size:46px;cursor:pointer;animation:ptdiewob .5s ease-in-out infinite;display:flex;align-items:center;justify-content:center}
+.ptdie.gold{background:linear-gradient(#fff3a8,#ffc83d)}.ptdie.go{animation:ptroll .15s linear infinite}.ptdie.stop{animation:ptdiefin .5s cubic-bezier(.2,1.6,.4,1);background:#ffe08a}
+@keyframes ptdiewob{0%,100%{transform:rotate(-5deg) scale(1)}50%{transform:rotate(5deg) scale(1.05)}}
+.ptuse .mini-b.on{background:#ffd23f;color:#1b2a3a;box-shadow:0 0 0 2px #ff9a00}.ptuse .mini-b.pwb{border-color:#9b51e0;background:#f3e8ff}.ptsel{display:block;color:var(--muted);font-weight:700;margin-top:4px}
+.ptpw{background:#f3e8ff!important;color:#5b2d91}.ptpw.ok{background:#e6ffe9!important;color:#1d7a33}
+.ptdice .die.allin{background:linear-gradient(#a8e6ff,#4aa8ff);color:#fff}.ptdice .die.drop{opacity:.35;transform:scale(.8)}
+.ptfork{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}.ptfk{display:flex;flex-direction:column;gap:3px;align-items:center;background:#fff2e0;color:#1b2a3a;border:3px solid var(--ink);border-radius:16px;padding:10px 6px;font:inherit;cursor:pointer;box-shadow:0 3px 0 var(--ink)}
+.ptfk.safe{background:#e3f4ff}.ptfk b{font-size:16px}.ptfk small{font-weight:800;color:#5a6b7d}.ptfk.on{transform:scale(1.05);box-shadow:0 0 0 3px #ffd23f,0 3px 0 var(--ink)}.ptfk[disabled]{cursor:default}
+.ptduel{display:flex;flex-direction:column;gap:7px;margin:8px 0}.ptdq{display:flex;align-items:center;gap:10px;background:var(--card);color:var(--text);border:2px solid var(--ink);border-radius:14px;padding:6px 10px;font:inherit;cursor:pointer;text-align:left}
+.ptdq b{flex:1}.ptdq small{font-weight:800}.ptdq.on{background:#ffd6d6}
+.ptvs{position:relative;width:100%;max-width:400px;background:linear-gradient(135deg,#ff5a5f,#2f80ed);border:4px solid var(--ink);border-radius:24px;padding:18px 10px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;color:#fff;box-shadow:0 6px 0 var(--ink);overflow:hidden}
+.ptvs .side{display:flex;flex-direction:column;align-items:center;gap:6px}.ptvs .side b{font-family:'Lilita One',sans-serif;font-weight:400;font-size:20px;text-shadow:0 2px 0 #1b2a3a}
+.ptvs .l{animation:ptvsl .6s cubic-bezier(.2,1.4,.4,1)}.ptvs .r{animation:ptvsr .6s cubic-bezier(.2,1.4,.4,1)}@keyframes ptvsl{0%{transform:translateX(-150%)}}@keyframes ptvsr{0%{transform:translateX(150%)}}
+.ptvs .bolt{font-size:40px;text-align:center;animation:ptbolt .5s .5s both}.ptvs .bolt span{display:block;font-family:'Lilita One',sans-serif;font-size:30px;text-shadow:0 3px 0 #1b2a3a}@keyframes ptbolt{0%{transform:scale(3);opacity:0}100%{transform:scale(1);opacity:1}}
+.ptvs .info{grid-column:1/-1;margin-top:12px;background:#fff;color:#1b2a3a;border-radius:14px;padding:8px;text-align:center;font-weight:700}.ptvs .info .dgame{justify-content:center;text-align:left}
+.ptchance .reels{display:flex;flex-direction:column;gap:6px;margin:10px 0}.ptchance .reel{border:3px solid var(--ink);border-radius:12px;padding:8px;font-weight:900;font-size:16px;background:#fff8d6;color:#1b2a3a;transition:transform .2s}
+.ptchance .reel.fin{background:#ffd23f;animation:ptdiefin .5s cubic-bezier(.2,1.6,.4,1)}.ptchance .cd.fin{font-size:17px;color:#d4462c;animation:bbtroPop .5s both}.spin2{display:inline-block;animation:ptspin2 .6s linear infinite}@keyframes ptspin2{50%{transform:rotate(12deg) scale(1.1)}}
+.ptfmt{font-family:'Lilita One',sans-serif;font-weight:400;font-size:24px;margin:2px 0 6px;animation:ptdiefin .6s cubic-bezier(.2,1.6,.4,1)}
+.ptteams{display:flex;align-items:center;gap:6px;justify-content:center;margin:6px 0}.ptteams .tm{flex:1;display:flex;flex-direction:column;gap:4px;border:3px solid var(--ink);border-radius:12px;padding:6px}.ptteams .tm.red{background:#ffd6d6}.ptteams .tm.blue{background:#d6e8ff}
+.ptteams .tm span{display:flex;align-items:center;gap:5px;font-weight:800;font-size:13px;color:#1b2a3a}.ptteams .vs{font-family:'Lilita One',sans-serif;font-size:20px}
+.ptfinal{background:linear-gradient(#fff4e0,#ffe0c2)}.ptfinal .fire{font-size:56px;animation:ptfire .5s ease-in-out infinite alternate}@keyframes ptfire{to{transform:scale(1.12) rotate(4deg)}}
+.ptfinal h3{color:#e2471b;animation:ptdiefin .6s cubic-bezier(.2,1.6,.4,1)}.ptfinal .rkrow{animation:bbtroPop .4s both}
+.ptbonus .bon{display:flex;align-items:center;gap:10px;border:3px solid var(--ink);border-radius:14px;padding:8px 10px;margin:8px 0;text-align:left;opacity:0;transform:scale(.8);transition:all .4s cubic-bezier(.2,1.5,.4,1);background:#fff}
+.ptbonus .bon.show{opacity:1;transform:scale(1)}.ptbonus .bon .e{font-size:30px}.ptbonus .bon>div{flex:1}.ptbonus .bon small{display:block;font-weight:800;color:var(--muted)}.ptbonus .bon .st{font-family:'Lilita One',sans-serif;font-size:22px}
+.ptbonus .bon.show:not(.rev) .who{animation:ptdrum .25s linear infinite}@keyframes ptdrum{50%{transform:translateX(3px)}}
+.ptbonus .bon.rev{background:#fff59a;box-shadow:0 0 0 3px #ffd23f}.ptbonus .bon.rev .st{animation:ptstarin .7s cubic-bezier(.2,1.6,.4,1);color:#d48a00}
+.ptpod{display:flex;align-items:flex-end;justify-content:center;gap:8px;margin:12px 0 6px}.ptpod .pp{display:flex;flex-direction:column;align-items:center;gap:4px;animation:bbtroPop .6s both}.ptpod .pp b{font-size:13px}
+.ptpod .blk{width:84px;border:3px solid var(--ink);border-radius:10px 10px 0 0;background:#ffd23f;font-size:24px;display:flex;flex-direction:column;align-items:center;justify-content:center}.ptpod .blk small{font-size:11px;font-weight:800}
+.ptpod .r1 .blk{height:84px}.ptpod .r2 .blk{height:62px;background:#e3e9ef}.ptpod .r3 .blk{height:48px;background:#f2c08f}.ptpod .r1{animation-delay:.5s}.ptpod .r2{animation-delay:.2s}.ptpod .r3{animation-delay:0s}.ptpod .r1 .ptav{box-shadow:0 0 0 4px #ffd23f,0 3px 0 var(--ink)}
+.ptban.duel{background:#ff4d4d;color:#fff}.ptban small{display:block;font-weight:900;color:#ff6b00}
+</style>
 </head>
 <body>
 <div id="app">
@@ -6216,155 +6264,247 @@ function bbDraw(){const cv=$('#bbCv');if(!cv)return;const c=cv.getContext('2d'),
 /* ================= GAMBETTA PARTY (style Mario Party, en direct) ================= */
 /* Un joueur crée la partie (code à 4 chiffres), jusqu'à 8 joueurs (l'ordi complète).
    Le téléphone de l'hôte fait tourner la partie (dés, cases, mini-jeux) et l'écrit dans la Realtime Database ;
-   les autres affichent et envoient seulement « je lance le dé » et leur résultat au mini-jeu.
+   les autres affichent et envoient seulement leurs choix (dé, objets, pouvoir, étoile, chemin, duel) et leur résultat aux mini-jeux.
    Si l'hôte part, un autre joueur reprend automatiquement. */
-const PT_SHOPSTAR={on:true,extra:10},PT_2STAR={from:6};const PT_MAX=8,PT_COINS=[10,7,5,4,3,2,1,0],PT_BAG=3,PT_COL=['#ff5a5f','#2f80ed','#2fb35a','#ffb800','#9b51e0','#ff8a00','#00b8c4','#e84393'];
-/* cartes : S départ · b bonus · m malus · e événement · B buvette · c crabe · r requin · t toboggan · k kayak · d piste de danse */
+const PT_SHOPSTAR={on:true,extra:10},PT_2STAR={from:6},PT_PWCOST=12;
+const PT_MAX=8,PT_COINS=[10,7,5,4,3,2,1,0],PT_BAG=3,PT_COL=['#ff5a5f','#2f80ed','#2fb35a','#ffb800','#9b51e0','#ff8a00','#00b8c4','#e84393'];
+/* cases : S départ · b bonus · m malus · e événement · B buvette · c crabe · r requin · t toboggan · k kayak · d danse · D duel · C chance
+   br = carrefour : à la case f on choisit le raccourci (cases br.cells) qui rejoint la case j */
 const PT_MAPS={
-  belletanche:{n:'Piscine Belletanche',e:'🏊',lvl:'Facile',lv:1,star:20,coins:10,shape:'kidney',cells:'SbbebmBbBbmtbbembbebmBbetmbbeb',
-    deco:[['🛝',87,62],['🍹',8,6],['🚿',92,6],['🪜',8,119],['⛱️',92,119]],logo:'Belletanche',cls:'mpool',d:'Une piscine en haricot, des toboggans 🛝 qui font glisser de 5 cases. L\'étoile coûte 20 pièces.'},
-  plage:{n:'La plage du club',e:'🏖️',lvl:'Normal',lv:2,star:25,coins:10,shape:'flower',cells:'SbmebcbBmkebcmBebmBcbekmebcbm',
-    deco:[['🌴',7,7],['🐚',93,7],['🏐',7,118],['🍦',93,118]],logo:'La plage',cls:'mbeach',d:'Un lagon en fleur, des kayaks 🛶 pour traverser… et des crabes 🦀 (−5). L\'étoile coûte 25 pièces.'},
-  soiree:{n:'Soirée au club',e:'🪩',lvl:'Difficile',lv:3,star:25,coins:5,shape:'star',cells:'SmebrmbBemrbmdBmrBembmrebmdb',
-    deco:[['🎤',8,7],['🍕',92,7],['🎂',8,118],['🎶',92,118]],logo:'Soirée',cls:'mparty',d:'Une piste en étoile, le requin 🦈 (la moitié de tes pièces !), la danse 🕺 qui échange ta place. 5 pièces au départ, étoile à 25.'}};
+  belletanche:{n:'Piscine Belletanche',e:'🏊',lvl:'Facile',lv:1,star:20,coins:10,shape:'kidney',cells:'SbbebmBbBbmtbDembbebmBbetmbCeb',br:{f:6,j:17,cells:'mbmem',k:.7},
+    deco:[['🛝',87,62],['🍹',8,6],['🚿',92,6],['🪜',8,119],['⛱️',92,119]],logo:'Belletanche',cls:'mpool',d:'Une piscine en haricot, un pont 🔀 au-dessus du bassin, des toboggans 🛝. L\'étoile coûte 20 pièces.'},
+  plage:{n:'La plage du club',e:'🏖️',lvl:'Normal',lv:2,star:25,coins:10,shape:'flower',cells:'SbmebcbBmkeDcmBebmBcbekmeCcbm',br:{f:6,j:15,cells:'cbce',k:.7},
+    deco:[['🌴',7,7],['🐚',93,7],['🏐',7,118],['🍦',93,118]],logo:'La plage',cls:'mbeach',d:'Un lagon en fleur, un ponton 🔀 plein de crabes 🦀, des kayaks 🛶. L\'étoile coûte 25 pièces.'},
+  soiree:{n:'Soirée au club',e:'🪩',lvl:'Difficile',lv:3,star:25,coins:5,shape:'star',cells:'SmebrmbBemrDmdBmrBemCmrebmdb',br:{f:3,j:8,cells:'rb',k:-.3},
+    deco:[['🎤',8,7],['🍕',92,7],['🎂',8,118],['🎶',92,118]],logo:'Soirée',cls:'mparty',d:'Une piste en étoile, le requin 🦈 (la moitié de tes pièces !), la danse 🕺. 5 pièces au départ, étoile à 25.'}};
 Object.values(PT_MAPS).forEach(m=>{if(typeof m.cells==='string')m.cells=m.cells.split('');});
-const PT_CELL={S:{e:'🏁',n:'Départ'},b:{e:'+3',n:'Bonus'},m:{e:'−3',n:'Malus'},e:{e:'❓',n:'Événement'},B:{e:'🛒',n:'Buvette'},c:{e:'🦀',n:'Crabe'},r:{e:'🦈',n:'Requin'},t:{e:'🛝',n:'Toboggan'},k:{e:'🛶',n:'Kayak'},d:{e:'🕺',n:'Danse'}};
+/* partie rapide (5 tours) : plateau réduit à 16 cases, plus de pièces au départ */
+const PT_SHORT={belletanche:{cells:'SbebBmDtbmbBeCme',coins:25,br:{f:3,j:10,cells:'mbm',k:.7}},plage:{cells:'SbcebBkDmeCcBkme',coins:25,br:{f:3,j:10,cells:'cec',k:.7}},
+  soiree:{cells:'SbebrBmdDmeBeCmd',coins:20,star:20,br:{f:4,j:12,cells:'rmb',k:.7}}};const PT_MV={};
+function ptMapK(k,short){const b=PT_MAPS[k]||PT_MAPS.belletanche;if(!short)return b;const id=k+':s';
+  if(!PT_MV[id]){const x=PT_SHORT[k]||PT_SHORT.belletanche;PT_MV[id]=Object.assign({},b,{cells:x.cells.split(''),coins:x.coins,star:x.star||b.star,br:x.br,short:1});PT_MV[id]._pts=null;}return PT_MV[id];}
+const PT_CELL={S:{e:'🏁',n:'Départ'},b:{e:'+3',n:'Bonus'},m:{e:'−3',n:'Malus'},e:{e:'❓',n:'Événement'},B:{e:'🛒',n:'Buvette'},c:{e:'🦀',n:'Crabe'},r:{e:'🦈',n:'Requin'},
+  t:{e:'🛝',n:'Toboggan'},k:{e:'🛶',n:'Kayak'},d:{e:'🕺',n:'Danse'},D:{e:'⚔️',n:'Duel'},C:{e:'🎰',n:'Chance'}};
 /* formes des chemins (boîte de 100 × 125) */
 const PT_SHAPES={
   kidney:t=>{const a=Math.atan2(Math.sin(t),Math.cos(t)),k=1-.36*Math.exp(-(a*a)/.22);return[50+41*k*Math.cos(t),62.5+54*k*Math.sin(t)];},
   flower:t=>{const r=1+.13*Math.sin(6*t);return[50+39*r*Math.cos(t),62.5+50*r*Math.sin(t)];},
   star:t=>{const r=.66+.34*Math.cos(5*t+Math.PI/2);return[50+44*r*Math.cos(t),62.5+57*r*Math.sin(t)];}};
-function ptCurve(map){if(map._cv)return map._cv;const f=PT_SHAPES[map.shape],M=900,P=[],L=[0];
-  for(let i=0;i<=M;i++){const t=Math.PI/2+i/M*2*Math.PI;P.push(f(t));if(i)L.push(L[i-1]+Math.hypot(P[i][0]-P[i-1][0],P[i][1]-P[i-1][1]));}
-  return map._cv={P,L,tot:L[M]};}
-function ptPts(map){if(map._pts)return map._pts;const C=ptCurve(map),n=map.cells.length,out=[];let j=0;
-  for(let i=0;i<n;i++){const s=i/n*C.tot;while(C.L[j+1]<s)j++;const f=(s-C.L[j])/((C.L[j+1]-C.L[j])||1),x=C.P[j][0]+(C.P[j+1][0]-C.P[j][0])*f,y=C.P[j][1]+(C.P[j+1][1]-C.P[j][1])*f;out.push({x,y:y/125*100,ux:x,uy:y});}
-  return map._pts=out;}
 const PT_ITEMS={gold:{e:'🌟',n:'Dé doré',d:'Lance un dé de 1 à 10',p:8},double:{e:'🎲',n:'Double dé',d:'Lance 2 dés d\'un coup',p:10},
   buoy:{e:'🛟',n:'Bouée',d:'Te protège du prochain malus, vol, crabe ou requin',p:5},whistle:{e:'📣',n:'Sifflet',d:'Le joueur en tête recule de 4 cases',p:6},
   key:{e:'🗝️',n:'Clé des vestiaires',d:'Te téléporte juste avant l\'étoile',p:20}};
+/* persos = pions ; chacun a un pouvoir, utilisable une fois puis rechargeable à la buvette */
+const PT_PERSOS={roland:{pw:'d10',e:'🛟',pn:'Dé de sauveteur',pd:'Lance un dé de 3 à 10'},christian:{pw:'x2',e:'🧢',pn:'Double ou rien',pd:'Au prochain mini-jeu : pièces ×2 si tu finis dans la 1re moitié, sinon 0 !'},
+  agnes:{pw:'best',e:'🍹',pn:'Service express',pd:'Lance 2 dés, garde le meilleur et ajoute +2'},nathan:{pw:'allin',e:'🐟',pn:'Tout ou rien',pd:'Un dé qui fait 0 ou 10'},
+  manu:{pw:'warp',e:'🏃',pn:'Rattrape-le',pd:'Te téléporte sur la case d\'un joueur',tgt:1},marcel:{pw:'tax',e:'🍺',pn:'Tournée générale',pd:'Les 2 joueurs les plus riches te donnent 2 pièces'},
+  richard:{pw:'steal',e:'📣',pn:'Coup de sifflet',pd:'Vole 5 pièces au joueur de ton choix',tgt:1},matheo:{pw:'net',e:'🎣',pn:'Épuisette',pd:'Attire l\'étoile 3 cases plus près de toi'}};
 const PT_EVENTS=[{k:'apero',w:3,e:'🍹',t:'Apéro offert ! +5 pièces'},{k:'sifflet',w:3,e:'🚨',t:'Coup de sifflet de Roland ! −5 pièces'},
   {k:'requin',w:2,e:'🦈',t:'Le requin ! Tu voles 5 pièces au plus riche'},{k:'swap',w:2,e:'🔄',t:'Échange de place'},
   {k:'vague',w:2,e:'🌊',t:'Grosse vague ! Tout le monde recule de 2 cases'},{k:'longueur',w:2,e:'🏊',t:'Longueur bonus ! Tu avances de 3 cases'},
   {k:'etoile',w:2,e:'⭐',t:"L'étoile change de place !"},{k:'cadeau',w:1,e:'🎁',t:'Cadeau du club ! +10 pièces'},
   {k:'karaoke',w:2,e:'🎤',t:'Karaoké ! Chaque joueur te donne 2 pièces'},{k:'menage',w:2,e:'🧽',t:'Ménage des vestiaires ! Tout le monde perd 3 pièces, sauf toi'},
   {k:'bouee',w:2,e:'🛟',t:'Une bouée gratuite dans ton sac !'},{k:'buvette',w:1,e:'🛒',t:'La buvette vient à toi !'}];
-let PT={code:null,P:null,un:null,pres:null,lob:null,lobs:{},ht:null,tick:null,lastMv:0,lastDice:0,anim:{},mgGo:0,hOff:0,wSeq:0,boardFor:null,inGame:false};
+const PT_CHANCE=[{k:'give',w:3,t:'{a} donne {n} pièces à {b}'},{k:'take',w:3,t:'{b} donne {n} pièces à {a}'},{k:'swapC',w:2,t:'{a} et {b} échangent leurs pièces !'},
+  {k:'swapS',w:1,t:'{a} et {b} échangent leurs étoiles !'},{k:'allA',w:2,t:'Tout le monde donne 3 pièces à {a}'},{k:'giftA',w:2,t:'{a} gagne {n} pièces !'}];
+let PT={code:null,P:null,un:null,pres:null,lob:null,lobs:{},ht:null,tick:null,lastMv:0,lastDice:0,anim:{},mgGo:0,duelGo:0,hOff:0,wSeq:0,boardFor:null,inGame:false,sel:null};
 const ptMe=()=>(window.GG&&GG.pid)||myId;
 const ptOK=()=>!!(window.GG&&GG.party&&GG.party.ok());
 const ptNow=()=>window.GG&&GG.party?GG.party.now():Date.now();
-const ptMap=P=>PT_MAPS[(P&&P.map)||'belletanche'];
+const ptMap=P=>ptMapK((P&&P.map)||'belletanche',!!(P&&(P.tours||10)<=5));
 const ptPl=(P,p)=>((P&&P.players)||{})[p]||{};
 const ptOnline=(P,p)=>{const x=ptPl(P,p);return !x.bot&&x.on!==false&&!x.left;};
 const ptName=(P,p)=>{const x=ptPl(P,p);return x.n||'Joueur';};
 const ptGames=()=>ORDER.filter(k=>GAMES[k]&&CHARS[k]);
 const ptRnd=n=>Math.floor(Math.random()*n);
+const ptPick=L=>{const t=L.reduce((a,x)=>a+x.w,0);let r=Math.random()*t;for(const x of L){r-=x.w;if(r<=0)return x;}return L[0];};
 function ptHumans(P){const pl=(P&&P.players)||{};return Object.keys(pl).filter(p=>!pl[p].bot).sort((a,b)=>(pl[a].at||0)-(pl[b].at||0));}
 function ptOrder(P){const pl=(P&&P.players)||{};return (P&&P.state&&P.state.order)||Object.keys(pl).sort((a,b)=>(pl[a].at||0)-(pl[b].at||0));}
 
-/* ---------- position d'une case sur la carte affichée ---------- */
-function ptXY(i,n){const map=PT_MAPS[PT.mapK||'belletanche'],pts=ptPts(map),q=pts[((i%pts.length)+pts.length)%pts.length];return{x:q.x,y:q.y};}
+/* ---------- plateau : boucle principale + raccourci du carrefour ---------- */
+const ptN=map=>map.cells.length,ptAll=map=>map.cells.length+(map.br?map.br.cells.length:0);
+const ptType=(map,c)=>c<map.cells.length?map.cells[c]:map.br.cells[c-map.cells.length];
+function ptNext(map,c,choice){const n=map.cells.length,B=map.br;if(B){const m=B.cells.length;if(c===B.f&&choice)return n;if(c>=n)return c===n+m-1?B.j:c+1;}return(c+1)%n;}
+function ptPrev(map,c){const n=map.cells.length,B=map.br;if(B&&c>=n)return c===n?B.f:c-1;return(c-1+n)%n;}
+function ptCurve(map){if(map._cv)return map._cv;const f=PT_SHAPES[map.shape],M=900,P=[],L=[0];
+  for(let i=0;i<=M;i++){const t=Math.PI/2+i/M*2*Math.PI;P.push(f(t));if(i)L.push(L[i-1]+Math.hypot(P[i][0]-P[i-1][0],P[i][1]-P[i-1][1]));}
+  return map._cv={P,L,tot:L[M]};}
+function ptBez(a,c,b,t){return[(1-t)*(1-t)*a[0]+2*(1-t)*t*c[0]+t*t*b[0],(1-t)*(1-t)*a[1]+2*(1-t)*t*c[1]+t*t*b[1]];}
+function ptBrCtl(a,b,k){const mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2;return[mx+(50-mx)*k,my+(62.5-my)*k];}
+function ptPts(map){if(map._pts)return map._pts;const C=ptCurve(map),n=map.cells.length,out=[];let j=0;
+  for(let i=0;i<n;i++){const s=i/n*C.tot;while(C.L[j+1]<s)j++;const f=(s-C.L[j])/((C.L[j+1]-C.L[j])||1),x=C.P[j][0]+(C.P[j+1][0]-C.P[j][0])*f,y=C.P[j][1]+(C.P[j+1][1]-C.P[j][1])*f;out.push({x,y:y/125*100,ux:x,uy:y});}
+  if(map.br){const B=map.br,m=B.cells.length,a=[out[B.f].ux,out[B.f].uy],b=[out[B.j].ux,out[B.j].uy],c=ptBrCtl(a,b,B.k);
+    for(let i=0;i<m;i++){const q=ptBez(a,c,b,(i+1)/(m+1));out.push({x:q[0],y:q[1]/125*100,ux:q[0],uy:q[1]});}}
+  return map._pts=out;}
 
 /* ---------- moteur (téléphone de l'hôte) ---------- */
-function ptStarCell(map,avoid,avoid2){const L=map.cells.map((c,i)=>(c==='b'||c==='e')&&i!==avoid&&i!==avoid2&&Math.min(i,map.cells.length-i)>=5?i:-1).filter(i=>i>=0);return L[ptRnd(L.length)];}
-function ptInit(P){const map=ptMap(P),order=ptOrder(P).slice(0,PT_MAX),now=ptNow(),S={phase:'roll',turn:1,cur:0,order,pos:{},coins:{},stars:{},mgw:{},inv:{},seq:1,rollN:1,shopN:0,t0:now,until:0};
-  order.forEach(p=>{S.pos[p]=0;S.coins[p]=map.coins;S.stars[p]=0;S.mgw[p]=0;});S.star=ptStarCell(map,-1);if(order.length>=PT_2STAR.from)S.star2=ptStarCell(map,S.star);
+function ptStarCell(map,avoid,avoid2){const L=map.cells.map((c,i)=>(c==='b'||c==='e')&&i!==avoid&&i!==avoid2&&Math.min(i,map.cells.length-i)>=4?i:-1).filter(i=>i>=0);return L[ptRnd(L.length)];}
+function ptInit(P){const map=ptMap(P),order=ptOrder(P).slice(0,PT_MAX),now=ptNow(),
+  S={phase:'roll',turn:1,cur:0,order,pos:{},coins:{},stars:{},mgw:{},inv:{},pw:{},ch:{},earn:{},bad:{},x2:{},seq:1,rollN:1,shopN:0,starN:0,forkN:0,duelN:0,t0:now,until:0};
+  const taken=new Set();order.forEach(p=>{const c=ptPl(P,p).ch;if(c&&PT_PERSOS[c]&&!taken.has(c)){S.ch[p]=c;taken.add(c);}});
+  const free=Object.keys(PT_PERSOS).filter(k=>!taken.has(k));order.forEach(p=>{if(!S.ch[p])S.ch[p]=free.splice(ptRnd(free.length),1)[0]||'roland';});
+  order.forEach(p=>{S.pos[p]=0;S.coins[p]=map.coins;S.stars[p]=0;S.mgw[p]=0;S.pw[p]=1;S.earn[p]=0;S.bad[p]=0;});S.star=ptStarCell(map,-1);if(order.length>=PT_2STAR.from)S.star2=ptStarCell(map,S.star);
   S.msg={e:'🎲',t:`La partie commence ! ${ptName(P,order[0])} lance le dé en premier.`};return S;}
 const ptInv=(S,p)=>[].concat((S.inv||{})[p]||[]).filter(Boolean);
 function ptBuoy(S,p){const I=ptInv(S,p),i=I.indexOf('buoy');if(i<0)return false;I.splice(i,1);S.inv[p]=I;return true;}
-function ptLose(P,S,p,k,why){if(ptBuoy(S,p))return `${why}… mais la bouée de ${ptName(P,p)} le protège ! 🛟`;const x=Math.min(k,S.coins[p]);S.coins[p]-=x;return x?`${why} : −${x} pièce${x>1?'s':''} pour ${ptName(P,p)}`:`${why}… mais ${ptName(P,p)} n'a plus de pièces 😅`;}
-function ptEvent(P,S,p){const map=ptMap(P),n=map.cells.length,tot=PT_EVENTS.reduce((a,x)=>a+x.w,0);let r=Math.random()*tot,ev=PT_EVENTS[0];for(const x of PT_EVENTS){r-=x.w;if(r<=0){ev=x;break;}}
-  let t=ev.t;const others=S.order.filter(q=>q!==p);
-  if(ev.k==='apero')S.coins[p]+=5;else if(ev.k==='sifflet')t=ptLose(P,S,p,5,'Coup de sifflet de Roland');else if(ev.k==='cadeau')S.coins[p]+=10;
+function ptLose(P,S,p,k,why){if(ptBuoy(S,p))return `${why}… mais la bouée de ${ptName(P,p)} le protège ! 🛟`;const x=Math.min(k,S.coins[p]);S.coins[p]-=x;if(x>0)S.bad[p]=(S.bad[p]||0)+1;
+  return x?`${why} : −${x} pièce${x>1?'s':''} pour ${ptName(P,p)}`:`${why}… mais ${ptName(P,p)} n'a plus de pièces 😅`;}
+const ptLead=(S,ord,p)=>ord.filter(q=>q!==p).sort((x,y)=>(S.stars[y]-S.stars[x])||(S.coins[y]-S.coins[x]))[0];
+function ptEvent(P,S,p){const map=ptMap(P),ev=ptPick(PT_EVENTS);let t=ev.t;const others=S.order.filter(q=>q!==p),h=S.hot?2:1;
+  if(ev.k==='apero'){S.coins[p]+=5*h;if(h>1)t='Apéro offert (double !) : +10 pièces';}else if(ev.k==='sifflet')t=ptLose(P,S,p,5*h,'Coup de sifflet de Roland');else if(ev.k==='cadeau')S.coins[p]+=10;
   else if(ev.k==='requin'){const rich=others.slice().sort((a,b)=>S.coins[b]-S.coins[a])[0];const k=rich?Math.min(5,S.coins[rich]):0;
     if(k>0&&ptBuoy(S,rich))t=`Le requin attaque ${ptName(P,rich)}… mais sa bouée le protège ! 🛟`;
-    else if(k>0){S.coins[rich]-=k;S.coins[p]+=k;t=`Le requin ! Tu voles ${k} pièce${k>1?'s':''} à ${ptName(P,rich)}`;}else t='Le requin passe… mais personne n\'a de pièces !';}
+    else if(k>0){S.coins[rich]-=k;S.coins[p]+=k;S.bad[rich]=(S.bad[rich]||0)+1;t=`Le requin ! Tu voles ${k} pièce${k>1?'s':''} à ${ptName(P,rich)}`;}else t='Le requin passe… mais personne n\'a de pièces !';}
   else if(ev.k==='karaoke'){let g=0;others.forEach(q=>{const x=Math.min(2,S.coins[q]);S.coins[q]-=x;g+=x;});S.coins[p]+=g;t=`Karaoké ! Les autres te donnent ${g} pièce${g>1?'s':''}`;}
   else if(ev.k==='menage')others.forEach(q=>S.coins[q]=Math.max(0,S.coins[q]-3));
   else if(ev.k==='bouee'){const I=ptInv(S,p);if(I.length<PT_BAG){I.push('buoy');S.inv[p]=I;}else{S.coins[p]+=3;t='Une bouée gratuite… ton sac est plein, alors +3 pièces !';}}
   else if(ev.k==='buvette')return{e:ev.e,t,shop:1};
   else if(ev.k==='swap'&&others.length){const q=others[ptRnd(others.length)];const a=S.pos[p];S.pos[p]=S.pos[q];S.pos[q]=a;t=`Échange de place avec ${ptName(P,q)} !`;}
-  else if(ev.k==='vague')S.order.forEach(q=>S.pos[q]=(S.pos[q]-2+n)%n);
-  else if(ev.k==='longueur')S.pos[p]=(S.pos[p]+3)%n;
+  else if(ev.k==='vague')S.order.forEach(q=>{S.pos[q]=ptPrev(map,ptPrev(map,S.pos[q]));});
+  else if(ev.k==='longueur'){let c=S.pos[p];for(let i=0;i<3;i++)c=ptNext(map,c,false);S.pos[p]=c;}
   else if(ev.k==='etoile')S.star=ptStarCell(map,S.star,S.star2);
   return{e:ev.e,t};}
-/* avance case par case ; s'arrête sur une étoile (sauf celle qu'on vient de refuser) */
-function ptWalk(S,p,n){const W=S.walk,from=S.pos[p];let k=0,lap=false,atStar=false;
-  while(k<W.left){k++;const c=(from+k)%n;if(c===0&&k<W.left){S.coins[p]+=5;lap=true;}
-    if((c===S.star||(S.star2!=null&&c===S.star2))&&c!==W.skip){atStar=true;break;}}
-  S.pos[p]=(from+k)%n;W.left-=k;W.atStar=atStar;return{from,k,lap};}
 function ptOffer(){const K=Object.keys(PT_ITEMS);const o=[];while(o.length<3){const k=K[ptRnd(K.length)];if(!o.includes(k))o.push(k);}return o;}
 function ptRank(k,L){const m=metricOf(k);const cmp=(a,b)=>{if(a.w!==b.w)return b.w-a.w;const as=a.s!=null,bs=b.s!=null;if(as&&bs&&a.s!==b.s)return m.t==='time'?a.s-b.s:b.s-a.s;if(as!==bs)return as?-1:1;return 0;};
-  L.sort(cmp);L.forEach((x,i)=>{x.rank=i>0&&cmp(L[i-1],x)===0?L[i-1].rank:i+1;x.coin=PT_COINS[x.rank-1]||0;});return L;}
-function ptBots(P,S,k,L){const m=metricOf(k),ref=L.filter(x=>x.w&&x.s!=null).map(x=>x.s).sort((a,b)=>a-b),med=ref.length?ref[Math.floor(ref.length/2)]:null;
-  S.order.filter(p=>!L.find(x=>x.p===p)).forEach(p=>{const pl=ptPl(P,p),sk=pl.bot?(pl.sk||.5):.45,w=Math.random()<sk?1:0;let s=null;
+  L.sort(cmp);L.forEach((x,i)=>{x.rank=i>0&&cmp(L[i-1],x)===0?L[i-1].rank:i+1;});return L;}
+/* résultats d'un mini-jeu : vrais joueurs + ordis (qui jouent autour du niveau des humains) */
+function ptResults(P,S,k,key,who){const res=((P.res||{})[key])||{},L=[];
+  who.forEach(p=>{const r=res[p];if(r)L.push({p,w:r.w?1:0,s:r.s==null?null:+r.s});else if(!ptPl(P,p).bot&&ptOnline(P,p))L.push({p,w:0,s:null,miss:1});});
+  const m=metricOf(k),ref=L.filter(x=>x.w&&x.s!=null).map(x=>x.s).sort((a,b)=>a-b),med=ref.length?ref[Math.floor(ref.length/2)]:null;
+  who.filter(p=>!L.find(x=>x.p===p)).forEach(p=>{const pl=ptPl(P,p),sk=pl.bot?(pl.sk||.5):.45,w=Math.random()<sk?1:0;let s=null;
     if(med!=null&&w)s=m.t==='time'?Math.round(med*(.8+Math.random()*.5)*10)/10:Math.round(med*(.6+Math.random()*.7));
-    L.push({p,w,s,bot:1});});}
-function ptStep(P){const S=JSON.parse(JSON.stringify(P.state||{})),now=ptNow(),map=ptMap(P),n=map.cells.length,act=P.act||{},ord=S.order||[];
-  S.inv=S.inv||{};['pos','coins','stars','mgw'].forEach(f=>{S[f]=S[f]||{};ord.forEach(p=>{if(S[f][p]==null)S[f][p]=0;});});
-  const auto=p=>!ptOnline(P,p),next=(ph,until,extra)=>{Object.assign(S,{phase:ph,t0:now,until:until||0},extra||{});S.seq=(S.seq||0)+1;return S;};
+    L.push({p,w,s,bot:1});});
+  return ptRank(k,L);}
+/* format du mini-jeu : chacun pour soi, 2 contre 2, 1 contre 3 ou deux équipes */
+function ptFormat(ord){const n=ord.length,sh=ord.slice().sort(()=>Math.random()-.5);if(n<4||Math.random()<.5)return{fmt:'ffa'};
+  if(n===4)return Math.random()<.5?{fmt:'2v2',tm:[sh.slice(0,2),sh.slice(2)]}:{fmt:'1v3',tm:[sh.slice(0,1),sh.slice(1)]};
+  const h=Math.floor(n/2);return{fmt:'teams',tm:[sh.slice(0,h),sh.slice(h)]};}
+/* avance case par case ; s'arrête au carrefour (choix du chemin) et sur une étoile (achat) */
+function ptWalk(P,S,p,map){const W=S.walk,path=[];let c=S.pos[p],lap=false;W.atFork=false;W.atStar=false;
+  while(W.left>0){if(map.br&&c===map.br.f&&W.choice==null&&!W.forkDone){W.atFork=true;break;}
+    const nx=ptNext(map,c,W.choice);if(c===(map.br&&map.br.f)){W.choice=null;W.forkDone=false;}c=nx;W.left--;path.push(c);
+    if(c===0&&W.left>0){S.coins[p]+=5;lap=true;}
+    if((c===S.star||(S.star2!=null&&c===S.star2))&&c!==W.skip){W.atStar=true;break;}}
+  S.pos[p]=c;return{path,lap};}
+function ptPower(P,S,p,a,map){const k=S.ch[p],pw=PT_PERSOS[k].pw,ord=S.order,others=ord.filter(q=>q!==p);let t='',dice=null;
+  const tg=a&&a.tgt&&others.includes(a.tgt)?a.tgt:ptLead(S,ord,p);
+  if(pw==='d10')dice={d1:3+ptRnd(8),it:'gold'};
+  else if(pw==='best'){const x=1+ptRnd(6),y=1+ptRnd(6);dice={d1:Math.max(x,y)+2,best:[x,y]};}
+  else if(pw==='allin')dice={d1:Math.random()<.5?0:10,it:'allin'};
+  else if(pw==='x2'){S.x2[p]=S.turn;t='Double ou rien : ses pièces du mini-jeu compteront double !';}
+  else if(pw==='warp'&&tg){S.pos[p]=S.pos[tg];t=`Rattrape-le : téléporté sur la case de ${ptName(P,tg)} !`;}
+  else if(pw==='tax'){let g=0;others.slice().sort((x,y)=>S.coins[y]-S.coins[x]).slice(0,2).forEach(q=>{const x=Math.min(2,S.coins[q]);S.coins[q]-=x;g+=x;});S.coins[p]+=g;t=`Tournée générale : les plus riches lui offrent ${g} pièces !`;}
+  else if(pw==='steal'&&tg){if(ptBuoy(S,tg))t=`Coup de sifflet sur ${ptName(P,tg)}… protégé par sa bouée !`;else{const x=Math.min(5,S.coins[tg]);S.coins[tg]-=x;S.coins[p]+=x;if(x)S.bad[tg]=(S.bad[tg]||0)+1;t=`Coup de sifflet : vole ${x} pièce${x>1?'s':''} à ${ptName(P,tg)} !`;}}
+  else if(pw==='net'){const n=map.cells.length,me=S.pos[p]<n?S.pos[p]:map.br.j,dist=s=>((s-me)%n+n)%n,st=S.star2!=null&&dist(S.star2)<dist(S.star)?'star2':'star',d=dist(S[st]);
+    S[st]=d<=4?(me+1)%n:(S[st]-3+n)%n;t='Épuisette : l\'étoile se rapproche de 3 cases !';}
+  S.pw[p]=0;return{t:`${PT_PERSOS[k].e} ${ptName(P,p)} · ${t||PT_PERSOS[k].pn+' !'}`,dice};}
+function ptBotPower(S,p,map){const k=S.ch[p],pw=PT_PERSOS[k].pw;if(!S.pw[p]||Math.random()>.4)return false;
+  if(pw==='x2')return S.turn>1;if(pw==='net')return S.coins[p]>=map.star;if(pw==='allin')return Math.random()<.5;return true;}
+function ptStep(P){const before=Object.assign({},(P.state||{}).coins||{}),r=ptStep0(P);if(r){const S=r.state||r;S.earn=S.earn||{};
+    Object.keys(S.coins||{}).forEach(p=>{const d=(S.coins[p]||0)-(before[p]||0);if(d>0)S.earn[p]=(S.earn[p]||0)+d;});}return r;}
+function ptStep0(P){const S=JSON.parse(JSON.stringify(P.state||{})),now=ptNow(),map=ptMap(P),n=map.cells.length,act=P.act||{},ord=S.order||[];
+  S.inv=S.inv||{};['pos','coins','stars','mgw','pw','earn','bad'].forEach(f=>{S[f]=S[f]||{};ord.forEach(p=>{if(S[f][p]==null)S[f][p]=f==='pw'?1:0;});});S.ch=S.ch||{};S.x2=S.x2||{};
+  const auto=p=>!ptOnline(P,p),next=(ph,until,extra)=>{Object.assign(S,{phase:ph,t0:now,until:until||0},extra||{});S.seq=(S.seq||0)+1;return S;},h=S.hot?2:1;
+  const cont=(p,m,wait)=>{const w=ptWalk(P,S,p,map);S.seq++;S.mv={p,path:w.path.length?w.path:[S.pos[p]],seq:S.seq,nd:1,v:w.path.length};if(w.lap)m={e:'🏁',t:m.t+' · tour complet : +5 pièces'};return next('mv',now+(wait||500)+w.path.length*320+300,{msg:m});};
   if(S.phase==='roll'){const p=ord[S.cur],a=act[p];
     if(!((a&&a.n===S.rollN)||(auto(p)&&now>S.t0+1400)||now>S.t0+30000))return null;
-    let it=a&&a.n===S.rollN&&a.it?a.it:null;const I=ptInv(S,p);
-    if(auto(p)&&!it){const lead=ord.filter(q=>q!==p).sort((x,y)=>(S.stars[y]-S.stars[x])||(S.coins[y]-S.coins[x]))[0];
-      if(I.includes('key')&&S.coins[p]>=map.star)it='key';else if(I.includes('double')&&Math.random()<.6)it='double';else if(I.includes('gold')&&Math.random()<.6)it='gold';
-      else if(I.includes('whistle')&&lead&&(S.stars[lead]>S.stars[p]||S.coins[lead]>S.coins[p]))it='whistle';}
-    if(it&&(it==='buoy'||!I.includes(it)))it=null;if(it){I.splice(I.indexOf(it),1);S.inv[p]=I;}
-    let pre=null;if(it==='key'){S.pos[p]=(S.star-1+n)%n;pre=`${ptName(P,p)} utilise la clé des vestiaires 🗝️`;}
-    if(it==='whistle'){const lead=ord.filter(q=>q!==p).sort((x,y)=>(S.stars[y]-S.stars[x])||(S.coins[y]-S.coins[x]))[0];
-      if(lead){if(ptBuoy(S,lead))pre=`📣 Sifflet sur ${ptName(P,lead)}… protégé par sa bouée !`;else{S.pos[lead]=(S.pos[lead]-4+n)%n;pre=`📣 ${ptName(P,p)} siffle ${ptName(P,lead)} : il recule de 4 cases !`;}}}
-    const d1=1+ptRnd(it==='gold'?10:6),d2=it==='double'?1+ptRnd(6):0,v=d1+d2;let msg=null;
-    S.walk={p,left:v,skip:-1};const w=ptWalk(S,p,n);if(w.lap)msg={e:'🏁',t:`${ptName(P,p)} fait un tour complet : +5 pièces`};
-    S.seq++;S.dice={p,v:d1,v2:d2,it:it||'',seq:S.seq};S.mv={p,from:w.from,v:w.k,seq:S.seq};
-    const say=`${ptName(P,p)} fait ${d2?d1+' + '+d2+' = '+v:v}${it==='gold'?' avec le dé doré 🌟':''} !`;
-    return next('mv',now+1300+w.k*320+300+(pre?600:0),{msg:msg||{e:pre?'🎒':'🎲',t:pre?pre+' · '+say:say}});}
+    let it=a&&a.n===S.rollN&&a.it?a.it:null,usePw=!!(a&&a.n===S.rollN&&a.pw&&S.pw[p]);const I=ptInv(S,p);
+    if(auto(p)&&!it&&!usePw){const lead=ptLead(S,ord,p);usePw=ptBotPower(S,p,map);
+      if(!usePw){if(I.includes('key')&&S.coins[p]>=map.star)it='key';else if(I.includes('double')&&Math.random()<.6)it='double';else if(I.includes('gold')&&Math.random()<.6)it='gold';
+        else if(I.includes('whistle')&&lead&&(S.stars[lead]>S.stars[p]||S.coins[lead]>S.coins[p]))it='whistle';}}
+    if(usePw)it=null;if(it&&(it==='buoy'||!I.includes(it)))it=null;if(it){I.splice(I.indexOf(it),1);S.inv[p]=I;}
+    let pre=null,pd=null;if(usePw){const r=ptPower(P,S,p,a,map);pre=r.t;pd=r.dice;}
+    if(it==='key'){S.pos[p]=ptPrev(map,S.star);pre=`${ptName(P,p)} utilise la clé des vestiaires 🗝️`;}
+    if(it==='whistle'){const lead=ptLead(S,ord,p);if(lead){if(ptBuoy(S,lead))pre=`📣 Sifflet sur ${ptName(P,lead)}… protégé par sa bouée !`;else{let c=S.pos[lead];for(let i=0;i<4;i++)c=ptPrev(map,c);S.pos[lead]=c;pre=`📣 ${ptName(P,p)} siffle ${ptName(P,lead)} : il recule de 4 cases !`;}}}
+    const d1=pd?pd.d1:1+ptRnd(it==='gold'?10:6),d2=pd?0:it==='double'?1+ptRnd(6):0,v=d1+d2;let msg=null;
+    S.walk={p,left:v,skip:-1};const w=ptWalk(P,S,p,map);if(w.lap)msg={e:'🏁',t:`${ptName(P,p)} fait un tour complet : +5 pièces`};
+    S.seq++;S.dice={p,v:d1,v2:d2,it:(pd&&pd.it)||it||'',best:pd&&pd.best||null,seq:S.seq};S.mv={p,path:w.path,seq:S.seq,v:w.path.length};
+    const say=pd&&pd.best?`${ptName(P,p)} lance ${pd.best[0]} et ${pd.best[1]} : il garde ${v-2}, +2 = ${v} !`:`${ptName(P,p)} fait ${d2?d1+' + '+d2+' = '+v:v}${it==='gold'||(pd&&pd.it==='gold')?' avec le dé de 1 à 10 🌟':''}${v===0?' : il ne bouge pas !':' !'}`;
+    return next('mv',now+1300+w.path.length*320+300+(pre?600:0),{msg:msg||{e:pre?'✨':'🎲',t:pre?pre+' · '+say:say}});}
   if(S.phase==='mv'){if(now<S.until)return null;const p=ord[S.cur];
-    // arrêt sur une étoile : on demande au joueur s'il veut l'acheter
+    if(S.walk&&S.walk.atFork){S.forkN=(S.forkN||0)+1;return next('fork',now+15000,{fk:{p,n:S.forkN},msg:{e:'🔀',t:`${ptName(P,p)} arrive au carrefour : quel chemin ?`}});}
     if(S.walk&&S.walk.atStar){S.starN=(S.starN||0)+1;return next('star',now+15000,{sq:{p,cell:S.pos[p],n:S.starN,price:map.star},msg:{e:'⭐',t:`${ptName(P,p)} passe sur l'étoile !`}});}
-    if(S.walk&&S.walk.done)return next('ef',now+300,{});
-    const c=map.cells[S.pos[p]];let m;S.walk={p,left:0,done:1};S.land={p,cell:S.pos[p],k:c,seq:(S.seq||0)+1};
-    if(c==='b'){S.coins[p]+=3;m={e:'🟦',t:`${ptName(P,p)} : case bonus, +3 pièces`};}
-    else if(c==='m')m={e:'🟥',t:'Case malus · '+ptLose(P,S,p,3,'Aïe')};
-    else if(c==='c')m={e:'🦀',t:'Un crabe pince · '+ptLose(P,S,p,5,'Ouille')};
-    else if(c==='r'){const h=Math.min(15,Math.ceil(S.coins[p]/2));m={e:'🦈',t:'Le requin du grand bain · '+ptLose(P,S,p,h,'Il croque la moitié des pièces')};}
+    const c=ptType(map,S.pos[p]);let m;S.walk=null;S.land={p,cell:S.pos[p],k:c,seq:(S.seq||0)+1,h};
+    if(c==='b'){S.coins[p]+=3*h;S.blue=S.blue||{};S.blue[p]=(S.blue[p]||0)+1;m={e:'🟦',t:`${ptName(P,p)} : case bonus, +${3*h} pièces`};}
+    else if(c==='m')m={e:'🟥',t:'Case malus · '+ptLose(P,S,p,3*h,'Aïe')};
+    else if(c==='c')m={e:'🦀',t:'Un crabe pince · '+ptLose(P,S,p,5*h,'Ouille')};
+    else if(c==='r'){const x=Math.min(15,Math.ceil(S.coins[p]/2));m={e:'🦈',t:'Le requin du grand bain · '+ptLose(P,S,p,x,'Il croque la moitié des pièces')};}
     else if(c==='B'){S.shopN=(S.shopN||0)+1;return next('shop',now+20000,{shop:{p,n:S.shopN,o:ptOffer()},msg:{e:'🛒',t:`${ptName(P,p)} arrive à la buvette`}});}
     else if(c==='e'){const r=ptEvent(P,S,p);if(r.shop){S.shopN=(S.shopN||0)+1;return next('shop',now+20000,{shop:{p,n:S.shopN,o:ptOffer()},msg:{e:r.e,t:`${ptName(P,p)} : ${r.t}`}});}m={e:r.e,t:`${ptName(P,p)} : ${r.t}`};}
-    else if(c==='t'){const f=S.pos[p];S.pos[p]=(f+5)%n;S.seq++;S.mv={p,from:f,v:5,seq:S.seq,slide:1};m={e:'🛝',t:`${ptName(P,p)} prend le toboggan et glisse de 5 cases !`};}
-    else if(c==='k'){const f=S.pos[p],j=Math.floor(n/2);S.pos[p]=(f+j)%n;S.seq++;S.mv={p,from:f,v:j,seq:S.seq,jump:1};m={e:'🛶',t:`${ptName(P,p)} traverse le lagon en kayak !`};}
-    else if(c==='d'){const lead=ord.filter(q=>q!==p).sort((x,y)=>(S.stars[y]-S.stars[x])||(S.coins[y]-S.coins[x]))[0];
+    else if(c==='t'){const f=S.pos[p],path=[];let x=f;for(let i=0;i<5;i++){x=ptNext(map,x,false);path.push(x);}S.pos[p]=x;S.seq++;S.mv={p,path,seq:S.seq,slide:1,v:5};m={e:'🛝',t:`${ptName(P,p)} prend le toboggan et glisse de 5 cases !`};}
+    else if(c==='k'){const f=S.pos[p],j=(f+Math.floor(n/2))%n;S.pos[p]=j;S.seq++;S.mv={p,path:[j],seq:S.seq,jump:1,v:1};m={e:'🛶',t:`${ptName(P,p)} traverse le lagon en kayak !`};}
+    else if(c==='d'){const lead=ptLead(S,ord,p);
       if(lead&&(S.stars[lead]>S.stars[p]||(S.stars[lead]===S.stars[p]&&S.coins[lead]>S.coins[p]))){const a2=S.pos[p];S.pos[p]=S.pos[lead];S.pos[lead]=a2;m={e:'🕺',t:`${ptName(P,p)} invite ${ptName(P,lead)} à danser : ils échangent leur place !`};}
-      else{S.coins[p]+=5;m={e:'🕺',t:`${ptName(P,p)} enflamme la piste : +5 pièces !`};}}
+      else{S.coins[p]+=5*h;m={e:'🕺',t:`${ptName(P,p)} enflamme la piste : +${5*h} pièces !`};}}
+    else if(c==='D'&&ord.length>1){S.duelN=(S.duelN||0)+1;return next('duelp',now+15000,{dl:{p,n:S.duelN},msg:{e:'⚔️',t:`${ptName(P,p)} tombe sur la case Duel ! Qui va-t-il défier ?`}});}
+    else if(c==='C'&&ord.length>1){const others=ord.filter(q=>q!==p),b=others[ptRnd(others.length)],x=ptPick(PT_CHANCE);
+      return next('chance',now+6200,{cc:{a:p,b,k:x.k,n:10*h,seq:(S.seq||0)+1},msg:{e:'🎰',t:`${ptName(P,p)} tombe sur la case Chance !`}});}
     else m={e:'🏁',t:`${ptName(P,p)} est sur la case départ`};
     return next('ef',now+(c==='e'?3400:['t','k','d'].includes(c)?3000:2400),{msg:m});}
+  if(S.phase==='fork'){const q=S.fk||{},p=q.p,a=act[p];let ch=null;
+    if(a&&a.fork===q.n)ch=!!a.br;else if(auto(p)&&now>S.t0+1500){const B=map.br,segStar=[S.star,S.star2].some(s=>s!=null&&s>B.f&&s<B.j);ch=segStar&&S.coins[p]>=map.star?false:Math.random()<.55;}
+    else if(now>=S.until)ch=false;if(ch===null)return null;
+    S.walk.choice=ch;S.walk.forkDone=true;S.fk=null;return cont(p,{e:'🔀',t:`${ptName(P,p)} prend ${ch?'le raccourci ⚡':'le grand chemin 🛣️'}`},400);}
   if(S.phase==='star'){const q=S.sq||{},p=q.p,a=act[p];let yes=null;
     if(a&&a.star===q.n)yes=!!a.yes;else if(auto(p)&&now>S.t0+1600)yes=S.coins[p]>=q.price;else if(now>=S.until)yes=false;if(yes===null)return null;
     let m;if(yes&&S.coins[p]>=q.price){S.coins[p]-=q.price;S.stars[p]++;if(S.star2!=null&&q.cell===S.star2)S.star2=ptStarCell(map,S.star2,S.star);else S.star=ptStarCell(map,S.star,S.star2);
       S.fx={k:'star',p,seq:(S.seq||0)+1};m={e:'⭐',t:`${ptName(P,p)} achète une étoile pour ${q.price} pièces !`};}
     else m={e:'⭐',t:S.coins[p]<q.price?`${ptName(P,p)} n'a pas assez de pièces pour l'étoile… (${q.price} 🪙)`:`${ptName(P,p)} laisse passer l'étoile`};
-    S.walk.skip=q.cell;S.walk.atStar=false;S.sq=null;
-    if(S.walk.left>0){const w=ptWalk(S,p,n);S.seq++;S.mv={p,from:w.from,v:w.k,seq:S.seq,nd:1};if(w.lap)m={e:'🏁',t:m.t+' · tour complet : +5 pièces'};return next('mv',now+(S.fx&&S.fx.p===p&&yes?1800:500)+w.k*320+300,{msg:m});}
-    return next('mv',now+(yes?2200:1400),{msg:m});}
+    S.walk.skip=q.cell;S.sq=null;
+    if(S.walk.left>0)return cont(p,m,yes?1800:500);
+    S.walk.atStar=false;S.walk.atFork=false;return next('mv',now+(yes?2200:1400),{msg:m});}
   if(S.phase==='shop'){const sh=S.shop||{},p=sh.p,a=act[p],o=[].concat(sh.o||[]);let buy=null;
-    const sp=map.star+PT_SHOPSTAR.extra;if(a&&a.shop===sh.n)buy=a.buy||'';else if(auto(p)&&now>S.t0+1800){const ok=o.filter(k=>PT_ITEMS[k].p<=S.coins[p]);buy=PT_SHOPSTAR.on&&S.coins[p]>=sp?'star':ptInv(S,p).length<PT_BAG&&ok.length&&Math.random()<.75?ok[ptRnd(ok.length)]:'';}
+    const sp=map.star+PT_SHOPSTAR.extra;if(a&&a.shop===sh.n)buy=a.buy||'';
+    else if(auto(p)&&now>S.t0+1800){const ok=o.filter(k=>PT_ITEMS[k].p<=S.coins[p]);buy=PT_SHOPSTAR.on&&S.coins[p]>=sp?'star':!S.pw[p]&&S.coins[p]>=PT_PWCOST&&Math.random()<.6?'pw':ptInv(S,p).length<PT_BAG&&ok.length&&Math.random()<.75?ok[ptRnd(ok.length)]:'';}
     else if(now>=S.until)buy='';if(buy===null)return null;
     let m={e:'🛒',t:`${ptName(P,p)} repart de la buvette sans rien acheter`};const I=ptInv(S,p);
-    if(buy==='star'&&PT_SHOPSTAR.on&&S.coins[p]>=sp){S.coins[p]-=sp;S.stars[p]++;m={e:'⭐',t:`${ptName(P,p)} achète une étoile à la buvette (${sp} pièces) !`};}
+    if(buy==='star'&&PT_SHOPSTAR.on&&S.coins[p]>=sp){S.coins[p]-=sp;S.stars[p]++;S.fx={k:'star',p,seq:(S.seq||0)+1};m={e:'⭐',t:`${ptName(P,p)} achète une étoile à la buvette (${sp} pièces) !`};}
+    else if(buy==='pw'&&!S.pw[p]&&S.coins[p]>=PT_PWCOST){S.coins[p]-=PT_PWCOST;S.pw[p]=1;m={e:PT_PERSOS[S.ch[p]].e,t:`${ptName(P,p)} recharge son pouvoir : ${PT_PERSOS[S.ch[p]].pn} (${PT_PWCOST} pièces)`};}
     else if(buy&&o.includes(buy)&&PT_ITEMS[buy].p<=S.coins[p]&&I.length<PT_BAG){S.coins[p]-=PT_ITEMS[buy].p;I.push(buy);S.inv[p]=I;m={e:PT_ITEMS[buy].e,t:`${ptName(P,p)} achète : ${PT_ITEMS[buy].n} (${PT_ITEMS[buy].p} pièces)`};}
     return next('ef',now+2000,{msg:m,shop:null});}
-  if(S.phase==='ef'){if(now<S.until)return null;S.cur++;S.walk=null;S.land=null;
-    if(S.cur>=ord.length){const G=ptGames();const k=G[ptRnd(G.length)];return next('mgi',now+6500,{mg:{k,turn:S.turn},msg:{e:'🎮',t:`Mini-jeu : ${CHARS[k].game}`}});}
+  /* duel : on choisit son adversaire, mini-jeu à deux, le gagnant prend des pièces au perdant */
+  if(S.phase==='duelp'){const d=S.dl,p=d.p,a=act[p],others=ord.filter(q=>q!==p);let o=null;
+    if(a&&a.duel===d.n&&others.includes(a.tgt))o=a.tgt;else if((auto(p)&&now>S.t0+1500)||now>=S.until)o=others.slice().sort((x,y)=>S.coins[y]-S.coins[x])[0];if(!o)return null;
+    const G=ptGames();return next('dueli',now+6000,{dl:{p,o,n:d.n,k:G[ptRnd(G.length)],st:10*h},msg:{e:'⚔️',t:`Duel : ${ptName(P,p)} contre ${ptName(P,o)} !`}});}
+  if(S.phase==='dueli'){if(now<S.until)return null;return next('duelg',now+150000);}
+  if(S.phase==='duelg'){const d=S.dl,key='d'+d.n,res=((P.res||{})[key])||{},hum=[d.p,d.o].filter(q=>ptOnline(P,q));
+    if(!(now>=S.until||hum.every(q=>res[q])))return null;const L=ptResults(P,S,d.k,key,[d.p,d.o]);
+    let w=null,l=null,x=0;if(L[0].rank!==L[1].rank){w=L[0].p;l=L[1].p;x=Math.min(d.st,S.coins[l]);S.coins[l]-=x;S.coins[w]+=x;if(x)S.bad[l]=(S.bad[l]||0)+1;}
+    return next('duelr',now+5500,{dl:Object.assign({},d,{w,l,x,r:L.map(y=>({p:y.p,w:y.w,s:y.s==null?-1:y.s,bot:y.bot?1:0,miss:y.miss?1:0}))}),
+      msg:{e:'⚔️',t:w?`${ptName(P,w)} gagne le duel et prend ${x} pièce${x>1?'s':''} à ${ptName(P,l)} !`:'Égalité parfaite : personne ne gagne le duel !'}});}
+  if(S.phase==='duelr'){if(now<S.until)return null;return next('ef',now+200,{});}
+  /* chance : la roulette tourne, puis on applique */
+  if(S.phase==='chance'){if(now<S.until)return null;const c=S.cc,a=c.a,b=c.b,N=c.n;let t=PT_CHANCE.find(x=>x.k===c.k).t;
+    if(c.k==='give'){const x=Math.min(N,S.coins[a]);S.coins[a]-=x;S.coins[b]+=x;N!==x&&(t='{a} donne tout ce qu\'il a ('+x+') à {b}');}
+    else if(c.k==='take'){const x=Math.min(N,S.coins[b]);S.coins[b]-=x;S.coins[a]+=x;N!==x&&(t='{b} donne tout ce qu\'il a ('+x+') à {a}');}
+    else if(c.k==='swapC'){const x=S.coins[a];S.coins[a]=S.coins[b];S.coins[b]=x;}
+    else if(c.k==='swapS'){const x=S.stars[a];S.stars[a]=S.stars[b];S.stars[b]=x;}
+    else if(c.k==='allA'){let g=0;ord.filter(q=>q!==a).forEach(q=>{const x=Math.min(3,S.coins[q]);S.coins[q]-=x;g+=x;});S.coins[a]+=g;}
+    else if(c.k==='giftA')S.coins[a]+=N;
+    t=t.replace('{a}',ptName(P,a)).replace('{b}',ptName(P,b)).replace('{n}',N);return next('ef',now+2600,{msg:{e:'🎰',t},cc:null});}
+  if(S.phase==='ef'){if(now<S.until)return null;S.cur++;S.walk=null;S.land=null;S.dl=null;
+    if(S.cur>=ord.length){const G=ptGames(),k=G[ptRnd(G.length)],F=ptFormat(ord);
+      return next('mgi',now+(F.fmt==='ffa'?6500:8000),{mg:Object.assign({k,turn:S.turn},F),msg:{e:F.fmt==='ffa'?'🎮':'🤝',t:`Mini-jeu${F.fmt==='ffa'?'':' en équipe'} : ${CHARS[k].game}`}});}
     S.rollN++;return next('roll',0,{msg:{e:'🎲',t:`Au tour de ${ptName(P,ord[S.cur])} de lancer le dé`}});}
   if(S.phase==='mgi'){if(now<S.until)return null;return next('mg',now+150000);}
   if(S.phase==='mg'){const res=((P.res||{})[S.turn])||{},hum=ord.filter(p=>ptOnline(P,p)),done=hum.filter(p=>res[p]).length;
-    if(!(now>=S.until||done>=hum.length))return null;const k=S.mg.k,L=[];
-    ord.forEach(p=>{const r=res[p];if(r)L.push({p,w:r.w?1:0,s:r.s==null?null:+r.s});else if(!ptPl(P,p).bot&&ptOnline(P,p))L.push({p,w:0,s:null,miss:1});});
-    ptBots(P,S,k,L);ptRank(k,L);L.forEach(x=>{S.coins[x.p]+=x.coin;if(x.rank===1&&x.w)S.mgw[x.p]=(S.mgw[x.p]||0)+1;});
-    return next('mgr',now+7500,{mgr:L.map(x=>({p:x.p,w:x.w,s:x.s==null?-1:x.s,rank:x.rank,coin:x.coin,bot:x.bot?1:0,miss:x.miss?1:0}))});}
-  if(S.phase==='mgr'){if(now<S.until)return null;
-    if(S.turn>=(P.tours||10)){const best=Math.max(0,...ord.map(p=>S.mgw[p]||0)),bonus=best>0?ord.filter(p=>(S.mgw[p]||0)===best):[];bonus.forEach(p=>S.stars[p]++);
-      const fin=ord.slice().sort((a,b)=>(S.stars[b]-S.stars[a])||(S.coins[b]-S.coins[a]));const rk={};fin.forEach((p,i)=>{rk[p]=i>0&&S.stars[p]===S.stars[fin[i-1]]&&S.coins[p]===S.coins[fin[i-1]]?rk[fin[i-1]]:i+1;});
-      next('end',0,{fin,rk,bonus,msg:{e:'🏆',t:`${ptName(P,fin[0])} gagne la Gambetta Party !`}});return{st:'end',endAt:now,state:S};}
-    S.turn++;S.cur=0;S.rollN++;return next('roll',0,{msg:{e:'🎲',t:`Tour ${S.turn} ! ${ptName(P,ord[0])} lance le dé`}});}
+    if(!(now>=S.until||done>=hum.length))return null;const M=S.mg,k=M.k,L=ptResults(P,S,k,S.turn,ord);
+    if(M.fmt==='ffa')L.forEach(x=>{x.coin=PT_COINS[x.rank-1]||0;if(x.rank===1&&x.w)S.mgw[x.p]=(S.mgw[x.p]||0)+1;});
+    else{const T=[].concat(M.tm).map(t=>[].concat(t)),avg=t=>t.reduce((a,q)=>a+(L.find(x=>x.p===q)||{rank:9}).rank,0)/t.length,A=avg(T[0]),B=avg(T[1]),win=A<B?0:B<A?1:-1;
+      M.win=win;L.forEach(x=>{const ti=T[0].includes(x.p)?0:1;x.team=ti;x.coin=win<0?5:ti===win?10:2;if(ti===win)S.mgw[x.p]=(S.mgw[x.p]||0)+1;});}
+    const half=Math.ceil(L.length/2);L.forEach(x=>{if(S.x2[x.p]===S.turn){const good=M.fmt==='ffa'?x.rank<=half:x.team===M.win;x.coin=good?x.coin*2:0;x.x2=good?1:2;}S.coins[x.p]+=x.coin;});S.x2={};
+    return next('mgr',now+7500,{mg:M,mgr:L.map(x=>({p:x.p,w:x.w,s:x.s==null?-1:x.s,rank:x.rank,coin:x.coin,team:x.team==null?-1:x.team,x2:x.x2?1:0,bot:x.bot?1:0,miss:x.miss?1:0}))});}
+  if(S.phase==='mgr'){if(now<S.until)return null;const T=P.tours||10;
+    if(S.turn>=T){const aw=[['mg','🎮','Roi des mini-jeux',S.mgw],['blue','🟦','Le roi des cases bonus',S.blue||{}],['bad','😵','Le plus malchanceux',S.bad]].map(([k,e,nm,o])=>{
+        const best=Math.max(0,...ord.map(p=>o[p]||0)),w=best>0?ord.filter(p=>(o[p]||0)===best):[];w.forEach(p=>S.stars[p]++);return{k,e,n:nm,w,v:best};});
+      return next('bonus',now+3600*aw.length+2500,{bon:aw,msg:{e:'🏅',t:'Les étoiles bonus !'}});}
+    S.turn++;S.cur=0;S.rollN++;const fs=T<=5?T-1:T-2;
+    if(!S.hot&&S.turn>=fs){const rank=ord.slice().sort((a,b)=>(S.stars[a]-S.stars[b])||(S.coins[a]-S.coins[b])),last=rank[0];S.coins[last]+=10;
+      return next('final',now+8000,{hot:1,lastP:last,msg:{e:'🔥',t:`Dernière ligne droite ! Les cases comptent double. ${ptName(P,last)} reçoit 10 pièces pour revenir.`}});}
+    return next('roll',0,{msg:{e:'🎲',t:`Tour ${S.turn} ! ${ptName(P,ord[0])} lance le dé`}});}
+  if(S.phase==='final'){if(now<S.until)return null;return next('roll',0,{msg:{e:'🎲',t:`Tour ${S.turn} ! ${ptName(P,ord[0])} lance le dé`}});}
+  if(S.phase==='bonus'){if(now<S.until)return null;
+    const fin=ord.slice().sort((a,b)=>(S.stars[b]-S.stars[a])||(S.coins[b]-S.coins[a]));const rk={};fin.forEach((p,i)=>{rk[p]=i>0&&S.stars[p]===S.stars[fin[i-1]]&&S.coins[p]===S.coins[fin[i-1]]?rk[fin[i-1]]:i+1;});
+    next('end',0,{fin,rk,bonus:(S.bon[0]||{}).w||[],msg:{e:'🏆',t:`${ptName(P,fin[0])} gagne la Gambetta Party !`}});return{st:'end',endAt:now,state:S};}
   return null;}
 function ptHostTick(){const P=PT.P;if(!P||!PT.code)return;const me=ptMe();
   // l'hôte est parti ? le premier joueur encore là reprend la partie
@@ -6383,19 +6523,21 @@ function ptRender(){const b=$('#ptBody');if(!b)return;const P=PT.P;
   PT.inGame=!!(PT.code&&P&&(P.st==='play'||P.st==='end'));const sc=$('#party');if(sc)sc.classList.toggle('ingame',PT.inGame);try{navSync('party');}catch(_){}
   if(!PT.code)return ptHome(b);if(!P)return b.innerHTML='<div class="trempty">Connexion à la partie…</div>';
   if(P.st==='lobby')return ptLobbyUI(b,P);ptGameUI(b,P);}
+function ptAv(k,cls){const c=CHARS[k];return c?`<span class="ptav ${cls||''}" style="background:${c.bg}">${charArt(c)}</span>`:'<span class="ptav">🤖</span>';}
 function ptHome(b){PT.boardFor=null;const ok=ptOK(),now=Date.now();
   const L=Object.entries(PT.lobs||{}).filter(([c,x])=>x&&x.st==='lobby'&&(x.at||0)>now-30*60e3&&Object.keys(x.players||{}).length<PT_MAX).sort((a,b)=>(b[1].at||0)-(a[1].at||0));
-  b.innerHTML=`<div class="pthero"><div class="e">🎲</div><div><b>Gambetta Party</b><small>Un plateau, des dés, des bonus, des malus… et un mini-jeu à chaque tour ! Jusqu'à ${PT_MAX} joueurs, l'ordi complète.</small></div></div>
+  b.innerHTML=`<div class="pthero"><div class="e">🎲</div><div><b>Gambetta Party</b><small>Un plateau, des dés, des pouvoirs, des duels… et un mini-jeu à chaque tour ! Jusqu'à ${PT_MAX} joueurs, l'ordi complète.</small></div></div>
    ${ok?`<div class="trbtns"><button class="btn" id="ptNew">➕ Créer une partie</button><button class="btn alt" id="ptJoin">🔢 Rejoindre</button></div>
    <div class="dsec">🟢 Parties ouvertes</div>${L.length?L.map(([c,x])=>`<div class="trow ptlob"><div><b>Partie de ${esc(ptName(x,x.host))}</b><small>${(PT_MAPS[x.map]||PT_MAPS.belletanche).e} ${(PT_MAPS[x.map]||PT_MAPS.belletanche).n} · ${Object.keys(x.players||{}).length}/${PT_MAX} joueurs · ${x.tours||10} tours · code ${c}</small></div><button class="btn" data-pj="${c}">Rejoindre</button></div>`).join('')
      :'<div class="trempty">Aucune partie ouverte pour l\'instant.<br>Crée-en une et donne le code à tes amis !</div>'}`
    :'<div class="trempty">🎲 La Gambetta Party se joue en direct, sur le site du jeu, avec ta sauvegarde en ligne.</div>'}
    <div class="dsec">🗺️ Cartes</div>${Object.values(PT_MAPS).map(m=>`<div class="trow ptmap"><span class="e">${m.e}</span><div><b>${m.n}</b><small>${m.d}</small></div><span class="ptlv l${m.lv}">${m.lvl}</span></div>`).join('')}
-   <div class="drew" style="margin-top:12px;text-align:left"><b>Comment ça marche</b><br>🎲 Chacun son tour, on lance le dé et on avance.<br>🟦 Case bonus : +3 pièces · 🟥 Case malus : −3 pièces · ❓ Événement surprise · 🛒 Buvette : achète des objets · 🛝 toboggan, 🛶 kayak, 🕺 danse selon la carte.<br>🎒 Objets (3 max) : 🌟 dé doré (1 à 10), 🎲 double dé, 🛟 bouée qui protège, 📣 sifflet qui fait reculer le premier, 🗝️ clé qui t'amène devant l'étoile.<br>⭐ Quand tu passes sur l'étoile, tu t'arrêtes et tu choisis de l'acheter (20 ou 25 pièces selon la carte), ou achète-la à la buvette (10 pièces de plus). À partir de 6 joueurs, il y a 2 étoiles sur le plateau.<br>🎮 Après chaque tour, un mini-jeu au hasard : le 1er gagne 10 pièces, le 2e 7, le 3e 5…<br>👑 À la fin, le plus d'étoiles gagne (puis le plus de pièces). Le roi des mini-jeux gagne une étoile bonus.<br>🎁 Le gagnant reçoit un booster de 5, les autres 1 carte.</div><div style="height:96px"></div>`;
+   <div class="dsec">✨ Les persos et leurs pouvoirs</div><div class="ptpgrid small">${Object.entries(PT_PERSOS).map(([k,x])=>`<div class="ptpc">${ptAv(k)}<b>${esc(CHARS[k].name)}</b><small>${x.e} ${x.pn}</small><em>${x.pd}</em></div>`).join('')}</div>
+   <div class="drew" style="margin-top:12px;text-align:left"><b>Comment ça marche</b><br>🎲 Chacun son tour, tape sur le dé pour le lancer et avance.<br>✨ Ton perso a un pouvoir : utilise-le une fois quand tu veux, recharge-le à la buvette (${PT_PWCOST} pièces).<br>🟦 Bonus +3 · 🟥 Malus −3 · ❓ Événement · 🛒 Buvette · ⚔️ Duel (défie qui tu veux, le gagnant prend 10 pièces) · 🎰 Chance (la roulette décide !) · 🛝 🛶 🕺 selon la carte.<br>🔀 Au carrefour, choisis : raccourci risqué ou grand chemin.<br>⭐ Quand tu passes sur l'étoile, tu t'arrêtes et tu choisis de l'acheter (ou à la buvette, plus cher).<br>🎮 Après chaque tour, un mini-jeu : chacun pour soi ou en équipe (2 contre 2, 1 contre 3…).<br>🔥 Dernière ligne droite : à la fin, les cases comptent double et le dernier reçoit un coup de pouce.<br>🏅 Étoiles bonus révélées à la fin : roi des mini-jeux, roi des cases bonus, plus malchanceux.<br>⚡ En 5 tours : plateau réduit et plus de pièces au départ.<br>🎁 Le gagnant reçoit un booster de 5, les autres 1 carte.</div><div style="height:96px"></div>`;
   const nw=b.querySelector('#ptNew');if(nw)nw.onclick=ptCreate;const jn=b.querySelector('#ptJoin');if(jn)jn.onclick=ptAskCode;
   b.querySelectorAll('[data-pj]').forEach(x=>x.onclick=()=>ptJoin(x.dataset.pj));}
 function ptMeObj(){return{n:(window.GG&&GG.name)||'Joueur',fav:COL.fav||'',at:Date.now(),on:true};}
-async function ptCreate(){if(!ptOK())return;try{const me=ptMe();const code=await GG.party.create({st:'lobby',host:me,map:'belletanche',tours:10,v:1,players:{[me]:ptMeObj()}});ptEnter(code);}
+async function ptCreate(){if(!ptOK())return;try{const me=ptMe();const code=await GG.party.create({st:'lobby',host:me,map:'belletanche',tours:10,v:2,players:{[me]:ptMeObj()}});ptEnter(code);}
   catch(e){toast('📡','Impossible de créer la partie','Vérifie ta connexion et réessaie.');}}
 function ptAskCode(){const sh=sheet(`<h3>🔢 Rejoindre une partie</h3><div class="sec">Le code à 4 chiffres de la partie :</div><input class="ainput" id="ptc" inputmode="numeric" maxlength="4" placeholder="1234" style="font-size:28px;text-align:center;letter-spacing:8px"><div class="ggerr" id="pte" style="color:var(--coral);font-weight:700;text-align:center"></div><div class="trbtns"><button class="btn alt" id="bx">Annuler</button><button class="btn" id="bgo">Rejoindre</button></div>`);
   const i=sh.querySelector('#ptc');i.focus();sh.querySelector('#bx').onclick=()=>sh.remove();
@@ -6404,10 +6546,10 @@ async function ptJoin(c,quiet){if(!ptOK())return 'Pas de connexion';let P=null;t
   if(!P)return m('Aucune partie avec ce code.');if(P.players&&P.players[me]){ptEnter(c);return null;}
   if(P.st!=='lobby')return m('Cette partie a déjà commencé.');if(Object.keys(P.players||{}).length>=PT_MAX)return m('La partie est complète (8 joueurs).');
   try{await GG.party.set(c,'players/'+me,ptMeObj());}catch(_){return m('Pas de connexion, réessaie.');}ptEnter(c);return null;}
-function ptEnter(c){if(PT.code===c&&PT.un)return;ptExit(true);PT.code=c;PT.P=null;PT.lastMv=0;PT.lastDice=0;PT.anim={};PT.mgGo=0;PT.wSeq=0;PT.boardFor=null;
+function ptEnter(c){if(PT.code===c&&PT.un)return;ptExit(true);PT.code=c;PT.P=null;PT.lastMv=0;PT.lastDice=0;PT.anim={};PT.mgGo=0;PT.duelGo=0;PT.wSeq=0;PT.boardFor=null;PT.sel=null;
   try{localStorage.setItem('gg-party',c);}catch(_){}
   PT.pres=GG.party.presence(c,ptMe());PT.un=GG.party.watch(c,ptOnData);clearInterval(PT.ht);PT.ht=setInterval(ptHostTick,400);clearInterval(PT.tick);PT.tick=setInterval(ptTimers,500);ptRender();}
-function ptExit(keep){try{PT.un&&PT.un();}catch(_){}try{PT.pres&&PT.pres();}catch(_){}clearInterval(PT.ht);clearInterval(PT.tick);PT.un=PT.pres=null;
+function ptExit(keep){try{PT.un&&PT.un();}catch(_){}try{PT.pres&&PT.pres();}catch(_){}clearInterval(PT.ht);clearInterval(PT.tick);clearInterval(PT.spin);PT.un=PT.pres=null;
   if(!keep){PT.code=null;PT.P=null;PT.inGame=false;try{localStorage.removeItem('gg-party');}catch(_){}}}
 async function ptLeave(){const P=PT.P,c=PT.code,me=ptMe();if(!c)return;
   try{if(P&&P.st==='lobby'){const others=ptHumans(P).filter(p=>p!==me);
@@ -6417,37 +6559,43 @@ async function ptLeave(){const P=PT.P,c=PT.code,me=ptMe();if(!c)return;
 function ptOnData(P){if(!PT.code)return;if(!P){toast('🎲','La partie a été fermée','');ptExit(false);ptRender();return;}
   const was=PT.P;PT.P=P;const S=P.state||{},me=ptMe();
   if(P.players&&!P.players[me]&&P.st==='lobby'){ptExit(false);ptRender();return;}
-  // mini-jeu : on le lance tout seul sur chaque téléphone
-  if(P.st==='play'&&S.phase==='mg'&&S.mg&&PT.mgGo!==S.turn&&!(((P.res||{})[S.turn]||{})[me])&&ptOnline(P,me)){PT.mgGo=S.turn;ptPlayMg(S);}
+  // mini-jeux : ils se lancent tout seuls sur chaque téléphone concerné
+  if(P.st==='play'&&S.phase==='mg'&&S.mg&&PT.mgGo!==S.turn&&!(((P.res||{})[S.turn]||{})[me])&&ptOnline(P,me)){PT.mgGo=S.turn;ptPlayMg(S.turn,S.mg.k);}
+  if(P.st==='play'&&S.phase==='duelg'&&S.dl&&(S.dl.p===me||S.dl.o===me)&&PT.duelGo!==S.dl.n&&!(((P.res||{})['d'+S.dl.n]||{})[me])&&ptOnline(P,me)){PT.duelGo=S.dl.n;ptPlayMg('d'+S.dl.n,S.dl.k);}
   if(P.st==='end')ptReward(P);
   const sc=$('#party');if(sc&&sc.classList.contains('active'))ptRender();else if(!was||was.st!==P.st)try{navSync(document.querySelector('.screen.active').id);}catch(_){}}
-function ptPlayMg(S){PLAYCTX={t:'party',code:PT.code,turn:S.turn,k:S.mg.k};openIntro(S.mg.k);}
+function ptPlayMg(key,k){PLAYCTX={t:'party',code:PT.code,turn:key,k};openIntro(k);}
 /* résultat du mini-jeu (appelé à la fin de chaque mini-jeu) */
 function ptAfter(k,win,val){if(!PLAYCTX||PLAYCTX.t!=='party'||PLAYCTX.k!==k||PLAYCTX.sent)return;PLAYCTX.sent=1;
   const r={w:win?1:0,at:Date.now()};if(val!=null&&isFinite(val))r.s=+val;GG.party.set(PLAYCTX.code,'res/'+PLAYCTX.turn+'/'+ptMe(),r).catch(()=>{});}
 function ptBackFromMg(){if(PLAYCTX&&PLAYCTX.t==='party'&&!PLAYCTX.sent)ptAfter(PLAYCTX.k,false,null);PLAYCTX=null;openParty();}
-function ptLobbyUI(b,P){PT.boardFor=null;const me=ptMe(),host=P.host===me,pl=P.players||{},ord=Object.keys(pl).sort((a,c)=>(pl[a].at||0)-(pl[c].at||0)),n=ord.length;
+function ptLobbyUI(b,P){PT.boardFor=null;const me=ptMe(),host=P.host===me,pl=P.players||{},ord=Object.keys(pl).sort((a,c)=>(pl[a].at||0)-(pl[c].at||0)),n=ord.length,
+  taken={};ord.forEach(p=>{if(pl[p].ch)taken[pl[p].ch]=p;});const myCh=(pl[me]||{}).ch;
   b.innerHTML=`<div class="ptcode"><small>Code de la partie</small><b>${PT.code}</b><small>Donne-le à tes amis pour qu'ils te rejoignent</small></div>
+   <div class="dsec">🎭 Choisis ton perso <small>c'est ton pion, et il a un pouvoir</small></div>
+   <div class="ptpgrid">${Object.entries(PT_PERSOS).map(([k,x])=>{const by=taken[k],mine=by===me,off=by&&!mine;return `<button class="ptpc${mine?' on':''}${off?' off':''}" data-ch="${k}"${off?' disabled':''}>${ptAv(k)}<b>${esc(CHARS[k].name)}</b><small>${x.e} ${x.pn}</small><em>${off?'Pris par '+esc(ptName(P,by)):x.pd}</em></button>`;}).join('')}</div>
    <div class="dsec">👥 Joueurs <small>${n}/${PT_MAX}</small></div>
-   <div class="ptpl">${ord.map((p,i)=>`<div class="ptp"><span class="pw" style="background:${PT_COL[i%8]}">${ptPawnIn(pl[p])}</span><b>${esc(pl[p].n||'Joueur')}${p===me?' (toi)':''}</b>${p===P.host?'<span class="trstat yes">Hôte</span>':''}${pl[p].bot?'<span class="trstat wait">Ordi</span>':''}${pl[p].on===false&&!pl[p].bot?'<span class="trstat nope">Hors ligne</span>':''}${host&&pl[p].bot?`<button class="mini-b" data-rb="${p}">✖</button>`:''}</div>`).join('')}</div>
+   <div class="ptpl">${ord.map((p,i)=>`<div class="ptp"><span class="pw" style="background:${PT_COL[i%8]}">${pl[p].ch?ptAv(pl[p].ch,'mini'):pl[p].bot?'🤖':'?'}</span><b>${esc(pl[p].n||'Joueur')}${p===me?' (toi)':''}</b>${pl[p].ch?`<small>${PT_PERSOS[pl[p].ch].e}</small>`:''}${p===P.host?'<span class="trstat yes">Hôte</span>':''}${pl[p].bot?'<span class="trstat wait">Ordi</span>':''}${pl[p].on===false&&!pl[p].bot?'<span class="trstat nope">Hors ligne</span>':''}${host&&pl[p].bot?`<button class="mini-b" data-rb="${p}">✖</button>`:''}</div>`).join('')}</div>
    ${host?`<div class="trbtns"><button class="btn alt" id="ptBot"${n>=PT_MAX?' disabled':''}>🤖 Ajouter un ordi</button></div>
      <div class="dsec">🗺️ Carte</div><div class="ptmaps">${Object.entries(PT_MAPS).map(([k,m])=>`<button class="ptmc${(P.map||'belletanche')===k?' on':''}" data-pm="${k}"><span class="e">${m.e}</span><b>${m.n}</b><span class="ptlv l${m.lv}">${m.lvl}</span></button>`).join('')}</div>
-     <div class="dsec">⏱️ Nombre de tours</div><div class="rllv">${[5,10,15].map(t=>`<button class="apill${(P.tours||10)===t?' on':''}" data-tt="${t}">${t} tours · ~${t*2} min</button>`).join('')}</div>
-     <div class="trbtns"><button class="btn" id="ptGo"${n<2?' disabled':''}>▶ Lancer la partie</button></div>${n<2?'<div class="bbhint">Il faut au moins 2 joueurs (ajoute un ordi pour jouer seul).</div>':''}`
-   :`<div class="drew">⏳ En attente que <b>${esc(ptName(P,P.host))}</b> lance la partie…<br>${ptMap(P).e} ${ptMap(P).n} (${ptMap(P).lvl}) · ${P.tours||10} tours</div>`}
+     <div class="dsec">⏱️ Nombre de tours</div><div class="rllv">${[5,10,15].map(t=>`<button class="apill${(P.tours||10)===t?' on':''}" data-tt="${t}">${t===5?'⚡ 5 tours · rapide':t+' tours · ~'+t*2+' min'}</button>`).join('')}</div>${(P.tours||10)<=5?`<div class="bbhint">⚡ Partie rapide : plateau réduit à 16 cases et ${ptMap(P).coins} pièces au départ${ptMap(P).star!==PT_MAPS[P.map||'belletanche'].star?', étoile à '+ptMap(P).star:''}.</div>`:''}
+     <div class="trbtns"><button class="btn" id="ptGo"${n<2?' disabled':''}>▶ Lancer la partie</button></div>${n<2?'<div class="bbhint">Il faut au moins 2 joueurs (ajoute un ordi pour jouer seul).</div>':!myCh?'<div class="bbhint">Sans choix, un perso libre te sera donné au hasard.</div>':''}`
+   :`<div class="drew">⏳ En attente que <b>${esc(ptName(P,P.host))}</b> lance la partie…<br>${ptMap(P).e} ${ptMap(P).n} (${ptMap(P).lvl}) · ${P.tours||10} tours${(P.tours||10)<=5?' · ⚡ partie rapide':''}</div>`}
    <div class="trbtns"><button class="btn alt" id="ptQuit">🚪 Quitter</button></div><div style="height:96px"></div>`;
   b.querySelector('#ptQuit').onclick=ptLeave;
+  b.querySelectorAll('[data-ch]').forEach(x=>x.onclick=()=>{if(x.disabled)return;GG.party.set(PT.code,'players/'+me+'/ch',x.dataset.ch).catch(()=>{});});
   if(host){const bt=b.querySelector('#ptBot');bt.onclick=()=>{const k=Object.keys(pl).filter(p=>pl[p].bot).length+1,id='bot'+Date.now().toString(36);
       GG.party.set(PT.code,'players/'+id,{n:'Ordi '+k,bot:1,sk:Math.round((.35+Math.random()*.3)*100)/100,at:Date.now()}).catch(()=>{});};
     b.querySelectorAll('[data-rb]').forEach(x=>x.onclick=()=>GG.party.remove(PT.code,'players/'+x.dataset.rb).catch(()=>{}));
     b.querySelectorAll('[data-pm]').forEach(x=>x.onclick=()=>GG.party.update(PT.code,{map:x.dataset.pm}).catch(()=>{}));
     b.querySelectorAll('[data-tt]').forEach(x=>x.onclick=()=>GG.party.update(PT.code,{tours:+x.dataset.tt}).catch(()=>{}));
     b.querySelector('#ptGo').onclick=()=>{if(n<2)return;const S=ptInit(P);GG.party.update(PT.code,{st:'play',startAt:ptNow(),state:S}).catch(()=>toast('📡','Pas de connexion',''));};}}
-function ptPawnIn(x){if(x.bot)return'🤖';const m=x.fav&&memObj(x.fav);return m&&(m.thumb||m.img)?`<img src="${m.thumb||m.img}" alt="">`:esc((x.n||'?').slice(0,1).toUpperCase());}
-/* décor dessiné de la carte (SVG) : le centre reprend la forme du chemin */
+/* ---------- plateau ---------- */
+function ptXY(i,n){const map=PT.mapObj||PT_MAPS.belletanche,pts=ptPts(map),q=pts[i]||pts[0];return{x:q.x,y:q.y};}
 function ptArt(map){const C=ptCurve(map),K=.58,step=6,line=C.P.filter((_,i)=>i%step===0).map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' '),
   inner=C.P.filter((_,i)=>i%step===0).map(q=>(50+(q[0]-50)*K).toFixed(1)+','+(62.5+(q[1]-62.5)*K).toFixed(1)).join(' ');
-  let fill='',extra='';
+  let fill='',extra='',br='';
+  if(map.br){const P=ptPts(map),B=map.br,a=[P[B.f].ux,P[B.f].uy],b=[P[B.j].ux,P[B.j].uy],c=ptBrCtl(a,b,B.k);br=`M${a[0].toFixed(1)} ${a[1].toFixed(1)} Q${c[0].toFixed(1)} ${c[1].toFixed(1)} ${b[0].toFixed(1)} ${b[1].toFixed(1)}`;}
   if(map.cls==='mpool'){fill='url(#ptWater)';extra=`<g clip-path="url(#ptIn)">${[0,1,2,3,4,5].map(i=>`<line x1="${30+i*8}" y1="20" x2="${30+i*8}" y2="105" stroke="#fff" stroke-width=".5" stroke-dasharray="2 2" opacity=".7"/>`).join('')}<rect class="ptshine" x="-60" y="0" width="40" height="125" fill="url(#ptShine)"/></g>`;}
   else if(map.cls==='mbeach'){fill='url(#ptLagoon)';extra=`<g clip-path="url(#ptIn)"><path class="ptwave" d="M0 52 Q12 48 25 52 T50 52 T75 52 T100 52 V60 H0Z" fill="#ffffff55"/><path class="ptwave w2" d="M0 70 Q12 66 25 70 T50 70 T75 70 T100 70 V76 H0Z" fill="#ffffff44"/></g>`;}
   else{fill='url(#ptFloor)';extra=`<g clip-path="url(#ptIn)"><circle class="ptspot s1" cx="38" cy="50" r="16" fill="#ffd23f55"/><circle class="ptspot s2" cx="62" cy="76" r="16" fill="#4ad7ff55"/></g>`;}
@@ -6459,28 +6607,31 @@ function ptArt(map){const C=ptCurve(map),K=.58,step=6,line=C.P.filter((_,i)=>i%s
     <pattern id="ptFloor" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#7a5cff"/><rect width="5" height="5" fill="#ff5fa2"/><rect x="5" y="5" width="5" height="5" fill="#ff5fa2"/></pattern></defs>
     <polyline points="${line} ${line.split(' ')[0]}" fill="none" class="ptroad" stroke-linejoin="round"/>
     <polyline points="${line} ${line.split(' ')[0]}" fill="none" class="ptroad2" stroke-linejoin="round"/>
-    <polygon points="${inner}" fill="${fill}" class="ptinner"/>${extra}</svg>
+    <polygon points="${inner}" fill="${fill}" class="ptinner"/>${extra}
+    ${br?`<path d="${br}" fill="none" class="ptbridge"/><path d="${br}" fill="none" class="ptbridge2"/>`:''}</svg>
     ${map.deco.map(d=>`<span class="ptdeco" style="left:${d[1]}%;top:${d[2]/125*100}%">${d[0]}</span>`).join('')}<span class="ptlogo">${map.logo}</span>${map.cls==='mparty'?'<span class="ptdisco">🪩</span>':''}`;}
-function ptGameUI(b,P){const S=P.state||{},map=ptMap(P),me=ptMe(),ord=S.order||[],n=map.cells.length;PT.mapK=P.map||'belletanche';
-  if(PT.boardFor!==PT.code+':'+(P.startAt||0)){PT.boardFor=PT.code+':'+(P.startAt||0);PT.prev=null;
-    b.innerHTML=`<div class="pttop"><b id="ptTurn"></b><span>${map.e} ${map.n}</span><button class="x" id="ptX" aria-label="Quitter">✕</button></div><div class="ptsc" id="ptSc"></div>
+const ptRanking=S=>{const o=(S.order||[]).slice().sort((a,b)=>((S.stars||{})[b]-(S.stars||{})[a])||((S.coins||{})[b]-(S.coins||{})[a])),r={};
+  o.forEach((p,i)=>{r[p]=i>0&&S.stars[p]===S.stars[o[i-1]]&&S.coins[p]===S.coins[o[i-1]]?r[o[i-1]]:i+1;});return r;};
+function ptGameUI(b,P){const S=P.state||{},map=ptMap(P),me=ptMe(),ord=S.order||[],n=map.cells.length;PT.mapK=P.map||'belletanche';PT.mapObj=map;
+  if(PT.boardFor!==PT.code+':'+(P.startAt||0)){PT.boardFor=PT.code+':'+(P.startAt||0);PT.prev=null;const all=ptAll(map);
+    b.innerHTML=`<div class="pttop"><b id="ptTurn"></b><span>${map.e} ${map.n}${map.short?' ⚡':''}</span><button class="x" id="ptX" aria-label="Quitter">✕</button></div><div class="ptsc" id="ptSc"></div>
      <div class="ptboard ${map.cls}" id="ptB">${ptArt(map)}
-       ${map.cells.map((c,i)=>{const q=ptXY(i,n);return `<div class="ptc t${c}" data-ci="${i}" style="left:${q.x}%;top:${q.y}%">${PT_CELL[c].e}</div>`;}).join('')}
-       <div class="ptstar" id="ptStar">⭐</div><div class="ptstar" id="ptStar2" hidden>⭐</div>${ord.map((p,i)=>`<div class="ptpawn" data-pw="${p}" style="background:${PT_COL[i%8]}">${ptPawnIn(ptPl(P,p))}</div>`).join('')}</div>
+       ${Array.from({length:all},(_,i)=>{const c=ptType(map,i),q=ptXY(i,n);return `<div class="ptc t${c}${i>=n?' br':''}${map.br&&i===map.br.f?' fork':''}" data-ci="${i}" style="left:${q.x}%;top:${q.y}%">${PT_CELL[c].e}</div>`;}).join('')}
+       <div class="ptstar" id="ptStar">⭐</div><div class="ptstar" id="ptStar2" hidden>⭐</div>${ord.map((p,i)=>`<div class="ptpawn" data-pw="${p}" style="background:${PT_COL[i%8]}">${ptAv((S.ch||{})[p])}<i class="rk"></i></div>`).join('')}</div>
      <div class="ptmsg" id="ptMsg"></div><div class="ptact" id="ptAct"></div><div class="ptov" id="ptOv" hidden></div><div style="height:30px"></div>`;
     b.querySelector('#ptX').onclick=()=>{if(PT.P&&PT.P.st==='end'){ptExit(false);ptRender();return;}const sh=sheet(`<h3>🚪 Quitter la partie ?</h3><div class="sec">L'ordi jouera à ta place jusqu'à la fin. Tu ne gagneras pas de récompense.</div><div class="trbtns"><button class="btn alt" id="n">Rester</button><button class="btn" id="y">Quitter</button></div>`);
       sh.querySelector('#n').onclick=()=>sh.remove();sh.querySelector('#y').onclick=()=>{sh.remove();ptLeave();};};
     PT.lastMv=S.mv?S.mv.seq:0;PT.lastDice=S.dice?S.dice.seq:0;PT.lastLand=S.land?S.land.seq:0;PT.lastFx=S.fx?S.fx.seq:0;}
-  $('#ptTurn').textContent=P.st==='end'?'🏆 Fin de la partie':`Tour ${S.turn||1}/${P.tours||10}`;
-  $('#ptSc').innerHTML=ord.map((p,i)=>`<div class="ptsci${ord[S.cur]===p&&['roll','mv','ef','star','shop'].includes(S.phase)?' on':''}${p===me?' me':''}" data-sc="${p}"><span class="dot" style="background:${PT_COL[i%8]}"></span><b>${esc(ptName(P,p))}</b><span>⭐${(S.stars||{})[p]||0} 🪙${(S.coins||{})[p]||0}${ptInv(S,p).length?' 🎒'+ptInv(S,p).length:''}</span></div>`).join('');
+  const hide=S.phase==='bonus';$('#ptB').classList.toggle('hot',!!S.hot&&P.st==='play');
+  $('#ptTurn').innerHTML=P.st==='end'?'🏆 Fin de la partie':`${S.hot?'🔥 ':''}Tour ${S.turn||1}/${P.tours||10}`;
+  $('#ptSc').innerHTML=ord.map((p,i)=>{const k=(S.ch||{})[p],x=PT_PERSOS[k]||{};return `<div class="ptsci${ord[S.cur]===p&&['roll','mv','ef','star','shop','fork','duelp','chance'].includes(S.phase)?' on':''}${p===me?' me':''}" data-sc="${p}"><span class="dot" style="background:${PT_COL[i%8]}"></span><b>${esc(ptName(P,p))}</b><span>${x.e||''}${(S.pw||{})[p]?'✨':''} ⭐${hide?'?':(S.stars||{})[p]||0} 🪙${(S.coins||{})[p]||0}${ptInv(S,p).length?' 🎒'+ptInv(S,p).length:''}</span></div>`;}).join('');
   const sq=ptXY(S.star||0,n),st=$('#ptStar');st.style.left=sq.x+'%';st.style.top=sq.y+'%';const st2=$('#ptStar2');if(st2){st2.hidden=S.star2==null;if(S.star2!=null){const q2=ptXY(S.star2,n);st2.style.left=q2.x+'%';st2.style.top=q2.y+'%';}}
-  // dé puis déplacement animé case par case
   if(S.dice&&S.dice.seq!==PT.lastDice){PT.lastDice=S.dice.seq;ptDice(S.dice,P);}
-  if(S.mv&&S.mv.seq!==PT.lastMv){PT.lastMv=S.mv.seq;ptAnim(S.mv,n,P);}
+  if(S.mv&&S.mv.seq!==PT.lastMv){PT.lastMv=S.mv.seq;ptAnim(S.mv,P);}
   if(S.land&&S.land.seq!==PT.lastLand){PT.lastLand=S.land.seq;ptLandFx(S.land,P);}
   if(S.fx&&S.fx.seq!==PT.lastFx){PT.lastFx=S.fx.seq;if(S.fx.k==='star')ptStarFx(S.fx.p,P);}
-  ptDiff(P);ptPawns(P);const m=S.msg||{};const mg=$('#ptMsg'),mh=`<span>${m.e||''}</span> ${esc(m.t||'')}`;if(mg.innerHTML!==mh){mg.innerHTML=mh;mg.classList.remove('pop');void mg.offsetWidth;mg.classList.add('pop');}
-  document.querySelectorAll('.ptpawn').forEach(el=>el.classList.toggle('cur',el.dataset.pw===ord[S.cur]&&P.st==='play'&&['roll','mv','star','shop','ef'].includes(S.phase)));
+  if(!hide)ptDiff(P);ptPawns(P);const m=S.msg||{};const mg=$('#ptMsg'),mh=`<span>${m.e||''}</span> ${esc(m.t||'')}`;if(mg.innerHTML!==mh){mg.innerHTML=mh;mg.classList.remove('pop');void mg.offsetWidth;mg.classList.add('pop');}
+  document.querySelectorAll('.ptpawn').forEach(el=>el.classList.toggle('cur',el.dataset.pw===ord[S.cur]&&P.st==='play'&&['roll','mv','star','shop','ef','fork','duelp','chance'].includes(S.phase)));
   ptAction(P);ptOverlay(P);}
 /* pièces et étoiles gagnées / perdues : petits chiffres qui s'envolent au-dessus du pion */
 function ptDiff(P){const S=P.state||{},cur={};(S.order||[]).forEach(p=>cur[p]={c:(S.coins||{})[p]||0,s:(S.stars||{})[p]||0});
@@ -6492,33 +6643,61 @@ function ptDiff(P){const S=P.state||{},cur={};(S.order||[]).forEach(p=>cur[p]={c
 function ptFloat(p,t,cls){const B=$('#ptB'),el=document.querySelector(`[data-pw="${p}"]`);if(!B||!el)return;const f=document.createElement('div');f.className='ptfloat '+cls;f.textContent=t;
   f.style.left=el.style.left;f.style.top=el.style.top;B.appendChild(f);setTimeout(()=>f.remove(),1700);
   if(cls==='up')for(let i=0;i<5;i++){const c=document.createElement('div');c.className='ptcoin';c.textContent='🪙';c.style.left=el.style.left;c.style.top=el.style.top;c.style.setProperty('--dx',(Math.random()*60-30)+'px');c.style.animationDelay=(i*70)+'ms';B.appendChild(c);setTimeout(()=>c.remove(),1300);}}
-const PT_LAND={b:['BONUS !','+3 🪙','up'],m:['MALUS…','−3 🪙','down'],e:['ÉVÉNEMENT !','❓','ev'],B:['BUVETTE !','🛒','ev'],c:['CRABE !','🦀','down'],r:['REQUIN !','🦈','down'],t:['TOBOGGAN !','🛝','ev'],k:['KAYAK !','🛶','ev'],d:['DANSE !','🕺','ev'],S:['DÉPART','🏁','ev']};
-function ptLandFx(L,P){const B=$('#ptB');if(!B)return;const delay=PT.anim[L.p]?500:0;
+const PT_LAND={b:['BONUS !','+3 🪙','up'],m:['MALUS…','−3 🪙','down'],e:['ÉVÉNEMENT !','❓','ev'],B:['BUVETTE !','🛒','ev'],c:['CRABE !','🦀','down'],r:['REQUIN !','🦈','down'],t:['TOBOGGAN !','🛝','ev'],k:['KAYAK !','🛶','ev'],d:['DANSE !','🕺','ev'],D:['DUEL !','⚔️','duel'],C:['CHANCE !','🎰','ev'],S:['DÉPART','🏁','ev']};
+function ptLandFx(L,P){const B=$('#ptB');if(!B)return;
   setTimeout(function w(){if(PT.anim[L.p])return setTimeout(w,150);const cell=B.querySelector(`[data-ci="${L.cell}"]`);if(cell){cell.classList.remove('hit');void cell.offsetWidth;cell.classList.add('hit');}
-    const d=PT_LAND[L.k]||PT_LAND.S,ban=document.createElement('div');ban.className='ptban '+d[2];ban.innerHTML=`<b>${d[0]}</b><span>${d[1]}</span>`;B.appendChild(ban);setTimeout(()=>ban.remove(),1700);},delay);}
+    const d=(PT_LAND[L.k]||PT_LAND.S).slice();if(L.h>1&&(L.k==='b'||L.k==='m'))d[1]=L.k==='b'?'+6 🪙':'−6 🪙';const ban=document.createElement('div');ban.className='ptban '+d[2];ban.innerHTML=`<b>${d[0]}</b><span>${d[1]}</span>${L.h>1?'<small>×2 🔥</small>':''}`;B.appendChild(ban);setTimeout(()=>ban.remove(),1700);},0);}
 function ptStarFx(p,P){const B=$('#ptB');if(!B)return;const ov=document.createElement('div');ov.className='ptstarfx';ov.innerHTML=`<div class="s">⭐</div><b>${esc(ptName(P,p))} gagne une étoile !</b>`+Array.from({length:14},(_,i)=>`<i style="--a:${i*360/14}deg;animation-delay:${(i%3)*60}ms">✨</i>`).join('');B.appendChild(ov);setTimeout(()=>ov.remove(),2200);}
-function ptPawns(P){const S=P.state||{},n=ptMap(P).cells.length,ord=S.order||[],at={};
-  ord.forEach(p=>{if(PT.anim[p])return;const c=(S.pos||{})[p]||0;(at[c]=at[c]||[]).push(p);});
-  Object.entries(at).forEach(([c,L])=>L.forEach((p,j)=>{const el=document.querySelector(`[data-pw="${p}"]`);if(!el)return;const q=ptXY(+c,n),o=L.length>1?[[-1,-1],[1,-1],[-1,1],[1,1],[0,-1.6],[0,1.6],[-1.6,0],[1.6,0]][j%8]:[0,0];
+function ptPawns(P){const S=P.state||{},ord=S.order||[],at={},rk=ptRanking(S);
+  ord.forEach(p=>{const el=document.querySelector(`[data-pw="${p}"]`);if(el){const r=rk[p],top=r===1&&((S.stars||{})[p]>0||(S.coins||{})[p]>0)&&S.phase!=='bonus';
+    const ri=el.querySelector('.rk');if(ri){ri.textContent=top?'👑':r;ri.className='rk'+(top?' crown':'');}}
+    if(PT.anim[p])return;const c=(S.pos||{})[p]||0;(at[c]=at[c]||[]).push(p);});
+  Object.entries(at).forEach(([c,L])=>L.forEach((p,j)=>{const el=document.querySelector(`[data-pw="${p}"]`);if(!el)return;const q=ptXY(+c),o=L.length>1?[[-1,-1],[1,-1],[-1,1],[1,1],[0,-1.6],[0,1.6],[-1.6,0],[1.6,0]][j%8]:[0,0];
     el.style.left=`calc(${q.x}% + ${o[0]*9}px)`;el.style.top=`calc(${q.y}% + ${o[1]*9}px)`;}));}
-function ptAnim(mv,n,P){const el=document.querySelector(`[data-pw="${mv.p}"]`);if(!el)return;PT.anim[mv.p]=1;let k=0;
-  if(mv.jump){setTimeout(()=>{el.classList.add('fly');const q=ptXY((mv.from+mv.v)%n,n);el.style.left=q.x+'%';el.style.top=q.y+'%';setTimeout(()=>{el.classList.remove('fly');PT.anim[mv.p]=0;if(PT.P)ptPawns(PT.P);},950);},500);return;}
+function ptAnim(mv,P){const el=document.querySelector(`[data-pw="${mv.p}"]`);if(!el)return;const path=[].concat(mv.path||[]).filter(x=>x!=null);PT.anim[mv.p]=1;let k=0;
+  if(!path.length){PT.anim[mv.p]=0;return;}
+  if(mv.jump){setTimeout(()=>{el.classList.add('fly');const q=ptXY(path[0]);el.style.left=q.x+'%';el.style.top=q.y+'%';setTimeout(()=>{el.classList.remove('fly');PT.anim[mv.p]=0;if(PT.P)ptPawns(PT.P);},950);},500);return;}
   const dt=mv.slide?120:300;el.classList.toggle('slide',!!mv.slide);
-  const step=()=>{k++;const q=ptXY((mv.from+k)%n,n);el.style.left=q.x+'%';el.style.top=q.y+'%';if(!mv.slide){el.classList.remove('hop');void el.offsetWidth;el.classList.add('hop');}
-    if(k<mv.v)setTimeout(step,dt);else setTimeout(()=>{el.classList.remove('slide');PT.anim[mv.p]=0;if(PT.P)ptPawns(PT.P);},dt+50);};
-  if(mv.v>0)setTimeout(step,mv.slide?600:mv.nd?250:950);else PT.anim[mv.p]=0;}
-function ptDice(d,P){const ov=document.createElement('div');ov.className='ptdice';const two=!!d.v2;
-  ov.innerHTML=`<div class="dies"><div class="die${d.it==='gold'?' gold':''}">🎲</div>${two?'<div class="die">🎲</div>':''}</div><small>${esc(ptName(P,d.p))}</small>`;$('#ptB').appendChild(ov);
-  const D=ov.querySelectorAll('.die');let i=0;const t=setInterval(()=>{D.forEach(x=>x.textContent=1+ptRnd(d.it==='gold'?10:6));if(++i>7){clearInterval(t);D[0].textContent=d.v;if(two)D[1].textContent=d.v2;D.forEach(x=>x.classList.add('fin'));}},90);setTimeout(()=>ov.remove(),1500);}
+  const step=()=>{const q=ptXY(path[k]);k++;el.style.left=q.x+'%';el.style.top=q.y+'%';if(!mv.slide){el.classList.remove('hop');void el.offsetWidth;el.classList.add('hop');}
+    if(k<path.length)setTimeout(step,dt);else setTimeout(()=>{el.classList.remove('slide');PT.anim[mv.p]=0;if(PT.P)ptPawns(PT.P);},dt+50);};
+  setTimeout(step,mv.slide?600:mv.nd?250:(mv.p===ptMe()?350:950));}
+/* le dé : celui qui lance le fait tourner et l'arrête ; les autres voient le résultat tomber */
+function ptDice(d,P){if(d.p===ptMe()&&PT.rolling){PT.rolling=0;clearInterval(PT.spin);const D=$('#ptDie');if(D){D.classList.add('stop');D.querySelector('span').textContent=d.v+(d.v2||0);
+      const s=$('#ptDieTxt');if(s)s.textContent=d.best?`${d.best[0]} et ${d.best[1]} : tu gardes ${Math.max(...d.best)}, +2 = ${d.v} !`:d.v2?`${d.v} + ${d.v2} = ${d.v+d.v2} !`:`Tu fais ${d.v} !`;}return;}
+  const ov=document.createElement('div');ov.className='ptdice';const two=!!d.v2||!!d.best,mx=d.it==='gold'?10:6;
+  ov.innerHTML=`<div class="dies"><div class="die${d.it==='gold'?' gold':''}${d.it==='allin'?' allin':''}">🎲</div>${two?'<div class="die">🎲</div>':''}</div><small>${esc(ptName(P,d.p))}</small>`;$('#ptB').appendChild(ov);
+  const D=ov.querySelectorAll('.die');let i=0;const t=setInterval(()=>{D.forEach(x=>x.textContent=d.it==='allin'?(i%2?10:0):1+ptRnd(mx));if(++i>7){clearInterval(t);
+      if(d.best){D[0].textContent=d.best[0];D[1].textContent=d.best[1];D.forEach(x=>x.classList.add('fin'));const keep=d.best[0]>=d.best[1]?0:1;D[1-keep].classList.add('drop');}
+      else{D[0].textContent=d.v;if(two)D[1].textContent=d.v2;D.forEach(x=>x.classList.add('fin'));}}},90);setTimeout(()=>ov.remove(),1600);}
 function ptAction(P){const S=P.state||{},me=ptMe(),a=$('#ptAct');if(!a)return;
-  if(P.st==='end'){a.innerHTML='';return;}
-  const I=ptInv(S,me),bag=I.length?`<div class="ptbag">🎒 Ton sac : ${I.map(k=>`<span title="${esc(PT_ITEMS[k].d)}">${PT_ITEMS[k].e} ${PT_ITEMS[k].n}</span>`).join('')}</div>`:'';
-  if(S.phase==='roll'&&S.order[S.cur]===me&&!(((P.act||{})[me]||{}).n===S.rollN)){const use=[...new Set(I.filter(k=>k!=='buoy'))];
-    a.innerHTML='<button class="btn ptroll" id="ptRoll">🎲 Lancer le dé</button>'+(use.length?`<div class="ptuse"><small>Ou utilise un objet avant de lancer :</small>${use.map(k=>`<button class="mini-b" data-use="${k}">${PT_ITEMS[k].e} ${PT_ITEMS[k].n}</button>`).join('')}</div>`:'')+bag;
-    const go=(it,el)=>{a.querySelectorAll('button').forEach(x=>x.disabled=true);GG.party.set(PT.code,'act/'+me,it?{n:S.rollN,it}:{n:S.rollN}).catch(()=>{a.querySelectorAll('button').forEach(x=>x.disabled=false);});};
-    $('#ptRoll').onclick=()=>go(null);a.querySelectorAll('[data-use]').forEach(x=>x.onclick=()=>go(x.dataset.use));}
-  else if(S.phase==='roll')a.innerHTML=`<div class="bbhint">⏳ ${esc(ptName(P,S.order[S.cur]))} lance le dé…</div>`+bag;else a.innerHTML=bag;}
-function ptOverlay(P){const S=P.state||{},ov=$('#ptOv');if(!ov)return;const me=ptMe(),now=ptNow(),left=Math.max(0,Math.ceil(((S.until||0)-now)/1000));
+  if(P.st==='end'){a.innerHTML='';a.dataset.k='';return;}
+  const I=ptInv(S,me),k=(S.ch||{})[me],X=PT_PERSOS[k],mine=S.phase==='roll'&&(S.order||[])[S.cur]===me&&!(((P.act||{})[me]||{}).n===S.rollN),
+    key=[S.phase,S.rollN,mine,I.join(','),(S.pw||{})[me],JSON.stringify(PT.sel||null),PT.rolling?1:0].join('|');
+  const bag=(X?`<span class="ptpw${(S.pw||{})[me]?' ok':''}">${X.e} ${X.pn} ${(S.pw||{})[me]?'· prêt ✨':'· utilisé (recharge à la buvette)'}</span>`:'')+I.map(k=>`<span title="${esc(PT_ITEMS[k].d)}">${PT_ITEMS[k].e} ${PT_ITEMS[k].n}</span>`).join('');
+  if(a.dataset.k===key&&!mine)return;
+  if(mine){if(a.dataset.k===key)return;a.dataset.k=key;const sel=PT.sel||{},use=[...new Set(I.filter(k=>k!=='buoy'))],others=(S.order||[]).filter(q=>q!==me);
+    a.innerHTML=`<div class="ptrollbox"><button class="ptdie${sel.it==='gold'||(sel.pw&&X.pw==='d10')?' gold':''}" id="ptDie"><span>🎲</span></button><div><b id="ptDieTxt">Tape sur le dé pour le lancer !</b>
+      <div class="ptuse">${X&&(S.pw||{})[me]?`<button class="mini-b pwb${sel.pw?' on':''}" data-sp="1">${X.e} ${X.pn}</button>`:''}${use.map(k=>`<button class="mini-b${sel.it===k?' on':''}" data-si="${k}">${PT_ITEMS[k].e} ${PT_ITEMS[k].n}</button>`).join('')}</div>
+      ${sel.pw&&X.tgt?`<div class="ptuse"><small>Sur qui ?</small>${others.map(q=>`<button class="mini-b${sel.tgt===q?' on':''}" data-st="${q}">${esc(ptName(P,q))}</button>`).join('')}</div>`:''}
+      ${sel.pw?`<small class="ptsel">✨ ${X.pd}</small>`:sel.it?`<small class="ptsel">${PT_ITEMS[sel.it].e} ${PT_ITEMS[sel.it].d}</small>`:''}</div></div><div class="ptbag">${bag}</div>`;
+    const D=$('#ptDie'),sp=D.querySelector('span'),mx=sel.it==='gold'||(sel.pw&&X.pw==='d10')?10:6;let i=0;clearInterval(PT.spin);
+    PT.spin=setInterval(()=>{i++;sp.textContent=sel.pw&&X.pw==='allin'?(i%2?10:0):1+(i*7)%mx;},80);
+    a.querySelectorAll('[data-sp]').forEach(x=>x.onclick=()=>{PT.sel=PT.sel&&PT.sel.pw?null:{pw:1,tgt:X.tgt?ptLead(S,S.order,me):null};ptAction(P);});
+    a.querySelectorAll('[data-si]').forEach(x=>x.onclick=()=>{PT.sel=PT.sel&&PT.sel.it===x.dataset.si?null:{it:x.dataset.si};ptAction(P);});
+    a.querySelectorAll('[data-st]').forEach(x=>x.onclick=()=>{PT.sel=Object.assign({},PT.sel,{tgt:x.dataset.st});ptAction(P);});
+    D.onclick=()=>{if(PT.rolling)return;PT.rolling=S.rollN;D.classList.add('go');const o={n:S.rollN};if(sel.pw){o.pw=1;if(sel.tgt)o.tgt=sel.tgt;}else if(sel.it)o.it=sel.it;PT.sel=null;
+      $('#ptDieTxt').textContent='…';a.querySelectorAll('.mini-b').forEach(x=>x.disabled=true);
+      GG.party.set(PT.code,'act/'+me,o).catch(()=>{PT.rolling=0;a.dataset.k='';ptAction(P);});};return;}
+  if(PT.rolling&&S.phase==='roll')return;
+  if(S.phase==='mv'&&S.dice&&S.dice.p===me&&a.querySelector('#ptDie')){clearInterval(PT.spin);a.dataset.k=key;setTimeout(()=>{if(a.dataset.k===key){a.innerHTML=`<div class="ptbag">${bag}</div>`;}},1800);return;}
+  clearInterval(PT.spin);a.dataset.k=key;
+  a.innerHTML=(S.phase==='roll'?`<div class="bbhint">⏳ ${esc(ptName(P,S.order[S.cur]))} lance le dé…</div>`:'')+`<div class="ptbag">${bag}</div>`;}
+/* ---------- fenêtres (étoile, carrefour, duel, chance, buvette, mini-jeux, fin…) ---------- */
+function ptOverlay(P){const S=P.state||{},ov=$('#ptOv');if(!ov)return;const me=ptMe(),now=ptNow(),left=Math.max(0,Math.ceil(((S.until||0)-now)/1000)),map=ptMap(P);
+  const key=(P.st||'')+':'+(S.phase||'')+':'+(S.seq||0);
+  // fenêtres animées construites une seule fois
+  if(P.st!=='end'&&['final','bonus','chance','dueli'].includes(S.phase)){if(ov.dataset.k===key)return;ov.dataset.k=key;ov._h='';ov.hidden=false;
+    if(S.phase==='final')ptFinalFx(ov,P);else if(S.phase==='bonus')ptBonusFx(ov,P);else if(S.phase==='chance')ptChanceFx(ov,P);else ptVsFx(ov,P);return;}
   let h='';
   if(P.st==='end')h=ptEndHTML(P);
   else if(S.phase==='star'&&S.sq){const q=S.sq,mine=q.p===me,c=(S.coins||{})[q.p]||0,ok=c>=q.price,sent=((P.act||{})[me]||{}).star===q.n;
@@ -6526,25 +6705,69 @@ function ptOverlay(P){const S=P.state||{},ov=$('#ptOv');if(!ov)return;const me=p
       <div class="cd">${mine?`Acheter l'étoile pour <b>${q.price} 🪙</b> ? Tu as ${c} 🪙`:`Va-t-il l'acheter pour ${q.price} 🪙 ?`}</div>
       ${mine&&!sent?`<button class="btn" data-sy="1"${ok?'':' disabled'}>${ok?'⭐ Oui, je la prends !':`Il te manque ${q.price-c} 🪙`}</button><button class="btn alt" data-sy="0">${ok?'Non merci':'Tant pis…'}</button>`:''}
       <div class="cd">${left} s</div></div>`;}
-  else if(S.phase==='shop'&&S.shop){const sh=S.shop,mine=sh.p===me,c=(S.coins||{})[sh.p]||0,full=ptInv(S,sh.p).length>=PT_BAG,sent=((P.act||{})[me]||{}).shop===sh.n;
+  else if(S.phase==='fork'&&S.fk){const q=S.fk,mine=q.p===me,B=map.br,sent=((P.act||{})[me]||{}).fork===q.n,seg=B.j-B.f-1,risk=B.cells.split?B.cells.split(''):[].concat(B.cells);
+    h=`<div class="ptcard"><div class="big">🔀</div><b>${mine?'Carrefour ! Quel chemin ?':esc(ptName(P,q.p))+' choisit son chemin…'}</b>
+      <div class="ptfork"><button class="ptfk" data-fk="1"${mine&&!sent?'':' disabled'}><b>⚡ Raccourci</b><small>${risk.length} cases · risqué</small><span>${risk.map(c=>PT_CELL[c].e).join(' ')}</span></button>
+        <button class="ptfk safe" data-fk="0"${mine&&!sent?'':' disabled'}><b>🛣️ Grand chemin</b><small>${seg} cases · plus sûr</small><span>${[S.star,S.star2].some(s=>s!=null&&s>B.f&&s<B.j)?'⭐ l\'étoile est par là !':'🟦 🟦 ❓'}</span></button></div><div class="cd">${left} s</div></div>`;}
+  else if(S.phase==='duelp'&&S.dl){const d=S.dl,mine=d.p===me,sent=((P.act||{})[me]||{}).duel===d.n,others=(S.order||[]).filter(q=>q!==d.p);
+    h=`<div class="ptcard"><div class="big">⚔️</div><b>${mine?'Qui veux-tu défier en duel ?':esc(ptName(P,d.p))+' choisit son adversaire…'}</b><div class="cd">Le gagnant prend ${10*(S.hot?2:1)} pièces au perdant !</div>
+      ${mine&&!sent?`<div class="ptduel">${others.map(q=>`<button class="ptdq" data-dq="${q}">${ptAv(S.ch[q],'mini')}<b>${esc(ptName(P,q))}</b><small>⭐${S.stars[q]} 🪙${S.coins[q]}</small></button>`).join('')}</div>`:''}<div class="cd">${left} s</div></div>`;}
+  else if(S.phase==='duelg'&&S.dl){const d=S.dl,res=((P.res||{})['d'+d.n])||{},inn=d.p===me||d.o===me;
+    h=`<div class="ptcard"><div class="big">⚔️</div><b>Duel : ${esc(ptName(P,d.p))} contre ${esc(ptName(P,d.o))}</b><div class="cd">${CHARS[d.k].game} · ${Math.floor(left/60)}:${String(left%60).padStart(2,'0')}</div>
+      ${inn&&!res[me]&&ptOnline(P,me)?'<button class="btn" id="ptPlayD">▶ Jouer le duel</button>':inn?'<div class="cd">✅ Résultat envoyé !</div>':'<div class="cd">⏳ Les deux duellistes jouent…</div>'}</div>`;}
+  else if(S.phase==='duelr'&&S.dl){const d=S.dl,k=d.k,R=[].concat(d.r||[]).filter(Boolean);
+    h=`<div class="ptcard ptduelr"><div class="big">${d.w?'🏆':'🤝'}</div><b>${d.w?esc(ptName(P,d.w))+' gagne le duel !':'Égalité !'}</b>
+      <div class="ptres">${R.map(x=>`<div class="rkrow${x.p===me?' me':''}"><span class="pos">${x.p===d.w?'🥇':'🥈'}</span><span class="who">${esc(ptName(P,x.p))}</span><span class="v">${x.w?(x.s>=0?fmtVal(k,x.s):'✔️'):x.miss?'pas joué':'raté'}</span></div>`).join('')}</div>
+      ${d.w?`<div class="cd">💸 ${esc(ptName(P,d.l))} donne ${d.x} 🪙 à ${esc(ptName(P,d.w))}</div>`:''}</div>`;}
+  else if(S.phase==='shop'&&S.shop){const sh=S.shop,mine=sh.p===me,c=(S.coins||{})[sh.p]||0,full=ptInv(S,sh.p).length>=PT_BAG,sent=((P.act||{})[me]||{}).shop===sh.n,X=PT_PERSOS[(S.ch||{})[sh.p]];
+    const sp=map.star+PT_SHOPSTAR.extra,row=(k,e,n2,d,p,dis)=>`<div class="it${k==='star'?' star':''}"><span class="e">${e}</span><div><b>${n2}</b><small>${d}</small></div>${mine&&!sent?`<button class="btn" data-buy="${k}"${dis?' disabled':''}>${p} 🪙</button>`:`<span class="pr">${p} 🪙</span>`}</div>`;
     h=`<div class="ptcard"><div class="big">🛒</div><b>${mine?'Bienvenue à la buvette !':esc(ptName(P,sh.p))+' est à la buvette…'}</b>${mine?`<div class="cd">🪙 ${c} pièces · 🎒 ${ptInv(S,me).length}/${PT_BAG}${full?' (sac plein)':''}</div>`:''}
-      <div class="ptshop">${PT_SHOPSTAR.on?(()=>{const sp=ptMap(P).star+PT_SHOPSTAR.extra;return `<div class="it star"><span class="e">⭐</span><div><b>Étoile</b><small>Une étoile tout de suite (plus chère que sur le plateau)</small></div>${mine&&!sent?`<button class="btn" data-buy="star"${sp>c?' disabled':''}>${sp} 🪙</button>`:`<span class="pr">${sp} 🪙</span>`}</div>`;})():''}${[].concat(sh.o||[]).map(k=>{const it=PT_ITEMS[k];return `<div class="it"><span class="e">${it.e}</span><div><b>${it.n}</b><small>${it.d}</small></div>${mine&&!sent?`<button class="btn" data-buy="${k}"${it.p>c||full?' disabled':''}>${it.p} 🪙</button>`:`<span class="pr">${it.p} 🪙</span>`}</div>`;}).join('')}</div>
+      <div class="ptshop">${PT_SHOPSTAR.on?row('star','⭐','Étoile','Une étoile tout de suite (plus chère que sur le plateau)',sp,sp>c):''}
+      ${X&&!(S.pw||{})[sh.p]?row('pw',X.e,'Recharger : '+X.pn,X.pd,PT_PWCOST,PT_PWCOST>c):''}
+      ${[].concat(sh.o||[]).map(k=>{const it=PT_ITEMS[k];return row(k,it.e,it.n,it.d,it.p,it.p>c||full);}).join('')}</div>
       ${mine&&!sent?'<button class="btn alt" data-buy="">Rien, merci</button>':''}<div class="cd">${left} s</div></div>`;}
-  else if(S.phase==='mgi'&&S.mg){const c=CHARS[S.mg.k];h=`<div class="ptcard"><div class="big">🎮</div><small>Mini-jeu du tour ${S.turn}</small><div class="dgame">${avSmall(S.mg.k)}<div><b>${c.game}</b><small>avec ${c.name} · ${goalTxt(S.mg.k)}</small></div></div><div class="cd">Ça commence dans ${left} s</div></div>`;}
+  else if(S.phase==='mgi'&&S.mg){const c=CHARS[S.mg.k],M=S.mg;
+    h=`<div class="ptcard"><div class="big">${M.fmt==='ffa'?'🎮':'🤝'}</div><small>Mini-jeu du tour ${S.turn}</small>${M.fmt!=='ffa'?`<h3 class="ptfmt">${M.fmt==='2v2'?'2 contre 2 !':M.fmt==='1v3'?'1 contre 3 !':'Équipe contre équipe !'}</h3>${ptTeamsHTML(P,M)}`:''}
+      <div class="dgame">${avSmall(S.mg.k)}<div><b>${c.game}</b><small>avec ${c.name} · ${goalTxt(S.mg.k)}</small></div></div><div class="cd">Ça commence dans ${left} s</div></div>`;}
   else if(S.phase==='mg'&&S.mg){const res=((P.res||{})[S.turn])||{},hum=(S.order||[]).filter(p=>ptOnline(P,p)),done=hum.filter(p=>res[p]).length;
-    h=`<div class="ptcard"><div class="big">${res[me]?'✅':'🎮'}</div><b>${CHARS[S.mg.k].game}</b><div class="cd">${res[me]?'Résultat envoyé !':''} ${done}/${hum.length} joueur${hum.length>1?'s':''} ont fini · ${Math.floor(left/60)}:${String(left%60).padStart(2,'0')}</div>
+    h=`<div class="ptcard"><div class="big">${res[me]?'✅':'🎮'}</div><b>${CHARS[S.mg.k].game}</b>${S.mg.fmt!=='ffa'?ptTeamsHTML(P,S.mg):''}<div class="cd">${res[me]?'Résultat envoyé !':''} ${done}/${hum.length} joueur${hum.length>1?'s':''} ont fini · ${Math.floor(left/60)}:${String(left%60).padStart(2,'0')}</div>
       ${!res[me]&&ptOnline(P,me)?'<button class="btn" id="ptPlay">▶ Jouer au mini-jeu</button>':''}</div>`;}
-  else if(S.phase==='mgr'&&S.mgr){const L=[].concat(S.mgr).filter(Boolean),k=S.mg.k,med=['🥇','🥈','🥉'];
-    h=`<div class="ptcard"><b>🎮 ${CHARS[k].game}</b><div class="ptres">${L.map(x=>`<div class="rkrow${x.p===me?' me':''}"><span class="pos">${med[x.rank-1]||x.rank}</span><span class="who">${esc(ptName(P,x.p))}${x.bot?' 🤖':''}</span><span class="v">${x.w?(x.s>=0?fmtVal(k,x.s):'✔️'):x.miss?'pas joué':'raté'}</span><span class="cn">+${x.coin} 🪙</span></div>`).join('')}</div></div>`;}
-  const key=(P.st||'')+':'+(S.phase||'')+':'+(S.seq||0);ov.hidden=!h;if(ov._h!==h){ov._h=h;ov.innerHTML=h;const cd=ov.querySelector('.ptcard');if(cd&&ov.dataset.k===key)cd.classList.add('still');}ov.dataset.k=key;const pb=ov.querySelector('#ptPlay');if(pb)pb.onclick=()=>ptPlayMg(S);
-  ov.querySelectorAll('[data-sy]').forEach(x=>x.onclick=()=>{ov.querySelectorAll('[data-sy]').forEach(y=>y.disabled=true);GG.party.set(PT.code,'act/'+me,{star:S.sq.n,yes:x.dataset.sy==='1'}).catch(()=>{});});
-  ov.querySelectorAll('[data-buy]').forEach(x=>x.onclick=()=>{ov.querySelectorAll('[data-buy]').forEach(y=>y.disabled=true);GG.party.set(PT.code,'act/'+me,{shop:S.shop.n,buy:x.dataset.buy}).catch(()=>{});});
+  else if(S.phase==='mgr'&&S.mgr){const L=[].concat(S.mgr).filter(Boolean),M=S.mg,k=M.k,med=['🥇','🥈','🥉'],tc=['🔴','🔵'];
+    h=`<div class="ptcard"><b>🎮 ${CHARS[k].game}</b>${M.fmt!=='ffa'?`<h3 class="ptfmt">${M.win<0?'🤝 Égalité !':tc[M.win]+' L\'équipe '+(M.win?'bleue':'rouge')+' gagne !'}</h3>`:''}
+      <div class="ptres">${L.map(x=>`<div class="rkrow${x.p===me?' me':''}"><span class="pos">${M.fmt!=='ffa'?tc[x.team]||'':med[x.rank-1]||x.rank}</span><span class="who">${esc(ptName(P,x.p))}${x.bot?' 🤖':''}</span><span class="v">${x.w?(x.s>=0?fmtVal(k,x.s):'✔️'):x.miss?'pas joué':'raté'}</span><span class="cn">+${x.coin} 🪙${x.x2===1?' ×2':x.x2===2?' 🧢':''}</span></div>`).join('')}</div></div>`;}
+  ov.dataset.k=key;ov.hidden=!h;if(ov._h!==h){const was=ov._h;ov._h=h;ov.innerHTML=h;const cd=ov.querySelector('.ptcard');if(cd&&was&&ov.dataset.k2===key)cd.classList.add('still');}ov.dataset.k2=key;
+  const pb=ov.querySelector('#ptPlay');if(pb)pb.onclick=()=>ptPlayMg(S.turn,S.mg.k);const pd=ov.querySelector('#ptPlayD');if(pd)pd.onclick=()=>ptPlayMg('d'+S.dl.n,S.dl.k);
+  const act=o=>GG.party.set(PT.code,'act/'+me,o).catch(()=>{});
+  ov.querySelectorAll('[data-sy]').forEach(x=>x.onclick=()=>{ov.querySelectorAll('[data-sy]').forEach(y=>y.disabled=true);act({star:S.sq.n,yes:x.dataset.sy==='1'});});
+  ov.querySelectorAll('[data-fk]').forEach(x=>x.onclick=()=>{ov.querySelectorAll('[data-fk]').forEach(y=>y.disabled=true);x.classList.add('on');act({fork:S.fk.n,br:x.dataset.fk==='1'});});
+  ov.querySelectorAll('[data-dq]').forEach(x=>x.onclick=()=>{ov.querySelectorAll('[data-dq]').forEach(y=>y.disabled=true);x.classList.add('on');act({duel:S.dl.n,tgt:x.dataset.dq});});
+  ov.querySelectorAll('[data-buy]').forEach(x=>x.onclick=()=>{ov.querySelectorAll('[data-buy]').forEach(y=>y.disabled=true);act({shop:S.shop.n,buy:x.dataset.buy});});
   const eb=ov.querySelector('#ptEndBack');if(eb)eb.onclick=()=>{ptExit(false);ptRender();};}
-function ptEndHTML(P){const S=P.state||{},me=ptMe(),fin=[].concat(S.fin||[]).filter(Boolean),rk=S.rk||{},med=['🥇','🥈','🥉'],bonus=[].concat(S.bonus||[]).filter(Boolean),mine=rk[me];
-  const human=fin.includes(me)&&!ptPl(P,me).bot&&!ptPl(P,me).left;
+function ptTeamsHTML(P,M){const T=[].concat(M.tm||[]).map(t=>[].concat(t)),tc=['red','blue'];return `<div class="ptteams">${T.map((t,i)=>`<div class="tm ${tc[i]}">${t.map(p=>`<span>${ptAv((P.state.ch||{})[p],'mini')}${esc(ptName(P,p))}</span>`).join('')}</div>`).join('<b class="vs">VS</b>')}</div>`;}
+function ptVsFx(ov,P){const S=P.state,d=S.dl,c=CHARS[d.k];
+  ov.innerHTML=`<div class="ptvs"><div class="side l">${ptAv(S.ch[d.p],'big')}<b>${esc(ptName(P,d.p))}</b></div><div class="bolt">⚡<span>VS</span></div><div class="side r">${ptAv(S.ch[d.o],'big')}<b>${esc(ptName(P,d.o))}</b></div>
+    <div class="info"><div class="dgame">${avSmall(d.k)}<div><b>${c.game}</b><small>${goalTxt(d.k)}</small></div></div><small>Le gagnant prend ${d.st} 🪙 au perdant</small></div></div>`;}
+function ptChanceFx(ov,P){const S=P.state,c=S.cc,names=(S.order||[]).map(p=>ptName(P,p)),acts=PT_CHANCE.map(x=>x.t.replace('{a}','A').replace('{b}','B').replace('{n}',c.n));
+  const final=PT_CHANCE.find(x=>x.k===c.k).t.replace('{a}',ptName(P,c.a)).replace('{b}',ptName(P,c.b)).replace('{n}',c.n);
+  ov.innerHTML=`<div class="ptcard ptchance"><div class="big spin2">🎰</div><b>Case Chance !</b><div class="reels"><div class="reel" id="r1">${esc(ptName(P,c.a))}</div><div class="reel" id="r2">?</div><div class="reel" id="r3">?</div></div><div class="cd" id="rt">La roulette tourne…</div></div>`;
+  const r2=ov.querySelector('#r2'),r3=ov.querySelector('#r3'),rt=ov.querySelector('#rt');let i=0;
+  const t=setInterval(()=>{i++;if(r2.dataset.done!=='1')r2.textContent=['💸 donne','🤲 reçoit','🔄 échange 🪙','⭐ échange ⭐','🍺 tournée','🎁 cadeau'][i%6];if(r3.dataset.done!=='1')r3.textContent=names[i%names.length];},90);
+  const lab={give:'💸 donne '+c.n+' 🪙 à',take:'🤲 reçoit '+c.n+' 🪙 de',swapC:'🔄 échange ses pièces avec',swapS:'⭐ échange ses étoiles avec',allA:'🍺 reçoit 3 🪙 de tout le monde',giftA:'🎁 gagne '+c.n+' 🪙'};
+  setTimeout(()=>{r2.dataset.done='1';r2.textContent=lab[c.k];r2.classList.add('fin');},1800);
+  setTimeout(()=>{r3.dataset.done='1';r3.textContent=['allA','giftA'].includes(c.k)?'🎉':ptName(P,c.b);r3.classList.add('fin');clearInterval(t);rt.textContent=final;rt.classList.add('fin');},3300);}
+function ptFinalFx(ov,P){const S=P.state,ord=(S.order||[]).slice().sort((a,b)=>(S.stars[b]-S.stars[a])||(S.coins[b]-S.coins[a]));
+  ov.innerHTML=`<div class="ptcard ptfinal"><div class="fire">🔥</div><h3>Dernière ligne droite !</h3><div class="cd">Les cases comptent <b>double</b> jusqu'à la fin !</div>
+    <div class="ptres">${ord.map((p,i)=>`<div class="rkrow${p===ptMe()?' me':''}" style="animation-delay:${.3+i*.15}s"><span class="pos">${['🥇','🥈','🥉'][i]||i+1}</span><span class="who">${esc(ptName(P,p))}</span><span class="v">⭐${S.stars[p]} 🪙${S.coins[p]}</span></div>`).join('')}</div>
+    ${S.lastP?`<div class="drew">🆘 ${esc(ptName(P,S.lastP))} est dernier : +10 pièces pour revenir dans la course !</div>`:''}</div>`;}
+function ptBonusFx(ov,P){const S=P.state,B=[].concat(S.bon||[]).filter(Boolean);
+  ov.innerHTML=`<div class="ptcard ptbonus"><div class="big">🏅</div><h3>Les étoiles bonus !</h3>${B.map((x,i)=>`<div class="bon" id="bon${i}"><span class="e">${x.e}</span><div><b>${x.n}</b><small class="who">🥁…</small></div><span class="st">?</span></div>`).join('')}</div>`;
+  B.forEach((x,i)=>{const el=ov.querySelector('#bon'+i);setTimeout(()=>el.classList.add('show'),300+i*3600);
+    setTimeout(()=>{el.classList.add('rev');el.querySelector('.who').textContent=x.w.length?x.w.map(p=>ptName(P,p)).join(', ')+` (${x.v})`:'Personne…';el.querySelector('.st').textContent=x.w.length?'+1 ⭐':'—';},300+i*3600+1800);});}
+function ptEndHTML(P){const S=P.state||{},me=ptMe(),fin=[].concat(S.fin||[]).filter(Boolean),rk=S.rk||{},med=['🥇','🥈','🥉'],mine=rk[me];
+  const human=fin.includes(me)&&!ptPl(P,me).bot&&!ptPl(P,me).left,pod=fin.slice(0,3),ordp=[pod[1],pod[0],pod[2]].filter(Boolean);
   return `<div class="ptconf">${Array.from({length:26},(_,i)=>`<i style="left:${(i*37)%100}%;animation-delay:${(i%7)*.25}s;animation-duration:${2.2+(i%5)*.4}s">${['🎉','⭐','🪙','🎊','✨'][i%5]}</i>`).join('')}</div><div class="ptcard ptend"><div class="big bounce">🏆</div><h3>${esc(ptName(P,fin[0]))} gagne !</h3>
-   ${bonus.length?`<div class="drew">👑 Roi des mini-jeux : ${bonus.map(p=>esc(ptName(P,p))).join(', ')} · +1 étoile bonus</div>`:''}
-   <div class="ptres">${fin.map(p=>`<div class="rkrow${p===me?' me':''}"><span class="pos">${med[rk[p]-1]||rk[p]}</span><span class="who">${esc(ptName(P,p))}${ptPl(P,p).bot?' 🤖':''}</span><span class="v">⭐${(S.stars||{})[p]||0} · 🪙${(S.coins||{})[p]||0}</span></div>`).join('')}</div>
+   <div class="ptpod">${ordp.map(p=>`<div class="pp r${rk[p]}">${ptAv((S.ch||{})[p],'big')}<b>${esc(ptName(P,p))}</b><div class="blk">${med[rk[p]-1]||rk[p]}<small>⭐${S.stars[p]} 🪙${S.coins[p]}</small></div></div>`).join('')}</div>
+   <div class="ptres">${fin.slice(3).map(p=>`<div class="rkrow${p===me?' me':''}"><span class="pos">${rk[p]}</span><span class="who">${esc(ptName(P,p))}${ptPl(P,p).bot?' 🤖':''}</span><span class="v">⭐${(S.stars||{})[p]||0} · 🪙${(S.coins||{})[p]||0}</span></div>`).join('')}</div>
    ${human?`<div class="drew">🎁 ${mine===1?'Tu gagnes un <b>booster de 5 cartes</b> !':'Tu gagnes <b>1 carte</b> pour ta participation !'} Il t'attend dans ta collection.</div>`:''}
    <div class="trbtns"><button class="btn" id="ptEndBack">Retour</button></div></div>`;}
 function ptReward(P){const me=ptMe(),S=P.state||{},key=PT.code+':'+(P.startAt||0);COL.ptDone=COL.ptDone||{};if(COL.ptDone[key])return;
