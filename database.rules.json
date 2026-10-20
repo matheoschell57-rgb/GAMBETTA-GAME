@@ -1,0 +1,17 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "battles": {
+      ".read": "auth != null && auth.token.email == 'matheo.schell57@gmail.com' && auth.token.email_verified == true",
+      ".write": "auth != null && auth.token.email == 'matheo.schell57@gmail.com' && auth.token.email_verified == true",
+      "$bid": {
+        "$side": {
+          ".read": "auth != null",
+          ".write": "auth != null && ($side == 'a' || $side == 'b') && (!data.exists() || data.child('uid').val() == auth.uid) && (!newData.exists() || newData.child('uid').val() == auth.uid)",
+          ".validate": "newData.hasChildren(['uid', 't', 'at']) && newData.child('t').isNumber()"
+        }
+      }
+    }
+  }
+}

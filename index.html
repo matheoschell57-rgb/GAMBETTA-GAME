@@ -822,6 +822,7 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <style>
 .ggpop{position:absolute;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;background:rgba(10,8,30,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:20px}
 .ggcard{background:var(--card);color:var(--text);border:4px solid var(--ink);border-radius:24px;box-shadow:0 8px 0 var(--ink);padding:22px 20px;text-align:center;max-width:360px;width:100%;animation:pop .4s ease}
@@ -840,6 +841,8 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 (function(){
   if(window.claude||!window.firebase)return; // dans Claude, le jeu garde sa sauvegarde Claude
   const ADMIN_EMAIL='matheo.schell57@gmail.com';
+  // Adresse de la Realtime Database (utilisée seulement pour les batailles en direct). Vide = tout passe par Firestore.
+  const RTDB_URL='https://gambetta-game-default-rtdb.europe-west1.firebasedatabase.app';
   const firebaseConfig={
     apiKey:"AIzaSyARSLTTINMQPdvx8oEGAnqM6P4FvA4-8eA",
     authDomain:"gambetta-game.firebaseapp.com",
@@ -848,8 +851,11 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
     messagingSenderId:"650369270455",
     appId:"1:650369270455:web:99cfb495879d2ad5778332"
   };
+  if(RTDB_URL)firebaseConfig.databaseURL=RTDB_URL;
   let auth,fs;
   try{firebase.initializeApp(firebaseConfig);auth=firebase.auth();fs=firebase.firestore();}catch(e){return;}
+  // Cache sur le téléphone : en rouvrant le jeu, Firebase ne recompte que ce qui a changé (et garde les sauvegardes en attente hors ligne)
+  try{if(fs.enablePersistence)fs.enablePersistence({synchronizeTabs:true}).catch(()=>{});}catch(_){}
   const LS={get:k=>{try{return localStorage.getItem(k);}catch(_){return null;}},set:(k,v)=>{try{localStorage.setItem(k,v);}catch(_){}}};
   const AL='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   const rnd=n=>Array.from(crypto.getRandomValues(new Uint32Array(n)),x=>AL[x%AL.length]).join('');
@@ -982,9 +988,24 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
       fs.collection('battles').where('from','==',GG.pid).onSnapshot(q=>{out=map(q);fire();},()=>{});},
     create(o){return fs.collection('battles').add(Object.assign({from:GG.pid,fromName:GG.name,st:'wait',at:Date.now()},o));},
     set(id,patch){return fs.doc('battles/'+id).update(patch);},
-    push(id,side,o){return fs.doc('battles/'+id+'/p/'+side).set(o);},
-    watchP(id,side,cb){return fs.doc('battles/'+id+'/p/'+side).onSnapshot(s=>cb(s.exists?s.data():null),()=>{});}
+    /* Le direct passe par la Realtime Database (pas de limite de lectures/écritures).
+       Si elle ne répond pas (pas configurée, refus, réseau), on bascule tout seul sur Firestore pour cette partie.
+       Chaque téléphone écoute les deux : la partie ne peut pas se bloquer. */
+    push(id,side,o){const r=RT();const fsw=()=>fs.doc('battles/'+id+'/p/'+side).set(o);
+      if(!r||rtFail[id])return fsw();
+      const w=r.ref('battles/'+id+'/'+side).set(Object.assign({uid:auth.currentUser.uid},o));
+      return Promise.race([w,new Promise((_,no)=>setTimeout(()=>no(new Error('rt-timeout')),6000))]).catch(e=>{console.warn('Direct : bascule sur Firestore',e&&e.message);rtFail[id]=1;return fsw();});},
+    watchP(id,side,cb){let last=-1;const give=d=>{if(!d)return;const t=d.t||0;if(t<last)return;last=t;cb(d);};
+      const u1=fs.doc('battles/'+id+'/p/'+side).onSnapshot(s=>give(s.exists?s.data():null),()=>{});
+      const r=RT();let u2=null;if(r){rtOn(1);const ref=r.ref('battles/'+id+'/'+side),f=s=>give(s.val());ref.on('value',f,()=>{});u2=()=>{ref.off('value',f);rtOn(-1);};}
+      return()=>{try{u1();}catch(_){}try{u2&&u2();}catch(_){}};},
+    // fin de partie : on efface sa propre trace dans la Realtime Database une minute plus tard
+    done(id,side){const r=RT();if(!r)return;rtOn(1);setTimeout(()=>{r.ref('battles/'+id+'/'+side).remove().catch(()=>{}).then(()=>rtOn(-1));},60000);}
   };
+  let rtDb=null,rtN=0,rtOffT=0;const rtFail={};
+  function RT(){if(rtDb!==null)return rtDb;try{rtDb=RTDB_URL&&firebase.database?firebase.database():false;}catch(e){rtDb=false;}return rtDb;}
+  // on ne reste connecté à la Realtime Database que pendant les parties en direct
+  function rtOn(d){const r=RT();if(!r)return;rtN=Math.max(0,rtN+d);clearTimeout(rtOffT);if(rtN>0){try{r.goOnline();}catch(_){}}else rtOffT=setTimeout(()=>{if(!rtN)try{r.goOffline();}catch(_){}},15000);}
   GG.events={
     listen(cb){fs.collection('events').onSnapshot(q=>cb(q.docs.map(d=>Object.assign({id:d.id},d.data()))),()=>{});},
     create(o){return fs.collection('events').add(Object.assign({at:Date.now()},o));},
@@ -1006,6 +1027,29 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
     for(const c of ['players','board','gifts','owners','trades','duels','tournaments','events','actions','requests','bounties','battles']){const q=await fs.collection(c).get();out[c]={};q.docs.forEach(d=>out[c][d.id]=d.data());}
     const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(out,null,1)],{type:'application/json'}));
     a.download='gambetta-sauvegarde-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();};
+
+  // Nettoyage (admin) : efface seulement ce qui est terminé et ne peut plus rien rapporter à personne
+  GG.cleanup=async()=>{if(!GG.admin)return null;const now=Date.now(),D=864e5,n={};
+    const del=async(col,keep)=>{const q=await fs.collection(col).get();let b=fs.batch(),k=0;for(const d of q.docs){if(keep(d.data()||{}))continue;b.delete(d.ref);if(++k%400===0){await b.commit();b=fs.batch();}}await b.commit();n[col]=k;};
+    const old=(x,days)=>(x.at||0)<now-days*D;
+    // invitations de bataille en direct : valables 2 minutes
+    await del('battles',x=>!old(x,1));
+    // primes : valables 4 heures
+    await del('bounties',x=>!old(x,2));
+    // échanges refusés, annulés, ou acceptés ET récupérés des deux côtés
+    await del('trades',x=>!(old(x,7)&&(x.st==='no'||x.st==='cancel'||(x.st==='yes'&&x.done))));
+    // cartes bonus déjà appliquées (et, pour le voleur, carte déjà récupérée)
+    await del('actions',x=>!(old(x,7)&&x.st!=='wait'&&(x.type!=='voleur'||x.got)));
+    // duels : jamais ceux des tournois ; refusés/annulés/expirés, ou terminés ET récompense prise par les deux joueurs
+    const dEnd=x=>x.exp||((x.st==='wait'?x.at:(x.acc||x.at))||0)+24*3600e3;
+    await del('duels',x=>{if(x.t)return true;if(x.st==='no'||x.st==='cancel'||x.st==='wait')return !(dEnd(x)<now-2*D);
+      return !(x.a&&x.a.cl&&x.b&&x.b.cl);});
+    try{const r=RT();if(r){rtOn(1);const v=(await r.ref('battles').once('value')).val()||{};let k=0;
+      for(const id in v){const sides=v[id]||{},at=Math.max(0,...Object.values(sides).map(x=>(x&&x.at)||0));if(at<now-D){await r.ref('battles/'+id).remove();k++;}}n.rt=k;rtOn(-1);}}catch(e){console.warn('Nettoyage direct',e);}
+    return n;};
+  // une fois par jour, en arrière-plan, quand l'admin ouvre le jeu
+  READY.then(ok=>{if(!ok||!GG.admin)return;const d=new Date().toISOString().slice(0,10);if(LS.get('gg-clean')===d)return;
+    setTimeout(()=>GG.cleanup().then(()=>LS.set('gg-clean',d)).catch(e=>console.warn('Nettoyage',e)),30000);});
 
   // Remise à zéro (admin) : 3 confirmations avant d'effacer
   async function wipe(col){const q=await fs.collection(col).get();let batch=fs.batch(),n=0;
@@ -3924,7 +3968,11 @@ let COL={wins:{},cards:{},members:{},seen:{}},colRef=null,cloudOK=false;
 (function loadLocal(){try{const c=JSON.parse(localStorage.getItem('gambetta-col')||'null');if(c&&typeof c==='object')COL=Object.assign(COL,c);}catch(_){}
   try{const w=JSON.parse(localStorage.getItem('gambetta-wins')||'{}')||{};for(const k in w){COL.wins[k]=true;if(MG_CARDS[k]&&!COL.cards[k])COL.cards[k]=Date.now();}}catch(_){}})();
 function saveCol(){if(typeof progLater==='function')progLater();if(typeof pushBoard==='function')setTimeout(()=>{try{pushBoard();}catch(_){}},0);try{localStorage.setItem('gambetta-col',JSON.stringify(COL));}catch(_){}
-  if(colRef)try{const r=colRef.set(JSON.parse(JSON.stringify(COL)));if(r&&r.catch)r.catch(()=>{});}catch(_){}}
+  if(colRef){clearTimeout(cloudT);cloudT=setTimeout(cloudFlush,1500);}}
+/* sauvegarde en ligne regroupée : une seule écriture après une rafale de changements, et rien si rien n'a changé */
+var cloudT=0,cloudK="";
+function cloudFlush(){clearTimeout(cloudT);cloudT=0;if(!colRef)return;try{const j=JSON.stringify(COL);if(j===cloudK)return;cloudK=j;const r=colRef.set(JSON.parse(j));if(r&&r.catch)r.catch(()=>{cloudK='';});}catch(_){cloudK='';}}
+addEventListener('pagehide',cloudFlush);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')cloudFlush();});
 function mergeCol(o){if(!o)return;if(o.st){COL.st=COL.st||{};for(const k in o.st)COL.st[k]=Math.max(COL.st[k]||0,o.st[k]||0);}if(o.bUsed){COL.bUsed=COL.bUsed||{};for(const k in o.bUsed)COL.bUsed[k]=Math.max(COL.bUsed[k]||0,o.bUsed[k]||0);}['badges','ser','tSeen','qHist','evGot','acDone','noRew','bSeen'].forEach(f=>{if(o[f])COL[f]=Object.assign({},o[f],COL[f]||{});});if(o.fav&&!COL.fav)COL.fav=o.fav;if(o.q&&(!COL.q||o.q.d>COL.q.d))COL.q=o.q;if(o.chClaim)COL.chClaim=Object.assign(COL.chClaim||{},o.chClaim);if(o.duDone)COL.duDone=Object.assign(COL.duDone||{},o.duDone);if(o.chs){COL.chs=COL.chs||{};for(const d in o.chs){const a=COL.chs[d],b=o.chs[d];if(b&&(!a||(a.k===b.k&&better(b.k,b.v,a.v))))COL.chs[d]=b;}}if(o.trDone){COL.trDone=Object.assign(COL.trDone||{},o.trDone);}COL.bbt=Math.max(COL.bbt||0,o.bbt||0);COL.bbtm=Math.max(COL.bbtm||0,o.bbtm||0);if(o.bbl){COL.bbl=COL.bbl||{};for(const k in o.bbl)COL.bbl[k]=Math.max(COL.bbl[k]||0,o.bbl[k]||0);}if(o.bbtd&&(!COL.bbtd||o.bbtd>COL.bbtd))COL.bbtd=o.bbtd;if(!Array.isArray(COL.bbd)&&Array.isArray(o.bbd))COL.bbd=o.bbd;if(o.bbj&&(!COL.bbj||o.bbj.d>COL.bbj.d||(o.bbj.d===COL.bbj.d&&(o.bbj.v||0)>(COL.bbj.v||0))))COL.bbj=o.bbj;if(o.bbr&&(!COL.bbr||o.bbr.d>COL.bbr.d))COL.bbr=o.bbr;COL.boosters=Math.max(COL.boosters||0,o.boosters||0);if((!COL.packs||!COL.packs.length)&&o.packs)COL.packs=o.packs;
   if(o.daily&&(!COL.daily||o.daily>COL.daily))COL.daily=o.daily;if(o.got){COL.got=COL.got||{};for(const k in o.got)COL.got[k]=Math.max(COL.got[k]||0,o.got[k]||0);}
   if(o.rew){COL.rew=COL.rew||{mil:{},all:false};Object.assign(COL.rew.mil,o.rew.mil||{});COL.rew.all=COL.rew.all||o.rew.all;}['wins','cards','members','seen'].forEach(f=>{const src=o[f]||{};COL[f]=COL[f]||{};for(const k in src){if(f==='members')COL[f][k]=Math.max(COL[f][k]||0,src[k]||0);else if(!COL[f][k])COL[f][k]=src[k];}});}
@@ -4243,7 +4291,10 @@ function recordResult(k,win){if(!win)return;const m=metricOf(k);let v;
   else v=pendingScore;
   if(v!=null&&(m.t==='wins'||better(k,v,COL.best[k]))){const had=COL.best[k]!=null;COL.best[k]=v;if(had&&m.t!=='wins'){try{stat('rec');qHit('rec');}catch(_){}}saveCol();pushBoard();}return v;}
 let pushT=0;
-function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()=>{boardRef.set({best:Object.assign({},COL.best),cards:cardCount(),dups:myDoubles().map(x=>x.id),chs:Object.assign({},COL.chs||{}),pf:pfPublic(),own:MEMBERS.filter(m=>COL.members[m.id]).map(m=>m.id),bbd:(()=>{try{return bbMyDeck();}catch(_){return null;}})(),bbt:COL.bbt||0,bbj:COL.bbj&&COL.bbj.d===dayKey()?{d:COL.bbj.d,v:COL.bbj.v}:null,at:Date.now()}).catch(()=>{});},400);}
+function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()=>{const o={best:Object.assign({},COL.best),cards:cardCount(),dups:myDoubles().map(x=>x.id),chs:Object.assign({},COL.chs||{}),pf:pfPublic(),own:MEMBERS.filter(m=>COL.members[m.id]).map(m=>m.id),bbd:(()=>{try{return bbMyDeck();}catch(_){return null;}})(),bbt:COL.bbt||0,bbj:COL.bbj&&COL.bbj.d===dayKey()?{d:COL.bbj.d,v:COL.bbj.v}:null};
+    /* on n'écrit que si quelque chose a changé (ou au moins une fois par heure, pour « vu récemment ») */
+    const k=JSON.stringify(o),now=Date.now();if(k===pushBoard.k&&now-(pushBoard.t||0)<3600e3)return;
+    o.at=now;boardRef.set(o).then(()=>{pushBoard.k=k;pushBoard.t=now;}).catch(()=>{});},400);}
 (async function rkInit(){try{if(!window.claude||!window.claude.use)return;const db=await window.claude.use('db'),u=await window.claude.use('user');if(!db||!u)return;
   USER=u;myId=await u.id();if(!myId)return;boardRef=db.doc('board/'+myId);pushBoard();
   db.collection('board').onSnapshot(q=>{const o={};q.docs.forEach(d=>{o[d.id]=d.data();});BOARD=o;if($('#ranks').classList.contains('active'))buildRanks();chBoardOK=true;try{chClaim();dfBadge();if($('#defi').classList.contains('active'))buildDefi();}catch(_){}},()=>{});
@@ -4343,9 +4394,10 @@ async function buildAdmin(){const b=$('#admBody'),P=await adminPlayers();
     b.querySelector('#aMsg').oninput=e=>{ADM.msg=e.target.value;};
     b.querySelector('#aSend').onclick=sendGift;}
   else if(ADM.tab==='players'){
-    b.innerHTML=`<div class="rkhead">${P.length} joueur${P.length>1?'s':''}<small>Touche 🎁 pour offrir directement</small></div>${window.GG&&GG.admin?'<button class="asend" id="aBackup" style="margin-bottom:12px">💾 Télécharger une sauvegarde</button>':''}`+(P.length?P.map(p=>`<div class="prow"><span class="who">${esc(p.name)}<small>${p.code?'🔑 '+p.code+' · ':''}${p.recs} mini-jeu${p.recs>1?'x':''} gagné${p.recs>1?'s':''} · ${p.got} booster${p.got>1?'s':''} offert${p.got>1?'s':''}</small></span><span class="mini">${p.cards} 🃏</span><button class="gift" data-to="${p.id}" aria-label="Offrir">🎁</button></div>`).join(''):'<div class="rkempty">Aucun joueur pour l\'instant.</div>')+(window.GG&&GG.admin?'<button class="gglink" id="aReset" style="display:block;margin:18px auto;color:var(--red)">⚠️ Réinitialiser…</button>':'');
+    b.innerHTML=`<div class="rkhead">${P.length} joueur${P.length>1?'s':''}<small>Touche 🎁 pour offrir directement</small></div>${window.GG&&GG.admin?'<button class="asend" id="aBackup" style="margin-bottom:12px">💾 Télécharger une sauvegarde</button><button class="asend" id="aClean" style="margin-bottom:12px">🧹 Nettoyer les vieilles données</button>':''}`+(P.length?P.map(p=>`<div class="prow"><span class="who">${esc(p.name)}<small>${p.code?'🔑 '+p.code+' · ':''}${p.recs} mini-jeu${p.recs>1?'x':''} gagné${p.recs>1?'s':''} · ${p.got} booster${p.got>1?'s':''} offert${p.got>1?'s':''}</small></span><span class="mini">${p.cards} 🃏</span><button class="gift" data-to="${p.id}" aria-label="Offrir">🎁</button></div>`).join(''):'<div class="rkempty">Aucun joueur pour l\'instant.</div>')+(window.GG&&GG.admin?'<button class="gglink" id="aReset" style="display:block;margin:18px auto;color:var(--red)">⚠️ Réinitialiser…</button>':'');
     b.querySelectorAll('.gift').forEach(x=>x.onclick=()=>{ADM.to=x.dataset.to;ADM.tab='gift';setATab();buildAdmin();});
     const rs=b.querySelector('#aReset');if(rs)rs.onclick=()=>GG.resetFlow();
+    const cl=b.querySelector('#aClean');if(cl)cl.onclick=async()=>{cl.disabled=true;cl.textContent='Nettoyage…';try{const n=await GG.cleanup();const t=Object.values(n||{}).reduce((a,v)=>a+v,0);cl.textContent=`🧹 ${t} vieille${t>1?'s':''} donnée${t>1?'s':''} effacée${t>1?'s':''} ✅`;}catch(e){cl.textContent='Échec, réessaie';cl.disabled=false;}};
     const bk=b.querySelector('#aBackup');if(bk)bk.onclick=async()=>{bk.disabled=true;bk.textContent='Préparation…';try{await GG.backup();bk.textContent='Téléchargé ✅';}catch(e){bk.textContent='Échec, réessaie';}bk.disabled=false;};}
   else if(ADM.tab==='tourn'){adminTourn(b,P);}
   else if(ADM.tab==='event'){adminEvent(b);}
@@ -4530,8 +4582,10 @@ function duFinish(id,after){const d=DUELS.find(x=>x.id===id);if(!d)return;const 
   sh.querySelector('#dfYes').onclick=()=>{me.f=true;d[side]=me;if(PLAYCTX&&PLAYCTX.id===id)PLAYCTX={t:'ch'};sh.remove();
     const w=DUOK()?GG.duels.set(id,{[side]:{n:me.n||0,v:me.v==null?null:me.v,f:true}}):Promise.resolve();w.catch(()=>{}).then(()=>{try{duSettle();}catch(_){}});if(after)after();else buildDefi();};}
 function duLeft(d){const m=Math.max(0,Math.round((duEnd(d)-Date.now())/60000));return m>=60?Math.floor(m/60)+' h':m+' min';}
-function duSettle(){COL.duDone=COL.duDone||{};const won=[];
-  let chg=false;DUELS.forEach(d=>{if(COL.duDone[d.id]||duState(d)!=='end')return;COL.duDone[d.id]=1;chg=true;const w=duWinner(d);duStat(d,w);try{bClaim(d,w);}catch(_){}if(d.t)return;
+function duMark(d){try{if(d.t||!DUOK())return;const sd=duMine(d);if(!sd||(d[sd]&&d[sd].cl))return;COL.duCl=COL.duCl||{};if(COL.duCl[d.id])return;COL.duCl[d.id]=1;
+  GG.duels.set(d.id,{[sd]:Object.assign({n:0,v:null},d[sd]||{},{cl:1})}).catch(()=>{delete COL.duCl[d.id];});}catch(_){}}
+function duSettle(){COL.duDone=COL.duDone||{};const won=[];DUELS.forEach(d=>{if(COL.duDone[d.id]&&duState(d)==='end')duMark(d);});
+  let chg=false;DUELS.forEach(d=>{if(COL.duDone[d.id]||duState(d)!=='end')return;COL.duDone[d.id]=1;chg=true;duMark(d);const w=duWinner(d);duStat(d,w);try{bClaim(d,w);}catch(_){}if(d.t)return;
     if(w===duMine(d)||w==='tie'){grantPack(1,'Duel contre '+duOther(d).name);won.push({d,tie:w==='tie'});}});
   if(!won.length){if(chg)saveCol();return;}saveCol();updBoostBtn();const o=won[0];
   const pop=document.createElement('div');pop.className='giftpop';
@@ -5197,8 +5251,8 @@ const rlImg={};function rlImgOf(s){if(!s.img)return null;if(!rlImg[s.id]){const 
    Arène : bords à gauche et à droite (à pied), bassin au milieu (nage ≥ 5 seulement).
    Simulation à pas fixe (20 / s) + hasard commun : les deux téléphones calculent exactement la même partie.
    En direct, ils ne s'échangent que les cartes posées (carte, position, moment). */
-const BB_VER=2;
-const BB_W=16,BB_H=24,BB_PX0=4,BB_PX1=12,BB_PY0=2.4,BB_PY1=21.6,BB_DT=0.05,BB_DUR=180,BB_OT=60,BB_DEP=1,BB_LAG=30,BB_INV=120e3;
+const BB_VER=5;
+const BB_W=16,BB_H=24,BB_PX0=4,BB_PX1=12,BB_PY0=2.4,BB_PY1=21.6,BB_DT=0.05,BB_DUR=180,BB_OT=60,BB_DEP=1,BB_LAG=24,BB_INV=120e3;
 const BB_LEVELS=[{n:'Facile',lo:0,hi:.45,think:2.4,regen:.8},{n:'Moyen',lo:.25,hi:.75,think:1.5,regen:1},{n:'Difficile',lo:.55,hi:1,think:.9,regen:1.15}];
 let BB={lvl:0,mode:'ai',x2:false,waiting:null,seen:{},started:{}};let BC=null,BBINV=[];
 const BBOK=()=>!!(window.GG&&GG.battles&&GG.pid);
@@ -5535,12 +5589,14 @@ function bbTick(now){if(!BC||!$('#bbCv'))return;const B=BC;try{bbTick2(now);}cat
 function bbTick2(now){let dt=Math.min(.1,(now-BC.last)/1000);BC.last=now;const L=BC.live;if(BB.x2&&!L)dt*=2;
   if(BC.pause)dt=0;
   if(BC.cd>0)BC.cd-=dt;
-  else if(!BC.over&&!BC.pause){BC.acc=Math.min(BC.acc+dt,1.5);
+  else if(!BC.over&&!BC.pause){
+    /* en direct : si on est trop en avance sur l'autre téléphone, on ralentit un peu (invisible) au lieu de s'arrêter net */
+    const mg=L?L.oppT+BB_LAG-BC.tick:99;BC.acc=Math.min(BC.acc+dt*(mg<14?Math.max(.55,mg/14):1),1.5);
     if(L){let n=0;while(BC.acc>=BB_DT&&!BC.over&&BC.tick<L.oppT+BB_LAG&&n++<60){bbLiveApply();bbStep(BB_DT);BC.acc-=BB_DT;}
       L.wait=BC.tick>=L.oppT+BB_LAG?(L.wait||0)+dt:0;
       if(L.wait>25&&Date.now()-L.lastOpp>25000)bbForfeit(1,'⏱️ '+BC.oppName+' ne répond plus : victoire par forfait.');}
     else while(BC.acc>=BB_DT&&!BC.over){bbStep(BB_DT);BC.acc-=BB_DT;}}
-  if(L&&performance.now()-L.lastSend>550)bbLiveSend();
+  if(L&&performance.now()-L.lastSend>350)bbLiveSend();
   BC.vp=BC.vp.filter(p=>BC.t<p.at+.06);
   BC.fx=BC.fx.filter(f=>(f.life-=dt)>0);bbFxTick(dt);BC.bub=BC.bub.filter(b=>(b.life-=dt)>0);BC.msgT=Math.max(0,BC.msgT-dt);BC.emo=BC.emo.filter(m=>(m.life-=dt)>0);
   try{bbDraw();bbHud();}catch(e){console.warn('dessin',e);}}
@@ -5587,7 +5643,7 @@ function bbEndUI(res,note){const me=BC.sd[BC.me].crowns,op=BC.sd[1-BC.me].crowns
     $('#bbBack').onclick=()=>{const dm=B.mode==='duel';bbClose();if(dm){PLAYCTX=null;openDefi();}else bbDeckUI();};const ag=$('#bbAgain');if(ag)ag.onclick=()=>{const o=Object.assign({},BB.lastStart,{seed:bbSeed()});
       if(o.mode==='duel'){const d=DUELS.find(x=>x.id===o.duel);bbClose();if(d&&duCanPlay(d))bbDuelPlay(d);else openDefi();return;}
       if(o.mode==='ai')o.decks=[bbMyDeck(),bbAiDeckL(o.lvl,bbRng(o.seed^0x9e3779b9))];else if(o.mode==='deck')o.decks=[bbMyDeck(),o.decks[1]];bbClose();bbStart(o);};},800);}
-function bbClose(){if(!BC)return;cancelAnimationFrame(BC.raf);if(BC.live&&BC.live.un)try{BC.live.un();}catch(_){}BC=null;}
+function bbClose(){if(!BC)return;cancelAnimationFrame(BC.raf);if(BC.live){if(BC.live.un)try{BC.live.un();}catch(_){}try{GG.battles.done&&GG.battles.done(BC.live.id,BC.live.my);}catch(_){}}BC=null;}
 
 /* ---------- en direct (2 téléphones) ---------- */
 function bbListen(){if(!BBOK()||bbListen.on)return;bbListen.on=1;
