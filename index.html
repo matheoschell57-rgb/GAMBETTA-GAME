@@ -582,7 +582,11 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 .rllv{display:flex;flex-wrap:wrap;gap:6px}.rllv .apill{font-size:12.5px}
 .rlrow{display:flex;align-items:center;gap:10px;background:var(--card);color:var(--text);border:3px solid var(--ink);border-radius:16px;padding:7px 9px;margin-bottom:8px;box-shadow:0 3px 0 var(--ink);cursor:pointer}
 .rlc{width:58px;flex:none}.rlc .tcard{width:100%}.rli{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;font-size:13px}.rli b{font-size:14px}
-.rli em{font-style:normal;font-size:11.5px;color:var(--muted);font-weight:700}.rli em.ok,.rlpick em.ok{color:#2fb36d}
+.rli em{font-style:normal;font-size:11.5px;color:var(--muted);font-weight:700}.rli em.ok,.rlpick.pick{row-gap:18px}
+.rlpick .bbpst{display:flex;flex-wrap:wrap;justify-content:center;gap:3px 4px;margin-top:7px;padding:0 1px}
+.rlpick .bbpst span{background:var(--card);color:var(--text);border:1.5px solid var(--ink);border-radius:8px;padding:1px 5px;font-size:10.5px;font-weight:800;line-height:1.35;white-space:nowrap}
+.rlpick .bbpst .lv{background:#ffe08a}.rlpick .bbpst .lv.up{background:#2fb35a;color:#fff}
+.rlpick em.ok{color:#2fb36d}
 .rlb{display:inline-block;align-self:flex-start;background:#1b2a3a;color:#fff;border-radius:8px;padding:1px 7px;font-weight:700;font-size:12px}
 .rlpick .rlb{display:block;text-align:center;margin-top:3px}.rlpick em{display:block;font-style:normal;font-size:10.5px;font-weight:700;text-align:center;color:var(--muted)}
 .rlsel{display:flex;gap:5px;margin-top:3px}.rlsel select{flex:1;min-width:0;font:inherit;font-size:12px;font-weight:700;border:2px solid var(--ink);border-radius:8px;padding:3px;background:#fff;color:#1b2a3a}
@@ -639,6 +643,25 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 .bbhud{grid-template-columns:auto 1fr auto 1fr!important;padding:4px 8px!important}.bbhud span{font-size:18px!important}.bbhud .bbq{width:34px;height:34px;font-size:16px;border-radius:10px}
 .bbhand{gap:6px!important;margin-top:4px!important}.bbchl{margin-top:4px!important}</style>
 <style>
+.bbupall{display:block;width:100%;margin:10px 0}.bbupall .nb{display:inline-block;background:#2fb35a;color:#fff;border-radius:10px;padding:0 8px;margin-left:4px}
+.bbupl{display:flex;flex-direction:column;gap:8px;max-height:56vh;overflow:auto;padding:2px}
+.bbupr{display:flex;align-items:center;gap:10px;text-align:left;background:var(--card);color:var(--text);border:2px solid var(--ink);border-radius:14px;padding:6px 10px;font:inherit;cursor:pointer}
+.bbupr.ok{border-color:#2fb35a;box-shadow:0 0 0 2px #2fb35a inset}.bbupr .c{width:48px;height:60px;flex:none;position:relative;overflow:hidden;border-radius:6px}.bbupr .c>*{position:absolute;top:0;left:0;width:120px!important;margin:0!important;transform:scale(.4);transform-origin:0 0}.bbupr .t{flex:1;min-width:0}.bbupr small{display:block;font-weight:700;color:var(--muted)}.bbupr .go{font-size:22px}
+#cmUp{display:block;margin:8px auto 0}
+.bbupb{height:10px;border:2px solid var(--ink);border-radius:6px;background:rgba(0,0,0,.08);overflow:hidden;margin:4px 0 2px}.bbupb i{display:block;height:100%;background:linear-gradient(90deg,#7be08a,#2fb35a)}
+.bbuptx{font-size:12.5px;font-weight:700;color:var(--muted);margin:8px 0 0}.btn.bbup{background:#2fb35a;color:#fff}
+.bblvup .bbfiche{animation:bbtroPop .6s cubic-bezier(.2,1.6,.4,1) both}
+.bbcrw{margin-top:6px;font-size:13px;font-weight:800}.bbcrw .eb i{background:linear-gradient(90deg,#ffe08a,#ffb800)!important}
+.bbcrwr{margin:8px auto 4px;max-width:300px;background:var(--card);color:var(--text);border:3px solid var(--ink);border-radius:14px;padding:6px 12px;font-weight:800;box-shadow:0 3px 0 var(--ink)}
+.bbcrwr .eb{height:10px;border:2px solid var(--ink);border-radius:6px;background:rgba(0,0,0,.08);overflow:hidden;margin-top:4px}.bbcrwr .eb i{display:block;height:100%;background:linear-gradient(90deg,#ffe08a,#ffb800);transition:width 1s cubic-bezier(.2,.8,.3,1)}
+.bbcrwr .pk{color:#2fb35a;margin-top:4px;animation:bbtroPop .6s .9s both}
+.bbtro{margin:10px auto 6px;max-width:300px;background:var(--card);color:var(--text);border:3px solid var(--ink);border-radius:16px;padding:8px 12px;box-shadow:0 3px 0 var(--ink)}
+.bbtro .big{font-family:'Lilita One',sans-serif;font-size:34px;line-height:1.1;animation:bbtroPop .6s cubic-bezier(.2,1.6,.4,1) both}
+.bbtro.up .big b{color:#f5a623;font-weight:400}.bbtro.down .big b{color:var(--coral);font-weight:400}
+.bbtro .ln{font-weight:800;font-size:14px;margin-top:2px}.bbtro small{display:block;font-size:11.5px;font-weight:700;color:var(--muted);margin-top:3px}
+.bbtro .eb{height:12px;border:2px solid var(--ink);border-radius:7px;background:rgba(0,0,0,.08);overflow:hidden;margin-top:5px}
+.bbtro .eb i{display:block;height:100%;background:linear-gradient(90deg,#ffd34d,#f5a623);transition:width 1.1s cubic-bezier(.2,.8,.3,1)}
+@keyframes bbtroPop{0%{transform:scale(.2);opacity:0}100%{transform:scale(1);opacity:1}}
 .bbtier{display:flex;align-items:center;gap:10px;background:var(--card);color:var(--text);border:3px solid var(--ink);border-radius:16px;padding:8px 12px;margin-bottom:10px;box-shadow:0 3px 0 var(--ink)}
 .bbtier .e{font-size:32px}.bbtier>div{flex:1;min-width:0}.bbtier b{font-family:'Lilita One',sans-serif;font-weight:400;font-size:18px}.bbtier small{display:block;font-size:11.5px;font-weight:700;color:var(--muted)}
 .bbtier .eb{height:10px;border:2px solid var(--ink);border-radius:6px;background:#fff;overflow:hidden;margin:3px 0}.bbtier .eb i{display:block;height:100%;background:linear-gradient(90deg,#ffcf33,#ff9a3c)}
@@ -3902,7 +3925,7 @@ let COL={wins:{},cards:{},members:{},seen:{}},colRef=null,cloudOK=false;
   try{const w=JSON.parse(localStorage.getItem('gambetta-wins')||'{}')||{};for(const k in w){COL.wins[k]=true;if(MG_CARDS[k]&&!COL.cards[k])COL.cards[k]=Date.now();}}catch(_){}})();
 function saveCol(){if(typeof progLater==='function')progLater();if(typeof pushBoard==='function')setTimeout(()=>{try{pushBoard();}catch(_){}},0);try{localStorage.setItem('gambetta-col',JSON.stringify(COL));}catch(_){}
   if(colRef)try{const r=colRef.set(JSON.parse(JSON.stringify(COL)));if(r&&r.catch)r.catch(()=>{});}catch(_){}}
-function mergeCol(o){if(!o)return;if(o.st){COL.st=COL.st||{};for(const k in o.st)COL.st[k]=Math.max(COL.st[k]||0,o.st[k]||0);}if(o.bUsed){COL.bUsed=COL.bUsed||{};for(const k in o.bUsed)COL.bUsed[k]=Math.max(COL.bUsed[k]||0,o.bUsed[k]||0);}['badges','ser','tSeen','qHist','evGot','acDone','noRew','bSeen'].forEach(f=>{if(o[f])COL[f]=Object.assign({},o[f],COL[f]||{});});if(o.fav&&!COL.fav)COL.fav=o.fav;if(o.q&&(!COL.q||o.q.d>COL.q.d))COL.q=o.q;if(o.chClaim)COL.chClaim=Object.assign(COL.chClaim||{},o.chClaim);if(o.duDone)COL.duDone=Object.assign(COL.duDone||{},o.duDone);if(o.chs){COL.chs=COL.chs||{};for(const d in o.chs){const a=COL.chs[d],b=o.chs[d];if(b&&(!a||(a.k===b.k&&better(b.k,b.v,a.v))))COL.chs[d]=b;}}if(o.trDone){COL.trDone=Object.assign(COL.trDone||{},o.trDone);}COL.bbt=Math.max(COL.bbt||0,o.bbt||0);COL.bbtm=Math.max(COL.bbtm||0,o.bbtm||0);if(!Array.isArray(COL.bbd)&&Array.isArray(o.bbd))COL.bbd=o.bbd;if(o.bbj&&(!COL.bbj||o.bbj.d>COL.bbj.d||(o.bbj.d===COL.bbj.d&&(o.bbj.v||0)>(COL.bbj.v||0))))COL.bbj=o.bbj;if(o.bbr&&(!COL.bbr||o.bbr.d>COL.bbr.d))COL.bbr=o.bbr;COL.boosters=Math.max(COL.boosters||0,o.boosters||0);if((!COL.packs||!COL.packs.length)&&o.packs)COL.packs=o.packs;
+function mergeCol(o){if(!o)return;if(o.st){COL.st=COL.st||{};for(const k in o.st)COL.st[k]=Math.max(COL.st[k]||0,o.st[k]||0);}if(o.bUsed){COL.bUsed=COL.bUsed||{};for(const k in o.bUsed)COL.bUsed[k]=Math.max(COL.bUsed[k]||0,o.bUsed[k]||0);}['badges','ser','tSeen','qHist','evGot','acDone','noRew','bSeen'].forEach(f=>{if(o[f])COL[f]=Object.assign({},o[f],COL[f]||{});});if(o.fav&&!COL.fav)COL.fav=o.fav;if(o.q&&(!COL.q||o.q.d>COL.q.d))COL.q=o.q;if(o.chClaim)COL.chClaim=Object.assign(COL.chClaim||{},o.chClaim);if(o.duDone)COL.duDone=Object.assign(COL.duDone||{},o.duDone);if(o.chs){COL.chs=COL.chs||{};for(const d in o.chs){const a=COL.chs[d],b=o.chs[d];if(b&&(!a||(a.k===b.k&&better(b.k,b.v,a.v))))COL.chs[d]=b;}}if(o.trDone){COL.trDone=Object.assign(COL.trDone||{},o.trDone);}COL.bbt=Math.max(COL.bbt||0,o.bbt||0);COL.bbtm=Math.max(COL.bbtm||0,o.bbtm||0);if(o.bbl){COL.bbl=COL.bbl||{};for(const k in o.bbl)COL.bbl[k]=Math.max(COL.bbl[k]||0,o.bbl[k]||0);}if(o.bbtd&&(!COL.bbtd||o.bbtd>COL.bbtd))COL.bbtd=o.bbtd;if(!Array.isArray(COL.bbd)&&Array.isArray(o.bbd))COL.bbd=o.bbd;if(o.bbj&&(!COL.bbj||o.bbj.d>COL.bbj.d||(o.bbj.d===COL.bbj.d&&(o.bbj.v||0)>(COL.bbj.v||0))))COL.bbj=o.bbj;if(o.bbr&&(!COL.bbr||o.bbr.d>COL.bbr.d))COL.bbr=o.bbr;COL.boosters=Math.max(COL.boosters||0,o.boosters||0);if((!COL.packs||!COL.packs.length)&&o.packs)COL.packs=o.packs;
   if(o.daily&&(!COL.daily||o.daily>COL.daily))COL.daily=o.daily;if(o.got){COL.got=COL.got||{};for(const k in o.got)COL.got[k]=Math.max(COL.got[k]||0,o.got[k]||0);}
   if(o.rew){COL.rew=COL.rew||{mil:{},all:false};Object.assign(COL.rew.mil,o.rew.mil||{});COL.rew.all=COL.rew.all||o.rew.all;}['wins','cards','members','seen'].forEach(f=>{const src=o[f]||{};COL[f]=COL[f]||{};for(const k in src){if(f==='members')COL[f][k]=Math.max(COL[f][k]||0,src[k]||0);else if(!COL[f][k])COL[f][k]=src[k];}});}
 (async function cloud(){try{if(!window.claude||!window.claude.use)return;
@@ -4094,7 +4117,8 @@ function recyConfirm(r){const c=RECY_COST[r],use=recyPick(c);if(!use||!recyMissi
 function openCard(el){const m=$('#cmodal'),k=el.dataset.k;
   if(el.dataset.mem&&isBonus(el.dataset.mem)){COL.seen['m_'+el.dataset.mem]=1;saveCol();return bonusOpen(el.dataset.mem);}
   if(el.classList.contains('bonl')){m.innerHTML=`<div class="hint">⚡ Cette carte bonus sort dans les boosters.<br>Ton booster du jour en contient toujours une !</div><button class="btn" id="cmClose">OK</button>`;m.classList.add('show');m.onclick=e=>{if(e.target===m)closeCard();};m.querySelector('#cmClose').onclick=closeCard;return;}
-  if(el.dataset.mem){const id=el.dataset.mem;COL.seen['m_'+id]=1;saveCol();m.innerHTML=memberHTML(id,true)+`<button class="btn alt" id="cmClose">Fermer</button>`;tilt(m.querySelector('.tcard.big'));}
+  if(el.dataset.mem){const id=el.dataset.mem;COL.seen['m_'+id]=1;saveCol();const own=(COL.members[id]||0)>0;m.innerHTML=memberHTML(id,true)+(own?`<button class="btn${bbCanUp(id)?' bbup':''}" id="cmUp">⚔️ Niveau ${bbLvlOf(id)} · ${bbUpCost(id)?(bbCanUp(id)?'⬆️ Améliorer':`⬆️ ${bbDups(id)} / ${bbUpCost(id)} doubles`):'⭐ max'}</button>`:'')+`<button class="btn alt" id="cmClose">Fermer</button>`;tilt(m.querySelector('.tcard.big'));
+    const u=m.querySelector('#cmUp');if(u)u.onclick=()=>{m.classList.remove('show');bbCardSheet(bbStats(id,bbIsSp(id),null,bbLvlOf(id)),()=>{if($('#collection').classList.contains('active'))buildCol();});};}
   else if(el.dataset.member){m.innerHTML=`<div class="hint">🎁 Cette carte membre s'obtiendra dans un booster.<br>Patience, ils arrivent bientôt !</div><button class="btn" id="cmClose">OK</button>`;}
   else if(el.dataset.locked){const c=CHARS[k];m.innerHTML=`<div class="hint">🔒 ${k==='bonus'?'Fais au moins <b>300 points</b> au':'Gagne'} <b>« ${c.game} »</b>${k==='bonus'?'':' avec '+c.name} pour obtenir cette carte !</div><div class="endbtns"><button class="btn" id="cmPlay">Jouer ▶</button><button class="btn alt" id="cmClose">Fermer</button></div>`;}
   else{COL.seen[k]=1;saveCol();m.innerHTML=cardHTML(k,true)+`<button class="btn alt" id="cmClose">Fermer</button>`;tilt(m.querySelector('.tcard.big'));}
@@ -5221,9 +5245,9 @@ function bbAiDeck(lvl,rng){const L=BB_LEVELS[lvl];const all=MEMBERS.map(m=>rlSta
   while(d.length<8&&n++<1000){const c=sp[Math.floor(rng()*sp.length)];if(!d.includes(c.id))d.push(c.id);}return d;}
 
 /* ---------- écran de la bataille ---------- */
-const BB_REWTXT={ai:'🎁 1re victoire du jour : 1 carte · Difficile : un booster de 3 (1 fois par jour) · 🏆 +5 trophées en Difficile',
-  deck:'🎁 Victoire : 1 carte (3 fois par jour) · 🏆 +10 / −5 trophées',live:'🎁 Victoire : un booster de 3 (2 fois par jour) · 🏆 +30 / −20 trophées',
-  daily:'🎁 1re victoire du jour : un booster de 3 · classement du jour sur ton meilleur score'};
+const BB_REWTXT={ai:'🎁 1re victoire du jour : 1 carte · Difficile : un booster de 3 (1 fois par jour) · 🏆 Facile +5 / −3 · Moyen +10 / −5 · Difficile +20 / −8',
+  deck:'🎁 Victoire : 1 carte (3 fois par jour) · 🏆 +15 / −5 trophées',live:'🎁 Victoire : un booster de 3 (2 fois par jour) · 🏆 +30 / −10 trophées',
+  daily:'🎁 1re victoire du jour : un booster de 3 et 🏆 +15 trophées · classement du jour sur ton meilleur score'};
 function openBataille(mode,back){if(mode)BB.mode=mode;if(back)BB.back=back;bbListen();show('bataille');bbDeckUI();}
 function bbInfo(s){return s.spell?`💧${s.cost} · ✨ Sort ${s.fx.e} ${esc(s.fx.n)} · 💥${s.dmg} + ralentit`
   :`💧${s.cost} · ${s.id==='nathan'?`👥 Nathan ❤️${s.hp} ⚔️${s.dmg} + 15 filles (1 PV, ⚔️${Math.round(s.dmg*.06)})`:BB_GROUP[s.id]&&BB_GROUP[s.id].length>1?`👥 ${BB_GROUP[s.id].length} persos · ❤️${Math.round(s.hp/BB_GROUP[s.id].length)} · ⚔️${Math.round(s.dmg/BB_GROUP[s.id].length)} chacun`:`❤️${s.hp} · ⚔️${s.dmg}`}${s.ranged?' 🎯 à distance':''} · ${s.swim?'🏊 nage '+s.nat:'🚶 reste au bord ('+s.nat+')'} · ${s.fx.e}`;}
@@ -5247,12 +5271,13 @@ function bbDeckUI(){const b=$('#bbBody');if(!b)return;try{navSync('bataille');}c
     out.map(x=>`<div class="trow"><div class="top"><span>Invitation envoyée à <b>${esc(x.toName||'Joueur')}</b></span><span class="trstat wait">En attente ⏳</span></div><div class="trbtns"><button class="btn alt" data-bcancel="${x.id}">Annuler</button></div></div>`).join('')
     :`<div class="trempty">📡 Le mode en direct marche sur le site du jeu, avec ta sauvegarde en ligne.</div>`;
   if(M!=='daily')deckHTML=`<div class="dsec">🃏 Mon deck <small>coût moyen 💧${avg} · touche pour changer · appui long pour la fiche</small></div>
-   ${D.map((s,i)=>`<div class="rlrow bbrow"><div class="rlc" data-i="${i}">${rlCard(ids[i])}</div><div class="rli" data-i="${i}"><b>${esc(s.n)} ${bbLvTag(s)}</b><em>${bbInfo(s)}</em>${s.bonus?`<em class="ok">+1 série « ${esc(s.bonus)} »</em>`:''}${s.id!=='_sub'&&bbLvlNeed(s.id)?`<em>⬆️ encore ${bbLvlNeed(s.id)} double${bbLvlNeed(s.id)>1?'s':''} pour le niveau ${(s.lvl||1)+1}</em>`:''}</div>
+   ${D.map((s,i)=>`<div class="rlrow bbrow"><div class="rlc" data-i="${i}">${rlCard(ids[i])}</div><div class="rli" data-i="${i}"><b>${esc(s.n)} ${bbLvTag(s)}</b><em>${bbInfo(s)}</em>${s.bonus?`<em class="ok">+1 série « ${esc(s.bonus)} »</em>`:''}${bbUpLine(s)}</div>
      <span class="bbmode${s.spell?' sp':''}">${s.spell?'✨<small>Sort</small>':'🧍<small>Perso</small>'}</span></div>`).join('')}`;
   const act=M==='ai'?'⚔️ Combattre':M==='deck'?'🃏 Choisir un joueur':M==='daily'?'▶ Jouer la bataille du jour':'📡 Défier un joueur';
   b.innerHTML=`${bbTierHTML()}<div class="tabs bbtabs"><button class="tab${M==='ai'?' on':''}" data-m="ai">🤖 Ordi</button><button class="tab${M==='deck'?' on':''}" data-m="deck">🃏 Deck</button><button class="tab${M==='daily'?' on':''}" data-m="daily">📅 Du jour</button><button class="tab${M==='live'?' on':''}" data-m="live">📡 Direct${inc.length?` (${inc.length})`:''}</button></div>
    ${top}<div class="bbrew">${BB_REWTXT[M]}</div>
    <div class="trbtns">${M==='daily'?'':'<button class="btn alt" id="bbAutoB">⚡ Deck auto</button>'}<button class="btn" id="bbGo"${M==='live'&&!BBOK()?' disabled':''}>${act}</button></div>
+   ${M==='daily'?'':(()=>{const n=rlOwned().filter(bbCanUp).length;return `<button class="btn alt bbupall" id="bbUpAll">⬆️ Améliorer mes cartes${n?` <span class="nb">${n}</span>`:''}</button>`;})()}
    ${deckHTML}
    <div class="drew" style="margin-top:12px"><b>Comment jouer</b><br>🧍 Chaque carte est soit un <b>perso</b> qui attaque, soit un <b>sort</b>, selon sa phrase.<br>🃏 Touche une carte en bas puis touche l'arène dans <b>ta moitié</b> (ou fais-la glisser). Appui long sur une carte : sa fiche.<br>
    🏊 Les persos qui ont <b>5 ou plus en nage</b> peuvent aller dans le bassin : plus ils nagent bien, plus ils vont vite. C'est le chemin direct vers le <b>plongeoir</b>.<br>
@@ -5266,11 +5291,20 @@ function bbDeckUI(){const b=$('#bbBody');if(!b)return;try{navSync('bataille');}c
   b.querySelectorAll('[data-bok]').forEach(x=>x.onclick=()=>{const v=BBINV.find(y=>y.id===x.dataset.bok);if(v)bbAccept(v);});
   b.querySelectorAll('[data-bno]').forEach(x=>x.onclick=()=>{GG.battles.set(x.dataset.bno,{st:'no'}).catch(()=>{});});
   b.querySelectorAll('[data-bcancel]').forEach(x=>x.onclick=()=>{GG.battles.set(x.dataset.bcancel,{st:'cancel'}).catch(()=>{});if(BB.waiting===x.dataset.bcancel)BB.waiting=null;});
+  const ua=$('#bbUpAll');if(ua)ua.onclick=bbUpList;
   const au=$('#bbAutoB');if(au)au.onclick=()=>{bbSaveDeck(bbAutoIds());bbDeckUI();};
   $('#bbGo').onclick=()=>M==='ai'?bbPlayAi():M==='deck'?bbPlayDeck():M==='daily'?bbPlayDaily():bbInvite();}
+function bbUpList(){const L=rlOwned().map(id=>({id,l:bbLvlOf(id),d:bbDups(id),c:bbUpCost(id),ok:bbCanUp(id)}))
+    .sort((a,b)=>(b.ok-a.ok)||((b.c?b.d/b.c:-1)-(a.c?a.d/a.c:-1))||(b.l-a.l));const n=L.filter(x=>x.ok).length;
+  const sh=sheet(`<h3>⬆️ Améliorer mes cartes</h3><div class="sec">${n?`<b>${n}</b> carte${n>1?'s':''} prête${n>1?'s':''} à améliorer !`:'Aucune carte n\'a encore assez de doubles.'} <small>Touche une carte pour voir sa fiche.</small></div>
+    <div class="bbupl">${L.map(x=>`<button class="bbupr${x.ok?' ok':''}" data-u="${x.id}"><div class="c">${mini(x.id)}</div><div class="t"><b>${esc((memObj(x.id)||{}).n||x.id)}</b><small>Niveau ${x.l}${x.c?` · ${x.d} / ${x.c} doubles`:' · ⭐ max'}</small>
+      ${x.c?`<div class="eb bbupb"><i style="width:${Math.min(100,Math.round(x.d/x.c*100))}%"></i></div>`:''}</div>${x.ok?'<span class="go">⬆️</span>':''}</button>`).join('')}</div>
+    <div class="trbtns"><button class="btn alt" id="bx">Fermer</button></div>`);
+  sh.querySelector('#bx').onclick=()=>{sh.remove();bbDeckUI();};
+  sh.querySelectorAll('[data-u]').forEach(x=>x.onclick=()=>{const id=x.dataset.u;sh.remove();bbCardSheet(bbStats(id,bbIsSp(id),null,bbLvlOf(id)),()=>bbUpList());});}
 function bbPick(i){const ids=bbDeckIds();
   const L=rlOwned().filter(id=>!ids.includes(id)).map(id=>bbStats(id,bbIsSp(id),null,bbLvlOf(id))).sort((a,b)=>(a.spell-b.spell)||((b.nat+b.pert)-(a.nat+a.pert)));
-  const it=s=>`<div data-c="${s.id}">${mini(s.id)}<em>Niv ${s.lvl} · ${s.spell?`✨ 💧${s.cost} ${s.fx.e} 💥${s.dmg}`:`💧${s.cost} ${s.swim?'🏊'+s.nat:'🚶'+s.nat} ${s.fx.e} ⚔️${s.dmg}`}</em></div>`;
+  const it=s=>`<div data-c="${s.id}">${mini(s.id)}<div class="bbpst"><span class="lv${bbCanUp(s.id)?' up':''}">${bbCanUp(s.id)?'⬆️ ':''}Niv ${s.lvl}</span><span>💧 ${s.cost}</span>${s.spell?`<span>💥 ${s.dmg}</span><span>${s.fx.e} sort</span>`:`<span>${s.swim?'🏊':'🚶'} ${s.nat}</span><span>⚔️ ${s.dmg}</span><span>❤️ ${s.hp}</span>`}</div></div>`;
   const sh=sheet(`<h3>🃏 Choisis une carte</h3><div class="sec">🧍 Persos <small>(🏊 = va dans l'eau · 🚶 = reste au bord · appui long : fiche)</small></div><div class="pick rlpick">${L.filter(s=>!s.spell).map(it).join('')||'<div class="trempty">Aucun autre perso dans ta collection.</div>'}</div>
     <div class="sec">✨ Sorts</div><div class="pick rlpick">${L.filter(s=>s.spell).map(it).join('')||'<div class="trempty">Aucun autre sort dans ta collection.</div>'}</div><div class="trbtns"><button class="btn alt" id="bx">Annuler</button></div>`);
   sh.querySelector('#bx').onclick=()=>sh.remove();
@@ -5281,23 +5315,50 @@ function bbPlayDeck(){pickPlayer({e:'🃏',n:'Contre le deck d\'un joueur'},'L\'
   (pid,d)=>Array.isArray(d.bbd)&&d.bbd.length===8);}
 
 /* ---------- niveaux des cartes (avec les doubles), trophées, bataille du jour, duels, émotes ---------- */
-const BB_LVMAX=5;
+const BB_LVMAX=10;
+/* coût en doubles de la carte pour passer au niveau suivant : niv 2 = 3, niv 3 = 5, niv 4 = 10, puis +5 à chaque niveau */
+const BB_UPC=[3,5,10,15,20,25,30,35,40];
 /* niveau = 1 + 1 par paire de doubles (2 doubles → niv 2, 4 → niv 3 … max 5) ; +10 % de vie et de dégâts par niveau */
-function bbLvlOf(id){if(id==='_sub')return 1;const n=(COL.members&&COL.members[id])||0;return Math.max(1,Math.min(BB_LVMAX,1+Math.floor(Math.max(0,n-1)/2)));}
-function bbLvlNeed(id){const l=bbLvlOf(id),n=(COL.members&&COL.members[id])||0;return l>=BB_LVMAX?0:Math.max(1,2*l+1-n);}
+function bbLvlInit(){if(COL.bbl)return;COL.bbl={};for(const id in (COL.members||{})){const n=COL.members[id]||0,l=Math.min(5,1+Math.floor(Math.max(0,n-1)/2));if(l>1)COL.bbl[id]=l;}}
+function bbLvlOf(id){if(id==='_sub')return 1;bbLvlInit();return Math.max(1,Math.min(BB_LVMAX,COL.bbl[id]||1));}
+const bbDups=id=>Math.max(0,((COL.members&&COL.members[id])||0)-1);
+const bbUpCost=id=>{const l=bbLvlOf(id);return l>=BB_LVMAX?0:BB_UPC[l-1];};
+/* nombre de doubles qui manquent pour pouvoir améliorer (0 = améliorable ou niveau max) */
+function bbLvlNeed(id){const c=bbUpCost(id);return c?Math.max(0,c-bbDups(id)):0;}
+const bbCanUp=id=>id!=='_sub'&&(COL.members||{})[id]>0&&bbUpCost(id)>0&&bbDups(id)>=bbUpCost(id);
+function bbUpgrade(id){if(!bbCanUp(id))return false;const c=bbUpCost(id);COL.members[id]-=c;COL.bbl[id]=bbLvlOf(id)+1;stat('bbUp');saveCol();try{pushBoard&&pushBoard();}catch(_){}return true;}
+function bbUpLine(s){if(!s||s.id==='_sub')return'';const c=bbUpCost(s.id);if(!c)return'<em>⭐ Niveau max</em>';
+  return bbCanUp(s.id)?`<em class="ok">⬆️ Améliorable : ${c} doubles → niveau ${bbLvlOf(s.id)+1}</em>`:`<em>⬆️ ${bbDups(s.id)} / ${c} doubles pour le niveau ${bbLvlOf(s.id)+1}</em>`;}
 function bbParse(x){const p=String(x).split(':');return{id:p[0],l:Math.max(1,Math.min(BB_LVMAX,+p[1]||1))};}
 function bbMyDeck(){return bbDeckIds().map(id=>id==='_sub'?id:id+':'+bbLvlOf(id));}
-const bbAiDeckL=(lvl,rng)=>bbAiDeck(lvl,rng).map(id=>id+':'+(lvl+1));
+function bbAiLvl(lvl){let a=0,n=0;try{bbMyDeck().forEach(x=>{const p=bbParse(x);if(p.id!=='_sub'){a+=p.l;n++;}});}catch(_){}const avg=n?Math.round(a/n):1;return Math.max(1,Math.min(BB_LVMAX,Math.max(lvl+1,avg+lvl-1)));}
+const bbAiDeckL=(lvl,rng)=>{const L=bbAiLvl(lvl);return bbAiDeck(lvl,rng).map(id=>id+':'+L);};
 /* trophées et paliers */
 const BB_TIERS=[{n:'Bronze',e:'🥉',t:0},{n:'Argent',e:'🥈',t:150,r:3},{n:'Or',e:'🥇',t:400,r:5},{n:'Maître-nageur',e:'🛟',t:800,r:5},{n:'Légende du bassin',e:'👑',t:1500,r:8}];
 const bbTier=t=>{let i=0;BB_TIERS.forEach((x,j)=>{if((t||0)>=x.t)i=j;});return i;};
-const BB_TROPH={live:[30,-20],deck:[10,-5]};
-function bbTrophies(res){const g=BC.mode==='ai'?(BC.lvl===2?[5,0]:null):BB_TROPH[BC.mode];if(!g||!res)return 0;const d=res>0?g[0]:g[1];if(!d)return 0;
-  const old=COL.bbt||0;COL.bbt=Math.max(0,old+d);const ti=bbTier(COL.bbt),done=COL.bbtm||0;
+const BB_TROPH={live:[30,-10],deck:[15,-5],daily:[15,0]},BB_TRAI=[[5,-3],[10,-5],[20,-8]];
+function bbTrophies(res){let g=BC.mode==='ai'?(BB_TRAI[BC.lvl]||BB_TRAI[0]):BB_TROPH[BC.mode];
+  if(BC.mode==='daily'&&res>0){const d=dayKey();if(COL.bbtd===d)g=null;else COL.bbtd=d;}
+  if(!g||!res)return 0;const d=res>0?g[0]:g[1];if(!d)return 0;
+  BC.tOld=COL.bbt||0;const old=COL.bbt||0;COL.bbt=Math.max(0,old+d);const ti=bbTier(COL.bbt),done=COL.bbtm||0;
   if(ti>done){for(let k=done+1;k<=ti;k++)grantPack(BB_TIERS[k].r,'Bataille · palier '+BB_TIERS[k].n);BC.tierUp=BB_TIERS[ti];COL.bbtm=ti;}
   return COL.bbt-old;}
 function bbTierHTML(){const t=COL.bbt||0,i=bbTier(t),T=BB_TIERS[i],N=BB_TIERS[i+1];const k=N?Math.min(1,(t-T.t)/(N.t-T.t)):1;
-  return `<div class="bbtier"><span class="e">${T.e}</span><div><b>${T.n} · ${t} 🏆</b><div class="eb"><i style="width:${Math.round(k*100)}%"></i></div><small>${N?`Encore ${N.t-t} trophées pour ${N.e} ${N.n} (booster de ${N.r})`:'Palier maximum atteint !'}</small></div></div>`;}
+  return `<div class="bbtier"><span class="e">${T.e}</span><div><b>${T.n} · ${t} 🏆</b><div class="eb"><i style="width:${Math.round(k*100)}%"></i></div><small>${N?`Encore ${N.t-t} trophées pour ${N.e} ${N.n} (booster de ${N.r})`:'Palier maximum atteint !'}</small>
+    <div class="bbcrw">👑 <b>${COL.bbc||0} / ${BB_CRW}</b> couronnes<div class="eb"><i style="width:${Math.round((COL.bbc||0)/BB_CRW*100)}%"></i></div></div><small>Chaque tour cassée = 1 👑 · toutes les ${BB_CRW} : un booster de 3 cartes</small></div></div>`;}
+const BB_CRW=10;
+function bbCrowns(){const n=BC.sd[BC.me].crowns||0;if(!n)return null;const o=COL.bbc||0;COL.bbc=o+n;let pk=0;while(COL.bbc>=BB_CRW){COL.bbc-=BB_CRW;pk++;grantPack(3,'Bataille · '+BB_CRW+' couronnes');}stat('bbCrw',n);return{n,o,pk};}
+function bbCrwHTML(c){if(!c)return'';const w0=c.pk?0:Math.round(c.o/BB_CRW*100),w1=Math.round(COL.bbc/BB_CRW*100);
+  return `<div class="bbcrwr"><div>👑 <b>+${c.n}</b> couronne${c.n>1?'s':''} · <b>${COL.bbc} / ${BB_CRW}</b></div><div class="eb"><i style="width:${w0}%" data-w="${w1}%"></i></div>${c.pk?`<div class="pk">🎁 ${c.pk>1?c.pk+' boosters':'Un booster'} de 3 cartes gagné${c.pk>1?'s':''} !</div>`:''}</div>`;}
+function bbTroHTML(tro){const t=COL.bbt||0,i=bbTier(t),T=BB_TIERS[i],N=BB_TIERS[i+1],o=BC&&BC.tOld!=null?BC.tOld:t-tro;
+  const pc=v=>N?Math.max(0,Math.min(100,Math.round((v-T.t)/(N.t-T.t)*100))):100;
+  return `<div class="bbtro ${tro>0?'up':'down'}"><div class="big">🏆 <b data-tro0="${o}" data-tro1="${t}">${tro>0?'+'+tro:'−'+Math.abs(tro)}</b></div>
+    <div class="ln">${T.e} ${T.n} · <b class="tn">${o}</b> 🏆</div><div class="eb"><i style="width:${pc(o)}%" data-w="${pc(t)}%"></i></div>
+    <small>${N?`Encore ${N.t-t} pour ${N.e} ${N.n}`:'Palier maximum atteint !'}</small></div>`;}
+function bbTroAnim(root){const b=root&&root.querySelector('.bbtro');if(!b)return;const n=b.querySelector('.tn'),bar=b.querySelector('.eb i'),k=b.querySelector('[data-tro0]');
+  const a=+k.dataset.tro0,z=+k.dataset.tro1,t0=performance.now(),D=1100;
+  setTimeout(()=>{bar.style.width=bar.dataset.w;},250);
+  const f=now=>{const p=Math.min(1,(now-t0-250)/D);if(p>=0)n.textContent=Math.round(a+(z-a)*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f);};requestAnimationFrame(f);}
 function bbScore(){const O=BC.sd[1-BC.me];let d=0;O.towers.forEach(t=>d+=t.max-t.hp);return BC.sd[BC.me].crowns*1000+Math.round(d);}
 /* bataille du jour : deck imposé + règle spéciale, la même pour tout le club */
 const BB_RULES=[{k:'x2',e:'💧',n:'Chlore ×2',d:'Le chlore remonte deux fois plus vite pendant toute la partie.'},
@@ -5323,16 +5384,23 @@ function bbDuelPlay(d){if(!d||!duCanPlay(d))return;PLAYCTX={t:'duel',id:d.id};ct
   bbStart({mode:'duel',lvl:1,seed,decks:[bbMyDeck(),deck],oppName:o.name,oppId:o.id,duel:d.id});}
 /* fiche d'une carte (appui long) */
 const BB_ANIM={throw:'lancé en cloche',rain:'pluie qui tombe du ciel',swarm:'nuée qui tourbillonne',waves:'ondes',rays:'rayons de lumière',vague:'grosse vague',frite:'frite géante'};
-function bbCardSheet(s,onClose){const m=memObj(s.id)||{},g=BB_GROUP[s.id],need=s.id==='_sub'||(s.lvl||1)!==bbLvlOf(s.id)?0:bbLvlNeed(s.id);
+function bbCardSheet(s,onClose){const m=memObj(s.id)||{},g=BB_GROUP[s.id],mine=s.id!=='_sub'&&(s.lvl||1)===bbLvlOf(s.id)&&((COL.members||{})[s.id]||0)>0,cost=mine?bbUpCost(s.id):0,can=mine&&!BC&&bbCanUp(s.id);
   const rows=s.spell?[['Type','✨ Sort'],['Coût','💧 '+s.cost],['Dégâts','💥 '+s.dmg+' sur la zone (35 % sur les tours)'],['Ralentit','🌀 '+s.slow.toFixed(1)+' s'],['Animation',BB_ANIM[s.fx.m]||s.fx.m]]
     :[['Type','🧍 Perso'+(g&&g.length>1?' · 👥 '+(s.id==='nathan'?'Nathan + 15 filles':g.length+' persos'):'')],['Coût','💧 '+s.cost],['Vie','❤️ '+s.hp+(g&&g.length>1&&s.id!=='nathan'?' (partagée)':'')],
       ['Dégâts','⚔️ '+s.dmg+(s.ranged?' · 🎯 à distance':' · corps à corps')],['Déplacement',s.swim?'🏊 nage '+s.nat+' : va dans le bassin':'🚶 nage '+s.nat+' : reste sur les bords']];
   const sh=sheet(`<div class="bbfiche"><div class="bbfc">${s.id==='_sub'?rlCard('_sub'):mini(s.id)}</div><div><h3>${esc(s.n)}</h3>
-    <div class="bblv">Niveau ${s.lvl||1}${s.id==='_sub'||(s.lvl||1)!==bbLvlOf(s.id)?'':need?` · encore ${need} double${need>1?'s':''} pour le niveau ${(s.lvl||1)+1}`:' · niveau max'}</div>
+    <div class="bblv">Niveau ${s.lvl||1}${!mine?'':cost?` · doubles : <b>${bbDups(s.id)} / ${cost}</b> pour le niveau ${(s.lvl||1)+1}`:' · ⭐ niveau max'}</div>
+    ${mine&&cost?`<div class="eb bbupb"><i style="width:${Math.min(100,Math.round(bbDups(s.id)/cost*100))}%"></i></div>`:''}
     <div class="bbatk">${s.fx.e} <b>${esc(s.fx.n)}</b><br><i>« ${esc(s.fx.say)} »</i></div></div></div>
     <table class="bbtab">${rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('')}${s.bonus?`<tr><td>Série</td><td>+1 « ${esc(s.bonus)} »</td></tr>`:''}</table>
-    ${m.t?`<p class="bbdesc">${esc(m.t)}</p>`:''}<div class="trbtns"><button class="btn" id="bx">Fermer</button></div>`);
-  const close=()=>{sh.remove();if(onClose)onClose();};sh.querySelector('#bx').onclick=close;sh.onclick=e=>{if(e.target===sh)close();};return sh;}
+    ${m.t?`<p class="bbdesc">${esc(m.t)}</p>`:''}${mine&&cost&&!BC?`<p class="bbuptx">⬆️ Chaque niveau donne <b>+10 %</b> de vie et de dégâts. Améliorer coûte des doubles de <b>cette carte</b> : 3, 5, 10, 15, 20… (max niveau ${BB_LVMAX}).</p>`:''}
+    <div class="trbtns">${can?`<button class="btn bbup" id="bup">⬆️ Améliorer (${cost} doubles)</button>`:''}<button class="btn${can?' alt':''}" id="bx">Fermer</button></div>`);
+  const close=()=>{sh.remove();if(onClose)onClose();};sh.querySelector('#bx').onclick=close;sh.onclick=e=>{if(e.target===sh)close();};
+  const up=sh.querySelector('#bup');if(up){let ok=0;up.onclick=()=>{if(!ok){ok=1;up.textContent=`✔️ Sûr ? ${cost} doubles de ${s.n}`;return;}
+    if(!bbUpgrade(s.id))return;const L=bbLvlOf(s.id);sh.remove();
+    const ns=bbStats(s.id,bbIsSp(s.id),s.bonus||null,L);toast('⬆️',esc(s.n)+' passe niveau '+L+' !','+10 % de vie et de dégâts');
+    if(!BC&&$('#bataille').classList.contains('active'))try{bbDeckUI();}catch(_){}const n2=bbCardSheet(ns,onClose);n2.classList.add('bblvup');};}
+  return sh;}
 function bbLong(el,onLong,onTap){let t=0,x0=0,y0=0,fired=false;
   el.addEventListener('pointerdown',e=>{fired=false;x0=e.clientX;y0=e.clientY;clearTimeout(t);t=setTimeout(()=>{fired=true;onLong();},450);});
   el.addEventListener('pointermove',e=>{if(Math.abs(e.clientX-x0)+Math.abs(e.clientY-y0)>12)clearTimeout(t);});
@@ -5499,8 +5567,8 @@ function bbReward(res){if(res<=0)return null;const d=dayKey();let R=COL.bbr;if(!
   if(BC.mode==='duel')return null;
   if(BC.mode==='daily'){if(!R.daily){R.daily=1;grantPack(3,'Bataille du jour');return'un booster de 3 cartes';}return null;}
   if(R.live<2){R.live++;grantPack(3,'Bataille en direct');return'un booster de 3 cartes';}return null;}
-function bbEndUI(res,note){const me=BC.sd[BC.me].crowns,op=BC.sd[1-BC.me].crowns;let rew=null,tro=0,extra='';
-  try{if(res>0){stat('bbW');if(BC.live)stat('bbLW');}else if(res<0)stat('bbL');if(BC.kingKO)stat('bbK');rew=bbReward(res);tro=bbTrophies(res);
+function bbEndUI(res,note){const me=BC.sd[BC.me].crowns,op=BC.sd[1-BC.me].crowns;let rew=null,tro=0,extra='',crw=null;
+  try{if(res>0){stat('bbW');if(BC.live)stat('bbLW');}else if(res<0)stat('bbL');if(BC.kingKO)stat('bbK');rew=bbReward(res);tro=bbTrophies(res);try{crw=bbCrowns();}catch(e){console.warn(e);}
     if(BC.mode==='daily'){const v=bbScore(),d=dayKey();if(!COL.bbj||COL.bbj.d!==d)COL.bbj={d,v:null,n:0};COL.bbj.n++;const nb=COL.bbj.v==null||v>COL.bbj.v;if(nb)COL.bbj.v=v;
       extra=`<p>📅 Score : <b>${v} pts</b>${nb?' · nouveau record du jour !':' · ton record : '+COL.bbj.v+' pts'}</p>`;}
     if(BC.mode==='duel'){const v=bbScore();extra=`<p>Score : <b>${v} pts</b></p>`+ctxAfter('bataille',true,v);}}catch(e){console.warn(e);}
@@ -5509,11 +5577,12 @@ function bbEndUI(res,note){const me=BC.sd[BC.me].crowns,op=BC.sd[1-BC.me].crowns
     const L=B.live,ds=L&&L.ofin&&L.fin&&L.ofin.h!==L.fin.h;
     body.insertAdjacentHTML('beforeend',`<div class="rlres"><div class="emo">${res>0?'🏆':res<0?'😵':'🤝'}</div><h3>${res>0?'Victoire !':res<0?'Battu…':'Égalité'}</h3>
      <p>Tours cassées : toi <b>${me}</b> · ${esc(B.mode==='ai'?'ordi':B.oppName)} <b>${op}</b></p>${note?`<p>${esc(note)}</p>`:''}
-     ${extra}${tro?`<p>🏆 <b>${tro>0?'+':''}${tro}</b> trophées · ${BB_TIERS[bbTier(COL.bbt)].e} ${BB_TIERS[bbTier(COL.bbt)].n} (${COL.bbt})</p>`:''}
+     ${extra}${tro?bbTroHTML(tro):''}${bbCrwHTML(crw)}
      ${B.tierUp?`<p>🎉 Nouveau palier : <b>${B.tierUp.e} ${B.tierUp.n}</b> ! Un booster de ${B.tierUp.r} cartes t'attend.</p>`:''}
      ${rew?`<p>🎁 Tu gagnes <b>${rew}</b> ! Il t'attend dans ta collection.</p>`:res>0&&B.mode!=='duel'?'<p><small>Plus de récompense pour ce mode aujourd\'hui.</small></p>':''}
      ${ds?'<p><small>⚠️ Vos deux téléphones n\'ont pas vu exactement la même partie.</small></p>':''}
      <div class="trbtns"><button class="btn alt" id="bbBack">Retour</button>${L||(B.mode==='duel'&&!(PLAYCTX&&PLAYCTX.t==='duel'))?'':`<button class="btn" id="bbAgain">${B.mode==='duel'?'Essai suivant':'Rejouer'}</button>`}</div></div>`);
+    try{bbTroAnim(body.querySelector('.rlres:last-child'));}catch(_){}setTimeout(()=>body.querySelectorAll('.bbcrwr .eb i').forEach(i=>i.style.width=i.dataset.w),300);
     const dfn=body.querySelector('.rlres [data-dfin]');if(dfn)dfn.onclick=()=>duFinish(dfn.dataset.dfin,()=>{dfn.outerHTML='<div style="margin-top:6px">🏁 Résultat gardé !</div>';const a=$('#bbAgain');if(a)a.remove();PLAYCTX=null;});
     $('#bbBack').onclick=()=>{const dm=B.mode==='duel';bbClose();if(dm){PLAYCTX=null;openDefi();}else bbDeckUI();};const ag=$('#bbAgain');if(ag)ag.onclick=()=>{const o=Object.assign({},BB.lastStart,{seed:bbSeed()});
       if(o.mode==='duel'){const d=DUELS.find(x=>x.id===o.duel);bbClose();if(d&&duCanPlay(d))bbDuelPlay(d);else openDefi();return;}
