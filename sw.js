@@ -1,6 +1,6 @@
 // Service worker du Gambetta Game : toujours la dernière version en ligne,
 // et la dernière version vue reste jouable si le réseau coupe.
-const CACHE='gambetta-v8';
+const CACHE='gambetta-v9';
 self.addEventListener('install',e=>self.skipWaiting());
 self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));
 self.addEventListener('fetch',e=>{

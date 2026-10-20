@@ -12,6 +12,14 @@
           ".validate": "newData.hasChildren(['uid', 't', 'at']) && newData.child('t').isNumber()"
         }
       }
+    },
+    "party": {
+      ".read": "auth != null",
+      ".indexOn": ["st"],
+      "$code": {
+        ".write": "auth != null",
+        ".validate": "$code.matches(/^[0-9]{4}$/)"
+      }
     }
   }
 }

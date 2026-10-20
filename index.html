@@ -673,6 +673,103 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 .bblv{font-weight:800;font-size:13px;color:#b8860b}.bbatk{margin-top:6px;font-size:14px}.bbtab{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}.bbtab td{padding:5px 4px;border-top:1px solid rgba(127,140,160,.3)}.bbtab td:first-child{font-weight:800;color:var(--muted);width:34%}
 .bbdesc{font-style:italic;color:var(--muted);margin:10px 2px 0}
 </style>
+<style>/* ===== nouvel agencement ===== */
+#select .selbtns,#select .dchip{display:none!important}
+#select .sel-head h2{font-size:24px!important}#select .sel-head p{margin:2px 0 0;font-size:13px}
+#select .grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#select .char{border-width:3px;border-radius:16px;box-shadow:0 4px 0 var(--ink);padding:5px 5px 8px}
+#select .char .avwrap{border-radius:11px;border-width:2px}#select .char .nm{font-size:16px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#select .char .gm{font-size:11px;line-height:1.2}#select .char .badge{font-size:20px;top:-8px;right:-6px}
+.ctabs{margin:0 0 8px}.ctabs .tab{flex:1;font-size:15px;padding:8px 6px}
+#collection .col-head .x,#trade .col-head .x,#collection .col-head h2,#trade .col-head h2{display:none}#collection .col-head,#trade .col-head{justify-content:flex-end;margin-bottom:-4px}
+#moi .cloudnote{margin-top:14px}
+.dftabs{position:sticky;top:0;z-index:3;background:inherit;margin:0 0 10px;padding-top:2px}.dftabs .tab{flex:1;font-size:13px;padding:8px 2px;white-space:nowrap}
+.dftabs .cnt,.ctabs .cnt{display:inline-block;min-width:18px;background:var(--coral,#ff6b6b);color:#fff;border-radius:9px;font-size:11px;padding:0 5px;margin-left:3px}
+.dfpane[hidden]{display:none}
+#moi{padding:12px 12px 0;gap:10px}
+.moihead{display:flex;align-items:center;gap:14px;background:var(--card);color:var(--text);border:3px solid var(--ink);border-radius:18px;padding:12px;box-shadow:0 4px 0 var(--ink)}
+.moihead .fav,.moihead .nofav{width:70px;flex:none}.moihead .fav>*{width:70px!important}.moihead .nofav{font-size:40px;text-align:center}
+.moihead h3{margin:0;font-family:'Lilita One',sans-serif;font-weight:400;font-size:24px}.moihead small{color:var(--muted);font-weight:700}
+.moistats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+.moistats div{background:var(--card);color:var(--text);border:2px solid var(--ink);border-radius:14px;padding:8px 4px;text-align:center}
+.moistats b{display:block;font-family:'Lilita One',sans-serif;font-weight:400;font-size:19px}.moistats span{font-size:11px;font-weight:700;color:var(--muted)}
+.moilist{display:flex;flex-direction:column;gap:9px}
+.moirow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--card);color:var(--text);border:3px solid var(--ink);border-radius:16px;padding:10px 12px;box-shadow:0 3px 0 var(--ink);font:inherit;cursor:pointer}
+.moirow .e{font-size:26px}.moirow .t{flex:1;min-width:0}.moirow b{display:block;font-size:16px}.moirow small{color:var(--muted);font-weight:600;font-size:12.5px}.moirow .go{font-size:24px;color:var(--muted)}
+.bbtop{display:flex;align-items:center;gap:10px;width:100%;background:var(--card);color:var(--text);border:3px solid var(--ink);border-radius:14px;padding:8px 12px;box-shadow:0 3px 0 var(--ink);font:inherit;font-weight:700;font-size:15px;margin-bottom:10px;cursor:pointer}
+.bbtop span:first-child{flex:1;text-align:left}.bbtop .i{color:var(--muted)}
+.btn.bbplay{display:block;width:100%;font-size:22px;padding:14px;margin:4px 0 14px}
+.bbdkh{display:flex;align-items:center;gap:6px;margin:4px 0 8px;flex-wrap:nowrap;white-space:nowrap}.bbdkh b{font-family:'Lilita One',sans-serif;font-weight:400;font-size:19px}.bbdkh small{color:var(--muted);font-weight:700}.bbdkh .sp{flex:1}
+.mini-b{font:inherit;font-weight:800;font-size:13px;padding:5px 9px;border:2px solid var(--ink);border-radius:10px;background:var(--card);color:var(--text);box-shadow:0 2px 0 var(--ink);cursor:pointer}
+.mini-b.up{background:#2fb35a;color:#fff}.mini-b i{font-style:normal;background:#fff;color:#2fb35a;border-radius:8px;padding:0 5px;margin-left:2px}
+.bbgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px 8px;padding-top:6px}
+.bbg1{position:relative;cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.bbg1 .c,.bbg1 .l,.bbg1 .k{position:absolute;font-weight:800;font-size:10.5px;border:1.5px solid var(--ink);border-radius:8px;padding:0 4px;line-height:1.5;background:#fff;color:#1b2a3a;z-index:2}
+.bbg1 .c{top:-6px;left:-4px;background:#d8f1ff}.bbg1 .l{bottom:-6px;left:50%;transform:translateX(-50%);background:#ffe08a;white-space:nowrap}.bbg1 .l.up{background:#2fb35a;color:#fff}.bbg1 .k{top:-6px;right:-4px}
+.bbhint{text-align:center;font-size:12px;font-weight:700;color:var(--muted);margin:12px 0 4px}
+.bbhelp{display:block;margin:6px auto}
+.bbmt{display:block;width:100%;text-align:left;background:var(--card);color:var(--text);border:3px solid var(--ink);border-radius:16px;padding:10px 12px;margin:0 0 10px;box-shadow:0 3px 0 var(--ink);font:inherit;cursor:pointer}
+.bbmt[disabled]{opacity:.5;cursor:default}
+.bbmt .h{display:flex;align-items:center;gap:12px}.bbmt .e{font-size:30px}.bbmt .h>div{flex:1;min-width:0}.bbmt b{display:block;font-size:17px}.bbmt small{display:block;color:var(--muted);font-weight:600;font-size:12.5px}.bbmt .go{font-size:24px;color:var(--muted)}
+.bbmt .lv{display:flex;gap:8px;margin-top:10px}.bbmt .lv .btn{flex:1;padding:8px 4px;font-size:15px;margin:0}.bbmt .lv .btn small{display:block;font-size:11px;color:inherit;opacity:.8}
+</style>
+<style>/* ===== Gambetta Party ===== */
+#party{padding:12px 12px 0;gap:8px}#party.ingame .col-head,#party.ingame .ptg{display:none}#party.ingame{padding-top:8px}
+.pthero{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#ffe08a,#ffb3c7);color:#1b2a3a;border:3px solid var(--ink);border-radius:18px;padding:12px;box-shadow:0 4px 0 var(--ink);margin-bottom:10px}
+.pthero .e{font-size:44px}.pthero b{font-family:'Lilita One',sans-serif;font-weight:400;font-size:24px;display:block}.pthero small{font-weight:700;font-size:13px}
+.ptlob{display:flex;align-items:center;gap:10px}.ptlob>div{flex:1;min-width:0}.ptlob small{display:block;color:var(--muted);font-weight:700}.ptlob .btn{margin:0;padding:8px 12px;font-size:15px}
+.ptmap{display:flex;align-items:center;gap:12px}.ptmap .e{font-size:30px}.ptmap>div{flex:1}.ptmap small{display:block;color:var(--muted);font-weight:700}.ptmap.off{opacity:.6}
+.ptcode{text-align:center;background:var(--card);color:var(--text);border:3px solid var(--ink);border-radius:18px;padding:10px;box-shadow:0 4px 0 var(--ink)}
+.ptcode b{display:block;font-family:'Lilita One',sans-serif;font-weight:400;font-size:52px;letter-spacing:10px;line-height:1.1}.ptcode small{color:var(--muted);font-weight:700}
+.ptpl{display:flex;flex-direction:column;gap:7px}.ptp{display:flex;align-items:center;gap:9px;background:var(--card);color:var(--text);border:2px solid var(--ink);border-radius:14px;padding:6px 10px}
+.ptp b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ptp .trstat{margin:0}
+.pw,.ptpawn{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;border:2.5px solid #fff;box-shadow:0 0 0 2px var(--ink);color:#fff;font-weight:900;font-size:14px;overflow:hidden;flex:none}
+.pw img,.ptpawn img{width:100%;height:100%;object-fit:cover}
+.pttop{display:flex;align-items:center;gap:8px}.pttop b{font-family:'Lilita One',sans-serif;font-weight:400;font-size:20px}.pttop span{flex:1;text-align:right;font-weight:700;font-size:12.5px;color:var(--muted)}
+.pttop .x{position:static;width:34px;height:34px;flex:none}
+.ptsc{display:flex;gap:6px;overflow-x:auto;padding:4px 2px 6px;scrollbar-width:none}.ptsc::-webkit-scrollbar{display:none}
+.ptsci{flex:none;display:flex;align-items:center;gap:5px;background:var(--card);color:var(--text);border:2px solid var(--ink);border-radius:12px;padding:3px 8px;font-size:12px}
+.ptsci b{max-width:72px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ptsci span:last-child{font-weight:800}.ptsci .dot{width:10px;height:10px;border-radius:50%;border:1.5px solid var(--ink)}
+.ptsci.on{background:#ffe08a;color:#1b2a3a;transform:translateY(-2px);box-shadow:0 2px 0 var(--ink)}.ptsci.me b{text-decoration:underline}
+.ptboard{position:relative;width:100%;max-width:440px;margin:4px auto 0;aspect-ratio:4/5;background:linear-gradient(#f3e2c2,#e9d3a8);border:3px solid var(--ink);border-radius:22px;box-shadow:0 5px 0 var(--ink);overflow:hidden}
+.ptpool{position:absolute;left:18%;right:18%;top:14%;bottom:14%;background:linear-gradient(180deg,#5cc3f0,#2f9bd9);border:4px solid #fff;border-radius:12px;box-shadow:inset 0 0 0 3px #1b6fa8}
+.ptpool i{position:absolute;top:6%;bottom:6%;width:0;border-left:2px dashed rgba(255,255,255,.7)}.ptpool i:nth-child(1){left:20%}.ptpool i:nth-child(2){left:40%}.ptpool i:nth-child(3){left:60%}.ptpool i:nth-child(4){left:80%}
+.ptpool .d{position:absolute;font-size:22px;filter:drop-shadow(0 2px 0 rgba(0,0,0,.25))}.ptpool .d1{left:4%;top:4%}.ptpool .d2{right:4%;top:4%}.ptpool .d3{left:4%;bottom:4%}.ptpool .d4{right:4%;bottom:4%}
+.ptlogo{position:absolute;left:0;right:0;top:46%;text-align:center;font-family:'Lilita One',sans-serif;color:rgba(255,255,255,.75);font-size:20px;transform:rotate(-8deg)}
+.ptc{position:absolute;transform:translate(-50%,-50%);width:9.2%;aspect-ratio:1;border-radius:50%;border:2.5px solid var(--ink);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px;color:#fff;box-shadow:0 2px 0 var(--ink)}
+.ptc.tb{background:#4aa8ff}.ptc.tm{background:#ff6b6b}.ptc.te{background:#ffd23f;color:#1b2a3a}.ptc.tS{background:#fff;font-size:15px}
+.ptstar{position:absolute;transform:translate(-50%,-90%);font-size:22px;transition:left .6s,top .6s;filter:drop-shadow(0 0 6px #fff59a);animation:ptstar 1.6s ease-in-out infinite;pointer-events:none;z-index:3}
+@keyframes ptstar{0%,100%{margin-top:0}50%{margin-top:-5px}}
+.ptpawn{position:absolute;transform:translate(-50%,-50%);width:26px;height:26px;font-size:12px;transition:left .25s ease,top .25s ease;z-index:4}
+.ptpawn.hop{animation:pthop .3s ease}@keyframes pthop{50%{transform:translate(-50%,-85%) scale(1.15)}}
+.ptmsg{margin:10px 0 6px;background:var(--card);color:var(--text);border:2px solid var(--ink);border-radius:14px;padding:8px 12px;font-weight:700;font-size:14px;min-height:22px}
+.ptmsg span{font-size:18px}.ptact{min-height:10px}.btn.ptroll{display:block;width:100%;font-size:22px;padding:14px;animation:ptpulse 1.2s ease-in-out infinite}
+@keyframes ptpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+.ptdice{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,.25);z-index:6;pointer-events:none}
+.ptdice .die{width:84px;height:84px;background:#fff;color:#1b2a3a;border:4px solid var(--ink);border-radius:18px;display:flex;align-items:center;justify-content:center;font-family:'Lilita One',sans-serif;font-size:48px;box-shadow:0 5px 0 var(--ink);animation:ptroll .18s linear infinite}
+.ptdice .die.fin{animation:bbtroPop .4s cubic-bezier(.2,1.6,.4,1)}.ptdice small{margin-top:8px;color:#fff;font-weight:800;text-shadow:0 1px 3px #000}
+@keyframes ptroll{0%{transform:rotate(-12deg)}50%{transform:rotate(12deg)}100%{transform:rotate(-12deg)}}
+.ptov{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;padding:14px;background:rgba(10,30,50,.45)}.ptov[hidden]{display:none}
+.ptcard{width:100%;max-width:400px;max-height:100%;overflow:auto;background:var(--card);color:var(--text);border:4px solid var(--ink);border-radius:22px;padding:16px;text-align:center;box-shadow:0 6px 0 var(--ink);animation:bbtroPop .4s cubic-bezier(.2,1.6,.4,1)}
+.ptcard.still{animation:none}.ptcard .big{font-size:46px}.ptcard .dgame{justify-content:center;text-align:left;margin:10px 0}.ptcard .cd{font-weight:800;margin:8px 0}.ptcard h3{font-family:'Lilita One',sans-serif;font-weight:400;font-size:26px;margin:4px 0 8px}
+.ptres{display:flex;flex-direction:column;gap:5px;margin:8px 0;text-align:left}.ptres .cn{font-weight:900;color:#d48a00;margin-left:6px;white-space:nowrap}
+</style>
+<style>/* ===== Gambetta Party : cartes, buvette, objets ===== */
+.ptlv{font-size:11px;font-weight:900;border:2px solid var(--ink);border-radius:9px;padding:1px 7px;white-space:nowrap;color:#1b2a3a}.ptlv.l1{background:#9be7a9}.ptlv.l2{background:#ffd23f}.ptlv.l3{background:#ff8c8c}
+.ptmaps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ptmc{display:flex;flex-direction:column;align-items:center;gap:3px;background:var(--card);color:var(--text);border:3px solid var(--ink);border-radius:14px;padding:8px 4px;font:inherit;cursor:pointer;box-shadow:0 3px 0 var(--ink)}
+.ptmc .e{font-size:28px}.ptmc b{font-size:12px;line-height:1.15;text-align:center}.ptmc.on{background:#ffe08a;color:#1b2a3a;transform:translateY(-2px)}
+.ptc.tB{background:#2fb35a;font-size:14px}.ptc.tc{background:#ff9f43;font-size:14px}.ptc.tr{background:#5f27cd;font-size:14px}
+.ptboard.mbeach{background:linear-gradient(#f6dca0,#ecc77a)}.ptboard.mbeach .ptpool{background:linear-gradient(180deg,#2f9bd9 0,#5cc3f0 48%,#f8e3b0 48%,#f1d08a 100%);border-color:#fff8e0;box-shadow:none}
+.ptboard.mbeach .ptlogo{color:rgba(120,80,20,.45);top:62%}
+.ptboard.mparty{background:linear-gradient(#3b2a5a,#24183d)}.ptboard.mparty .ptpool{background:repeating-conic-gradient(#ff5fa2 0 25%,#7a5cff 0 50%) 0 0/34px 34px;border-color:#ffd23f;box-shadow:0 0 22px #ff5fa2}
+.ptboard.mparty .ptlogo{color:rgba(255,255,255,.9);text-shadow:0 2px 6px #000}
+.ptbag{margin-top:8px;font-size:13px;font-weight:800;display:flex;flex-wrap:wrap;gap:6px;align-items:center}.ptbag span{background:var(--card);border:2px solid var(--ink);border-radius:10px;padding:1px 7px}
+.ptuse{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}.ptuse small{width:100%;font-weight:700;color:var(--muted)}
+.ptshop{display:flex;flex-direction:column;gap:8px;margin:10px 0;text-align:left}.ptshop .it{display:flex;align-items:center;gap:10px;border:2px solid var(--ink);border-radius:14px;padding:6px 8px}
+.ptshop .e{font-size:28px}.ptshop .it>div{flex:1;min-width:0}.ptshop small{display:block;color:var(--muted);font-weight:600;font-size:12px}.ptshop .btn{margin:0;padding:6px 10px;font-size:15px;white-space:nowrap}.ptshop .pr{font-weight:900}
+.ptdice .dies{display:flex;gap:12px}.ptdice .die.gold{background:linear-gradient(#fff3a8,#ffc83d)}
+</style>
 </head>
 <body>
 <div id="app">
@@ -690,11 +787,12 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 
   <section id="select" class="screen" aria-label="Sélection des personnages">
     <div class="sel-head"><h2>Choisis ton perso</h2><p>Chaque perso a son mini-jeu !</p><div class="selbtns"><button class="colbtn" id="openCol">🃏 Ma collection <span id="colCount"></span></button><button class="colbtn rk" id="openRanks">🏆 Classements</button><button class="colbtn tr" id="openTrade">🔄 Échanges</button><button class="colbtn me" id="openProf" title="Mon profil" aria-label="Mon profil">👤</button><button class="colbtn adm" id="openAdmin" hidden title="Gestion" aria-label="Gestion">🛠️</button></div><button class="dchip" id="dChip"></button></div>
-    <div class="tabs gtabs"><button class="tab on" data-g="select">🎮 Mini-jeux</button><button class="tab" data-g="bataille">⚔️ Jeu de cartes</button></div>
+    <div class="tabs gtabs"><button class="tab on" data-g="select">🎮 Mini-jeux</button><button class="tab" data-g="bataille">⚔️ Bataille</button><button class="tab" data-g="party">🎲 Party</button></div>
     <div class="grid" id="grid"></div>
   </section>
 
   <section id="collection" class="screen" aria-label="Collection de cartes">
+    <div class="tabs ctabs"><button class="tab on" data-ct="col">🃏 Ma collection</button><button class="tab" data-ct="tr">🔄 Échanges<span class="ctn"></span></button></div>
     <div class="col-head"><button class="x" id="colBack" aria-label="Retour">✕</button><h2>Ma collection</h2><span class="col-count" id="colTotal"></span></div>
     <button class="boostbtn" id="openBoost">🎁 Ouvrir un booster</button><div class="boostgoal" id="boostGoal"></div>
     <div class="tabs"><button class="tab on" data-t="mg">🎮 Jeux</button><button class="tab" data-t="mem">👥 Membres</button><button class="tab" data-t="bon">⚡ Bonus</button><button class="tab" data-t="ser">📚 Séries</button></div>
@@ -712,16 +810,28 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 
   <section id="ranks" class="screen" aria-label="Classements">
     <div class="col-head"><button class="x" id="rkBack" aria-label="Retour">✕</button><h2>Classements</h2></div>
-    <div class="tabs"><button class="tab rt on" data-r="time">⏱ Records</button><button class="tab rt" data-r="cards">🃏 Cartes</button><button class="tab rt" data-r="bat">⚔️ Bataille</button></div>
+    <div class="tabs"><button class="tab rt on" data-r="time">⏱ Records</button><button class="tab rt" data-r="cards">🃏 Cartes</button><button class="tab rt" data-r="bat">⚔️ Bataille</button><button class="tab rt" data-r="pty">🎲 Party</button></div>
     <div class="rkgames" id="rkGames"></div>
     <div class="rkscroll"><div id="rkList"></div></div>
     <div class="cloudnote" id="rkNote"></div>
   </section>
 
   <section id="trade" class="screen" aria-label="Échanges de cartes">
+    <div class="tabs ctabs"><button class="tab" data-ct="col">🃏 Ma collection</button><button class="tab on" data-ct="tr">🔄 Échanges<span class="ctn"></span></button></div>
     <div class="col-head"><button class="x" id="trBack" aria-label="Retour">✕</button><h2>🔄 Échanges</h2><span class="col-count" id="trDup"></span></div>
     <div class="tabs"><button class="tab tt on" data-tr="market">🛒 Marché</button><button class="tab tt" data-tr="in">📥 Reçues<span id="trInCnt"></span></button><button class="tab tt" data-tr="out">📤 Envoyées</button></div>
     <div class="rkscroll" id="trBody"></div>
+  </section>
+
+  <section id="party" class="screen" aria-label="Gambetta Party">
+    <div class="col-head"><h2>🎲 Gambetta Party</h2></div>
+    <div class="tabs gtabs ptg"><button class="tab" data-g="select">🎮 Mini-jeux</button><button class="tab" data-g="bataille">⚔️ Bataille</button><button class="tab on" data-g="party">🎲 Party</button></div>
+    <div class="rkscroll" id="ptBody" style="position:relative"></div>
+  </section>
+
+  <section id="moi" class="screen" aria-label="Moi">
+    <div class="col-head"><h2>👤 Moi</h2></div>
+    <div class="rkscroll" id="moiBody"></div>
   </section>
 
   <section id="defi" class="screen" aria-label="Défis">
@@ -731,7 +841,7 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 
   <section id="bataille" class="screen" aria-label="Bataille du Bassin">
     <div class="col-head"><button class="x" id="bbBackSel" aria-label="Quitter la partie" hidden>✕</button><h2>⚔️ Bataille du Bassin</h2></div>
-    <div class="tabs gtabs bbg"><button class="tab" data-g="select">🎮 Mini-jeux</button><button class="tab on" data-g="bataille">⚔️ Jeu de cartes</button></div>
+    <div class="tabs gtabs bbg"><button class="tab" data-g="select">🎮 Mini-jeux</button><button class="tab on" data-g="bataille">⚔️ Bataille</button><button class="tab" data-g="party">🎲 Party</button></div>
     <div class="rkscroll" id="bbBody" style="position:relative"></div>
   </section>
 
@@ -769,11 +879,11 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
     </div>
   </section>
   <nav id="bnav" hidden>
-    <button data-go="select"><i>🏊</i><span>Jeux</span></button>
-    <button data-go="collection"><i>🃏</i><span>Collection</span></button>
+    <button data-go="select"><i>🎮</i><span>Jouer</span></button>
+    <button data-go="collection"><i>🃏</i><span>Cartes</span><b class="nbadge" id="trBadge" hidden></b></button>
     <button data-go="defi"><i>⚔️</i><span>Défis</span><b class="nbadge" id="dfBadge" hidden></b></button>
     <button data-go="ranks"><i>🏆</i><span>Classements</span></button>
-    <button data-go="trade"><i>🔄</i><span>Échanges</span><b class="nbadge" id="trBadge" hidden></b></button>
+    <button data-go="moi"><i>👤</i><span>Moi</span></button>
   </nav>
   <div class="cmodal" id="cmodal"></div>
 </div>
@@ -1006,6 +1116,25 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
   function RT(){if(rtDb!==null)return rtDb;try{rtDb=RTDB_URL&&firebase.database?firebase.database():false;}catch(e){rtDb=false;}return rtDb;}
   // on ne reste connecté à la Realtime Database que pendant les parties en direct
   function rtOn(d){const r=RT();if(!r)return;rtN=Math.max(0,rtN+d);clearTimeout(rtOffT);if(rtN>0){try{r.goOnline();}catch(_){}}else rtOffT=setTimeout(()=>{if(!rtN)try{r.goOffline();}catch(_){}},15000);}
+  // Gambetta Party : tout passe par la Realtime Database (party/{code})
+  let rtOff=0;
+  GG.party={
+    ok:()=>!!(RT()&&GG.pid),
+    now:()=>Date.now()+rtOff,
+    ref:p=>RT().ref('party/'+p),
+    async create(o){const r=RT();if(!r)throw new Error('rt');rtOn(1);try{r.ref('.info/serverTimeOffset').once('value').then(s=>{rtOff=s.val()||0;}).catch(()=>{});}catch(_){}
+      for(let i=0;i<12;i++){const code=String(1000+Math.floor(Math.random()*9000));const ex=(await r.ref('party/'+code).once('value')).val();
+        if(!ex||(ex.at||0)<Date.now()-864e5){await r.ref('party/'+code).set(Object.assign({at:Date.now()},o));rtOn(-1);return code;}}rtOn(-1);throw new Error('full');},
+    async get(code){const r=RT();if(!r)return null;rtOn(1);try{return (await r.ref('party/'+code).once('value')).val();}finally{rtOn(-1);}},
+    watch(code,cb){const r=RT();if(!r)return()=>{};rtOn(1);try{r.ref('.info/serverTimeOffset').once('value').then(s=>{rtOff=s.val()||0;}).catch(()=>{});}catch(_){}
+      const ref=r.ref('party/'+code),f=s=>cb(s.val());ref.on('value',f,()=>{});return()=>{ref.off('value',f);rtOn(-1);};},
+    update(code,o){return RT().ref('party/'+code).update(o);},
+    set(code,path,v){return RT().ref('party/'+code+'/'+path).set(v);},
+    remove(code,path){return RT().ref('party/'+code+(path?'/'+path:'')).remove();},
+    lobbies(cb){const r=RT();if(!r)return()=>{};rtOn(1);const q=r.ref('party').orderByChild('st').equalTo('lobby'),f=s=>cb(s.val()||{});q.on('value',f,()=>{});return()=>{q.off('value',f);rtOn(-1);};},
+    presence(code,pid){const r=RT();if(!r)return()=>{};const ref=r.ref('party/'+code+'/players/'+pid+'/on');ref.set(true).catch(()=>{});try{ref.onDisconnect().set(false);}catch(_){}
+      return()=>{try{ref.onDisconnect().cancel();}catch(_){}};}
+  };
   GG.events={
     listen(cb){fs.collection('events').onSnapshot(q=>cb(q.docs.map(d=>Object.assign({id:d.id},d.data()))),()=>{});},
     create(o){return fs.collection('events').add(Object.assign({at:Date.now()},o));},
@@ -1044,6 +1173,7 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
     const dEnd=x=>x.exp||((x.st==='wait'?x.at:(x.acc||x.at))||0)+24*3600e3;
     await del('duels',x=>{if(x.t)return true;if(x.st==='no'||x.st==='cancel'||x.st==='wait')return !(dEnd(x)<now-2*D);
       return !(x.a&&x.a.cl&&x.b&&x.b.cl);});
+    try{const r=RT();if(r){rtOn(1);const v=(await r.ref('party').once('value')).val()||{};let k=0;for(const c in v){if(((v[c]||{}).at||0)<now-D){await r.ref('party/'+c).remove();k++;}}n.party=k;rtOn(-1);}}catch(e){console.warn('Nettoyage party',e);}
     try{const r=RT();if(r){rtOn(1);const v=(await r.ref('battles').once('value')).val()||{};let k=0;
       for(const id in v){const sides=v[id]||{},at=Math.max(0,...Object.values(sides).map(x=>(x&&x.at)||0));if(at<now-D){await r.ref('battles/'+id).remove();k++;}}n.rt=k;rtOn(-1);}}catch(e){console.warn('Nettoyage direct',e);}
     return n;};
@@ -4215,7 +4345,7 @@ function drawPack(size,o){size=size||PACK_SIZE;o=o||{};const out=[];
       out.push(pick(pool(r)).id);}
     if(o.bonus)out.push(bonusRoll());}
   const ord={R:0,E:1,L:2},key=id=>{const m=memObj(id);return m.bonus?3:ord[m.r];};return out.sort((a,b)=>key(a)-key(b));}
-function updBoostBtn(){const b=$('#openBoost');if(!b)return;const n=packCount();b.disabled=!n;b.textContent=n?`🎁 Ouvrir ${n>1?'mes paquets':'mon paquet'} (${n})`:'🎁 Aucun booster pour l\'instant';
+function updBoostBtn(){try{cardsBadge();}catch(_){}const b=$('#openBoost');if(!b)return;const n=packCount();b.disabled=!n;b.textContent=n?`🎁 Ouvrir ${n>1?'mes paquets':'mon paquet'} (${n})`:'🎁 Aucun booster pour l\'instant';
   const g=$('#boostGoal');if(g){const m=nextMilestone();g.innerHTML=m?`🎯 Encore <b>${m.left}</b> mini-jeu${m.left>1?'x':''} à gagner pour ton prochain booster de ${m.n} cartes`:'🏆 Tous les mini-jeux sont gagnés !';}}
 let BST=null;
 function openBooster(){if(!(packCount()>0))return;$('#booster').classList.add('on');startPack();}
@@ -4291,7 +4421,7 @@ function recordResult(k,win){if(!win)return;const m=metricOf(k);let v;
   else v=pendingScore;
   if(v!=null&&(m.t==='wins'||better(k,v,COL.best[k]))){const had=COL.best[k]!=null;COL.best[k]=v;if(had&&m.t!=='wins'){try{stat('rec');qHit('rec');}catch(_){}}saveCol();pushBoard();}return v;}
 let pushT=0;
-function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()=>{const o={best:Object.assign({},COL.best),cards:cardCount(),dups:myDoubles().map(x=>x.id),chs:Object.assign({},COL.chs||{}),pf:pfPublic(),own:MEMBERS.filter(m=>COL.members[m.id]).map(m=>m.id),bbd:(()=>{try{return bbMyDeck();}catch(_){return null;}})(),bbt:COL.bbt||0,bbj:COL.bbj&&COL.bbj.d===dayKey()?{d:COL.bbj.d,v:COL.bbj.v}:null};
+function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()=>{const o={best:Object.assign({},COL.best),cards:cardCount(),dups:myDoubles().map(x=>x.id),chs:Object.assign({},COL.chs||{}),pf:pfPublic(),own:MEMBERS.filter(m=>COL.members[m.id]).map(m=>m.id),bbd:(()=>{try{return bbMyDeck();}catch(_){return null;}})(),bbt:COL.bbt||0,ptw:ST('ptWin'),ptp:ST('ptPlay'),bbj:COL.bbj&&COL.bbj.d===dayKey()?{d:COL.bbj.d,v:COL.bbj.v}:null};
     /* on n'écrit que si quelque chose a changé (ou au moins une fois par heure, pour « vu récemment ») */
     const k=JSON.stringify(o),now=Date.now();if(k===pushBoard.k&&now-(pushBoard.t||0)<3600e3)return;
     o.at=now;boardRef.set(o).then(()=>{pushBoard.k=k;pushBoard.t=now;}).catch(()=>{});},400);}
@@ -4324,6 +4454,11 @@ async function buildRanks(){
         ${open?`<div class="rkg-body"><div class="rkg-sub">${m.t==='time'?'Temps pour gagner':m.t==='wins'?'Nombre de victoires':'Meilleur score'}</div>${L.length?L.map((r,i)=>`<div class="rkrow${isMe(r.id)?' me':''}"><span class="pos">${med[i]||i+1}</span><span class="who" data-pid="${r.id}">${esc(nm(r.id))}</span><span class="v">${fmtVal(k,r.v)}</span></div>`).join(''):'<div class="rkempty">Personne n\'a encore gagné ce mini-jeu. Sois le premier ! 🏁</div>'}</div>`:''}
       </div>`;}).join('');
     $('#rkList').querySelectorAll('.rkg-head').forEach(b=>b.onclick=()=>{const k=b.parentNode.dataset.k;rkGame=rkGame===k?null:k;buildRanks().then(()=>{const el=$(`.rkgame[data-k="${k}"]`);if(el&&rkGame)el.scrollIntoView({block:'nearest',behavior:'smooth'});});});
+  }else if(rkTab==='pty'){
+    const list=rows().map(r=>({id:r.id,w:isMe(r.id)?ST('ptWin'):(r.d.ptw||0),n:isMe(r.id)?ST('ptPlay'):(r.d.ptp||0)})).filter(r=>r.n>0||isMe(r.id)).sort((a,b)=>(b.w-a.w)||(b.n-a.n));const names=await nameOf(list.map(r=>r.id));
+    const nm=id=>isMe(id)?((names[id]&&names[id]!=='Joueur'&&names[id]!=='Toi')?names[id]+' (toi)':'Toi'):names[id];
+    $('#rkList').innerHTML=`<div class="rkhead">🎲 Gambetta Party<small>Parties gagnées (puis parties jouées)</small></div>`+
+      list.map((r,i)=>`<div class="rkrow${isMe(r.id)?' me':''}"><span class="pos">${med[i]||i+1}</span><span class="who" data-pid="${r.id}">${esc(nm(r.id))}</span><span class="v">${r.w} 🏆 · ${r.n} 🎲</span></div>`).join('');
   }else if(rkTab==='bat'){
     const list=rows().map(r=>({id:r.id,t:isMe(r.id)?(COL.bbt||0):(r.d.bbt||0)})).filter(r=>r.t>0||isMe(r.id)).sort((a,b)=>b.t-a.t);const names=await nameOf(list.map(r=>r.id));
     const nm=id=>isMe(id)?((names[id]&&names[id]!=='Joueur'&&names[id]!=='Toi')?names[id]+' (toi)':'Toi'):names[id];
@@ -4439,7 +4574,7 @@ function trApplyAccepted(){if(!LIVE)return;COL.trDone=COL.trDone||{};
     $('#app').appendChild(a);a.querySelector('.btn').onclick=()=>a.remove();});}
 (async function trInit(){try{if(!window.claude||!window.claude.use)return;await window.claude.use('db');if(!LIVEOK())return;
   GG.trades.listen((inc,out)=>{LIVE={inc,out};trApplyAccepted();trData();trBadge();if($('#trade').classList.contains('active'))buildTrade();});}catch(_){}})();
-function trBadge(){const n=TR.incoming.filter(x=>x.st==='wait').length;const b=$('#trBadge');if(b){b.hidden=!n;b.textContent=n;}
+function trBadge(){const n=TR.incoming.filter(x=>x.st==='wait').length;TR.nIn=n;cardsBadge();document.querySelectorAll('.ctabs .ctn').forEach(c=>c.innerHTML=n?` <span class="cnt">${n}</span>`:'');
   const c=$('#trInCnt');if(c)c.innerHTML=n?` <span class="cnt">${n}</span>`:'';}
 function mini(id){return memberHTML(id,false).replace(/<span class="newtag">NOUVEAU<\/span>/,'');}
 function buildTrade(){trData();trBadge();const b=$('#trBody'),d=myDoubles();
@@ -4507,7 +4642,7 @@ $('#openTrade').onclick=()=>{TR.tab='market';setTrTab();show('trade');buildTrade
 $('#trBack').onclick=()=>{buildSelect();show('select');};
 document.querySelectorAll('.tab.tt').forEach(x=>x.onclick=()=>{TR.tab=x.dataset.tr;setTrTab();buildTrade();});
 $('#openAdmin').onclick=()=>{ADM.tab='gift';setATab();show('admin');buildAdmin();};
-$('#admBack').onclick=()=>{buildSelect();show('select');};
+$('#admBack').onclick=()=>{openMoi();return;buildSelect();show('select');};
 document.querySelectorAll('.tab.at').forEach(x=>x.onclick=()=>{ADM.tab=x.dataset.a;setATab();buildAdmin();});
 
 $('#openCol').onclick=()=>{colTab='mg';document.querySelectorAll('.tab[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==='mg'));buildCol();show('collection');};
@@ -4523,13 +4658,34 @@ function dailyPop(){if(!dailyCheck())return;const pop=document.createElement('di
 
 
 /* ================= NAVIGATION ================= */
-const NAV_SCREENS=['select','collection','defi','ranks','trade'];
-function navSync(id){const n=$('#bnav');if(!n)return;const g=id==='bataille'?'select':id;n.hidden=!NAV_SCREENS.includes(g)||(id==='bataille'&&typeof BC!=='undefined'&&!!BC);n.querySelectorAll('[data-go]').forEach(b=>b.classList.toggle('on',b.dataset.go===g));
+const NAV_SCREENS=['select','collection','defi','ranks','trade','moi','party'];
+function navSync(id){const n=$('#bnav');if(!n)return;const g=id==='bataille'||id==='party'?'select':id==='trade'?'collection':id;n.hidden=!NAV_SCREENS.includes(g)||(id==='bataille'&&typeof BC!=='undefined'&&!!BC)||(id==='party'&&typeof PT!=='undefined'&&PT.inGame);n.querySelectorAll('[data-go]').forEach(b=>b.classList.toggle('on',b.dataset.go===g));
   const inG=id==='bataille'&&typeof BC!=='undefined'&&!!BC;const sc=$('#bataille');if(sc)sc.classList.toggle('ingame',inG);const x=$('#bbBackSel');if(x)x.hidden=!inG;const tg=$('#bataille .bbg');if(tg)tg.hidden=inG;}
 $('#bnav').querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{const g=b.dataset.go;PLAYCTX=null;
-  if(g==='select'){buildSelect();show('select');}else if(g==='collection')$('#openCol').click();else if(g==='ranks')$('#openRanks').click();else if(g==='trade')$('#openTrade').click();else openDefi();
+  if(g==='select'){buildSelect();show('select');}else if(g==='collection')$('#openCol').click();else if(g==='ranks')$('#openRanks').click();else if(g==='trade')$('#openTrade').click();else if(g==='moi')openMoi();else openDefi();
   const sc=document.querySelector('#'+g+' .rkscroll,#'+g+' .cscroll,#'+g+' .grid');if(sc)sc.scrollTop=0;});
 $('#dChip').onclick=()=>openDefi();
+document.querySelectorAll('.ctabs [data-ct]').forEach(x=>x.onclick=()=>{if(x.dataset.ct==='col')$('#openCol').click();else $('#openTrade').click();
+  document.querySelectorAll('.ctabs [data-ct]').forEach(y=>y.classList.toggle('on',y.dataset.ct===x.dataset.ct));});
+/* pastille de l'onglet Cartes : paquets à ouvrir + propositions d'échange reçues */
+function cardsBadge(){const b=$('#trBadge');if(!b)return;let n=0;try{n=(TR.nIn||0)+(packCount()>0?1:0);}catch(_){}b.hidden=!n;b.textContent=n;}
+/* ================= ÉCRAN MOI ================= */
+function openMoi(){buildMoi();show('moi');const sc=$('#moiBody');if(sc)sc.scrollTop=0;}
+function buildMoi(){const b=$('#moiBody');if(!b)return;const name=(window.GG&&GG.name)||'Toi';let pf={st:{},b:[]};try{pf=pfPublic();}catch(_){}
+  const st=pf.st||{},nb=(pf.b||[]).length,t=COL.bbt||0;let tier={e:'🥉',n:'Bronze'};try{tier=BB_TIERS[bbTier(t)];}catch(_){}
+  const keyBtn=document.querySelector('.selbtns .save'),adm=$('#openAdmin'),isAdm=adm&&!adm.hidden;
+  const row=(id,e,t1,t2)=>`<button class="moirow" id="${id}"><span class="e">${e}</span><span class="t"><b>${t1}</b><small>${t2}</small></span><span class="go">›</span></button>`;
+  b.innerHTML=`<div class="moihead">${favHTML(COL.fav)}<div><h3>${esc(name)}</h3><small>Membre du Club Gambetta</small></div></div>
+    <div class="moistats"><div><b>${cardCount()}</b><span>cartes</span></div><div><b>${nb}</b><span>badges</span></div><div><b>${tier.e} ${t}</b><span>trophées</span></div><div><b>${st.won||0}</b><span>victoires</span></div></div>
+    <div class="moilist">${row('moiProf','📊','Mon profil','Statistiques, badges et carte préférée')}
+      ${keyBtn&&!keyBtn.hidden?row('moiKey','🔑','Ma sauvegarde','Ton code pour retrouver ta partie sur un autre téléphone'):''}
+      ${row('moiCol','🃏','Ma collection','Toutes tes cartes et tes boosters')}
+      ${row('moiBat','⚔️','Mon deck de bataille','Changer et améliorer tes cartes')}
+      ${isAdm?row('moiAdm','🛠️','Gestion du jeu','Cadeaux, joueurs, tournois, événements (toi seul)'):''}</div>
+    <div class="cloudnote">${window.GG&&GG.code?'☁️ Ta partie est sauvegardée en ligne.':'☁️ Ta partie est sauvegardée sur ce téléphone.'}</div>`;
+  const on=(id,f)=>{const x=b.querySelector('#'+id);if(x)x.onclick=f;};
+  on('moiProf',()=>openProfile(myId||'local'));on('moiKey',()=>{const k=document.querySelector('.selbtns .save');if(k)k.click();});
+  on('moiCol',()=>$('#openCol').click());on('moiBat',()=>openBataille());on('moiAdm',()=>$('#openAdmin').click());}
 
 /* ================= DÉFI DU JOUR ================= */
 /* Chaque jour, un mini-jeu tiré au sort pour tout le club. Classement du jour ; le lendemain : 1er booster de 5, 2e et 3e booster de 3, 1 carte pour chaque participant. */
@@ -4616,19 +4772,26 @@ function ctxAfter(k,win,v){let h='';const c=chRecord(k,win?v:null);if(c){try{qHi
   return h;}
 
 function openDefi(){show('defi');buildDefi();}
+const DF={tab:'day'};
+/* nombre de choses à faire dans chaque sous-onglet de Défis */
+function dfCounts(){const c={day:0,duel:0,ev:0};try{if(!(COL.chs&&COL.chs[dayKey()]))c.day++;}catch(_){}
+  try{DUELS.forEach(d=>{const st=duState(d);if((st==='wait'&&d.to===myId)||(st==='on'&&duCanPlay(d)))c.duel++;});}catch(_){}
+  try{c.duel+=bbInvList().filter(x=>x.to===myId).length;}catch(_){}
+  try{const e=EVENTS.find(x=>x.st==='open'&&!evOver(x));if(e&&!(e.played&&e.played[myId]))c.ev++;}catch(_){}
+  try{const t=tCur();if(t&&t.st==='reg'&&!(t.players&&t.players[myId]))c.ev++;}catch(_){}return c;}
 async function buildDefi(){const b=$('#dfBody'),today=dayKey(),k=chGame(today),c=CHARS[k],L=chRank(today),med=['🥇','🥈','🥉'];
   $('#dfLeft').textContent='⏳ '+timeLeft();
   const ids=L.map(x=>x.id);const names=await nameOf(ids.filter(i=>!isMe(i)));
   const nm=x=>isMe(x.id)?'Toi':esc(x.name||names[x.id]||'Joueur');
   const meR=L.find(x=>isMe(x.id));let top=L.slice(0,5);if(meR&&!top.includes(meR))top=top.concat([meR]);
-  let h=evHTML()+qHTML()+bountyHTML()+tournHTML()+`<div class="dsec">🎯 Défi du jour</div><div class="trow">
+  const hDay=qHTML()+`<div class="dsec">🎯 Défi du jour</div><div class="trow">
     <div class="dgame">${avSmall(k)}<div><b>${c.game}</b><small>avec ${c.name} · ${goalTxt(k)}</small></div></div>
     <div class="drew">🥇 booster de 5 · 🥈 🥉 booster de 3<br>🎴 1 carte pour tous ceux qui gagnent au moins une partie<br><small>Récompenses données demain · tu peux rejouer autant que tu veux</small></div>
     ${boardRef?(L.length?`<div class="dlist">${top.map(x=>`<div class="rkrow${isMe(x.id)?' me':''}"><span class="pos">${med[x.rank-1]||x.rank}</span><span class="who" data-pid="${x.id}">${nm(x)}</span><span class="v">${fmtVal(k,x.v)}</span></div>`).join('')}</div>`
       :'<div class="rkempty">Personne n\'a encore réussi le défi aujourd\'hui. Sois le premier ! 🏁</div>')
       :`<div class="rkempty">${meR?'Ton meilleur aujourd\'hui : '+fmtVal(k,meR.v)+'<br>':''}Le classement et les récompenses du défi marchent sur le site du jeu.</div>`}
     <div class="trbtns"><button class="btn" id="chPlay">Jouer au défi ▶</button></div></div>`;
-  h+=`<div class="dsec">⚔️ Duels ${DUOK()?'<button class="btn" id="duNew">+ Lancer un duel</button>':''}</div>`;
+  let h='';h+=`<div class="dsec">⚔️ Duels ${DUOK()?'<button class="btn" id="duNew">+ Lancer un duel</button>':''}</div>`;
   if(!DUOK()){h+='<div class="trempty">⚔️ Les duels marchent sur le site du jeu, avec ta sauvegarde en ligne.</div>';}
   else{const order={wait:0,on:1,end:2,exp:3,no:4,cancel:5};
     const list=DUELS.filter(d=>{const st=duState(d);return st!=='cancel'&&!(st==='exp'&&d.to===myId)&&(st!=='end'&&st!=='no'&&st!=='exp'||Date.now()-duEnd(d)<3*86400e3);})
@@ -4645,7 +4808,11 @@ async function buildDefi(){const b=$('#dfBody'),today=dayKey(),k=chGame(today),c
         ${duCanPlay(d)?`<div class="trbtns"><button class="btn" data-dplay="${d.id}">Jouer · essai ${(me.n||0)+1}/${DU_TRIES} ▶</button>${st==='wait'&&!inc?`<button class="btn alt" data-dcancel="${d.id}">Annuler</button>`:''}</div>${(me.n||0)>0?`<div class="trbtns" style="margin-top:8px"><button class="btn alt" data-dfin="${d.id}" style="font-size:14px;padding:8px">🏁 J'ai fini, je garde ${me.v==null?'mon résultat':fmtVal(d.k,me.v)}</button></div>`:''}`:(st==='wait'&&!inc?`<div class="trbtns"><button class="btn alt" data-dcancel="${d.id}">Annuler le duel</button></div>`:'')}
         ${st==='on'&&!duCanPlay(d)?'<div class="dres"><small>Tu as fini ! Résultat quand '+esc(o.name)+' aura fini aussi (au plus tard dans '+duLeft(d)+').</small></div>':''}</div>`;}).join('')
       :'<div class="trempty">Aucun duel pour l\'instant.<br>Défie un joueur du club sur le mini-jeu de ton choix : le meilleur des deux gagne une carte !</div>';}
-  b.innerHTML=h;
+  const hEv=evHTML()+tournHTML(),hDuel=bbIncHTML()+bountyHTML()+h,T=DF.tab,cnt=dfCounts();
+  b.innerHTML=`<div class="tabs dftabs">${[['day','📅 Aujourd\'hui'],['duel','⚔️ Duels'],['ev','🏆 Événements']].map(([k,n])=>`<button class="tab${T===k?' on':''}" data-dft="${k}">${n}${cnt[k]?` <span class="cnt">${cnt[k]}</span>`:''}</button>`).join('')}</div>
+    <div class="dfpane"${T==='day'?'':' hidden'}>${hDay}</div><div class="dfpane"${T==='duel'?'':' hidden'}>${hDuel}</div>
+    <div class="dfpane"${T==='ev'?'':' hidden'}>${hEv||'<div class="trempty">🏆 Aucun tournoi ni événement en ce moment.<br>Quand Mathéo en lancera un, il apparaîtra ici.</div>'}</div>`;
+  b.querySelectorAll('[data-dft]').forEach(x=>x.onclick=()=>{DF.tab=x.dataset.dft;buildDefi();b.scrollTop=0;});try{bbDfBind(b);}catch(_){}
   $('#chPlay').onclick=()=>{PLAYCTX={t:'ch'};openIntro(k);};
   const nw=$('#duNew');if(nw)nw.onclick=duNew;tournBind(b);evBind(b);b.querySelectorAll('[data-bh]').forEach(x=>x.onclick=()=>duNew(x.dataset.bh,x.dataset.bn));
   b.querySelectorAll('[data-dplay]').forEach(x=>x.onclick=()=>{const d=DUELS.find(y=>y.id===x.dataset.dplay);if(!d)return;if(d.k==='bataille'){bbDuelPlay(d);return;}PLAYCTX={t:'duel',id:d.id};openIntro(d.k);});
@@ -4703,6 +4870,9 @@ const BADGES=[
   {id:'mgall',e:'🎮',n:'Champion des mini-jeux',d:'Tous les mini-jeux gagnés',ok:()=>ownedMG()>=MG_ORDER.length},
   {id:'ser1',e:'🧩',n:'Première série',d:'Une série complète',ok:()=>Object.keys(COL.ser||{}).length>=1},
   {id:'ser3',e:'🏅',n:'Trois séries',d:'3 séries complètes',ok:()=>Object.keys(COL.ser||{}).length>=3},
+  {id:'pt1',e:'🎲',n:'Roi de la fête',d:'Gagner une Gambetta Party',ok:()=>ST('ptWin')>=1},
+  {id:'pt10',e:'🎉',n:'Fêtard',d:'Jouer 10 Gambetta Party',ok:()=>ST('ptPlay')>=10},
+  {id:'pt5w',e:'🪩',n:'Star de la soirée',d:'Gagner 5 Gambetta Party',ok:()=>ST('ptWin')>=5},
   {id:'d1',e:'⚔️',n:'Premier duel',d:'Gagner un duel',ok:()=>ST('duelW')>=1},
   {id:'d10',e:'🗡️',n:'Duelliste',d:'10 duels gagnés',ok:()=>ST('duelW')>=10},
   {id:'dw3',e:'🔥',n:'En feu',d:'3 duels gagnés d\'affilée',ok:()=>ST('dWsMax')>=3},
@@ -5302,52 +5472,59 @@ function bbAiDeck(lvl,rng){const L=BB_LEVELS[lvl];const all=MEMBERS.map(m=>rlSta
 const BB_REWTXT={ai:'🎁 1re victoire du jour : 1 carte · Difficile : un booster de 3 (1 fois par jour) · 🏆 Facile +5 / −3 · Moyen +10 / −5 · Difficile +20 / −8',
   deck:'🎁 Victoire : 1 carte (3 fois par jour) · 🏆 +15 / −5 trophées',live:'🎁 Victoire : un booster de 3 (2 fois par jour) · 🏆 +30 / −10 trophées',
   daily:'🎁 1re victoire du jour : un booster de 3 et 🏆 +15 trophées · classement du jour sur ton meilleur score'};
-function openBataille(mode,back){if(mode)BB.mode=mode;if(back)BB.back=back;bbListen();show('bataille');bbDeckUI();}
+function openBataille(mode,back){if(mode){BB.mode=mode;if(mode!=='ai')BB.openMode=mode;}if(back)BB.back=back;bbListen();show('bataille');bbDeckUI();}
 function bbInfo(s){return s.spell?`💧${s.cost} · ✨ Sort ${s.fx.e} ${esc(s.fx.n)} · 💥${s.dmg} + ralentit`
   :`💧${s.cost} · ${s.id==='nathan'?`👥 Nathan ❤️${s.hp} ⚔️${s.dmg} + 15 filles (1 PV, ⚔️${Math.round(s.dmg*.06)})`:BB_GROUP[s.id]&&BB_GROUP[s.id].length>1?`👥 ${BB_GROUP[s.id].length} persos · ❤️${Math.round(s.hp/BB_GROUP[s.id].length)} · ⚔️${Math.round(s.dmg/BB_GROUP[s.id].length)} chacun`:`❤️${s.hp} · ⚔️${s.dmg}`}${s.ranged?' 🎯 à distance':''} · ${s.swim?'🏊 nage '+s.nat:'🚶 reste au bord ('+s.nat+')'} · ${s.fx.e}`;}
 function bbInvList(){const now=Date.now();return BBINV.filter(b=>b.st==='wait'&&now-(b.at||0)<BB_INV);}
 const bbLvTag=s=>s.id==='_sub'?'':`<span class="bblvt">Niv ${s.lvl||1}</span>`;
-function bbDeckUI(){const b=$('#bbBody');if(!b)return;try{navSync('bataille');}catch(_){}const ids=bbDeckIds(),D=bbDeckStats(bbMyDeck());const avg=(D.reduce((a,s)=>a+s.cost,0)/8).toFixed(1),M=BB.mode;
+function bbDeckUI(){const b=$('#bbBody');if(!b)return;try{navSync('bataille');}catch(_){}const ids=bbDeckIds(),D=bbDeckStats(bbMyDeck());const avg=(D.reduce((a,s)=>a+s.cost,0)/8).toFixed(1);
   const inv=bbInvList(),inc=inv.filter(x=>x.to===myId),out=inv.filter(x=>x.from===myId);
-  let top='',deckHTML='';
-  if(M==='ai')top=`<div class="rllv">${BB_LEVELS.map((l,i)=>`<button class="apill${BB.lvl===i?' on':''}" data-l="${i}">${l.n} · niv ${i+1}</button>`).join('')}</div>`;
-  else if(M==='deck')top=`<div class="drew">L'ordi joue avec le deck d'un autre joueur du club, à ses niveaux. Il n'a pas besoin d'être connecté.</div>`;
-  else if(M==='daily'){const Dd=bbDaily(),R=Dd.rule,L=bbDailyRank(),med=['🥇','🥈','🥉'],mine=L.findIndex(x=>x.me);let top5=L.slice(0,5);if(mine>=5)top5=top5.concat([L[mine]]);
-    const DS=bbDeckStats(Dd.deck);
-    top=`<div class="trow bbrule"><div class="bbre">${R.e}</div><div><b>${esc(R.n)}</b><small>${esc(R.d)}</small></div></div>
-      <div class="dsec">📅 Classement du jour <small>meilleur score : tours cassées × 1000 + dégâts</small></div>
-      ${L.length?`<div class="dlist">${top5.map(x=>`<div class="rkrow${x.me?' me':''}"><span class="pos">${med[L.indexOf(x)]||L.indexOf(x)+1}</span><span class="who">${x.me?'Toi':esc(x.name||'Joueur')}</span><span class="v">${x.v} pts</span></div>`).join('')}</div>`:'<div class="rkempty">Personne n\'a encore joué aujourd\'hui. Sois le premier ! 🏁</div>'}`;
-    deckHTML=`<div class="dsec">🃏 Deck imposé aujourd'hui <small>le même pour tout le club · niveau 2</small></div>
-      ${DS.map((s,i)=>`<div class="rlrow bbrow"><div class="rlc" data-f="${i}">${rlCard(s.id)}</div><div class="rli" data-f="${i}"><b>${esc(s.n)} ${bbLvTag(s)}</b><em>${bbInfo(s)}</em></div>
-        <span class="bbmode${s.spell?' sp':''}">${s.spell?'✨<small>Sort</small>':'🧍<small>Perso</small>'}</span></div>`).join('')}`;}
-  else top=BBOK()?`<div class="drew">Vous jouez en même temps, chacun sur son téléphone. Ton adversaire doit avoir le jeu ouvert pour accepter.</div>`+
-    inc.map(x=>`<div class="trow"><div class="top"><span><b>${esc(x.fromName||'Joueur')}</b> te défie en direct !</span><span class="trstat wait">Invitation</span></div><div class="trbtns"><button class="btn no" data-bno="${x.id}">✖ Refuser</button><button class="btn ok" data-bok="${x.id}">⚔️ Accepter</button></div></div>`).join('')+
-    out.map(x=>`<div class="trow"><div class="top"><span>Invitation envoyée à <b>${esc(x.toName||'Joueur')}</b></span><span class="trstat wait">En attente ⏳</span></div><div class="trbtns"><button class="btn alt" data-bcancel="${x.id}">Annuler</button></div></div>`).join('')
-    :`<div class="trempty">📡 Le mode en direct marche sur le site du jeu, avec ta sauvegarde en ligne.</div>`;
-  if(M!=='daily')deckHTML=`<div class="dsec">🃏 Mon deck <small>coût moyen 💧${avg} · touche pour changer · appui long pour la fiche</small></div>
-   ${D.map((s,i)=>`<div class="rlrow bbrow"><div class="rlc" data-i="${i}">${rlCard(ids[i])}</div><div class="rli" data-i="${i}"><b>${esc(s.n)} ${bbLvTag(s)}</b><em>${bbInfo(s)}</em>${s.bonus?`<em class="ok">+1 série « ${esc(s.bonus)} »</em>`:''}${bbUpLine(s)}</div>
-     <span class="bbmode${s.spell?' sp':''}">${s.spell?'✨<small>Sort</small>':'🧍<small>Perso</small>'}</span></div>`).join('')}`;
-  const act=M==='ai'?'⚔️ Combattre':M==='deck'?'🃏 Choisir un joueur':M==='daily'?'▶ Jouer la bataille du jour':'📡 Défier un joueur';
-  b.innerHTML=`${bbTierHTML()}<div class="tabs bbtabs"><button class="tab${M==='ai'?' on':''}" data-m="ai">🤖 Ordi</button><button class="tab${M==='deck'?' on':''}" data-m="deck">🃏 Deck</button><button class="tab${M==='daily'?' on':''}" data-m="daily">📅 Du jour</button><button class="tab${M==='live'?' on':''}" data-m="live">📡 Direct${inc.length?` (${inc.length})`:''}</button></div>
-   ${top}<div class="bbrew">${BB_REWTXT[M]}</div>
-   <div class="trbtns">${M==='daily'?'':'<button class="btn alt" id="bbAutoB">⚡ Deck auto</button>'}<button class="btn" id="bbGo"${M==='live'&&!BBOK()?' disabled':''}>${act}</button></div>
-   ${M==='daily'?'':(()=>{const n=rlOwned().filter(bbCanUp).length;return `<button class="btn alt bbupall" id="bbUpAll">⬆️ Améliorer mes cartes${n?` <span class="nb">${n}</span>`:''}</button>`;})()}
-   ${deckHTML}
-   <div class="drew" style="margin-top:12px"><b>Comment jouer</b><br>🧍 Chaque carte est soit un <b>perso</b> qui attaque, soit un <b>sort</b>, selon sa phrase.<br>🃏 Touche une carte en bas puis touche l'arène dans <b>ta moitié</b> (ou fais-la glisser). Appui long sur une carte : sa fiche.<br>
-   🏊 Les persos qui ont <b>5 ou plus en nage</b> peuvent aller dans le bassin : plus ils nagent bien, plus ils vont vite. C'est le chemin direct vers le <b>plongeoir</b>.<br>
-   🚶 Les autres restent sur les bords et attaquent d'abord les <b>chaises de maître-nageur</b>.<br>✨ Les sorts se lancent n'importe où : dégâts + ralentissement.<br>
-   ⬆️ Tes doubles font monter tes cartes de niveau : 2 doubles = niveau 2, 4 = niveau 3… jusqu'au niveau 5 (+10 % de vie et de dégâts par niveau).<br>
-   💧 Le chlore remonte tout seul (×2 dans la dernière minute).<br>🏆 Casse le plongeoir pour gagner direct, sinon c'est celui qui a cassé le plus de tours après 3 min.</div><div style="height:96px"></div>`;
-  b.querySelectorAll('[data-m]').forEach(x=>x.onclick=()=>{BB.mode=x.dataset.m;bbDeckUI();});
-  b.querySelectorAll('[data-l]').forEach(x=>x.onclick=()=>{BB.lvl=+x.dataset.l;bbDeckUI();});
+  const t=COL.bbt||0,T=BB_TIERS[bbTier(t)],nUp=rlOwned().filter(bbCanUp).length;
+  b.innerHTML=`<button class="bbtop" id="bbTier"><span>${T.e} <b>${T.n}</b> · ${t} 🏆</span><span>👑 ${COL.bbc||0}/${BB_CRW}</span><span class="i">ⓘ</span></button>
+   ${inc.map(x=>`<div class="trow"><div class="top"><span>📡 <b>${esc(x.fromName||'Joueur')}</b> te défie en direct !</span><span class="trstat wait">Invitation</span></div><div class="trbtns"><button class="btn no" data-bno="${x.id}">✖ Refuser</button><button class="btn ok" data-bok="${x.id}">⚔️ Accepter</button></div></div>`).join('')}
+   ${out.map(x=>`<div class="trow"><div class="top"><span>📡 Invitation envoyée à <b>${esc(x.toName||'Joueur')}</b></span><span class="trstat wait">En attente ⏳</span></div><div class="trbtns"><button class="btn alt" data-bcancel="${x.id}">Annuler</button></div></div>`).join('')}
+   <button class="btn bbplay" id="bbGo">⚔️ Jouer</button>
+   <div class="bbdkh"><b>🃏 Mon deck</b><small>💧 ${avg}</small><span class="sp"></span><button class="mini-b" id="bbAutoB">⚡ Auto</button><button class="mini-b${nUp?' up':''}" id="bbUpAll">⬆️ Améliorer${nUp?` <i>${nUp}</i>`:''}</button></div>
+   <div class="bbgrid">${D.map((s,i)=>`<div class="bbg1" data-i="${i}">${ids[i]==='_sub'?rlCard('_sub'):mini(ids[i])}<span class="c">💧${s.cost}</span>${ids[i]==='_sub'?'':`<span class="l${bbCanUp(ids[i])?' up':''}">${bbCanUp(ids[i])?'⬆️':'Niv '+(s.lvl||1)}</span>`}${s.spell?'<span class="k">✨</span>':''}</div>`).join('')}</div>
+   <div class="bbhint">Touche une carte pour la changer · appui long : sa fiche</div>
+   <button class="gglink bbhelp" id="bbHelp">❓ Comment jouer</button><div style="height:96px"></div>`;
+  b.querySelector('#bbTier').onclick=()=>{const sh=sheet(bbTierHTML()+`<div class="trbtns"><button class="btn" id="bx">OK</button></div>`);sh.querySelector('#bx').onclick=()=>sh.remove();};
+  b.querySelector('#bbHelp').onclick=bbHelp;
   b.querySelectorAll('[data-i]').forEach(x=>bbLong(x,()=>bbCardSheet(D[+x.dataset.i]),()=>bbPick(+x.dataset.i)));
-  if(M==='daily'){const DS=bbDeckStats(bbDaily().deck);b.querySelectorAll('[data-f]').forEach(x=>bbLong(x,()=>bbCardSheet(DS[+x.dataset.f]),()=>bbCardSheet(DS[+x.dataset.f])));}
   b.querySelectorAll('[data-bok]').forEach(x=>x.onclick=()=>{const v=BBINV.find(y=>y.id===x.dataset.bok);if(v)bbAccept(v);});
   b.querySelectorAll('[data-bno]').forEach(x=>x.onclick=()=>{GG.battles.set(x.dataset.bno,{st:'no'}).catch(()=>{});});
   b.querySelectorAll('[data-bcancel]').forEach(x=>x.onclick=()=>{GG.battles.set(x.dataset.bcancel,{st:'cancel'}).catch(()=>{});if(BB.waiting===x.dataset.bcancel)BB.waiting=null;});
-  const ua=$('#bbUpAll');if(ua)ua.onclick=bbUpList;
-  const au=$('#bbAutoB');if(au)au.onclick=()=>{bbSaveDeck(bbAutoIds());bbDeckUI();};
-  $('#bbGo').onclick=()=>M==='ai'?bbPlayAi():M==='deck'?bbPlayDeck():M==='daily'?bbPlayDaily():bbInvite();}
+  $('#bbUpAll').onclick=bbUpList;$('#bbAutoB').onclick=()=>{bbSaveDeck(bbAutoIds());bbDeckUI();toast('⚡','Deck auto','Tes 8 meilleures cartes sont dans ton deck.');};
+  $('#bbGo').onclick=bbModes;
+  if(BB.openMode){const m=BB.openMode;BB.openMode=null;if(m==='daily')bbDailySheet();else if(m!=='ai')bbModes();}}
+/* choix du mode de jeu : 4 grandes tuiles */
+function bbModes(){const ok=BBOK();
+  const sh=sheet(`<h3>⚔️ Contre qui ?</h3>
+   <div class="bbmt"><div class="h"><span class="e">🤖</span><div><b>Contre l'ordi</b><small>1re victoire du jour : 1 carte · Difficile : un booster de 3</small></div></div>
+     <div class="lv">${BB_LEVELS.map((l,i)=>`<button class="btn${i===BB.lvl?'':' alt'}" data-l="${i}">${l.n}<small>${['+5 / −3','+10 / −5','+20 / −8'][i]} 🏆</small></button>`).join('')}</div></div>
+   <button class="bbmt" data-mo="deck"><div class="h"><span class="e">🃏</span><div><b>Le deck d'un joueur</b><small>L'ordi joue le deck d'un joueur du club · 🏆 +15 / −5 · 1 carte (3 par jour)</small></div><span class="go">›</span></div></button>
+   <button class="bbmt" data-mo="daily"><div class="h"><span class="e">📅</span><div><b>Bataille du jour</b><small>Deck et règle imposés, classement du club · 1re victoire : booster de 3 + 15 🏆</small></div><span class="go">›</span></div></button>
+   <button class="bbmt" data-mo="live"${ok?'':' disabled'}><div class="h"><span class="e">📡</span><div><b>En direct</b><small>${ok?'Contre un joueur, en même temps · 🏆 +30 / −10 · booster de 3 (2 par jour)':'Marche sur le site du jeu, avec ta sauvegarde en ligne'}</small></div><span class="go">›</span></div></button>
+   <div class="trbtns"><button class="btn alt" id="bx">Annuler</button></div>`);
+  sh.querySelector('#bx').onclick=()=>sh.remove();
+  sh.querySelectorAll('[data-l]').forEach(x=>x.onclick=()=>{sh.remove();BB.lvl=+x.dataset.l;BB.mode='ai';bbPlayAi();});
+  sh.querySelectorAll('[data-mo]').forEach(x=>x.onclick=()=>{if(x.disabled)return;sh.remove();const m=x.dataset.mo;BB.mode=m;if(m==='deck')bbPlayDeck();else if(m==='daily')bbDailySheet();else bbInvite();});}
+/* bataille du jour : règle, classement, deck imposé */
+function bbDailySheet(){const Dd=bbDaily(),R=Dd.rule,L=bbDailyRank(),med=['🥇','🥈','🥉'],mine=L.findIndex(x=>x.me);let top5=L.slice(0,5);if(mine>=5)top5=top5.concat([L[mine]]);const DS=bbDeckStats(Dd.deck);
+  const sh=sheet(`<h3>📅 Bataille du jour</h3><div class="trow bbrule"><div class="bbre">${R.e}</div><div><b>${esc(R.n)}</b><small>${esc(R.d)}</small></div></div>
+   <div class="sec">🏅 Classement du jour <small>tours cassées × 1000 + dégâts</small></div>
+   ${L.length?`<div class="dlist">${top5.map(x=>`<div class="rkrow${x.me?' me':''}"><span class="pos">${med[L.indexOf(x)]||L.indexOf(x)+1}</span><span class="who">${x.me?'Toi':esc(x.name||'Joueur')}</span><span class="v">${x.v} pts</span></div>`).join('')}</div>`:'<div class="rkempty">Personne n\'a encore joué aujourd\'hui. Sois le premier ! 🏁</div>'}
+   <div class="sec">🃏 Deck imposé <small>le même pour tout le club · niveau 2 · appui long : fiche</small></div>
+   <div class="bbgrid">${DS.map((s,i)=>`<div class="bbg1" data-f="${i}">${s.id==='_sub'?rlCard('_sub'):mini(s.id)}<span class="c">💧${s.cost}</span>${s.spell?'<span class="k">✨</span>':''}</div>`).join('')}</div>
+   <div class="trbtns"><button class="btn alt" id="bx">Fermer</button><button class="btn" id="bgo">▶ Jouer</button></div>`);
+  sh.querySelector('#bx').onclick=()=>sh.remove();sh.querySelector('#bgo').onclick=()=>{sh.remove();bbPlayDaily();};
+  sh.querySelectorAll('[data-f]').forEach(x=>bbLong(x,()=>bbCardSheet(DS[+x.dataset.f]),()=>bbCardSheet(DS[+x.dataset.f])));}
+function bbHelp(){const sh=sheet(`<h3>❓ Comment jouer</h3><div class="drew" style="text-align:left">🧍 Chaque carte est soit un <b>perso</b> qui attaque, soit un <b>sort</b>, selon sa phrase.<br>🃏 Touche une carte en bas puis touche l'arène dans <b>ta moitié</b> (ou fais-la glisser). Appui long sur une carte : sa fiche.<br>
+   🏊 Les persos qui ont <b>5 ou plus en nage</b> peuvent aller dans le bassin : plus ils nagent bien, plus ils vont vite. C'est le chemin direct vers le <b>plongeoir</b>.<br>
+   🚶 Les autres restent sur les bords et attaquent d'abord les <b>chaises de maître-nageur</b>.<br>✨ Les sorts se lancent n'importe où : dégâts + ralentissement.<br>
+   💧 Le chlore remonte tout seul (×2 dans la dernière minute).<br>🏆 Casse le plongeoir pour gagner direct, sinon c'est celui qui a cassé le plus de tours après 3 min.<br>
+   ⬆️ Améliore tes cartes avec leurs doubles : 3, 5, 10, 15, 20… doubles par niveau, jusqu'au niveau ${BB_LVMAX} (+10 % de vie et de dégâts par niveau).<br>
+   👑 Chaque tour cassée = 1 couronne. Toutes les ${BB_CRW} couronnes : un booster de 3 cartes.</div><div class="trbtns"><button class="btn" id="bx">OK</button></div>`);sh.querySelector('#bx').onclick=()=>sh.remove();}
 function bbUpList(){const L=rlOwned().map(id=>({id,l:bbLvlOf(id),d:bbDups(id),c:bbUpCost(id),ok:bbCanUp(id)}))
     .sort((a,b)=>(b.ok-a.ok)||((b.c?b.d/b.c:-1)-(a.c?a.d/a.c:-1))||(b.l-a.l));const n=L.filter(x=>x.ok).length;
   const sh=sheet(`<h3>⬆️ Améliorer mes cartes</h3><div class="sec">${n?`<b>${n}</b> carte${n>1?'s':''} prête${n>1?'s':''} à améliorer !`:'Aucune carte n\'a encore assez de doubles.'} <small>Touche une carte pour voir sa fiche.</small></div>
@@ -5697,6 +5874,8 @@ function bbQuit(){if(!BC)return true;if(BC.live&&!BC.over){const sh=sheet(`<h3>�
     sh.querySelector('#bqNo').onclick=()=>sh.remove();sh.querySelector('#bqYes').onclick=()=>{sh.remove();if(!BC||BC.over)return;BC.live.quit=1;bbLiveSend(true);bbForfeit(-1,'🏳️ Tu as abandonné.');};return false;}
   bbClose();return true;}
 /* écran Défis et bouton retour */
+function bbIncHTML(){let inc=[];try{inc=bbInvList().filter(x=>x.to===myId);}catch(_){}if(!inc.length)return'';
+  return `<div class="dsec">📡 Bataille en direct</div>`+inc.map(x=>`<div class="trow"><div class="top"><span><b>${esc(x.fromName||'Joueur')}</b> te défie en direct !</span><span class="trstat wait">Invitation</span></div><div class="trbtns"><button class="btn no" data-bbno="${x.id}">✖ Refuser</button><button class="btn ok" data-bbok="${x.id}">⚔️ Accepter</button></div></div>`).join('');}
 function bbDfHTML(){const inc=bbInvList().filter(x=>x.to===myId);
   return `<div class="dsec">⚔️ Bataille du Bassin</div><div class="trow"><div class="dgame"><span class="av bbav">⚔️</span><div><b>Bataille du Bassin</b><small>Ton deck de 8 cartes contre l'ordi, le deck d'un joueur ou en direct</small></div></div>
     ${inc.map(x=>`<div class="top" style="margin-top:8px"><span>📡 <b>${esc(x.fromName||'Joueur')}</b> te défie en direct !</span></div><div class="trbtns"><button class="btn no" data-bbno="${x.id}">✖ Refuser</button><button class="btn ok" data-bbok="${x.id}">⚔️ Accepter</button></div>`).join('')}
@@ -5705,7 +5884,7 @@ function bbDfBind(b){const o=b.querySelector('#bbOpen');if(o)o.onclick=()=>openB
   b.querySelectorAll('[data-bbok]').forEach(x=>x.onclick=()=>{const v=BBINV.find(y=>y.id===x.dataset.bbok);if(v)bbAccept(v);});
   b.querySelectorAll('[data-bbno]').forEach(x=>x.onclick=()=>{GG.battles.set(x.dataset.bbno,{st:'no'}).catch(()=>{});});}
 $('#bbBackSel').onclick=()=>{if(BC&&bbQuit())bbDeckUI();};
-document.querySelectorAll('.gtabs [data-g]').forEach(t=>t.onclick=()=>{if(t.dataset.g==='bataille'){if(!document.querySelector('#bataille').classList.contains('active'))openBataille();}
+document.querySelectorAll('.gtabs [data-g]').forEach(t=>t.onclick=()=>{if(t.dataset.g==='party'){bbClose();openParty();return;}if(t.dataset.g==='bataille'){if(!document.querySelector('#bataille').classList.contains('active'))openBataille();}
   else{bbClose();buildSelect();show('select');const g=document.querySelector('#grid');if(g)g.scrollTop=0;}});
 /* ---------- dessin v2 : décor, persos animés, tours, sorts ---------- */
 const BB_SKIN='#f2c39b';
@@ -5991,6 +6170,271 @@ function bbDraw(){const cv=$('#bbCv');if(!cv)return;const c=cv.getContext('2d'),
   if(BC.cd>0){const n=Math.ceil(BC.cd-.6),txt=n>0?String(n):'Partez ! 🏁',fr=BC.cd-.6>0?(BC.cd-.6)%1:BC.cd/.6,sc=1+fr*.6;c.save();c.globalAlpha=Math.min(1,fr*3+.2);c.translate(W/2,H/2);c.scale(sc,sc);
     bbTxt(c,txt,0,0,T*(n>0?2.6:1.5),'#fff');c.restore();}}
 
+/* ================= GAMBETTA PARTY (style Mario Party, en direct) ================= */
+/* Un joueur crée la partie (code à 4 chiffres), jusqu'à 8 joueurs (l'ordi complète).
+   Le téléphone de l'hôte fait tourner la partie (dés, cases, mini-jeux) et l'écrit dans la Realtime Database ;
+   les autres affichent et envoient seulement « je lance le dé » et leur résultat au mini-jeu.
+   Si l'hôte part, un autre joueur reprend automatiquement. */
+const PT_SHOPSTAR={on:true,extra:10},PT_2STAR={from:6};const PT_MAX=8,PT_COINS=[10,7,5,4,3,2,1,0],PT_BAG=3,PT_COL=['#ff5a5f','#2f80ed','#2fb35a','#ffb800','#9b51e0','#ff8a00','#00b8c4','#e84393'];
+/* cartes : S départ · b bonus · m malus · e événement · B buvette · c crabe · r requin */
+const PT_MAPS={
+  belletanche:{n:'Piscine Belletanche',e:'🏊',lvl:'Facile',lv:1,star:20,coins:10,cells:'SbbebmBbBbmbbbembbebmBbebmbbeb',deco:['🛝','🍹','🚿','🪜'],logo:'Belletanche',cls:'mpool',d:'Beaucoup de cases bonus, l\'étoile coûte 20 pièces.'},
+  plage:{n:'La plage du club',e:'🏖️',lvl:'Normal',lv:2,star:25,coins:10,cells:'SbmebcbBmbebcmBebmBcbebmebcbm',deco:['⛱️','🐚','🏐','🍦'],logo:'La plage',cls:'mbeach',d:'Attention aux crabes (−5 pièces). L\'étoile coûte 25 pièces.'},
+  soiree:{n:'Soirée au club',e:'🪩',lvl:'Difficile',lv:3,star:25,coins:5,cells:'SmebrmbBemrbmeBmrBembmrebmeb',deco:['🎤','🍕','🎂','🎶'],logo:'Soirée',cls:'mparty',d:'Le requin du grand bain rôde (la moitié de tes pièces !) et on ne commence qu\'avec 5 pièces. L\'étoile coûte 25 pièces.'}};
+Object.values(PT_MAPS).forEach(m=>{if(typeof m.cells==='string')m.cells=m.cells.split('');});
+const PT_CELL={S:{e:'🏁',n:'Départ'},b:{e:'+3',n:'Bonus'},m:{e:'−3',n:'Malus'},e:{e:'❓',n:'Événement'},B:{e:'🛒',n:'Buvette'},c:{e:'🦀',n:'Crabe'},r:{e:'🦈',n:'Requin'}};
+const PT_ITEMS={gold:{e:'🌟',n:'Dé doré',d:'Lance un dé de 1 à 10',p:8},double:{e:'🎲',n:'Double dé',d:'Lance 2 dés d\'un coup',p:10},
+  buoy:{e:'🛟',n:'Bouée',d:'Te protège du prochain malus, vol, crabe ou requin',p:5},whistle:{e:'📣',n:'Sifflet',d:'Le joueur en tête recule de 4 cases',p:6},
+  key:{e:'🗝️',n:'Clé des vestiaires',d:'Te téléporte juste avant l\'étoile',p:20}};
+const PT_EVENTS=[{k:'apero',w:3,e:'🍹',t:'Apéro offert ! +5 pièces'},{k:'sifflet',w:3,e:'🚨',t:'Coup de sifflet de Roland ! −5 pièces'},
+  {k:'requin',w:2,e:'🦈',t:'Le requin ! Tu voles 5 pièces au plus riche'},{k:'swap',w:2,e:'🔄',t:'Échange de place'},
+  {k:'vague',w:2,e:'🌊',t:'Grosse vague ! Tout le monde recule de 2 cases'},{k:'longueur',w:2,e:'🏊',t:'Longueur bonus ! Tu avances de 3 cases'},
+  {k:'etoile',w:2,e:'⭐',t:"L'étoile change de place !"},{k:'cadeau',w:1,e:'🎁',t:'Cadeau du club ! +10 pièces'},
+  {k:'karaoke',w:2,e:'🎤',t:'Karaoké ! Chaque joueur te donne 2 pièces'},{k:'menage',w:2,e:'🧽',t:'Ménage des vestiaires ! Tout le monde perd 3 pièces, sauf toi'},
+  {k:'bouee',w:2,e:'🛟',t:'Une bouée gratuite dans ton sac !'},{k:'buvette',w:1,e:'🛒',t:'La buvette vient à toi !'}];
+let PT={code:null,P:null,un:null,pres:null,lob:null,lobs:{},ht:null,tick:null,lastMv:0,lastDice:0,anim:{},mgGo:0,hOff:0,wSeq:0,boardFor:null,inGame:false};
+const ptMe=()=>(window.GG&&GG.pid)||myId;
+const ptOK=()=>!!(window.GG&&GG.party&&GG.party.ok());
+const ptNow=()=>window.GG&&GG.party?GG.party.now():Date.now();
+const ptMap=P=>PT_MAPS[(P&&P.map)||'belletanche'];
+const ptPl=(P,p)=>((P&&P.players)||{})[p]||{};
+const ptOnline=(P,p)=>{const x=ptPl(P,p);return !x.bot&&x.on!==false&&!x.left;};
+const ptName=(P,p)=>{const x=ptPl(P,p);return x.n||'Joueur';};
+const ptGames=()=>ORDER.filter(k=>GAMES[k]&&CHARS[k]);
+const ptRnd=n=>Math.floor(Math.random()*n);
+function ptHumans(P){const pl=(P&&P.players)||{};return Object.keys(pl).filter(p=>!pl[p].bot).sort((a,b)=>(pl[a].at||0)-(pl[b].at||0));}
+function ptOrder(P){const pl=(P&&P.players)||{};return (P&&P.state&&P.state.order)||Object.keys(pl).sort((a,b)=>(pl[a].at||0)-(pl[b].at||0));}
+
+/* ---------- géométrie du plateau (en % d'une boîte 4:5) ---------- */
+function ptXY(i,n){const W=100,H=125,x0=7,x1=93,y0=6.5,y1=H-6.5,w=x1-x0,h=y1-y0,L=2*(w+h);let d=(i/n*L)%L;
+  // départ au milieu du bas, sens des aiguilles d'une montre
+  let x,y;if(d<w/2){x=x0+w/2-d;y=y1;}else if((d-=w/2)<h){x=x0;y=y1-d;}else if((d-=h)<w){x=x0+d;y=y0;}else if((d-=w)<h){x=x1;y=y0+d;}else{d-=h;x=x1-d;y=y1;}
+  return{x:x/W*100,y:y/H*100};}
+
+/* ---------- moteur (téléphone de l'hôte) ---------- */
+function ptStarCell(map,avoid,avoid2){const L=map.cells.map((c,i)=>(c==='b'||c==='e')&&i!==avoid&&i!==avoid2&&Math.min(i,map.cells.length-i)>=5?i:-1).filter(i=>i>=0);return L[ptRnd(L.length)];}
+function ptInit(P){const map=ptMap(P),order=ptOrder(P).slice(0,PT_MAX),now=ptNow(),S={phase:'roll',turn:1,cur:0,order,pos:{},coins:{},stars:{},mgw:{},inv:{},seq:1,rollN:1,shopN:0,t0:now,until:0};
+  order.forEach(p=>{S.pos[p]=0;S.coins[p]=map.coins;S.stars[p]=0;S.mgw[p]=0;});S.star=ptStarCell(map,-1);if(order.length>=PT_2STAR.from)S.star2=ptStarCell(map,S.star);
+  S.msg={e:'🎲',t:`La partie commence ! ${ptName(P,order[0])} lance le dé en premier.`};return S;}
+const ptInv=(S,p)=>[].concat((S.inv||{})[p]||[]).filter(Boolean);
+function ptBuoy(S,p){const I=ptInv(S,p),i=I.indexOf('buoy');if(i<0)return false;I.splice(i,1);S.inv[p]=I;return true;}
+function ptLose(P,S,p,k,why){if(ptBuoy(S,p))return `${why}… mais la bouée de ${ptName(P,p)} le protège ! 🛟`;const x=Math.min(k,S.coins[p]);S.coins[p]-=x;return `${why} : −${x} pièce${x>1?'s':''} pour ${ptName(P,p)}`;}
+function ptEvent(P,S,p){const map=ptMap(P),n=map.cells.length,tot=PT_EVENTS.reduce((a,x)=>a+x.w,0);let r=Math.random()*tot,ev=PT_EVENTS[0];for(const x of PT_EVENTS){r-=x.w;if(r<=0){ev=x;break;}}
+  let t=ev.t;const others=S.order.filter(q=>q!==p);
+  if(ev.k==='apero')S.coins[p]+=5;else if(ev.k==='sifflet')t=ptLose(P,S,p,5,'Coup de sifflet de Roland');else if(ev.k==='cadeau')S.coins[p]+=10;
+  else if(ev.k==='requin'){const rich=others.slice().sort((a,b)=>S.coins[b]-S.coins[a])[0];const k=rich?Math.min(5,S.coins[rich]):0;
+    if(k>0&&ptBuoy(S,rich))t=`Le requin attaque ${ptName(P,rich)}… mais sa bouée le protège ! 🛟`;
+    else if(k>0){S.coins[rich]-=k;S.coins[p]+=k;t=`Le requin ! Tu voles ${k} pièce${k>1?'s':''} à ${ptName(P,rich)}`;}else t='Le requin passe… mais personne n\'a de pièces !';}
+  else if(ev.k==='karaoke'){let g=0;others.forEach(q=>{const x=Math.min(2,S.coins[q]);S.coins[q]-=x;g+=x;});S.coins[p]+=g;t=`Karaoké ! Les autres te donnent ${g} pièce${g>1?'s':''}`;}
+  else if(ev.k==='menage')others.forEach(q=>S.coins[q]=Math.max(0,S.coins[q]-3));
+  else if(ev.k==='bouee'){const I=ptInv(S,p);if(I.length<PT_BAG){I.push('buoy');S.inv[p]=I;}else{S.coins[p]+=3;t='Une bouée gratuite… ton sac est plein, alors +3 pièces !';}}
+  else if(ev.k==='buvette')return{e:ev.e,t,shop:1};
+  else if(ev.k==='swap'&&others.length){const q=others[ptRnd(others.length)];const a=S.pos[p];S.pos[p]=S.pos[q];S.pos[q]=a;t=`Échange de place avec ${ptName(P,q)} !`;}
+  else if(ev.k==='vague')S.order.forEach(q=>S.pos[q]=(S.pos[q]-2+n)%n);
+  else if(ev.k==='longueur')S.pos[p]=(S.pos[p]+3)%n;
+  else if(ev.k==='etoile')S.star=ptStarCell(map,S.star,S.star2);
+  return{e:ev.e,t};}
+function ptOffer(){const K=Object.keys(PT_ITEMS);const o=[];while(o.length<3){const k=K[ptRnd(K.length)];if(!o.includes(k))o.push(k);}return o;}
+function ptRank(k,L){const m=metricOf(k);const cmp=(a,b)=>{if(a.w!==b.w)return b.w-a.w;const as=a.s!=null,bs=b.s!=null;if(as&&bs&&a.s!==b.s)return m.t==='time'?a.s-b.s:b.s-a.s;if(as!==bs)return as?-1:1;return 0;};
+  L.sort(cmp);L.forEach((x,i)=>{x.rank=i>0&&cmp(L[i-1],x)===0?L[i-1].rank:i+1;x.coin=PT_COINS[x.rank-1]||0;});return L;}
+function ptBots(P,S,k,L){const m=metricOf(k),ref=L.filter(x=>x.w&&x.s!=null).map(x=>x.s).sort((a,b)=>a-b),med=ref.length?ref[Math.floor(ref.length/2)]:null;
+  S.order.filter(p=>!L.find(x=>x.p===p)).forEach(p=>{const pl=ptPl(P,p),sk=pl.bot?(pl.sk||.5):.45,w=Math.random()<sk?1:0;let s=null;
+    if(med!=null&&w)s=m.t==='time'?Math.round(med*(.8+Math.random()*.5)*10)/10:Math.round(med*(.6+Math.random()*.7));
+    L.push({p,w,s,bot:1});});}
+function ptStep(P){const S=JSON.parse(JSON.stringify(P.state||{})),now=ptNow(),map=ptMap(P),n=map.cells.length,act=P.act||{},ord=S.order||[];
+  S.inv=S.inv||{};['pos','coins','stars','mgw'].forEach(f=>{S[f]=S[f]||{};ord.forEach(p=>{if(S[f][p]==null)S[f][p]=0;});});
+  const auto=p=>!ptOnline(P,p),next=(ph,until,extra)=>{Object.assign(S,{phase:ph,t0:now,until:until||0},extra||{});S.seq=(S.seq||0)+1;return S;};
+  if(S.phase==='roll'){const p=ord[S.cur],a=act[p];
+    if(!((a&&a.n===S.rollN)||(auto(p)&&now>S.t0+1400)||now>S.t0+30000))return null;
+    let it=a&&a.n===S.rollN&&a.it?a.it:null;const I=ptInv(S,p);
+    if(auto(p)&&!it){const lead=ord.filter(q=>q!==p).sort((x,y)=>(S.stars[y]-S.stars[x])||(S.coins[y]-S.coins[x]))[0];
+      if(I.includes('key')&&S.coins[p]>=map.star)it='key';else if(I.includes('double')&&Math.random()<.6)it='double';else if(I.includes('gold')&&Math.random()<.6)it='gold';
+      else if(I.includes('whistle')&&lead&&(S.stars[lead]>S.stars[p]||S.coins[lead]>S.coins[p]))it='whistle';}
+    if(it&&(it==='buoy'||!I.includes(it)))it=null;if(it){I.splice(I.indexOf(it),1);S.inv[p]=I;}
+    let pre=null;if(it==='key'){S.pos[p]=(S.star-1+n)%n;pre=`${ptName(P,p)} utilise la clé des vestiaires 🗝️`;}
+    if(it==='whistle'){const lead=ord.filter(q=>q!==p).sort((x,y)=>(S.stars[y]-S.stars[x])||(S.coins[y]-S.coins[x]))[0];
+      if(lead){if(ptBuoy(S,lead))pre=`📣 Sifflet sur ${ptName(P,lead)}… protégé par sa bouée !`;else{S.pos[lead]=(S.pos[lead]-4+n)%n;pre=`📣 ${ptName(P,p)} siffle ${ptName(P,lead)} : il recule de 4 cases !`;}}}
+    const d1=1+ptRnd(it==='gold'?10:6),d2=it==='double'?1+ptRnd(6):0,v=d1+d2,from=S.pos[p];let msg=null,got=false;
+    for(let k=1;k<=v;k++){const c=(from+k)%n;if(c===0&&k<v){S.coins[p]+=5;msg={e:'🏁',t:`${ptName(P,p)} fait un tour complet : +5 pièces`};}
+      const two=S.star2!=null&&c===S.star2;if((c===S.star||two)&&!got){if(S.coins[p]>=map.star){got=true;S.coins[p]-=map.star;S.stars[p]++;if(two)S.star2=ptStarCell(map,S.star2,S.star);else S.star=ptStarCell(map,S.star,S.star2);msg={e:'⭐',t:`${ptName(P,p)} achète une étoile pour ${map.star} pièces !`};}
+        else if(k===v)msg={e:'⭐',t:`${ptName(P,p)} est sur l'étoile, mais il faut ${map.star} pièces…`};}}
+    S.pos[p]=(from+v)%n;S.seq++;S.dice={p,v:d1,v2:d2,it:it||'',seq:S.seq};S.mv={p,from,v,seq:S.seq};
+    const say=`${ptName(P,p)} fait ${d2?d1+' + '+d2+' = '+v:v}${it==='gold'?' avec le dé doré 🌟':''} !`;
+    return next('mv',now+1300+v*320+300+(pre?600:0),{msg:msg||{e:pre?'🎒':'🎲',t:pre?pre+' · '+say:say}});}
+  if(S.phase==='mv'){if(now<S.until)return null;const p=ord[S.cur],c=map.cells[S.pos[p]];let m;
+    if(c==='b'){S.coins[p]+=3;m={e:'🟦',t:`${ptName(P,p)} : case bonus, +3 pièces`};}
+    else if(c==='m')m={e:'🟥',t:'Case malus · '+ptLose(P,S,p,3,'Aïe')};
+    else if(c==='c')m={e:'🦀',t:'Un crabe pince · '+ptLose(P,S,p,5,'Ouille')};
+    else if(c==='r'){const h=Math.min(15,Math.ceil(S.coins[p]/2));m={e:'🦈',t:'Le requin du grand bain · '+ptLose(P,S,p,h,'Il croque la moitié des pièces')};}
+    else if(c==='B'){S.shopN=(S.shopN||0)+1;return next('shop',now+20000,{shop:{p,n:S.shopN,o:ptOffer()},msg:{e:'🛒',t:`${ptName(P,p)} arrive à la buvette`}});}
+    else if(c==='e'){const r=ptEvent(P,S,p);if(r.shop){S.shopN=(S.shopN||0)+1;return next('shop',now+20000,{shop:{p,n:S.shopN,o:ptOffer()},msg:{e:r.e,t:`${ptName(P,p)} : ${r.t}`}});}m={e:r.e,t:`${ptName(P,p)} : ${r.t}`};}
+    else m={e:'🏁',t:`${ptName(P,p)} est sur la case départ`};
+    return next('ef',now+(c==='e'?3200:2200),{msg:m});}
+  if(S.phase==='shop'){const sh=S.shop||{},p=sh.p,a=act[p],o=[].concat(sh.o||[]);let buy=null;
+    const sp=map.star+PT_SHOPSTAR.extra;if(a&&a.shop===sh.n)buy=a.buy||'';else if(auto(p)&&now>S.t0+1800){const ok=o.filter(k=>PT_ITEMS[k].p<=S.coins[p]);buy=PT_SHOPSTAR.on&&S.coins[p]>=sp?'star':ptInv(S,p).length<PT_BAG&&ok.length&&Math.random()<.75?ok[ptRnd(ok.length)]:'';}
+    else if(now>=S.until)buy='';if(buy===null)return null;
+    let m={e:'🛒',t:`${ptName(P,p)} repart de la buvette sans rien acheter`};const I=ptInv(S,p);
+    if(buy==='star'&&PT_SHOPSTAR.on&&S.coins[p]>=sp){S.coins[p]-=sp;S.stars[p]++;m={e:'⭐',t:`${ptName(P,p)} achète une étoile à la buvette (${sp} pièces) !`};}
+    else if(buy&&o.includes(buy)&&PT_ITEMS[buy].p<=S.coins[p]&&I.length<PT_BAG){S.coins[p]-=PT_ITEMS[buy].p;I.push(buy);S.inv[p]=I;m={e:PT_ITEMS[buy].e,t:`${ptName(P,p)} achète : ${PT_ITEMS[buy].n} (${PT_ITEMS[buy].p} pièces)`};}
+    return next('ef',now+2000,{msg:m,shop:null});}
+  if(S.phase==='ef'){if(now<S.until)return null;S.cur++;
+    if(S.cur>=ord.length){const G=ptGames();const k=G[ptRnd(G.length)];return next('mgi',now+6500,{mg:{k,turn:S.turn},msg:{e:'🎮',t:`Mini-jeu : ${CHARS[k].game}`}});}
+    S.rollN++;return next('roll',0,{msg:{e:'🎲',t:`Au tour de ${ptName(P,ord[S.cur])} de lancer le dé`}});}
+  if(S.phase==='mgi'){if(now<S.until)return null;return next('mg',now+150000);}
+  if(S.phase==='mg'){const res=((P.res||{})[S.turn])||{},hum=ord.filter(p=>ptOnline(P,p)),done=hum.filter(p=>res[p]).length;
+    if(!(now>=S.until||done>=hum.length))return null;const k=S.mg.k,L=[];
+    ord.forEach(p=>{const r=res[p];if(r)L.push({p,w:r.w?1:0,s:r.s==null?null:+r.s});else if(!ptPl(P,p).bot&&ptOnline(P,p))L.push({p,w:0,s:null,miss:1});});
+    ptBots(P,S,k,L);ptRank(k,L);L.forEach(x=>{S.coins[x.p]+=x.coin;if(x.rank===1&&x.w)S.mgw[x.p]=(S.mgw[x.p]||0)+1;});
+    return next('mgr',now+7500,{mgr:L.map(x=>({p:x.p,w:x.w,s:x.s==null?-1:x.s,rank:x.rank,coin:x.coin,bot:x.bot?1:0,miss:x.miss?1:0}))});}
+  if(S.phase==='mgr'){if(now<S.until)return null;
+    if(S.turn>=(P.tours||10)){const best=Math.max(0,...ord.map(p=>S.mgw[p]||0)),bonus=best>0?ord.filter(p=>(S.mgw[p]||0)===best):[];bonus.forEach(p=>S.stars[p]++);
+      const fin=ord.slice().sort((a,b)=>(S.stars[b]-S.stars[a])||(S.coins[b]-S.coins[a]));const rk={};fin.forEach((p,i)=>{rk[p]=i>0&&S.stars[p]===S.stars[fin[i-1]]&&S.coins[p]===S.coins[fin[i-1]]?rk[fin[i-1]]:i+1;});
+      next('end',0,{fin,rk,bonus,msg:{e:'🏆',t:`${ptName(P,fin[0])} gagne la Gambetta Party !`}});return{st:'end',endAt:now,state:S};}
+    S.turn++;S.cur=0;S.rollN++;return next('roll',0,{msg:{e:'🎲',t:`Tour ${S.turn} ! ${ptName(P,ord[0])} lance le dé`}});}
+  return null;}
+function ptHostTick(){const P=PT.P;if(!P||!PT.code)return;const me=ptMe();
+  // l'hôte est parti ? le premier joueur encore là reprend la partie
+  if(P.st!=='end'){const h=ptPl(P,P.host);if(!P.players||!P.players[P.host]||h.on===false||h.left){PT.hOff=PT.hOff||Date.now();
+      if(Date.now()-PT.hOff>6000){const c=ptHumans(P).filter(p=>ptOnline(P,p))[0];if(c===me){PT.hOff=0;GG.party.update(PT.code,{host:me}).catch(()=>{});}}}else PT.hOff=0;}
+  if(P.host!==me||P.st!=='play'||!P.state)return;if((P.state.seq||0)<PT.wSeq&&Date.now()-PT.wT<4000)return;
+  let patch=null;try{patch=ptStep(P);}catch(e){console.warn('party',e);}if(!patch)return;
+  if(!patch.state){patch={state:patch};}PT.wSeq=patch.state.seq||0;PT.wT=Date.now();GG.party.update(PT.code,patch).catch(()=>{});}
+
+/* ---------- écrans ---------- */
+function openParty(){show('party');ptLobbies();
+  if(!PT.code&&ptOK()){let c=null;try{c=localStorage.getItem('gg-party');}catch(_){}if(c){ptResume(c);return;}}ptRender();}
+async function ptResume(c){try{const P=await GG.party.get(c);if(P&&P.players&&P.players[ptMe()]&&P.st!=='end'){ptEnter(c);return;}}catch(_){}try{localStorage.removeItem('gg-party');}catch(_){}ptRender();}
+function ptLobbies(){if(!ptOK()||PT.lob)return;PT.lob=GG.party.lobbies(v=>{PT.lobs=v||{};if(!PT.code)ptRender();});}
+function ptRender(){const b=$('#ptBody');if(!b)return;const P=PT.P;
+  PT.inGame=!!(PT.code&&P&&(P.st==='play'||P.st==='end'));const sc=$('#party');if(sc)sc.classList.toggle('ingame',PT.inGame);try{navSync('party');}catch(_){}
+  if(!PT.code)return ptHome(b);if(!P)return b.innerHTML='<div class="trempty">Connexion à la partie…</div>';
+  if(P.st==='lobby')return ptLobbyUI(b,P);ptGameUI(b,P);}
+function ptHome(b){PT.boardFor=null;const ok=ptOK(),now=Date.now();
+  const L=Object.entries(PT.lobs||{}).filter(([c,x])=>x&&x.st==='lobby'&&(x.at||0)>now-30*60e3&&Object.keys(x.players||{}).length<PT_MAX).sort((a,b)=>(b[1].at||0)-(a[1].at||0));
+  b.innerHTML=`<div class="pthero"><div class="e">🎲</div><div><b>Gambetta Party</b><small>Un plateau, des dés, des bonus, des malus… et un mini-jeu à chaque tour ! Jusqu'à ${PT_MAX} joueurs, l'ordi complète.</small></div></div>
+   ${ok?`<div class="trbtns"><button class="btn" id="ptNew">➕ Créer une partie</button><button class="btn alt" id="ptJoin">🔢 Rejoindre</button></div>
+   <div class="dsec">🟢 Parties ouvertes</div>${L.length?L.map(([c,x])=>`<div class="trow ptlob"><div><b>Partie de ${esc(ptName(x,x.host))}</b><small>${(PT_MAPS[x.map]||PT_MAPS.belletanche).e} ${(PT_MAPS[x.map]||PT_MAPS.belletanche).n} · ${Object.keys(x.players||{}).length}/${PT_MAX} joueurs · ${x.tours||10} tours · code ${c}</small></div><button class="btn" data-pj="${c}">Rejoindre</button></div>`).join('')
+     :'<div class="trempty">Aucune partie ouverte pour l\'instant.<br>Crée-en une et donne le code à tes amis !</div>'}`
+   :'<div class="trempty">🎲 La Gambetta Party se joue en direct, sur le site du jeu, avec ta sauvegarde en ligne.</div>'}
+   <div class="dsec">🗺️ Cartes</div>${Object.values(PT_MAPS).map(m=>`<div class="trow ptmap"><span class="e">${m.e}</span><div><b>${m.n}</b><small>${m.d}</small></div><span class="ptlv l${m.lv}">${m.lvl}</span></div>`).join('')}
+   <div class="drew" style="margin-top:12px;text-align:left"><b>Comment ça marche</b><br>🎲 Chacun son tour, on lance le dé et on avance.<br>🟦 Case bonus : +3 pièces · 🟥 Case malus : −3 pièces · ❓ Événement surprise · 🛒 Buvette : achète des objets.<br>🎒 Objets (3 max) : 🌟 dé doré (1 à 10), 🎲 double dé, 🛟 bouée qui protège, 📣 sifflet qui fait reculer le premier, 🗝️ clé qui t'amène devant l'étoile.<br>⭐ Passe sur l'étoile avec assez de pièces pour l'acheter (20 ou 25 selon la carte), ou achète-la à la buvette (10 pièces de plus). À partir de 6 joueurs, il y a 2 étoiles sur le plateau.<br>🎮 Après chaque tour, un mini-jeu au hasard : le 1er gagne 10 pièces, le 2e 7, le 3e 5…<br>👑 À la fin, le plus d'étoiles gagne (puis le plus de pièces). Le roi des mini-jeux gagne une étoile bonus.<br>🎁 Le gagnant reçoit un booster de 5, les autres 1 carte.</div><div style="height:96px"></div>`;
+  const nw=b.querySelector('#ptNew');if(nw)nw.onclick=ptCreate;const jn=b.querySelector('#ptJoin');if(jn)jn.onclick=ptAskCode;
+  b.querySelectorAll('[data-pj]').forEach(x=>x.onclick=()=>ptJoin(x.dataset.pj));}
+function ptMeObj(){return{n:(window.GG&&GG.name)||'Joueur',fav:COL.fav||'',at:Date.now(),on:true};}
+async function ptCreate(){if(!ptOK())return;try{const me=ptMe();const code=await GG.party.create({st:'lobby',host:me,map:'belletanche',tours:10,v:1,players:{[me]:ptMeObj()}});ptEnter(code);}
+  catch(e){toast('📡','Impossible de créer la partie','Vérifie ta connexion et réessaie.');}}
+function ptAskCode(){const sh=sheet(`<h3>🔢 Rejoindre une partie</h3><div class="sec">Le code à 4 chiffres de la partie :</div><input class="ainput" id="ptc" inputmode="numeric" maxlength="4" placeholder="1234" style="font-size:28px;text-align:center;letter-spacing:8px"><div class="ggerr" id="pte" style="color:var(--coral);font-weight:700;text-align:center"></div><div class="trbtns"><button class="btn alt" id="bx">Annuler</button><button class="btn" id="bgo">Rejoindre</button></div>`);
+  const i=sh.querySelector('#ptc');i.focus();sh.querySelector('#bx').onclick=()=>sh.remove();
+  sh.querySelector('#bgo').onclick=async()=>{const c=i.value.replace(/\D/g,'');if(c.length!==4){sh.querySelector('#pte').textContent='Il faut 4 chiffres.';return;}const er=await ptJoin(c,true);if(er)sh.querySelector('#pte').textContent=er;else sh.remove();};}
+async function ptJoin(c,quiet){if(!ptOK())return 'Pas de connexion';let P=null;try{P=await GG.party.get(c);}catch(_){}const me=ptMe(),m=e=>{if(!quiet)toast('🎲',e,'');return e;};
+  if(!P)return m('Aucune partie avec ce code.');if(P.players&&P.players[me]){ptEnter(c);return null;}
+  if(P.st!=='lobby')return m('Cette partie a déjà commencé.');if(Object.keys(P.players||{}).length>=PT_MAX)return m('La partie est complète (8 joueurs).');
+  try{await GG.party.set(c,'players/'+me,ptMeObj());}catch(_){return m('Pas de connexion, réessaie.');}ptEnter(c);return null;}
+function ptEnter(c){if(PT.code===c&&PT.un)return;ptExit(true);PT.code=c;PT.P=null;PT.lastMv=0;PT.lastDice=0;PT.anim={};PT.mgGo=0;PT.wSeq=0;PT.boardFor=null;
+  try{localStorage.setItem('gg-party',c);}catch(_){}
+  PT.pres=GG.party.presence(c,ptMe());PT.un=GG.party.watch(c,ptOnData);clearInterval(PT.ht);PT.ht=setInterval(ptHostTick,400);clearInterval(PT.tick);PT.tick=setInterval(ptTimers,500);ptRender();}
+function ptExit(keep){try{PT.un&&PT.un();}catch(_){}try{PT.pres&&PT.pres();}catch(_){}clearInterval(PT.ht);clearInterval(PT.tick);PT.un=PT.pres=null;
+  if(!keep){PT.code=null;PT.P=null;PT.inGame=false;try{localStorage.removeItem('gg-party');}catch(_){}}}
+async function ptLeave(){const P=PT.P,c=PT.code,me=ptMe();if(!c)return;
+  try{if(P&&P.st==='lobby'){const others=ptHumans(P).filter(p=>p!==me);
+      if(P.host===me&&!others.length)await GG.party.remove(c);else{const u={['players/'+me]:null};if(P.host===me)u.host=others[0];await GG.party.update(c,u);}}
+    else if(P&&P.st==='play')await GG.party.update(c,{['players/'+me+'/left']:true,['players/'+me+'/on']:false});}catch(_){}
+  ptExit(false);ptRender();}
+function ptOnData(P){if(!PT.code)return;if(!P){toast('🎲','La partie a été fermée','');ptExit(false);ptRender();return;}
+  const was=PT.P;PT.P=P;const S=P.state||{},me=ptMe();
+  if(P.players&&!P.players[me]&&P.st==='lobby'){ptExit(false);ptRender();return;}
+  // mini-jeu : on le lance tout seul sur chaque téléphone
+  if(P.st==='play'&&S.phase==='mg'&&S.mg&&PT.mgGo!==S.turn&&!(((P.res||{})[S.turn]||{})[me])&&ptOnline(P,me)){PT.mgGo=S.turn;ptPlayMg(S);}
+  if(P.st==='end')ptReward(P);
+  const sc=$('#party');if(sc&&sc.classList.contains('active'))ptRender();else if(!was||was.st!==P.st)try{navSync(document.querySelector('.screen.active').id);}catch(_){}}
+function ptPlayMg(S){PLAYCTX={t:'party',code:PT.code,turn:S.turn,k:S.mg.k};openIntro(S.mg.k);}
+/* résultat du mini-jeu (appelé à la fin de chaque mini-jeu) */
+function ptAfter(k,win,val){if(!PLAYCTX||PLAYCTX.t!=='party'||PLAYCTX.k!==k||PLAYCTX.sent)return;PLAYCTX.sent=1;
+  const r={w:win?1:0,at:Date.now()};if(val!=null&&isFinite(val))r.s=+val;GG.party.set(PLAYCTX.code,'res/'+PLAYCTX.turn+'/'+ptMe(),r).catch(()=>{});}
+function ptBackFromMg(){if(PLAYCTX&&PLAYCTX.t==='party'&&!PLAYCTX.sent)ptAfter(PLAYCTX.k,false,null);PLAYCTX=null;openParty();}
+function ptLobbyUI(b,P){PT.boardFor=null;const me=ptMe(),host=P.host===me,pl=P.players||{},ord=Object.keys(pl).sort((a,c)=>(pl[a].at||0)-(pl[c].at||0)),n=ord.length;
+  b.innerHTML=`<div class="ptcode"><small>Code de la partie</small><b>${PT.code}</b><small>Donne-le à tes amis pour qu'ils te rejoignent</small></div>
+   <div class="dsec">👥 Joueurs <small>${n}/${PT_MAX}</small></div>
+   <div class="ptpl">${ord.map((p,i)=>`<div class="ptp"><span class="pw" style="background:${PT_COL[i%8]}">${ptPawnIn(pl[p])}</span><b>${esc(pl[p].n||'Joueur')}${p===me?' (toi)':''}</b>${p===P.host?'<span class="trstat yes">Hôte</span>':''}${pl[p].bot?'<span class="trstat wait">Ordi</span>':''}${pl[p].on===false&&!pl[p].bot?'<span class="trstat nope">Hors ligne</span>':''}${host&&pl[p].bot?`<button class="mini-b" data-rb="${p}">✖</button>`:''}</div>`).join('')}</div>
+   ${host?`<div class="trbtns"><button class="btn alt" id="ptBot"${n>=PT_MAX?' disabled':''}>🤖 Ajouter un ordi</button></div>
+     <div class="dsec">🗺️ Carte</div><div class="ptmaps">${Object.entries(PT_MAPS).map(([k,m])=>`<button class="ptmc${(P.map||'belletanche')===k?' on':''}" data-pm="${k}"><span class="e">${m.e}</span><b>${m.n}</b><span class="ptlv l${m.lv}">${m.lvl}</span></button>`).join('')}</div>
+     <div class="dsec">⏱️ Nombre de tours</div><div class="rllv">${[5,10,15].map(t=>`<button class="apill${(P.tours||10)===t?' on':''}" data-tt="${t}">${t} tours · ~${t*2} min</button>`).join('')}</div>
+     <div class="trbtns"><button class="btn" id="ptGo"${n<2?' disabled':''}>▶ Lancer la partie</button></div>${n<2?'<div class="bbhint">Il faut au moins 2 joueurs (ajoute un ordi pour jouer seul).</div>':''}`
+   :`<div class="drew">⏳ En attente que <b>${esc(ptName(P,P.host))}</b> lance la partie…<br>${ptMap(P).e} ${ptMap(P).n} (${ptMap(P).lvl}) · ${P.tours||10} tours</div>`}
+   <div class="trbtns"><button class="btn alt" id="ptQuit">🚪 Quitter</button></div><div style="height:96px"></div>`;
+  b.querySelector('#ptQuit').onclick=ptLeave;
+  if(host){const bt=b.querySelector('#ptBot');bt.onclick=()=>{const k=Object.keys(pl).filter(p=>pl[p].bot).length+1,id='bot'+Date.now().toString(36);
+      GG.party.set(PT.code,'players/'+id,{n:'Ordi '+k,bot:1,sk:Math.round((.35+Math.random()*.3)*100)/100,at:Date.now()}).catch(()=>{});};
+    b.querySelectorAll('[data-rb]').forEach(x=>x.onclick=()=>GG.party.remove(PT.code,'players/'+x.dataset.rb).catch(()=>{}));
+    b.querySelectorAll('[data-pm]').forEach(x=>x.onclick=()=>GG.party.update(PT.code,{map:x.dataset.pm}).catch(()=>{}));
+    b.querySelectorAll('[data-tt]').forEach(x=>x.onclick=()=>GG.party.update(PT.code,{tours:+x.dataset.tt}).catch(()=>{}));
+    b.querySelector('#ptGo').onclick=()=>{if(n<2)return;const S=ptInit(P);GG.party.update(PT.code,{st:'play',startAt:ptNow(),state:S}).catch(()=>toast('📡','Pas de connexion',''));};}}
+function ptPawnIn(x){if(x.bot)return'🤖';const m=x.fav&&memObj(x.fav);return m&&(m.thumb||m.img)?`<img src="${m.thumb||m.img}" alt="">`:esc((x.n||'?').slice(0,1).toUpperCase());}
+function ptGameUI(b,P){const S=P.state||{},map=ptMap(P),me=ptMe(),ord=S.order||[],n=map.cells.length;
+  if(PT.boardFor!==PT.code+':'+(P.startAt||0)){PT.boardFor=PT.code+':'+(P.startAt||0);
+    b.innerHTML=`<div class="pttop"><b id="ptTurn"></b><span>${map.e} ${map.n}</span><button class="x" id="ptX" aria-label="Quitter">✕</button></div><div class="ptsc" id="ptSc"></div>
+     <div class="ptboard ${map.cls}" id="ptB"><div class="ptpool">${map.cls==='mpool'?'<i></i><i></i><i></i><i></i>':''}${map.deco.map((d,i)=>`<span class="d d${i+1}">${d}</span>`).join('')}<span class="ptlogo">${map.logo}</span></div>
+       ${map.cells.map((c,i)=>{const q=ptXY(i,n);return `<div class="ptc t${c}" style="left:${q.x}%;top:${q.y}%">${PT_CELL[c].e}</div>`;}).join('')}
+       <div class="ptstar" id="ptStar">⭐</div><div class="ptstar" id="ptStar2" hidden>⭐</div>${ord.map((p,i)=>`<div class="ptpawn" data-pw="${p}" style="background:${PT_COL[i%8]}">${ptPawnIn(ptPl(P,p))}</div>`).join('')}</div>
+     <div class="ptmsg" id="ptMsg"></div><div class="ptact" id="ptAct"></div><div class="ptov" id="ptOv" hidden></div><div style="height:30px"></div>`;
+    b.querySelector('#ptX').onclick=()=>{if(P.st==='end'){ptExit(false);ptRender();return;}const sh=sheet(`<h3>🚪 Quitter la partie ?</h3><div class="sec">L'ordi jouera à ta place jusqu'à la fin. Tu ne gagneras pas de récompense.</div><div class="trbtns"><button class="btn alt" id="n">Rester</button><button class="btn" id="y">Quitter</button></div>`);
+      sh.querySelector('#n').onclick=()=>sh.remove();sh.querySelector('#y').onclick=()=>{sh.remove();ptLeave();};};
+    PT.lastMv=S.mv?S.mv.seq:0;PT.lastDice=S.dice?S.dice.seq:0;}
+  $('#ptTurn').textContent=P.st==='end'?'🏆 Fin de la partie':`Tour ${S.turn||1}/${P.tours||10}`;
+  $('#ptSc').innerHTML=ord.map((p,i)=>`<div class="ptsci${ord[S.cur]===p&&['roll','mv','ef'].includes(S.phase)?' on':''}${p===me?' me':''}"><span class="dot" style="background:${PT_COL[i%8]}"></span><b>${esc(ptName(P,p))}</b><span>⭐${(S.stars||{})[p]||0} 🪙${(S.coins||{})[p]||0}${ptInv(S,p).length?' 🎒'+ptInv(S,p).length:''}</span></div>`).join('');
+  const sq=ptXY(S.star||0,n),st=$('#ptStar');st.style.left=sq.x+'%';st.style.top=sq.y+'%';const st2=$('#ptStar2');if(st2){st2.hidden=S.star2==null;if(S.star2!=null){const q2=ptXY(S.star2,n);st2.style.left=q2.x+'%';st2.style.top=q2.y+'%';}}
+  // dé puis déplacement animé case par case
+  if(S.dice&&S.dice.seq!==PT.lastDice){PT.lastDice=S.dice.seq;ptDice(S.dice,P);}
+  if(S.mv&&S.mv.seq!==PT.lastMv){PT.lastMv=S.mv.seq;ptAnim(S.mv,n,P);}
+  ptPawns(P);const m=S.msg||{};$('#ptMsg').innerHTML=`<span>${m.e||''}</span> ${esc(m.t||'')}`;ptAction(P);ptOverlay(P);}
+function ptPawns(P){const S=P.state||{},n=ptMap(P).cells.length,ord=S.order||[],at={};
+  ord.forEach(p=>{if(PT.anim[p])return;const c=(S.pos||{})[p]||0;(at[c]=at[c]||[]).push(p);});
+  Object.entries(at).forEach(([c,L])=>L.forEach((p,j)=>{const el=document.querySelector(`[data-pw="${p}"]`);if(!el)return;const q=ptXY(+c,n),o=L.length>1?[[-1,-1],[1,-1],[-1,1],[1,1],[0,-1.6],[0,1.6],[-1.6,0],[1.6,0]][j%8]:[0,0];
+    el.style.left=`calc(${q.x}% + ${o[0]*9}px)`;el.style.top=`calc(${q.y}% + ${o[1]*9}px)`;}));}
+function ptAnim(mv,n,P){const el=document.querySelector(`[data-pw="${mv.p}"]`);if(!el)return;PT.anim[mv.p]=1;let k=0;
+  const step=()=>{k++;const q=ptXY((mv.from+k)%n,n);el.style.left=q.x+'%';el.style.top=q.y+'%';el.classList.remove('hop');void el.offsetWidth;el.classList.add('hop');
+    if(k<mv.v)setTimeout(step,300);else setTimeout(()=>{PT.anim[mv.p]=0;if(PT.P)ptPawns(PT.P);},350);};
+  setTimeout(step,950);}
+function ptDice(d,P){const ov=document.createElement('div');ov.className='ptdice';const two=!!d.v2;
+  ov.innerHTML=`<div class="dies"><div class="die${d.it==='gold'?' gold':''}">🎲</div>${two?'<div class="die">🎲</div>':''}</div><small>${esc(ptName(P,d.p))}</small>`;$('#ptB').appendChild(ov);
+  const D=ov.querySelectorAll('.die');let i=0;const t=setInterval(()=>{D.forEach(x=>x.textContent=1+ptRnd(d.it==='gold'?10:6));if(++i>7){clearInterval(t);D[0].textContent=d.v;if(two)D[1].textContent=d.v2;D.forEach(x=>x.classList.add('fin'));}},90);setTimeout(()=>ov.remove(),1500);}
+function ptAction(P){const S=P.state||{},me=ptMe(),a=$('#ptAct');if(!a)return;
+  if(P.st==='end'){a.innerHTML='';return;}
+  const I=ptInv(S,me),bag=I.length?`<div class="ptbag">🎒 Ton sac : ${I.map(k=>`<span title="${esc(PT_ITEMS[k].d)}">${PT_ITEMS[k].e} ${PT_ITEMS[k].n}</span>`).join('')}</div>`:'';
+  if(S.phase==='roll'&&S.order[S.cur]===me&&!(((P.act||{})[me]||{}).n===S.rollN)){const use=[...new Set(I.filter(k=>k!=='buoy'))];
+    a.innerHTML='<button class="btn ptroll" id="ptRoll">🎲 Lancer le dé</button>'+(use.length?`<div class="ptuse"><small>Ou utilise un objet avant de lancer :</small>${use.map(k=>`<button class="mini-b" data-use="${k}">${PT_ITEMS[k].e} ${PT_ITEMS[k].n}</button>`).join('')}</div>`:'')+bag;
+    const go=(it,el)=>{a.querySelectorAll('button').forEach(x=>x.disabled=true);GG.party.set(PT.code,'act/'+me,it?{n:S.rollN,it}:{n:S.rollN}).catch(()=>{a.querySelectorAll('button').forEach(x=>x.disabled=false);});};
+    $('#ptRoll').onclick=()=>go(null);a.querySelectorAll('[data-use]').forEach(x=>x.onclick=()=>go(x.dataset.use));}
+  else if(S.phase==='roll')a.innerHTML=`<div class="bbhint">⏳ ${esc(ptName(P,S.order[S.cur]))} lance le dé…</div>`+bag;else a.innerHTML=bag;}
+function ptOverlay(P){const S=P.state||{},ov=$('#ptOv');if(!ov)return;const me=ptMe(),now=ptNow(),left=Math.max(0,Math.ceil(((S.until||0)-now)/1000));
+  let h='';
+  if(P.st==='end')h=ptEndHTML(P);
+  else if(S.phase==='shop'&&S.shop){const sh=S.shop,mine=sh.p===me,c=(S.coins||{})[sh.p]||0,full=ptInv(S,sh.p).length>=PT_BAG,sent=((P.act||{})[me]||{}).shop===sh.n;
+    h=`<div class="ptcard"><div class="big">🛒</div><b>${mine?'Bienvenue à la buvette !':esc(ptName(P,sh.p))+' est à la buvette…'}</b>${mine?`<div class="cd">🪙 ${c} pièces · 🎒 ${ptInv(S,me).length}/${PT_BAG}${full?' (sac plein)':''}</div>`:''}
+      <div class="ptshop">${PT_SHOPSTAR.on?(()=>{const sp=ptMap(P).star+PT_SHOPSTAR.extra;return `<div class="it star"><span class="e">⭐</span><div><b>Étoile</b><small>Une étoile tout de suite (plus chère que sur le plateau)</small></div>${mine&&!sent?`<button class="btn" data-buy="star"${sp>c?' disabled':''}>${sp} 🪙</button>`:`<span class="pr">${sp} 🪙</span>`}</div>`;})():''}${[].concat(sh.o||[]).map(k=>{const it=PT_ITEMS[k];return `<div class="it"><span class="e">${it.e}</span><div><b>${it.n}</b><small>${it.d}</small></div>${mine&&!sent?`<button class="btn" data-buy="${k}"${it.p>c||full?' disabled':''}>${it.p} 🪙</button>`:`<span class="pr">${it.p} 🪙</span>`}</div>`;}).join('')}</div>
+      ${mine&&!sent?'<button class="btn alt" data-buy="">Rien, merci</button>':''}<div class="cd">${left} s</div></div>`;}
+  else if(S.phase==='mgi'&&S.mg){const c=CHARS[S.mg.k];h=`<div class="ptcard"><div class="big">🎮</div><small>Mini-jeu du tour ${S.turn}</small><div class="dgame">${avSmall(S.mg.k)}<div><b>${c.game}</b><small>avec ${c.name} · ${goalTxt(S.mg.k)}</small></div></div><div class="cd">Ça commence dans ${left} s</div></div>`;}
+  else if(S.phase==='mg'&&S.mg){const res=((P.res||{})[S.turn])||{},hum=(S.order||[]).filter(p=>ptOnline(P,p)),done=hum.filter(p=>res[p]).length;
+    h=`<div class="ptcard"><div class="big">${res[me]?'✅':'🎮'}</div><b>${CHARS[S.mg.k].game}</b><div class="cd">${res[me]?'Résultat envoyé !':''} ${done}/${hum.length} joueur${hum.length>1?'s':''} ont fini · ${Math.floor(left/60)}:${String(left%60).padStart(2,'0')}</div>
+      ${!res[me]&&ptOnline(P,me)?'<button class="btn" id="ptPlay">▶ Jouer au mini-jeu</button>':''}</div>`;}
+  else if(S.phase==='mgr'&&S.mgr){const L=[].concat(S.mgr).filter(Boolean),k=S.mg.k,med=['🥇','🥈','🥉'];
+    h=`<div class="ptcard"><b>🎮 ${CHARS[k].game}</b><div class="ptres">${L.map(x=>`<div class="rkrow${x.p===me?' me':''}"><span class="pos">${med[x.rank-1]||x.rank}</span><span class="who">${esc(ptName(P,x.p))}${x.bot?' 🤖':''}</span><span class="v">${x.w?(x.s>=0?fmtVal(k,x.s):'✔️'):x.miss?'pas joué':'raté'}</span><span class="cn">+${x.coin} 🪙</span></div>`).join('')}</div></div>`;}
+  const key=(P.st||'')+':'+(S.phase||'')+':'+(S.seq||0);ov.hidden=!h;if(ov._h!==h){ov._h=h;ov.innerHTML=h;const cd=ov.querySelector('.ptcard');if(cd&&ov.dataset.k===key)cd.classList.add('still');}ov.dataset.k=key;const pb=ov.querySelector('#ptPlay');if(pb)pb.onclick=()=>ptPlayMg(S);
+  ov.querySelectorAll('[data-buy]').forEach(x=>x.onclick=()=>{ov.querySelectorAll('[data-buy]').forEach(y=>y.disabled=true);GG.party.set(PT.code,'act/'+me,{shop:S.shop.n,buy:x.dataset.buy}).catch(()=>{});});
+  const eb=ov.querySelector('#ptEndBack');if(eb)eb.onclick=()=>{ptExit(false);ptRender();};}
+function ptEndHTML(P){const S=P.state||{},me=ptMe(),fin=[].concat(S.fin||[]).filter(Boolean),rk=S.rk||{},med=['🥇','🥈','🥉'],bonus=[].concat(S.bonus||[]).filter(Boolean),mine=rk[me];
+  const human=fin.includes(me)&&!ptPl(P,me).bot&&!ptPl(P,me).left;
+  return `<div class="ptcard ptend"><div class="big">🏆</div><h3>${esc(ptName(P,fin[0]))} gagne !</h3>
+   ${bonus.length?`<div class="drew">👑 Roi des mini-jeux : ${bonus.map(p=>esc(ptName(P,p))).join(', ')} · +1 étoile bonus</div>`:''}
+   <div class="ptres">${fin.map(p=>`<div class="rkrow${p===me?' me':''}"><span class="pos">${med[rk[p]-1]||rk[p]}</span><span class="who">${esc(ptName(P,p))}${ptPl(P,p).bot?' 🤖':''}</span><span class="v">⭐${(S.stars||{})[p]||0} · 🪙${(S.coins||{})[p]||0}</span></div>`).join('')}</div>
+   ${human?`<div class="drew">🎁 ${mine===1?'Tu gagnes un <b>booster de 5 cartes</b> !':'Tu gagnes <b>1 carte</b> pour ta participation !'} Il t'attend dans ta collection.</div>`:''}
+   <div class="trbtns"><button class="btn" id="ptEndBack">Retour</button></div></div>`;}
+function ptReward(P){const me=ptMe(),S=P.state||{},key=PT.code+':'+(P.startAt||0);COL.ptDone=COL.ptDone||{};if(COL.ptDone[key])return;
+  const fin=[].concat(S.fin||[]);if(!fin.includes(me)||ptPl(P,me).bot||ptPl(P,me).left)return;COL.ptDone[key]=1;const win=(S.rk||{})[me]===1;
+  grantPack(win?5:1,win?'Gambetta Party · victoire':'Gambetta Party');try{stat('ptPlay');if(win)stat('ptWin');}catch(_){}saveCol();try{updBoostBtn();}catch(_){}
+  try{localStorage.removeItem('gg-party');}catch(_){}}
+function ptTimers(){const P=PT.P;if(!P||!PT.code)return;const sc=$('#party');if(!sc||!sc.classList.contains('active'))return;if(P.st==='play')ptOverlay(P);}
+
 function buildSelect(){
   const w=wins();$('#colCount').textContent=`(${ownedMG()}/${MG_ORDER.length})`;
   const card=k=>{const c=CHARS[k];return`<button class="char" data-k="${k}">
@@ -6020,14 +6464,14 @@ const api={
   score(v){pendingScore=v;},
   hud(t){const h=$('#hudInfo');if(h.textContent!==t)h.textContent=t;},
   unlock(){if(saveWin(curKey))freshCard=curKey;},
-  end(win,title,msg){if(ended)return;ended=true;let rv=null;try{rv=recordResult(curKey,win);}catch(_){}try{evPlayed(curKey);}catch(_){}try{stat('played');stat(win?'won':'lost');qHit('play4');qHit(win?'win2':'lose');}catch(_){}let xl='';try{xl=ctxAfter(curKey,win,rv);}catch(_){}pendingScore=null;if(win&&saveWin(curKey))freshCard=curKey;const fc=freshCard;freshCard=null;try{if(fc)qHit('newmg');}catch(_){}
+  end(win,title,msg){if(ended)return;ended=true;let rv=null;try{rv=recordResult(curKey,win);}catch(_){}try{evPlayed(curKey);}catch(_){}try{stat('played');stat(win?'won':'lost');qHit('play4');qHit(win?'win2':'lose');}catch(_){}let xl='';try{xl=ctxAfter(curKey,win,rv);}catch(_){}try{const mt=metricOf(curKey).t;ptAfter(curKey,win,mt==='time'?Math.round((performance.now()-gameT0)/100)/10:pendingScore);}catch(_){}pendingScore=null;if(win&&saveWin(curKey))freshCard=curKey;const fc=freshCard;freshCard=null;try{if(fc)qHit('newmg');}catch(_){}
     setTimeout(()=>{$('#endEmo').textContent=win?'🏆':'💦';$('#endTitle').textContent=title;$('#endMsg').textContent=msg;
       const ec=$('#endCard');const rw=fc?winRewards(fc):[];ec.innerHTML=(fc?`<div class="newcard">🃏 Nouvelle carte !${cardHTML(fc,false)}</div>`:'')
         +(rw.length?`<div class="rewbox">${rw.map(r=>`<div class="rew"><span>${r.e}</span>${r.t}</div>`).join('')}<button class="btn" id="rewOpen">Ouvrir maintenant 🎁</button></div>`:'')+xl;
       const ro=ec.querySelector('#rewOpen');if(ro)ro.onclick=()=>{$('#end').classList.remove('show');stopGame();goAlbumMembers();openBooster();};
       const nc=ec.querySelector('.tcard');if(nc)nc.onclick=()=>openCard(nc);
       const dfn=ec.querySelector('[data-dfin]');if(dfn)dfn.onclick=()=>duFinish(dfn.dataset.dfin,()=>{dfn.outerHTML='<div style="margin-top:6px">🏁 Résultat gardé !</div>';const dl=ec.querySelector('.duleft');if(dl)dl.remove();$('#toSel').textContent='⚔️ Défis';});
-      $('#toSel').textContent=PLAYCTX?'⚔️ Défis':'Persos';$('#end').classList.add('show');$('#again').focus();},400);}
+      const ptc=PLAYCTX&&PLAYCTX.t==='party';$('#toSel').textContent=ptc?'🎲 Retour à la partie':PLAYCTX?'⚔️ Défis':'Persos';$('#again').hidden=ptc;$('#end').classList.add('show');$('#again').focus();},400);}
 };
 function startGame(k){
   try{ctxStart(k);}catch(_){}
@@ -6041,7 +6485,7 @@ function tick(t){
   raf=requestAnimationFrame(tick);
 }
 function stopGame(){cancelAnimationFrame(raf);if(current&&current.destroy)current.destroy();current=null;}
-function toSelect(){stopGame();$('#end').classList.remove('show');if(PLAYCTX){PLAYCTX=null;openDefi();return;}buildSelect();show('select');}
+function toSelect(){stopGame();$('#end').classList.remove('show');$('#again').hidden=false;if(PLAYCTX&&PLAYCTX.t==='party'){ptBackFromMg();return;}if(PLAYCTX){PLAYCTX=null;openDefi();return;}buildSelect();show('select');}
 $('#quit').onclick=toSelect;$('#toSel').onclick=toSelect;$('#again').onclick=()=>startGame(curKey);
 })();
 </script>
