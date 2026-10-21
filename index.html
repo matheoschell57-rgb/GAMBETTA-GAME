@@ -4717,7 +4717,11 @@ let pushT=0;
 function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()=>{const o={best:Object.assign({},COL.best),cards:cardCount(),dups:myDoubles().map(x=>x.id),chs:Object.assign({},COL.chs||{}),pf:pfPublic(),own:MEMBERS.filter(m=>COL.members[m.id]).map(m=>m.id),bbd:(()=>{try{return bbMyDeck();}catch(_){return null;}})(),bbt:COL.bbt||0,ptw:ST('ptWin'),ptp:ST('ptPlay'),bbj:COL.bbj&&COL.bbj.d===dayKey()?{d:COL.bbj.d,v:COL.bbj.v}:null};
     /* on n'écrit que si quelque chose a changé (ou au moins une fois par heure, pour « vu récemment ») */
     const k=JSON.stringify(o),now=Date.now();if(k===pushBoard.k&&now-(pushBoard.t||0)<3600e3)return;
-    o.at=now;boardRef.set(o).then(()=>{pushBoard.k=k;pushBoard.t=now;}).catch(()=>{});},400);}
+    // les simples compteurs (parties jouées, victoires…) ne partent qu'une fois toutes les 10 minutes :
+    // chaque écriture du classement est relue par tous les téléphones ouverts
+    const core=JSON.stringify(Object.assign({},o,{pf:Object.assign({},o.pf,{st:null})}));
+    if(core===pushBoard.c&&now-(pushBoard.t||0)<600e3){clearTimeout(pushBoard.lt);pushBoard.lt=setTimeout(pushBoard,600e3-(now-(pushBoard.t||0))+500);return;}
+    o.at=now;boardRef.set(o).then(()=>{pushBoard.k=k;pushBoard.c=core;pushBoard.t=now;}).catch(()=>{});},400);}
 (async function rkInit(){try{if(!window.claude||!window.claude.use)return;const db=await window.claude.use('db'),u=await window.claude.use('user');if(!db||!u)return;
   USER=u;myId=await u.id();if(!myId)return;boardRef=db.doc('board/'+myId);pushBoard();
   db.collection('board').onSnapshot(q=>{const o={};q.docs.forEach(d=>{o[d.id]=d.data();});BOARD=o;if($('#ranks').classList.contains('active'))buildRanks();chBoardOK=true;try{chClaim();dfBadge();if($('#defi').classList.contains('active'))buildDefi();}catch(_){}},()=>{});
