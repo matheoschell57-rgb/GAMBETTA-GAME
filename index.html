@@ -4440,7 +4440,7 @@ function updBoostBtn(){try{cardsBadge();}catch(_){}const b=$('#openBoost');if(!b
   const g=$('#boostGoal');if(g){const m=nextMilestone();g.innerHTML=m?`🎯 Encore <b>${m.left}</b> mini-jeu${m.left>1?'x':''} à gagner pour ton prochain booster de ${m.n} cartes`:'🏆 Tous les mini-jeux sont gagnés !';}}
 let BST=null;
 function openBooster(){if(!(packCount()>0))return;$('#booster').classList.add('on');startPack();}
-function closeBooster(){$('#booster').classList.remove('on');$('#bstage').innerHTML='';BST=null;}
+function closeBooster(){$('#booster').classList.remove('on');$('#bstage').innerHTML='';BST=null;progLater();}
 function sparks(x,y,n,cols){const st=$('#bstage');for(let i=0;i<n;i++){const d=document.createElement('div');d.className='spark';const a=Math.random()*Math.PI*2,r=60+Math.random()*120;
   d.style.cssText=`left:${x}px;top:${y}px;background:${pick(cols)};--dx:${Math.cos(a)*r}px;--dy:${Math.sin(a)*r}px`;st.appendChild(d);setTimeout(()=>d.remove(),950);}}
 function startPack(){
@@ -4484,7 +4484,7 @@ function onStackTap(){if(BST.phase!=='reveal')return;const f=document.querySelec
     $('#bhint').textContent=BST.i<BST.cards.length-1?`Carte ${BST.i+1}/${BST.cards.length} · touche pour la suivante`:'Touche pour voir ton booster';}
   else{f.classList.remove('rise');f.style.animation='none';f.classList.add('away');BST.i++;const nx=document.querySelector(`.fcard[data-i="${BST.i}"]`);if(nx){nx.classList.remove('wait');nx.style.animation='none';void nx.offsetWidth;nx.style.animation='';nx.classList.add('rise');}BST.flipped=false;
     if(BST.i>=BST.cards.length)setTimeout(summary,350);else $('#bhint').textContent='Touche pour retourner la carte';}}
-function summary(){BST.phase='done';const st=$('#bstage');st.innerHTML='';$('#bhint').textContent='';
+function summary(){BST.phase='done';setTimeout(progress,900);const st=$('#bstage');st.innerHTML='';$('#bhint').textContent='';
   const seen=new Set();
   const cards=BST.cards.map((id,k)=>{const isNew=BST.newIds.includes(id)&&!seen.has(id);if(isNew)seen.add(id);
     return `<div style="animation-delay:${k*0.08}s">${memberHTML(id,false).replace(/<span class="newtag">NOUVEAU<\/span>/,'')}${isNew?'<div class="ntag">NOUVEAU</div>':''}</div>`;}).join('');
@@ -4993,7 +4993,8 @@ const BADGES=[
 ];
 let progT=0,progBusy=false;
 function progLater(){try{if(progBusy)return;clearTimeout(progT);progT=setTimeout(progress,250);}catch(_){}}
-function progress(){if(progBusy)return;progBusy=true;try{serCheck();badgeCheck();}catch(e){console.warn(e);}progBusy=false;}
+function progBlocked(){try{if(typeof BST!=='undefined'&&BST&&['cutting','open','reveal'].includes(BST.phase))return 'bst';if(document.querySelector('#app .giftpop'))return 'pop';}catch(_){}return '';}
+function progress(){if(progBusy)return;const bk=progBlocked();if(bk){if(bk==='pop'){clearTimeout(progT);progT=setTimeout(progress,800);}return;}progBusy=true;try{serCheck();badgeCheck();}catch(e){console.warn(e);}progBusy=false;}
 const toastQ=[];let toastOn=false;
 function toast(e,t,sub){toastQ.push({e,t,sub});if(!toastOn)toastNext();}
 function toastNext(){const x=toastQ.shift();if(!x){toastOn=false;return;}toastOn=true;const d=document.createElement('div');d.className='toast';
@@ -5059,10 +5060,10 @@ function qToday(){const t=dayKey();if(COL.q&&COL.q.d===t)return COL.q;
 function qHit(id,n){const q=qToday();if(!q.l.includes(id)||q.done)return;const Q=QUESTS.find(x=>x.id===id);q.p[id]=Math.min(Q.n,(q.p[id]||0)+(n||1));
   if(q.p[id]>=Q.n)toast(Q.e,'Quête réussie !',Q.t);
   if(q.l.every(x=>(q.p[x]||0)>=QUESTS.find(y=>y.id===x).n)){q.done=true;stat('quests');grantPack(QREW,'Quêtes du jour');updBoostBtn();
-    setTimeout(()=>{const pop=document.createElement('div');pop.className='giftpop';
+    const qPop=()=>{if(progBlocked()||(typeof BST!=='undefined'&&BST&&BST.phase==='pack'))return setTimeout(qPop,800);const pop=document.createElement('div');pop.className='giftpop';
       pop.innerHTML=`<div class="gcard"><div class="emo">📋</div><h3>Quêtes terminées !</h3><p>Bravo, tu as fait les 3 quêtes du jour.<br>Tu gagnes un <b>booster de ${QREW} cartes</b> 🎁</p>
         <div class="endbtns"><button class="btn" id="qOpen">L'ouvrir 🎁</button><button class="btn alt" id="qLater">Plus tard</button></div></div>`;
-      $('#app').appendChild(pop);pop.querySelector('#qLater').onclick=()=>pop.remove();pop.querySelector('#qOpen').onclick=()=>{pop.remove();stopGame();$('#end').classList.remove('show');goAlbumMembers();openBooster();};},1400);}
+      $('#app').appendChild(pop);pop.querySelector('#qLater').onclick=()=>pop.remove();pop.querySelector('#qOpen').onclick=()=>{pop.remove();stopGame();$('#end').classList.remove('show');goAlbumMembers();openBooster();};};setTimeout(qPop,1400);}
   saveCol();try{dfBadge();}catch(_){}}
 function qHTML(){const q=qToday();
   return `<div class="dsec">📋 Quêtes du jour</div><div class="trow">${q.l.map(id=>{const Q=QUESTS.find(x=>x.id===id),v=q.p[id]||0,ok=v>=Q.n;
