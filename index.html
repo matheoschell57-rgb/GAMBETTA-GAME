@@ -506,6 +506,7 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 .prow .who{flex:1;min-width:0;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .prow .who small{display:block;font-weight:600;color:var(--muted);font-size:12px}
 .prow .mini{font-weight:700;font-size:12px;background:#eef3f7;color:#1b2a3a;border:2px solid var(--ink);border-radius:10px;padding:2px 7px;white-space:nowrap}
+.prow .gift.del{background:#ffd9d9;margin-left:6px}.prow .who .dup{font-style:normal;font-size:11px;background:#ffe08a;border-radius:6px;padding:1px 5px;margin-left:4px}
 .prow .gift{border:2.5px solid var(--ink);border-radius:10px;background:var(--yellow);font-size:18px;padding:4px 8px;cursor:pointer}
 /* ---------- Cadeau : carte offerte ---------- */
 .giftpop q,.trow q{quotes:none}
@@ -1008,7 +1009,8 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
       if(deferred){deferred.prompt();const r=await deferred.userChoice.catch(()=>({}));deferred=null;
         if(r&&r.outcome==='accepted'){LS.set('gg-install','done');d.remove();return;}}
       const b=d.querySelector('#giYes');b.remove();d.querySelector('#giNo').textContent='C\'est fait / Fermer';
-      d.querySelector('#giHelp').innerHTML='<h3 style="font-size:20px;margin-top:10px">Comment faire :</h3>'+steps();
+      const gc=window.GG&&GG.code;if(gc){try{navigator.clipboard.writeText(gc);}catch(_){}}
+      d.querySelector('#giHelp').innerHTML=(gc?`<div class="ggtwin">🔑 <b>Important :</b> l'appli de l'écran d'accueil ne connaît pas encore ta partie.<br>Ton code <b>${gc}</b> est copié : en ouvrant l'appli, touche <b>« J'ai déjà un code de sauvegarde »</b> puis <b>📋 Coller mon code</b>.</div>`:'')+'<h3 style="font-size:20px;margin-top:10px">Comment faire :</h3>'+steps();
       d.querySelector('#giNo').onclick=()=>{LS.set('gg-install','done');d.remove();};};
   };
   // Proposé tout seul à la première visite (puis une fois par semaine si « Plus tard »), quand aucune autre fenêtre n'est ouverte
@@ -1032,6 +1034,7 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 .ggcard .emo{font-size:52px;line-height:1}
 .ggcard .ainput{text-align:center;font-size:18px;font-weight:700;margin-bottom:12px}
 .ggcard .btn{width:100%;margin-top:4px}
+.ggtwin{background:#fff6d6;border:2px dashed #e0a800;border-radius:14px;padding:10px;margin:0 0 12px;font-size:14px;font-weight:600;line-height:1.4;color:#1b2a3a;text-align:left}.ggtwin .btn{margin:8px 0 6px}.ggtwin small{display:block;color:#5a6470}
 .ggcode{font-family:'Lilita One',sans-serif;font-size:34px;letter-spacing:2px;background:var(--yellow);color:#1b2a3a;border:3px solid var(--ink);border-radius:14px;padding:6px 10px;margin:6px 0 10px;user-select:all;-webkit-user-select:all}
 .gglink{background:none;border:0;color:var(--muted);font:inherit;font-weight:700;font-size:14px;text-decoration:underline;cursor:pointer;margin-top:12px;padding:4px}
 .ggerr{color:var(--red);font-weight:700;min-height:1.2em;margin:-4px 0 8px}
@@ -1062,6 +1065,8 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
   const rnd=n=>Array.from(crypto.getRandomValues(new Uint32Array(n)),x=>AL[x%AL.length]).join('');
   const normCode=c=>{c=(c||'').toUpperCase().replace(/[^A-Z0-9]/g,'');if(c.startsWith('GMB'))c=c.slice(3);return c?'GMB-'+c:'';};
   const GG=window.GG={code:null,pid:null,name:null,admin:false};
+  const normName=n=>String(n||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'');
+  const isApp=(()=>{try{return matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;}catch(_){return false;}})();
   const NAMES={};
   const domReady=()=>new Promise(r=>document.readyState!=='loading'?r():document.addEventListener('DOMContentLoaded',r));
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -1075,16 +1080,24 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
   // Première visite : choisir un pseudo, ou reprendre une partie avec un code
   async function askPlayer(){await domReady();
     return new Promise(resolve=>{
-      const d=pop(`<div class="emo">🏊</div><h3>Bienvenue !</h3><p>Choisis ton pseudo pour les classements.</p>
+      const d=pop(`<div class="emo">🏊</div><h3>Bienvenue !</h3><p>Choisis ton pseudo pour les classements.</p>${isApp?'<div class="ggtwin">📲 <b>Tu as déjà joué dans Safari ou sur un autre téléphone ?</b><br>Ne recrée pas de joueur : touche « J\'ai déjà un code de sauvegarde » en bas.</div>':''}
         <input class="ainput" id="ggName" maxlength="20" placeholder="Ton prénom ou pseudo" autocomplete="off">
         <div class="ggerr" id="ggErr"></div>
         <button class="btn" id="ggGo">C'est parti !</button>
         <button class="gglink" id="ggHave">J'ai déjà un code de sauvegarde</button>`);
       const err=m=>{d.querySelector('#ggErr').textContent=m;};
-      d.querySelector('#ggGo').onclick=async()=>{const name=d.querySelector('#ggName').value.trim().slice(0,20);if(!name)return err('Écris ton pseudo 🙂');
+      const code='GMB-'+rnd(6),pid=rnd(14);
+      d.querySelector('#ggGo').onclick=async()=>{const name=d.querySelector('#ggName').value.trim().replace(/\s+/g,' ').slice(0,20);if(!name)return err('Écris ton pseudo 🙂');
         const b=d.querySelector('#ggGo');b.disabled=true;b.textContent='…';
-        try{const code='GMB-'+rnd(6),data={pid:rnd(14),code,name,col:null,created:Date.now(),at:Date.now()};
-          await fs.doc('players/'+code).set(data);d.remove();showCode(code,name,true);resolve({code,data});}
+        // Pseudo déjà utilisé ? Souvent la même personne sur un autre téléphone ou dans l'appli de l'écran d'accueil
+        try{const nn=normName(name),q=await fs.collection('board').get();const tw=q.docs.find(x=>{const v=x.data()||{};return v.name&&normName(v.name)===nn;});
+          if(tw){b.disabled=false;b.textContent="C'est parti !";
+            d.querySelector('#ggErr').innerHTML=`<div class="ggtwin">Il y a déjà un joueur « <b>${esc(tw.data().name)}</b> ».<br><b>C'est toi ?</b> Récupère ta partie avec ton code (dans <b>Moi › 🔑 Ma sauvegarde</b> sur ton autre téléphone ou dans Safari), ou demande-le à Mathéo.<br><button class="btn" id="ggMine">🔑 C'est moi, j'ai mon code</button><small>Sinon, ajoute l'initiale de ton nom (ex. « ${esc(name.slice(0,17))} ${'S.'} »).</small></div>`;
+            d.querySelector('#ggMine').onclick=()=>{d.remove();askCode(resolve,true);};return;}}catch(_){}
+        const data={pid,code,name,col:null,created:Date.now(),at:Date.now()};
+        // le téléphone retient le code AVANT l'envoi : si on quitte pendant l'enregistrement, on ne repart pas de zéro
+        LS.set('gg-code',code);LS.set('gg-new',JSON.stringify(data));
+        try{await fs.doc('players/'+code).set(data);LS.set('gg-new','');d.remove();showCode(code,name,true);resolve({code,data});}
         catch(e){b.disabled=false;b.textContent="C'est parti !";err('Pas de connexion… réessaie.');}};
       d.querySelector('#ggHave').onclick=()=>{d.remove();askCode(resolve,true);};
     });}
@@ -1092,6 +1105,7 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
     const d=pop(`<div class="emo">🔑</div><h3>Mon code</h3><p>Tape le code de sauvegarde que le jeu t'a donné.</p>
       <input class="ainput" id="ggCode" maxlength="12" placeholder="GMB-XXXXXX" autocomplete="off" autocapitalize="characters">
       <div class="ggerr" id="ggErr"></div>
+      <button class="btn alt" id="ggPaste" style="margin-bottom:6px">📋 Coller mon code</button>
       <button class="btn" id="ggOk">Récupérer ma partie</button>
       <button class="gglink" id="ggBack">${first?'Je n\'ai pas de code':'Annuler'}</button>`);
     const err=m=>{d.querySelector('#ggErr').textContent=m;};
@@ -1100,6 +1114,7 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
         d.remove();if(first)resolve({code,data});else{LS.set('gg-code',code);location.reload();}}
       catch(e){err('Pas de connexion… réessaie.');}};
     d.querySelector('#ggBack').onclick=()=>{d.remove();if(first)askPlayer().then(resolve);};
+    d.querySelector('#ggPaste').onclick=async()=>{try{const t=await navigator.clipboard.readText();const m=(t||'').toUpperCase().match(/GMB-?[A-Z0-9]{6}/);if(m)d.querySelector('#ggCode').value=normCode(m[0]);else err('Aucun code copié 🤔 Tape-le à la main.');}catch(_){err('Tape le code à la main 🙂');}};
   }
   function showCode(code,name,isNew){
     const d=pop(`<div class="emo">${isNew?'🎉':'🔑'}</div><h3>${isNew?'Garde ce code !':'Ma sauvegarde'}</h3>
@@ -1133,6 +1148,7 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
           location.reload();return false;}}}catch(_){}
     let code=LS.get('gg-code'),data=null;
     if(code){try{data=await loadPlayer(code);}catch(_){return false;}}
+    if(code&&!data){try{const pn=JSON.parse(LS.get('gg-new')||'null');if(pn&&pn.code===code){await fs.doc('players/'+code).set(pn);data=pn;LS.set('gg-new','');}}catch(_){}}
     if(!data){const r=await askPlayer();code=r.code;data=r.data;}
     LS.set('gg-code',code);GG.code=code;GG.pid=data.pid;GG.name=data.name;NAMES[data.pid]=data.name;
     await fs.doc('owners/'+data.pid).set({uid:auth.currentUser.uid,code});
@@ -1242,6 +1258,7 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
     setDuel(id,patch){return fs.doc('duels/'+id).update(patch);}
   };
   // Outils admin : codes de tout le monde et sauvegarde complète
+  GG.delPlayer=async(pid,code)=>{if(!GG.admin||pid===GG.pid)return false;if(code)await fs.doc('players/'+code).delete();try{await fs.doc('owners/'+pid).delete();}catch(_){}await fs.doc('board/'+pid).delete();return true;};
   GG.codes=async()=>{if(!GG.admin)return{};const q=await fs.collection('owners').get();const o={};q.docs.forEach(d=>o[d.id]=d.data().code);return o;};
   GG.backup=async()=>{if(!GG.admin)return;const out={date:new Date().toISOString()};
     for(const c of ['players','board','gifts','owners','trades','duels','tournaments','events','actions','requests','bounties','battles']){const q=await fs.collection(c).get();out[c]={};q.docs.forEach(d=>out[c][d.id]=d.data());}
@@ -4620,9 +4637,12 @@ async function buildAdmin(){const b=$('#admBody'),P=await adminPlayers();
     b.querySelector('#aMsg').oninput=e=>{ADM.msg=e.target.value;};
     b.querySelector('#aSend').onclick=sendGift;}
   else if(ADM.tab==='players'){
-    b.innerHTML=`<div class="rkhead">${P.length} joueur${P.length>1?'s':''}<small>Touche 🎁 pour offrir directement</small></div>${window.GG&&GG.admin?'<button class="asend" id="aBackup" style="margin-bottom:12px">💾 Télécharger une sauvegarde</button><button class="asend" id="aClean" style="margin-bottom:12px">🧹 Nettoyer les vieilles données</button>':''}`+(P.length?P.map(p=>`<div class="prow"><span class="who">${esc(p.name)}<small>${p.code?'🔑 '+p.code+' · ':''}${p.recs} mini-jeu${p.recs>1?'x':''} gagné${p.recs>1?'s':''} · ${p.got} booster${p.got>1?'s':''} offert${p.got>1?'s':''}</small></span><span class="mini">${p.cards} 🃏</span><button class="gift" data-to="${p.id}" aria-label="Offrir">🎁</button></div>`).join(''):'<div class="rkempty">Aucun joueur pour l\'instant.</div>')+(window.GG&&GG.admin?'<button class="gglink" id="aReset" style="display:block;margin:18px auto;color:var(--red)">⚠️ Réinitialiser…</button>':'');
+    b.innerHTML=`<div class="rkhead">${P.length} joueur${P.length>1?'s':''}<small>Touche 🎁 pour offrir directement</small></div>${window.GG&&GG.admin?'<button class="asend" id="aBackup" style="margin-bottom:12px">💾 Télécharger une sauvegarde</button><button class="asend" id="aClean" style="margin-bottom:12px">🧹 Nettoyer les vieilles données</button>':''}`+(P.length?P.map(p=>`<div class="prow"><span class="who">${esc(p.name)}${P.filter(q=>q.name.trim().toLowerCase()===p.name.trim().toLowerCase()).length>1?' <i class="dup">⚠️ doublon</i>':''}<small>${p.code?'🔑 '+p.code+' · ':''}${p.recs} mini-jeu${p.recs>1?'x':''} gagné${p.recs>1?'s':''} · ${p.got} booster${p.got>1?'s':''} offert${p.got>1?'s':''}</small></span><span class="mini">${p.cards} 🃏</span><button class="gift" data-to="${p.id}" aria-label="Offrir">🎁</button>${window.GG&&GG.admin&&p.id!==GG.pid?`<button class="gift del" data-del="${p.id}" aria-label="Supprimer">🗑️</button>`:''}</div>`).join(''):'<div class="rkempty">Aucun joueur pour l\'instant.</div>')+(window.GG&&GG.admin?'<button class="gglink" id="aReset" style="display:block;margin:18px auto;color:var(--red)">⚠️ Réinitialiser…</button>':'');
     b.querySelectorAll('.gift').forEach(x=>x.onclick=()=>{ADM.to=x.dataset.to;ADM.tab='gift';setATab();buildAdmin();});
     const rs=b.querySelector('#aReset');if(rs)rs.onclick=()=>GG.resetFlow();
+    b.querySelectorAll('[data-del]').forEach(x=>x.onclick=async()=>{const p=P.find(q=>q.id===x.dataset.del);if(!p)return;
+      if(!confirm(`Supprimer définitivement « ${p.name} » ?\n${p.cards} carte(s)${p.code?' · code '+p.code:''}\n\nÀ faire seulement pour un doublon : sa progression sera perdue.`))return;
+      x.disabled=true;x.textContent='…';try{await GG.delPlayer(p.id,p.code);delete BOARD[p.id];buildAdmin();}catch(e){x.disabled=false;x.textContent='🗑️';alert('Impossible de supprimer : '+(e&&e.message||e));}});
     const cl=b.querySelector('#aClean');if(cl)cl.onclick=async()=>{cl.disabled=true;cl.textContent='Nettoyage…';try{const n=await GG.cleanup();const t=Object.values(n||{}).reduce((a,v)=>a+v,0);cl.textContent=`🧹 ${t} vieille${t>1?'s':''} donnée${t>1?'s':''} effacée${t>1?'s':''} ✅`;}catch(e){cl.textContent='Échec, réessaie';cl.disabled=false;}};
     const bk=b.querySelector('#aBackup');if(bk)bk.onclick=async()=>{bk.disabled=true;bk.textContent='Préparation…';try{await GG.backup();bk.textContent='Téléchargé ✅';}catch(e){bk.textContent='Échec, réessaie';}bk.disabled=false;};}
   else if(ADM.tab==='tourn'){adminTourn(b,P);}
@@ -5893,7 +5913,7 @@ function bbReward(res){if(res<=0)return null;const d=dayKey();let R=COL.bbr;if(!
   if(BC.mode==='daily'){if(!R.daily){R.daily=1;grantPack(3,'Bataille du jour');return'un booster de 3 cartes';}return null;}
   if(R.live<2){R.live++;grantPack(3,'Bataille en direct');return'un booster de 3 cartes';}return null;}
 function bbEndUI(res,note){const me=BC.sd[BC.me].crowns,op=BC.sd[1-BC.me].crowns;let rew=null,tro=0,extra='',crw=null;
-  try{if(res>0){stat('bbW');if(BC.live)stat('bbLW');}else if(res<0)stat('bbL');if(BC.kingKO)stat('bbK');rew=bbReward(res);tro=bbTrophies(res);try{crw=bbCrowns();}catch(e){console.warn(e);}
+  try{if(res>0){stat('bbW');if(BC.live)stat('bbLW');}else if(res<0)stat('bbL');if(BC.kingKO)stat('bbK');try{stat('played');if(res>0)stat('won');else if(res<0)stat('lost');qHit('play4');if(res<0)qHit('lose');}catch(_){}rew=bbReward(res);tro=bbTrophies(res);try{crw=bbCrowns();}catch(e){console.warn(e);}
     if(BC.mode==='daily'){const v=bbScore(),d=dayKey();if(!COL.bbj||COL.bbj.d!==d)COL.bbj={d,v:null,n:0};COL.bbj.n++;const nb=COL.bbj.v==null||v>COL.bbj.v;if(nb)COL.bbj.v=v;
       extra=`<p>📅 Score : <b>${v} pts</b>${nb?' · nouveau record du jour !':' · ton record : '+COL.bbj.v+' pts'}</p>`;}
     if(BC.mode==='duel'){const v=bbScore();extra=`<p>Score : <b>${v} pts</b></p>`+ctxAfter('bataille',true,v);}}catch(e){console.warn(e);}
@@ -6773,7 +6793,7 @@ function ptEndHTML(P){const S=P.state||{},me=ptMe(),fin=[].concat(S.fin||[]).fil
    <div class="trbtns"><button class="btn" id="ptEndBack">Retour</button></div></div>`;}
 function ptReward(P){const me=ptMe(),S=P.state||{},key=PT.code+':'+(P.startAt||0);COL.ptDone=COL.ptDone||{};if(COL.ptDone[key])return;
   const fin=[].concat(S.fin||[]);if(!fin.includes(me)||ptPl(P,me).bot||ptPl(P,me).left)return;COL.ptDone[key]=1;const win=(S.rk||{})[me]===1;
-  grantPack(win?5:1,win?'Gambetta Party · victoire':'Gambetta Party');try{stat('ptPlay');if(win)stat('ptWin');}catch(_){}saveCol();try{updBoostBtn();}catch(_){}
+  grantPack(win?5:1,win?'Gambetta Party · victoire':'Gambetta Party');try{stat('ptPlay');if(win)stat('ptWin');}catch(_){}try{stat('played');stat(win?'won':'lost');qHit('play4');if(!win)qHit('lose');}catch(_){}saveCol();try{updBoostBtn();}catch(_){}
   try{localStorage.removeItem('gg-party');}catch(_){}}
 function ptTimers(){const P=PT.P;if(!P||!PT.code)return;const sc=$('#party');if(!sc||!sc.classList.contains('active'))return;if(P.st==='play')ptOverlay(P);}
 
