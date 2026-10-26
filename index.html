@@ -1034,6 +1034,15 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 .fgsl{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:8px}.fgsl span{font-size:10.5px;font-weight:800;background:rgba(255,255,255,.2);border-radius:999px;padding:2px 8px;opacity:.6}.fgsl span.on{background:#ffd23f;color:#1b2a3a;opacity:1}
 .fgpad .atk .s.super{opacity:1;color:#fff;background:linear-gradient(90deg,#e0217a,#9b51e0,#2f80ed,#e0217a);background-size:300% 100%;animation:fgfull .9s linear infinite;text-shadow:0 1px 0 #1b2a3a}
 </style>
+<style>
+.qqpick{text-align:center}.qqpick h3{font-family:'Lilita One',sans-serif;font-weight:400;font-size:26px;margin:2px 0}.qqpick p{margin:0 0 6px;font-weight:600;font-size:13.5px}
+.qqpstat{display:inline-block;background:var(--card);border:2px solid var(--ink);border-radius:999px;padding:3px 12px;font-weight:800;font-size:13px;margin-bottom:10px}
+.qqgrid.pick .qqc.sel .qf{box-shadow:0 0 0 4px #ffb800,0 3px 0 var(--ink);transform:scale(1.04)}
+.qqgrid.pick .qqc{transition:transform .15s}.qqgrid.pick .qqc.sel{transform:translateY(-3px)}
+.qqpickbar{position:sticky;bottom:0;display:grid;grid-template-columns:1fr 1.6fr;gap:8px;padding:10px 0 12px;background:linear-gradient(transparent,var(--bg,#cdeffd) 30%)}.qqpickbar .btn{margin:0}
+.qqpickbar .btn:disabled{opacity:.5}
+.qqpickme{width:170px;margin:8px auto 12px;animation:pop .4s ease}.qqhide{display:block;font-weight:700;color:var(--muted);margin:6px 0 10px}
+</style>
 </head>
 <body>
 <div id="app">
@@ -7788,6 +7797,7 @@ function qqOnData(P){if(!QQ.code)return;if(!P){toast('🕵️','La partie a ét�
   if(was&&was.state&&S.id!==(was.state||{}).id){QQ.guess=false;QQ.peek=false;}
   // petite vibration quand c'est à moi
   if(P.st==='wp'&&was&&(was.state||{}).cur!==me&&S.cur===me){try{navigator.vibrate&&navigator.vibrate(60);}catch(_){}}
+  if(P.st==='wp'&&S.ph==='pick'&&P.host===me){const ks=Object.keys(P.players||{});if(ks.length>=2&&ks.every(p=>(S.sec||{})[p]))GG.party.update(QQ.code,{'state/ph':'play','state/start':GG.party.now()}).catch(()=>{});}
   if(P.st==='we')qqReward(P);
   const sc=$('#party');if(sc&&sc.classList.contains('active')&&!PT.code)ptRender();}
 function qqTick(){const P=QQ.P;if(!P||P.st!=='wp')return;const el=document.querySelector('#qqOff');if(!el)return;const me=ptMe(),o=qqOpp(P,me),op=(P.players||{})[o]||{};
@@ -7801,15 +7811,32 @@ function qqLobbyUI(b,P){const me=ptMe(),pl=P.players||{},ord=Object.keys(pl),n=o
    ${host?`<div class="trbtns"><button class="btn" id="qqGo"${n<2?' disabled':''}>▶ Lancer la partie</button></div>`:`<div class="drew">⏳ En attente que <b>${esc(qqName(P,P.host))}</b> lance la partie…</div>`}
    <div class="trbtns"><button class="btn alt" id="qqQuit">🚪 Quitter</button></div><div style="height:96px"></div>`;
   b.querySelector('#qqQuit').onclick=qqLeave;const go=b.querySelector('#qqGo');if(go)go.onclick=()=>{if(Object.keys((QQ.P||{}).players||{}).length<2)return;qqStart();};}
-function qqNewState(P){const ord=Object.keys(P.players||{}),board=qqShuffle(qqPool().map(m=>m.id)).slice(0,QQ_N),sec=qqShuffle(board).slice(0,2);
-  return{id:Date.now().toString(36)+qqRand(1e6).toString(36),b:board,sec:{[ord[0]]:sec[0],[ord[1]]:sec[1]},cur:ord[qqRand(2)],n:1,start:GG.party.now()};}
+function qqNewState(P){const ord=Object.keys(P.players||{}),board=qqShuffle(qqPool().map(m=>m.id)).slice(0,QQ_N);
+  return{id:Date.now().toString(36)+qqRand(1e6).toString(36),b:board,ph:'pick',cur:ord[qqRand(2)],n:1,start:GG.party.now()};}
 function qqStart(){const P=QQ.P;if(!P)return;const S=qqNewState(P),u={st:'wp',state:S,at:Date.now()};Object.keys(P.players||{}).forEach(p=>u['players/'+p+'/f']='');
   GG.party.update(QQ.code,u).catch(()=>toast('📡','Pas de connexion',''));}
 /* ---------- partie ---------- */
 function qqFlips(P,p){const f=((P.players||{})[p]||{}).f||'';return f;}
 function qqLeft(P,p){const S=P.state||{},f=qqFlips(P,p);return (S.b||[]).filter((_,i)=>f[i]!=='1').length;}
 function qqTile(id,i,down,cls){const m=memObj(id);return `<button class="qqc${down?' down':''}${cls||''}" data-qi="${i}" aria-label="${esc(m.n)}"><span class="qf"><img src="${m.thumb||m.img}" loading="lazy" decoding="async" alt="" style="object-position:${m.full?(m.fit?'50% 30%':m.pos||'50% 30%'):(m.pos||'50% 30%')}"><b>${esc(m.n)}</b></span><span class="qb"><img src="${LOGO}" alt=""></span></button>`;}
-function qqGameUI(b,P){const me=ptMe(),S=P.state||{},o=qqOpp(P,me),mine=S.cur===me,end=P.st==='we',f=qqFlips(P,me),board=S.b||[],q=S.q,H=Object.values(S.h||{}).sort((a,c)=>(a.n||0)-(c.n||0));
+/* avant de jouer : chacun choisit sa carte secrète parmi les 24 */
+function qqPickUI(b,P){const me=ptMe(),S=P.state||{},o=qqOpp(P,me),board=S.b||[],mine=(S.sec||{})[me],theirs=(S.sec||{})[o];QQ.peek=false;QQ.guess=false;
+  if(mine){b.innerHTML=`<div class="qqpick done"><h3>✅ Ta carte secrète</h3><div class="qqpickme">${mini(mine)}</div>
+      <div class="qqturn">${theirs?'🎉 '+esc(qqName(P,o))+' a choisi aussi, c\'est parti !':'⏳ '+esc(qqName(P,o))+' choisit sa carte…'}</div><small class="qqhide">🙈 Cache ton écran, ton adversaire ne doit pas la voir !</small>
+      <div class="qqoff" id="qqOff" hidden></div><div class="trbtns"><button class="btn alt" id="qqQuit">🚪 Quitter</button></div></div>`;
+    b.querySelector('#qqQuit').onclick=qqLeave;qqTick();return;}
+  const sel=board.includes(QQ.pk)?QQ.pk:null;
+  b.innerHTML=`<div class="qqpick"><h3>🃏 Choisis ta carte secrète</h3><p>${esc(qqName(P,o))} devra la deviner. 🙈 Cache bien ton écran !</p>
+    <div class="qqpstat">${theirs?'✅ '+esc(qqName(P,o))+' a déjà choisi':'⏳ '+esc(qqName(P,o))+' choisit aussi…'}</div>
+    <div class="qqgrid pick">${board.map((id,i)=>qqTile(id,i,false,id===sel?' sel':'')).join('')}</div>
+    <div class="qqpickbar"><button class="btn alt" id="qqRnd">🎲 Au hasard</button><button class="btn" id="qqOk"${sel?'':' disabled'}>${sel?'✅ '+esc(memObj(sel).n):'Touche une carte'}</button></div>
+    <div class="qqoff" id="qqOff" hidden></div></div>`;
+  b.querySelectorAll('.qqgrid [data-qi]').forEach(x=>x.onclick=()=>{QQ.pk=board[+x.dataset.qi];ptRender();});
+  b.querySelector('#qqRnd').onclick=()=>{QQ.pk=board[qqRand(board.length)];ptRender();};
+  b.querySelector('#qqOk').onclick=()=>{if(sel)qqPick(sel);};qqTick();}
+function qqPick(id){const P=QQ.P;if(!P)return;const me=ptMe(),o=qqOpp(P,me),S=P.state||{},u={['state/sec/'+me]:id};
+  if((S.sec||{})[o])u['state/ph']='play';GG.party.update(QQ.code,u).catch(()=>toast('📡','Pas de connexion',''));}
+function qqGameUI(b,P){if(P.st==='wp'&&(P.state||{}).ph==='pick')return qqPickUI(b,P);const me=ptMe(),S=P.state||{},o=qqOpp(P,me),mine=S.cur===me,end=P.st==='we',f=qqFlips(P,me),board=S.b||[],q=S.q,H=Object.values(S.h||{}).sort((a,c)=>(a.n||0)-(c.n||0));
   const secret=(S.sec||{})[me],osec=(S.sec||{})[o];
   const myLeft=qqLeft(P,me),oLeft=qqLeft(P,o);
   let act='';
@@ -7850,7 +7877,7 @@ function qqGameUI(b,P){const me=ptMe(),S=P.state||{},o=qqOpp(P,me),mine=S.cur===
     let s=qqFlips(QQ.P,me).padEnd(board.length,'0').split('');s[i]=s[i]==='1'?'0':'1';x.classList.toggle('down',s[i]==='1');GG.party.set(QQ.code,'players/'+me+'/f',s.join('')).catch(()=>{});});
   qqTick();}
 /* une question posée (ou « à voix haute ») */
-function qqPush(q,pass){const P=QQ.P;if(!P)return;const S=P.state||{},me=ptMe(),o=qqOpp(P,me);if(S.cur!==me||P.st!=='wp')return;
+function qqPush(q,pass){const P=QQ.P;if(!P)return;const S=P.state||{},me=ptMe(),o=qqOpp(P,me);if(S.cur!==me||P.st!=='wp'||S.ph==='pick')return;
   const n=(S.n||1),h=Object.assign({by:me,n,t:GG.party.now()},q);const u={['state/h/'+n]:h,'state/n':n+1};
   if(q.a!=null&&pass){u['state/cur']=o;u['state/q']=null;}else u['state/q']=h;
   GG.party.update(QQ.code,u).catch(()=>toast('📡','Pas de connexion',''));}
