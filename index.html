@@ -1043,6 +1043,65 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 .qqpickbar .btn:disabled{opacity:.5}
 .qqpickme{width:170px;margin:8px auto 12px;animation:pop .4s ease}.qqhide{display:block;font-weight:700;color:var(--muted);margin:6px 0 10px}
 </style>
+<style>
+/* ===== Grand Plongeon ===== */
+.tcard.gold{box-shadow:0 0 0 3px #ffcf3f,0 0 0 5px #b77900,0 0 16px rgba(255,200,40,.75)!important}
+.tcard.gold::after,.tcard.legend::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(115deg,transparent 30%,rgba(255,244,190,.7) 48%,rgba(255,255,255,.2) 52%,transparent 68%);background-size:260% 100%;animation:gshine 3.2s linear infinite;mix-blend-mode:screen;z-index:3}
+.tcard.gold,.tcard.legend{position:relative}
+.tcard.legend{box-shadow:0 0 0 3px #fff,0 0 0 6px #e0a800,0 0 22px rgba(255,210,63,.9)!important;animation:glegend 2.4s ease-in-out infinite}
+@keyframes gshine{from{background-position:130% 0}to{background-position:-130% 0}}
+@keyframes glegend{50%{filter:brightness(1.12)}}
+.presban{display:flex;flex-direction:column;align-items:flex-start;width:100%;margin-top:8px;border:2.5px solid var(--ink);border-radius:14px;padding:8px 12px;font:inherit;text-align:left;cursor:pointer;background:var(--card);color:var(--text);box-shadow:0 3px 0 var(--ink)}
+.presban b{font-size:14.5px}.presban small{font-size:11.5px;font-weight:600;color:var(--muted)}
+.presban.off{opacity:.75}.presban.ready{background:linear-gradient(90deg,#ffd23f,#ff9a00,#ffd23f);background-size:200% 100%;animation:fgfull 2s linear infinite,qqpulse 1.4s ease-in-out infinite}.presban.ready small{color:#1b2a3a}
+.prestar{display:inline-block;margin-left:6px;font-size:.75em;background:linear-gradient(160deg,#ffe36b,#ffb800);border:2px solid var(--ink);border-radius:999px;padding:0 6px;vertical-align:middle}
+.presnow{background:linear-gradient(160deg,#fff6c9,#ffe08a);border:2.5px solid var(--ink);border-radius:14px;padding:8px 10px;margin-bottom:10px;font-size:12.5px;font-weight:600}.presnow>b{display:block;font-size:15px;margin-bottom:4px}
+.presnow div,.presgain div{display:flex;gap:6px;align-items:flex-start;margin:2px 0}.presnow i,.presgain i{font-style:normal;width:20px;text-align:center;flex:none}
+.presprog{display:flex;flex-direction:column;gap:6px;margin:8px 0}.presprog>div{display:grid;grid-template-columns:1fr auto;gap:2px 8px;font-size:13px;font-weight:700}.presprog i{grid-column:1/-1;height:9px;border:2px solid var(--ink);border-radius:6px;background:linear-gradient(90deg,#2fb35a var(--v),#e8eef3 var(--v))}
+.presgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:8px 0}.presgrid>div{border:2px solid var(--ink);border-radius:12px;padding:6px 8px}.presgrid b{display:block;font-size:13px}.presgrid small{font-size:11.5px;line-height:1.3}
+.presgrid .lose{background:#e3f3ff}.presgrid .keep{background:#e6fbe9}
+.presgain{border:2.5px dashed #e0a800;border-radius:14px;padding:8px 10px;background:#fffbe9;font-size:12.5px;font-weight:600}.presgain>b{display:block;font-size:14.5px;margin-bottom:4px}.presgain small{display:block;margin-top:4px;color:var(--muted)}
+.btn.hold{position:relative;overflow:hidden;background:linear-gradient(90deg,#2f80ed,#00a3a3);color:#fff;touch-action:none;user-select:none;-webkit-user-select:none}.btn.hold i{position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(255,255,255,.35)}.btn.hold span{position:relative}
+/* la cinématique */
+.prescine{position:absolute;inset:0;z-index:60;overflow:hidden;background:#0b3d6e;color:#fff;font-family:inherit}
+.prescine .psk{position:absolute;top:10px;right:10px;z-index:9;border:2px solid #fff;border-radius:999px;background:rgba(0,0,0,.35);color:#fff;font:inherit;font-weight:800;padding:5px 12px;cursor:pointer}
+.ps{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .5s}.ps.on{opacity:1;pointer-events:auto}
+.s1{background:radial-gradient(circle at 50% 55%,#2fb5f0,#0b5fa8 55%,#062e57)}
+.whirl{position:absolute;left:50%;top:55%;width:520px;height:520px;margin:-260px 0 0 -260px;border-radius:50%;background:repeating-conic-gradient(rgba(255,255,255,.18) 0 12deg,transparent 12deg 30deg);animation:pswhirl 1.6s linear infinite;mask:radial-gradient(circle,#000 25%,transparent 70%);-webkit-mask:radial-gradient(circle,#000 25%,transparent 70%)}
+@keyframes pswhirl{to{transform:rotate(360deg)}}
+.fly{position:absolute;left:var(--x);bottom:-130px;width:64px;height:80px;object-fit:cover;border:3px solid #fff;border-radius:8px;box-shadow:0 4px 0 rgba(0,0,0,.3);animation:psfly 2.6s var(--d) cubic-bezier(.45,0,.6,1) both}
+@keyframes psfly{0%{transform:translate(0,0) rotate(0) scale(1)}45%{transform:translate(0,-520px) rotate(calc(var(--a)*.3)) scale(1)}100%{left:50%;bottom:45%;transform:translate(-50%,50%) rotate(var(--a)) scale(0);opacity:.2}}
+.s1 .cap{position:absolute;bottom:13%;font-family:'Lilita One',sans-serif;font-size:22px;text-align:center;padding:0 20px;text-shadow:0 2px 0 #062e57;animation:pop .6s .3s both}
+.s2{background:#fff}.s2.on{animation:psflash .9s ease-out both}
+@keyframes psflash{0%{background:#fff}100%{background:#5fd0ff}}
+.splash{font-family:'Lilita One',sans-serif;font-size:78px;color:#1366b8;-webkit-text-stroke:3px #fff;text-shadow:0 6px 0 #0b3d6e;animation:pssplash .8s cubic-bezier(.2,1.8,.5,1) both}
+@keyframes pssplash{from{transform:scale(0) rotate(-20deg)}}
+.drop{position:absolute;left:50%;top:55%;width:14px;height:22px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:#fff;border:2px solid #1366b8;animation:psdrop .9s var(--d) ease-out both}
+@keyframes psdrop{from{transform:rotate(var(--a)) translateY(0)}to{transform:rotate(var(--a)) translateY(-260px);opacity:0}}
+.s3{justify-content:flex-start;background:linear-gradient(#8fd2fb 0 40%,#2fa0e6 40%)}
+.s3 h2{position:relative;z-index:3;margin:52px 0 0;text-align:center;font-family:'Lilita One',sans-serif;font-weight:400;font-size:28px;line-height:1.15;color:#fff;text-shadow:0 3px 0 #1b2a3a;animation:pop .6s .2s both}.s3 h2 b{color:#ffd23f;font-weight:400;font-size:36px}
+.crowd{position:absolute;left:-20px;right:-20px;bottom:-6px;display:flex;flex-direction:column;align-items:center}
+.crow{display:flex;justify-content:center;width:100%;margin-top:-58px}.crow.r0{transform:scale(.78);transform-origin:bottom;margin-top:0}.crow.r1{transform:scale(.9);transform-origin:bottom}
+.pp{position:relative;width:104px;margin:0 -16px;animation:psup .6s var(--d) cubic-bezier(.2,1.6,.5,1) both}
+.pp .av{display:block;width:104px;height:120px;animation:pscheer var(--b) calc(var(--d) + .6s) ease-in-out infinite alternate;transform-origin:50% 100%}.pp .av svg{width:100%;height:100%}
+@keyframes psup{from{transform:translateY(140%)}}
+@keyframes pscheer{0%{transform:translateY(0) rotate(-6deg)}100%{transform:translateY(-14px) rotate(6deg)}}
+.bub{position:absolute;bottom:124px;left:50%;transform:translateX(-50%) scale(0);z-index:5;white-space:nowrap;background:#fff;color:#1b2a3a;border:2.5px solid #1b2a3a;border-radius:14px;padding:4px 9px;font-style:normal;font-weight:800;font-size:12px;transition:transform .25s cubic-bezier(.2,1.6,.5,1);pointer-events:none}
+.pp.talk .bub{transform:translateX(-50%) scale(1)}.pp.talk{z-index:6}
+.crow.r0 .bub{font-size:15px}
+.fwk{position:absolute;left:var(--x);top:var(--y);width:0;height:0;z-index:1}.fwk i{position:absolute;width:6px;height:6px;margin:-3px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c);animation:psfw 1.6s var(--d) ease-out infinite}
+@keyframes psfw{0%{transform:rotate(var(--r)) translateY(0);opacity:1}70%{opacity:1}100%{transform:rotate(var(--r)) translateY(-70px);opacity:0}}
+.s4{background:radial-gradient(circle at 50% 30%,#ffe36b,#e0217a 60%,#3b1a6e);text-align:center;padding:20px;justify-content:flex-start;overflow-y:auto}
+.s4 .rays{position:absolute;left:50%;top:22%;width:900px;height:900px;margin:-450px 0 0 -450px;background:repeating-conic-gradient(rgba(255,255,255,.18) 0 8deg,transparent 8deg 20deg);animation:pswhirl 14s linear infinite;pointer-events:none}
+.s4 .star{position:relative;margin-top:26px;width:120px;height:120px;animation:psstar 1s cubic-bezier(.2,1.6,.5,1) both}.s4 .star span{font-size:110px;line-height:1;filter:drop-shadow(0 4px 0 #1b2a3a)}.s4 .star b{position:absolute;left:0;right:0;top:34px;font-family:'Lilita One',sans-serif;font-weight:400;font-size:38px;color:#e0217a;-webkit-text-stroke:2px #fff}
+@keyframes psstar{from{transform:translateY(200px) scale(.2) rotate(-180deg)}}
+.s4 h2{position:relative;margin:4px 0 0;font-family:'Lilita One',sans-serif;font-weight:400;font-size:34px;text-shadow:0 3px 0 #1b2a3a;animation:pop .5s .5s both}.s4 h3{position:relative;margin:0 0 8px;font-weight:800;font-size:17px;animation:pop .5s .7s both}
+.s4 .pscard{position:relative;width:150px;margin:0 auto 10px;animation:psflip .9s .9s both}
+@keyframes psflip{from{transform:perspective(600px) rotateY(180deg) scale(.4);opacity:0}}
+.pbon{position:relative;display:flex;flex-direction:column;gap:5px;max-width:330px;margin:0 auto 12px;width:100%}.pbon div{display:flex;gap:8px;align-items:center;background:rgba(255,255,255,.95);color:#1b2a3a;border:2.5px solid #1b2a3a;border-radius:12px;padding:5px 9px;font-weight:800;font-size:12.5px;text-align:left;animation:psin .4s var(--d) both}.pbon i{font-style:normal;font-size:18px}
+@keyframes psin{from{transform:translateX(-40px);opacity:0}}
+.s4 .btn{position:relative;width:100%;max-width:330px;animation:pop .5s 3.2s both}
+</style>
 </head>
 <body>
 <div id="app">
@@ -4421,7 +4480,7 @@ function saveWin(k){COL.wins[k]=true;let fresh=false;if(MG_CARDS[k]&&!COL.cards[
 const ownedMG=()=>MG_ORDER.filter(k=>COL.cards[k]).length;
 function cardHTML(k,big){const m=MG_CARDS[k],c=CHARS[k],num=String(MG_ORDER.indexOf(k)+1).padStart(2,'0');
   const isNew=!big&&COL.cards[k]&&!COL.seen[k];
-  return `<div class="tcard mg${big?' big':''}" data-k="${k}" role="button" aria-label="Carte ${c.game}" style="--bc:${mgColor(k)}">
+  return `<div class="tcard mg${big?' big':''}${presGold(COL.cards[k])?' gold':''}" data-k="${k}" role="button" aria-label="Carte ${c.game}" style="--bc:${mgColor(k)}">
     ${isNew?'<span class="newtag">NOUVEAU</span>':''}
     <div class="tc-top"><span class="tc-num">#${num}</span><span class="tc-rar">🎮</span></div>
     <div class="tc-art" style="background:${c.bg}">${charArt(c)}<span class="tc-emo">${m.e}</span></div>
@@ -4536,14 +4595,14 @@ const memIdx=id=>MEMBERS.findIndex(m=>m.id===id);
 const SPECIALS=[{id:'sp_shooter',n:'Offrir un shooter à Mathéo',r:'L',sp:1,t:'Il te remercie d\'avance d\'avoir eu cette carte. Maintenant, t\'es obligé de le faire !',img:'img/x/ef7b082515c2.webp'}];
 /* Cartes bonus (visuels provisoires en attendant ceux de Mathéo) */
 const BONUS=[{"id": "b_cadeau", "e": "🎁", "n": "Cadeau", "w": 31, "t": "Offre un booster de 5 cartes au joueur de ton choix (pas à toi !).", "r": "E", "bonus": 1, "img": "img/x/b7bb67f36f56.webp"}, {"id": "b_voleur", "e": "🦝", "n": "Voleur", "w": 24, "t": "Vole une carte au hasard au joueur de ton choix !", "r": "E", "bonus": 1, "img": "img/x/8d8b5809b585.webp"}, {"id": "b_joker", "e": "🌟", "n": "Joker", "w": 16, "t": "Choisis n'importe quelle carte membre qui te manque.", "r": "E", "bonus": 1, "img": "img/x/172d3081f9cf.webp"}, {"id": "b_myst", "e": "🃏", "n": "Carte mystère", "w": 8, "t": "Retourne-la : elle se transforme en une autre carte bonus au hasard !", "r": "E", "bonus": 1, "img": "img/x/e3e9172b0051.webp"}, {"id": "b_nouv", "e": "🆕", "n": "Paquet de nouveautés", "w": 9, "t": "Un booster de 5 cartes que tu n'as pas encore.", "r": "E", "bonus": 1, "img": "img/x/98a5146bf0fa.webp"}, {"id": "b_photo", "e": "📸", "n": "Photo à Mathéo", "w": 8, "t": "Propose une photo à Mathéo : il en fera une nouvelle carte, que tu recevras gratuitement !", "r": "E", "bonus": 1, "img": "img/x/5467679a7306.webp"}, {"id": "b_prime", "e": "🎯", "n": "Prime", "w": 6, "t": "Mets une prime sur un joueur : le prochain qui le bat en duel dans les 4 h gagne un booster de 5 cartes !", "r": "E", "bonus": 1, "img": "img/x/d1de55ec796d.webp"}, {"id": "b_mjeu", "e": "🎮", "n": "Mini-jeu à Mathéo", "w": 5, "t": "Propose une idée de mini-jeu à Mathéo : il le mettra dans le jeu !", "r": "E", "bonus": 1, "img": "img/x/9aee7cdf7aa8.webp"}, {"id": "b_suppr", "e": "💥", "n": "Supprimer la plus rare", "w": 5, "t": "Choisis un joueur et supprime une de ses cartes les plus rares (tous les exemplaires).", "r": "E", "bonus": 1, "img": "img/x/6b585af950a8.webp"}, {"id": "b_efface", "e": "🧹", "n": "Effacer les mini-jeux", "w": 2, "t": "Toutes les cartes mini-jeux du joueur de ton choix repassent « non réussies ».", "r": "E", "bonus": 1, "img": "img/x/61a2c238257f.webp"}];
-const memObj=id=>MEMBERS[memIdx(id)]||SPECIALS.find(x=>x.id===id)||BONUS.find(x=>x.id===id);
+const memObj=id=>MEMBERS[memIdx(id)]||SPECIALS.find(x=>x.id===id)||BONUS.find(x=>x.id===id)||presCard(id);
 function memberHTML(id,big){const m=memObj(id),RR=m.bonus?{n:'Bonus',s:'⚡'}:m.sp?{n:'Spéciale',s:'🎉'}:RAR[m.r],num=m.bonus?'B'+(BONUS.indexOf(m)+1):m.sp?'SP':String(memIdx(id)+1).padStart(2,'0'),isNew=!big&&COL.members[id]&&!COL.seen['m_'+id];
-  if(m.full)return `<div class="tcard mem full${m.fit?' fit':''} r-${m.r}${big?' big':''}" data-mem="${id}" role="button" aria-label="Carte ${m.n}">
+  if(m.full)return `<div class="tcard mem full${m.fit?' fit':''} r-${m.r}${big?' big':''}${!m.sp&&!m.bonus&&presGold(COL.members[id])?' gold':''}${m.pres?' legend':''}" data-mem="${id}" role="button" aria-label="Carte ${m.n}">
     ${m.fit?`<img class="fitbg" src="${big?m.img:(m.thumb||m.img)}" ${big?'':'loading="lazy" '}decoding="async" alt="">`:''}<img class="fullimg" src="${big?m.img:(m.thumb||m.img)}" ${big?'':'loading="lazy" '}decoding="async" alt="${m.n}" style="object-position:${m.fit?'50% 30%':m.pos}">
     ${isNew?'<span class="newtag">NOUVEAU</span>':''}
     <div class="tc-top"><span class="tc-num">#${num}</span><span class="tc-rar" title="${RR.n}">${RR.s}</span></div>
     <div class="tc-name">${m.n}</div></div>`;
-  return `<div class="tcard mem r-${m.r}${m.bonus?' bon':''}${big?' big':''}" data-mem="${id}" role="button" aria-label="Carte ${m.n}" style="--ar:${m.ar||1}">
+  return `<div class="tcard mem r-${m.r}${m.bonus?' bon':''}${big?' big':''}${!m.sp&&!m.bonus&&presGold(COL.members[id])?' gold':''}" data-mem="${id}" role="button" aria-label="Carte ${m.n}" style="--ar:${m.ar||1}">
     ${isNew?'<span class="newtag">NOUVEAU</span>':''}
     <div class="tc-top"><span class="tc-num">#${num}</span><span class="tc-rar" title="${RR.n}">${RR.s}</span></div>
     <div class="tc-art">${m.fit?`<img class="fitbg" src="${big?m.img:(m.thumb||m.img)}" ${big?'':'loading="lazy" '}decoding="async" alt="">`:''}<img class="${m.fit?'fitimg':''}" src="${big?m.img:(m.thumb||m.img)}" ${big?'':'loading="lazy" '}decoding="async" alt="${m.n}" style="object-position:${m.fit?'50% 50%':m.pos}"></div>
@@ -4561,7 +4620,7 @@ function buildCol(){
   else if(colTab==='mg'){g.innerHTML=`<div class="cmsg" style="border-style:solid">🎮 ${ownedMG()} / ${MG_ORDER.length} — Gagne un mini-jeu pour obtenir sa carte !</div>`+MG_ORDER.map(k=>COL.cards[k]?cardHTML(k,false):lockedHTML(k)).join('');}
   else{const own=MEMBERS.filter(m=>COL.members[m.id]).length;
     g.innerHTML=`<div class="cmsg">👥 ${own} / ${MEMBER_SLOTS} — Les cartes membres s'obtiennent dans les <b>boosters</b>, les <b>pochettes</b> et le <b>booster du jour</b> 🎁</div>`+recyHTML()+
-    (SPECIALS.some(x=>COL.members[x.id])?`<div class="cmsg" style="border-style:solid;background:#ffe9a8;color:#1b2a3a">🎉 Cartes spéciales d'événement</div>`+SPECIALS.filter(x=>COL.members[x.id]).map(x=>memberHTML(x.id,false)).join('')+`<div class="cmsg" style="border-style:solid">👥 Cartes membres</div>`:'')+
+    (Object.keys(COL.members).some(k=>/^sp_pres/.test(k))?`<div class="cmsg" style="border-style:solid;background:linear-gradient(90deg,#ffe36b,#ffb84d);color:#1b2a3a">⭐ Cartes de légende</div>`+Object.keys(COL.members).filter(k=>/^sp_pres/.test(k)).sort().map(k=>memberHTML(k,false)).join(''):'')+(SPECIALS.some(x=>COL.members[x.id])?`<div class="cmsg" style="border-style:solid;background:#ffe9a8;color:#1b2a3a">🎉 Cartes spéciales d'événement</div>`+SPECIALS.filter(x=>COL.members[x.id]).map(x=>memberHTML(x.id,false)).join('')+`<div class="cmsg" style="border-style:solid">👥 Cartes membres</div>`:'')+
     Array.from({length:MEMBER_SLOTS},(_,i)=>{const m=MEMBERS[i];if(m&&COL.members[m.id]){const n=COL.members[m.id];return n>1?`<div class="xwrap">${memberHTML(m.id,false)}<span class="xcnt">×${n}</span></div>`:memberHTML(m.id,false);}
       return `<div class="tcard locked${m?' r-'+m.r:''}" data-member="1"><div class="lq">?</div><div class="lh">#${String(i+1).padStart(2,'0')}${m?'<br>'+RAR[m.r].s:''}</div></div>`;}).join('');}
   $('.cscroll').scrollTop=0;
@@ -4638,17 +4697,18 @@ function winRewards(k){const out=[];COL.rew=COL.rew||{mil:{},all:false};
   saveCol();updBoostBtn();return out;}
 function nextMilestone(){const n=ownedMGsafe(),tot=MG_ORDER.length,m=MILESTONES.find(x=>x>n&&x<tot);return m?{left:m-n,n:5}:(n<tot?{left:tot-n,n:5}:null);}
 const DAILY_N=3;
-function dailyCheck(){const d=new Date(),key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');if(COL.daily===key)return false;COL.daily=key;grantPack(DAILY_N,'Booster du jour',{bonus:1});saveCol();updBoostBtn();return true;}
-function drawPack(size,o){size=size||PACK_SIZE;o=o||{};const out=[];
+function dailyCheck(){const d=new Date(),key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');if(COL.daily===key)return false;COL.daily=key;grantPack(DAILY_N*(PRES()?2:1),'Booster du jour',{bonus:1});saveCol();updBoostBtn();return true;}
+function drawPack(size,o){size=size||PACK_SIZE;o=o||{};if(!o.nop)size+=presExtra();const out=[],pm=presMiss();
   if(o.nw){let miss=MEMBERS.filter(m=>!COL.members[m.id]);for(let i=0;i<size&&miss.length;i++){const has=r=>miss.some(m=>m.r===r);let x=Math.random()*100,r='R';
       if(x<RAR_W.L&&has('L'))r='L';else if(x<RAR_W.L+RAR_W.E&&has('E'))r='E';if(!has(r))r=['R','E','L'].find(has);const c=pick(miss.filter(m=>m.r===r));out.push(c.id);miss=miss.filter(m=>m!==c);}}
   else{const pool=r=>MEMBERS.filter(m=>m.r===r);
     for(let i=0;i<size;i++){if(Math.random()<BONUS_P){out.push(bonusRoll());continue;}let x=Math.random()*100,r='R';if(x<RAR_W.L&&pool('L').length)r='L';else if(x<RAR_W.L+RAR_W.E&&pool('E').length)r='E';
-      out.push(pick(pool(r)).id);}
+      let L=pool(r);if(pm&&Math.random()<pm){const ms=L.filter(m=>!COL.members[m.id]&&!out.includes(m.id));if(ms.length)L=ms;}out.push(pick(L).id);}
+    if(o.leg&&!out.some(id=>memObj(id).r==='L')){const L=pool('L'),ms=L.filter(m=>!COL.members[m.id]);const i=out.findIndex(id=>!memObj(id).bonus);out[i>=0?i:0]=pick(ms.length?ms:L).id;}
     if(o.bonus)out.push(bonusRoll());}
   const ord={R:0,E:1,L:2},key=id=>{const m=memObj(id);return m.bonus?3:ord[m.r];};return out.sort((a,b)=>key(a)-key(b));}
 function updBoostBtn(){try{cardsBadge();}catch(_){}const b=$('#openBoost');if(!b)return;const n=packCount();b.disabled=!n;b.textContent=n?`🎁 Ouvrir ${n>1?'mes paquets':'mon paquet'} (${n})`:'🎁 Aucun booster pour l\'instant';
-  const g=$('#boostGoal');if(g){const m=nextMilestone();g.innerHTML=m?`🎯 Encore <b>${m.left}</b> mini-jeu${m.left>1?'x':''} à gagner pour ton prochain booster de ${m.n} cartes`:'🏆 Tous les mini-jeux sont gagnés !';}}
+  const g=$('#boostGoal');if(g){const m=nextMilestone();g.innerHTML=m?`🎯 Encore <b>${m.left}</b> mini-jeu${m.left>1?'x':''} à gagner pour ton prochain booster de ${m.n} cartes`:'🏆 Tous les mini-jeux sont gagnés !';g.insertAdjacentHTML('beforeend',presBannerHTML());const pb=g.querySelector('#presBan');if(pb)pb.onclick=presSheet;}}
 let BST=null;
 function openBooster(){if(!(packCount()>0))return;$('#booster').classList.add('on');startPack();}
 function closeBooster(){$('#booster').classList.remove('on');$('#bstage').innerHTML='';BST=null;progLater();}
@@ -4657,7 +4717,7 @@ function sparks(x,y,n,cols){const st=$('#bstage');for(let i=0;i<n;i++){const d=d
 function startPack(){
   try{stat('boosters');qHit('open');}catch(_){}
   const st=$('#bstage');st.innerHTML='';const cp=curPack();$('#bcount').textContent=`🎁 ${packCount()} à ouvrir · ${cp.label}`;
-  st.innerHTML=`<div class="pkwrap" id="pkwrap"><div class="pkshadow"></div><div class="pack" id="pack" style="--wrap:url(${WRAP})"><div class="pk-body"></div><div class="pk-top"></div><div class="pk-relief"></div><div class="pk-line"></div><div class="pk-cut" id="pkcut"></div><div class="pk-scissors" id="pksc">✂️</div><div class="pk-label">✂ DÉCHIRER ICI ✂</div><div class="pk-shine"></div><div class="pk-size">${cp.n+(cp.bonus?1:0)} carte${cp.n+(cp.bonus?1:0)>1?'s':''}</div></div></div>`;
+  st.innerHTML=`<div class="pkwrap" id="pkwrap"><div class="pkshadow"></div><div class="pack" id="pack" style="--wrap:url(${WRAP})"><div class="pk-body"></div><div class="pk-top"></div><div class="pk-relief"></div><div class="pk-line"></div><div class="pk-cut" id="pkcut"></div><div class="pk-scissors" id="pksc">✂️</div><div class="pk-label">✂ DÉCHIRER ICI ✂</div><div class="pk-shine"></div><div class="pk-size">${cp.n+(cp.bonus?1:0)+(cp.nop?0:presExtra())} carte${cp.n+(cp.bonus?1:0)+(cp.nop?0:presExtra())>1?'s':''}</div></div></div>`;
   const pk=$('#pack');const setW=()=>pk.style.setProperty('--pw',pk.getBoundingClientRect().width+'px');setW();
   setTimeout(()=>pk.classList.add('idle'),750);
   const pw=$('#pkwrap');$('#booster').onpointermove=e=>{if(!BST||BST.phase!=='pack'||(BST.down&&BST.down.strip))return;const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;
@@ -4723,7 +4783,7 @@ function recordResult(k,win){if(!win)return;const m=metricOf(k);let v;
   else v=pendingScore;
   if(v!=null&&(m.t==='wins'||better(k,v,COL.best[k]))){const had=COL.best[k]!=null;COL.best[k]=v;if(had&&m.t!=='wins'){try{stat('rec');qHit('rec');}catch(_){}}saveCol();pushBoard();}return v;}
 let pushT=0;
-function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()=>{const o={best:Object.assign({},COL.best),cards:cardCount(),dups:myDoubles().map(x=>x.id),chs:Object.assign({},COL.chs||{}),pf:pfPublic(),own:MEMBERS.filter(m=>COL.members[m.id]).map(m=>m.id),bbd:(()=>{try{return bbMyDeck();}catch(_){return null;}})(),bbt:COL.bbt||0,ptw:ST('ptWin'),ptp:ST('ptPlay'),bbj:COL.bbj&&COL.bbj.d===dayKey()?{d:COL.bbj.d,v:COL.bbj.v}:null};
+function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()=>{const o={pres:COL.pres||0,best:Object.assign({},COL.best),cards:cardCount(),dups:myDoubles().map(x=>x.id),chs:Object.assign({},COL.chs||{}),pf:pfPublic(),own:MEMBERS.filter(m=>COL.members[m.id]).map(m=>m.id),bbd:(()=>{try{return bbMyDeck();}catch(_){return null;}})(),bbt:COL.bbt||0,ptw:ST('ptWin'),ptp:ST('ptPlay'),bbj:COL.bbj&&COL.bbj.d===dayKey()?{d:COL.bbj.d,v:COL.bbj.v}:null};
     /* on n'écrit que si quelque chose a changé (ou au moins une fois par heure, pour « vu récemment ») */
     const k=JSON.stringify(o),now=Date.now();if(k===pushBoard.k&&now-(pushBoard.t||0)<3600e3)return;
     // les simples compteurs (parties jouées, victoires…) ne partent qu'une fois toutes les 10 minutes :
@@ -4735,7 +4795,7 @@ function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()
   USER=u;myId=await u.id();if(!myId)return;boardRef=db.doc('board/'+myId);pushBoard();
   db.collection('board').onSnapshot(q=>{const o={};q.docs.forEach(d=>{o[d.id]=d.data();});BOARD=o;if($('#ranks').classList.contains('active'))buildRanks();chBoardOK=true;try{chClaim();dfBadge();if($('#defi').classList.contains('active'))buildDefi();}catch(_){}},()=>{});
 }catch(_){boardRef=null;}})();
-async function nameOf(ids){const out={};if(USER&&ids.length){try{const ps=await USER.profiles(ids);ids.forEach(i=>out[i]=(ps[i]&&ps[i].name)||'Joueur');return out;}catch(_){}}
+async function nameOf(ids){const out={};if(USER&&ids.length){try{const ps=await USER.profiles(ids);ids.forEach(i=>out[i]=((ps[i]&&ps[i].name)||'Joueur')+presTag((BOARD[i]||{}).pres||0));return out;}catch(_){}}
   ids.forEach(i=>out[i]=i===myId?'Toi':'Joueur');return out;}
 function rows(){const r=Object.entries(BOARD).map(([id,d])=>({id,d:d||{}}));
   if(!r.some(x=>x.id===myId))r.push({id:myId||'local',d:{best:COL.best,cards:cardCount()}});return r;}
@@ -4962,7 +5022,7 @@ document.querySelectorAll('.tab[data-t]').forEach(b=>b.onclick=()=>{colTab=b.dat
 $('#titleChars').innerHTML=ORDER.slice(0,5).map(k=>`<div>${avatar(CHARS[k].look)}</div>`).join('');
 $('#title').addEventListener('click',()=>{buildSelect();show('select');setTimeout(dailyPop,500);});
 function dailyPop(){if(!dailyCheck())return;const pop=document.createElement('div');pop.className='giftpop';
-  pop.innerHTML=`<div class="gcard"><div class="emo">🌞</div><h3>Ton booster du jour !</h3><p>Un booster de <b>${DAILY_N} cartes + 1 carte bonus ⚡</b> t'attend aujourd'hui.<br>Reviens demain pour le suivant !</p>
+  pop.innerHTML=`<div class="gcard"><div class="emo">🌞</div><h3>Ton booster du jour !</h3><p>Un booster de <b>${DAILY_N*(PRES()?2:1)+presExtra()} cartes + 1 carte bonus ⚡</b> t'attend aujourd'hui.<br>Reviens demain pour le suivant !</p>
     <div class="endbtns"><button class="btn" id="dOpen">L'ouvrir 🎁</button><button class="btn alt" id="dLater">Plus tard</button></div></div>`;
   $('#app').appendChild(pop);pop.querySelector('#dLater').onclick=()=>pop.remove();pop.querySelector('#dOpen').onclick=()=>{pop.remove();goAlbumMembers();openBooster();};}
 
@@ -4985,17 +5045,18 @@ function buildMoi(){const b=$('#moiBody');if(!b)return;const name=(window.GG&&GG
   const st=pf.st||{},nb=(pf.b||[]).length,t=COL.bbt||0;let tier={e:'🥉',n:'Bronze'};try{tier=BB_TIERS[bbTier(t)];}catch(_){}
   const keyBtn=document.querySelector('.selbtns .save'),adm=$('#openAdmin'),isAdm=adm&&!adm.hidden;
   const row=(id,e,t1,t2)=>`<button class="moirow" id="${id}"><span class="e">${e}</span><span class="t"><b>${t1}</b><small>${t2}</small></span><span class="go">›</span></button>`;
-  b.innerHTML=`<div class="moihead">${favHTML(COL.fav)}<div><h3>${esc(name)}</h3><small>Membre du Club Gambetta</small></div></div>
+  b.innerHTML=`<div class="moihead">${favHTML(COL.fav)}<div><h3>${esc(name)}${PRES()?`<span class="prestar">⭐${PRES()>1?PRES():""}</span>`:""}</h3><small>${PRES()?"Légende du bassin · Prestige "+PRES():"Membre du Club Gambetta"}</small></div></div>
     <div class="moistats"><div><b>${cardCount()}</b><span>cartes</span></div><div><b>${nb}</b><span>badges</span></div><div><b>${tier.e} ${t}</b><span>trophées</span></div><div><b>${st.won||0}</b><span>victoires</span></div></div>
     <div class="moilist">${row('moiProf','📊','Mon profil','Statistiques, badges et carte préférée')}
       ${keyBtn&&!keyBtn.hidden?row('moiKey','🔑','Ma sauvegarde','Ton code pour retrouver ta partie sur un autre téléphone'):''}
       ${row('moiCol','🃏','Ma collection','Toutes tes cartes et tes boosters')}
+      ${row('moiPres','🏊','Le Grand Plongeon',presOK()?'Disponible ! Replonge tout pour devenir une légende':PRES()?'Prestige '+PRES()+' · voir mes bonus':'Réunis toutes les cartes pour devenir une légende')}
       ${row('moiBat','⚔️','Mon deck de bataille','Changer et améliorer tes cartes')}
       ${isAdm?row('moiAdm','🛠️','Gestion du jeu','Cadeaux, joueurs, tournois, événements (toi seul)'):''}</div>
     <div class="cloudnote">${window.GG&&GG.code?'☁️ Ta partie est sauvegardée en ligne.':'☁️ Ta partie est sauvegardée sur ce téléphone.'}</div>`;
   const on=(id,f)=>{const x=b.querySelector('#'+id);if(x)x.onclick=f;};
   on('moiProf',()=>openProfile(myId||'local'));on('moiKey',()=>{const k=document.querySelector('.selbtns .save');if(k)k.click();});
-  on('moiCol',()=>$('#openCol').click());on('moiBat',()=>openBataille());on('moiAdm',()=>$('#openAdmin').click());}
+  on('moiCol',()=>$('#openCol').click());on('moiPres',presSheet);on('moiBat',()=>openBataille());on('moiAdm',()=>$('#openAdmin').click());}
 
 /* ================= DÉFI DU JOUR ================= */
 /* Chaque jour, un mini-jeu tiré au sort pour tout le club. Classement du jour ; le lendemain : 1er booster de 5, 2e et 3e booster de 3, 1 carte pour chaque participant. */
@@ -5204,6 +5265,9 @@ const BADGES=[
   {id:'tp',e:'🎟️',n:'Compétiteur',d:'Jouer un tournoi',ok:()=>ST('tPlayed')>=1},
   {id:'tw',e:'🏆',n:'Champion',d:'Gagner un tournoi',ok:()=>ST('tWins')>=1},
   {id:'to1',e:'🚪',n:'Sorti d\'entrée',d:'Éliminé au 1er tour d\'un tournoi',ok:()=>ST('tOut1')>=1,f:1},
+  {id:'pr1',e:'🏊',n:'Légende du bassin',d:'Faire un Grand Plongeon',ok:()=>PRES()>=1},
+  {id:'pr3',e:'🌊',n:'Plongeur de l\'extrême',d:'3 Grands Plongeons',ok:()=>PRES()>=3},
+  {id:'pr10',e:'🔱',n:'Légende éternelle',d:'10 Grands Plongeons',ok:()=>PRES()>=10},
   {id:'fg1',e:'🥊',n:'Premier K.O.',d:'Gagner un combat de Gambetta Fighter',ok:()=>ST('fgW')>=1},
   {id:'fgb',e:'👑',n:'Champion du bassin',d:'Battre Roland Doré',ok:()=>ST('fgBoss')>=1},
   {id:'fg8',e:'🌟',n:'Légende du club',d:'Champion avec les 8 persos',ok:()=>Object.values((COL.fg||{}).p||{}).filter(p=>p.done).length>=8},
@@ -5286,9 +5350,9 @@ function qToday(){const t=dayKey();if(COL.q&&COL.q.d===t)return COL.q;
   COL.q={d:t,l:pick,p:{},done:false};saveCol();return COL.q;}
 function qHit(id,n){const q=qToday();if(!q.l.includes(id)||q.done)return;const Q=QUESTS.find(x=>x.id===id);q.p[id]=Math.min(Q.n,(q.p[id]||0)+(n||1));
   if(q.p[id]>=Q.n)toast(Q.e,'Quête réussie !',Q.t);
-  if(q.l.every(x=>(q.p[x]||0)>=QUESTS.find(y=>y.id===x).n)){q.done=true;stat('quests');grantPack(QREW,'Quêtes du jour');updBoostBtn();
+  if(q.l.every(x=>(q.p[x]||0)>=QUESTS.find(y=>y.id===x).n)){q.done=true;stat('quests');grantPack(QREW*(PRES()?2:1),'Quêtes du jour');updBoostBtn();
     const qPop=()=>{if(progBlocked()||(typeof BST!=='undefined'&&BST&&BST.phase==='pack'))return setTimeout(qPop,800);const pop=document.createElement('div');pop.className='giftpop';
-      pop.innerHTML=`<div class="gcard"><div class="emo">📋</div><h3>Quêtes terminées !</h3><p>Bravo, tu as fait les 3 quêtes du jour.<br>Tu gagnes un <b>booster de ${QREW} cartes</b> 🎁</p>
+      pop.innerHTML=`<div class="gcard"><div class="emo">📋</div><h3>Quêtes terminées !</h3><p>Bravo, tu as fait les 3 quêtes du jour.<br>Tu gagnes un <b>booster de ${QREW*(PRES()?2:1)+presExtra()} cartes</b> 🎁</p>
         <div class="endbtns"><button class="btn" id="qOpen">L'ouvrir 🎁</button><button class="btn alt" id="qLater">Plus tard</button></div></div>`;
       $('#app').appendChild(pop);pop.querySelector('#qLater').onclick=()=>pop.remove();pop.querySelector('#qOpen').onclick=()=>{pop.remove();stopGame();$('#end').classList.remove('show');goAlbumMembers();openBooster();};};setTimeout(qPop,1400);}
   saveCol();try{dfBadge();}catch(_){}}
@@ -5889,7 +5953,7 @@ const bbTier=t=>{let i=0;BB_TIERS.forEach((x,j)=>{if((t||0)>=x.t)i=j;});return i
 const BB_TROPH={live:[30,-10],deck:[15,-5],daily:[15,0]},BB_TRAI=[[5,-3],[10,-5],[20,-8]];
 function bbTrophies(res){let g=BC.mode==='ai'?(BB_TRAI[BC.lvl]||BB_TRAI[0]):BB_TROPH[BC.mode];
   if(BC.mode==='daily'&&res>0){const d=dayKey();if(COL.bbtd===d)g=null;else COL.bbtd=d;}
-  if(!g||!res)return 0;const d=res>0?g[0]:g[1];if(!d)return 0;
+  if(!g||!res)return 0;let d=res>0?g[0]:g[1];if(!d)return 0;if(d>0&&PRES())d=Math.round(d*(1+presTro()));
   BC.tOld=COL.bbt||0;const old=COL.bbt||0;COL.bbt=Math.max(0,old+d);const ti=bbTier(COL.bbt),done=COL.bbtm||0;
   if(ti>done){for(let k=done+1;k<=ti;k++)grantPack(BB_TIERS[k].r,'Bataille · palier '+BB_TIERS[k].n);BC.tierUp=BB_TIERS[ti];COL.bbtm=ti;}
   return COL.bbt-old;}
@@ -6789,7 +6853,7 @@ function ptHome(b){PT.boardFor=null;const ok=ptOK(),now=Date.now();
    <div class="drew" style="margin-top:12px;text-align:left"><b>Comment ça marche</b><br>🎲 Chacun son tour, tape sur le dé pour le lancer et avance.<br>✨ Ton perso a un pouvoir : utilise-le une fois quand tu veux, recharge-le à la buvette (${PT_PWCOST} pièces).<br>🟦 Bonus +3 · 🟥 Malus −3 · ❓ Événement · 🛒 Buvette · ⚔️ Duel (défie qui tu veux, le gagnant prend 10 pièces) · 🎰 Chance (la roulette décide !) · 🛝 🛶 🕺 selon la carte.<br>🔀 Au carrefour, choisis : raccourci risqué ou grand chemin.<br>⭐ Quand tu passes sur l'étoile, tu t'arrêtes et tu choisis de l'acheter (ou à la buvette, plus cher).<br>🎮 Après chaque tour, un mini-jeu : chacun pour soi ou en équipe (2 contre 2, 1 contre 3…).<br>🔥 Dernière ligne droite : à la fin, les cases comptent double et le dernier reçoit un coup de pouce.<br>🏅 Étoiles bonus révélées à la fin : roi des mini-jeux, roi des cases bonus, plus malchanceux.<br>⚡ En 5 tours : plateau réduit et plus de pièces au départ.<br>🎁 Le gagnant reçoit un booster de 5, les autres 1 carte.</div><div style="height:96px"></div>`;
   qqSubWire(b);const nw=b.querySelector('#ptNew');if(nw)nw.onclick=ptCreate;const jn=b.querySelector('#ptJoin');if(jn)jn.onclick=ptAskCode;
   b.querySelectorAll('[data-pj]').forEach(x=>x.onclick=()=>ptJoin(x.dataset.pj));}
-function ptMeObj(){return{n:(window.GG&&GG.name)||'Joueur',fav:COL.fav||'',at:Date.now(),on:true};}
+function ptMeObj(){return{n:((window.GG&&GG.name)||'Joueur')+presTag(PRES()),fav:COL.fav||'',at:Date.now(),on:true};}
 async function ptCreate(){if(!ptOK())return;try{const me=ptMe();const code=await GG.party.create({st:'lobby',host:me,map:'belletanche',tours:10,v:2,players:{[me]:ptMeObj()}});ptEnter(code);}
   catch(e){toast('📡','Impossible de créer la partie','Vérifie ta connexion et réessaie.');}}
 function ptAskCode(){const sh=sheet(`<h3>🔢 Rejoindre une partie</h3><div class="sec">Le code à 4 chiffres de la partie :</div><input class="ainput" id="ptc" inputmode="numeric" maxlength="4" placeholder="1234" style="font-size:28px;text-align:center;letter-spacing:8px"><div class="ggerr" id="pte" style="color:var(--coral);font-weight:700;text-align:center"></div><div class="trbtns"><button class="btn alt" id="bx">Annuler</button><button class="btn" id="bgo">Rejoindre</button></div>`);
@@ -7907,6 +7971,100 @@ function qqReward(P){const S=P.state||{},me=ptMe(),key=QQ.code+':'+(S.id||'');CO
   try{stat('qqP');stat('played');if(win){stat('qqW');stat('won');}else{stat('qqL');stat('lost');}qHit('play4');if(!win)qHit('lose');}catch(_){}
   if(win&&S.why!=='quit'){const d=dayKey();if(!COL.qqr||COL.qqr.d!==d)COL.qqr={d,n:0};if(COL.qqr.n<QQ_DAY){COL.qqr.n++;grantPack(1,'Qui est-ce ? · victoire');QQ.rew='Tu gagnes une carte ! Elle t\'attend dans ta collection.';}}
   saveCol();try{updBoostBtn();}catch(_){}}
+
+/* ================= LE GRAND PLONGEON (prestige) =================
+   Quand on a toutes les cartes membres ET toutes les cartes mini-jeux, on peut tout replonger :
+   la collection repart de zéro, avec des bonus de récompenses permanents et cumulables (sans limite).
+   Aucun bonus de force contre les autres joueurs : seulement des récompenses. */
+function PRES(){return (typeof COL!=='undefined'&&COL&&COL.pres)||0;}
+function presTag(p){return p?' ⭐'+(p>1?p:''):'';}
+function presOK(){return MEMBERS.every(m=>COL.members[m.id])&&MG_ORDER.every(k=>COL.cards[k]);}
+function presProg(){return{m:MEMBERS.filter(m=>COL.members[m.id]).length,M:MEMBERS.length,g:ownedMG(),G:MG_ORDER.length};}
+function presExtra(p){p=p==null?PRES():p;return p?Math.min(6,p+1):0;}
+function presMiss(p){p=p==null?PRES():p;return p?Math.min(.8,1-1/(1+p)):0;}
+function presTro(p){p=p==null?PRES():p;return Math.min(1,.25*p);}
+function presGold(own){return PRES()>0&&!!own;}
+function presBonusList(p){const x=presExtra(p);return[['🎁',`+${x} carte${x>1?'s':''} dans chaque booster et chaque pochette`],['✨',`Les cartes qui te manquent sortent ${p>=3?'beaucoup ':''}plus souvent`],['🌞','Booster du jour doublé'],['📋','Quêtes du jour : récompense doublée'],['🏆',`+${Math.round(presTro(p)*100)} % de trophées gagnés en Bataille`],['🌟','Toutes tes nouvelles cartes sont dorées'],['⭐','Une étoile à côté de ton nom']];}
+/* la carte « Légende du bassin », unique pour chaque Grand Plongeon */
+var PRES_CARDS={};
+function presSvg(n){const st=[];for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,r=i%2?84:205;st.push((Math.cos(a)*r).toFixed(1)+','+(Math.sin(a)*r).toFixed(1));}
+  let rays='';for(let i=0;i<18;i++){const a=i/18*Math.PI*2,b=a+.09;rays+=`<path d="M400 470 L${(400+Math.cos(a)*900).toFixed(0)} ${(470+Math.sin(a)*900).toFixed(0)} L${(400+Math.cos(b)*900).toFixed(0)} ${(470+Math.sin(b)*900).toFixed(0)}Z"/>`;}
+  // deux branches de laurier qui entourent l'étoile
+  let leaves='';for(const s of [1,-1]){let path='M400 735';for(let i=0;i<=10;i++){const a=(100+i*13)*Math.PI/180,x=400-s*Math.cos(a)*-1*255*-1,xx=400+s*Math.cos(a)*255*-1;}
+    for(let i=0;i<9;i++){const a=(102+i*14)*Math.PI/180,x=400+s*Math.cos(a)*255,y=470+Math.sin(a)*255,rot=(s>0?a*180/Math.PI+90:180-a*180/Math.PI+90)+ (i%2?-28:28)*s;
+      leaves+=`<ellipse cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" rx="30" ry="13" transform="rotate(${rot.toFixed(0)} ${x.toFixed(0)} ${y.toFixed(0)})" fill="#2fb35a" stroke="#1b2a3a" stroke-width="5"/>`;}
+    leaves+=`<path d="M${(400+s*Math.cos(100*Math.PI/180)*255).toFixed(0)} ${(470+Math.sin(100*Math.PI/180)*255).toFixed(0)} A255 255 0 0 ${s>0?1:0} ${(400+s*Math.cos(214*Math.PI/180)*255).toFixed(0)} ${(470+Math.sin(214*Math.PI/180)*255).toFixed(0)}" fill="none" stroke="#1d7a3c" stroke-width="7"/>`;}
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000"><defs><radialGradient id="g" cx="50%" cy="47%" r="72%"><stop offset="0" stop-color="#fff8cf"/><stop offset=".45" stop-color="#ffd23f"/><stop offset="1" stop-color="#c97a06"/></radialGradient><linearGradient id="w" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6fd6ff"/><stop offset="1" stop-color="#1366b8"/></linearGradient></defs>
+    <rect width="800" height="1000" fill="url(#g)"/><g fill="#fff" opacity=".28">${rays}</g>${leaves}
+    <path d="M0 800 Q100 760 200 800 T400 800 T600 800 T800 800 V1000 H0Z" fill="url(#w)" stroke="#1b2a3a" stroke-width="8"/><path d="M0 865 Q100 828 200 865 T400 865 T600 865 T800 865" fill="none" stroke="#fff" stroke-width="10" opacity=".6"/>
+    <g transform="translate(400 470)"><polygon points="${st.join(' ')}" fill="#fff" stroke="#1b2a3a" stroke-width="15" stroke-linejoin="round"/><polygon points="${st.join(' ')}" transform="scale(.8)" fill="#ffe36b"/>
+      <text y="${n>9?48:58}" text-anchor="middle" font-size="${n>9?130:170}" font-family="Arial Black,Arial,sans-serif" font-weight="900" fill="#e0217a" stroke="#1b2a3a" stroke-width="8" paint-order="stroke">${n}</text></g>
+    <text x="400" y="150" text-anchor="middle" font-size="50" font-family="Arial Black,Arial,sans-serif" font-weight="900" fill="#fff" stroke="#1b2a3a" stroke-width="9" paint-order="stroke">GRAND PLONGEON</text>
+    <text x="400" y="205" text-anchor="middle" font-size="34" font-family="Arial Black,Arial,sans-serif" font-weight="900" fill="#1b2a3a" letter-spacing="4">★ PRESTIGE ${n} ★</text></svg>`;}
+function presCard(id){if(!/^sp_pres\d+$/.test(String(id)))return null;if(PRES_CARDS[id])return PRES_CARDS[id];const n=+String(id).slice(7);
+  return PRES_CARDS[id]={id,n:'Légende du bassin ⭐'+n,r:'L',sp:1,pres:n,t:`Offerte par tout le club pour ton ${n===1?'1er':n+'e'} Grand Plongeon : toutes les cartes réunies… et tout replongé !`,img:'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(presSvg(n)),pos:'50% 50%',full:1,ar:.8};}
+/* bandeau dans la collection */
+function presBannerHTML(){const P=PRES();if(presOK())return `<button class="presban ready" id="presBan">🏊 <b>Grand Plongeon disponible !</b><small>Tu as toutes les cartes : replonge tout pour devenir une légende</small></button>`;
+  if(P)return `<button class="presban" id="presBan">⭐ <b>Prestige ${P}</b><small>Voir mes bonus de légende</small></button>`;
+  const p=presProg();return `<button class="presban off" id="presBan">🏊 <b>Grand Plongeon</b><small>${p.m}/${p.M} membres · ${p.g}/${p.G} mini-jeux</small></button>`;}
+/* écran d'explication + maintien pour confirmer */
+function presSheet(){const p=presProg(),ok=presOK(),P=PRES(),left=(p.M-p.m)+(p.G-p.g);
+  const sh=sheet(`<h3>🏊 Le Grand Plongeon</h3>
+    ${P?`<div class="presnow"><b>⭐ Tu es Prestige ${P}</b>${presBonusList(P).map(([e,t])=>`<div><i>${e}</i>${t}</div>`).join('')}</div>`:''}
+    <div class="sec">Réunis <b>toutes les cartes</b> (membres et mini-jeux), puis replonge tout pour devenir une légende du club !</div>
+    <div class="presprog"><div><span>👥 Cartes membres</span><b>${p.m} / ${p.M}</b><i style="--v:${Math.round(p.m/p.M*100)}%"></i></div><div><span>🎮 Cartes mini-jeux</span><b>${p.g} / ${p.G}</b><i style="--v:${Math.round(p.g/p.G*100)}%"></i></div></div>
+    <div class="presgrid"><div class="lose"><b>💧 Tu repars de zéro</b><small>Cartes membres et doubles, cartes mini-jeux, niveaux des cartes de la Bataille</small></div><div class="keep"><b>💾 Tu gardes</b><small>Badges, records, trophées, stats, cartes bonus et spéciales, Combat, Party</small></div></div>
+    <div class="presgain"><b>🎁 Tu gagnes · Prestige ${P+1}</b><div><i>🃏</i>Un méga-booster de 15 cartes avec une Légendaire garantie</div><div><i>🏅</i>La carte unique « Légende du bassin ⭐${P+1} »</div>${presBonusList(P+1).map(([e,t])=>`<div><i>${e}</i>${t}</div>`).join('')}<div><i>🔁</i>Les séries et les paliers de mini-jeux redonnent leurs boosters</div><small>Les bonus s'ajoutent à chaque nouveau Grand Plongeon, sans limite !</small></div>
+    <div class="trbtns">${ok?'<button class="btn hold" id="psGo"><i></i><span>🏊 Maintiens pour plonger</span></button>':`<button class="btn" disabled>🔒 Encore ${left} carte${left>1?'s':''} à trouver</button>`}<button class="btn alt" id="bx">Fermer</button></div>`);
+  sh.querySelector('#bx').onclick=()=>sh.remove();const go=sh.querySelector('#psGo');if(!go)return;
+  let t0=0,raf=0;const bar=go.querySelector('i'),lab=go.querySelector('span');
+  const stop=()=>{t0=0;cancelAnimationFrame(raf);bar.style.width='0';lab.textContent='🏊 Maintiens pour plonger';};
+  const tick=()=>{if(!t0)return;const k=Math.min(1,(performance.now()-t0)/1600);bar.style.width=(k*100)+'%';lab.textContent=k<1?'🏊 Encore un peu…':'🌊 PLOUF !';
+    if(k>=1){t0=0;sh.remove();presDo();return;}raf=requestAnimationFrame(tick);};
+  go.addEventListener('pointerdown',e=>{e.preventDefault();t0=performance.now();try{navigator.vibrate&&navigator.vibrate(20);}catch(_){}tick();});
+  ['pointerup','pointerleave','pointercancel'].forEach(ev=>go.addEventListener(ev,()=>{if(t0)stop();}));go.addEventListener('contextmenu',e=>e.preventDefault());}
+/* le plongeon lui-même */
+function presDo(){if(!presOK())return;const before=MEMBERS.filter(m=>COL.members[m.id]).map(m=>m.id),P=PRES()+1;
+  MEMBERS.forEach(m=>{delete COL.members[m.id];});COL.cards={};COL.wins={};COL.noRew={};COL.rew={mil:{},all:false};COL.ser={};COL.bbl={};
+  if(COL.seen)Object.keys(COL.seen).forEach(k=>{const id=k.replace(/^m_/,'');if(!/^(b_|sp_)/.test(id))delete COL.seen[k];});
+  COL.pres=P;COL.presAt=Date.now();COL.members['sp_pres'+P]=1;grantPack(15,'Méga-booster du Grand Plongeon',{leg:1,nop:1});COL.packs.unshift(COL.packs.pop());
+  try{stat('pres');}catch(_){}saveCol();try{pushBoard();}catch(_){}try{updBoostBtn();}catch(_){}try{buildCol();}catch(_){}
+  presCine(P,before);}
+/* ---------- la grande fête : tout le club te félicite ---------- */
+function presSound(kind){try{const A=fgAudio();if(!A)return;if(A.state==='suspended')A.resume();const t=A.currentTime;
+  if(kind==='fanfare'){[[523,0],[659,.16],[784,.32],[1047,.5],[784,.74],[1047,.9]].forEach(([f,d])=>{fgTone(A,t+d,'triangle',f,f*1.005,.32,.09);fgTone(A,t+d,'square',f/2,f/2,.28,.025);});}
+  else if(kind==='chord'){[523,659,784,1047].forEach((f,i)=>fgTone(A,t+i*.05,'sine',f,f,1.2,.07));}
+  else if(kind==='clap'){for(let i=0;i<70;i++){const d=Math.random()*5.5,len=.05,buf=A.createBuffer(1,Math.floor(A.sampleRate*len),A.sampleRate),c=buf.getChannelData(0);for(let j=0;j<c.length;j++)c[j]=(Math.random()*2-1)*Math.pow(1-j/c.length,3);
+      const n=A.createBufferSource(),f=A.createBiquadFilter(),g=A.createGain();n.buffer=buf;f.type='bandpass';f.frequency.value=1200+Math.random()*1500;g.gain.value=.05+Math.random()*.08;n.connect(f);f.connect(g);g.connect(A.destination);n.start(t+d);}}
+  else fgSfx(kind);}catch(_){}}
+function presCine(P,before){const name=(window.GG&&GG.name)||'champion',ov=document.createElement('div');ov.className='prescine';$('#app').appendChild(ov);
+  const ids=qqShuffle(before).slice(0,26),cast=qqShuffle(ORDER.filter(k=>CHARS[k]&&CHARS[k].look)).slice(0,27);
+  // Roland et Christian toujours au premier rang
+  ['christian','roland'].forEach(k=>{if(CHARS[k]){const i=cast.indexOf(k);if(i>=0)cast.splice(i,1);cast.push(k);}});
+  const rows=[cast.slice(0,Math.ceil(cast.length/3)),cast.slice(Math.ceil(cast.length/3),Math.ceil(cast.length*2/3)),cast.slice(Math.ceil(cast.length*2/3))];
+  const LINES={roland:'Président d\'honneur… et très fier de toi !',christian:'Le président te félicite !',marcel:'Même moi je sauterais à l\'eau pour toi !',agnes:'Chouquettes pour tout le monde !',richard:'Coup de sifflet d\'honneur ! 🎉',nathan:'Trop fort !',manu:'Légendaire !',laetitia:'Quelle collection, bravo !',matheo:'Bienvenue chez les légendes !',christophe:'On t\'a cherché partout… champion !'};
+  const GEN=['Bravo '+name+' !','Quelle légende !','Chapeau bas !','Champion du club !','Incroyable !','On est fiers de toi !','Hip hip hip… hourra !','Toutes les cartes, wouah !','Le bassin t\'applaudit !','Respect !','Tu es une star !','Allez, un discours !'];
+  const fw=Array.from({length:7},(_,i)=>`<div class="fwk" style="--x:${8+((i*37)%84)}%;--y:${10+((i*23)%40)}%;--d:${(.3+i*.55).toFixed(2)}s;--c:${['#ffd23f','#e0217a','#4fd0ff','#2fb35a','#ff9a00','#9b51e0','#fff'][i]}">${Array.from({length:12},(_,j)=>`<i style="--r:${j*30}deg"></i>`).join('')}</div>`).join('');
+  ov.innerHTML=`<button class="psk" id="psSkip">Passer ⏭</button>
+   <div class="ps s1 on"><div class="whirl"></div>${ids.map((id,i)=>{const m=memObj(id);return `<img class="fly" alt="" src="${m.thumb||m.img}" style="--a:${Math.round(i/ids.length*720)}deg;--d:${(i*.07).toFixed(2)}s;--x:${Math.round(5+Math.random()*80)}%">`;}).join('')}<div class="cap">Toutes tes cartes plongent dans le grand bassin…</div></div>
+   <div class="ps s2"><div class="splash">PLOUF !</div>${Array.from({length:22},(_,i)=>`<i class="drop" style="--a:${Math.round(-170+i*16)}deg;--d:${(Math.random()*.2).toFixed(2)}s"></i>`).join('')}</div>
+   <div class="ps s3"><div class="ptconf">${Array.from({length:40},(_,i)=>`<i style="left:${(i*29)%100}%;animation-delay:${(i%9)*.3}s;animation-duration:${2.4+(i%5)*.4}s">${['🎉','⭐','🎊','✨','🃏','🏊'][i%6]}</i>`).join('')}</div>${fw}
+     <h2>Tout le club te félicite,<br><b>${esc(name)}</b> !</h2>
+     <div class="crowd">${rows.map((R,ri)=>`<div class="crow r${ri}">${R.map((k,i)=>`<div class="pp" data-k="${k}" style="--d:${(ri*.35+i*.09).toFixed(2)}s;--b:${(.55+((i*7+ri*3)%5)*.08).toFixed(2)}s"><span class="av">${charArt(CHARS[k])}</span><i class="bub"></i></div>`).join('')}</div>`).join('')}</div></div>
+   <div class="ps s4"><div class="rays"></div><div class="star"><span>⭐</span><b>${P}</b></div><h2>Prestige ${P}</h2><h3>Légende du bassin</h3>
+     <div class="pscard">${mini('sp_pres'+P).replace(/loading="lazy" /g,'')}</div>
+     <div class="pbon">${presBonusList(P).map(([e,t],i)=>`<div style="--d:${(1.4+i*.22).toFixed(2)}s"><i>${e}</i>${esc(t)}</div>`).join('')}</div>
+     <button class="btn" id="psOpen">🎁 Ouvrir mon méga-booster</button></div>`;
+  const T=[],at=(ms,f)=>T.push(setTimeout(f,ms)),scene=n=>{ov.querySelectorAll('.ps').forEach(x=>x.classList.toggle('on',x.classList.contains('s'+n)));};
+  let bubT=0;const bubbles=()=>{const pp=[...ov.querySelectorAll('.s3 .pp')];let last=null;bubT=setInterval(()=>{const free=pp.filter(p=>!p.classList.contains('talk')&&p!==last);if(!free.length)return;const p=free[Math.floor(Math.random()*free.length)];last=p;
+      const k=p.dataset.k,txt=LINES[k]&&Math.random()<.75?LINES[k]:GEN[Math.floor(Math.random()*GEN.length)];p.querySelector('.bub').textContent=txt;p.classList.add('talk');setTimeout(()=>p.classList.remove('talk'),1900);},420);};
+  const end=()=>{T.forEach(clearTimeout);clearInterval(bubT);scene(4);presSound('chord');ov.querySelector('#psSkip').hidden=true;};
+  presSound('swing');
+  at(3300,()=>{scene(2);presSound('splash');});
+  at(4200,()=>{scene(3);presSound('fanfare');presSound('clap');bubbles();});
+  at(12400,()=>{clearInterval(bubT);end();});
+  ov.querySelector('#psSkip').onclick=end;
+  ov.querySelector('#psOpen').onclick=()=>{T.forEach(clearTimeout);clearInterval(bubT);ov.remove();try{goAlbumMembers();openBooster();}catch(_){}};}
 
 function buildSelect(){
   const w=wins();$('#colCount').textContent=`(${ownedMG()}/${MG_ORDER.length})`;
