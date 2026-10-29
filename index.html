@@ -4698,7 +4698,7 @@ function winRewards(k){const out=[];COL.rew=COL.rew||{mil:{},all:false};
 function nextMilestone(){const n=ownedMGsafe(),tot=MG_ORDER.length,m=MILESTONES.find(x=>x>n&&x<tot);return m?{left:m-n,n:5}:(n<tot?{left:tot-n,n:5}:null);}
 const DAILY_N=3;
 function dailyCheck(){const d=new Date(),key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');if(COL.daily===key)return false;COL.daily=key;grantPack(DAILY_N*(PRES()?2:1),'Booster du jour',{bonus:1});saveCol();updBoostBtn();return true;}
-function drawPack(size,o){size=size||PACK_SIZE;o=o||{};if(!o.nop)size+=presExtra();const out=[],pm=presMiss();
+function drawPack(size,o){size=size||PACK_SIZE;o=o||{};if(!o.nop)size+=presExtra(null,size);const out=[],pm=presMiss();
   if(o.nw){let miss=MEMBERS.filter(m=>!COL.members[m.id]);for(let i=0;i<size&&miss.length;i++){const has=r=>miss.some(m=>m.r===r);let x=Math.random()*100,r='R';
       if(x<RAR_W.L&&has('L'))r='L';else if(x<RAR_W.L+RAR_W.E&&has('E'))r='E';if(!has(r))r=['R','E','L'].find(has);const c=pick(miss.filter(m=>m.r===r));out.push(c.id);miss=miss.filter(m=>m!==c);}}
   else{const pool=r=>MEMBERS.filter(m=>m.r===r);
@@ -4717,7 +4717,7 @@ function sparks(x,y,n,cols){const st=$('#bstage');for(let i=0;i<n;i++){const d=d
 function startPack(){
   try{stat('boosters');qHit('open');}catch(_){}
   const st=$('#bstage');st.innerHTML='';const cp=curPack();$('#bcount').textContent=`🎁 ${packCount()} à ouvrir · ${cp.label}`;
-  st.innerHTML=`<div class="pkwrap" id="pkwrap"><div class="pkshadow"></div><div class="pack" id="pack" style="--wrap:url(${WRAP})"><div class="pk-body"></div><div class="pk-top"></div><div class="pk-relief"></div><div class="pk-line"></div><div class="pk-cut" id="pkcut"></div><div class="pk-scissors" id="pksc">✂️</div><div class="pk-label">✂ DÉCHIRER ICI ✂</div><div class="pk-shine"></div><div class="pk-size">${cp.n+(cp.bonus?1:0)+(cp.nop?0:presExtra())} carte${cp.n+(cp.bonus?1:0)+(cp.nop?0:presExtra())>1?'s':''}</div></div></div>`;
+  st.innerHTML=`<div class="pkwrap" id="pkwrap"><div class="pkshadow"></div><div class="pack" id="pack" style="--wrap:url(${WRAP})"><div class="pk-body"></div><div class="pk-top"></div><div class="pk-relief"></div><div class="pk-line"></div><div class="pk-cut" id="pkcut"></div><div class="pk-scissors" id="pksc">✂️</div><div class="pk-label">✂ DÉCHIRER ICI ✂</div><div class="pk-shine"></div><div class="pk-size">${cp.n+(cp.bonus?1:0)+(cp.nop?0:presExtra(null,cp.n))} carte${cp.n+(cp.bonus?1:0)+(cp.nop?0:presExtra(null,cp.n))>1?'s':''}</div></div></div>`;
   const pk=$('#pack');const setW=()=>pk.style.setProperty('--pw',pk.getBoundingClientRect().width+'px');setW();
   setTimeout(()=>pk.classList.add('idle'),750);
   const pw=$('#pkwrap');$('#booster').onpointermove=e=>{if(!BST||BST.phase!=='pack'||(BST.down&&BST.down.strip))return;const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;
@@ -7980,11 +7980,11 @@ function PRES(){return (typeof COL!=='undefined'&&COL&&COL.pres)||0;}
 function presTag(p){return p?' ⭐'+(p>1?p:''):'';}
 function presOK(){return MEMBERS.every(m=>COL.members[m.id])&&MG_ORDER.every(k=>COL.cards[k]);}
 function presProg(){return{m:MEMBERS.filter(m=>COL.members[m.id]).length,M:MEMBERS.length,g:ownedMG(),G:MG_ORDER.length};}
-function presExtra(p){p=p==null?PRES():p;return p?Math.min(6,p+1):0;}
-function presMiss(p){p=p==null?PRES():p;return p?Math.min(.8,1-1/(1+p)):0;}
+function presExtra(p,n){p=p==null?PRES():p;if(n!=null&&n<3)return 0;return p?Math.min(3,Math.ceil(p/2)):0;}
+function presMiss(p){p=p==null?PRES():p;return p?Math.min(.6,.3+.1*(p-1)):0;}
 function presTro(p){p=p==null?PRES():p;return Math.min(1,.25*p);}
 function presGold(own){return PRES()>0&&!!own;}
-function presBonusList(p){const x=presExtra(p);return[['🎁',`+${x} carte${x>1?'s':''} dans chaque booster et chaque pochette`],['✨',`Les cartes qui te manquent sortent ${p>=3?'beaucoup ':''}plus souvent`],['🌞','Booster du jour doublé'],['📋','Quêtes du jour : récompense doublée'],['🏆',`+${Math.round(presTro(p)*100)} % de trophées gagnés en Bataille`],['🌟','Toutes tes nouvelles cartes sont dorées'],['⭐','Une étoile à côté de ton nom']];}
+function presBonusList(p){const x=presExtra(p);return[['🎁',`+${x} carte${x>1?'s':''} dans chaque booster (3 cartes ou plus)`],['✨',`Les cartes qui te manquent sortent ${p>=3?'beaucoup ':''}plus souvent`],['🌞','Booster du jour doublé'],['📋','Quêtes du jour : récompense doublée'],['🏆',`+${Math.round(presTro(p)*100)} % de trophées gagnés en Bataille`],['🌟','Toutes tes nouvelles cartes sont dorées'],['⭐','Une étoile à côté de ton nom']];}
 /* la carte « Légende du bassin », unique pour chaque Grand Plongeon */
 var PRES_CARDS={};
 function presSvg(n){const st=[];for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,r=i%2?84:205;st.push((Math.cos(a)*r).toFixed(1)+','+(Math.sin(a)*r).toFixed(1));}
