@@ -1214,6 +1214,9 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 #bataille .col-head .x:not([hidden])+.hubback{display:none}
 #select .sel-head h2{display:none}#select .sel-head p{margin-top:0}
 #party .qqsub{display:none}
+.pfsec{font-weight:800;font-size:14px;margin:12px 0 6px;display:flex;align-items:baseline;gap:6px}.pfsec small{font-weight:700;opacity:.65;font-size:12px}
+.pfstats b small{font-size:12px;opacity:.7}
+#ranks .tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}#ranks .tabs .rt{font-size:13.5px;padding:6px 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 button,a,[data-hg],.rkscroll{touch-action:manipulation}
 #hub{padding:12px 12px 0;gap:10px}
 #manager .col-head,#fighter .col-head{padding:8px 10px 0}
@@ -1285,7 +1288,7 @@ button,a,[data-hg],.rkscroll{touch-action:manipulation}
 
   <section id="ranks" class="screen" aria-label="Classements">
     <div class="col-head"><button class="x" id="rkBack" aria-label="Retour">✕</button><h2>Classements</h2></div>
-    <div class="tabs"><button class="tab rt on" data-r="time">⏱ Records</button><button class="tab rt" data-r="cards">🃏 Cartes</button><button class="tab rt" data-r="bat">⚔️ Bataille</button><button class="tab rt" data-r="pty">🎲 Party</button><button class="tab rt" data-r="gm">🏢 Club</button></div>
+    <div class="tabs"><button class="tab rt on" data-r="time">⏱ Records</button><button class="tab rt" data-r="cards">🃏 Cartes</button><button class="tab rt" data-r="bat">⚔️ Bataille</button><button class="tab rt" data-r="pty">🎲 Party</button><button class="tab rt" data-r="gm">🏢 Club</button><button class="tab rt" data-r="fg">🥊 Combat</button></div>
     <div class="rkgames" id="rkGames"></div>
     <div class="rkscroll"><div id="rkList"></div></div>
     <div class="cloudnote" id="rkNote"></div>
@@ -4928,7 +4931,7 @@ function recordResult(k,win){if(!win)return;const m=metricOf(k);let v;
   else v=pendingScore;
   if(v!=null&&(m.t==='wins'||better(k,v,COL.best[k]))){const had=COL.best[k]!=null;COL.best[k]=v;if(had&&m.t!=='wins'){try{stat('rec');qHit('rec');}catch(_){}}saveCol();pushBoard();}return v;}
 let pushT=0;
-function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()=>{const o={pres:COL.pres||0,gm:COL.gm&&COL.gm.v===2?{p:COL.gm.p||0,b:(x=>x<10?x:Math.pow(10,Math.floor(Math.log10(x))))(Math.floor(COL.gm.lifeAll||0))}:null,best:Object.assign({},COL.best),cards:cardCount(),dups:myDoubles().map(x=>x.id),chs:Object.assign({},COL.chs||{}),pf:pfPublic(),own:MEMBERS.filter(m=>COL.members[m.id]).map(m=>m.id),bbd:(()=>{try{return bbMyDeck();}catch(_){return null;}})(),bbt:COL.bbt||0,ptw:ST('ptWin'),ptp:ST('ptPlay'),bbj:COL.bbj&&COL.bbj.d===dayKey()?{d:COL.bbj.d,v:COL.bbj.v}:null};
+function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()=>{const o={pres:COL.pres||0,gm:COL.gm&&COL.gm.v===2?{s:COL.gm.stars||0,p:COL.gm.p||0,b:(x=>x<10?x:Math.pow(10,Math.floor(Math.log10(x))))(Math.floor(COL.gm.lifeAll||0))}:null,best:Object.assign({},COL.best),cards:cardCount(),dups:myDoubles().map(x=>x.id),chs:Object.assign({},COL.chs||{}),pf:pfPublic(),own:MEMBERS.filter(m=>COL.members[m.id]).map(m=>m.id),bbd:(()=>{try{return bbMyDeck();}catch(_){return null;}})(),bbt:COL.bbt||0,ptw:ST('ptWin'),ptp:ST('ptPlay'),bbj:COL.bbj&&COL.bbj.d===dayKey()?{d:COL.bbj.d,v:COL.bbj.v}:null};
     /* on n'écrit que si quelque chose a changé (ou au moins une fois par heure, pour « vu récemment ») */
     const k=JSON.stringify(o),now=Date.now();if(k===pushBoard.k&&now-(pushBoard.t||0)<3600e3)return;
     // les simples compteurs (parties jouées, victoires…) ne partent qu'une fois toutes les 10 minutes :
@@ -4966,11 +4969,17 @@ async function buildRanks(){
       </div>`;}).join('');
     $('#rkList').querySelectorAll('.rkg-head').forEach(b=>b.onclick=()=>{const k=b.parentNode.dataset.k;rkGame=rkGame===k?null:k;buildRanks().then(()=>{const el=$(`.rkgame[data-k="${k}"]`);if(el&&rkGame)el.scrollIntoView({block:'nearest',behavior:'smooth'});});});
   }else if(rkTab==='gm'){
-    const mine=COL.gm&&COL.gm.v===2?{p:COL.gm.p||0,b:Math.floor(COL.gm.lifeAll||0)}:{p:0,b:0};
-    const list=rows().map(r=>({id:r.id,g:isMe(r.id)?mine:(r.d.gm||{p:0,b:0})})).filter(r=>r.g.b>0||isMe(r.id)).sort((a,b)=>(b.g.p-a.g.p)||(b.g.b-a.g.b));const names=await nameOf(list.map(r=>r.id));
+    const mine=COL.gm&&COL.gm.v===2?{s:COL.gm.stars||0,p:COL.gm.p||0,b:Math.floor(COL.gm.lifeAll||0)}:{s:0,p:0,b:0};
+    const list=rows().map(r=>({id:r.id,g:isMe(r.id)?mine:(r.d.gm||{p:0,b:0})})).filter(r=>r.g.b>0||isMe(r.id)).sort((a,b)=>((b.g.s||0)-(a.g.s||0))||(b.g.b-a.g.b));const names=await nameOf(list.map(r=>r.id));
     const nm=id=>isMe(id)?((names[id]&&names[id]!=='Joueur'&&names[id]!=='Toi')?names[id]+' (toi)':'Toi'):names[id];
-    $('#rkList').innerHTML=`<div class="rkhead">🏢 Gambetta Manager<small>Saisons terminées, puis argent gagné</small></div>`+
-      list.map((r,i)=>`<div class="rkrow${isMe(r.id)?' me':''}"><span class="pos">${med[i]||i+1}</span><span class="who" data-pid="${r.id}">${esc(nm(r.id))}</span><span class="v">${r.g.p?'🌅 '+r.g.p+' · ':''}${gmE(r.g.b)}</span></div>`).join('');
+    $('#rkList').innerHTML=`<div class="rkhead">🏢 Gambetta Manager<small>Étoiles ★ gagnées en finissant des saisons (puis argent gagné)</small></div>`+
+      list.map((r,i)=>`<div class="rkrow${isMe(r.id)?' me':''}"><span class="pos">${med[i]||i+1}</span><span class="who" data-pid="${r.id}">${esc(nm(r.id))}</span><span class="v">${r.g.s?gmFmt(r.g.s)+' ★ étoiles':'0 ★ · '+gmE(r.g.b)}</span></div>`).join('');
+  }else if(rkTab==='fg'){
+    const mine={s:fgStarsAll(),c:Object.values((COL.fg||{}).p||{}).filter(p=>p&&p.done).length};
+    const list=rows().map(r=>{const st=(r.d.pf&&r.d.pf.st)||{};return{id:r.id,g:isMe(r.id)?mine:{s:st.fgS||0,c:st.fgC||0}};}).filter(r=>r.g.s>0||isMe(r.id)).sort((a,b)=>(b.g.c-a.g.c)||(b.g.s-a.g.s));const names=await nameOf(list.map(r=>r.id));
+    const nm=id=>isMe(id)?((names[id]&&names[id]!=='Joueur'&&names[id]!=='Toi')?names[id]+' (toi)':'Toi'):names[id];
+    $('#rkList').innerHTML=`<div class="rkhead">🥊 Gambetta Fighter<small>Champions du bassin (puis étoiles ★)</small></div>`+
+      list.map((r,i)=>`<div class="rkrow${isMe(r.id)?' me':''}"><span class="pos">${med[i]||i+1}</span><span class="who" data-pid="${r.id}">${esc(nm(r.id))}</span><span class="v">🏆 ${r.g.c} · ★ ${r.g.s}</span></div>`).join('');
   }else if(rkTab==='pty'){
     const list=rows().map(r=>({id:r.id,w:isMe(r.id)?ST('ptWin'):(r.d.ptw||0),n:isMe(r.id)?ST('ptPlay'):(r.d.ptp||0)})).filter(r=>r.n>0||isMe(r.id)).sort((a,b)=>(b.w-a.w)||(b.n-a.n));const names=await nameOf(list.map(r=>r.id));
     const nm=id=>isMe(id)?((names[id]&&names[id]!=='Joueur'&&names[id]!=='Toi')?names[id]+' (toi)':'Toi'):names[id];
@@ -5473,8 +5482,31 @@ const BADGES=[
   {id:'bb10',e:'🏊',n:'Maître du bassin',d:'10 batailles gagnées',ok:()=>ST('bbW')>=10},
   {id:'bbl',e:'📡',n:'En direct',d:'Gagner une bataille en direct',ok:()=>ST('bbLW')>=1},
   {id:'bbk',e:'💥',n:'Plongeoir KO',d:'Détruire un plongeoir',ok:()=>ST('bbK')>=1},
-  {id:'bbx',e:'🫧',n:'Boit la tasse',d:'5 batailles perdues',ok:()=>ST('bbL')>=5,f:1}
+  {id:'bbx',e:'🫧',n:'Boit la tasse',d:'5 batailles perdues',ok:()=>ST('bbL')>=5,f:1},
+  {id:'bb50',e:'🌊',n:'Seigneur des tours',d:'50 batailles gagnées',ok:()=>ST('bbW')>=50},
+  {id:'bbt1',e:'🥈',n:'Médaille d\'argent',d:'Rang Argent à la Bataille',ok:()=>(COL.bbt||0)>=150},
+  {id:'bbt2',e:'🥇',n:'Médaille d\'or',d:'Rang Or à la Bataille',ok:()=>(COL.bbt||0)>=400},
+  {id:'bbt3',e:'🛟',n:'Rang Maître-nageur',d:'800 trophées à la Bataille',ok:()=>(COL.bbt||0)>=800},
+  {id:'bbt4',e:'🔱',n:'Légende de la Bataille',d:'1500 trophées à la Bataille',ok:()=>(COL.bbt||0)>=1500},
+  {id:'fg10',e:'🥋',n:'Bagarreur',d:'10 combats gagnés',ok:()=>ST('fgW')>=10},
+  {id:'fg50',e:'🏋️',n:'Poids lourd',d:'50 combats gagnés',ok:()=>ST('fgW')>=50},
+  {id:'fgd',e:'🔥',n:'Sans pitié',d:'Battre Roland Doré en Difficile',ok:()=>ST('fgBossD')>=1},
+  {id:'fgs',e:'💫',n:'Pluie d\'étoiles',d:'84 étoiles au Combat',ok:()=>fgStarsAll()>=84},
+  {id:'fgsa',e:'✨',n:'Perfection',d:'Toutes les étoiles du Combat',ok:()=>fgStarsAll()>=fgStarsMax()},
+  {id:'gm4',e:'💰',n:'Milliardaire',d:'Gagner 1 Md€ dans Gambetta Manager',ok:()=>((COL.gm||{}).lifeAll||0)>=1e9},
+  {id:'gm5',e:'🗓️',n:'Vétéran du club',d:'5 saisons de Gambetta Manager',ok:()=>((COL.gm||{}).p||0)>=5},
+  {id:'gm6',e:'🧑‍🏫',n:'Équipe au complet',d:'Tous les maîtres-nageurs recrutés',ok:()=>{const G=COL.gm;return !!(G&&G.v===2&&G.mns&&Object.keys(GM_ACT).every(a=>G.mns[a]));}},
+  {id:'gm7',e:'🙋',n:'Merci les bénévoles',d:'Tous les bénévoles recrutés',ok:()=>{const G=COL.gm;return !!(G&&G.v===2&&G.ben&&GM_BENU.every(u=>G.ben[u[0]]));}},
+  {id:'gm8',e:'🎊',n:'Roi des fêtes',d:'50 manifestations dans Gambetta Manager',ok:()=>((COL.gm||{}).manN||0)>=50},
+  {id:'qqp',e:'🗂️',n:'Enquêteur',d:'Jouer 10 Qui est-ce ?',ok:()=>ST('qqP')>=10},
+  {id:'qz5',e:'📝',n:'Habitué du quiz',d:'Jouer 5 Quiz du Club',ok:()=>ST('quizP')>=5},
+  {id:'qz3',e:'🎓',n:'Génie du club',d:'Gagner 3 Quiz du Club',ok:()=>ST('quizW')>=3},
+  {id:'all',e:'🎯',n:'Touche-à-tout',d:'Jouer à tous les jeux : mini-jeux, Bataille, Combat, Manager, Party et Qui est-ce ?',ok:()=>ST('played')>0&&ST('bbW')+ST('bbL')>0&&ST('fgW')+ST('fgL')>0&&((COL.gm||{}).lifeAll||0)>0&&ST('ptPlay')>0&&ST('qqP')>0}
 ];
+const BADGE_GROUPS=[['col','🃏 Collection',/^(c25|c50|c100|call|mgall|ser1|ser3|x5|x10|tr1|tr10|re10|all)$/],['mg','🎮 Mini-jeux & défis',/^(d1|d10|dw3|dl2|dl5|dl10|lo20|lo100|ch7|chp|ch1|chl|q7|tp|tw|to1)$/],
+  ['bb','⚔️ Bataille',/^bb/],['fg','🥊 Combat',/^fg/],['gm','🏢 Manager',/^gm/],['ami','🎉 Entre amis',/^(pt|qq|qz)/],['pr','🏊 Grand Plongeon',/^pr/]];
+function fgStarsAll(){try{const G=COL.fg;if(!G||!G.p)return 0;let n=0;Object.values(G.p).forEach(p=>{if(p&&p.st)p.st.forEach(v=>n+=v||0);});return n;}catch(_){return 0;}}
+function fgStarsMax(){try{return Object.keys(FG_P).length*21;}catch(_){return 168;}}
 let progT=0,progBusy=false;
 function progLater(){try{if(progBusy)return;clearTimeout(progT);progT=setTimeout(progress,250);}catch(_){}}
 function progBlocked(){try{if(typeof BST!=='undefined'&&BST&&['cutting','open','reveal'].includes(BST.phase))return 'bst';if(document.querySelector('#app .giftpop'))return 'pop';
@@ -5558,20 +5590,33 @@ function qHTML(){const q=qToday();
 
 /* ================= PROFIL ================= */
 function pfPublic(){const st=COL.st||{};return{fav:COL.fav||null,b:Object.keys(COL.badges||{}),ser:Object.keys(COL.ser||{}).length,mg:ownedMG(),
-  st:{played:st.played||0,won:st.won||0,lost:st.lost||0,duelW:st.duelW||0,duelL:st.duelL||0,trades:st.trades||0,boosters:st.boosters||0,chDays:st.chDays||0,chPod:st.chPod||0,tWins:st.tWins||0,quests:st.quests||0}};}
+  st:{played:st.played||0,won:st.won||0,lost:st.lost||0,duelW:st.duelW||0,duelL:st.duelL||0,trades:st.trades||0,boosters:st.boosters||0,chDays:st.chDays||0,chPod:st.chPod||0,tWins:st.tWins||0,quests:st.quests||0,
+    bbW:st.bbW||0,bbL:st.bbL||0,bbt:COL.bbt||0,fgW:st.fgW||0,fgL:st.fgL||0,fgS:fgStarsAll(),fgC:Object.values((COL.fg||{}).p||{}).filter(p=>p&&p.done).length,fgB:st.fgBoss||0,
+    gmP:(COL.gm&&COL.gm.v===2&&COL.gm.p)||0,gmS:(COL.gm&&COL.gm.v===2&&COL.gm.stars)||0,gmB:(x=>x<1000?Math.floor(x):Math.pow(10,Math.floor(Math.log10(x))))((COL.gm&&COL.gm.v===2&&COL.gm.lifeAll)||0),gmM:(COL.gm&&COL.gm.manN)||0,
+    ptP:st.ptPlay||0,ptW:st.ptWin||0,qqP:st.qqP||0,qqW:st.qqW||0,qzP:st.quizP||0,qzW:st.quizW||0,pres:COL.pres||0}};}
 function favHTML(fav){if(!fav)return '<div class="nofav">🏊</div>';if(memObj(fav))return `<div class="fav">${mini(fav)}</div>`;if(MG_CARDS[fav])return `<div class="fav">${cardHTML(fav,false)}</div>`;return '<div class="nofav">🏊</div>';}
 async function openProfile(pid){const me=isMe(pid)||pid===myId;let name,pf,cards;
   if(me){pf=pfPublic();cards=cardCount();name=(window.GG&&GG.name)||'Toi';}
   else{const b=(BOARD||{})[pid]||{};pf=b.pf||{st:{},b:[]};cards=b.cards||0;name=b.name||((await nameOf([pid]))[pid])||'Joueur';}
   const st=pf.st||{},has=new Set(pf.b||[]);
   const sh=document.createElement('div');sh.className='trsheet';$('#app').appendChild(sh);
-  const tiles=[[cards,'cartes'],[pf.mg||0,'mini-jeux réussis'],[pf.ser||0,'séries complètes'],[st.played||0,'parties jouées'],[st.won||0,'victoires'],[st.lost||0,'défaites'],
-    [st.duelW||0,'duels gagnés'],[st.duelL||0,'duels perdus'],[st.trades||0,'échanges'],[st.boosters||0,'boosters ouverts'],[st.chDays||0,'jours de défi'],[st.chPod||0,'podiums du défi'],[st.tWins||0,'tournois gagnés'],[st.quests||0,'fois 3 quêtes']];
-  const list=me?BADGES.filter(b=>has.has(b.id)).concat(BADGES.filter(b=>!has.has(b.id))):BADGES.filter(b=>has.has(b.id));
+  const bt=me?(COL.bbt||0):(st.bbt!=null?st.bbt:(((BOARD||{})[pid]||{}).bbt||0));let tier={e:'🥉',n:'Bronze'};try{tier=BB_TIERS[bbTier(bt)];}catch(_){}
+  const fgMax=fgStarsMax(),fgN=fgMax/21;
+  const SEC=[['📊 Général',[[cards,'cartes'],[pf.mg||0,'mini-jeux réussis'],[pf.ser||0,'séries complètes'],[st.played||0,'parties jouées'],[st.won||0,'victoires'],[st.lost||0,'défaites'],
+      [st.duelW||0,'duels gagnés'],[st.duelL||0,'duels perdus'],[st.trades||0,'échanges'],[st.boosters||0,'boosters ouverts'],[st.chDays||0,'jours de défi'],[st.chPod||0,'podiums du défi'],[st.tWins||0,'tournois gagnés'],[st.quests||0,'fois 3 quêtes']]],
+    ['⚔️ Bataille du Bassin',[[bt,'trophées'],[tier.e+' '+tier.n,'rang'],[st.bbW||0,'victoires'],[st.bbL||0,'défaites']]],
+    ['🥊 Gambetta Fighter',[[(st.fgS||0)+'<small>/'+fgMax+'</small>','étoiles ★'],[(st.fgC||0)+'<small>/'+fgN+'</small>','champions'],[st.fgW||0,'combats gagnés'],[st.fgL||0,'combats perdus'],[st.fgB||0,'Roland battu']]],
+    ['🏢 Gambetta Manager',[[gmFmt(st.gmS||0),'étoiles ★'],[st.gmP||0,'saisons finies'],[(me?'':(st.gmB>=1000?'+':''))+gmFmt(me?((COL.gm&&COL.gm.v===2&&COL.gm.lifeAll)||0):(st.gmB||0))+' €','gagnés en tout'],[st.gmM||0,'manifestations']]],
+    ['🎉 Entre amis',[[st.ptW||0,'Party gagnées'],[st.ptP||0,'Party jouées'],[st.qqW||0,'Qui est-ce gagnés'],[st.qqP||0,'Qui est-ce joués'],[st.qzW||0,'Quiz gagnés'],[st.qzP||0,'Quiz joués']]]];
+  if(st.pres)SEC.push(['🏊 Grand Plongeon',[[st.pres,'plongeons']]]);
+  const statsHTML=SEC.map(([t,L])=>`<div class="pfsec">${t}</div><div class="pfstats">${L.map(([v,l])=>`<div><b>${v}</b><span>${l}</span></div>`).join('')}</div>`).join('');
+  const shown=me?BADGES:BADGES.filter(b=>has.has(b.id)),list=shown;
+  const grp=g=>shown.filter(b=>{const G=BADGE_GROUPS.find(x=>x[2].test(b.id));return (G?G[0]:'col')===g;}).sort((a,b)=>(has.has(b.id)?1:0)-(has.has(a.id)?1:0));
+  const bHTML=BADGE_GROUPS.map(([g,t])=>{const L=grp(g);if(!L.length)return '';const n=L.filter(b=>has.has(b.id)).length;return `<div class="pfsec">${t} <small>${n}/${L.length}</small></div><div class="bdg">${L.map(b=>`<div class="${has.has(b.id)?(b.f?'fail':''):'off'}"><i>${b.e}</i><b>${b.n}</b><small>${b.d}</small></div>`).join('')}</div>`;}).join('');
   function render(){sh.innerHTML=`<div class="in"><div class="pfhead">${favHTML(me?COL.fav:pf.fav)}<div><h3>${esc(me?name+' (toi)':name)}</h3><small>🃏 ${cards} / ${totalCards()} cartes<br>🏅 ${has.size} badge${has.size>1?'s':''} sur ${BADGES.length}</small>
       ${me?'<button class="gglink" id="pfFav" style="margin:6px 0 0;padding:0;font-size:13px">⭐ Choisir ma carte préférée</button>':''}</div></div>
-    <div class="sec">📊 Statistiques</div><div class="pfstats">${tiles.map(([v,l])=>`<div><b>${v}</b><span>${l}</span></div>`).join('')}</div>
-    <div class="sec">🏅 Badges${me?'':' ('+has.size+')'}</div>${list.length?`<div class="bdg">${list.map(b=>`<div class="${has.has(b.id)?(b.f?'fail':''):'off'}"><i>${b.e}</i><b>${b.n}</b><small>${b.d}</small></div>`).join('')}</div>`:'<div class="trempty">Pas encore de badge.</div>'}
+    <div class="sec">📊 Statistiques</div>${statsHTML}
+    <div class="sec">🏅 Badges${me?'':' ('+has.size+')'}</div>${list.length?bHTML:'<div class="trempty">Pas encore de badge.</div>'}
     <div class="trbtns"><button class="btn alt" id="pfX">Fermer</button></div></div>`;
     sh.querySelector('#pfX').onclick=()=>sh.remove();sh.onclick=e=>{if(e.target===sh)sh.remove();};
     const fb=sh.querySelector('#pfFav');if(fb)fb.onclick=pickFav;}
@@ -7834,7 +7879,7 @@ function fgMatchEnd(won){const r=FG.run;r.ph='end';const ov=$('#fgOv'),k=r.k,pr=
   const stars=won?1+(r.e.win===0?1:0)+(r.lastFlashy?1:0):0,old=pr.st[r.stage]||0;if(stars>old)pr.st[r.stage]=stars;
   if(won){const d=dayKey();if(G.dw!==d){G.dw=d;grantPack(1,'Gambetta Fighter · 1re victoire du jour');rew='🎁 1re victoire du jour : une carte !';}
     if(r.stage>=pr.s)pr.s=r.stage+1;
-    if(r.boss){try{stat('fgBoss');}catch(_){}
+    if(r.boss){try{stat('fgBoss');if(r.dif==='d')stat('fgBossD');}catch(_){}
       if(r.dif==='f')rew+=(rew?'<br>':'')+(pr.done?'':'😊 En Facile, pas de booster de champion : tente le Normal !');
       else if(!pr.done){pr.done=1;const first=Object.values(G.p).filter(p=>p.done).length===1;grantPack(first?5:3,'Gambetta Fighter · '+fgName(k)+' champion');rew+=(rew?'<br>':'')+`🏆 ${esc(fgName(k))} est champion du bassin : booster de ${first?5:3} cartes !`;}}}
   saveCol();try{updBoostBtn();}catch(_){}
