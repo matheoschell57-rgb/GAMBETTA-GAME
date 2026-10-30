@@ -1102,6 +1102,144 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 @keyframes psin{from{transform:translateX(-40px);opacity:0}}
 .s4 .btn{position:relative;width:100%;max-width:330px;animation:pop .5s 3.2s both}
 </style>
+<style>
+/* ===== 5 onglets ===== */
+.gtabs.g5 .tab{font-size:10.5px;padding:5px 1px 6px}.gtabs.g5 .tab .ge{font-size:18px}
+/* ===== Gambetta Manager ===== */
+#manager .gmg{margin-bottom:4px}
+.gmhead{position:sticky;top:0;z-index:5;display:flex;flex-direction:column;gap:4px;background:linear-gradient(135deg,#0b6fa8,#2fb5f0);color:#fff;border:3px solid var(--ink);border-radius:18px;padding:8px 10px;box-shadow:0 4px 0 var(--ink);margin-bottom:8px}
+.gmmoney{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}.gmmoney small{width:100%}.gmmoney small{display:block;font-size:11px;font-weight:700;opacity:.9}.gmmoney>b{display:block;font-family:'Lilita One',sans-serif;font-weight:400;font-size:27px;line-height:1.1;text-shadow:0 2px 0 #1b2a3a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.gmmoney>span{font-weight:800;font-size:13px;color:#ffe36b}
+.gmp{background:#ffd23f;color:#1b2a3a;border-radius:999px;padding:0 6px}
+.gmkpi{display:flex;gap:5px}.gmkpi div{flex:1;background:rgba(255,255,255,.18);border-radius:9px;padding:1px 6px;text-align:center;display:flex;gap:4px;justify-content:center;align-items:baseline}.gmkpi b{font-size:13px}.gmkpi small{font-size:9.5px;opacity:.85}
+.gmtabs{margin:0 0 8px}.gmtabs .tab{flex:1;display:flex;flex-direction:column;align-items:center;font-size:11.5px;padding:5px 2px;position:relative}.gmtabs .tab span{font-size:18px}.gmtabs .dot{position:absolute;top:4px;right:10px;width:9px;height:9px;border-radius:50%;background:#e24b4b;border:2px solid #fff}
+.gmpool{position:relative;margin-bottom:8px}.gmpool canvas{display:block;width:100%;height:130px;border:3px solid var(--ink);border-radius:16px;box-shadow:0 4px 0 var(--ink);cursor:pointer;touch-action:manipulation}.gmpool small{position:absolute;left:0;right:0;bottom:6px;text-align:center;font-size:10.5px;font-weight:800;color:#fff;text-shadow:0 1px 2px #0b3d6e;pointer-events:none}
+.gmbm{display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-bottom:8px;font-weight:800;font-size:13px}.gmbm .apill{font-size:12px;padding:4px 10px}
+.gmact,.gmman,.gmpres{border:3px solid var(--ink);border-radius:16px;background:var(--card);padding:8px 10px;margin-bottom:8px;box-shadow:0 4px 0 var(--ink);border-left:9px solid var(--c,#2f80ed)}
+.gmact .h,.gmman .h,.gmpres .h{display:flex;gap:8px;align-items:center}.gmact .h>div,.gmman .h>div,.gmpres .h>div{flex:1;min-width:0}.gmact .e,.gmman .e,.gmpres .e{font-size:30px}.gmact b,.gmman b{font-size:15px}.gmact small,.gmman small,.gmpres small{display:block;font-size:11.5px;color:var(--muted);font-weight:600;line-height:1.3}
+.gmact .r{font-weight:900;color:#2fb35a;font-size:13.5px;white-space:nowrap}
+.gmact.lock{opacity:.85;background:repeating-linear-gradient(-45deg,var(--card) 0 10px,rgba(0,0,0,.03) 10px 20px)}
+.gmact .bar,.gmman .bar,.gmpres .bar{position:relative;height:20px;border:2.5px solid var(--ink);border-radius:10px;background:#e8eef3;overflow:hidden;margin:6px 0 3px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--c,#2fb35a),#7dff8a);transition:width .3s}.bar span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:900;color:#1b2a3a;text-shadow:0 0 3px #fff}
+.gmman .bar i{background:linear-gradient(90deg,#e0217a,#ffd23f)}.gmpres .bar i{background:linear-gradient(90deg,#ff9a00,#ffd23f)}
+.gmact .lim{font-size:11.5px;font-weight:800;margin-bottom:4px}.gmact .lim[data-s="mns"]{color:#2f6fe0}.gmact .lim[data-s="ben"]{color:#2fb35a}.gmact .lim[data-s="lvl"]{color:#ff8a00}.gmact .lim[data-s="wait"]{color:var(--muted)}
+.gmtip{background:#fff;border:2.5px solid var(--ink);border-radius:12px;padding:6px 9px;font-size:12.5px;font-weight:700;margin-bottom:8px;box-shadow:0 2px 0 var(--ink)}
+.gmact .staff{display:flex;flex-wrap:wrap;gap:3px;align-items:center;margin-bottom:4px}.gmact .staff em{font-size:11.5px;color:var(--muted)}.gmact .staff .mini-b{margin-left:auto;font-size:11px;padding:3px 7px}
+.gmact .nx{font-size:10.5px;font-weight:700;color:var(--muted);margin-bottom:5px}
+.gmav{display:inline-flex;width:30px;height:30px;border-radius:50%;overflow:hidden;border:2.5px solid var(--ink);background:#dfe7ee;flex:none;align-items:center;justify-content:center;font-weight:900}.gmav img{width:100%;height:100%;object-fit:cover}
+.gmav.mns{border-color:#2f6fe0;box-shadow:0 0 0 2px #fff}.gmav.ben{border-color:#2fb35a;box-shadow:0 0 0 2px #fff}.gmav.fr{border-color:#e0a800}.gmav.busy{opacity:.45;filter:grayscale(.6)}
+.gmbuy{width:100%;border:2.5px solid var(--ink);border-radius:12px;background:linear-gradient(90deg,#ffd23f,#ffb800);color:#1b2a3a;font:inherit;font-weight:900;font-size:14px;padding:9px;cursor:pointer;box-shadow:0 3px 0 var(--ink)}.gmbuy:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.gmbuy:disabled{background:#dfe5ea;color:#7c8894;cursor:default}.gmbuy.gold{background:linear-gradient(90deg,#ffd23f,#ff9a00,#ffd23f);background-size:200% 100%;animation:fgfull 2.2s linear infinite}.gmbuy.gold:disabled{animation:none;background:#dfe5ea}
+.gmper{display:flex;gap:8px;align-items:center;border:2.5px solid var(--ink);border-radius:14px;background:var(--card);padding:6px 8px;margin-bottom:6px}.gmper .gmav{width:46px;height:46px}.gmper .i{flex:1;min-width:0}.gmper b{font-size:14px}.gmper small{display:block;font-size:11px;color:var(--muted);font-weight:600;line-height:1.25}
+.gmper .lv,.gmup .lv{font-size:11px;background:#eef3f7;border-radius:6px;padding:0 5px;font-weight:800}.gmper .bz{font-size:10.5px;color:#e0217a}
+.gmper select{margin-top:4px;width:100%;font:inherit;font-size:12.5px;font-weight:700;border:2px solid var(--ink);border-radius:9px;padding:3px 4px;background:#fff;color:#1b2a3a}
+.gmper.off{opacity:.8;background:#f4f7f9}.gmh{flex:none;font-size:11px;line-height:1.15;padding:4px 7px;min-width:78px}.gmh b{font-size:11.5px}.gmh:disabled{opacity:.5}
+.gmhint{background:#fff6d6;border:2px dashed #e0a800;border-radius:12px;padding:7px 9px;font-size:12px;font-weight:600;margin-bottom:8px}
+.gmman .req{display:flex;flex-wrap:wrap;gap:4px;margin:6px 0 4px}.gmman .req span{background:#eef3f7;border-radius:8px;padding:2px 7px;font-size:11.5px;font-weight:800}
+.gmman .gain{font-weight:900;color:#2fb35a;font-size:13px;margin-bottom:6px}.gmman.lock{opacity:.7}.gmwho{display:block;margin-top:4px;font-size:11px!important}
+.gmman.run{background:linear-gradient(160deg,#fff,#ffeef6);border-left-color:#e0217a}.gmman.done{background:linear-gradient(160deg,#fffbe0,#ffe58a);animation:qqpulse 1.4s ease-in-out infinite}
+.gmman .ppl{display:flex;align-items:center;gap:3px;margin:6px 0}.gmman .ppl small{margin-left:4px}.gmman .who{display:flex;gap:3px;margin-top:4px}
+.gmfr{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}.gmfr div{display:flex;flex-direction:column;align-items:center;text-align:center}.gmfr .gmav{width:42px;height:42px}.gmfr small{font-size:9.5px;font-weight:700;line-height:1.1;margin-top:2px}.gmfr .no{opacity:.4}
+.gmup{display:flex;gap:8px;align-items:center;border:2.5px solid var(--ink);border-radius:14px;background:var(--card);padding:6px 8px;margin-bottom:6px}.gmup .e{font-size:26px}.gmup .i{flex:1;min-width:0}.gmup b{font-size:14px}.gmup small{display:block;font-size:11px;color:var(--muted);font-weight:600}
+.gmpres{background:linear-gradient(160deg,#fff6d0,#ffd98a);border-left-color:#ff9a00;margin-top:10px}.gmpres b{font-size:16px}.gmpres small b{font-size:inherit;color:#1b2a3a}.gmkeep{margin:2px 0 8px}
+.gmobj{display:flex;gap:8px;align-items:center;border:2px solid var(--ink);border-radius:12px;background:var(--card);padding:5px 9px;margin-bottom:5px;font-size:13px}.gmobj b{flex:1}.gmobj small{font-size:11px;color:var(--muted);font-weight:700}.gmobj.got{opacity:.6}.gmobj.ok{background:#fff3b0;animation:qqpulse 1.4s infinite}
+.gmstat{margin-top:10px;font-size:11.5px;font-weight:700;color:var(--muted);text-align:center}
+.gmoff{text-align:center}.gmoff .e{font-size:50px}.gmoff h3{font-family:'Lilita One',sans-serif;font-weight:400;font-size:26px;margin:2px 0}.gmoff .big{font-family:'Lilita One',sans-serif;font-size:36px;color:#2fb35a;margin:6px 0}
+.gmev{text-align:center}.gmev .e{font-size:54px;animation:qqbob 1.6s infinite}.gmev h3{font-family:'Lilita One',sans-serif;font-weight:400;font-size:24px;margin:4px 0}.gmev p{font-weight:600}
+.gmwin .gmrew{display:flex;flex-direction:column;gap:4px;margin:6px 0}.gmwin .gmrew div{background:#f3fbf5;border:2px solid var(--ink);border-radius:10px;padding:4px 8px;font-weight:700}
+.gmnf{display:flex;gap:8px;align-items:center;text-align:left;background:#fff6d6;border:2px dashed #e0a800;border-radius:12px;padding:6px 8px;margin:6px 0}.gmnf .gmav{width:48px;height:48px}.gmnf small{display:block;font-size:11.5px}
+.gmfloat{position:absolute;top:170px;z-index:40;font-family:'Lilita One',sans-serif;font-size:24px;-webkit-text-stroke:1.5px #1b2a3a;pointer-events:none;animation:gmfl 1.4s ease-out both;white-space:nowrap;transform:translateX(-50%)}
+@keyframes gmfl{0%{transform:translate(-50%,10px) scale(.6);opacity:0}20%{transform:translate(-50%,0) scale(1.1);opacity:1}100%{transform:translate(-50%,-60px) scale(1);opacity:0}}
+</style>
+<style>
+/* ===== Gambetta Manager (idle) ===== */
+.gmhead{gap:3px}.gmmoney>b{font-size:30px}.gmboost{font-size:12px;font-weight:900;color:#ffe36b;text-align:center;background:rgba(224,33,122,.55);border-radius:8px;padding:2px 6px;animation:qqpulse 1.2s infinite}
+.gmtabs .tab{font-size:10.5px}
+.gmpool canvas{height:96px;transition:height .3s}.gmpool small{position:static;display:block;color:var(--muted);text-shadow:none;margin-top:4px}
+.gmrow{display:grid;grid-template-columns:62px 1fr 86px;gap:8px;align-items:center;border:3px solid var(--ink);border-radius:16px;background:var(--card);padding:6px;margin-bottom:7px;box-shadow:0 4px 0 var(--ink);border-left:8px solid var(--c)}
+.gmrow .ic{position:relative;width:62px;height:62px;border-radius:50%;border:3px solid var(--ink);background:radial-gradient(circle at 40% 35%,#fff,var(--c));font-size:30px;display:flex;align-items:center;justify-content:center;font-family:inherit;padding:0;cursor:pointer;box-shadow:0 3px 0 var(--ink)}
+.gmrow .ic[data-s="idle"]{animation:gmwig 1.6s ease-in-out infinite}.gmrow .ic[data-s="auto"]{cursor:default}.gmrow .ic.pop{transform:scale(.88)}
+@keyframes gmwig{0%,80%,100%{transform:rotate(0)}85%{transform:rotate(-10deg)}90%{transform:rotate(10deg)}95%{transform:rotate(-6deg)}}
+.gmrow .ic .lv{position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);background:#1b2a3a;color:#fff;font-style:normal;font-size:11px;font-weight:900;border-radius:999px;padding:0 7px;border:2px solid #fff;white-space:nowrap}
+.gmrow .ic .gmav.mini{position:absolute;top:-6px;right:-8px;width:24px;height:24px;border-width:2px}
+.gmrow .mid{min-width:0}.gmrow .nm{display:flex;justify-content:space-between;gap:6px;align-items:baseline}.gmrow .nm b{font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.gmrow .nm span{font-size:12px;font-weight:900;color:#2fb35a;white-space:nowrap}
+.gmrow .bar{position:relative;height:22px;border:2.5px solid var(--ink);border-radius:11px;background:#e8eef3;overflow:hidden;margin:4px 0 2px}.gmrow .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--c),#ffe36b)}.gmrow .bar span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:900;color:#1b2a3a;text-shadow:0 0 3px #fff}
+.gmrow .ms{font-size:10.5px;font-weight:700;color:var(--muted)}
+.gmrow .gmbuy{white-space:pre-line;font-size:12.5px;line-height:1.15;padding:7px 4px}
+.gmrow.lock{grid-template-columns:62px 1fr;opacity:.95}.gmrow.lock .ic{display:flex;width:62px;height:62px;border-radius:50%;border:3px dashed var(--ink);align-items:center;justify-content:center;font-size:30px;filter:grayscale(.5)}.gmrow.lock .mid b{font-size:14px}.gmrow.lock .mid small{display:block;font-size:11px;color:var(--muted);font-weight:600}.gmrow.lock .gmbuy{grid-column:1/-1}
+.gmper.own{background:linear-gradient(160deg,#fff,#eafbef)}.gmper .ok{font-size:22px}.gmper .lockt{font-size:11px;color:var(--muted);font-weight:700;max-width:90px;text-align:right}
+.gmman .x{font-family:'Lilita One',sans-serif;font-size:26px;color:#e0217a}.gmman .gmbuy[data-s="run"]{background:linear-gradient(90deg,#e0217a,#ff9a00);color:#fff;opacity:1}
+.gmxt{font-size:12px;font-weight:800;background:#fff;border:2px dashed #e0a800;border-radius:10px;padding:5px 8px;margin-top:6px}.gmxt[data-s="ok"]{border-style:solid;border-color:#2fb35a;background:#eafbef}
+.gmstars{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:8px 0}.gmstars div{background:#fff;border:2.5px solid var(--ink);border-radius:12px;padding:4px;text-align:center}.gmstars small{display:block;font-size:11px;font-weight:700;color:var(--muted)}.gmstars b{font-family:'Lilita One',sans-serif;font-weight:400;font-size:22px}
+</style>
+<style>
+/* ===== Gambetta Manager : le grand bassin ===== */
+.gmhead .st{font-size:11.5px;font-weight:800;background:rgba(255,255,255,.2);border-radius:999px;padding:1px 8px}
+.gmscene{background:linear-gradient(#cdeffd,#eaf7fc);border:3px solid var(--ink);border-radius:20px;padding:8px;box-shadow:0 4px 0 var(--ink)}
+.gmwall{display:flex;gap:8px;align-items:stretch;margin-bottom:6px}
+.gmwall .ban{flex:1;display:flex;align-items:center;justify-content:center;background:#e0217a;color:#fff;font-family:'Lilita One',sans-serif;font-size:15px;letter-spacing:1px;border:2.5px solid var(--ink);border-radius:10px;box-shadow:0 2px 0 var(--ink);text-align:center;padding:4px}
+.gmwall .sign{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;width:96px;border:2.5px solid var(--ink);border-radius:10px;background:linear-gradient(#ffe8a8,#ffc94d);font:inherit;cursor:pointer;box-shadow:0 2px 0 var(--ink);padding:3px 2px;line-height:1.1}
+.gmwall .sign span{font-size:18px}.gmwall .sign b{font-size:11px}.gmwall .sign small{font-size:10.5px;font-weight:900;color:#c25e00}
+.gmwall .sign.hot,.gmstands.hot{animation:qqpulse 1.3s ease-in-out infinite}.gmwall .sign.hot::after,.gmstands.hot::after{content:'';position:absolute;top:-4px;right:-4px;width:12px;height:12px;border-radius:50%;background:#e24b4b;border:2px solid #fff}
+.gmstands{position:relative;display:block;width:100%;border:2.5px solid var(--ink);border-radius:12px;background:repeating-linear-gradient(#9aa7b4 0 3px,#c9d3dc 3px 18px);padding:6px 6px 4px;margin-bottom:6px;cursor:pointer;font:inherit;box-shadow:0 2px 0 var(--ink)}
+.gmstands .seats{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;justify-items:center}.gmstands .gmav{width:30px;height:30px}.gmstands .seat{width:26px;height:16px;margin-top:8px;border-radius:6px 6px 2px 2px;background:#e0217a;opacity:.45;border:2px solid var(--ink)}
+.gmstands .lbl{margin-top:5px;background:rgba(255,255,255,.92);border-radius:8px;font-size:12px;font-weight:800;padding:2px 6px;color:#1b2a3a}.gmstands .lbl b{color:#e0217a}
+.gmscene .gmbm{margin:2px 0 6px}
+.gmbig{border:4px solid #f4efe4;outline:3px solid var(--ink);border-radius:8px;background:#2a9be0;overflow:hidden;box-shadow:inset 0 0 0 2px rgba(0,0,0,.1)}
+.gml{display:grid;grid-template-columns:50px 1fr 76px;align-items:stretch;min-height:66px;border-bottom:3px dotted rgba(255,255,255,.65);position:relative}
+.gml:last-child{border-bottom:0}
+.gml .dk{display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f4efe4;border:0;border-right:3px solid #d9cfbd;font:inherit;padding:2px;cursor:default;position:relative}
+.gml .dk .gmav{width:34px;height:34px}.gml .dk i{position:absolute;top:2px;right:2px;font-style:normal;font-size:12px}.gml .dk small{font-size:9px;font-weight:800;line-height:1;margin-top:2px;max-width:48px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gml .dk.chair{cursor:pointer}.gml .dk.chair .ch{font-size:22px;filter:grayscale(.2)}.gml .dk.chair b{font-size:9.5px;color:#2fb35a}.gml .dk.chair:disabled{opacity:.65}.gml .dk.chair:disabled b{color:#7c8894}.gml .dk .ch{font-size:22px}
+.gml .dk.chair:not(:disabled){animation:qqpulse 1.4s ease-in-out infinite;background:#fff6c9}
+.gml .wt{position:relative;background:linear-gradient(180deg,color-mix(in srgb,var(--c) 22%,#4fb8ee),#2a9be0);cursor:pointer;overflow:hidden}
+.gml .wt.pop{filter:brightness(1.15)}
+.gml .wt canvas{position:absolute;inset:0;width:100%;height:100%}
+.gml .lab{position:relative;display:flex;gap:5px;align-items:center;padding:3px 6px 0;pointer-events:none}.gml .lab b{font-size:12.5px;color:#fff;text-shadow:0 1px 2px #0b3d6e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gml .lab .lv{background:#1b2a3a;color:#fff;border-radius:999px;font-size:10.5px;font-weight:900;padding:0 6px;flex:none}.gml .lab em{margin-left:auto;font-style:normal;font-size:11px;font-weight:900;color:#ffe36b;text-shadow:0 1px 2px #0b3d6e;white-space:nowrap}
+.gml .st{position:absolute;left:6px;right:6px;bottom:3px;font-size:10px;font-weight:800;color:#fff;text-shadow:0 1px 2px #0b3d6e;pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gml .gmbuy{border-radius:0;border:0;border-left:3px solid #d9cfbd;box-shadow:none;background:linear-gradient(#ffe36b,#ffc21a);font-size:12px;line-height:1.15;white-space:pre-line;padding:4px 2px}.gml .gmbuy:disabled{background:#f4efe4;color:#8a96a3}
+.gml.build{background:repeating-linear-gradient(45deg,#ffd23f 0 12px,#1b2a3a 12px 24px)}.gml.build .wt{background:rgba(244,239,228,.92);cursor:default;display:flex;flex-direction:column;justify-content:center}.gml.build .lab b{color:#1b2a3a;text-shadow:none}.gml.build .st{position:static;color:#5a6470;text-shadow:none;padding:0 6px;white-space:normal}
+.gml.build .dk{background:rgba(244,239,228,.92)}.gml.build .gmbuy:not(:disabled){background:linear-gradient(#7dff8a,#2fb35a);color:#fff;text-shadow:0 1px 0 #1b2a3a}
+.gml.build.done{display:block;min-height:40px}.gml.build.done .wt{min-height:40px;text-align:center}
+.gmstage{margin-top:8px;border:2.5px solid var(--ink);border-radius:12px;background:linear-gradient(#6a2cc9,#3b1a6e);padding:6px;box-shadow:0 2px 0 var(--ink)}
+.gmstage .tt{color:#fff;font-weight:900;font-size:13px;margin-bottom:5px}.gmstage .tt small{font-weight:700;opacity:.8;font-size:11px}
+.gmstage .stalls{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.stall{display:flex;flex-direction:column;align-items:center;border:2.5px solid var(--ink);border-radius:10px;background:#fff;font:inherit;padding:4px 2px;cursor:pointer;line-height:1.1}
+.stall .e{font-size:22px}.stall b{font-size:13px;color:#e0217a}.stall small{font-size:9.5px;font-weight:800;white-space:nowrap}
+.stall[data-s="ok"]{background:linear-gradient(#fff6c9,#ffd23f);animation:qqpulse 1.4s ease-in-out infinite}.stall[data-s="run"]{background:linear-gradient(#ff9ad0,#e0217a);color:#fff}.stall[data-s="run"] b{color:#fff}
+.stall[data-s="cd"],.stall[data-s="wait"]{opacity:.7}.stall[data-s="lock"]{opacity:.45}
+</style>
+<style>
+.hubback{flex:none;font:inherit;font-weight:800;font-size:14px;padding:5px 12px;border-radius:999px;border:3px solid var(--ink);background:var(--yellow);color:#1b2a3a;box-shadow:0 3px 0 var(--ink);cursor:pointer;white-space:nowrap}
+.hubback:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+#bataille .col-head .x:not([hidden])+.hubback{display:none}
+#select .sel-head h2{display:none}#select .sel-head p{margin-top:0}
+#party .qqsub{display:none}
+button,a,[data-hg],.rkscroll{touch-action:manipulation}
+#hub{padding:12px 12px 0;gap:10px}
+#manager .col-head,#fighter .col-head{padding:8px 10px 0}
+.hubback+h2{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#hubBody{display:flex;flex-direction:column;gap:12px;padding:2px 2px 18px}
+.hday,.hquiz{display:flex;align-items:center;gap:10px;width:100%;text-align:left;font:inherit;padding:10px 12px;border-radius:18px;border:3px solid var(--ink);box-shadow:0 4px 0 var(--ink);cursor:pointer;color:#1b2a3a;background:#ffe9a8}
+.hday:active,.hquiz:active{transform:translateY(2px);box-shadow:0 2px 0 var(--ink)}
+.hday .he,.hquiz .he{font-size:30px;line-height:1;flex:none}
+.hday div,.hquiz div{flex:1;min-width:0;display:flex;flex-direction:column}
+.hday small,.hquiz small{font-size:11.5px;font-weight:800;opacity:.75;text-transform:uppercase;letter-spacing:.03em}
+.hday b,.hquiz b{font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hday em,.hquiz em{flex:none;font-style:normal;font-weight:800;font-size:13px;background:#fff;color:#1b2a3a;border:2px solid var(--ink);border-radius:999px;padding:3px 9px;white-space:nowrap}
+.hday.done{background:#d3f3cc}.hday.ev{background:#ffd3e8}
+.hquiz{background:linear-gradient(90deg,#8a4fe0,#e0217a);color:#fff;animation:hpulse 1.6s ease-in-out infinite}
+.hquiz small{opacity:.9}
+@keyframes hpulse{50%{transform:scale(1.025)}}
+.hgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.htile{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-height:142px;padding:12px;text-align:left;font:inherit;color:#fff;border-radius:20px;border:3px solid var(--ink);box-shadow:0 5px 0 var(--ink);background:linear-gradient(150deg,var(--c1),var(--c2));cursor:pointer;overflow:hidden;min-width:0}
+.htile::after{content:'';position:absolute;right:-22px;top:-22px;width:84px;height:84px;border-radius:50%;background:rgba(255,255,255,.15);pointer-events:none}
+.htile:active{transform:translateY(3px);box-shadow:0 2px 0 var(--ink)}
+.htile .he{font-size:44px;line-height:1;filter:drop-shadow(0 2px 0 rgba(0,0,0,.25))}
+.htile b{font-size:17px;line-height:1.1;margin-top:auto;text-shadow:0 2px 0 rgba(0,0,0,.28)}
+.htile small{font-size:12.5px;font-weight:700;line-height:1.2;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-shadow:0 1px 0 rgba(0,0,0,.25)}
+.hdot{position:absolute;top:9px;right:9px;width:15px;height:15px;border-radius:50%;background:#ff3b30;border:2.5px solid #fff;box-shadow:0 0 0 2px var(--ink);z-index:1;animation:hdot 1.4s ease-in-out infinite}
+@keyframes hdot{50%{transform:scale(1.2)}}
+</style>
 </head>
 <body>
 <div id="app">
@@ -1117,9 +1255,14 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
     <div class="waves"></div>
   </section>
 
+  <section id="hub" class="screen" aria-label="Jouer">
+    <div class="col-head"><h2>🎮 Jouer</h2></div>
+    <div class="rkscroll" id="hubBody"></div>
+  </section>
+
   <section id="select" class="screen" aria-label="Sélection des personnages">
+    <div class="col-head"><button class="hubback" data-hub aria-label="Retour au menu Jouer">‹ Jouer</button><h2>🎮 Mini-jeux</h2></div>
     <div class="sel-head"><h2>Choisis ton perso</h2><p>Chaque perso a son mini-jeu !</p><div class="selbtns"><button class="colbtn" id="openCol">🃏 Ma collection <span id="colCount"></span></button><button class="colbtn rk" id="openRanks">🏆 Classements</button><button class="colbtn tr" id="openTrade">🔄 Échanges</button><button class="colbtn me" id="openProf" title="Mon profil" aria-label="Mon profil">👤</button><button class="colbtn adm" id="openAdmin" hidden title="Gestion" aria-label="Gestion">🛠️</button></div><button class="dchip" id="dChip"></button></div>
-    <div class="tabs gtabs g4"><button class="tab on" data-g="select"><span class="ge">🎮</span>Mini-jeux</button><button class="tab" data-g="bataille"><span class="ge">⚔️</span>Bataille</button><button class="tab" data-g="fighter"><span class="ge">🥊</span>Combat</button><button class="tab" data-g="party"><span class="ge">🎉</span>Entre amis</button></div>
     <div class="grid" id="grid"></div>
   </section>
 
@@ -1142,7 +1285,7 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 
   <section id="ranks" class="screen" aria-label="Classements">
     <div class="col-head"><button class="x" id="rkBack" aria-label="Retour">✕</button><h2>Classements</h2></div>
-    <div class="tabs"><button class="tab rt on" data-r="time">⏱ Records</button><button class="tab rt" data-r="cards">🃏 Cartes</button><button class="tab rt" data-r="bat">⚔️ Bataille</button><button class="tab rt" data-r="pty">🎲 Party</button></div>
+    <div class="tabs"><button class="tab rt on" data-r="time">⏱ Records</button><button class="tab rt" data-r="cards">🃏 Cartes</button><button class="tab rt" data-r="bat">⚔️ Bataille</button><button class="tab rt" data-r="pty">🎲 Party</button><button class="tab rt" data-r="gm">🏢 Club</button></div>
     <div class="rkgames" id="rkGames"></div>
     <div class="rkscroll"><div id="rkList"></div></div>
     <div class="cloudnote" id="rkNote"></div>
@@ -1156,8 +1299,7 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
   </section>
 
   <section id="party" class="screen" aria-label="Gambetta Party">
-    <div class="col-head"><h2>🎉 Entre amis</h2></div>
-    <div class="tabs gtabs g4 ptg"><button class="tab" data-g="select"><span class="ge">🎮</span>Mini-jeux</button><button class="tab" data-g="bataille"><span class="ge">⚔️</span>Bataille</button><button class="tab" data-g="fighter"><span class="ge">🥊</span>Combat</button><button class="tab on" data-g="party"><span class="ge">🎉</span>Entre amis</button></div>
+    <div class="col-head"><button class="hubback" data-hub aria-label="Retour au menu Jouer">‹ Jouer</button><h2>🎲 Gambetta Party</h2></div>
     <div class="rkscroll" id="ptBody" style="position:relative"></div>
   </section>
 
@@ -1172,15 +1314,18 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
   </section>
 
   <section id="bataille" class="screen" aria-label="Bataille du Bassin">
-    <div class="col-head"><button class="x" id="bbBackSel" aria-label="Quitter la partie" hidden>✕</button><h2>⚔️ Bataille du Bassin</h2></div>
-    <div class="tabs gtabs g4 bbg"><button class="tab" data-g="select"><span class="ge">🎮</span>Mini-jeux</button><button class="tab on" data-g="bataille"><span class="ge">⚔️</span>Bataille</button><button class="tab" data-g="fighter"><span class="ge">🥊</span>Combat</button><button class="tab" data-g="party"><span class="ge">🎉</span>Entre amis</button></div>
+    <div class="col-head"><button class="x" id="bbBackSel" aria-label="Quitter la partie" hidden>✕</button><button class="hubback" data-hub aria-label="Retour au menu Jouer">‹ Jouer</button><h2>⚔️ Bataille du Bassin</h2></div>
     <div class="rkscroll" id="bbBody" style="position:relative"></div>
   </section>
 
   <section id="fighter" class="screen" aria-label="Gambetta Fighter">
-    <div class="col-head"><h2>🥊 Gambetta Fighter</h2></div>
-    <div class="tabs gtabs g4 fgg"><button class="tab" data-g="select"><span class="ge">🎮</span>Mini-jeux</button><button class="tab" data-g="bataille"><span class="ge">⚔️</span>Bataille</button><button class="tab on" data-g="fighter"><span class="ge">🥊</span>Combat</button><button class="tab" data-g="party"><span class="ge">🎉</span>Entre amis</button></div>
+    <div class="col-head"><button class="hubback" data-hub aria-label="Retour au menu Jouer">‹ Jouer</button><h2>🥊 Gambetta Fighter</h2></div>
     <div class="rkscroll" id="fgBody" style="position:relative"></div>
+  </section>
+
+  <section id="manager" class="screen" aria-label="Gambetta Manager">
+    <div class="col-head"><button class="hubback" data-hub aria-label="Retour au menu Jouer">‹ Jouer</button><h2>🏢 Gambetta Manager</h2></div>
+    <div class="rkscroll" id="gmBody" style="position:relative"></div>
   </section>
 
   <section id="admin" class="screen" aria-label="Administration">
@@ -4783,7 +4928,7 @@ function recordResult(k,win){if(!win)return;const m=metricOf(k);let v;
   else v=pendingScore;
   if(v!=null&&(m.t==='wins'||better(k,v,COL.best[k]))){const had=COL.best[k]!=null;COL.best[k]=v;if(had&&m.t!=='wins'){try{stat('rec');qHit('rec');}catch(_){}}saveCol();pushBoard();}return v;}
 let pushT=0;
-function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()=>{const o={pres:COL.pres||0,best:Object.assign({},COL.best),cards:cardCount(),dups:myDoubles().map(x=>x.id),chs:Object.assign({},COL.chs||{}),pf:pfPublic(),own:MEMBERS.filter(m=>COL.members[m.id]).map(m=>m.id),bbd:(()=>{try{return bbMyDeck();}catch(_){return null;}})(),bbt:COL.bbt||0,ptw:ST('ptWin'),ptp:ST('ptPlay'),bbj:COL.bbj&&COL.bbj.d===dayKey()?{d:COL.bbj.d,v:COL.bbj.v}:null};
+function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()=>{const o={pres:COL.pres||0,gm:COL.gm&&COL.gm.v===2?{p:COL.gm.p||0,b:(x=>x<10?x:Math.pow(10,Math.floor(Math.log10(x))))(Math.floor(COL.gm.lifeAll||0))}:null,best:Object.assign({},COL.best),cards:cardCount(),dups:myDoubles().map(x=>x.id),chs:Object.assign({},COL.chs||{}),pf:pfPublic(),own:MEMBERS.filter(m=>COL.members[m.id]).map(m=>m.id),bbd:(()=>{try{return bbMyDeck();}catch(_){return null;}})(),bbt:COL.bbt||0,ptw:ST('ptWin'),ptp:ST('ptPlay'),bbj:COL.bbj&&COL.bbj.d===dayKey()?{d:COL.bbj.d,v:COL.bbj.v}:null};
     /* on n'écrit que si quelque chose a changé (ou au moins une fois par heure, pour « vu récemment ») */
     const k=JSON.stringify(o),now=Date.now();if(k===pushBoard.k&&now-(pushBoard.t||0)<3600e3)return;
     // les simples compteurs (parties jouées, victoires…) ne partent qu'une fois toutes les 10 minutes :
@@ -4820,6 +4965,12 @@ async function buildRanks(){
         ${open?`<div class="rkg-body"><div class="rkg-sub">${m.t==='time'?'Temps pour gagner':m.t==='wins'?'Nombre de victoires':'Meilleur score'}</div>${L.length?L.map((r,i)=>`<div class="rkrow${isMe(r.id)?' me':''}"><span class="pos">${med[i]||i+1}</span><span class="who" data-pid="${r.id}">${esc(nm(r.id))}</span><span class="v">${fmtVal(k,r.v)}</span></div>`).join(''):'<div class="rkempty">Personne n\'a encore gagné ce mini-jeu. Sois le premier ! 🏁</div>'}</div>`:''}
       </div>`;}).join('');
     $('#rkList').querySelectorAll('.rkg-head').forEach(b=>b.onclick=()=>{const k=b.parentNode.dataset.k;rkGame=rkGame===k?null:k;buildRanks().then(()=>{const el=$(`.rkgame[data-k="${k}"]`);if(el&&rkGame)el.scrollIntoView({block:'nearest',behavior:'smooth'});});});
+  }else if(rkTab==='gm'){
+    const mine=COL.gm&&COL.gm.v===2?{p:COL.gm.p||0,b:Math.floor(COL.gm.lifeAll||0)}:{p:0,b:0};
+    const list=rows().map(r=>({id:r.id,g:isMe(r.id)?mine:(r.d.gm||{p:0,b:0})})).filter(r=>r.g.b>0||isMe(r.id)).sort((a,b)=>(b.g.p-a.g.p)||(b.g.b-a.g.b));const names=await nameOf(list.map(r=>r.id));
+    const nm=id=>isMe(id)?((names[id]&&names[id]!=='Joueur'&&names[id]!=='Toi')?names[id]+' (toi)':'Toi'):names[id];
+    $('#rkList').innerHTML=`<div class="rkhead">🏢 Gambetta Manager<small>Saisons terminées, puis argent gagné</small></div>`+
+      list.map((r,i)=>`<div class="rkrow${isMe(r.id)?' me':''}"><span class="pos">${med[i]||i+1}</span><span class="who" data-pid="${r.id}">${esc(nm(r.id))}</span><span class="v">${r.g.p?'🌅 '+r.g.p+' · ':''}${gmE(r.g.b)}</span></div>`).join('');
   }else if(rkTab==='pty'){
     const list=rows().map(r=>({id:r.id,w:isMe(r.id)?ST('ptWin'):(r.d.ptw||0),n:isMe(r.id)?ST('ptPlay'):(r.d.ptp||0)})).filter(r=>r.n>0||isMe(r.id)).sort((a,b)=>(b.w-a.w)||(b.n-a.n));const names=await nameOf(list.map(r=>r.id));
     const nm=id=>isMe(id)?((names[id]&&names[id]!=='Joueur'&&names[id]!=='Toi')?names[id]+' (toi)':'Toi'):names[id];
@@ -4837,7 +4988,7 @@ async function buildRanks(){
       (list.length?list.map((r,i)=>`<div class="rkrow${isMe(r.id)?' me':''}"><span class="pos">${med[i]||i+1}</span><span class="who" data-pid="${r.id}">${esc(nm(r.id))}</span><span class="v">${r.d.cards} 🃏</span></div>`).join(''):'<div class="rkempty">Aucune carte récoltée pour l\'instant.</div>');
   }}
 $('#openRanks').onclick=()=>{rkTab='time';rkGame=null;document.querySelectorAll('.tab.rt').forEach(b=>b.classList.toggle('on',b.dataset.r==='time'));show('ranks');buildRanks();};
-$('#rkBack').onclick=()=>{buildSelect();show('select');};
+$('#rkBack').onclick=()=>openHub();
 document.querySelectorAll('.tab.rt').forEach(b=>b.onclick=()=>{rkTab=b.dataset.r;document.querySelectorAll('.tab.rt').forEach(x=>x.classList.toggle('on',x===b));buildRanks();});
 
 
@@ -5009,18 +5160,18 @@ async function trAccept(t){if((COL.members[t.want]||0)<1)return;
   setTimeout(()=>{a.remove();buildTrade();},1900);}
 function setTrTab(){document.querySelectorAll('.tab.tt').forEach(x=>x.classList.toggle('on',x.dataset.tr===TR.tab));}
 $('#openTrade').onclick=()=>{TR.tab='market';setTrTab();show('trade');buildTrade();};
-$('#trBack').onclick=()=>{buildSelect();show('select');};
+$('#trBack').onclick=()=>openHub();
 document.querySelectorAll('.tab.tt').forEach(x=>x.onclick=()=>{TR.tab=x.dataset.tr;setTrTab();buildTrade();});
 $('#openAdmin').onclick=()=>{ADM.tab='gift';setATab();show('admin');buildAdmin();};
 $('#admBack').onclick=()=>{openMoi();return;buildSelect();show('select');};
 document.querySelectorAll('.tab.at').forEach(x=>x.onclick=()=>{ADM.tab=x.dataset.a;setATab();buildAdmin();});
 
 $('#openCol').onclick=()=>{colTab='mg';document.querySelectorAll('.tab[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==='mg'));buildCol();show('collection');};
-$('#colBack').onclick=()=>{buildSelect();show('select');};
+$('#colBack').onclick=()=>openHub();
 document.querySelectorAll('.tab[data-t]').forEach(b=>b.onclick=()=>{colTab=b.dataset.t;document.querySelectorAll('.tab[data-t]').forEach(x=>x.classList.toggle('on',x===b));buildCol();});
 
 $('#titleChars').innerHTML=ORDER.slice(0,5).map(k=>`<div>${avatar(CHARS[k].look)}</div>`).join('');
-$('#title').addEventListener('click',()=>{buildSelect();show('select');setTimeout(dailyPop,500);});
+$('#title').addEventListener('click',()=>{openHub();setTimeout(dailyPop,500);});
 function dailyPop(){if(!dailyCheck())return;const pop=document.createElement('div');pop.className='giftpop';
   pop.innerHTML=`<div class="gcard"><div class="emo">🌞</div><h3>Ton booster du jour !</h3><p>Un booster de <b>${DAILY_N*(PRES()?2:1)+presExtra()} cartes + 1 carte bonus ⚡</b> t'attend aujourd'hui.<br>Reviens demain pour le suivant !</p>
     <div class="endbtns"><button class="btn" id="dOpen">L'ouvrir 🎁</button><button class="btn alt" id="dLater">Plus tard</button></div></div>`;
@@ -5028,13 +5179,54 @@ function dailyPop(){if(!dailyCheck())return;const pop=document.createElement('di
 
 
 /* ================= NAVIGATION ================= */
-const NAV_SCREENS=['select','collection','defi','ranks','trade','moi','party'];
-function navSync(id){const n=$('#bnav');if(!n)return;const g=id==='bataille'||id==='party'||id==='fighter'?'select':id==='trade'?'collection':id;n.hidden=!NAV_SCREENS.includes(g)||(id==='bataille'&&typeof BC!=='undefined'&&!!BC)||(id==='fighter'&&typeof FG!=='undefined'&&!!FG.run)||(id==='party'&&typeof PT!=='undefined'&&(PT.inGame||(typeof QQ!=='undefined'&&QQ.inGame)||(typeof QZ!=='undefined'&&QZ.inGame)));n.querySelectorAll('[data-go]').forEach(b=>b.classList.toggle('on',b.dataset.go===g));
+const NAV_SCREENS=['hub','select','collection','defi','ranks','trade','moi','party'];
+function navSync(id){const n=$('#bnav');if(!n)return;const g=id==='hub'||id==='bataille'||id==='party'||id==='fighter'||id==='manager'?'select':id==='trade'?'collection':id;n.hidden=!NAV_SCREENS.includes(g)||(id==='bataille'&&typeof BC!=='undefined'&&!!BC)||(id==='fighter'&&typeof FG!=='undefined'&&!!FG.run)||(id==='party'&&typeof PT!=='undefined'&&(PT.inGame||(typeof QQ!=='undefined'&&QQ.inGame)||(typeof QZ!=='undefined'&&QZ.inGame)));n.querySelectorAll('[data-go]').forEach(b=>b.classList.toggle('on',b.dataset.go===g));
   const inG=id==='bataille'&&typeof BC!=='undefined'&&!!BC;const sc=$('#bataille');if(sc)sc.classList.toggle('ingame',inG);const x=$('#bbBackSel');if(x)x.hidden=!inG;const tg=$('#bataille .bbg');if(tg)tg.hidden=inG;}
 $('#bnav').querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{const g=b.dataset.go;PLAYCTX=null;
-  if(g==='select'){buildSelect();show('select');}else if(g==='collection')$('#openCol').click();else if(g==='ranks')$('#openRanks').click();else if(g==='trade')$('#openTrade').click();else if(g==='moi')openMoi();else openDefi();
+  if(g==='select'){openHub();}else if(g==='collection')$('#openCol').click();else if(g==='ranks')$('#openRanks').click();else if(g==='trade')$('#openTrade').click();else if(g==='moi')openMoi();else openDefi();
   const sc=document.querySelector('#'+g+' .rkscroll,#'+g+' .cscroll,#'+g+' .grid');if(sc)sc.scrollTop=0;});
 $('#dChip').onclick=()=>openDefi();
+/* ================= HUB « JOUER » ================= */
+const HUB={t:null,h:''};
+function hubLs(k){try{return localStorage.getItem(k);}catch(_){return null;}}
+function hubData(){const d={};
+  try{const k=chGame(dayKey());d.dn=CHARS[k].game;d.dd=!!(COL.chs&&COL.chs[dayKey()]);}catch(_){}
+  try{d.ev=EVENTS.find(x=>x.st==='open'&&!evOver(x))||null;}catch(_){d.ev=null;}
+  try{d.mg=ownedMGsafe();d.mgT=MG_ORDER.length;}catch(_){}
+  try{d.btt=COL.bbt||0;d.bt=BB_TIERS[bbTier(d.btt)];}catch(_){}
+  try{d.bInv=bbInvList().filter(x=>x.to===myId).length;}catch(_){d.bInv=0;}
+  try{const G=fgSave();let s=0;Object.keys(FG_P).forEach(x=>{s+=fgProg(x).st.reduce((a,c)=>a+c,0);});d.fs=s;d.fn=Object.keys(FG_P).length;d.fc=Object.values(G.p||{}).filter(p=>p&&p.done).length;}catch(_){}
+  try{if(COL.gm&&COL.gm.v===2){const G=COL.gm,now=Date.now(),r=gmRate(G,now),m=(G.m||0)+r*Math.min(8*3600,Math.max(0,(now-(G.t||now))/1000));d.gr=r;d.gm=m;
+    d.gDot=gmActs(G).some(a=>{const D=gmDef(a),A=G.act[a];return D&&D.mns&&A&&A.l&&!G.mns[a]&&gmMnsCost(a)<=m;})||GM_BENU.some(([id,t,x,c])=>!G.ben[id]&&c<=m&&(t==='all'||(G.act[t]&&G.act[t].l)));}}catch(_){}
+  d.pt=!!((typeof PT!=='undefined'&&PT.code)||hubLs('gg-party'));d.qq=!!((typeof QQ!=='undefined'&&QQ.code)||hubLs('gg-qq'));
+  try{d.qz=QZ.live&&!QZ.code?QZ.live:null;d.qzIn=!!QZ.code;}catch(_){}
+  return d;}
+function hubTile(g,e,n,i,c1,c2,dot){return `<button class="htile" data-hg="${g}" style="--c1:${c1};--c2:${c2}">${dot?'<i class="hdot"></i>':''}<span class="he">${e}</span><b>${n}</b><small>${i}</small></button>`;}
+function hubRender(){const b=$('#hubBody');if(!b)return;const d=hubData();let h='';
+  if(d.qz)h+=`<button class="hquiz" data-hg="quiz"><span class="he">🧠</span><div><small>En direct</small><b>Quiz du Club</b></div><em>Rejoindre ›</em></button>`;
+  else if(d.qzIn)h+=`<button class="hquiz" data-hg="party"><span class="he">🧠</span><div><small>Tu joues</small><b>Quiz du Club</b></div><em>Reprendre ›</em></button>`;
+  h+=`<button class="hday${d.dd?' done':''}" data-hg="defi"><span class="he">🎯</span><div><small>Défi du jour</small><b>${esc(d.dn||'—')}</b></div><em>${d.dd?'✅ Fait':'À jouer'} ›</em></button>`;
+  if(d.ev)h+=`<button class="hday ev" data-hg="defi"><span class="he">🎉</span><div><small>Événement</small><b>${esc(d.ev.name||'')}</b></div><em>fin à ${hhmm(d.ev.endAt)} ›</em></button>`;
+  h+='<div class="hgrid">'
+   +hubTile('select','🎮','Mini-jeux',`🃏 ${d.mg||0}/${d.mgT||0} cartes jeux`,'#2f9be8','#1565c0')
+   +hubTile('bataille','⚔️','Bataille',d.bInv?`📩 ${d.bInv} invitation${d.bInv>1?'s':''} !`:(d.bt?`${d.bt.e} ${d.bt.n} · ${d.btt} 🏆`:'Défends ton plongeoir'),'#ff8a3d','#d84315',d.bInv>0)
+   +hubTile('fighter','🥊','Combat',d.fn?`★ ${d.fs}/${d.fn*21} · 🏆 ${d.fc}/${d.fn}`:'Le tournoi du bassin','#ff5a7a','#b0123f')
+   +hubTile('manager','🏢','Manager',d.gr!=null?(d.gr>0?`💶 +${gmE(d.gr)} / s`:`💶 ${gmE(d.gm)}`):'Gère ta piscine !','#20b486','#0b7a5a',!!d.gDot)
+   +hubTile('party','🎲','Gambetta Party',d.pt?'▶ Partie en cours !':'Plateau entre amis','#9b5cf0','#5b2bb5',d.pt)
+   +hubTile('qq','🕵️','Qui est-ce ?',d.qq?'▶ Partie en cours !':'Duel à 2 joueurs','#f2b51f','#c77c00',d.qq)
+   +'</div>';
+  if(h===HUB.h&&b.childElementCount)return;HUB.h=h;b.innerHTML=h;
+  b.querySelectorAll('[data-hg]').forEach(x=>x.onclick=()=>hubGo(x.dataset.hg));}
+function hubGo(g){PLAYCTX=null;
+  if(g==='select'){buildSelect();show('select');const gr=$('#grid');if(gr)gr.scrollTop=0;}
+  else if(g==='bataille')openBataille();else if(g==='fighter')openFighter();else if(g==='manager')openManager();
+  else if(g==='party'){if(!QQ.code)QQ.sub='party';openParty();}else if(g==='qq'){if(!PT.code)QQ.sub='qq';openParty();}
+  else if(g==='quiz'){if(QZ.live)qzJoin(QZ.live.code);else hubRender();}else openDefi();}
+function openHub(){try{bbClose();}catch(_){}try{fgStop();}catch(_){}PLAYCTX=null;show('hub');HUB.h='';hubRender();const sc=$('#hubBody');if(sc)sc.scrollTop=0;
+  clearInterval(HUB.t);HUB.t=setInterval(()=>{const H=$('#hub');if(!H||!H.classList.contains('active')){clearInterval(HUB.t);return;}hubRender();},2000);}
+function hubPtTitle(){const h=$('#party .col-head h2');if(!h)return;h.textContent=QZ.code?'🧠 Quiz du Club':PT.code?'🎲 Gambetta Party':(QQ.code||QQ.sub==='qq')?'🕵️ Qui est-ce ?':'🎲 Gambetta Party';}
+document.querySelectorAll('[data-hub]').forEach(x=>x.onclick=()=>openHub());
+
 document.querySelectorAll('.ctabs [data-ct]').forEach(x=>x.onclick=()=>{if(x.dataset.ct==='col')$('#openCol').click();else $('#openTrade').click();
   document.querySelectorAll('.ctabs [data-ct]').forEach(y=>y.classList.toggle('on',y.dataset.ct===x.dataset.ct));});
 /* pastille de l'onglet Cartes : paquets à ouvrir + propositions d'échange reçues */
@@ -5265,6 +5457,9 @@ const BADGES=[
   {id:'tp',e:'🎟️',n:'Compétiteur',d:'Jouer un tournoi',ok:()=>ST('tPlayed')>=1},
   {id:'tw',e:'🏆',n:'Champion',d:'Gagner un tournoi',ok:()=>ST('tWins')>=1},
   {id:'to1',e:'🚪',n:'Sorti d\'entrée',d:'Éliminé au 1er tour d\'un tournoi',ok:()=>ST('tOut1')>=1,f:1},
+  {id:'gm1',e:'🏢',n:'Directeur du club',d:'Gagner 1 M€ dans Gambetta Manager',ok:()=>((COL.gm||{}).lifeAll||0)>=1e6},
+  {id:'gm2',e:'🎉',n:'Organisateur',d:'10 manifestations dans Gambetta Manager',ok:()=>((COL.gm||{}).manN||0)>=10},
+  {id:'gm3',e:'🌅',n:'Nouvelle saison',d:'Terminer une saison de Gambetta Manager',ok:()=>((COL.gm||{}).p||0)>=1},
   {id:'pr1',e:'🏊',n:'Légende du bassin',d:'Faire un Grand Plongeon',ok:()=>PRES()>=1},
   {id:'pr3',e:'🌊',n:'Plongeur de l\'extrême',d:'3 Grands Plongeons',ok:()=>PRES()>=3},
   {id:'pr10',e:'🔱',n:'Légende éternelle',d:'10 Grands Plongeons',ok:()=>PRES()>=10},
@@ -6278,7 +6473,7 @@ function bbDfBind(b){const o=b.querySelector('#bbOpen');if(o)o.onclick=()=>openB
   b.querySelectorAll('[data-bbok]').forEach(x=>x.onclick=()=>{const v=BBINV.find(y=>y.id===x.dataset.bbok);if(v)bbAccept(v);});
   b.querySelectorAll('[data-bbno]').forEach(x=>x.onclick=()=>{GG.battles.set(x.dataset.bbno,{st:'no'}).catch(()=>{});});}
 $('#bbBackSel').onclick=()=>{if(BC&&bbQuit())bbDeckUI();};
-document.querySelectorAll('.gtabs [data-g]').forEach(t=>t.onclick=()=>{if(t.dataset.g==='fighter'){openFighter();return;}try{fgStop();}catch(_){}if(t.dataset.g==='party'){bbClose();openParty();return;}if(t.dataset.g==='bataille'){if(!document.querySelector('#bataille').classList.contains('active'))openBataille();}
+document.querySelectorAll('.gtabs [data-g]').forEach(t=>t.onclick=()=>{if(t.dataset.g==='manager'){openManager();return;}if(t.dataset.g==='fighter'){openFighter();return;}try{fgStop();}catch(_){}if(t.dataset.g==='party'){bbClose();openParty();return;}if(t.dataset.g==='bataille'){if(!document.querySelector('#bataille').classList.contains('active'))openBataille();}
   else{bbClose();buildSelect();show('select');const g=document.querySelector('#grid');if(g)g.scrollTop=0;}});
 /* ---------- dessin v2 : décor, persos animés, tours, sorts ---------- */
 const BB_SKIN='#f2c39b';
@@ -6834,7 +7029,7 @@ function openParty(){show('party');ptLobbies();
   if(!PT.code&&!QQ.code&&ptOK()){let c=null;try{c=localStorage.getItem('gg-qq');}catch(_){}if(c){QQ.sub='qq';qqResume(c).then(ok=>{if(!ok)ptRender();});}}if(QQ.sub==='qq')qqLobbies();ptRender();}
 async function ptResume(c){try{const P=await GG.party.get(c);if(P&&P.players&&P.players[ptMe()]&&P.st!=='end'){ptEnter(c);return;}}catch(_){}try{localStorage.removeItem('gg-party');}catch(_){}ptRender();}
 function ptLobbies(){if(!ptOK()||PT.lob)return;PT.lob=GG.party.lobbies(v=>{PT.lobs=v||{};if(!PT.code)ptRender();});}
-function ptRender(){const b=$('#ptBody');if(!b)return;const P=PT.P;
+function ptRender(){try{hubPtTitle();}catch(_){}const b=$('#ptBody');if(!b)return;const P=PT.P;
   if(QZ.code)return qzRender(b);
   if(!PT.code&&(QQ.code||QQ.sub==='qq'))return qqRender(b);QQ.inGame=false;
   PT.inGame=!!(PT.code&&P&&(P.st==='play'||P.st==='end'));const sc=$('#party');if(sc)sc.classList.toggle('ingame',PT.inGame);try{navSync('party');}catch(_){}
@@ -7094,6 +7289,207 @@ function ptReward(P){const me=ptMe(),S=P.state||{},key=PT.code+':'+(P.startAt||0
 function ptTimers(){const P=PT.P;if(!P||!PT.code)return;const sc=$('#party');if(!sc||!sc.classList.contains('active'))return;if(P.st==='play')ptOverlay(P);}
 
 
+
+/* ================= GAMBETTA MANAGER (idle game) =================
+   Chaque activité a une barre : quand elle est pleine, elle rapporte et repart.
+   Au début on la lance à la main ; son maître-nageur la fait tourner toute seule (même appli fermée, 8 h max).
+   Bénévoles = bonus ×2/×3. Manifestations = boosts temporaires. Nouvelle saison = ⭐ permanentes + une activité de plus. */
+const GM_ACT={
+  bebe:{n:'Bébés nageurs',e:'👶',t:2,c0:5,g:1.12,rv:1,mns:'roland',col:'#ff8fc0'},
+  enfants:{n:'Natation enfants',e:'🧒',t:5,c0:150,g:1.15,rv:60,mns:'laetitia',col:'#4fb7f5'},
+  adultes:{n:'Natation adultes',e:'🏊',t:10,c0:2500,g:1.14,rv:540,mns:'mickey',col:'#2f6fe0'},
+  gym:{n:'Aquagym',e:'🎵',grp:1,t:20,c0:40000,g:1.13,rv:4320,mns:'christine',col:'#2fb35a'},
+  jog:{n:'Aquajogging',e:'🏃',grp:1,t:40,c0:6e5,g:1.12,rv:51840,mns:'angelique',col:'#9b51e0'},
+  fit:{n:'Aquafitness',e:'💪',grp:1,t:120,c0:6e6,g:1.11,rv:622080,mns:'pascal',col:'#ff8a00'},
+  bike:{n:'Aquabike',e:'🚴',grp:1,t:400,c0:5e7,g:1.10,rv:7464960,mns:'anthony',col:'#e24b4b'}
+};
+const GM_XTRA=[{n:'Natation synchronisée',e:'🩰',mns:'helene'},{n:'Water-polo',e:'🤽',mns:'jean_francois'},{n:'Sauvetage',e:'🛟',mns:'richard'},{n:'Nage avec palmes',e:'🦭',mns:'christian'},{n:'Triathlon',e:'🚲',mns:'henri'},
+  {n:'Plongée',e:'🤿'},{n:'Hockey subaquatique',e:'🏒'},{n:'Apnée',e:'🫧'},{n:'Plongeon',e:'🏊‍♀️'},{n:'Nage en eau libre',e:'🌊'}];
+const GM_MNSC={bebe:800,enfants:4e4,adultes:4e5,gym:4e6,jog:3e7,fit:1.5e8,bike:1.2e9};
+/* bénévoles : un achat unique chacun, qui multiplie les gains */
+const GM_BENU=[['manon','bebe',3,2.5e5],['lucie','enfants',3,5e5],['alix','adultes',3,1e6],['nathan','gym',3,5e6],['margaux','jog',3,1e7],['aude','fit',3,2.5e7],['ethan','bike',3,5e7],
+  ['zoe','bebe',3,1e9],['christophe','enfants',3,5e9],['bouchon','all',2,2e10],['agnes','bebe',3,1e11],['emma','adultes',3,5e11],['marcel','all',3,5e12],['matheo','all',3,1e14]];
+const GM_MAN={
+  bain:{n:'Baignade ludique',e:'🛟',x:2,dur:60,cd:900,need:'enfants',d:'Jeux, toboggan et structures gonflables'},
+  prev:{n:'Matinée prévention de la noyade',e:'🦺',x:2,dur:240,cd:1800,need:'adultes',d:'Apprendre aux familles les bons gestes'},
+  comp:{n:'Compétition de 50 m',e:'🏅',x:3,dur:180,cd:3600,need:'gym',d:'Les nageurs du club font la course'},
+  fete:{n:'Fête du club',e:'🎉',x:3,dur:900,cd:4*3600,need:'jog',d:'Repas, musique, buvette… tout le club fait la fête'}
+};
+const GM_MS=[25,50,100,200,300,400,500,600,700,800,900,1000];
+const GM_OBJ=[
+  {id:'o_enf',t:'Ouvrir la natation enfants',ok:G=>!!(G.act.enfants||{}).l,r:1},
+  {id:'o_aq4',t:'Les 4 activités d\'aquaforme',ok:G=>['gym','jog','fit','bike'].every(k=>(G.act[k]||{}).l),r:1},
+  {id:'o_mns',t:'Les 7 maîtres-nageurs',ok:G=>Object.keys(GM_ACT).every(a=>G.mns[a]),r:1},
+  {id:'o_x1',t:'1re activité de saison',ok:G=>(G.x||0)>=1,r:1},
+  {id:'o_x5',t:'5 activités de saison',ok:G=>(G.x||0)>=5,r:1}
+];
+const GM={tab:'act',bm:1,L:[],els:[],iv:0,raf:0,sw:[],fx:[],cv:null,pops:[],live:0,vis:null,visT:0,lanes:[]};
+/* ---------- état ---------- */
+function gmG(){if(COL.gm&&COL.gm.v===2)return COL.gm;COL.gm={v:2,m:0,t:Date.now(),run:0,lifeAll:0,p:0,x:0,stars:0,act:{bebe:{l:1,pg:0,go:0}},mns:{},ben:{},man:{},manN:0,fr:{},obj:{}};return COL.gm;}
+function gmDef(a){if(GM_ACT[a])return GM_ACT[a];const i=+String(a).slice(1),X=GM_XTRA[i];if(!X)return null;
+  return{n:X.n,e:X.e,t:900*(1+i),c0:2e10*Math.pow(40,i),g:1.09,rv:2e9*Math.pow(40,i),mns:X.mns||null,col:['#00a3a3','#e0217a','#6a2cc9','#ff5f5f','#3b7d2a','#0b6fa8','#9a6b00','#5a5f8a','#c2185b','#00796b'][i%10],xt:1};}
+function gmActs(G){return Object.keys(GM_ACT).concat(Array.from({length:G.x||0},(_,i)=>'x'+i));}
+function gmLevels(G){return Object.values(G.act).reduce((s,A)=>s+(A.l||0),0);}
+function gmMnsCost(a){return GM_MNSC[a]||gmDef(a).c0*5;}
+function gmAuto(G,a){const D=gmDef(a);return !!G.mns[a]||(D.xt&&!D.mns);}
+function gmSpeed(A){let n=0;GM_MS.forEach(m=>{if(A.l>=m)n++;});return Math.pow(2,n);}
+function gmNextMs(A){return GM_MS.find(m=>A.l<m)||null;}
+function gmMul(G,a,now){let m=1;GM_BENU.forEach(([id,t,x])=>{if(G.ben[id]&&(t===a||t==='all'))m*=x;});
+  m*=1+.02*(G.stars||0);m*=1+.01*Object.keys(G.fr||{}).length;now=now||Date.now();let bx=1;for(const k in G.man){const M=G.man[k];if(M&&M.end>now)bx=Math.max(bx,GM_MAN[k].x);}if(G.vb&&G.vb.end>now)m*=G.vb.x;return m*bx;}
+function gmCycle(G,a){const D=gmDef(a),A=G.act[a];return Math.max(.05,D.t/gmSpeed(A));}
+function gmProf(A){return Math.pow(3,Math.floor((A.l||0)/100));}
+function gmPer(G,a,now){const D=gmDef(a),A=G.act[a];return D.rv*A.l*gmProf(A)*gmMul(G,a,now);}
+function gmRate(G,now){let r=0;for(const a in G.act){const A=G.act[a];if(!A.l)continue;if(gmAuto(G,a)||A.go)r+=gmPer(G,a,now)/gmCycle(G,a);}return r;}
+function gmCost(G,a,n){const D=gmDef(a),A=G.act[a]||{l:0};const L=A.l||0;return D.c0*Math.pow(D.g,L)*(Math.pow(D.g,n)-1)/(D.g-1);}
+function gmBuyN(G,a){const D=gmDef(a),A=G.act[a]||{l:0};let n=GM.bm;if(GM.bm==='max'){const L=A.l||0,c1=D.c0*Math.pow(D.g,L);n=Math.max(1,Math.floor(Math.log(G.m*(D.g-1)/c1+1)/Math.log(D.g)));}return{n,c:gmCost(G,a,n)};}
+function gmXThr(G){return 3e10*Math.pow(30,G.x||0);}
+function gmXOK(G){return !!GM_XTRA[G.x||0]&&G.run>=gmXThr(G);}
+function gmStarsTot(G){return Math.floor(60*Math.cbrt((G.lifeAll||0)/1e10));}
+function gmStarsNew(G){return Math.max(0,gmStarsTot(G)-(G.stars||0));}
+/* avance le temps (gère aussi le hors-ligne, avec les boosts au bon moment) */
+function gmStep(G,dt,now){for(const a in G.act){const A=G.act[a];if(!A.l)continue;const auto=gmAuto(G,a);if(!auto&&!A.go)continue;
+    const cy=gmCycle(G,a);A.pg=(A.pg||0)+dt/cy;let n=Math.floor(A.pg);if(!auto&&n>=1){n=1;A.pg=0;A.go=0;}else A.pg-=n;
+    if(n>0){const v=n*gmPer(G,a,now);G.m+=v;G.run+=v;G.lifeAll+=v;if(GM.live&&GM.pops.length<30)GM.pops.push({a,v,t:0});}}}
+function gmCatch(){const G=gmG(),now=Date.now();let dt=(now-(G.t||now))/1000;G.t=now;if(!(dt>0))return null;const off=dt;dt=Math.min(dt,8*3600);const m0=G.m;
+  let t=now-dt*1000;while(dt>0){const h=Math.min(dt,dt>300?5:.25);t+=h*1000;gmStep(G,h,t);dt-=h;}return{off,gain:G.m-m0};}
+/* ---------- affichage des nombres ---------- */
+function gmFmt(v){v=Math.max(0,v||0);if(!isFinite(v))return '∞';if(v>=1e48)return v.toExponential(2).replace('.',',').replace('e+','e');if(v<1000)return (v<10&&v%1?v.toFixed(1).replace('.',','):Math.floor(v).toLocaleString('fr-FR'));const U=['k','M','Md','Bn','Tn','Qd','Qt','Sx','Sp','Oc','No','Dc','Ud','Dd','Td'];let i=-1;while(v>=1000&&i<U.length-1){v/=1000;i++;}
+  return (v<10?v.toFixed(2):v<100?v.toFixed(1):Math.floor(v).toString()).replace('.',',')+' '+U[i];}
+const gmE=v=>gmFmt(v)+' €';
+function gmTime(s){s=Math.max(0,Math.ceil(s));if(s<60)return s+' s';if(s<3600)return Math.floor(s/60)+' min '+String(s%60).padStart(2,'0');return Math.floor(s/3600)+' h '+String(Math.floor(s%3600/60)).padStart(2,'0');}
+let gmSaveL=0;function gmSave(force){const now=Date.now();if(force||now-gmSaveL>30000){gmSaveL=now;try{saveCol();}catch(_){}}}
+/* ---------- écran ---------- */
+function gmWelcome(r){if(!(r&&r.off>60&&r.gain>0)||document.querySelector('.gmoff'))return;const h=Math.floor(Math.min(r.off,28800)/3600),mn=Math.floor(Math.min(r.off,28800)%3600/60);
+  const sh=sheet(`<div class="gmoff"><div class="e">🌙</div><h3>Pendant ton absence…</h3><p>Tes maîtres-nageurs ont fait tourner le club pendant <b>${h?h+' h ':''}${mn} min</b>${r.off>28800?' (8 h maximum)':''}.</p><div class="big">+${gmE(r.gain)}</div></div><div class="trbtns"><button class="btn" id="bx">💶 Encaisser</button></div>`);
+  sh.querySelector('#bx').onclick=()=>{sh.remove();gmFloat('+'+gmE(r.gain),'#2fb35a');};}
+function openManager(){try{bbClose();}catch(_){}try{fgStop();}catch(_){}gmG();const r=gmCatch();show('manager');gmRender();gmWelcome(r);gmSave(true);
+  clearInterval(GM.iv);GM.iv=setInterval(gmTick,100);cancelAnimationFrame(GM.raf);GM.raf=requestAnimationFrame(gmPool);}
+function gmActive(){const s=$('#manager');return s&&s.classList.contains('active');}
+let gmLiveT=0;
+function gmTick(){if(!gmActive()){clearInterval(GM.iv);cancelAnimationFrame(GM.raf);if(COL.gm){gmCatch();gmSave(true);}return;}
+  const G=gmG(),now=Date.now(),dt=Math.min(5,(now-G.t)/1000);G.t=now;GM.live=1;if(dt>0)gmStep(G,dt,now);GM.live=0;
+  for(const k in G.man){const M=G.man[k];if(M&&M.end<=now&&!M.over){M.over=1;toast(GM_MAN[k].e,GM_MAN[k].n+' terminée','Le boost ×'+GM_MAN[k].x+' est fini');gmRender();}}
+  gmLive();gmSave(false);}
+document.addEventListener('visibilitychange',()=>{try{if(document.hidden&&COL.gm){if(gmActive())gmCatch();gmSave(true);}else if(!document.hidden&&gmActive()){const r=gmCatch();gmRender();gmWelcome(r);}}catch(_){}});
+function gmLv(fn){GM.L.push(fn);return `data-l="${GM.L.length-1}"`;}
+function gmLive(){GM.els.forEach(([el,fn])=>{let r;try{r=fn();}catch(_){return;}if(r==null)return;if(typeof r!=='object')r={t:r};
+  if(r.t!=null&&el.textContent!==String(r.t))el.textContent=r.t;if(r.w!=null)el.style.width=r.w+'%';if(r.d!=null&&el.disabled!==r.d)el.disabled=r.d;if(r.c!=null&&el.dataset.s!==r.c)el.dataset.s=r.c;if(r.h!=null)el.hidden=r.h;});}
+function gmAv(id,cls){const m=memObj(id);return `<span class="gmav ${cls||''}"><img src="${m?(m.thumb||m.img):''}" alt="" loading="lazy" decoding="async" style="object-position:${(m&&m.pos)||'50% 30%'}"></span>`;}
+function gmName(id){const m=memObj(id);return m?m.n:id;}
+function gmFriendPool(){const st=new Set(Object.values(GM_ACT).map(d=>d.mns).concat(GM_XTRA.map(x=>x.mns)).concat(GM_BENU.map(b=>b[0])));return qqPool().map(m=>m.id).filter(i=>!st.has(i));}
+function gmBenHTML(G){let h=`<div class="gmhint">🙋 Chaque bénévole <b>multiplie les gains</b> d'une activité (ou de tout le club). Achat unique, gardé jusqu'à la fin de la saison.</div>`;
+  const L=GM_BENU.slice().sort((x,y)=>(G.ben[x[0]]?1:0)-(G.ben[y[0]]?1:0)||x[3]-y[3]);
+  L.forEach(([id,t,x,c])=>{const own=!!G.ben[id],tg=t==='all'?'🏢 Tout le club':gmDef(t).e+' '+gmDef(t).n;
+    h+=`<div class="gmper${own?' own':''}">${gmAv(id,own?'ben':'')}<div class="i"><b>${esc(gmName(id))}</b><small>${tg} · gains <b>×${x}</b></small></div>
+      ${own?'<span class="ok">✅</span>':`<button class="mini-b gmh" data-ben="${id}" ${gmLv(()=>({d:G.m<c}))}>Recruter<br><b>${gmE(c)}</b></button>`}</div>`;});
+  return h;}
+/* ---------- les manifestations : des boosts ---------- */
+function gmManOn(G){const n=Date.now();return Object.keys(G.man).find(k=>G.man[k].end>n)||null;}
+function gmManReady(G,k){const M=GM_MAN[k],R=G.man[k];if(M.need&&!(G.act[M.need]||{}).l)return false;if(gmManOn(G))return false;return !R||Date.now()>=R.ready;}
+function gmSeasonHTML(G){const nx=GM_XTRA[G.x||0],ns=gmStarsNew(G);const xl=nx?`<div class="gmxt" ${gmLv(()=>gmXOK(G)?{t:'✅ '+nx.e+' '+nx.n+' sera débloquée !',c:'ok'}:{t:'🔒 '+nx.e+' '+nx.n+' : gagne '+gmE(gmXThr(G))+' dans la saison ('+gmE(G.run)+')',c:''})}></div>`:'';
+  let h=`<div class="gmpres"><div class="h"><span class="e">🌅</span><div><b>Nouvelle saison</b><small>Le club repart de zéro, mais tu gagnes des <b>⭐ étoiles</b> (+2 % de gains chacune, pour toujours)${nx?`, et une nouvelle activité si ta saison a été assez grosse`:''}.</small></div></div>${xl}
+    <div class="gmstars"><div><small>Tes étoiles (+${gmFmt((G.stars||0)*2)} %)</small><b>⭐ ${gmFmt(G.stars||0)}</b></div><div><small>Tu gagnerais</small><b ${gmLv(()=>'+ '+gmFmt(gmStarsNew(G))+' ⭐')}></b></div></div>
+    <small class="gmkeep">On garde : étoiles, amis du club, objectifs, activités de saison. On repart à zéro : argent, créneaux, maîtres-nageurs, bénévoles.</small>
+    <button class="gmbuy gold" id="gmPr" ${gmLv(()=>({d:gmStarsNew(G)<1,t:gmStarsNew(G)<1?'Gagne encore un peu pour ta 1re étoile…':'🌅 Commencer la saison '+(G.p+2)}))}></button></div>`;
+  h+=`<div class="dsec">🎯 Objectifs <small>quelques cartes pour ta collection</small></div>`+GM_OBJ.map(o=>{const got=G.obj[o.id],ok=o.ok(G);return `<div class="gmobj${got?' got':ok?' ok':''}"><span>${got?'✅':ok?'🎁':'⬜'}</span><b>${o.t}</b>${got?'<small>reçu</small>':ok?`<button class="mini-b" data-obj="${o.id}">${o.r>1?'Booster de '+o.r:'1 carte'}</button>`:`<small>${o.r>1?'🎁 booster de '+o.r:'🎁 1 carte'}</small>`}</div>`;}).join('');
+  h+=`<div class="gmstat">📊 ${gmE(G.lifeAll)} gagnés en tout · ${G.manN||0} manifestation${(G.manN||0)>1?'s':''}${G.p?' · '+G.p+' saison'+(G.p>1?'s':'')+' terminée'+(G.p>1?'s':''):''}</div>`;return h;}
+/* ---------- actions ---------- */
+function gmPrestigeAsk(G){const ns=gmStarsNew(G);if(ns<1)return;const nx=gmXOK(G)?GM_XTRA[G.x||0]:null,pk=G.pkd!==dayKey();
+  const sh=sheet(`<h3>🌅 Nouvelle saison</h3><div class="sec">Le club repart de zéro… mais en beaucoup plus fort !</div><div class="presgain"><b>Saison ${G.p+2}</b><div><i>⭐</i>+${gmFmt(ns)} étoiles : +${gmFmt(ns*2)} % de gains pour toujours</div>${nx?`<div><i>${nx.e}</i>Nouvelle activité : ${nx.n}</div>`:''}<div><i>🎁</i>${pk?'Un paquet de 3 cartes':'Paquet de 3 cartes déjà reçu aujourd\'hui (1 par jour)'}</div></div>
+    <div class="trbtns"><button class="btn alt" id="bx">Pas encore</button><button class="btn" id="bgo">🌅 C'est parti !</button></div>`);
+  sh.querySelector('#bx').onclick=()=>sh.remove();sh.querySelector('#bgo').onclick=()=>{sh.remove();
+    G.stars=(G.stars||0)+ns;G.p=(G.p||0)+1;if(nx)G.x=(G.x||0)+1;Object.assign(G,{m:0,run:0,act:{bebe:{l:1,pg:0,go:0}},mns:{},ben:{},man:{}});
+    if(pk){G.pkd=dayKey();grantPack(3,'Gambetta Manager · nouvelle saison');try{updBoostBtn();}catch(_){}}try{stat('gmPres');}catch(_){}gmSave(true);
+    const ov=document.createElement('div');ov.className='giftpop';ov.innerHTML=`<div class="gcard"><div class="ptconf">${Array.from({length:26},(_,i)=>`<i style="left:${(i*37)%100}%;animation-delay:${(i%7)*.2}s">${['🌅','⭐','🎉','💶','🏊'][i%5]}</i>`).join('')}</div><div class="emo">🌅</div><h3>Saison ${G.p+1} !</h3><p>⭐ ${gmFmt(G.stars)} étoiles : <b>+${gmFmt(G.stars*2)} % de gains</b>${nx?`<br>Nouvelle activité : <b>${nx.e} ${nx.n}</b>`:''}${pk?'<br>🎁 Un paquet de 3 cartes t\'attend !':''}</p><div class="endbtns"><button class="btn">Plonger !</button></div></div>`;
+    $('#app').appendChild(ov);ov.querySelector('.btn').onclick=()=>ov.remove();GM.tab='act';gmRender();};}
+/* ---------- animations ---------- */
+function gmFloat(txt,col){if(!gmActive())return;const d=document.createElement('div');d.className='gmfloat';d.style.color=col||'#fff';d.textContent=txt;d.style.left=(30+Math.random()*40)+'%';$('#manager').appendChild(d);setTimeout(()=>d.remove(),1400);}
+const GM_VIS=[{k:'canard',e:'🦆',n:'Le canard du club',w:5},{k:'ballon',e:'🏐',n:'Un ballon de plage',w:4},{k:'bouchon',e:'🐶',img:'bouchon',n:'Bouchon',w:3},{k:'frites',e:'🍟',img:'marcel',n:'Marcel et ses frites',w:2},{k:'or',e:'🌟',n:'La bouée en or',w:1}];
+function gmVisImg(id){GM.im=GM.im||{};if(GM.im[id])return GM.im[id];const m=memObj(id);const im=new Image();if(m)im.src=m.thumb||m.img;return GM.im[id]=im;}
+
+/* ---------- tout se passe autour du grand bassin ---------- */
+function gmDots(G){return{ben:GM_BENU.some(([id,,,c])=>!G.ben[id]&&G.m>=c),season:gmStarsNew(G)>=1||GM_OBJ.some(o=>!G.obj[o.id]&&o.ok(G))};}
+function gmLaneHTML(G,a){const D=gmDef(a),A=G.act[a],auto=gmAuto(G,a),own=!!G.mns[a],mc=D.mns?gmMnsCost(a):0;
+  const deck=D.mns?(own?`<div class="dk own" title="${esc(gmName(D.mns))}">${gmAv(D.mns,'mns')}<i>🧑‍🏫</i><small>${esc(gmName(D.mns).split(' ')[0])}</small></div>`
+      :`<button class="dk chair" data-mns="${a}" ${gmLv(()=>({d:G.m<mc}))}><span class="ch">🪑</span><small>${esc(gmName(D.mns).split(' ')[0])}</small><b>${gmE(mc)}</b></button>`)
+    :`<div class="dk own"><span class="ch">🤖</span><small>auto</small></div>`;
+  return `<div class="gml${auto?' auto':''}" style="--c:${D.col}">${deck}
+    <div class="wt" data-tap="${a}"><canvas data-lc="${a}"></canvas>
+      <div class="lab"><b>${D.e} ${D.n}</b><span class="lv">${A.l}</span><em ${gmLv(()=>'+'+gmE(gmPer(G,a)))}></em></div>
+      <div class="st" ${gmLv(()=>{const cy=gmCycle(G,a),n=gmNextMs(A);const tt=cy<.3?'⚡ '+gmE(gmPer(G,a)/cy)+'/s':(!auto&&!A.go?'👆 Touche la ligne':gmTime(cy*(1-(A.pg||0))));return tt+(n?'  ·  '+A.l+'/'+n+' ⏩':'');})}></div></div>
+    <button class="gmbuy" data-buy="${a}" ${gmLv(()=>{const q=gmBuyN(G,a);return{t:'＋'+q.n+'\n'+gmE(q.c),d:G.m<q.c};})}></button></div>`;}
+function gmRender(){const b=$('#gmBody');if(!b)return;const G=gmG();GM.L=[];const sc=b.scrollTop,D=gmDots(G),now=Date.now();
+  const acts=gmActs(G),open=acts.filter(a=>(G.act[a]||{}).l),next=acts.find(a=>!(G.act[a]||{}).l);
+  const hired=GM_BENU.filter(u=>G.ben[u[0]]).map(u=>u[0]),fr=Object.keys(G.fr||{});
+  let h=`<div class="gmhead"><div class="gmmoney"><b ${gmLv(()=>gmE(G.m))}></b><span ${gmLv(()=>'+'+gmE(gmRate(G))+' / s')}></span>${G.stars?`<span class="st">⭐ ${gmFmt(G.stars)} · +${gmFmt(G.stars*2)} %</span>`:''}</div>
+    <div class="gmboost" ${gmLv(()=>{const now=Date.now(),L=Object.keys(G.man).filter(k=>G.man[k].end>now);const vb=G.vb&&G.vb.end>now?[G.vb.e+' ×'+G.vb.x+' '+gmTime((G.vb.end-now)/1000)]:[];const T=L.map(k=>GM_MAN[k].e+' ×'+GM_MAN[k].x+' '+gmTime((G.man[k].end-now)/1000)).concat(vb);return{t:T.join('   '),h:!T.length};})}></div></div>
+   <div class="gmscene">
+    <div class="gmwall"><div class="ban">🏊 CLUB GAMBETTA ${G.p?'· SAISON '+(G.p+1):''}</div>
+      <button class="sign${D.season?' hot':''}" data-sheet="season"><span>🌅</span><b>Fin de saison</b><small ${gmLv(()=>{const n=gmStarsNew(G);return n?'+'+gmFmt(n)+' ⭐':'objectifs';})}></small></button></div>
+    <button class="gmstands${D.ben?' hot':''}" data-sheet="ben"><div class="seats">${GM_BENU.map(u=>G.ben[u[0]]?gmAv(u[0],'ben'):'<span class="seat"></span>').join('')}</div>
+      <div class="lbl">🙋 Bénévoles ${hired.length}/${GM_BENU.length}${D.ben?' · <b>recrute !</b>':''}${fr.length?` · 🤝 ${fr.length} ami${fr.length>1?'s':''}`:''}</div></button>
+    <div class="gmbm">${[1,10,100,'max'].map(v=>`<button class="apill${GM.bm===v?' on':''}" data-bm="${v}">${v==='max'?'Max':'×'+v}</button>`).join('')}</div>
+    <div class="gmbig">${open.map(a=>gmLaneHTML(G,a)).join('')}
+      ${next?(()=>{const N=gmDef(next),c=gmCost(G,next,1);return `<div class="gml build"><div class="dk"><span class="ch">🚧</span></div><div class="wt"><div class="lab"><b>${N.e} ${N.n}</b></div><div class="st">Nouvelle ligne · séance de ${gmTime(N.t)} · ${gmE(N.rv*gmMul(G,next))}</div></div>
+        <button class="gmbuy" data-buy="${next}" ${gmLv(()=>({t:'🏗️ Construire\n'+gmE(c),d:G.m<c}))}></button></div>`;})():`<div class="gml build done"><div class="wt"><div class="st">${GM_XTRA[G.x||0]?'🌅 Nouvelle ligne avec une grosse saison : '+GM_XTRA[G.x||0].e+' '+GM_XTRA[G.x||0].n:'Le bassin est complet !'}</div></div></div>`}</div>
+    <div class="gmstage"><div class="tt">🎪 Scène des manifestations <small>une à la fois</small></div><div class="stalls">${Object.keys(GM_MAN).map(k=>{const M=GM_MAN[k],lock=M.need&&!(G.act[M.need]||{}).l;
+      return `<button class="stall" data-man="${k}" ${gmLv(()=>{const R=G.man[k],n=Date.now();if(lock)return{c:'lock',d:true};if(R&&R.end>n)return{c:'run',d:true};if(R&&R.ready>n)return{c:'cd',d:true};if(gmManOn(G))return{c:'wait',d:true};return{c:'ok',d:false};})}><span class="e">${M.e}</span><b>×${M.x}</b><small ${gmLv(()=>{const R=G.man[k],n=Date.now();if(lock)return '🔒 '+gmDef(M.need).e;if(R&&R.end>n)return gmTime((R.end-n)/1000);if(R&&R.ready>n)return '🔄 '+gmTime((R.ready-n)/1000);return M.n.split(' ')[0]+(M.n.split(' ').length>1?'…':'');})}></small></button>`;}).join('')}</div></div>
+   </div>`;
+  b.innerHTML=h+'<div style="height:110px"></div>';GM.els=[...b.querySelectorAll('[data-l]')].map(el=>[el,GM.L[+el.dataset.l]]);b.scrollTop=sc;
+  gmWire(b,G);gmLive();GM.lc={};b.querySelectorAll('[data-lc]').forEach(c=>GM.lc[c.dataset.lc]=c);if(GM.sheet)gmSheetFill();b.scrollTop=sc;requestAnimationFrame(()=>{if(Math.abs(b.scrollTop-sc)>1)b.scrollTop=sc;});}
+/* fenêtres : bénévoles (gradins) et fin de saison (panneau) */
+function gmOpenSheet(k){GM.sheet=k;const sh=sheet(`<div id="gmSh"></div><div class="trbtns"><button class="btn alt" id="bx">Fermer</button></div>`);GM.shEl=sh;sh.querySelector('#bx').onclick=()=>{sh.remove();GM.sheet=null;GM.shEl=null;gmRender();};gmSheetFill();}
+function gmSheetFill(){const sh=GM.shEl;if(!sh||!document.body.contains(sh)){GM.sheet=null;GM.shEl=null;return;}const G=gmG(),box=sh.querySelector('#gmSh'),n0=GM.L.length;
+  if(GM.sheet==='ben'){const F=Object.keys(G.fr||{}),pool=gmFriendPool();box.innerHTML=`<h3>🙋 Les gradins</h3>`+gmBenHTML(G)+`<div class="dsec">🤝 Amis du club <small>${F.length}/${pool.length} · chaque manif en fait venir un · +1 % chacun</small></div><div class="gmfr">${pool.map(i=>F.includes(i)?`<div>${gmAv(i,'fr')}<small>${esc(gmName(i))}</small></div>`:`<div class="no"><span class="gmav">?</span><small>???</small></div>`).join('')}</div>`;}
+  else box.innerHTML=gmSeasonHTML(G);
+  box.querySelectorAll('[data-l]').forEach(el=>GM.els.push([el,GM.L[+el.dataset.l]]));gmWire(box,G);gmLive();}
+/* actions */
+function gmWire(b,G){const R=()=>{gmRender();gmSave(false);},sfx=k=>{try{fgSfx(k);}catch(_){}};
+  b.querySelectorAll('[data-bm]').forEach(x=>x.onclick=()=>{GM.bm=x.dataset.bm==='max'?'max':+x.dataset.bm;R();});
+  b.querySelectorAll('[data-sheet]').forEach(x=>x.onclick=()=>gmOpenSheet(x.dataset.sheet));
+  b.querySelectorAll('[data-tap]').forEach(x=>x.onclick=e=>{const a=x.dataset.tap,V=GM.vis;
+    if(V&&V.a===a){const r=x.getBoundingClientRect();if(Math.abs(e.clientX-r.left-V.x)<44){gmVisHit();return;}}
+    const A=G.act[a];if(!A||gmAuto(G,a)||A.go)return;A.go=1;A.pg=0;sfx('swing');x.classList.add('pop');setTimeout(()=>x.classList.remove('pop'),200);gmLive();});
+  b.querySelectorAll('[data-buy]').forEach(x=>x.onclick=()=>{const a=x.dataset.buy,q=gmBuyN(G,a);if(G.m+1e-9<q.c)return;G.m-=q.c;const A=G.act[a]=G.act[a]||{l:0,pg:0,go:0},old=A.l;A.l+=q.n;sfx('pop');
+    if(!old){gmFloat('🏗️ Nouvelle ligne : '+gmDef(a).n+' !','#2fb35a');sfx('parry');R();return;}
+    const o=GM_MS.filter(m=>old<m&&A.l>=m).length;if(o){gmFloat(gmDef(a).e+' vitesse ×'+Math.pow(2,o)+' !','#ff9a00');sfx('parry');}if(Math.floor(A.l/100)>Math.floor(old/100)){gmFloat(gmDef(a).e+' gains ×3 !','#2fb35a');sfx('parry');}R();});
+  b.querySelectorAll('[data-mns]').forEach(x=>x.onclick=()=>{const a=x.dataset.mns,c=gmMnsCost(a);if(G.mns[a]||G.m<c)return;G.m-=c;G.mns[a]=1;sfx('parry');gmFloat('🧑‍🏫 '+gmName(gmDef(a).mns)+' surveille la ligne !','#2fb35a');gmSave(true);R();});
+  b.querySelectorAll('[data-ben]').forEach(x=>x.onclick=()=>{const id=x.dataset.ben,u=GM_BENU.find(z=>z[0]===id);if(!u||G.ben[id]||G.m<u[3])return;G.m-=u[3];G.ben[id]=1;sfx('parry');gmFloat(gmName(id)+' · ×'+u[2]+' !','#2fb35a');gmSave(true);R();});
+  b.querySelectorAll('[data-man]').forEach(x=>x.onclick=()=>{const k=x.dataset.man,M=GM_MAN[k],now=Date.now(),R0=G.man[k];if(M.need&&!(G.act[M.need]||{}).l)return;if(R0&&(R0.end>now||R0.ready>now)||gmManOn(G))return;
+    const pool=qqShuffle(gmFriendPool()),ppl=pool.slice(0,3);G.man[k]={end:now+M.dur*1000,ready:now+M.cd*1000,ppl};G.manN=(G.manN||0)+1;G.fr=G.fr||{};const nf=ppl.find(i=>!G.fr[i]);if(nf)G.fr[nf]=now;
+    sfx('ann');gmFloat(M.e+' '+M.n+' : ×'+M.x+' !','#e0217a');if(nf)toast('🤝','Nouvel ami du club : '+gmName(nf),'Il rejoint les gradins · +1 % de gains');gmSave(true);R();});
+  b.querySelectorAll('[data-obj]').forEach(x=>x.onclick=()=>{const o=GM_OBJ.find(z=>z.id===x.dataset.obj);if(!o||G.obj[o.id]||!o.ok(G))return;G.obj[o.id]=Date.now();grantPack(o.r,'Gambetta Manager · '+o.t);try{updBoostBtn();}catch(_){}
+    toast('🎁','Objectif réussi : '+o.t,o.r>1?'Booster de '+o.r+' cartes':'Une carte');gmSave(true);R();});
+  const pr=b.querySelector('#gmPr');if(pr)pr.onclick=()=>{if(GM.shEl){GM.shEl.remove();GM.sheet=null;GM.shEl=null;}gmPrestigeAsk(G);};}
+/* les nageurs dans chaque ligne + les visiteurs */
+function gmPool(){if(!gmActive())return;GM.raf=requestAnimationFrame(gmPool);const G=gmG(),t=performance.now()/1000,now=Date.now();
+  const lanes=Object.keys(GM.lc||{}).filter(a=>GM.lc[a]&&document.body.contains(GM.lc[a]));
+  if(!GM.vis&&now>GM.visT&&lanes.length){if(GM.visT){const tot=GM_VIS.reduce((s,v)=>s+v.w,0);let r=Math.random()*tot,V=GM_VIS[0];for(const v of GM_VIS){r-=v.w;if(r<=0){V=v;break;}}const a=lanes[Math.floor(Math.random()*lanes.length)],W=GM.lc[a].clientWidth,d=Math.random()<.5?1:-1;GM.vis={V,a,x:d>0?-20:W+20,d,t:0,sp:W/(V.k==='or'?3.2:5)};try{fgSfx('pop');}catch(_){}}GM.visT=now+(40+Math.random()*60)*1000;}
+  lanes.forEach(a=>{const cv=GM.lc[a],D=gmDef(a),A=G.act[a];if(!A)return;const dpr=Math.min(2,devicePixelRatio||1),W=cv.clientWidth,H=cv.clientHeight;if(!W||!H)return;
+    if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);}const c=cv.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,W,H);
+    const auto=gmAuto(G,a),on=auto||A.go,cy=gmCycle(G,a),fast=cy<.6,y=H*.62,x0=12,x1=W-12;
+    // nageurs qui font des longueurs (plus de créneaux = plus de nageurs)
+    const crew=Math.min(5,1+Math.floor(Math.log2(1+A.l)/1.4)),sz=a==='bebe'?4.6:5.6;
+    const sw=(x,dir,lead,dy)=>{c.save();c.translate(x,y+(dy||0));c.scale(dir,1);if(on){c.globalAlpha=.45;c.fillStyle='#fff';c.beginPath();c.ellipse(-9,0,8,2.2,0,0,7);c.fill();c.globalAlpha=1;}
+      const arm=on?Math.sin(t*(fast?14:7)+x*.1):0;c.strokeStyle='#f2c49b';c.lineWidth=2.4;c.lineCap='round';c.beginPath();c.moveTo(0,0);c.lineTo(arm*7,-Math.abs(arm)*4-2);c.stroke();
+      c.fillStyle='#f2c49b';c.beginPath();c.arc(0,0,sz,0,7);c.fill();c.fillStyle=D.col;c.beginPath();c.arc(0,-1,sz,Math.PI*1.05,Math.PI*1.95+.3);c.fill();
+      if(lead){c.strokeStyle='#ffe36b';c.lineWidth=1.8;c.beginPath();c.arc(0,0,sz+2.4,0,7);c.stroke();}if(a==='bebe'){c.fillStyle='#ffd23f';c.beginPath();c.ellipse(0,sz+.4,7,2.6,0,0,7);c.fill();}c.restore();};
+    for(let k=1;k<crew;k++){const ph=(t*(on?(fast?.8:.22):0)+k*.41)%2,p=ph<1?ph:2-ph;sw(x0+p*(x1-x0),ph<1?1:-1,false,(k%2?-1:1)*4);}
+    const ps=fast&&on?((t*1.1)%2<1?(t*1.1)%1:1-(t*1.1)%1):(A.pg||0);sw(x0+ps*(x1-x0),fast&&on&&(t*1.1)%2>=1?-1:1,true,0);
+    // les pièces qui sautent au bout de la ligne
+    GM.pops.filter(p=>p.a===a).forEach(p=>{const al=Math.max(0,1-p.t);c.globalAlpha=al;c.font='800 11px system-ui,sans-serif';c.textAlign='right';c.lineWidth=3;c.strokeStyle='#1b2a3a';const yy=H*.55-p.t*16;c.strokeText('+'+gmE(p.v),W-4,yy);c.fillStyle='#ffe36b';c.fillText('+'+gmE(p.v),W-4,yy);c.globalAlpha=1;});
+    // le visiteur
+    const V=GM.vis;if(V&&V.a===a){V.t+=1/60;V.x+=V.d*V.sp/60;const vy=H*.55+Math.sin(V.t*6)*2;c.save();c.translate(V.x,vy);const pu=1+.12*Math.sin(V.t*10);c.scale(pu,pu);c.fillStyle='rgba(255,255,255,.9)';c.strokeStyle='#ffd23f';c.lineWidth=3;c.beginPath();c.arc(0,0,14,0,7);c.fill();c.stroke();
+      const im=V.V.img?gmVisImg(V.V.img):null;if(im&&im.complete&&im.naturalWidth){c.save();c.beginPath();c.arc(0,0,12,0,7);c.clip();c.drawImage(im,-12,-12,24,24);c.restore();c.font='11px sans-serif';c.textAlign='center';c.fillText(V.V.e,10,-10);}else{c.font='17px sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(V.V.e,0,1);}c.restore();
+      if(V.x<-40||V.x>W+40)GM.vis=null;}});
+  GM.pops.forEach(p=>p.t+=1/60);GM.pops=GM.pops.filter(p=>p.t<1);
+  if(GM.visT===0)GM.visT=now+20000;}
+function gmVisHit(){const G=gmG(),V=GM.vis.V,r=Math.max(1,gmRate(G));let txt;
+  if(V.k==='canard'||V.k==='ballon'){const v=r*(V.k==='canard'?60:90);G.m+=v;G.run+=v;G.lifeAll+=v;txt=V.e+' +'+gmE(v);}
+  else if(V.k==='bouchon'){G.vb={x:5,end:Date.now()+30e3,e:'🐶'};txt='🐶 Bouchon : gains ×5 pendant 30 s !';}
+  else if(V.k==='frites'){const v=r*600;G.m+=v;G.run+=v;G.lifeAll+=v;txt='🍟 Les frites de Marcel : +'+gmE(v);}
+  else{G.vb={x:10,end:Date.now()+20e3,e:'🌟'};txt='🌟 Bouée en or : gains ×10 pendant 20 s !';}
+  gmFloat(txt,'#ffe36b');GM.vis=null;G.visN=(G.visN||0)+1;try{fgSfx('parry');}catch(_){}gmSave(false);gmLive();}
 
 /* ================= GAMBETTA FIGHTER =================
    Jeu de combat au bord de la piscine, façon arcade.
