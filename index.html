@@ -1362,6 +1362,18 @@ button,a,[data-hg],.rkscroll{touch-action:manipulation}
 .shback{position:sticky;top:0;float:left;z-index:6;width:40px;height:40px;margin:-4px 8px 4px -4px;border-radius:12px;border:3px solid var(--ink);background:var(--yellow);color:#1b2a3a;font:inherit;font-size:24px;font-weight:900;line-height:1;cursor:pointer;box-shadow:0 3px 0 var(--ink);padding:0 0 3px}
 .ofsheet .shback,#ofSel~.shback{position:relative}
 </style>
+<style>
+.trsheet .in>.shbar{position:sticky;top:-16px;z-index:8;display:flex;align-items:center;gap:8px;margin:-16px -16px 6px;padding:12px 12px 6px;background:var(--card);border-radius:22px 22px 0 0;transition:box-shadow .2s}
+.trsheet .in>.shbar.stuck{box-shadow:0 6px 12px -6px rgba(0,0,0,.35)}
+.shbar .shback{position:static;float:none;margin:0;flex:none}
+.shbar .sht{flex:1;margin:0!important;padding-right:48px;min-width:0;font-size:24px!important;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.shbar .sht:empty{display:none}
+h3.shmoved{display:none!important}
+.shback.abs{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));left:14px;z-index:25;float:none;margin:0}
+#booster .bx{left:12px;right:auto;background:var(--yellow);color:#1b2a3a;font-size:24px;font-weight:900;box-shadow:0 3px 0 var(--ink)}
+#booster .bcount{left:66px}
+.fgquit,.bbq,#ptX,#bbBackSel,#quit{font-size:24px!important;font-weight:900!important;line-height:1}
+</style>
 </head>
 <body>
 <div id="app">
@@ -1399,7 +1411,7 @@ button,a,[data-hg],.rkscroll{touch-action:manipulation}
   </section>
 
   <section id="booster" class="boverlay" aria-label="Ouverture de booster">
-    <button class="bx" id="boostClose" aria-label="Fermer">✕</button>
+    <button class="bx" id="boostClose" aria-label="Retour">←</button>
     <div class="bcount" id="bcount"></div>
     <div id="bstage" style="position:relative;display:flex;align-items:center;justify-content:center;width:100%;height:100%"></div>
     <div class="bhint" id="bhint"></div>
@@ -1436,7 +1448,7 @@ button,a,[data-hg],.rkscroll{touch-action:manipulation}
   </section>
 
   <section id="bataille" class="screen" aria-label="Bataille du Bassin">
-    <div class="col-head"><button class="x" id="bbBackSel" aria-label="Quitter la partie" hidden>✕</button><button class="hubback" data-hub aria-label="Retour au menu Jouer">‹ Jouer</button><h2>⚔️ Bataille du Bassin</h2></div>
+    <div class="col-head"><button class="x" id="bbBackSel" aria-label="Quitter la partie" hidden>←</button><button class="hubback" data-hub aria-label="Retour au menu Jouer">‹ Jouer</button><h2>⚔️ Bataille du Bassin</h2></div>
     <div class="rkscroll" id="bbBody" style="position:relative"></div>
   </section>
 
@@ -5388,7 +5400,18 @@ document.querySelectorAll('.screen').forEach(sc=>{if(['title','hub','game'].incl
 function shBack(sh){const ids=['#bx','#pfX','#ofx','#ofx2','#pfBack','#qLater','#dLater','#trx','#tx'];for(const q of ids){const x=sh.querySelector(q);if(x&&x.offsetParent){x.click();return;}}
   const bt=[...sh.querySelectorAll('button')].find(x=>x.offsetParent&&/^\s*(Fermer|Annuler|Retour|Plus tard|Pas encore|Non merci|OK)\b/i.test(x.textContent));if(bt){bt.click();return;}
   sh.remove();try{if(GM.shEl===sh){GM.sheet=null;GM.shEl=null;gmRender();}}catch(_){}}
-function shArrow(sh){const inn=sh.querySelector(':scope > .in');if(!inn||inn.querySelector(':scope > .shback'))return;const b=document.createElement('button');b.className='shback';b.type='button';b.setAttribute('aria-label','Retour');b.textContent='←';b.onclick=e=>{e.stopPropagation();shBack(sh);};inn.prepend(b);}
+/* barre du haut des fenêtres : flèche ← + titre, qui reste visible quand on fait défiler */
+function shTitle(inn,bar){const t=bar.querySelector('.sht');const first=[...inn.children].find(x=>x!==bar);let h=null;
+  if(first&&first.tagName==='H3')h=first;else if(first&&first.firstElementChild&&first.firstElementChild.tagName==='H3')h=first.firstElementChild;
+  inn.querySelectorAll('h3.shmoved').forEach(x=>{if(x!==h)x.classList.remove('shmoved');});
+  if(h){h.classList.add('shmoved');if(t.innerHTML!==h.innerHTML)t.innerHTML=h.innerHTML;}else if(t.innerHTML)t.innerHTML='';}
+function shArrow(sh){const inn=sh.querySelector(':scope > .in');if(!inn||inn.querySelector(':scope > .shbar'))return;
+  const bar=document.createElement('div');bar.className='shbar';bar.innerHTML='<button class="shback" type="button" aria-label="Retour">←</button><h3 class="sht"></h3>';
+  bar.firstChild.onclick=e=>{e.stopPropagation();shBack(sh);};inn.prepend(bar);shTitle(inn,bar);
+  inn.addEventListener('scroll',()=>bar.classList.toggle('stuck',inn.scrollTop>2),{passive:true});
+  new MutationObserver(()=>shTitle(inn,bar)).observe(inn,{childList:true,subtree:true});}
+/* la grande carte (collection) : flèche ← aussi */
+new MutationObserver(()=>{const m=$('#cmodal');if(!m||!m.classList.contains('show')||m.querySelector(':scope > .shback'))return;const b=document.createElement('button');b.className='shback abs';b.type='button';b.setAttribute('aria-label','Retour');b.textContent='←';b.onclick=e=>{e.stopPropagation();try{closeCard();}catch(_){m.classList.remove('show');}};m.prepend(b);}).observe($('#cmodal'),{childList:true,attributes:true,attributeFilter:['class']});
 new MutationObserver(ms=>{for(const m of ms)for(const n of m.addedNodes){if(n.nodeType!==1)continue;if(n.classList.contains('trsheet'))shArrow(n);else if(n.classList.contains('in')&&n.parentNode&&n.parentNode.classList&&n.parentNode.classList.contains('trsheet'))shArrow(n.parentNode);}}).observe($('#app'),{childList:true,subtree:true});
 
 document.querySelectorAll('.ctabs [data-ct]').forEach(x=>x.onclick=()=>{if(x.dataset.ct==='col')$('#openCol').click();else $('#openTrade').click();
@@ -6446,7 +6469,7 @@ function bbStart(o){const rng=bbRng(o.seed),me=o.me||0;if(BC&&BC.raf)cancelAnima
     sd:[bbSide(o.decks[0],0,rng,o.rule),bbSide(o.decks[1],1,rng,o.rule)],units:[],pend:[],vp:[],proj:[],fx:[],bub:[],sel:null,drag:false,ghost:null,aiT:2,over:false,ot:false,msg:null,msgT:0,uid:0,cd:3.6,shake:0,banner:null,bg:null};
   BB.lastStart=o;show('bataille');
   const sub=BC.mode==='ai'?BB_LEVELS[BC.lvl].n:BC.mode==='deck'?'Deck de '+esc(BC.oppName):BC.mode==='daily'?'📅 '+esc((BB_RULES.find(r=>r.k===BC.rule)||{}).n||'Du jour'):BC.mode==='duel'?'⚔️ Duel':'📡 En direct';
-  const b=$('#bbBody');b.innerHTML=`<div class="rlhud bbhud"><button class="x bbq" id="bbQuitBtn" aria-label="Quitter la partie">✕</button><div><b>Toi</b><span id="bbC0">0 🏆</span></div><div class="rlvs"><span id="bbTm">${Math.floor(BC.dur/60)}:${String(BC.dur%60).padStart(2,'0')}</span><small id="bbX">${sub}</small></div><div style="text-align:right"><b>${esc(BC.mode==='ai'?'Ordi':BC.oppName)}</b><span id="bbC1">0 🏆</span></div></div>
+  const b=$('#bbBody');b.innerHTML=`<div class="rlhud bbhud"><button class="x bbq" id="bbQuitBtn" aria-label="Quitter la partie">←</button><div><b>Toi</b><span id="bbC0">0 🏆</span></div><div class="rlvs"><span id="bbTm">${Math.floor(BC.dur/60)}:${String(BC.dur%60).padStart(2,'0')}</span><small id="bbX">${sub}</small></div><div style="text-align:right"><b>${esc(BC.mode==='ai'?'Ordi':BC.oppName)}</b><span id="bbC1">0 🏆</span></div></div>
     <div class="rlpool bbarena"><canvas id="bbCv"></canvas><div class="rlhint" id="bbHint"></div><div class="bbemo" id="bbEmoBar" hidden>${BB_EMO.map(e=>`<button data-emo="${e}">${e}</button>`).join('')}</div></div>
     <div class="bbchl"><span id="bbChN">5</span><div class="eb"><i id="bbChB"></i></div><button id="bbEmoB" class="bbx2" aria-label="Émotes">😀</button>${BC.live?'':'<button id="bbX2" class="bbx2" aria-label="Accélérer">⏩</button>'}</div>
     <div class="bbhand" id="bbHand"></div>`;
@@ -7329,7 +7352,7 @@ const ptRanking=S=>{const o=(S.order||[]).slice().sort((a,b)=>((S.stars||{})[b]-
   o.forEach((p,i)=>{r[p]=i>0&&S.stars[p]===S.stars[o[i-1]]&&S.coins[p]===S.coins[o[i-1]]?r[o[i-1]]:i+1;});return r;};
 function ptGameUI(b,P){const S=P.state||{},map=ptMap(P),me=ptMe(),ord=S.order||[],n=map.cells.length;PT.mapK=P.map||'belletanche';PT.mapObj=map;
   if(PT.boardFor!==PT.code+':'+(P.startAt||0)){PT.boardFor=PT.code+':'+(P.startAt||0);PT.prev=null;const all=ptAll(map);
-    b.innerHTML=`<div class="pttop"><b id="ptTurn"></b><span>${map.e} ${map.n}${map.short?' ⚡':''}</span><button class="x" id="ptX" aria-label="Quitter">✕</button></div><div class="ptsc" id="ptSc"></div>
+    b.innerHTML=`<div class="pttop"><b id="ptTurn"></b><span>${map.e} ${map.n}${map.short?' ⚡':''}</span><button class="x" id="ptX" aria-label="Quitter">←</button></div><div class="ptsc" id="ptSc"></div>
      <div class="ptboard ${map.cls}" id="ptB">${ptArt(map)}
        ${Array.from({length:all},(_,i)=>{const c=ptType(map,i),q=ptXY(i,n);return `<div class="ptc t${c}${i>=n?' br':''}${map.br&&i===map.br.f?' fork':''}" data-ci="${i}" style="left:${q.x}%;top:${q.y}%">${PT_CELL[c].e}</div>`;}).join('')}
        <div class="ptstar" id="ptStar">⭐</div><div class="ptstar" id="ptStar2" hidden>⭐</div>${ord.map((p,i)=>`<div class="ptpawn" data-pw="${p}" style="background:${PT_COL[i%8]}">${ptAv((S.ch||{})[p])}<i class="rk"></i></div>`).join('')}</div>
@@ -8085,7 +8108,7 @@ function fgPreview(k){cancelAnimationFrame(FG.pvRaf);const cv=$('#fgPv');if(!cv)
 function fgMk(k,side,boss,lv){const X=FG_P[k],hp=Math.round(X.hp*(boss?1.05:1));return{k,boss,x:side?FG_W-84:84,y:FG_GY,vx:0,vy:0,face:side?-1:1,hp,mx:hp,lag:hp,st:'idle',t:0,atk:null,hit:0,stun:0,bs:0,me:0,gd:100,cmb:0,cmbT:0,vc:0,win:0,lv,X,inv:0,fl:0,yc:0,sq:1,bob:Math.random()*9,jumps:0,trail:0,tr:[],bkT:-99};}
 function fgDummy(){return{k:null,x:-9999,y:FG_GY,st:'idle',face:1,atk:null,X:FG_P.matheo,hp:1,mx:1,me:0,gd:100,win:0};}
 function fgDom(){const sc=$('#fighter');sc.classList.add('ingame');try{navSync('fighter');}catch(_){}
-  const b=$('#fgBody');b.innerHTML=`<div class="fgplay"><div class="fgcv"><canvas id="fgCv" width="${FG_W*2}" height="${FG_H*2}"></canvas><button class="fgquit" id="fgQuit" aria-label="Quitter">✕</button><button class="fgmute" id="fgMute" aria-label="Son">${FG.mute?'🔇':'🔊'}</button><div class="fgov" id="fgOv"></div></div>
+  const b=$('#fgBody');b.innerHTML=`<div class="fgplay"><div class="fgcv"><canvas id="fgCv" width="${FG_W*2}" height="${FG_H*2}"></canvas><button class="fgquit" id="fgQuit" aria-label="Quitter">←</button><button class="fgmute" id="fgMute" aria-label="Son">${FG.mute?'🔇':'🔊'}</button><div class="fgov" id="fgOv"></div></div>
     <div class="fgpad"><div class="dir"><button data-in="l">◀</button><button data-in="r">▶</button></div><div class="atk"><button data-in="u" class="up">⬆</button><button data-in="a" class="a">🥢<small>Frite</small></button><button data-in="b" class="b">🛟<small>Bouée</small></button><button data-in="s" class="s" id="fgSpB">⚡<small>Spécial</small></button></div></div></div>`;
   FG.ctx=$('#fgCv').getContext('2d');
   $('#fgQuit').onclick=()=>{const r=FG.run;if(!r)return fgHome();if(r.ph==='end'||r.ph==='bend')return fgHome();r.pause=1;const sh=sheet(`<h3>Quitter le combat ?</h3><div class="trbtns"><button class="btn alt" id="bx">Continuer</button><button class="btn" id="bgo">🚪 Quitter</button></div>`);sh.querySelector('#bx').onclick=()=>{sh.remove();r.pause=0;};sh.querySelector('#bgo').onclick=()=>{sh.remove();fgHome();};};
