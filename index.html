@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
+<meta name="color-scheme" content="only light">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Gambetta Game</title>
 <link rel="manifest" href="manifest.webmanifest">
@@ -23,10 +24,7 @@
   --bg:#bfeaff;--bg2:#6fcdf3;--card:#ffffff;--text:#1b2a3a;--muted:#4b6378;
   --ink:#1b2a3a;--yellow:#ffcf33;--coral:#ff6b5b;--green:#2fb36d;--red:#e63b3b;
 }
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){--bg:#0e2a40;--bg2:#15486b;--card:#1f3d56;--text:#f3f8fc;--muted:#a9c1d4}
-}
-:root[data-theme="dark"]{--bg:#0e2a40;--bg2:#15486b;--card:#1f3d56;--text:#f3f8fc;--muted:#a9c1d4}
+:root{color-scheme:only light}
 html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg)}
 body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg),var(--bg2));color:var(--text);
   font-family:'Fredoka','Trebuchet MS',system-ui,sans-serif;overflow:hidden;
@@ -1355,6 +1353,15 @@ button,a,[data-hg],.rkscroll{touch-action:manipulation}
 .ofwarn{font-size:11.5px;font-weight:700;background:#fff1d6;border:2px dashed #e09a00;border-radius:10px;padding:5px 8px;margin-top:6px;line-height:1.3}
 #ofSel .trbtns{margin-top:6px}
 </style>
+<style>
+.navback{flex:none;width:44px;height:44px;border-radius:14px;border:3px solid var(--ink);background:var(--yellow);color:#1b2a3a;font:inherit;font-size:26px;font-weight:900;line-height:1;cursor:pointer;box-shadow:0 3px 0 var(--ink);padding:0 0 3px;display:inline-flex;align-items:center;justify-content:center}
+.navback[hidden]{display:none!important}.navback:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.navback.abs{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));left:12px;z-index:20}
+.hubback,#admBack,#rkBack{display:none!important}
+#collection .col-head,#trade .col-head{justify-content:space-between}
+.shback{position:sticky;top:0;float:left;z-index:6;width:40px;height:40px;margin:-4px 8px 4px -4px;border-radius:12px;border:3px solid var(--ink);background:var(--yellow);color:#1b2a3a;font:inherit;font-size:24px;font-weight:900;line-height:1;cursor:pointer;box-shadow:0 3px 0 var(--ink);padding:0 0 3px}
+.ofsheet .shback,#ofSel~.shback{position:relative}
+</style>
 </head>
 <body>
 <div id="app">
@@ -1458,7 +1465,7 @@ button,a,[data-hg],.rkscroll{touch-action:manipulation}
 
   <section id="game" class="screen" aria-label="Mini-jeu">
     <div class="hud">
-      <button class="x" id="quit" aria-label="Retour aux persos">✕</button>
+      <button class="x" id="quit" aria-label="Retour aux persos">←</button>
       <div class="ht" id="hudTitle"></div>
       <div class="hi" id="hudInfo"></div>
     </div>
@@ -4675,7 +4682,18 @@ function bindSwipe(el,locked,cb){
 /* ================= Navigation ================= */
 const GAMES={alix:gameAlix,kayak:gameKayak,dario:gameDario,bouchon:gameBouchon,zoe:gameZoe,francoise:gameFrancoise,matheo:gameMatheo,gwen:gameGwen,anthony:gameAnthony,david:gameDavid,jf:gameJF,richard:gameRichard,margaux:gameMargaux,stephane:gameStephane,manu:gameManu,christine:gameChristine,ethan:gameEthan,aude:gameAude,nathan:gameNathan,duo:gameDuo,roland:gameRoland,christian:gameChristian,laetitia:gameLaetitia,marcel:gameMarcel,christophe:gameChristophe,agnes:gameAgnes,jacky:gameJacky,noel:gameNoel,bonus:gameBonus};
 let current=null,raf=0,last=0,ended=false,curKey=null,typing=null,freshCard=null;
-function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));try{navSync(id);}catch(_){}}
+/* historique des pages pour la flèche ← */
+const NAVH=[];let NAVSKIP=false;const NAV_NOHIST=['title','intro','game'];
+function navTrack(id){const cur=document.querySelector('.screen.active'),c=cur&&cur.id;if(!c||c===id)return;
+  if(NAVH.length&&NAVH[NAVH.length-1]===id){NAVH.pop();return;}if(NAVSKIP||NAV_NOHIST.includes(c))return;NAVH.push(c);if(NAVH.length>30)NAVH.shift();}
+function show(id){try{navTrack(id);if(id==='hub')NAVH.length=0;}catch(_){}document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));try{navSync(id);}catch(_){}
+  try{const h=!NAVH.length&&id!=='intro';document.querySelectorAll('#'+id+' .navback').forEach(b=>b.hidden=h);}catch(_){}}
+function navBack(){const cur=(document.querySelector('.screen.active')||{}).id;let prev=NAVH.pop();while(prev&&prev===cur)prev=NAVH.pop();
+  if(cur==='intro'&&!prev)prev='select';
+  try{if(cur==='bataille'&&typeof BC!=='undefined'&&BC)return;bbClose();}catch(_){}try{fgStop();}catch(_){}PLAYCTX=null;
+  const O={hub:()=>openHub(),select:()=>{buildSelect();show('select');},collection:()=>$('#openCol').click(),trade:()=>$('#openTrade').click(),ranks:()=>$('#openRanks').click(),moi:()=>openMoi(),defi:()=>openDefi(),
+    bataille:()=>openBataille(),fighter:()=>openFighter(),manager:()=>openManager(),party:()=>openParty(),admin:()=>$('#openAdmin').click()};
+  NAVSKIP=true;try{(O[prev]||O.hub)();}finally{NAVSKIP=false;}const id=(document.querySelector('.screen.active')||{}).id;document.querySelectorAll('#'+id+' .navback').forEach(b=>b.hidden=!NAVH.length);}
 /* ================= COLLECTION DE CARTES ================= */
 /* Rareté : C commune, R rare, E épique, L légendaire. Une carte par mini-jeu, gagnée en réussissant le mini-jeu. */
 const RAR={R:{n:'Rare',s:'★'},E:{n:'Épique',s:'★★'},L:{n:'Légendaire',s:'★★★'}};
@@ -5319,8 +5337,9 @@ function dailyPop(){if(!dailyCheck())return;const pop=document.createElement('di
 const NAV_SCREENS=['hub','select','collection','defi','ranks','trade','moi','party'];
 function navSync(id){const n=$('#bnav');if(!n)return;const g=id==='hub'||id==='bataille'||id==='party'||id==='fighter'||id==='manager'?'select':id==='trade'?'collection':id;n.hidden=!NAV_SCREENS.includes(g)||(id==='bataille'&&typeof BC!=='undefined'&&!!BC)||(id==='fighter'&&typeof FG!=='undefined'&&!!FG.run)||(id==='party'&&typeof PT!=='undefined'&&(PT.inGame||(typeof QQ!=='undefined'&&QQ.inGame)||(typeof QZ!=='undefined'&&QZ.inGame)));n.querySelectorAll('[data-go]').forEach(b=>b.classList.toggle('on',b.dataset.go===g));
   const inG=id==='bataille'&&typeof BC!=='undefined'&&!!BC;const sc=$('#bataille');if(sc)sc.classList.toggle('ingame',inG);const x=$('#bbBackSel');if(x)x.hidden=!inG;const tg=$('#bataille .bbg');if(tg)tg.hidden=inG;}
-$('#bnav').querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{const g=b.dataset.go;PLAYCTX=null;
-  if(g==='select'){openHub();}else if(g==='collection')$('#openCol').click();else if(g==='ranks')$('#openRanks').click();else if(g==='trade')$('#openTrade').click();else if(g==='moi')openMoi();else openDefi();
+$('#bnav').querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{const g=b.dataset.go;PLAYCTX=null;NAVH.length=0;NAVSKIP=true;try{
+  if(g==='select'){openHub();}else if(g==='collection')$('#openCol').click();else if(g==='ranks')$('#openRanks').click();else if(g==='trade')$('#openTrade').click();else if(g==='moi')openMoi();else openDefi();}finally{NAVSKIP=false;}
+  document.querySelectorAll('.screen.active .navback').forEach(x=>x.hidden=true);
   const sc=document.querySelector('#'+g+' .rkscroll,#'+g+' .cscroll,#'+g+' .grid');if(sc)sc.scrollTop=0;});
 $('#dChip').onclick=()=>openDefi();
 /* ================= HUB « JOUER » ================= */
@@ -5364,6 +5383,13 @@ function openHub(){try{bbClose();}catch(_){}try{fgStop();}catch(_){}PLAYCTX=null
   clearInterval(HUB.t);HUB.t=setInterval(()=>{const H=$('#hub');if(!H||!H.classList.contains('active')){clearInterval(HUB.t);return;}hubRender();},2000);}
 function hubPtTitle(){const h=$('#party .col-head h2');if(!h)return;h.textContent=QZ.code?'🧠 Quiz du Club':PT.code?'🎲 Gambetta Party':(QQ.code||QQ.sub==='qq')?'🕵️ Qui est-ce ?':'🎲 Gambetta Party';}
 document.querySelectorAll('[data-hub]').forEach(x=>x.onclick=()=>openHub());
+document.querySelectorAll('.screen').forEach(sc=>{if(['title','hub','game'].includes(sc.id))return;const b=document.createElement('button');b.className='navback';b.type='button';b.setAttribute('aria-label','Retour');b.textContent='←';b.hidden=true;b.onclick=navBack;
+  const head=sc.querySelector('.col-head');if(head)head.prepend(b);else{b.classList.add('abs');sc.prepend(b);}});
+function shBack(sh){const ids=['#bx','#pfX','#ofx','#ofx2','#pfBack','#qLater','#dLater','#trx','#tx'];for(const q of ids){const x=sh.querySelector(q);if(x&&x.offsetParent){x.click();return;}}
+  const bt=[...sh.querySelectorAll('button')].find(x=>x.offsetParent&&/^\s*(Fermer|Annuler|Retour|Plus tard|Pas encore|Non merci|OK)\b/i.test(x.textContent));if(bt){bt.click();return;}
+  sh.remove();try{if(GM.shEl===sh){GM.sheet=null;GM.shEl=null;gmRender();}}catch(_){}}
+function shArrow(sh){const inn=sh.querySelector(':scope > .in');if(!inn||inn.querySelector(':scope > .shback'))return;const b=document.createElement('button');b.className='shback';b.type='button';b.setAttribute('aria-label','Retour');b.textContent='←';b.onclick=e=>{e.stopPropagation();shBack(sh);};inn.prepend(b);}
+new MutationObserver(ms=>{for(const m of ms)for(const n of m.addedNodes){if(n.nodeType!==1)continue;if(n.classList.contains('trsheet'))shArrow(n);else if(n.classList.contains('in')&&n.parentNode&&n.parentNode.classList&&n.parentNode.classList.contains('trsheet'))shArrow(n.parentNode);}}).observe($('#app'),{childList:true,subtree:true});
 
 document.querySelectorAll('.ctabs [data-ct]').forEach(x=>x.onclick=()=>{if(x.dataset.ct==='col')$('#openCol').click();else $('#openTrade').click();
   document.querySelectorAll('.ctabs [data-ct]').forEach(y=>y.classList.toggle('on',y.dataset.ct===x.dataset.ct));});
