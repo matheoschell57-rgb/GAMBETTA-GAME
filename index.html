@@ -1395,6 +1395,7 @@ h3.shmoved{display:none!important}
 .actsx .d{font-weight:900;margin:6px 0 2px;text-transform:capitalize}.actsx .d small{font-weight:700;color:var(--muted);text-transform:none}
 .actsx .s{display:grid;grid-template-columns:auto auto auto 1fr;gap:6px;align-items:center;padding:2px 0;font-weight:700}.actsx .s b{text-align:right}
 .actsx>small{display:block;margin-top:6px;color:var(--muted);font-size:11px}
+textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
 </style>
 </head>
 <body>
@@ -1486,7 +1487,7 @@ h3.shmoved{display:none!important}
 
   <section id="admin" class="screen" aria-label="Administration">
     <div class="col-head"><button class="x" id="admBack" aria-label="Retour">✕</button><h2>🛠️ Gestion</h2><span class="col-count">Toi seul</span></div>
-    <div class="tabs"><button class="tab at on" data-a="gift">🎁 Offrir</button><button class="tab at" data-a="players">👥 Joueurs</button><button class="tab at" data-a="log">📜 Envois</button><button class="tab at" data-a="tourn">🏆 Tournois</button><button class="tab at" data-a="event">🎉 Événements</button><button class="tab at" data-a="quiz">🧠 Quiz</button><button class="tab at" data-a="req">📬 Demandes</button><button class="tab at" data-a="act">📈 Activité</button></div>
+    <div class="tabs"><button class="tab at on" data-a="gift">🎁 Offrir</button><button class="tab at" data-a="players">👥 Joueurs</button><button class="tab at" data-a="log">📜 Envois</button><button class="tab at" data-a="tourn">🏆 Tournois</button><button class="tab at" data-a="event">🎉 Événements</button><button class="tab at" data-a="quiz">🧠 Quiz</button><button class="tab at" data-a="req">📬 Demandes</button><button class="tab at" data-a="act">📈 Activité</button><button class="tab at" data-a="push">📣 Annonce</button></div>
     <div class="rkscroll" id="admBody"></div>
   </section>
 
@@ -1534,6 +1535,15 @@ h3.shmoved{display:none!important}
 (function(){
   if(!/github\.io$/.test(location.hostname))return;
   if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+  /* notifications (OneSignal) : le même service worker sw.js sert aussi pour les notifications */
+  try{const dir=location.pathname.replace(/[^/]*$/,'');window.OneSignalDeferred=window.OneSignalDeferred||[];
+    const sc=document.createElement('script');sc.src='https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js';sc.defer=true;document.head.appendChild(sc);
+    OneSignalDeferred.push(async function(OS){try{await OS.init({appId:'15ae689c-c9a6-486c-a3d6-a98940b82ce7',serviceWorkerPath:dir.replace(/^\//,'')+'sw.js',serviceWorkerParam:{scope:dir},
+        notifyButton:{enable:false},promptOptions:{slidedown:{prompts:[]}},welcomeNotification:{disable:true}});window.GGPUSH=OS;
+      OS.Notifications.addEventListener('permissionChange',()=>{try{window.dispatchEvent(new Event('ggpush'));}catch(_){}});
+      OS.User.PushSubscription.addEventListener('change',()=>{try{window.dispatchEvent(new Event('ggpush'));}catch(_){}});
+      const lg=()=>{if(window.GG&&GG.pid){try{OS.login(GG.pid);OS.User.addTag('name',String(GG.name||'').slice(0,40));}catch(_){}}else setTimeout(lg,3000);};lg();
+      window.dispatchEvent(new Event('ggpush'));}catch(e){console.warn('OneSignal',e);}});}catch(_){}
   const LS={get:k=>{try{return localStorage.getItem(k);}catch(_){return null;}},set:(k,v)=>{try{localStorage.setItem(k,v);}catch(_){}}};
   const ua=navigator.userAgent||'';
   const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
@@ -1815,6 +1825,7 @@ h3.shmoved{display:none!important}
   };
   // Outils admin : codes de tout le monde et sauvegarde complète
   GG.delPlayer=async(pid,code)=>{if(!GG.admin||pid===GG.pid)return false;if(code)await fs.doc('players/'+code).delete();try{await fs.doc('owners/'+pid).delete();}catch(_){}await fs.doc('board/'+pid).delete();return true;};
+  GG.idToken=()=>auth&&auth.currentUser?auth.currentUser.getIdToken():Promise.resolve(null);
   GG.saves=async()=>{if(!GG.admin)return null;const q=await fs.collection('players').get();const o={};q.docs.forEach(d=>{const x=d.data();if(x&&x.pid)o[x.pid]=x.col||{};});return o;};
   GG.codes=async()=>{if(!GG.admin)return{};const q=await fs.collection('owners').get();const o={};q.docs.forEach(d=>o[d.id]=d.data().code);return o;};
   GG.backup=async()=>{if(!GG.admin)return;const out={date:new Date().toISOString()};
@@ -5296,6 +5307,7 @@ async function buildAdmin(){const b=$('#admBody'),P=await adminPlayers();
   else if(ADM.tab==='event'){adminEvent(b);}
   else if(ADM.tab==='quiz'){adminQuiz(b);}
   else if(ADM.tab==='act'){adminAct(b,P);}
+  else if(ADM.tab==='push'){adminPush(b);}
   else if(ADM.tab==='req'){adminReqs(b);}
   else{const L=((GIFTS.log||{}).items||[]).slice().reverse();
     b.innerHTML=`<div class="rkhead">Derniers envois</div>`+(L.length?L.map(g=>`<div class="prow"><span class="who">${g.what}<small>${new Date(g.at).toLocaleString('fr-FR',{dateStyle:'short',timeStyle:'short'})}${g.msg?' · « '+esc(g.msg)+' »':''}</small></span></div>`).join(''):'<div class="rkempty">Aucun envoi pour l\'instant.</div>');}}
@@ -5388,12 +5400,12 @@ function trPropose(item){const d=myDoubles().map(x=>({id:x.id,n:x.n,av:trAvail(x
     sh.querySelector('#trCancel').onclick=()=>sh.remove();
     sh.onclick=e=>{if(e.target===sh)sh.remove();};
     sh.querySelector('#trSend').onclick=async e=>{if(!give)return;const bt=e.target;bt.disabled=true;bt.textContent='Envoi…';
-      if(LIVEOK()){try{await GG.trades.create({to:owner.id,toName:owner.name,give,want:item.card,msg:msg.slice(0,80)});}catch(err){bt.disabled=false;bt.textContent='Échec, réessaie';return;}}
+      if(LIVEOK()){try{await GG.trades.create({to:owner.id,toName:owner.name,give,want:item.card,msg:msg.slice(0,80)});ggNotify('trade',owner.id);}catch(err){bt.disabled=false;bt.textContent='Échec, réessaie';return;}}
       else TR.outgoing.unshift({to:owner.name,give,want:item.card,msg,st:'wait'});try{qHit('trade');}catch(_){}
       sh.remove();TR.tab='out';setTrTab();buildTrade();};}
   render();}
 async function trAccept(t){if((COL.members[t.want]||0)<1)return;
-  if(LIVEOK()&&t.id){try{await GG.trades.set(t.id,{st:'yes'});}catch(_){alert('Échange impossible pour l\'instant, réessaie.');return;}COL.trDone=COL.trDone||{};COL.trDone[t.id]=1;}
+  if(LIVEOK()&&t.id){try{await GG.trades.set(t.id,{st:'yes'});ggNotify('tradeok',t.from);}catch(_){alert('Échange impossible pour l\'instant, réessaie.');return;}COL.trDone=COL.trDone||{};COL.trDone[t.id]=1;}
   const a=document.createElement('div');a.className='swapanim';a.innerHTML=`<div class="pair"><div>${mini(t.want)}</div><div>${mini(t.give)}</div></div><h3>Échange réussi ! 🤝</h3>`;$('#app').appendChild(a);
   COL.members[t.want]--;if(COL.members[t.want]<=0)delete COL.members[t.want];COL.members[t.give]=(COL.members[t.give]||0)+1;stat('trades');saveCol();t.st='yes';
   setTimeout(()=>{a.remove();buildTrade();},1900);}
@@ -5500,6 +5512,7 @@ function buildMoi(){const b=$('#moiBody');if(!b)return;const name=(window.GG&&GG
     <div class="moistats"><div><b>${cardCount()}</b><span>cartes</span></div><div><b>${nb}</b><span>badges</span></div><div><b>${tier.e} ${t}</b><span>trophées</span></div><div><b>${st.won||0}</b><span>victoires</span></div></div>
     <div class="moilist">${row('moiProf','📊','Mon profil','Statistiques, badges et carte préférée')}
       ${keyBtn&&!keyBtn.hidden?row('moiKey','🔑','Ma sauvegarde','Ton code pour retrouver ta partie sur un autre téléphone'):''}
+      ${row('moiNotif','🔔','Notifications',pushTxt())}
       ${row('moiCol','🃏','Ma collection','Toutes tes cartes et tes boosters')}
       ${row('moiPres','🏊','Le Grand Plongeon',presOK()?'Disponible ! Replonge tout pour devenir une légende':PRES()?'Prestige '+PRES()+' · voir mes bonus':'Réunis toutes les cartes pour devenir une légende')}
       ${row('moiBat','⚔️','Mon deck de bataille','Changer et améliorer tes cartes')}
@@ -5507,8 +5520,49 @@ function buildMoi(){const b=$('#moiBody');if(!b)return;const name=(window.GG&&GG
     <div class="cloudnote">${window.GG&&GG.code?'☁️ Ta partie est sauvegardée en ligne.':'☁️ Ta partie est sauvegardée sur ce téléphone.'}</div>`;
   const on=(id,f)=>{const x=b.querySelector('#'+id);if(x)x.onclick=f;};
   on('moiProf',()=>openProfile(myId||'local'));on('moiKey',()=>{const k=document.querySelector('.selbtns .save');if(k)k.click();});
-  on('moiCol',()=>$('#openCol').click());on('moiPres',presSheet);on('moiBat',()=>openBataille());on('moiAdm',()=>$('#openAdmin').click());}
+  on('moiCol',()=>$('#openCol').click());on('moiNotif',pushAsk);on('moiPres',presSheet);on('moiBat',()=>openBataille());on('moiAdm',()=>$('#openAdmin').click());}
 
+
+
+/* ================= NOTIFICATIONS ENTRE JOUEURS ET ANNONCES (via le relais) ================= */
+const PUSH_URL='https://gambetta-notif.matheo-schell57.workers.dev/';  /* relais Cloudflare */
+async function ggPost(o){if(!PUSH_URL||!window.GG||!GG.idToken)return{error:'off'};const token=await GG.idToken();if(!token)return{error:'auth'};
+  const r=await fetch(PUSH_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.assign({token},o))});return r.json().catch(()=>({error:'réponse'}));}
+function ggNotify(kind,to,x){try{if(!PUSH_URL||!to||isMe(to))return;ggPost(Object.assign({kind,to,name:(window.GG&&GG.name)||''},x||{})).catch(()=>{});}catch(_){}}
+const PUSH_TPL=[['🧠','Quiz du Club','Le Quiz du Club commence bientôt : ouvre le jeu pour jouer !'],['🎉','Nouvel événement','Un nouvel événement vient de commencer dans le Gambetta Game !'],['🏆','Tournoi','Les inscriptions au tournoi sont ouvertes !'],['✨','Nouveautés','Nouvelle version du jeu : viens découvrir les nouveautés !'],['🎁','Cadeau','Un cadeau t\'attend dans le jeu !']];
+const PUSHA={title:'',text:'',busy:0,last:''};
+function adminPush(b){if(!PUSH_URL){b.innerHTML='<div class="trempty">📣 Le relais des notifications n\'est pas encore branché.<br>Dès qu\'il le sera, tu pourras écrire ici à tout le club.</div>';return;}
+  b.innerHTML=`<div class="abox"><h4>📣 Message à tout le club</h4><p class="asum">Envoyé en notification à tous ceux qui ont activé 🔔 dans Moi.</p>
+    <div class="asel">${PUSH_TPL.map((t,i)=>`<button class="apill" data-ptpl="${i}">${t[0]} ${t[1]}</button>`).join('')}</div>
+    <input class="ainput" id="pT" maxlength="60" placeholder="Titre (ex. : 🧠 Quiz ce soir !)" value="${esc(PUSHA.title)}">
+    <textarea class="ainput" id="pX" maxlength="180" rows="3" placeholder="Ton message (180 caractères max)">${esc(PUSHA.text)}</textarea>
+    <div class="asum"><span id="pN">${PUSHA.text.length}</span>/180</div>
+    <button class="asend" id="pGo">📣 Envoyer à tout le club</button>${PUSHA.last?`<p class="asum">${PUSHA.last}</p>`:''}</div>`;
+  const T=b.querySelector('#pT'),X=b.querySelector('#pX');T.oninput=()=>PUSHA.title=T.value;X.oninput=()=>{PUSHA.text=X.value;b.querySelector('#pN').textContent=X.value.length;};
+  b.querySelectorAll('[data-ptpl]').forEach(x=>x.onclick=()=>{const t=PUSH_TPL[+x.dataset.ptpl];PUSHA.title=t[0]+' '+t[1];PUSHA.text=t[2];adminPush(b);});
+  b.querySelector('#pGo').onclick=()=>{if(!PUSHA.text.trim()){toast('📣','Écris un message','');return;}
+    const sh=sheet(`<h3>📣 Envoyer à tout le club ?</h3><div class="sec"><b>${esc(PUSHA.title||'Gambetta Game')}</b><br>${esc(PUSHA.text)}</div><div class="trbtns"><button class="btn alt" id="bx">Annuler</button><button class="btn" id="pOk">Envoyer</button></div>`);
+    sh.querySelector('#bx').onclick=()=>sh.remove();sh.querySelector('#pOk').onclick=async e=>{e.target.disabled=true;e.target.textContent='Envoi…';
+      let r={};try{r=await ggPost({kind:'club',title:PUSHA.title,text:PUSHA.text});}catch(_){r={error:'réseau'};}sh.remove();
+      if(r.ok){PUSHA.last='✅ Envoyé à '+new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});PUSHA.title='';PUSHA.text='';toast('📣','Message envoyé !','Le club va le recevoir');}
+      else{PUSHA.last='❌ Échec : '+esc(r.error==='admin'?'connecte-toi en admin':r.error==='auth'?'reconnecte-toi':JSON.stringify(r.errors||r.error||'erreur'));}
+      adminPush(b);};};}
+/* ================= NOTIFICATIONS ================= */
+const pushIOS=()=>/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+const pushStandalone=()=>!!(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone===true;
+function pushOn(){try{const OS=window.GGPUSH;return !!(OS&&OS.Notifications.permission&&OS.User.PushSubscription.optedIn);}catch(_){return false;}}
+function pushTxt(){if(!/github\.io$/.test(location.hostname))return 'Disponibles sur le site du jeu';if(pushOn())return '✅ Activées : quiz, événements, tournois…';
+  if(pushIOS()&&!pushStandalone())return 'Ajoute d\'abord le jeu à l\'écran d\'accueil';return 'Sois prévenu des quiz, événements et tournois';}
+async function pushAsk(){const OS=window.GGPUSH;
+  if(!/github\.io$/.test(location.hostname)){toast('🔔','Notifications','Elles marchent sur le site du jeu');return;}
+  if(pushIOS()&&!pushStandalone()){const sh=sheet(`<h3>🔔 Notifications sur iPhone</h3><div class="sec">Sur iPhone, les notifications ne marchent que si le jeu est installé sur l'écran d'accueil :</div><p>1. Dans Safari, touche le bouton <b>Partager</b> (le carré avec la flèche ⬆️)<br>2. Choisis <b>« Sur l'écran d'accueil »</b><br>3. Ouvre le jeu depuis la nouvelle icône, puis reviens ici ✅</p><div class="trbtns"><button class="btn" id="bx">Compris</button></div>`);sh.querySelector('#bx').onclick=()=>sh.remove();return;}
+  if(!OS){toast('🔔','Un instant…','Les notifications se chargent, réessaie dans quelques secondes');return;}
+  if(pushOn()){const sh=sheet(`<h3>🔔 Notifications activées</h3><div class="sec">Tu seras prévenu des quiz, événements, tournois et nouveautés du club.</div><div class="trbtns"><button class="btn alt" id="pOff">Les couper</button><button class="btn" id="bx">Super</button></div>`);
+    sh.querySelector('#bx').onclick=()=>sh.remove();sh.querySelector('#pOff').onclick=async()=>{try{await OS.User.PushSubscription.optOut();}catch(_){}sh.remove();toast('🔕','Notifications coupées','Tu peux les remettre quand tu veux');try{buildMoi();}catch(_){}};return;}
+  try{if(OS.Notifications.permission){await OS.User.PushSubscription.optIn();}else{await OS.Notifications.requestPermission();}}catch(_){}
+  setTimeout(()=>{if(pushOn())toast('🔔','Notifications activées !','Tu seras prévenu des quiz et événements');
+    else if(typeof Notification!=='undefined'&&Notification.permission==='denied')toast('🔕','Notifications bloquées','Autorise-les dans les réglages de ton navigateur pour ce site');try{buildMoi();}catch(_){}},1200);}
+window.addEventListener('ggpush',()=>{try{if($('#moi').classList.contains('active'))buildMoi();}catch(_){}});
 /* ================= DÉFI DU JOUR ================= */
 /* Chaque jour, un mini-jeu tiré au sort pour tout le club. Classement du jour ; le lendemain : 1er booster de 5, 2e et 3e booster de 3, 1 carte pour chaque participant. */
 const CH_REW=[5,3,3];
@@ -5666,7 +5720,7 @@ function duNew(pre,preName){if(typeof pre!=='string')pre=null;const mineActive=D
       const chg=sh.querySelector('#duChg');if(chg)chg.onclick=()=>{who=null;render();};
       sh.querySelectorAll('[data-g]').forEach(x=>x.onclick=()=>{game=x.dataset.g;const sc=sh.querySelector('.in').scrollTop;render();sh.querySelector('.in').scrollTop=sc;});
       sh.querySelector('#duGo').onclick=async e=>{e.target.disabled=true;e.target.textContent='…';
-        try{await GG.duels.create({to:who.id,toName:who.name,k:game});try{stat('duelNew');qHit('dnew');}catch(_){}sh.remove();openDefi();}
+        try{await GG.duels.create({to:who.id,toName:who.name,k:game});ggNotify('duel',who.id,{game:game==='bataille'?'Bataille du Bassin':((CHARS[game]||{}).game||'')});try{stat('duelNew');qHit('dnew');}catch(_){}sh.remove();openDefi();}
         catch(_){e.target.disabled=false;e.target.textContent=game==='bataille'?'🤖 Duel en différé':'⚔️ Lancer le duel';sh.querySelector('#duErr').textContent='Pas de connexion… réessaie.';}};}
     sh.querySelector('#duX').onclick=()=>sh.remove();sh.onclick=e=>{if(e.target===sh)sh.remove();};}
   render();}
@@ -6725,7 +6779,7 @@ function bbInvCheck(){const now=Date.now();
     pop.querySelector('#bbiOk').onclick=()=>{pop.remove();bbAccept(inc);};}}
 function bbInvite(){if(!BBOK())return;pickPlayer({e:'📡',n:'Bataille en direct'},'Choisis qui défier. Il doit avoir le jeu ouvert pour accepter (2 minutes).',bbInviteTo);}
 async function bbInviteTo(p){if(!BBOK()){toast('📡','Pas de connexion','Le direct marche seulement dans le jeu en ligne.');return;}
-  try{const r=await GG.battles.create({to:p.id,toName:p.name,da:bbMyDeck(),seed:bbSeed(),v:BB_VER});BB.waiting=r.id;bbWaitUI(r.id,p.name);}catch(e){toast('📡','Pas de connexion','Réessaie dans un instant.');}}
+  try{const r=await GG.battles.create({to:p.id,toName:p.name,da:bbMyDeck(),seed:bbSeed(),v:BB_VER});ggNotify('bb',p.id);BB.waiting=r.id;bbWaitUI(r.id,p.name);}catch(e){toast('📡','Pas de connexion','Réessaie dans un instant.');}}
 function bbWaitUI(id,name){const t0=Date.now();const sh=sheet(`<div class="bbwait"></div><div class="emo" style="font-size:44px;text-align:center">📡</div><h3>En attente de ${esc(name)}…</h3>
   <div class="sec" id="bbwT">Il a 2 minutes pour accepter.</div><div class="trbtns"><button class="btn alt" id="bbwX">Annuler</button></div>`);sh.classList.add('bbwait');
   const tm=setInterval(()=>{if(!document.body.contains(sh)){clearInterval(tm);return;}const s=Math.max(0,Math.ceil((BB_INV-(Date.now()-t0))/1000));const e=sh.querySelector('#bbwT');if(e)e.textContent=`Il a encore ${Math.floor(s/60)}:${String(s%60).padStart(2,'0')} pour accepter.`;

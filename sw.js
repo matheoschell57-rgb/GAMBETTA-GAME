@@ -1,6 +1,8 @@
 // Service worker du Gambetta Game : toujours la dernière version en ligne,
 // et la dernière version vue reste jouable si le réseau coupe.
-const CACHE='gambetta-v28';
+// Notifications (OneSignal) : chargées ici pour partager ce service worker
+try{importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js');}catch(_){}
+const CACHE='gambetta-v29';
 self.addEventListener('install',e=>self.skipWaiting());
 self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));
 self.addEventListener('fetch',e=>{
