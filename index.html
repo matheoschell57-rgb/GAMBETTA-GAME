@@ -1294,6 +1294,28 @@ button,a,[data-hg],.rkscroll{touch-action:manipulation}
 .bsum .row .xtag{position:absolute;left:-4px;top:-8px;z-index:3;background:#1b2a3a;color:#ffe36b;font-weight:800;font-size:11px;border:2px solid #fff;border-radius:10px;padding:0 6px}
 </style>
 <style>
+.ggnotif{display:flex;gap:10px;align-items:flex-start;text-align:left;margin:10px 0 4px;padding:9px 11px;border:2.5px solid var(--ink);border-radius:12px;background:#fff8d6;cursor:pointer}
+.ggnotif input{width:22px;height:22px;margin:2px 0 0;flex:none;accent-color:#2fb35a}.ggnotif b{display:block;font-size:14px}.ggnotif small{display:block;font-size:12px;color:var(--muted);font-weight:600}
+.gmclub{position:relative;display:flex;align-items:center;gap:8px;width:100%;margin:0 0 6px;padding:5px 9px;border:2.5px solid var(--ink);border-radius:10px;background:linear-gradient(#e9fbff,#c6f0ff);font:inherit;color:#1b2a3a;cursor:pointer;box-shadow:0 2px 0 var(--ink);text-align:left}
+.gmclub .e{font-size:20px}.gmclub .i{flex:1;min-width:0}.gmclub b{display:block;font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gmclub .bar,.gmcwbig .bar{position:relative;display:block;height:8px;margin-top:3px;border-radius:6px;background:#fff;border:1.5px solid var(--ink);overflow:hidden}
+.gmclub .bar i,.gmcwbig .bar i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#2fb35a,#7dd957)}
+.gmclub .bar em{position:absolute;top:-1px;bottom:-1px;width:2px;margin-left:-1px;background:#1b2a3a;opacity:.45}.gmclub .bar em.ok{background:#ffd23f;opacity:1}
+.gmclub .gift{font-size:18px}.gmclub.hot{animation:qqpulse 1.2s ease-in-out infinite}
+.gmcwbig{text-align:center;border:2.5px solid var(--ink);border-radius:14px;background:#e9fbff;padding:8px 10px;margin:8px 0}
+.gmcwbig>b{display:block;font-family:'Lilita One',sans-serif;font-size:26px}.gmcwbig small{display:block;font-size:12px;color:var(--muted);margin:2px 0}.gmcwbig .bar{height:12px;margin:6px 0}
+.gmcwp{display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:10px;font-size:13px}.gmcwp:nth-child(odd){background:rgba(0,0,0,.04)}.gmcwp b{flex:1}.gmcwp.me{background:#fff3c4}
+.gmth{display:grid;gap:9px;margin-top:8px}
+.gmthc{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center;text-align:left;padding:10px 12px;border:3px solid var(--ink);border-radius:16px;background:linear-gradient(135deg,#fff,#ffe9f5);font:inherit;color:#1b2a3a;cursor:pointer;box-shadow:0 3px 0 var(--ink);animation:gmthIn .45s cubic-bezier(.2,1.4,.4,1) both}
+.gmthc .e{grid-row:1/3;font-size:34px}.gmthc b{font-family:'Lilita One',sans-serif;font-size:17px}.gmthc small{font-size:12.5px;font-weight:600;color:var(--muted)}
+.gmthc:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+@keyframes gmthIn{from{opacity:0;transform:translateY(24px) rotate(-3deg) scale(.9)}to{opacity:1;transform:none}}
+.gmthnow{display:flex;align-items:center;gap:10px;padding:8px 10px;margin-bottom:8px;border:2.5px solid var(--ink);border-radius:12px;background:linear-gradient(135deg,#fff,#e9fbff)}
+.gmthnow .e{font-size:28px}.gmthnow div{flex:1}.gmthnow b{display:block;font-size:14px}.gmthnow small{display:block;font-size:11.5px;color:var(--muted)}
+.gmbilan{border:2.5px solid var(--ink);border-radius:14px;background:#f2fbff;padding:8px 10px;margin-bottom:8px}.gmbilan>b{display:block;font-size:14px;margin-bottom:4px}
+.gmbilan .rec{font-weight:900;color:#c25e00;margin-bottom:4px}
+.gmbilan .g{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.gmbilan .g span{display:flex;flex-direction:column;align-items:center;background:#fff;border-radius:10px;padding:4px 2px;font-size:16px}
+.gmbilan .g b{font-size:13px}.gmbilan .g small{font-size:10.5px;color:var(--muted)}
 .gmwall .mail{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;width:62px;border:2.5px solid var(--ink);border-radius:10px;background:linear-gradient(#fff,#ffe1ef);font:inherit;cursor:pointer;animation:qqpulse 1.1s ease-in-out infinite;color:#1b2a3a}
 .gmwall .mail[hidden]{display:none}.gmwall .mail span{font-size:20px}.gmwall .mail b{font-size:10.5px}
 .gmwall .mail::after{content:'';position:absolute;top:-4px;right:-4px;width:12px;height:12px;border-radius:50%;background:#e24b4b;border:2px solid #fff}
@@ -1540,6 +1562,7 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
     const sc=document.createElement('script');sc.src='https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js';sc.defer=true;document.head.appendChild(sc);
     OneSignalDeferred.push(async function(OS){try{await OS.init({appId:'15ae689c-c9a6-486c-a3d6-a98940b82ce7',serviceWorkerPath:dir.replace(/^\//,'')+'sw.js',serviceWorkerParam:{scope:dir},
         notifyButton:{enable:false},promptOptions:{slidedown:{prompts:[]}},welcomeNotification:{disable:true},notificationClickHandlerMatch:'origin',notificationClickHandlerAction:'focus'});window.GGPUSH=OS;
+      try{if(localStorage.getItem('gg-push-ask')&&Notification.permission==='granted'){localStorage.removeItem('gg-push-ask');if(!OS.User.PushSubscription.optedIn)OS.User.PushSubscription.optIn();}}catch(_){}
       OS.Notifications.addEventListener('click',e=>{try{const u=(e.result&&e.result.url)||(e.notification&&e.notification.launchURL)||'';const g=new URL(u,location.href).searchParams.get('go');if(g)window.dispatchEvent(new CustomEvent('gggo',{detail:g}));}catch(_){}});
       OS.Notifications.addEventListener('permissionChange',()=>{try{window.dispatchEvent(new Event('ggpush'));}catch(_){}});
       OS.User.PushSubscription.addEventListener('change',()=>{try{window.dispatchEvent(new Event('ggpush'));}catch(_){}});
@@ -1637,17 +1660,22 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
 
   async function loadPlayer(code){const s=await fs.doc('players/'+code).get();return s.exists?s.data():null;}
 
+  // notifications demandées dès la première visite (le clic sur « C'est parti » autorise la demande)
+  function pushCan(){try{return 'Notification' in window&&'PushManager' in window&&'serviceWorker' in navigator&&Notification.permission==='default';}catch(_){return false;}}
+  function pushAskNow(){try{localStorage.setItem('gg-push-ask','1');}catch(_){}try{if(window.GGPUSH){GGPUSH.Notifications.requestPermission().catch(()=>{});return;}if(window.Notification)Notification.requestPermission().catch(()=>{});}catch(_){}}
   // Première visite : choisir un pseudo, ou reprendre une partie avec un code
   async function askPlayer(){await domReady();
     return new Promise(resolve=>{
-      const d=pop(`<div class="emo">🏊</div><h3>Bienvenue !</h3><p>Choisis ton pseudo pour les classements.</p>${isApp?'<div class="ggtwin">📲 <b>Tu as déjà joué dans Safari ou sur un autre téléphone ?</b><br>Ne recrée pas de joueur : touche « J\'ai déjà un code de sauvegarde » en bas.</div>':''}
+      const d=pop(`<div class="emo">🏊</div><h3>Bienvenue !</h3><p>Choisis ton prénom ou ton pseudo.<br><b>C'est le nom que tout le club verra</b> : classements, échanges, duels… Mets un nom que les autres reconnaîtront !</p>${isApp?'<div class="ggtwin">📲 <b>Tu as déjà joué dans Safari ou sur un autre téléphone ?</b><br>Ne recrée pas de joueur : touche « J\'ai déjà un code de sauvegarde » en bas.</div>':''}
         <input class="ainput" id="ggName" maxlength="20" placeholder="Ton prénom ou pseudo" autocomplete="off">
+        ${pushCan()?`<label class="ggnotif"><input type="checkbox" id="ggNotif" checked><span><b>🔔 Recevoir les notifications</b><small>Quand on te propose un échange, un duel ou une partie, et les annonces du club</small></span></label>`:''}
         <div class="ggerr" id="ggErr"></div>
         <button class="btn" id="ggGo">C'est parti !</button>
         <button class="gglink" id="ggHave">J'ai déjà un code de sauvegarde</button>`);
       const err=m=>{d.querySelector('#ggErr').textContent=m;};
       const code='GMB-'+rnd(6),pid=rnd(14);
       d.querySelector('#ggGo').onclick=async()=>{const name=d.querySelector('#ggName').value.trim().replace(/\s+/g,' ').slice(0,20);if(!name)return err('Écris ton pseudo 🙂');
+        {const nb=d.querySelector('#ggNotif');if(nb&&nb.checked&&!d.__asked){d.__asked=1;pushAskNow();}}
         const b=d.querySelector('#ggGo');b.disabled=true;b.textContent='…';
         // Pseudo déjà utilisé ? Souvent la même personne sur un autre téléphone ou dans l'appli de l'écran d'accueil
         try{const nn=normName(name),q=await fs.collection('board').get();const tw=q.docs.find(x=>{const v=x.data()||{};return v.name&&normName(v.name)===nn;});
@@ -4914,7 +4942,23 @@ const MEMBERS=[
 {"id": "helene", "n": "Hélène", "r": "R", "t": "Soyez gentils avec elle. Si vous vous faites opérer, c'est elle qui vous réveille. Je dis ça, je dis rien.", "pos": "50% 35%", "img": "img/m/helene.webp", "full": 0, "thumb": "img/m/helene_s.webp"},
 {"id": "willi", "n": "Willi", "r": "R", "t": "Heureusement qu'il a sa moto pour venir nous voir sans sa femme et ses enfants. Ce qui se passe à Metz reste à Metz !", "pos": "50% 35%", "img": "img/m/willi.webp", "full": 0, "thumb": "img/m/willi_s.webp"},
 {"id": "virginie", "n": "Virginie", "r": "R", "t": "", "pos": "50% 35%", "img": "img/m/virginie.webp", "full": 0, "thumb": "img/m/virginie_s.webp"},
-{"id": "francoise", "n": "Françoise", "r": "R", "t": "Son accent chantant nous manque. Mais depuis qu'elle est partie, on saute moins à la baignade ludique !", "pos": "50% 35%", "img": "img/m/francoise.webp", "full": 0, "thumb": "img/m/francoise_s.webp"}
+{"id": "francoise", "n": "Françoise", "r": "R", "t": "Son accent chantant nous manque. Mais depuis qu'elle est partie, on saute moins à la baignade ludique !", "pos": "50% 35%", "img": "img/m/francoise.webp", "full": 0, "thumb": "img/m/francoise_s.webp"},
+ {"id": "chez_mireille", "n": "Chez Mireille", "r": "E", "t": "Sacrée Mireille !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/chez_mireille.webp", "thumb": "img/m/chez_mireille_s.webp"},
+ {"id": "tchou_tchou", "n": "Tchou tchou !", "r": "E", "t": "Un train à vapeur, mais on est où, là ? Même Roland n’a pas connu ça à son époque.", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/tchou_tchou.webp", "thumb": "img/m/tchou_tchou_s.webp"},
+ {"id": "les_phoques", "n": "Les phoques", "r": "E", "t": "Mais what the phoque ?!", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/les_phoques.webp", "thumb": "img/m/les_phoques_s.webp"},
+ {"id": "baie_de_somme_2025", "n": "Baie de Somme 2025", "r": "E", "t": "", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/baie_de_somme_2025.webp", "thumb": "img/m/baie_de_somme_2025_s.webp"},
+ {"id": "les_tares_schell", "n": "Les tarés Schell", "r": "E", "t": "Une eau super froide… mais ils sont fous, ceux-là !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/les_tares_schell.webp", "thumb": "img/m/les_tares_schell_s.webp"},
+ {"id": "jura_2026", "n": "Jura 2026", "r": "E", "t": "", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/jura_2026.webp", "thumb": "img/m/jura_2026_s.webp"},
+ {"id": "luc", "n": "Luc", "r": "R", "t": "Un Marcel copié-collé, à mes yeux.", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/luc.webp", "thumb": "img/m/luc_s.webp"},
+ {"id": "hotel_des_lacs", "n": "L’hôtel des Lacs", "r": "E", "t": "L’hôtel et son personnel ont beaucoup fait pour la réussite de ce voyage, vous ne trouvez pas ?", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/hotel_des_lacs.webp", "thumb": "img/m/hotel_des_lacs_s.webp"},
+ {"id": "petite_helene", "n": "Petite Hélène", "r": "R", "t": "Une nouvelle petite bouille au club !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/petite_helene.webp", "thumb": "img/m/petite_helene_s.webp"},
+ {"id": "grottes_de_han", "n": "Grottes de Han", "r": "E", "t": "♫ Aux grottes de Han, c’est la nature en grand, pour les petits et les grands ! ♫", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/grottes_de_han.webp", "thumb": "img/m/grottes_de_han_s.webp"},
+ {"id": "le_50m", "n": "50 m", "r": "L", "t": "", "pos": "50% 35%", "ar": 0.806, "full": 1, "fit": 1, "img": "img/m/le_50m.webp", "thumb": "img/m/le_50m_s.webp"},
+ {"id": "baignade_ludique", "n": "Baignade ludique", "r": "L", "t": "", "pos": "50% 35%", "ar": 0.806, "full": 1, "fit": 1, "img": "img/m/baignade_ludique.webp", "thumb": "img/m/baignade_ludique_s.webp"},
+ {"id": "fete_du_club", "n": "Fête du club", "r": "L", "t": "", "pos": "50% 35%", "ar": 0.806, "full": 1, "fit": 1, "img": "img/m/fete_du_club.webp", "thumb": "img/m/fete_du_club_s.webp"},
+ {"id": "plus_qu_un_club_2", "n": "Merci à tous les bénévoles", "r": "L", "t": "", "pos": "50% 35%", "ar": 0.805, "full": 1, "fit": 1, "img": "img/m/plus_qu_un_club_2.webp", "thumb": "img/m/plus_qu_un_club_2_s.webp"},
+ {"id": "gaufre_zizi", "n": "Gaufre zizi", "r": "E", "t": "Une délicieuse gaufre !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/gaufre_zizi.webp", "thumb": "img/m/gaufre_zizi_s.webp"},
+ {"id": "lieutenant_pierre", "n": "Lieutenant Pierre", "r": "R", "t": "Notre formateur préféré, et surtout le seul qui accepte qu’on fasse des apéros !", "pos": "50% 30%", "ar": 0.803, "full": 0, "img": "img/m/lieutenant_pierre.webp", "thumb": "img/m/lieutenant_pierre_s.webp"}
 ];
 MEMBER_SLOTS=Math.max(60,MEMBERS.length);
 const memIdx=id=>MEMBERS.findIndex(m=>m.id===id);
@@ -5126,12 +5170,12 @@ function recordResult(k,win){if(!win)return;const m=metricOf(k);let v;
   else v=pendingScore;
   if(v!=null&&(m.t==='wins'||better(k,v,COL.best[k]))){const had=COL.best[k]!=null;COL.best[k]=v;if(had&&m.t!=='wins'){try{stat('rec');qHit('rec');}catch(_){}}saveCol();pushBoard();}return v;}
 let pushT=0;
-function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()=>{const o={pres:COL.pres||0,gm:COL.gm&&COL.gm.v===2?{s:COL.gm.stars||0,p:COL.gm.p||0,b:(x=>x<10?x:Math.pow(10,Math.floor(Math.log10(x))))(Math.floor(COL.gm.lifeAll||0))}:null,best:Object.assign({},COL.best),cards:cardCount(),dups:myDoubles().map(x=>x.id),chs:Object.assign({},COL.chs||{}),pf:pfPublic(),own:MEMBERS.filter(m=>COL.members[m.id]).map(m=>m.id),bbd:(()=>{try{return bbMyDeck();}catch(_){return null;}})(),bbt:COL.bbt||0,ptw:ST('ptWin'),ptp:ST('ptPlay'),bbj:COL.bbj&&COL.bbj.d===dayKey()?{d:COL.bbj.d,v:COL.bbj.v}:null};
+function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()=>{const o={pres:COL.pres||0,gm:COL.gm&&COL.gm.v===2?{s:COL.gm.stars||0,p:COL.gm.p||0,b:(x=>x<10?x:Math.pow(10,Math.floor(Math.log10(x))))(Math.floor(COL.gm.lifeAll||0))}:null,best:Object.assign({},COL.best),cards:cardCount(),dups:myDoubles().map(x=>x.id),chs:Object.assign({},COL.chs||{}),pf:pfPublic(),own:MEMBERS.filter(m=>COL.members[m.id]).map(m=>m.id),bbd:(()=>{try{return bbMyDeck();}catch(_){return null;}})(),bbt:COL.bbt||0,ptw:ST('ptWin'),ptp:ST('ptPlay'),bbj:COL.bbj&&COL.bbj.d===dayKey()?{d:COL.bbj.d,v:COL.bbj.v}:null,cw:(()=>{try{const c=COL.gm&&COL.gm.cw;return c&&c.w===gmWeek()?c:null;}catch(_){return null;}})()};
     /* on n'écrit que si quelque chose a changé (ou au moins une fois par heure, pour « vu récemment ») */
     const k=JSON.stringify(o),now=Date.now();if(k===pushBoard.k&&now-(pushBoard.t||0)<3600e3)return;
     // les simples compteurs (parties jouées, victoires…) ne partent qu'une fois toutes les 10 minutes :
     // chaque écriture du classement est relue par tous les téléphones ouverts
-    const core=JSON.stringify(Object.assign({},o,{pf:Object.assign({},o.pf,{st:null})}));
+    const core=JSON.stringify(Object.assign({},o,{pf:Object.assign({},o.pf,{st:null}),cw:null}));
     if(core===pushBoard.c&&now-(pushBoard.t||0)<600e3){clearTimeout(pushBoard.lt);pushBoard.lt=setTimeout(pushBoard,600e3-(now-(pushBoard.t||0))+500);return;}
     o.at=now;boardRef.set(o).then(()=>{pushBoard.k=k;pushBoard.c=core;pushBoard.t=now;}).catch(()=>{});},400);}
 (async function rkInit(){try{if(!window.claude||!window.claude.use)return;const db=await window.claude.use('db'),u=await window.claude.use('user');if(!db||!u)return;
@@ -5865,7 +5909,10 @@ const SERIES=[
   {id:'f_bruker',n:'Famille Bruker',e:'👨‍👩‍👧',cards:['willi','francoise','mae','mathis']},
   {id:'f_vanerom',n:'Famille Van Erom',e:'👨‍👩‍👧',cards:['pierre','virginie','louis']},
   {id:'copains',n:'Les copains',e:'🤙',cards:['ethan','nathan','zoe','lucie','manon','matheo']},
-  {id:'pas_leau',n:'N\'aime pas l\'eau',e:'🚱',cards:['marcel','stephane','christophe','dario','p_christophe']}
+  {id:'pas_leau',n:'N\'aime pas l\'eau',e:'🚱',cards:['marcel','stephane','christophe','dario','p_christophe']},
+  {id:'v_somme',n:'Voyage en baie de Somme',e:'🦭',cards:['chez_mireille','tchou_tchou','les_phoques','baie_de_somme_2025']},
+  {id:'v_jura',n:'Voyage dans le Jura',e:'🏔️',cards:['les_tares_schell','jura_2026','hotel_des_lacs']},
+  {id:'v_belgique',n:'Voyage en Belgique',e:'🧇',cards:['gaufre_zizi','grottes_de_han']}
 ];
 const serList=()=>SERIES.concat(window.__SERIES_DEMO||[]);
 const serOwned=s=>s.cards.filter(id=>COL.members[id]).length;
@@ -7721,7 +7768,7 @@ function gmAuto(G,a){const D=gmDef(a);if(G.sick&&G.sick.a===a&&G.sick.end>Date.n
 function gmSpeed(A){let n=0;GM_MS.forEach(m=>{if(A.l>=m)n++;});return Math.pow(2,n);}
 function gmNextMs(A){return GM_MS.find(m=>A.l<m)||null;}
 function gmMul(G,a,now){now=now||Date.now();let m=1;const stk=G.strike&&G.strike>now;GM_BENU.forEach(([id,t,x])=>{if(!stk&&G.ben[id]&&(t===a||t==='all'))m*=x+gmPL(G,'benx');});
-  m*=1+.02*gmStarsFree(G);m*=1+gmFrK(G)*Object.keys(G.fr||{}).length;m*=gmVest(G);(G.smod||[]).forEach(z=>m*=z.x);
+  m*=1+.02*gmStarsFree(G);m*=1+gmFrK(G)*Object.keys(G.fr||{}).length;m*=gmVest(G);(G.smod||[]).forEach(z=>m*=z.x);m*=gmThMul(G,a);
   if(GM.noTmp)return m;let bx=1;for(const k in G.man){const M=G.man[k];if(M&&M.end>now)bx=Math.max(bx,gmManX(G,k));}if(G.vb&&G.vb.end>now)m*=G.vb.x;
   (G.tb||[]).forEach(b=>{if(b.end>now&&(!b.st||b.st<=now)&&(!b.a||b.a===a))m*=b.x;});return m*bx;}
 function gmCycle(G,a){const D=gmDef(a),A=G.act[a];return Math.max(.05,D.t/gmSpeed(A));}
@@ -7733,7 +7780,7 @@ function gmBuyN(G,a){const D=gmDef(a),A=G.act[a]||{l:0};let n=GM.bm;if(GM.bm==='
 function gmXThr(G){return 3e10*Math.pow(30,G.x||0);}
 function gmXOK(G){return !!GM_XTRA[G.x||0]&&G.run>=gmXThr(G);}
 function gmStarsTot(G){return Math.floor(60*Math.cbrt((G.lifeAll||0)/1e10));}
-function gmStarsNew(G){const raw=G.starsRaw!=null?G.starsRaw:(G.stars||0);return Math.max(0,Math.floor((gmStarsTot(G)-raw)*(1+.15*gmPL(G,'sais'))));}
+function gmStarsNew(G){const raw=G.starsRaw!=null?G.starsRaw:(G.stars||0);return Math.max(0,Math.floor((gmStarsTot(G)-raw)*(1+.15*gmPL(G,'sais'))*(G.th==='etoile'?1.25:1)));}
 /* avance le temps (gère aussi le hors-ligne, avec les boosts au bon moment) */
 function gmStep(G,dt,now){for(const a in G.act){const A=G.act[a];if(!A.l)continue;const auto=gmAuto(G,a);if(!auto&&!A.go)continue;
     const cy=gmCycle(G,a);A.pg=(A.pg||0)+dt/cy;let n=Math.floor(A.pg);if(!auto&&n>=1){n=1;A.pg=0;A.go=0;}else A.pg-=n;
@@ -7769,13 +7816,14 @@ function gmBenHTML(G){let h=`<div class="gmhint">🙋 Chaque bénévole <b>multi
   const L=GM_BENU.slice().sort((x,y)=>(G.ben[x[0]]?1:0)-(G.ben[y[0]]?1:0)||x[3]-y[3]);
   L.forEach(([id,t,x,c])=>{const own=!!G.ben[id],tg=t==='all'?'🏢 Tout le club':gmDef(t).e+' '+gmDef(t).n;
     h+=`<div class="gmper${own?' own':''}">${gmAv(id,own?'ben':'')}<div class="i"><b>${esc(gmName(id))}</b><small>${tg} · gains <b>×${x}</b></small></div>
-      ${own?'<span class="ok">✅</span>':`<button class="mini-b gmh" data-ben="${id}" ${gmLv(()=>({d:G.m<c}))}>Recruter<br><b>${gmE(c)}</b></button>`}</div>`;});
+      ${own?'<span class="ok">✅</span>':`<button class="mini-b gmh" data-ben="${id}" ${gmLv(()=>({d:G.m<gmBenC(G,c)}))}>Recruter<br><b>${gmE(gmBenC(G,c))}</b></button>`}</div>`;});
   return h;}
 /* ---------- les manifestations : des boosts ---------- */
 function gmManOn(G){const n=Date.now();return Object.keys(G.man).find(k=>G.man[k].end>n)||null;}
 function gmManReady(G,k){const M=GM_MAN[k],R=G.man[k];if(M.need&&!(G.act[M.need]||{}).l)return false;if(gmManOn(G))return false;return !R||Date.now()>=R.ready;}
 function gmSeasonHTML(G){const nx=GM_XTRA[G.x||0],ns=gmStarsNew(G);const xl=nx?`<div class="gmxt" ${gmLv(()=>gmXOK(G)?{t:'✅ '+nx.e+' '+nx.n+' sera débloquée !',c:'ok'}:{t:'🔒 '+nx.e+' '+nx.n+' : gagne '+gmE(gmXThr(G))+' dans la saison ('+gmE(G.run)+')',c:''})}></div>`:'';
-  let h=`<div class="gmpres"><div class="h"><span class="e">🌅</span><div><b>Nouvelle saison</b><small>Le club repart de zéro, mais tu gagnes des <b>⭐ étoiles</b> (+2 % de gains chacune, ou à dépenser en talents)${nx?`, et une nouvelle activité si ta saison a été assez grosse`:''}.</small></div></div>${xl}
+  const th=gmThO(G);let h=`<div class="gmthnow">${th?`<span class="e">${th.e}</span><div><small>Thème de la saison</small><b>${th.n}</b><small>${th.d}</small></div>`:`<span class="e">🎴</span><div><b>Pas encore de thème</b><small>Choisis un thème pour pimenter ta saison</small></div><button class="mini-b" data-thpick="1">Choisir</button>`}</div>`;
+  h+=`<div class="gmpres"><div class="h"><span class="e">🌅</span><div><b>Nouvelle saison</b><small>Le club repart de zéro, mais tu gagnes des <b>⭐ étoiles</b> (+2 % de gains chacune, ou à dépenser en talents)${nx?`, et une nouvelle activité si ta saison a été assez grosse`:''}.</small></div></div>${xl}
     <div class="gmstars"><div><small>Étoiles libres (+${gmFmt(gmStarsFree(G)*2)} %)</small><b>⭐ ${gmFmt(G.stars||0)}</b></div><div><small>Tu gagnerais</small><b ${gmLv(()=>'+ '+gmFmt(gmStarsNew(G))+' ⭐')}></b></div></div>
     <small class="gmkeep">On garde : étoiles, talents, médailles, bâtiments, amis du club, objectifs, activités de saison. On repart à zéro : argent, créneaux, maîtres-nageurs, bénévoles, effets des décisions.</small>
     <button class="gmbuy gold" id="gmPr" ${gmLv(()=>({d:gmStarsNew(G)<1,t:gmStarsNew(G)<1?'Gagne encore un peu pour ta 1re étoile…':'🌅 Commencer la saison '+(G.p+2)}))}></button></div>`;
@@ -7784,20 +7832,23 @@ function gmSeasonHTML(G){const nx=GM_XTRA[G.x||0],ns=gmStarsNew(G);const xl=nx?`
   h+=`<div class="gmstat">📊 ${gmE(G.lifeAll)} gagnés en tout · ${G.manN||0} manifestation${(G.manN||0)>1?'s':''}${G.p?' · '+G.p+' saison'+(G.p>1?'s':'')+' terminée'+(G.p>1?'s':''):''}</div>`;return h;}
 /* ---------- actions ---------- */
 function gmPrestigeAsk(G){const ns=gmStarsNew(G);if(ns<1)return;const nx=gmXOK(G)?GM_XTRA[G.x||0]:null,pk=G.pkd!==dayKey();
-  const sh=sheet(`<h3>🌅 Nouvelle saison</h3><div class="sec">Le club repart de zéro… mais en beaucoup plus fort !</div><div class="presgain"><b>Saison ${G.p+2}</b><div><i>⭐</i>+${gmFmt(ns)} étoiles : +${gmFmt(ns*2)} % de gains (ou des talents)</div><div><i>🏅</i>+5 médailles pour ton complexe</div>${nx?`<div><i>${nx.e}</i>Nouvelle activité : ${nx.n}</div>`:''}<div><i>🎁</i>${pk?'Un paquet de 3 cartes':'Paquet de 3 cartes déjà reçu aujourd\'hui (1 par jour)'}</div></div>
+  const ss=G.ss||{},dur=ss.at?(Date.now()-ss.at)/1000:0,rec=G.run>(G.rb||0)&&G.p>0,th=gmThO(G);
+  const sh=sheet(`<h3>🌅 Fin de la saison ${(G.p||0)+1}</h3><div class="gmbilan"><b>📊 Le bilan${th?' · '+th.e+' '+th.n:''}</b>${rec?'<div class="rec">🏆 Nouveau record de saison !</div>':''}
+    <div class="g"><span>💶<b>${gmE(G.run)}</b><small>gagnés</small></span><span>🎉<b>${ss.m||0}</b><small>manifs</small></span><span>🚨<b>${ss.i||0}</b><small>incidents</small></span><span>📬<b>${ss.d||0}</b><small>décisions</small></span><span>🦆<b>${ss.v||0}</b><small>visiteurs</small></span>${dur?`<span>⏱️<b>${gmTime(dur)}</b><small>durée</small></span>`:''}</div></div>
+    <div class="sec">Le club repart de zéro… mais en beaucoup plus fort ! Ensuite, tu choisiras le <b>🎴 thème</b> de ta nouvelle saison.</div><div class="presgain"><b>Saison ${G.p+2}</b><div><i>⭐</i>+${gmFmt(ns)} étoiles : +${gmFmt(ns*2)} % de gains (ou des talents)</div><div><i>🏅</i>+5 médailles pour ton complexe</div>${nx?`<div><i>${nx.e}</i>Nouvelle activité : ${nx.n}</div>`:''}<div><i>🎁</i>${pk?'Un paquet de 3 cartes':'Paquet de 3 cartes déjà reçu aujourd\'hui (1 par jour)'}</div></div>
     <div class="trbtns"><button class="btn alt" id="bx">Pas encore</button><button class="btn" id="bgo">🌅 C'est parti !</button></div>`);
   sh.querySelector('#bx').onclick=()=>sh.remove();sh.querySelector('#bgo').onclick=()=>{sh.remove();
-    G.stars=(G.stars||0)+ns;G.starsRaw=gmStarsTot(G);G.p=(G.p||0)+1;if(nx)G.x=(G.x||0)+1;Object.assign(G,{m:GM_CASH[gmPL(G,'cash')],run:0,act:{bebe:{l:1,pg:0,go:0}},mns:gmKeepMns(G),ben:{},man:{},tb:[],smod:[],sick:null,strike:0,mbl:0,dec:null});G.med=(G.med||0)+5;
+    if(G.run>(G.rb||0))G.rb=G.run;G.stars=(G.stars||0)+ns;G.starsRaw=gmStarsTot(G);G.p=(G.p||0)+1;G.th=null;G.ss={at:Date.now()};if(nx)G.x=(G.x||0)+1;Object.assign(G,{m:GM_CASH[gmPL(G,'cash')],run:0,act:{bebe:{l:1,pg:0,go:0}},mns:gmKeepMns(G),ben:{},man:{},tb:[],smod:[],sick:null,strike:0,mbl:0,dec:null});G.med=(G.med||0)+5;
     if(pk){G.pkd=dayKey();grantPack(3,'Gambetta Manager · nouvelle saison');try{updBoostBtn();}catch(_){}}try{stat('gmPres');}catch(_){}gmSave(true);
-    const ov=document.createElement('div');ov.className='giftpop';ov.innerHTML=`<div class="gcard"><div class="ptconf">${Array.from({length:26},(_,i)=>`<i style="left:${(i*37)%100}%;animation-delay:${(i%7)*.2}s">${['🌅','⭐','🎉','💶','🏊'][i%5]}</i>`).join('')}</div><div class="emo">🌅</div><h3>Saison ${G.p+1} !</h3><p>⭐ ${gmFmt(G.stars)} étoiles : <b>+${gmFmt(gmStarsFree(G)*2)} % de gains</b>${nx?`<br>Nouvelle activité : <b>${nx.e} ${nx.n}</b>`:''}<br>🏅 +5 médailles pour ton complexe${pk?'<br>🎁 Un paquet de 3 cartes t\'attend !':''}</p><div class="endbtns"><button class="btn">Plonger !</button></div></div>`;
-    $('#app').appendChild(ov);ov.querySelector('.btn').onclick=()=>ov.remove();GM.tab='act';gmRender();};}
+    GM.tab='act';gmRender();gmThDraft(G,t=>{const ov=document.createElement('div');ov.className='giftpop';ov.innerHTML=`<div class="gcard"><div class="ptconf">${Array.from({length:26},(_,i)=>`<i style="left:${(i*37)%100}%;animation-delay:${(i%7)*.2}s">${[t.e,'⭐','🎉','💶','🏊'][i%5]}</i>`).join('')}</div><div class="emo">${t.e}</div><h3>Saison ${G.p+1} !</h3><p><b>${t.e} ${t.n}</b><br><small>${t.d}</small><br><br>⭐ ${gmFmt(G.stars)} étoiles : <b>+${gmFmt(gmStarsFree(G)*2)} % de gains</b>${nx?`<br>Nouvelle activité : <b>${nx.e} ${nx.n}</b>`:''}<br>🏅 +5 médailles pour ton complexe${pk?'<br>🎁 Un paquet de 3 cartes t\'attend !':''}</p><div class="endbtns"><button class="btn">Plonger !</button></div></div>`;
+      $('#app').appendChild(ov);ov.querySelector('.btn').onclick=()=>ov.remove();});};}
 /* ---------- animations ---------- */
 function gmFloat(txt,col){if(!gmActive())return;const d=document.createElement('div');d.className='gmfloat';d.style.color=col||'#fff';d.textContent=txt;d.style.left=(30+Math.random()*40)+'%';$('#manager').appendChild(d);setTimeout(()=>d.remove(),1400);}
 const GM_VIS=[{k:'canard',e:'🦆',n:'Le canard du club',w:5},{k:'ballon',e:'🏐',n:'Un ballon de plage',w:4},{k:'bouchon',e:'🐶',img:'bouchon',n:'Bouchon',w:3},{k:'frites',e:'🍟',img:'marcel',n:'Marcel et ses frites',w:2},{k:'or',e:'🌟',n:'La bouée en or',w:1}];
 function gmVisImg(id){GM.im=GM.im||{};if(GM.im[id])return GM.im[id];const m=memObj(id);const im=new Image();if(m)im.src=m.thumb||m.img;return GM.im[id]=im;}
 
 /* ---------- tout se passe autour du grand bassin ---------- */
-function gmDots(G){return{bld:GM_BLD.some(B=>{const l=gmBL(G,B.k);return l<B.c.length&&(G.med||0)>=B.c[l];}),ben:GM_BENU.some(([id,,,c])=>!G.ben[id]&&G.m>=c),season:gmStarsNew(G)>=1||GM_OBJ.some(o=>!G.obj[o.id]&&o.ok(G))};}
+function gmDots(G){return{bld:GM_BLD.some(B=>{const l=gmBL(G,B.k);return l<B.c.length&&(G.med||0)>=B.c[l];}),ben:GM_BENU.some(([id,,,c])=>!G.ben[id]&&G.m>=gmBenC(G,c)),season:gmStarsNew(G)>=1||GM_OBJ.some(o=>!G.obj[o.id]&&o.ok(G))};}
 function gmLaneHTML(G,a){const D=gmDef(a),A=G.act[a],auto=gmAuto(G,a),own=!!G.mns[a],mc=D.mns?gmMnsCost(a):0;
   const deck=D.mns?(own?`<div class="dk own" title="${esc(gmName(D.mns))}">${gmAv(D.mns,'mns')}<i>🧑‍🏫</i><small>${esc(gmName(D.mns).split(' ')[0])}</small></div>`
       :`<button class="dk chair" data-mns="${a}" ${gmLv(()=>({d:G.m<mc}))}><span class="ch">🪑</span><small>${esc(gmName(D.mns).split(' ')[0])}</small><b>${gmE(mc)}</b></button>`)
@@ -7814,8 +7865,8 @@ function gmRender(){const b=$('#gmBody');if(!b)return;const G=gmG();GM.L=[];cons
     <div class="gmboost" ${gmLv(()=>{const now=Date.now(),L=Object.keys(G.man).filter(k=>G.man[k].end>now);const vb=G.vb&&G.vb.end>now?[G.vb.e+' ×'+G.vb.x+' '+gmTime((G.vb.end-now)/1000)]:[];const T=L.map(k=>GM_MAN[k].e+' ×'+gmManX(G,k)+' '+gmTime((G.man[k].end-now)/1000)).concat(vb).concat((G.tb||[]).filter(b=>b.end>now&&(!b.st||b.st<=now)).map(b=>b.e+' '+(b.x===0?'fermé':(b.x<1?'−'+Math.round((1-b.x)*100)+' %':'×'+gmFmt(b.x)))+(b.a?' ('+gmDef(b.a).e+')':'')+' '+gmTime((b.end-now)/1000)));if(G.strike>now)T.push('✊ grève '+gmTime((G.strike-now)/1000));return{t:T.join('   '),h:!T.length};})}></div>
     <div class="gminc" ${gmLv(()=>{const C=GM.inc;if(!C)return{h:true};return{h:false,t:'🚨 '+C.I.e+' '+C.I.n+' en '+gmDef(C.a).e+' '+gmDef(C.a).n+' ! Touche la ligne'+(C.I.taps>1?' '+(C.I.taps-C.got)+' fois':'')+' · '+Math.max(0,Math.ceil(C.left))+' s'};})}></div></div>
    <div class="gmscene"><div class="gmdeco" id="gmDeco"></div>
-    <div class="gmwall"><div class="ban">🏊 CLUB GAMBETTA ${G.p?'· SAISON '+(G.p+1):''}</div>
-      <button class="mail" data-sheet="dec" ${gmLv(()=>({h:!G.dec}))}><span>📬</span><b>Courrier</b></button><button class="sign${D.season?' hot':''}" data-sheet="season"><span>🌅</span><b>Fin de saison</b><small ${gmLv(()=>{const n=gmStarsNew(G);return n?'+'+gmFmt(n)+' ⭐':'objectifs';})}></small></button></div>
+    <div class="gmwall"><div class="ban">🏊 CLUB GAMBETTA ${G.p?'· SAISON '+(G.p+1):''}${gmThO(G)?' '+gmThO(G).e:''}</div>
+      <button class="mail" data-sheet="dec" ${gmLv(()=>({h:!G.dec}))}><span>📬</span><b>Courrier</b></button><button class="sign${D.season?' hot':''}" data-sheet="season"><span>🌅</span><b>Fin de saison</b><small ${gmLv(()=>{const n=gmStarsNew(G);return n?'+'+gmFmt(n)+' ⭐':'objectifs';})}></small></button></div>${gmCwBar(G)}
     <button class="gmstands${D.ben?' hot':''}" data-sheet="ben"><div class="seats">${GM_BENU.map(u=>G.ben[u[0]]?gmAv(u[0],'ben'):'<span class="seat"></span>').join('')}</div>
       <div class="lbl">🙋 Bénévoles ${hired.length}/${GM_BENU.length}${D.ben?' · <b>recrute !</b>':''}${fr.length?` · 🤝 ${fr.length} ami${fr.length>1?'s':''}`:''}</div></button>
     <button class="gmcplx${D.bld?' hot':''}" data-sheet="bld"><div class="bl">${GM_BLD.map(B=>{const l=gmBL(G,B.k);return `<span class="b${l?'':' off'}"><i>${B.e}</i><small>${l?'★'.repeat(l):'&nbsp;'}</small></span>`;}).join('')}</div><div class="lbl">🏗️ Le complexe · <span ${gmLv(()=>'🏅 '+gmFmt(G.med||0))}></span>${D.bld?' · <b>construis !</b>':''}</div></button>
@@ -7832,7 +7883,7 @@ function gmRender(){const b=$('#gmBody');if(!b)return;const G=gmG();GM.L=[];cons
 function gmOpenSheet(k){GM.sheet=k;const sh=sheet(`<div id="gmSh"></div><div class="trbtns"><button class="btn alt" id="bx">Fermer</button></div>`);GM.shEl=sh;sh.querySelector('#bx').onclick=()=>{sh.remove();GM.sheet=null;GM.shEl=null;gmRender();};gmSheetFill();}
 function gmSheetFill(){const sh=GM.shEl;if(!sh||!document.body.contains(sh)){GM.sheet=null;GM.shEl=null;return;}const G=gmG(),box=sh.querySelector('#gmSh'),n0=GM.L.length;
   if(GM.sheet==='ben'){const F=Object.keys(G.fr||{}),pool=gmFriendPool();box.innerHTML=`<h3>🙋 Les gradins</h3>`+gmBenHTML(G)+`<div class="dsec">🤝 Amis du club <small>${F.length}/${pool.length} · chaque manif en fait venir un · +1 % chacun</small></div><div class="gmfr">${pool.map(i=>F.includes(i)?`<div>${gmAv(i,'fr')}<small>${esc(gmName(i))}</small></div>`:`<div class="no"><span class="gmav">?</span><small>???</small></div>`).join('')}</div>`;}
-  else if(GM.sheet==='bld')box.innerHTML=gmBldHTML(G);else if(GM.sheet==='shop')box.innerHTML=gmShopHTML(G);else if(GM.sheet==='dec')box.innerHTML=gmDecHTML(G);
+  else if(GM.sheet==='club')box.innerHTML=gmCwHTML(G);else if(GM.sheet==='bld')box.innerHTML=gmBldHTML(G);else if(GM.sheet==='shop')box.innerHTML=gmShopHTML(G);else if(GM.sheet==='dec')box.innerHTML=gmDecHTML(G);
   else box.innerHTML=gmSeasonHTML(G);
   box.querySelectorAll('[data-l]').forEach(el=>GM.els.push([el,GM.L[+el.dataset.l]]));gmWire(box,G);gmLive();}
 /* actions */
@@ -7846,22 +7897,26 @@ function gmWire(b,G){const R=()=>{gmRender();gmSave(false);},sfx=k=>{try{fgSfx(k
     if(!old){gmFloat('🏗️ Nouvelle ligne : '+gmDef(a).n+' !','#2fb35a');sfx('parry');R();return;}
     const o=GM_MS.filter(m=>old<m&&A.l>=m).length;if(o){gmFloat(gmDef(a).e+' vitesse ×'+Math.pow(2,o)+' !','#ff9a00');sfx('parry');}if(Math.floor(A.l/100)>Math.floor(old/100)){gmFloat(gmDef(a).e+' gains ×3 !','#2fb35a');sfx('parry');}R();});
   b.querySelectorAll('[data-mns]').forEach(x=>x.onclick=()=>{const a=x.dataset.mns,c=gmMnsCost(a);if(G.mns[a]||G.m<c)return;G.m-=c;G.mns[a]=1;sfx('parry');gmFloat('🧑‍🏫 '+gmName(gmDef(a).mns)+' surveille la ligne !','#2fb35a');gmSave(true);R();});
-  b.querySelectorAll('[data-ben]').forEach(x=>x.onclick=()=>{const id=x.dataset.ben,u=GM_BENU.find(z=>z[0]===id);if(!u||G.ben[id]||G.m<u[3])return;G.m-=u[3];G.ben[id]=1;sfx('parry');gmFloat(gmName(id)+' · ×'+u[2]+' !','#2fb35a');gmSave(true);R();});
+  b.querySelectorAll('[data-ben]').forEach(x=>x.onclick=()=>{const id=x.dataset.ben,u=GM_BENU.find(z=>z[0]===id);if(!u||G.ben[id]||G.m<gmBenC(G,u[3]))return;G.m-=gmBenC(G,u[3]);G.ben[id]=1;sfx('parry');gmFloat(gmName(id)+' · ×'+u[2]+' !','#2fb35a');gmSave(true);R();});
   b.querySelectorAll('[data-man]').forEach(x=>x.onclick=()=>{const k=x.dataset.man,M=GM_MAN[k],now=Date.now(),R0=G.man[k];if(M.need&&!(G.act[M.need]||{}).l)return;if(R0&&(R0.end>now||R0.ready>now)||gmManOn(G))return;if(G.mbl&&G.mbl>now){toast('📱','Manifestations bloquées','L\'influenceur occupe le bassin encore '+gmTime((G.mbl-now)/1000));return;}
-    const pool=qqShuffle(gmFriendPool()),ppl=pool.slice(0,3);G.man[k]={end:now+M.dur*1000,ready:now+M.cd*gmCdMul(G)*1000,ppl};
-    {const md=({bain:1,prev:2,comp:3,fete:5}[k]||1)+gmPL(G,'medm');setTimeout(()=>gmMed(G,md),900);const bm=[0,2,5,10][gmBL(G,'buv')];if(bm){const v=gmRP(G)*60*bm;gmGain(G,v);setTimeout(()=>gmFloat('🍟 Buvette : +'+gmE(v),'#ffe36b'),1600);}}G.manN=(G.manN||0)+1;G.fr=G.fr||{};const nf=ppl.find(i=>!G.fr[i]);if(nf)G.fr[nf]=now;
+    const pool=qqShuffle(gmFriendPool()),ppl=pool.slice(0,3);G.man[k]={end:now+M.dur*1000*(G.th==='ete'&&k==='bain'?2:1),ready:now+M.cd*gmCdMul(G)*(G.th==='fete'?.7:1)*(G.th==='jo'&&k==='comp'?.5:1)*1000,ppl};gmCw(G,'m');
+    {const md=({bain:1,prev:2,comp:3,fete:5}[k]||1)+gmPL(G,'medm')+(G.th==='jo'&&k==='comp'?3:0);setTimeout(()=>gmMed(G,md),900);const bm=[0,2,5,10][gmBL(G,'buv')];if(bm){const v=gmRP(G)*60*bm;gmGain(G,v);setTimeout(()=>gmFloat('🍟 Buvette : +'+gmE(v),'#ffe36b'),1600);}}G.manN=(G.manN||0)+1;G.fr=G.fr||{};const nf=ppl.find(i=>!G.fr[i]);if(nf)G.fr[nf]=now;
     sfx('ann');gmFloat(M.e+' '+M.n+' : ×'+gmManX(G,k)+' !','#e0217a');if(nf)toast('🤝','Nouvel ami du club : '+gmName(nf),'Il rejoint les gradins · +1 % de gains');gmSave(true);R();try{gmManIntro(k,ppl);}catch(_){}});
+  b.querySelectorAll('[data-cw]').forEach(x=>x.onclick=()=>{const i=+x.dataset.cw,S=gmCwState(G);if(S.lvl<=i||S.mine<GM_CW_MIN)return;G.cwc=G.cwc&&G.cwc.w===S.w?G.cwc:{w:S.w,g:{}};if(G.cwc.g[i])return;G.cwc.g[i]=1;
+    const R=GM_CWR[i];gmMed(G,R.med);if(R.pk){grantPack(R.pk,'Objectif du club · palier '+(i+1));try{updBoostBtn();}catch(_){}}if(R.x)gmTB(G,{x:2,end:Date.now()+1800e3,e:'🤝'});
+    sfx('parry');toast('🤝','Palier '+(i+1)+' : merci le club !',R.t);gmSave(true);try{stat('gmClub');}catch(_){}gmSheetFill();gmRender();});
+  b.querySelectorAll('[data-thpick]').forEach(x=>x.onclick=()=>{try{GM.shEl&&GM.shEl.remove();}catch(_){}GM.sheet=null;GM.shEl=null;gmThDraft(G);});
   b.querySelectorAll('[data-obj]').forEach(x=>x.onclick=()=>{const o=GM_OBJ.find(z=>z.id===x.dataset.obj);if(!o||G.obj[o.id]||!o.ok(G))return;G.obj[o.id]=Date.now();grantPack(o.r,'Gambetta Manager · '+o.t);try{updBoostBtn();}catch(_){}
     toast('🎁','Objectif réussi : '+o.t,o.r>1?'Booster de '+o.r+' cartes':'Une carte');gmSave(true);R();});
   b.querySelectorAll('[data-bld]').forEach(x=>x.onclick=()=>{const B=GM_BLD.find(z=>z.k===x.dataset.bld),l=gmBL(G,B.k),c=B.c[l];if(c==null||(G.med||0)<c)return;G.med-=c;G.bld[B.k]=l+1;sfx('parry');gmFloat(B.e+' '+B.n+(l?' niveau '+(l+1):' construit')+' !','#ffd23f');try{fgSfx('super');}catch(_){}gmSave(true);R();});
   b.querySelectorAll('[data-perk]').forEach(x=>x.onclick=()=>{const P=GM_PERK.find(z=>z.k===x.dataset.perk),l=gmPL(G,P.k),c=P.c[l];if(c==null||gmPLock(G,P)||gmStarsFree(G)<c)return;G.spent=(G.spent||0)+c;G.perk[P.k]=l+1;if(P.k==='mns')Object.assign(G.mns,gmKeepMns(G));sfx('parry');gmFloat(P.e+' '+P.n+' !','#ffe36b');gmSave(true);R();});
-  b.querySelectorAll('[data-dec]').forEach(x=>x.onclick=()=>{const o=(GM.decO||[])[+x.dataset.dec];if(!o||!G.dec||(o.dis&&o.dis(G)))return;const D=GM_DEC.find(z=>z.k===G.dec.k);G.dec=null;let msg='';try{msg=o.go(G)||'';}catch(e){console.warn(e);}G.decN=(G.decN||0)+1;
+  b.querySelectorAll('[data-dec]').forEach(x=>x.onclick=()=>{const o=(GM.decO||[])[+x.dataset.dec];if(!o||!G.dec||(o.dis&&o.dis(G)))return;const D=GM_DEC.find(z=>z.k===G.dec.k);G.dec=null;let msg='';try{msg=o.go(G)||'';}catch(e){console.warn(e);}G.decN=(G.decN||0)+1;gmCw(G,'d');if(G.th==='post')setTimeout(()=>gmMed(G,1),700);
     if(GM.shEl){GM.shEl.remove();GM.sheet=null;GM.shEl=null;}sfx('ann');toast(D?D.e:'📬',msg,o.t.replace(/^\S+\s/,''));gmSave(true);R();});
   const pr=b.querySelector('#gmPr');if(pr)pr.onclick=()=>{if(GM.shEl){GM.shEl.remove();GM.sheet=null;GM.shEl=null;}gmPrestigeAsk(G);};}
 /* les nageurs dans chaque ligne + les visiteurs */
 function gmPool(){if(!gmActive())return;GM.raf=requestAnimationFrame(gmPool);const G=gmG(),t=performance.now()/1000,now=Date.now();
   const lanes=Object.keys(GM.lc||{}).filter(a=>GM.lc[a]&&document.body.contains(GM.lc[a]));
-  if(!GM.vis&&now>GM.visT&&lanes.length&&!(G.vbk>now)){if(GM.visT){const lk=gmPL(G,'luck'),wv=v=>v.k==='or'&&lk>=2?v.w*3:v.w,tot=GM_VIS.reduce((s,v)=>s+wv(v),0);let r=Math.random()*tot,V=GM_VIS[0];for(const v of GM_VIS){r-=wv(v);if(r<=0){V=v;break;}}const a=lanes[Math.floor(Math.random()*lanes.length)],W=GM.lc[a].clientWidth,d=Math.random()<.5?1:-1;GM.vis={V,a,x:d>0?-20:W+20,d,t:0,sp:W/(V.k==='or'?3.2:5)};try{fgSfx('pop');}catch(_){}}GM.visT=now+(40+Math.random()*60)*1000/GM_LUCK[gmPL(G,'luck')]/(ofOn('vis')?3:1);}
+  if(!GM.vis&&now>GM.visT&&lanes.length&&!(G.vbk>now)){if(GM.visT){const lk=gmPL(G,'luck'),wv=v=>v.k==='or'&&lk>=2?v.w*3:v.w,tot=GM_VIS.reduce((s,v)=>s+wv(v),0);let r=Math.random()*tot,V=GM_VIS[0];for(const v of GM_VIS){r-=wv(v);if(r<=0){V=v;break;}}const a=lanes[Math.floor(Math.random()*lanes.length)],W=GM.lc[a].clientWidth,d=Math.random()<.5?1:-1;GM.vis={V,a,x:d>0?-20:W+20,d,t:0,sp:W/(V.k==='or'?3.2:5)};try{fgSfx('pop');}catch(_){}}GM.visT=now+(40+Math.random()*60)*1000/GM_LUCK[gmPL(G,'luck')]/(ofOn('vis')?3:1)/(G.vlk>now?2:1)/(G.th==='canard'?3:1);}
   lanes.forEach(a=>{const cv=GM.lc[a],D=gmDef(a),A=G.act[a];if(!A)return;const dpr=Math.min(2,devicePixelRatio||1),W=cv.clientWidth,H=cv.clientHeight;if(!W||!H)return;
     if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);}const c=cv.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,W,H);
     const MK=gmManOn(G),race=MK==='comp',li=lanes.indexOf(a),auto=gmAuto(G,a),on=auto||A.go||race,cy=gmCycle(G,a),fast=cy<.6||race,y=H*.62,x0=12,x1=W-12;
@@ -7924,9 +7979,9 @@ const gmBL=(G,k)=>(G.bld&&G.bld[k])||0,gmPL=(G,k)=>(G.perk&&G.perk[k])||0;
 function gmFix(G){if(G.med==null)G.med=0;if(G.starsRaw==null)G.starsRaw=G.stars||0;G.bld=G.bld||{};G.perk=G.perk||{};G.spent=G.spent||0;G.tb=G.tb||[];G.smod=G.smod||[];return G;}
 function gmVest(G){return [1,1.5,2,3][gmBL(G,'vest')];}
 function gmFrK(G){return .01*[1,2,3,5][gmBL(G,'trib')];}
-function gmManX(G,k){const b={bain:'tob',prev:'sec',comp:'plot',fete:'salle'}[k];return GM_MAN[k].x+(b?gmBL(G,b):0);}
+function gmManX(G,k){const b={bain:'tob',prev:'sec',comp:'plot',fete:'salle'}[k];return (GM_MAN[k].x+(b?gmBL(G,b):0))*(G.th==='ete'&&k==='bain'?2:1);}
 function gmCdMul(G){return (1-.1*gmPL(G,'org'))*(ofOn('fetes')?.5:1);}
-function gmOffCap(G){return GM_NUIT[gmPL(G,'nuit')]*3600;}
+function gmOffCap(G){return (GM_NUIT[gmPL(G,'nuit')]+(G.th==='nuit'?8:0))*3600;}
 function gmStarsFree(G){return Math.max(0,(G.stars||0)-(G.spent||0));}
 /* gains « normaux » par seconde, sans les boosts ni les pénalités du moment (sert à chiffrer les décisions) */
 function gmRP(G){GM.noTmp=1;let r=0;try{for(const a in G.act){const A=G.act[a];if(A&&A.l)r+=gmPer(G,a)/gmCycle(G,a)*(gmAuto(G,a)?1:.25);}}finally{GM.noTmp=0;}return Math.max(r,1);}
@@ -7940,7 +7995,10 @@ const GM_INC=[
   {k:'brassard',e:'🧒',n:'Brassard perdu',taps:2,time:9,w:3,only:['bebe','enfants'],pen:{lane:1,x:0,dur:90},rew:{min:3}},
   {k:'fuite',e:'💧',n:'Fuite dans la ligne',taps:6,time:11,w:2,pen:{lane:1,x:0,dur:180},rew:{med:1}},
   {k:'chauf',e:'🥶',n:'Panne de chauffage',taps:8,time:13,w:2,pen:{x:.5,dur:180},rew:{med:1,min:2}},
-  {k:'sos',e:'🆘',n:'Nageur en difficulté',taps:1,time:5,w:1,pen:{x:0,dur:60},rew:{med:2}}
+  {k:'sos',e:'🆘',n:'Nageur en difficulté',taps:1,time:5,w:1,pen:{x:0,dur:60},rew:{med:2}},
+  {k:'lunettes',e:'🥽',n:'Lunettes au fond du bassin',taps:3,time:9,w:3,pen:{lane:1,x:0,dur:60},rew:{min:3}},
+  {k:'chien',e:'🐶',n:'Bouchon a sauté dans l\'eau !',taps:5,time:10,w:2,pen:{x:.5,dur:120},rew:{med:1,min:2}},
+  {k:'ballon',e:'🎈',n:'Ballon coincé sur le toboggan',taps:4,time:10,w:2,only:['enfants','bebe'],pen:{lane:1,x:0,dur:90},rew:{min:4}}
 ];
 function gmOpen(G){return gmActs(G).filter(a=>(G.act[a]||{}).l);}
 function gmIncSpawn(G){const open=gmOpen(G);if(open.length<2)return;
@@ -7948,7 +8006,7 @@ function gmIncSpawn(G){const open=gmOpen(G);if(open.length<2)return;
   const cand=I.only?open.filter(a=>I.only.includes(a)):open,a=cand[Math.floor(Math.random()*cand.length)],tm=I.time*([1,1.5,2][gmPL(G,'calm')]);
   GM.inc={I,a,got:0,left:tm,tot:tm,x:.3+Math.random()*.45};try{fgSfx('whistle');}catch(_){}try{navigator.vibrate&&navigator.vibrate(90);}catch(_){}gmLive();}
 function gmIncTap(){const G=gmG(),C=GM.inc;if(!C)return;C.got++;try{fgSfx('pop');}catch(_){}
-  if(C.got>=C.I.taps){GM.inc=null;const R=C.I.rew,wx=1+gmPL(G,'whis');let t=C.I.e+' Réglé !';if(R.min){const v=gmRP(G)*60*R.min*wx;gmGain(G,v);t+=' +'+gmE(v);}gmFloat(t,'#7dffa8');if(R.med)gmMed(G,R.med*wx);G.incN=(G.incN||0)+1;try{fgSfx('parry');}catch(_){}gmSave(false);}
+  if(C.got>=C.I.taps){GM.inc=null;const R=C.I.rew,wx=(1+gmPL(G,'whis'))*(G.th==='sos'?3:1);gmCw(G,'i');let t=C.I.e+' Réglé !';if(R.min){const v=gmRP(G)*60*R.min*wx;gmGain(G,v);t+=' +'+gmE(v);}gmFloat(t,'#7dffa8');if(R.med)gmMed(G,R.med*wx);G.incN=(G.incN||0)+1;try{fgSfx('parry');}catch(_){}gmSave(false);}
   gmLive();}
 function gmIncFail(G){const C=GM.inc;GM.inc=null;if(!C)return;const P=C.I.pen,dur=P.dur*([1,.5,.25][gmPL(G,'calm')]);
   gmTB(G,{x:P.x,end:Date.now()+dur*1000,a:P.lane?C.a:null,e:C.I.e,bad:1});
@@ -7957,7 +8015,89 @@ function gmIncFail(G){const C=GM.inc;GM.inc=null;if(!C)return;const P=C.I.pen,du
 const gmMin=(c,n)=>c.r*60*n;
 const gmRoll=p=>Math.random()<p;
 function gmClose(G,min,em){const n=Date.now();gmTB(G,{x:0,end:n+min*60e3,e:em||'🚧',bad:1});}
+/* ---------- thèmes de saison : on en choisit 1 parmi 3 à chaque nouvelle saison ---------- */
+/* ---------- objectif commun : tout le club additionne ses efforts de la semaine ---------- */
+const GM_CW=[
+  {k:'i',e:'🚨',n:'incidents réglés',t:[150,400,800]},
+  {k:'m',e:'🎉',n:'manifestations lancées',t:[80,200,400]},
+  {k:'d',e:'📬',n:'décisions prises',t:[60,150,300]},
+  {k:'v',e:'🦆',n:'visiteurs surprises attrapés',t:[150,400,800]}];
+const GM_CWR=[{med:5,t:'+5 🏅'},{med:5,pk:2,t:'+5 🏅 et 2 cartes'},{med:10,pk:3,x:1,t:'+10 🏅, 3 cartes et gains ×2 pendant 30 min'}];
+const GM_CW_MIN=3;
+function gmWeek(){const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-((d.getDay()+6)%7));return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function gmCwGoal(w){w=w||gmWeek();const n=Math.round(new Date(w+'T12:00:00').getTime()/(7*864e5));return GM_CW[((n%GM_CW.length)+GM_CW.length)%GM_CW.length];}
+function gmCwMine(G){const w=gmWeek();if(!G.cw||G.cw.w!==w)G.cw={w};return G.cw;}
+function gmCw(G,k){try{const c=gmCwMine(G);c[k]=(c[k]||0)+1;G.ss=G.ss||{at:Date.now()};G.ss[k]=(G.ss[k]||0)+1;if(gmCwGoal().k===k)pushBoard();}catch(_){}}
+function gmCwState(G){const w=gmWeek(),Q=gmCwGoal(w),mine=(gmCwMine(G)[Q.k])||0,L=[];let tot=mine;
+  Object.entries(BOARD||{}).forEach(([pid,d])=>{if(isMe(pid)||!d||!d.cw||d.cw.w!==w)return;const v=+d.cw[Q.k]||0;if(v>0){tot+=v;L.push({n:d.name||'Joueur',v});}});
+  if(mine>0)L.push({n:'Toi',v:mine,me:1});L.sort((a,b)=>b.v-a.v);
+  const lvl=Q.t.filter(t=>tot>=t).length,end=new Date(w+'T00:00:00');end.setDate(end.getDate()+7);return{w,Q,mine,tot,L,lvl,left:Math.max(0,(end-Date.now())/1000)};}
+function gmCwBar(G){try{const S=gmCwState(G),T=S.Q.t,max=T[2],nx=T.find(t=>S.tot<t);const got=(G.cwc&&G.cwc.w===S.w)?G.cwc.g||{}:{},claim=[0,1,2].some(i=>S.lvl>i&&!got[i]&&S.mine>=GM_CW_MIN);
+  return `<button class="gmclub${claim?' hot':''}" data-sheet="club"><span class="e">🤝</span><div class="i"><b>Objectif du club : ${S.Q.e} ${gmFmt(S.tot)}${nx?' / '+gmFmt(nx):''} ${S.Q.n}</b><span class="bar"><i style="width:${Math.min(100,S.tot/max*100)}%"></i>${T.map(t=>`<em style="left:${t/max*100}%" class="${S.tot>=t?'ok':''}"></em>`).join('')}</span></div>${claim?'<span class="gift">🎁</span>':''}</button>`;}catch(_){return '';}}
+function gmCwHTML(G){const S=gmCwState(G),got=(G.cwc&&G.cwc.w===S.w)?G.cwc.g||{}:{},T=S.Q.t;
+  return `<h3>🤝 Objectif du club</h3><div class="gmhint">Cette semaine, <b>tout le club</b> additionne ses ${S.Q.e} <b>${S.Q.n}</b> dans le Gambetta Manager. À chaque palier atteint, tous ceux qui ont participé (au moins ${GM_CW_MIN}) gagnent une récompense !</div>
+   <div class="gmcwbig"><b>${S.Q.e} ${gmFmt(S.tot)}</b><small>${S.Q.n} par le club · encore ${gmTime(S.left)}</small><span class="bar"><i style="width:${Math.min(100,S.tot/T[2]*100)}%"></i></span><small>Toi : <b>${S.mine}</b>${S.mine<GM_CW_MIN?` · encore ${GM_CW_MIN-S.mine} pour participer`:' · tu participes ✅'}</small></div>
+   ${T.map((t,i)=>{const ok=S.tot>=t,g=got[i];return `<div class="gmobj${g?' got':ok?' ok':''}"><span>${g?'✅':ok?'🎁':['🥉','🥈','🥇'][i]}</span><b>Palier ${i+1} · ${gmFmt(t)}</b>${g?'<small>reçu</small>':ok&&S.mine>=GM_CW_MIN?`<button class="mini-b" data-cw="${i}">${GM_CWR[i].t}</button>`:`<small>${GM_CWR[i].t}</small>`}</div>`;}).join('')}
+   <div class="dsec">💪 Ceux qui aident le plus</div>${S.L.length?S.L.slice(0,8).map((x,i)=>`<div class="gmcwp${x.me?' me':''}"><span>${['🥇','🥈','🥉'][i]||(i+1)+'.'}</span><b>${esc(x.n)}</b><small>${x.v}</small></div>`).join(''):'<div class="trempty">Personne pour l\'instant… lance-toi !</div>'}
+   <small class="gmkeep">Nouvel objectif chaque lundi. Les récompenses non réclamées sont perdues à la fin de la semaine.</small>`;}
+const GM_TH=[
+  {k:'ete',e:'🏖️',n:'Saison estivale',d:'Baignade ludique : boost ×2 plus fort et 2× plus long'},
+  {k:'jo',e:'🏅',n:'Saison olympique',d:'Compétition de 50 m : +3 🏅 de plus et attente ÷2'},
+  {k:'bebe',e:'👶',n:'Baby boom',d:'Bébés nageurs et natation enfants ×5, mais natation adultes ×0,5'},
+  {k:'forme',e:'💪',n:'Saison forme',d:'Les 4 aquaformes ×3, mais la natation ×0,7'},
+  {k:'canard',e:'🦆',n:'Saison des canards',d:'Visiteurs surprises 3× plus souvent'},
+  {k:'sos',e:'🚨',n:'Saison agitée',d:'Incidents 2× plus souvent, mais récompenses ×3'},
+  {k:'post',e:'📬',n:'Saison mouvementée',d:'Courrier 2× plus souvent, +1 🏅 à chaque décision'},
+  {k:'fete',e:'🎉',n:'Saison des fêtes',d:'Attente entre deux manifestations −30 %'},
+  {k:'nuit',e:'🌙',n:'Saison nocturne',d:'Gains hors ligne : +8 h de plus'},
+  {k:'mecene',e:'💶',n:'Le mécène',d:'Gains ×3 pendant les 15 premières minutes'},
+  {k:'etoile',e:'⭐',n:'Saison des étoiles',d:'+25 % d\'étoiles à la fin, mais gains −15 %'},
+  {k:'benev',e:'🙋',n:'Saison des bénévoles',d:'Bénévoles 2× moins chers'}
+];
+const gmThO=G=>GM_TH.find(t=>t.k===G.th)||null;
+function gmThMul(G,a){const t=G.th,D=GM_ACT[a];if(!t)return 1;
+  if(t==='bebe')return a==='bebe'||a==='enfants'?5:a==='adultes'?.5:1;
+  if(t==='forme')return D&&D.grp?3:(a==='bebe'||a==='enfants'||a==='adultes')?.7:1;
+  if(t==='etoile')return .85;return 1;}
+const gmBenC=(G,c)=>G.th==='benev'?c/2:c;
+function gmThDraft(G,done){const last=G.thl||'',L=qqShuffle(GM_TH.filter(t=>t.k!==last)).slice(0,3);
+  const sh=sheet(`<h3>🎴 Thème de saison</h3><div class="sec">Choisis comment va se passer la saison ${(G.p||0)+1}. Il dure jusqu'à la prochaine nouvelle saison !</div>
+    <div class="gmth">${L.map(t=>`<button class="gmthc" data-th="${t.k}"><span class="e">${t.e}</span><b>${t.n}</b><small>${t.d}</small></button>`).join('')}</div>`);
+  sh.classList.add('gmthsh');sh.querySelectorAll('[data-th]').forEach((x,i)=>{x.style.animationDelay=(i*.15)+'s';x.onclick=()=>{const t=GM_TH.find(z=>z.k===x.dataset.th);G.th=t.k;G.thl=t.k;
+    if(t.k==='mecene')gmTB(G,{x:3,end:Date.now()+900e3,e:'💶'});try{fgSfx('parry');}catch(_){}sh.remove();gmSave(true);gmRender();if(done)done(t);else toast(t.e,t.n,t.d);};});}
 const GM_DEC=[
+  {k:'sifflet',e:'📯',n:'Roland a perdu son sifflet !',t:'Impossible de lancer les cours de bébés nageurs sans lui… Il est peut-être au fond du bassin.',o:c=>[
+    {t:'🤿 Plonger le chercher',d:'Bassin fermé 2 min, puis +2 🏅',go:G=>{gmClose(G,2,'🤿');gmMed(G,2);return 'Retrouvé ! Roland siffle de joie.';}},
+    {t:'🛒 En acheter un neuf',d:'Coûte '+gmE(gmMin(c,3)),dis:G=>G.m<gmMin(c,3),go:G=>{gmGain(G,-gmMin(c,3));return 'Un sifflet tout neuf et tout brillant.';}},
+    {t:'🧒 Demander aux enfants',d:'1 chance sur 2 : ils le trouvent et deviennent amis du club. Sinon : bébés nageurs fermés 5 min',go:G=>{if(gmRoll(.5)){const nf=qqShuffle(gmFriendPool()).find(i=>!(G.fr||{})[i]);if(nf){G.fr=G.fr||{};G.fr[nf]=Date.now();return 'Trouvé ! '+gmName(nf)+' rejoint les amis du club.';}gmMed(G,1);return 'Trouvé par les enfants : +1 🏅';}gmTB(G,{x:0,end:Date.now()+300e3,e:'📯',bad:1,a:'bebe'});return 'Introuvable… Bébés nageurs en pause 5 min.';}}]},
+  {k:'selfie',e:'🤳',n:'Christian veut un selfie géant',t:'Il veut tout le club sur la photo, au bord du bassin. Tout le monde !',o:c=>[
+    {t:'📸 Tout le monde sort de l\'eau',d:'Bassin fermé 2 min, puis +3 🏅 et un nouvel ami du club',go:G=>{gmClose(G,2,'📸');gmMed(G,3);const nf=qqShuffle(gmFriendPool()).find(i=>!(G.fr||{})[i]);if(nf){G.fr=G.fr||{};G.fr[nf]=Date.now();}return 'Clic ! Le selfie fait le tour du club.'+(nf?' '+gmName(nf)+' devient ami du club.':'');}},
+    {t:'🙋 Juste les maîtres-nageurs',d:'+1 🏅',go:G=>{gmMed(G,1);return 'Une belle photo de l\'équipe.';}},
+    {t:'🙈 Pas aujourd\'hui',d:'Christian est déçu : −1 🏅',go:G=>{gmMed(G,-1);return 'Christian range son téléphone… pour l\'instant.';}}]},
+  {k:'crepes',e:'🥞',n:'Manue propose une soirée crêpes',t:'L\'équipe des crêpes est prête, il faut juste acheter la farine et le chocolat.',o:c=>[
+    {t:'🍫 Grande soirée',d:'Coûte '+gmE(gmMin(c,10))+' : gains ×1,5 pendant 15 min et +2 🏅',dis:G=>G.m<gmMin(c,10),go:G=>{gmGain(G,-gmMin(c,10));gmTB(G,{x:1.5,end:Date.now()+900e3,e:'🥞'});gmMed(G,2);return 'Ça sent bon la crêpe dans tout le club !';}},
+    {t:'🥞 Juste pour l\'équipe',d:'Coûte '+gmE(gmMin(c,3))+' : +1 🏅',dis:G=>G.m<gmMin(c,3),go:G=>{gmGain(G,-gmMin(c,3));gmMed(G,1);return 'Les bénévoles se régalent.';}},
+    {t:'🙅 Une autre fois',d:'Rien ne change',go:()=> 'Manue garde la recette pour plus tard.'}]},
+  {k:'frites',e:'🍟',n:'Marcel veut agrandir la friterie',t:'Plus de frites = plus de visiteurs… mais aussi plus de miettes dans le bassin.',o:c=>[
+    {t:'🍟 Friterie géante',d:'+10 % de gains jusqu\'à la fin de la saison, mais −2 🏅 tout de suite',dis:G=>(G.med||0)<2,go:G=>{gmMed(G,-2);G.smod.push({x:1.1,e:'🍟',n:'Friterie de Marcel'});return 'La friterie géante est ouverte !';}},
+    {t:'🥗 Un menu léger',d:'+'+gmE(gmMin(c,6))+' tout de suite',go:G=>{gmGain(G,gmMin(c,6));return 'Le menu léger plaît à tout le monde.';}},
+    {t:'🙅 On ne change rien',d:'Rien ne change',go:()=> 'Marcel retourne à ses frites.'}]},
+  {k:'doudou',e:'🧸',n:'Un doudou a disparu !',t:'Un petit nageur pleure : son doudou est introuvable dans les vestiaires.',o:c=>[
+    {t:'🔦 Tout le monde cherche',d:'Bassin fermé 1 min, puis visiteurs surprises 2× plus souvent pendant 20 min',go:G=>{gmClose(G,1,'🔦');G.vlk=Date.now()+1200e3;return 'Doudou retrouvé ! Toute la piscine applaudit.';}},
+    {t:'🐶 Envoyer Bouchon',d:'1 chance sur 2 : retrouvé, +3 🏅. Sinon Bouchon s\'amuse avec : rien ne se passe',go:G=>{if(gmRoll(.5)){gmMed(G,3);return 'Bouchon rapporte le doudou, quel chien !';}return 'Bouchon a trouvé… une balle. Le doudou attendra.';}}]},
+  {k:'bombes',e:'💥',n:'Concours de bombes !',t:'Les ados veulent organiser un concours de plongeons « bombe ». Ça éclabousse beaucoup…',o:c=>[
+    {t:'🏆 Autoriser le concours',d:'Gains ×2 pendant 5 min, puis 1 chance sur 3 de fuite : bassin fermé 4 min',go:G=>{const n=Date.now();gmTB(G,{x:2,end:n+300e3,e:'💥'});if(gmRoll(1/3))gmTB(G,{x:0,st:n+300e3,end:n+540e3,e:'💧',bad:1});return 'PLOUF ! Le public adore.';}},
+    {t:'📏 Concours de plongeons propres',d:'+2 🏅',go:G=>{gmMed(G,2);return 'Des plongeons tout en élégance.';}},
+    {t:'🙅 Interdit',d:'Rien ne change',go:()=> 'Les ados nagent sagement.'}]},
+  {k:'ecole',e:'🏫',n:'Une école demande des créneaux',t:'Toute une classe veut apprendre à nager cette semaine.',ok:G=>!!(G.act.enfants||{}).l,o:c=>[
+    {t:'👍 Accueillir la classe',d:'+15 créneaux en natation enfants, mais natation adultes fermée 5 min',go:G=>{G.act.enfants.l+=15;if((G.act.adultes||{}).l)gmTB(G,{x:0,end:Date.now()+300e3,e:'🏫',bad:1,a:'adultes'});return '+15 créneaux en natation enfants !';}},
+    {t:'📅 La semaine prochaine',d:'+1 🏅 pour l\'organisation',go:G=>{gmMed(G,1);return 'Rendez-vous pris avec l\'école.';}}]},
+  {k:'chaudiere',e:'🔥',n:'La chaudière fait un drôle de bruit',t:'Clong… clong… CLONG. Ça ne présage rien de bon.',o:c=>[
+    {t:'🔧 Réparer tout de suite',d:'Coûte '+gmE(gmMin(c,8)),dis:G=>G.m<gmMin(c,8),go:G=>{gmGain(G,-gmMin(c,8));return 'Réparée ! L\'eau reste bien chaude.';}},
+    {t:'🤞 Attendre',d:'1 chance sur 2 : rien. Sinon gains −50 % pendant 10 min',go:G=>{if(gmRoll(.5))return 'Le bruit s\'est arrêté tout seul.';gmTB(G,{x:.5,end:Date.now()+600e3,e:'🥶',bad:1});return 'Panne ! L\'eau refroidit…';}}]},
+  {k:'gala',e:'✨',n:'Le gala de fin d\'année',t:'Les nageurs veulent préparer un grand spectacle pour les familles.',o:c=>[
+    {t:'🎭 Grand gala',d:'Bassin fermé 6 min pour les répétitions, puis +20 % de gains jusqu\'à la fin de la saison',go:G=>{gmClose(G,6,'🎭');G.smod.push({x:1.2,e:'✨',n:'Gala de fin d\'année'});return 'Répétitions en cours… le spectacle sera grandiose !';}},
+    {t:'🎵 Petit spectacle',d:'+'+gmE(gmMin(c,8))+' et +1 🏅',go:G=>{gmGain(G,gmMin(c,8));gmMed(G,1);return 'Les familles applaudissent !';}}]},
   {k:'tele',e:'📺',n:'La télé locale veut filmer le club',t:'Un reportage pour le journal de 19 h… mais il faut tout installer.',o:c=>[
     {t:'🎥 Ouvrir les portes aux caméras',d:'Bassin fermé 3 min, puis gains ×3 pendant 5 min',go:G=>{const n=Date.now();gmTB(G,{x:0,end:n+180e3,e:'🎥',bad:1});gmTB(G,{x:3,st:n+180e3,end:n+480e3,e:'📺'});return 'Silence, on tourne ! Le bassin rouvre dans 3 min.';}},
     {t:'🎤 Juste une interview',d:'+'+gmE(gmMin(c,4))+' tout de suite et +1 🏅',go:G=>{gmGain(G,gmMin(c,4));gmMed(G,1);return 'Belle interview au bord du bassin !';}}]},
@@ -8025,9 +8165,9 @@ function gmPlusTick(G,now,dt){
   if(G.sick&&G.sick.end<=now){G.sick=null;gmRender();}
   const busy=!!document.querySelector('#app .trsheet,#app .giftpop,.gmintro');
   if(GM.inc){if(!busy){GM.inc.left-=dt;if(GM.inc.left<=0)gmIncFail(G);}}
-  else if(!busy&&now>(GM.incT||0)){if(GM.incT)gmIncSpawn(G);GM.incT=now+(120+Math.random()*150)*1000;}
+  else if(!busy&&now>(GM.incT||0)){if(GM.incT)gmIncSpawn(G);GM.incT=now+(120+Math.random()*150)*1000/(G.th==='sos'?2:1);}
   if(G.dec&&G.dec.exp<now){G.dec=null;}
-  if(!G.dec&&!busy&&now>(GM.decT||0)){if(GM.decT)gmDecNew(G);GM.decT=now+(300+Math.random()*240)*1000;}
+  if(!G.dec&&!busy&&now>(GM.decT||0)){if(GM.decT)gmDecNew(G);GM.decT=now+(300+Math.random()*240)*1000/(G.th==='post'?2:1);}
   if(gmPL(G,'auto')&&now>(GM.abT||0)){GM.abT=now+[0,4000,1000][gmPL(G,'auto')];if(gmAutoBuy(G))GM.abD=1;}if(GM.abD&&now>(GM.abR||0)&&!busy){GM.abD=0;GM.abR=now+4000;gmRender();}}
 /* dessin : incident et lignes fermées */
 function gmIncDraw(c,G,a,W,H,t,now){const C=GM.inc;
@@ -8172,7 +8312,7 @@ function gmManScene(G,t,now){const MK=gmManOn(G),sc=document.querySelector('#gmB
   else if(MK==='prev')h='<span class="dg">📣</span><b>LES BONS GESTES</b><span class="dg">🦺</span><i class="bv">« On ne court pas au bord du bassin ! »</i>';
   else if(MK==='comp'){const R=G.man.comp,el=Math.max(0,(now-(R.end-GM_MAN.comp.dur*1000))/1000)%40;h=`<span class="dg">🏁</span><b>COMPÉTITION 50 M</b><span class="chr">⏱️ ${String(Math.floor(el)).padStart(2,'0')},${Math.floor(el*10)%10}</span><span class="dg">🏁</span>`;}
   if(dc.dataset.h!==h){dc.dataset.h=h;dc.innerHTML=h;}}
-function gmVisHit(){const G=gmG(),V=GM.vis.V,r=Math.max(1,gmRate(G))*GM_VISR[gmPL(G,'visr')];let txt;
+function gmVisHit(){const G=gmG(),V=GM.vis.V;gmCw(G,'v');const r=Math.max(1,gmRate(G))*GM_VISR[gmPL(G,'visr')];let txt;
   if(V.k==='canard'||V.k==='ballon'){const v=r*(V.k==='canard'?60:90);G.m+=v;G.run+=v;G.lifeAll+=v;txt=V.e+' +'+gmE(v);}
   else if(V.k==='bouchon'){G.vb={x:5,end:Date.now()+30e3,e:'🐶'};txt='🐶 Bouchon : gains ×5 pendant 30 s !';}
   else if(V.k==='frites'){const v=r*600;G.m+=v;G.run+=v;G.lifeAll+=v;txt='🍟 Les frites de Marcel : +'+gmE(v);}
