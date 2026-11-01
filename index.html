@@ -1338,6 +1338,23 @@ button,a,[data-hg],.rkscroll{touch-action:manipulation}
 .goldname{background:linear-gradient(90deg,#b8860b,#ffd700,#fff3a0,#ffd700,#b8860b);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent!important;animation:goldsh 3s linear infinite;font-weight:900}
 @keyframes goldsh{to{background-position:200% 0}}
 </style>
+<style>
+.oftn{margin-left:auto;font-weight:900;font-size:13px;background:#d3f3cc;border:2px solid var(--ink);border-radius:999px;padding:1px 8px}
+.ofsheet .in{max-height:92vh;display:flex;flex-direction:column}
+#ofSel{display:flex;flex-direction:column;min-height:0;flex:1}
+#ofSel h3{margin:0 0 4px;text-align:center}
+.ofreq{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-bottom:6px}.ofreq span{font-size:12.5px;font-weight:800;border:2px solid var(--ink);border-radius:999px;padding:1px 8px;background:#ffe1dc}.ofreq span.ok{background:#d3f3cc}
+.offt{margin-bottom:6px}.offt .tab{font-size:12.5px;padding:5px 2px}
+.ofgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;overflow-y:auto;flex:1;min-height:150px;max-height:46vh;padding:8px 3px 4px}
+.ofg{position:relative;cursor:pointer;transition:transform .1s}.ofg .tcard{pointer-events:none}
+.ofg.on{transform:scale(.94)}.ofg.on .tcard{box-shadow:0 0 0 3px #e0217a}
+.ofg .own{position:absolute;right:-3px;top:-6px;z-index:3;background:#fff;color:#1b2a3a;font-size:10.5px;font-weight:900;border:2px solid var(--ink);border-radius:9px;padding:0 4px}
+.ofg .lv{position:absolute;left:-3px;bottom:-5px;z-index:3;background:#3c8ee6;color:#fff;font-size:9.5px;font-weight:900;border:2px solid #fff;border-radius:8px;padding:0 4px}
+.ofg .tk{position:absolute;left:-3px;top:-6px;z-index:3;background:#e0217a;color:#fff;font-size:11px;font-weight:900;border:2px solid #fff;border-radius:9px;padding:0 5px}
+.ofg .rm{position:absolute;right:-4px;bottom:-6px;z-index:4;width:24px;height:24px;border-radius:50%;border:2px solid var(--ink);background:#fff;font-size:12px;font-weight:900;cursor:pointer;padding:0}
+.ofwarn{font-size:11.5px;font-weight:700;background:#fff1d6;border:2px dashed #e09a00;border-radius:10px;padding:5px 8px;margin-top:6px;line-height:1.3}
+#ofSel .trbtns{margin-top:6px}
+</style>
 </head>
 <body>
 <div id="app">
@@ -5326,7 +5343,7 @@ function hubRender(){const b=$('#hubBody');if(!b)return;const d=hubData();let h=
   if(d.qz)h+=`<button class="hquiz" data-hg="quiz"><span class="he">🧠</span><div><small>En direct</small><b>Quiz du Club</b></div><em>Rejoindre ›</em></button>`;
   else if(d.qzIn)h+=`<button class="hquiz" data-hg="party"><span class="he">🧠</span><div><small>Tu joues</small><b>Quiz du Club</b></div><em>Reprendre ›</em></button>`;
   h+=`<button class="hday${d.dd?' done':''}" data-hg="defi"><span class="he">🎯</span><div><small>Défi du jour</small><b>${esc(d.dn||'—')}</b></div><em>${d.dd?'✅ Fait':'À jouer'} ›</em></button>`;
-  try{const O=ofToday(),st=COL.of&&COL.of.d===dayKey();h+=`<button class="hday of${st?' done':''}" data-hg="defi"><span class="he">${O.e}</span><div><small>Proposition du jour</small><b>${esc(O.n)}</b></div><em>${st?(COL.of.acc?'✅ Pris':'Vu'):'🃏 '+ofCost(O).n} ›</em></button>`;}catch(_){}
+  try{const O=ofToday(),tn=ofTodayN();h+=`<button class="hday of" data-hg="defi"><span class="he">${O.e}</span><div><small>Proposition du jour</small><b>${esc(O.n)}</b></div><em>${tn?'✅ ×'+tn:'🃏 '+ofCost(O).n} ›</em></button>`;}catch(_){}
   if(d.ev)h+=`<button class="hday ev" data-hg="defi"><span class="he">🎉</span><div><small>Événement</small><b>${esc(d.ev.name||'')}</b></div><em>fin à ${hhmm(d.ev.endAt)} ›</em></button>`;
   h+='<div class="hgrid">'
    +hubTile('select','🎮','Mini-jeux',`🃏 ${d.mg||0}/${d.mgT||0} cartes jeux`,'#2f9be8','#1565c0')
@@ -5458,7 +5475,7 @@ function ctxAfter(k,win,v){let h='';const c=chRecord(k,win?v:null);if(c){try{qHi
 function openDefi(){show('defi');buildDefi();}
 const DF={tab:'day'};
 /* nombre de choses à faire dans chaque sous-onglet de Défis */
-function dfCounts(){const c={day:0,duel:0,ev:0};try{if(!(COL.chs&&COL.chs[dayKey()]))c.day++;}catch(_){}try{if(!(COL.of&&COL.of.d===dayKey())&&ofPay(ofToday()).ok)c.day++;}catch(_){}
+function dfCounts(){const c={day:0,duel:0,ev:0};try{if(!(COL.chs&&COL.chs[dayKey()]))c.day++;}catch(_){}try{const O=ofToday();if(!ofTodayN()&&!ofCan(O)&&ofOwnedN()>=ofCost(O).n)c.day++;}catch(_){}
   try{DUELS.forEach(d=>{const st=duState(d);if((st==='wait'&&d.to===myId)||(st==='on'&&duCanPlay(d)))c.duel++;});}catch(_){}
   try{c.duel+=bbInvList().filter(x=>x.to===myId).length;}catch(_){}
   try{const e=EVENTS.find(x=>x.st==='open'&&!evOver(x));if(e&&!(e.played&&e.played[myId]))c.ev++;}catch(_){}
@@ -7815,7 +7832,7 @@ const OF_GM=()=>!!(COL.gm&&COL.gm.v===2&&COL.gm.act&&Object.keys(COL.gm.act).len
 const OFFERS=[
   {k:'raccourci',e:'🎯',g:'🎮 Mini-jeux',n:'Le raccourci',d:'Choisis un mini-jeu pas encore gagné : il est gagné tout de suite, avec sa carte.',c:10,ok:()=>ownedMG()<MG_ORDER.length,
     pick:()=>MG_ORDER.filter(k=>!COL.cards[k]).map(k=>({id:k,e:'🎮',t:CHARS[k].game,s:'avec '+CHARS[k].name})),go:id=>{saveWin(id);try{buildSelect();}catch(_){}return '🎮 « '+CHARS[id].game+' » est gagné !';}},
-  {k:'carburant',e:'⛽',g:'🏢 Manager',n:'Le carburant',d:'Gains ×3 dans Gambetta Manager pendant 2 h (même appli fermée).',c:8,ok:OF_GM,go:()=>{const G=gmG();gmTB(G,{x:3,end:Date.now()+7200e3,e:'⛽'});return '⛽ Manager ×3 pendant 2 h !';}},
+  {k:'carburant',e:'⛽',g:'🏢 Manager',n:'Le carburant',d:'Gains ×3 dans Gambetta Manager pendant 2 h (même appli fermée).',c:8,ok:OF_GM,go:()=>{const G=gmG(),b=(G.tb||[]).find(x=>x.e==='⛽'&&x.end>Date.now());if(b){b.end+=7200e3;return '⛽ Manager ×3 prolongé de 2 h !';}gmTB(G,{x:3,end:Date.now()+7200e3,e:'⛽'});return '⛽ Manager ×3 pendant 2 h !';}},
   {k:'mecene',e:'🏛️',g:'🏢 Manager',n:'Le mécène',d:'+15 🏅 médailles pour construire ton complexe.',c:12,ce:1,ok:OF_GM,go:()=>{const G=gmG();G.med=(G.med||0)+15;return '🏅 +15 médailles !';}},
   {k:'etoiles',e:'🌠',g:'🏢 Manager',n:'Étoiles filantes',d:'+10 % d\'étoiles ⭐ dans Gambetta Manager (au moins 5).',c:15,ok:()=>OF_GM()&&(COL.gm.stars||0)>0,go:()=>{const G=gmG(),n=Math.max(5,Math.round((G.stars||0)*.1));G.stars=(G.stars||0)+n;return '⭐ +'+n+' étoiles !';}},
   {k:'travaux',e:'🏗️',g:'🏢 Manager',n:'Travaux express',d:'Un bâtiment de ton choix gagne un niveau, gratuitement.',c:20,cl:1,ok:()=>OF_GM()&&GM_BLD.some(B=>gmBL(gmG(),B.k)<B.c.length),
@@ -7840,40 +7857,63 @@ const OFFERS=[
   {k:'vitrine',e:'✨',g:'👤 Profil',n:'La vitrine',d:'Ton nom brille en doré ✨ dans les classements et sur ton profil pendant 7 jours.',c:20,cl:1,go:()=>{COL.gold=Math.max(COL.gold||0,Date.now())+7*86400e3;try{pushBoard();}catch(_){}return '✨ Ton nom brille pendant 7 jours !';}},
   {k:'roue',e:'🎡',g:'🎲 Surprise',n:'La roue de la fortune',d:'Un bonus au hasard : Manager ×5 pendant 1 h, +20 🏅, trophées ×2, gants en or, coach perso ou jauge pleine en combat…',c:8,
     go:()=>{const L=[['🏆 Trophées ×2 aujourd\'hui !',()=>COL.ofx={k:'tro2',d:dayKey()}],['🥊 Gants en or aujourd\'hui !',()=>COL.ofx={k:'gants',d:dayKey()}],['⭐ Coach perso aujourd\'hui !',()=>COL.ofx={k:'coach',d:dayKey()}],['💥 Jauge pleine aujourd\'hui !',()=>COL.ofx={k:'train',d:dayKey()}]];
-      if(OF_GM())L.push(['⛽ Manager ×5 pendant 1 h !',()=>gmTB(gmG(),{x:5,end:Date.now()+3600e3,e:'🎡'})],['🏅 +20 médailles !',()=>{const G=gmG();G.med=(G.med||0)+20;}]);
+      if(OF_GM())L.push(['⛽ Manager ×5 pendant 1 h !',()=>{const G=gmG(),b=(G.tb||[]).find(x=>x.e==='🎡'&&x.end>Date.now());if(b)b.end+=3600e3;else gmTB(G,{x:5,end:Date.now()+3600e3,e:'🎡'});}],['🏅 +20 médailles !',()=>{const G=gmG();G.med=(G.med||0)+20;}]);
       const x=L[Math.floor(Math.random()*L.length)];x[1]();return '🎡 La roue s\'arrête sur… '+x[0];}}
 ];
 function ofToday(){const d=dayKey();let i=hstr('of'+d)%OFFERS.length;const y=hstr('of'+dayShift(d,-1))%OFFERS.length;if(i===y)i=(i+1)%OFFERS.length;
   for(let t=0;t<OFFERS.length;t++){const O=OFFERS[(i+t)%OFFERS.length];if(!O.ok||O.ok())return O;}return OFFERS[i];}
 function ofCost(O){const p=(typeof PRES==='function'?PRES():0)||0;return{n:Math.round(O.c*(1+.5*p)),e:O.ce||0,l:O.cl||0};}
-/* les doubles qu'on donnerait : d'abord les épiques/légendaires demandées, puis les rares les plus nombreuses */
-function ofPay(O){const C=ofCost(O),dup=MEMBERS.filter(m=>(COL.members[m.id]||0)>=2).map(m=>({id:m.id,r:m.r,x:COL.members[m.id]-1}));
-  const take={},tk=(m)=>{take[m.id]=(take[m.id]||0)+1;m.x--;};let need=C.n;
-  for(const [r,k] of [['L',C.l],['E',C.e]])for(let i=0;i<k;i++){const m=dup.filter(z=>z.r===r&&z.x>0).sort((a,b)=>b.x-a.x)[0];if(!m)return{ok:false,miss:(r==='L'?'une légendaire':'une épique')+' en double',C};tk(m);need--;}
-  for(const r of ['R','E','L'])while(need>0){const m=dup.filter(z=>z.r===r&&z.x>0).sort((a,b)=>b.x-a.x)[0];if(!m)break;tk(m);need--;}
-  if(need>0)return{ok:false,miss:need+' double'+(need>1?'s':''),C};return{ok:true,take,C};}
-function ofHTML(){const O=ofToday(),st=COL.of&&COL.of.d===dayKey()?COL.of:null,P=ofPay(O),C=ofCost(O);
-  const price=`🃏 ${C.n} doubles${C.e?' dont 1 épique':''}${C.l?' dont 1 légendaire':''}`;
-  return `<div class="dsec">🎁 Proposition du jour</div><div class="trow ofrow${st?' done':''}"><div class="ofh"><span class="ofe">${O.e}</span><div><small>${O.g}</small><b>${esc(O.n)}</b></div></div>
+function ofTodayN(){return COL.of&&COL.of.d===dayKey()?(COL.of.n||0):0;}
+/* l'offre peut-elle être reprise ? (un bonus « jusqu'à minuit » déjà actif ne se cumule pas) */
+function ofCan(O){if(O.ok&&!O.ok())return 'Plus disponible pour toi aujourd\'hui';if(O.fx&&ofOn(O.k))return 'Déjà actif jusqu\'à minuit';return '';}
+const ofCards=()=>MEMBERS.filter(m=>(COL.members[m.id]||0)>0);
+function ofOwnedN(){return ofCards().reduce((s,m)=>s+(COL.members[m.id]||0),0);}
+/* sélection automatique : doubles des cartes niveau 1 d'abord (aucune perte), puis les autres doubles ; jamais la dernière carte */
+function ofAuto(O){const C=ofCost(O),take={},left={};ofCards().forEach(m=>left[m.id]=(COL.members[m.id]||0)-1);
+  const pain=m=>(bbLvlOf(m.id)>1?100:0)-(left[m.id]||0);let need=C.n;
+  const grab=(f)=>{const m=ofCards().filter(z=>left[z.id]>0&&f(z)).sort((a,b)=>pain(a)-pain(b))[0];if(!m)return false;take[m.id]=(take[m.id]||0)+1;left[m.id]--;need--;return true;};
+  for(let i=0;i<C.l;i++)if(!grab(m=>m.r==='L'))return null;for(let i=0;i<C.e;i++)if(!grab(m=>m.r==='E'))return null;
+  for(const r of ['R','E','L'])while(need>0&&grab(m=>m.r===r));return need>0?null:take;}
+function ofCheck(O,take){const C=ofCost(O);let n=0,e=0,l=0;for(const id in take){const k=take[id]||0,m=memObj(id);n+=k;if(m.r==='E')e+=k;if(m.r==='L')l+=k;}
+  return{n,e,l,C,ok:n===C.n&&e>=C.e&&l>=C.l};}
+function ofHTML(){const O=ofToday(),C=ofCost(O),tn=ofTodayN(),why=ofCan(O),enough=ofOwnedN()>=C.n;
+  const price=`🃏 ${C.n} cartes${C.e?' dont 1 épique':''}${C.l?' dont 1 légendaire':''}`;
+  return `<div class="dsec">🎁 Proposition du jour</div><div class="trow ofrow"><div class="ofh"><span class="ofe">${O.e}</span><div><small>${O.g}</small><b>${esc(O.n)}</b></div>${tn?`<span class="oftn">✅ ×${tn}</span>`:''}</div>
     <p class="ofd">${esc(O.d)}</p><div class="ofp"><span>Prix : <b>${price}</b></span>${(PRES()||0)?'<small>prix ×'+gmFmt(1+.5*PRES())+' avec ton prestige</small>':''}</div>
-    ${st?`<div class="dres">${st.acc?'✅ Offre acceptée : '+esc(st.msg||''):'🙅 Offre refusée. Une nouvelle demain !'}</div>`:
-      `<div class="trbtns">${P.ok?`<button class="btn alt" id="ofNo">Non merci</button><button class="btn" id="ofYes">Accepter ✋</button>`:`<button class="btn" disabled>Il te manque ${esc(P.miss)}</button>`}</div><small class="ofn">Seulement tes cartes en double : tu ne perds jamais ta dernière carte. Disponible jusqu'à minuit.</small>`}</div>`;}
-function ofWire(b){const y=b.querySelector('#ofYes'),n=b.querySelector('#ofNo');
-  if(n)n.onclick=()=>{COL.of={d:dayKey(),acc:0};saveCol();buildDefi();};
-  if(y)y.onclick=()=>ofConfirm();}
-function ofConfirm(){const O=ofToday(),P=ofPay(O);if(!P.ok)return;
-  const list=Object.entries(P.take).map(([id,n])=>`<div class="ofc">${mini(id)}<b>×${n}</b></div>`).join('');
-  const sh=sheet(`<h3>${O.e} ${esc(O.n)}</h3><div class="sec">${esc(O.d)}</div><div class="dsec">Tu donnes ces doubles :</div><div class="ofgive">${list}</div>
-    <div class="trbtns"><button class="btn alt" id="ofx">Annuler</button><button class="btn" id="ofgo">${O.pick?'Choisir ›':'Je sacrifie ! ✋'}</button></div>`);
-  sh.querySelector('#ofx').onclick=()=>sh.remove();
-  sh.querySelector('#ofgo').onclick=()=>{if(!O.pick){sh.remove();ofDo(O,null);return;}
-    const L=O.pick();sh.querySelector('.in').innerHTML=`<h3>${O.e} Choisis</h3><div class="ofpick">${L.map(x=>`<button class="ofpk" data-id="${x.id}">${x.img?mini(x.img):`<span class="e">${x.e}</span>`}<div><b>${esc(x.t)}</b><small>${esc(x.s||'')}</small></div></button>`).join('')}</div><div class="trbtns"><button class="btn alt" id="ofx2">Annuler</button></div>`;
-    sh.querySelector('#ofx2').onclick=()=>sh.remove();sh.querySelectorAll('.ofpk').forEach(x=>x.onclick=()=>{sh.remove();ofDo(O,x.dataset.id);});};}
-function ofDo(O,id){const P=ofPay(O);if(!P.ok||(COL.of&&COL.of.d===dayKey()))return;let n=0;
-  for(const k in P.take){COL.members[k]=Math.max(1,(COL.members[k]||0)-P.take[k]);n+=P.take[k];}
+    <div class="trbtns">${why?`<button class="btn" disabled>${esc(why)}</button>`:enough?`<button class="btn" id="ofYes">${tn?'Reprendre l\'offre ✋':'Choisir mes cartes ✋'}</button>`:`<button class="btn" disabled>Pas assez de cartes</button>`}</div>
+    <small class="ofn">Tu choisis les cartes que tu donnes, en double ou non. ⚠️ Donner un exemplaire fait baisser la carte d'un niveau en Bataille, et donner le dernier la retire de ta collection. Offre renouvelable autant de fois que tu veux jusqu'à minuit.</small>${tn&&COL.of.msg?`<div class="dres">Dernière fois : ${esc(COL.of.msg)}</div>`:''}</div>`;}
+function ofWire(b){const y=b.querySelector('#ofYes');if(y)y.onclick=()=>ofConfirm();}
+const OFS={take:{},f:'dup'};
+function ofConfirm(){const O=ofToday();if(ofCan(O))return;OFS.take=ofAuto(O)||{};OFS.f='dup';
+  const sh=sheet(`<div id="ofSel"></div>`);sh.classList.add('ofsheet');ofSelFill(sh,O);}
+function ofSelFill(sh,O){const box=sh.querySelector('#ofSel'),T=OFS.take,K=ofCheck(O,T),C=K.C;
+  let L=ofCards();if(OFS.f==='dup')L=L.filter(m=>(COL.members[m.id]||0)>=2);else if(OFS.f==='sel')L=L.filter(m=>T[m.id]);
+  const ord={L:0,E:1,R:2};L=L.slice().sort((a,b)=>((T[b.id]?1:0)-(T[a.id]?1:0))||((COL.members[b.id]||0)-(COL.members[a.id]||0))||(ord[a.r]-ord[b.r]));
+  const lost=Object.keys(T).filter(id=>T[id]>=(COL.members[id]||0)),down=Object.keys(T).filter(id=>T[id]<(COL.members[id]||0)&&bbLvlOf(id)>1);
+  box.innerHTML=`<h3>${O.e} ${esc(O.n)}</h3><div class="ofreq"><span class="${K.n===C.n?'ok':''}">🃏 ${K.n} / ${C.n} cartes</span>${C.e?`<span class="${K.e>=C.e?'ok':''}">💜 épique ${Math.min(K.e,C.e)}/${C.e}</span>`:''}${C.l?`<span class="${K.l>=C.l?'ok':''}">✨ légendaire ${Math.min(K.l,C.l)}/${C.l}</span>`:''}</div>
+    <div class="tabs offt"><button class="tab${OFS.f==='dup'?' on':''}" data-of="dup">En double</button><button class="tab${OFS.f==='all'?' on':''}" data-of="all">Toutes</button><button class="tab${OFS.f==='sel'?' on':''}" data-of="sel">Choisies (${K.n})</button></div>
+    <div class="ofgrid">${L.length?L.map(m=>{const own=COL.members[m.id]||0,t=T[m.id]||0,lv=bbLvlOf(m.id);return `<div class="ofg${t?' on':''}" data-add="${m.id}">${mini(m.id)}<span class="own">×${own}</span>${lv>1?`<span class="lv">niv ${lv}</span>`:''}${t?`<span class="tk">−${t}</span><button class="rm" data-rm="${m.id}">↩</button>`:''}</div>`;}).join(''):'<div class="trempty">Aucune carte ici.</div>'}</div>
+    ${lost.length||down.length?`<div class="ofwarn">${lost.length?`<div>💔 <b>Perdues pour de bon :</b> ${lost.map(id=>esc(memObj(id).n)).join(', ')}</div>`:''}${down.length?`<div>⬇️ <b>Baissent en Bataille :</b> ${down.map(id=>esc(memObj(id).n)+' niv '+bbLvlOf(id)+'→'+Math.max(1,bbLvlOf(id)-T[id])).join(', ')}</div>`:''}</div>`:''}
+    <div class="trbtns"><button class="btn alt" id="ofAuto">⚡ Mes doubles</button><button class="btn alt" id="ofClr">Vider</button></div>
+    <div class="trbtns"><button class="btn alt" id="ofx">Annuler</button><button class="btn" id="ofgo" ${K.ok?'':'disabled'}>${O.pick?'Choisir ›':'Je sacrifie ! ✋'}</button></div>`;
+  const re=()=>{const sc=box.querySelector('.ofgrid').scrollTop;ofSelFill(sh,O);const g=box.querySelector('.ofgrid');if(g)g.scrollTop=sc;};
+  box.querySelectorAll('[data-of]').forEach(x=>x.onclick=()=>{OFS.f=x.dataset.of;ofSelFill(sh,O);});
+  box.querySelectorAll('[data-add]').forEach(x=>x.onclick=e=>{if(e.target.closest('[data-rm]'))return;const id=x.dataset.add;if((T[id]||0)>=(COL.members[id]||0))return;if(ofCheck(O,T).n>=C.n){toast('🃏','Tu as déjà '+C.n+' cartes','Touche ↩ pour en retirer une');return;}T[id]=(T[id]||0)+1;re();});
+  box.querySelectorAll('[data-rm]').forEach(x=>x.onclick=()=>{const id=x.dataset.rm;T[id]--;if(T[id]<=0)delete T[id];re();});
+  box.querySelector('#ofAuto').onclick=()=>{const a=ofAuto(O);if(!a){toast('🃏','Pas assez de doubles','Ajoute des cartes dans « Toutes »');return;}OFS.take=a;ofSelFill(sh,O);};
+  box.querySelector('#ofClr').onclick=()=>{OFS.take={};ofSelFill(sh,O);};
+  box.querySelector('#ofx').onclick=()=>sh.remove();
+  box.querySelector('#ofgo').onclick=()=>{if(!ofCheck(O,OFS.take).ok)return;const take=Object.assign({},OFS.take);if(!O.pick){sh.remove();ofDo(O,null,take);return;}
+    const P=O.pick();box.innerHTML=`<h3>${O.e} Choisis</h3><div class="ofpick">${P.map(x=>`<button class="ofpk" data-id="${x.id}">${x.img?mini(x.img):`<span class="e">${x.e}</span>`}<div><b>${esc(x.t)}</b><small>${esc(x.s||'')}</small></div></button>`).join('')}</div><div class="trbtns"><button class="btn alt" id="ofx2">Annuler</button></div>`;
+    box.querySelector('#ofx2').onclick=()=>sh.remove();box.querySelectorAll('.ofpk').forEach(x=>x.onclick=()=>{sh.remove();ofDo(O,x.dataset.id,take);});};}
+function ofDo(O,id,take){if(ofCan(O))return;if(!take||!ofCheck(O,take).ok)return;let n=0;const lost=[];
+  for(const k in take){const t=take[k],own=COL.members[k]||0;if(t>own)return;}
+  for(const k in take){const t=take[k],own=COL.members[k]||0;COL.members[k]=own-t;n+=t;
+    if(COL.members[k]<=0){COL.members[k]=0;lost.push(k);if(COL.bbl)delete COL.bbl[k];if(COL.fav===k)COL.fav=null;}
+    else{bbLvlInit();if((COL.bbl[k]||1)>1)COL.bbl[k]=Math.max(1,COL.bbl[k]-t);}}
   if(O.fx)COL.ofx={k:O.k,d:dayKey()};let msg='';try{msg=O.go(id)||'';}catch(e){console.warn(e);}
-  COL.of={d:dayKey(),acc:1,msg};stat('offers');stat('offCards',n);saveCol();try{updBoostBtn();}catch(_){}try{if(COL.gm)gmSave(true);}catch(_){}
-  const ov=document.createElement('div');ov.className='giftpop';ov.innerHTML=`<div class="gcard"><div class="ptconf">${Array.from({length:18},(_,i)=>`<i style="left:${(i*37)%100}%;animation-delay:${(i%6)*.15}s">${[O.e,'✨','🃏'][i%3]}</i>`).join('')}</div><div class="emo">${O.e}</div><h3>Marché conclu !</h3><p>${esc(msg)}<br><small>${n} double${n>1?'s':''} sacrifié${n>1?'s':''}</small></p><div class="endbtns"><button class="btn">Super !</button></div></div>`;
+  COL.of={d:dayKey(),n:ofTodayN()+1,msg};stat('offers');stat('offCards',n);saveCol();try{updBoostBtn();}catch(_){}try{if(COL.gm)gmSave(true);}catch(_){}try{pushBoard();}catch(_){}
+  const ov=document.createElement('div');ov.className='giftpop';ov.innerHTML=`<div class="gcard"><div class="ptconf">${Array.from({length:18},(_,i)=>`<i style="left:${(i*37)%100}%;animation-delay:${(i%6)*.15}s">${[O.e,'✨','🃏'][i%3]}</i>`).join('')}</div><div class="emo">${O.e}</div><h3>Marché conclu !</h3><p>${esc(msg)}<br><small>${n} carte${n>1?'s':''} sacrifiée${n>1?'s':''}${lost.length?' · '+lost.length+' retirée'+(lost.length>1?'s':'')+' de ta collection':''}</small></p><div class="endbtns"><button class="btn">Super !</button></div></div>`;
   $('#app').appendChild(ov);ov.querySelector('.btn').onclick=()=>ov.remove();try{buildDefi();}catch(_){}}
 /* nom doré (la vitrine) dans les classements */
 function ofGoldOf(pid){if(isMe(pid))return (COL.gold||0)>Date.now();const b=(BOARD||{})[pid];return !!(b&&b.pf&&b.pf.gold>Date.now());}
