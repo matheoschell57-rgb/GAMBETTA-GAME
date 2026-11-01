@@ -1815,6 +1815,7 @@ h3.shmoved{display:none!important}
   };
   // Outils admin : codes de tout le monde et sauvegarde complète
   GG.delPlayer=async(pid,code)=>{if(!GG.admin||pid===GG.pid)return false;if(code)await fs.doc('players/'+code).delete();try{await fs.doc('owners/'+pid).delete();}catch(_){}await fs.doc('board/'+pid).delete();return true;};
+  GG.saves=async()=>{if(!GG.admin)return null;const q=await fs.collection('players').get();const o={};q.docs.forEach(d=>{const x=d.data();if(x&&x.pid)o[x.pid]=x.col||{};});return o;};
   GG.codes=async()=>{if(!GG.admin)return{};const q=await fs.collection('owners').get();const o={};q.docs.forEach(d=>o[d.id]=d.data().code);return o;};
   GG.backup=async()=>{if(!GG.admin)return;const out={date:new Date().toISOString()};
     for(const c of ['players','board','gifts','owners','trades','duels','tournaments','events','actions','requests','bounties','battles']){const q=await fs.collection(c).get();out[c]={};q.docs.forEach(d=>out[c][d.id]=d.data());}
@@ -5220,7 +5221,7 @@ function giftShow(pages){let i=0;const pop=document.createElement('div');pop.cla
 /* ================= TEMPS DE JEU (pour l'onglet Activité de la Gestion) ================= */
 /* arrondi au quart d'heure : le classement n'est réécrit qu'une fois par quart d'heure de jeu, pas plus */
 function ptQ(x){return Math.floor((x||0)/900)*900;}
-function ptSum(n){const d=COL.ptd||{};let t=0;for(let i=0;i<n;i++){t+=d[dayShift(dayKey(),-i)]||0;}return Math.round(t);}
+function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+=d[dayShift(dayKey(),-i)]||0;}return Math.round(t);}
 /* sessions : heure d'ouverture et dernier moment où le jeu était à l'écran (minutes depuis 1970), les 30 dernières */
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
@@ -5228,32 +5229,40 @@ function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();
   setInterval(()=>{if(document.hidden)return;const k=dayKey();COL.pt=(COL.pt||0)+15;COL.ptd=COL.ptd||{};COL.ptd[k]=(COL.ptd[k]||0)+15;COL.lastAt=Date.now();sxTouch(false);
     const ks=Object.keys(COL.ptd);if(ks.length>35)ks.sort().slice(0,ks.length-35).forEach(x=>delete COL.ptd[x]);
-    if(Date.now()-lastSave>180e3){lastSave=Date.now();try{saveCol();}catch(_){}}},15000);
+    if(Date.now()-lastSave>120e3){lastSave=Date.now();try{saveCol();}catch(_){}}},15000);
   document.addEventListener('visibilitychange',()=>{if(document.hidden){hiddenAt=Date.now();COL.lastAt=Date.now();sxTouch(false);try{saveCol();}catch(_){}}
     else{sxTouch(!!hiddenAt&&Date.now()-hiddenAt>5*60e3);COL.lastAt=Date.now();}});})();
-function ptFmt(sec){sec=Math.round(sec||0);if(sec<60)return sec?'< 1 min':'< 15 min';const h=Math.floor(sec/3600),m=Math.floor(sec%3600/60);return h?h+' h '+String(m).padStart(2,'0'):m+' min';}
+function ptFmt(sec){sec=Math.round(sec||0);if(sec<60)return sec?'< 1 min':(ACT.S?'—':'< 15 min');const h=Math.floor(sec/3600),m=Math.floor(sec%3600/60);return h?h+' h '+String(m).padStart(2,'0'):m+' min';}
 function ptAgo(t){if(!t)return '—';const m=Math.round((Date.now()-t)/60000);return m<2?'en ce moment':m<60?'il y a '+m+' min':m<1440?'il y a '+Math.round(m/60)+' h':'il y a '+Math.round(m/1440)+' j';}
 const ACT={by:'pt7',open:null};
 function hm(m){const d=new Date(m*60000);return String(d.getHours()).padStart(2,'0')+' h '+String(d.getMinutes()).padStart(2,'0');}
 function actLast(r){const L=r.sx||[],x=L[L.length-1];if(!x)return ptAgo(r.last);const me=isMe(r.id),ago=mNow()-x[1];
-  if(me||ago<=20)return '🟢 en ligne'+(me?'':' (il y a ~'+Math.max(1,ago)+' min)');return 'fermé à '+hm(x[1])+(ago>=1440?' ('+ptAgo(x[1]*60000)+')':'');}
+  if(me||ago<=(ACT.S?4:20))return '🟢 en ligne'+(me?'':' (il y a ~'+Math.max(1,ago)+' min)');return 'fermé à '+hm(x[1])+(ago>=1440?' ('+ptAgo(x[1]*60000)+')':'');}
 function actSess(r){const L=(r.sx||[]).slice().reverse();if(!L.length)return '<div class="actsx"><small>Pas encore de session enregistrée.</small></div>';
   const by={};L.forEach(x=>{const d=dayKey(new Date(x[0]*60000));(by[d]=by[d]||[]).push(x);});const t=dayKey(),y=dayShift(t,-1);
   const dn=d=>d===t?'Aujourd\'hui':d===y?'Hier':new Date(d+'T12:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
   return `<div class="actsx">${Object.keys(by).map(d=>`<div class="d">${dn(d)} <small>${ptFmt(by[d].reduce((s,x)=>s+(x[1]-x[0])*60,0)||30)}</small></div>`+by[d].map(x=>`<div class="s"><span>🟢 ${hm(x[0])}</span><span>→</span><span>${hm(x[1])}</span><b>${x[1]-x[0]<1?'< 1 min':ptFmt((x[1]-x[0])*60)}</b></div>`).join('')).join('')}
     <small>Les ${L.length} dernière${L.length>1?'s':''} session${L.length>1?'s':''}. Une pause de plus de 5 min commence une nouvelle session.</small></div>`;}
 
-function adminAct(b,P){const rows=P.map(p=>{const me=isMe(p.id),st=me?pfPublic().st:(((BOARD[p.id]||{}).pf||{}).st||{});
-    return{id:p.id,sx:st.sx||[],name:p.name+(me?' (toi)':''),pt:st.pt||0,pt7:st.pt7||0,ptT:st.ptT||0,last:me?Date.now():(st.last||0),sess:st.sess||0,played:st.played||0,cards:p.cards,old:st.pt==null};});
+function adminAct(b,P){
+  /* sur le site : on lit directement les sauvegardes des joueurs (à jour toutes les 2 min), seulement quand tu ouvres cet onglet */
+  if(window.GG&&GG.admin&&GG.saves&&!ACT.busy&&(!ACT.S||Date.now()-ACT.St>60e3)){ACT.busy=1;if(!ACT.S)b.innerHTML='<div class="rkempty">Chargement…</div>';
+    GG.saves().then(S=>{ACT.S=S;ACT.St=Date.now();}).catch(()=>{}).finally(()=>{ACT.busy=0;if(ADM.tab==='act'&&$('#admin').classList.contains('active'))adminAct(b,P);});if(!ACT.S)return;}
+  const live=!!ACT.S;
+  const rows=P.map(p=>{const me=isMe(p.id),c=me?COL:(live?ACT.S[p.id]:null);
+    if(c)return{id:p.id,sx:c.sx||[],name:p.name+(me?' (toi)':''),pt:c.pt||0,pt7:ptSum(7,c),ptT:ptSum(1,c),last:me?Date.now():(c.lastAt||0),sess:c.sess||0,played:(c.st||{}).played||0,cards:p.cards,old:!me&&c.pt==null&&!(c.sx||[]).length};
+    const st=(((BOARD[p.id]||{}).pf||{}).st||{});
+    return{id:p.id,sx:[],name:p.name,pt:st.pt||0,pt7:st.pt7||0,ptT:st.ptT||0,last:st.last||0,sess:st.sess||0,played:st.played||0,cards:p.cards,old:st.pt==null};});
   rows.sort((a,b)=>(b[ACT.by]-a[ACT.by])||(b.last-a.last));const now=Date.now();
   const d0=new Date();d0.setHours(0,0,0,0);const actT=rows.filter(r=>r.ptT>0||r.last>=d0.getTime()).length,act7=rows.filter(r=>r.pt7>0||r.last>=d0.getTime()-6*864e5).length,tot7=rows.reduce((s,r)=>s+r.pt7,0),med=['🥇','🥈','🥉'];
   b.innerHTML=`<div class="abox"><h4>📈 Qui joue le plus ?</h4><div class="actsum"><div><b>${actT}</b><span>joueurs aujourd'hui</span></div><div><b>${act7}</b><span>sur 7 jours</span></div><div><b>${ptFmt(tot7)}</b><span>de jeu en 7 jours (club)</span></div></div>
     <div class="asel">${[['ptT','Aujourd\'hui'],['pt7','7 jours'],['pt','Depuis le début'],['last','Dernière visite']].map(([k,t])=>`<button class="apill${ACT.by===k?' on':''}" data-actby="${k}">${t}</button>`).join('')}</div>
-    <p class="asum">Le temps compte seulement quand le jeu est ouvert à l'écran. Arrondi au quart d'heure et mis à jour toutes les 10 à 15 min environ. Touche un joueur pour voir ses heures d'ouverture et de fermeture. Visible par toi seul.</p></div>
+    <p class="asum">Le temps compte seulement quand le jeu est ouvert à l'écran. ${live?'À jour à 2 min près.':'Arrondi au quart d\'heure (version sans compte).'} Touche un joueur pour voir ses heures d'ouverture et de fermeture. Visible par toi seul.${live?' <button class="gglink" id="actRf">🔄 Actualiser</button>':''}</p></div>
     ${rows.map((r,i)=>`<div class="prow actrow${ACT.open===r.id?' open':''}" data-actp="${r.id}"><span class="pos">${ACT.by==='last'?'':(med[i]||i+1)}</span><span class="who">${esc(r.name)}<small>${r.old?'⏳ pas encore de temps enregistré (ancienne version du jeu)':`${actLast(r)} · ${r.sess} visite${r.sess>1?'s':''} · ${r.played} partie${r.played>1?'s':''} · ${r.cards} 🃏`}</small></span>
       <span class="acttime"><b>${ptFmt(ACT.by==='ptT'?r.ptT:ACT.by==='pt'?r.pt:r.pt7)}</b><small>${ACT.by==='ptT'?'aujourd\'hui':ACT.by==='pt'?'au total':'7 jours'}</small></span></div>${ACT.open===r.id?actSess(r):''}`).join('')||'<div class="rkempty">Aucun joueur.</div>'}`;
   b.querySelectorAll('[data-actby]').forEach(x=>x.onclick=()=>{ACT.by=x.dataset.actby;adminAct(b,P);});
-  b.querySelectorAll('[data-actp]').forEach(x=>x.onclick=()=>{ACT.open=ACT.open===x.dataset.actp?null:x.dataset.actp;adminAct(b,P);});}
+  b.querySelectorAll('[data-actp]').forEach(x=>x.onclick=()=>{ACT.open=ACT.open===x.dataset.actp?null:x.dataset.actp;adminAct(b,P);});
+  const rf=b.querySelector('#actRf');if(rf)rf.onclick=()=>{ACT.St=0;rf.textContent='Chargement…';adminAct(b,P);};}
 async function adminPlayers(){const list=Object.entries(BOARD).map(([id,d])=>({id,d:d||{}}));const names=await nameOf(list.map(r=>r.id));
   let codes={};try{if(window.GG&&GG.admin)codes=await GG.codes();}catch(_){}
   return list.map(r=>({id:r.id,name:names[r.id]||'Joueur',code:codes[r.id]||'',cards:r.d.cards||0,recs:Object.keys(r.d.best||{}).length,got:((GIFTS[r.id]||{}).boosters||0)})).sort((a,b)=>a.name.localeCompare(b.name));}
@@ -5834,7 +5843,7 @@ function qHTML(){const q=qToday();
 
 /* ================= PROFIL ================= */
 function pfPublic(){const st=COL.st||{};return{fav:COL.fav||null,b:Object.keys(COL.badges||{}),ser:Object.keys(COL.ser||{}).length,mg:ownedMG(),
-  st:{played:st.played||0,won:st.won||0,lost:st.lost||0,duelW:st.duelW||0,duelL:st.duelL||0,trades:st.trades||0,boosters:st.boosters||0,chDays:st.chDays||0,chPod:st.chPod||0,tWins:st.tWins||0,quests:st.quests||0,pt:ptQ(COL.pt||0),pt7:ptQ(ptSum(7)),ptT:ptQ(ptSum(1)),last:Math.floor((COL.lastAt||0)/1800e3)*1800e3,sx:(COL.sx||[]).slice(-30),sess:COL.sess||0,gold:(COL.gold||0)>Date.now()?COL.gold:0,ofN:st.offers||0,
+  st:{played:st.played||0,won:st.won||0,lost:st.lost||0,duelW:st.duelW||0,duelL:st.duelL||0,trades:st.trades||0,boosters:st.boosters||0,chDays:st.chDays||0,chPod:st.chPod||0,tWins:st.tWins||0,quests:st.quests||0,pt:ptQ(COL.pt||0),pt7:ptQ(ptSum(7)),ptT:ptQ(ptSum(1)),last:Math.floor((COL.lastAt||0)/1800e3)*1800e3,sess:COL.sess||0,gold:(COL.gold||0)>Date.now()?COL.gold:0,ofN:st.offers||0,
     bbW:st.bbW||0,bbL:st.bbL||0,bbt:COL.bbt||0,fgW:st.fgW||0,fgL:st.fgL||0,fgS:fgStarsAll(),fgC:Object.values((COL.fg||{}).p||{}).filter(p=>p&&p.done).length,fgB:st.fgBoss||0,
     gmP:(COL.gm&&COL.gm.v===2&&COL.gm.p)||0,gmS:(COL.gm&&COL.gm.v===2&&COL.gm.stars)||0,gmB:(x=>x<1000?Math.floor(x):Math.pow(10,Math.floor(Math.log10(x))))((COL.gm&&COL.gm.v===2&&COL.gm.lifeAll)||0),gmM:(COL.gm&&COL.gm.manN)||0,
     ptP:st.ptPlay||0,ptW:st.ptWin||0,qqP:st.qqP||0,qqW:st.qqW||0,qzP:st.quizP||0,qzW:st.quizW||0,pres:COL.pres||0}};}
