@@ -1363,8 +1363,12 @@ button,a,[data-hg],.rkscroll{touch-action:manipulation}
 .ofsheet .shback,#ofSel~.shback{position:relative}
 </style>
 <style>
-.trsheet .in>.shbar{position:sticky;top:-16px;z-index:8;display:flex;align-items:center;gap:8px;margin:-16px -16px 6px;padding:12px 12px 6px;background:var(--card);border-radius:22px 22px 0 0;transition:box-shadow .2s}
-.trsheet .in>.shbar.stuck{box-shadow:0 6px 12px -6px rgba(0,0,0,.35)}
+.trsheet .in>.shbar{position:sticky;top:-16px;z-index:8;display:flex;align-items:center;gap:8px;margin:-16px -16px 6px;padding:12px 12px 6px;border-radius:22px 22px 0 0;isolation:isolate}
+.trsheet .in>.shbar::before{content:'';position:absolute;left:0;right:0;top:0;bottom:-22px;z-index:-1;border-radius:22px 22px 0 0;background:var(--card);opacity:0;transition:opacity .25s;
+  -webkit-mask-image:linear-gradient(to bottom,#000 0,#000 55%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0,#000 55%,transparent 100%)}
+.trsheet .in>.shbar.stuck::before{opacity:.97}
+.trsheet .in>.shbar.stuck .sht{opacity:0;transform:translateY(-6px)}
+.shbar .sht{transition:opacity .2s,transform .2s}
 .shbar .shback{position:static;float:none;margin:0;flex:none}
 .shbar .sht{flex:1;margin:0!important;padding-right:48px;min-width:0;font-size:24px!important;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .shbar .sht:empty{display:none}
