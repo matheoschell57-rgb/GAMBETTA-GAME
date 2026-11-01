@@ -1539,7 +1539,8 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
   try{const dir=location.pathname.replace(/[^/]*$/,'');window.OneSignalDeferred=window.OneSignalDeferred||[];
     const sc=document.createElement('script');sc.src='https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js';sc.defer=true;document.head.appendChild(sc);
     OneSignalDeferred.push(async function(OS){try{await OS.init({appId:'15ae689c-c9a6-486c-a3d6-a98940b82ce7',serviceWorkerPath:dir.replace(/^\//,'')+'sw.js',serviceWorkerParam:{scope:dir},
-        notifyButton:{enable:false},promptOptions:{slidedown:{prompts:[]}},welcomeNotification:{disable:true}});window.GGPUSH=OS;
+        notifyButton:{enable:false},promptOptions:{slidedown:{prompts:[]}},welcomeNotification:{disable:true},notificationClickHandlerMatch:'origin',notificationClickHandlerAction:'focus'});window.GGPUSH=OS;
+      OS.Notifications.addEventListener('click',e=>{try{const u=(e.result&&e.result.url)||(e.notification&&e.notification.launchURL)||'';const g=new URL(u,location.href).searchParams.get('go');if(g)window.dispatchEvent(new CustomEvent('gggo',{detail:g}));}catch(_){}});
       OS.Notifications.addEventListener('permissionChange',()=>{try{window.dispatchEvent(new Event('ggpush'));}catch(_){}});
       OS.User.PushSubscription.addEventListener('change',()=>{try{window.dispatchEvent(new Event('ggpush'));}catch(_){}});
       const lg=()=>{if(window.GG&&GG.pid){try{OS.login(GG.pid);OS.User.addTag('name',String(GG.name||'').slice(0,40));}catch(_){}}else setTimeout(lg,3000);};lg();
@@ -5528,23 +5529,42 @@ function buildMoi(){const b=$('#moiBody');if(!b)return;const name=(window.GG&&GG
 const PUSH_URL='https://gambetta-notif.matheo-schell57.workers.dev/';  /* relais Cloudflare */
 async function ggPost(o){if(!PUSH_URL||!window.GG||!GG.idToken)return{error:'off'};const token=await GG.idToken();if(!token)return{error:'auth'};
   const r=await fetch(PUSH_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.assign({token},o))});return r.json().catch(()=>({error:'réponse'}));}
+/* clic sur une notification : on ouvre directement le bon écran */
+const PUSH_GO={hub:'🏠 Accueil',day:'📅 Défis du jour',duel:'⚔️ Duels',ev:'🏆 Événements et tournois',quiz:'🧠 Quiz du Club',cards:'🃏 Collection et boosters',trade:'🔄 Échanges',bataille:'🏊 Bataille du Bassin'};
+function ggGo(g){try{const NAV={
+    trade:()=>{TR.tab='market';setTrTab();show('trade');buildTrade();},tradein:()=>{TR.tab='in';setTrTab();show('trade');buildTrade();},tradeout:()=>{TR.tab='out';setTrTab();show('trade');buildTrade();},
+    day:()=>{DF.tab='day';openDefi();},duel:()=>{DF.tab='duel';openDefi();},ev:()=>{DF.tab='ev';openDefi();},
+    bataille:()=>openBataille(),cards:()=>$('#openCol').click(),hub:()=>openHub(),
+    quiz:()=>{if(QZ.live&&!QZ.code)qzJoin(QZ.live.code);else{openHub();toast('🧠','Pas de quiz en cours','Il apparaîtra ici dès qu\'il commence');}}};
+  const m=/^(pt|qq)(\d{4})$/.exec(g||'');if(m){if(typeof BC!=='undefined'&&BC&&!BC.over)return;
+    const busy=(PT.code&&PT.code!==m[2]&&PT.inGame)||(QQ.code&&QQ.code!==m[2]&&QQ.inGame)||QZ.code;
+    if(busy){toast('📨','Tu es déjà dans une partie','Termine-la pour rejoindre l\'invitation');return;}
+    document.querySelectorAll('.trsheet').forEach(x=>{try{x.remove();}catch(_){}});
+    (async()=>{if(m[1]==='pt'){if(QQ.code)await qqLeave();if(PT.code&&PT.code!==m[2])await ptLeave();QQ.sub='party';show('party');ptLobbies();ptJoin(m[2]);}
+      else{if(PT.code)await ptLeave();if(QQ.code&&QQ.code!==m[2])await qqLeave();QQ.sub='qq';show('party');qqLobbies();qqJoin(m[2]);}})();return;}
+  const f=NAV[g];if(!f)return;document.querySelectorAll('.trsheet').forEach(x=>{try{x.remove();}catch(_){}});
+  if(typeof BC!=='undefined'&&BC&&!BC.over)return;f();}catch(e){console.warn('ggGo',e);}}
+window.addEventListener('gggo',e=>ggGo(e.detail));
+(function(){let g=null;try{const u=new URL(location.href);g=u.searchParams.get('go');if(g){u.searchParams.delete('go');history.replaceState(null,'',u.pathname+u.search+u.hash);}}catch(_){}
+  if(!g)return;let n=0;const t=setInterval(()=>{n++;const ready=window.GG&&GG.pid&&document.querySelector('.screen.active');if(ready||n>40){clearInterval(t);if(ready)setTimeout(()=>ggGo(g),400);}},250);})();
 function ggNotify(kind,to,x){try{if(!PUSH_URL||!to||isMe(to))return;ggPost(Object.assign({kind,to,name:(window.GG&&GG.name)||''},x||{})).catch(()=>{});}catch(_){}}
-const PUSH_TPL=[['🧠','Quiz du Club','Le Quiz du Club commence bientôt : ouvre le jeu pour jouer !'],['🎉','Nouvel événement','Un nouvel événement vient de commencer dans le Gambetta Game !'],['🏆','Tournoi','Les inscriptions au tournoi sont ouvertes !'],['✨','Nouveautés','Nouvelle version du jeu : viens découvrir les nouveautés !'],['🎁','Cadeau','Un cadeau t\'attend dans le jeu !']];
-const PUSHA={title:'',text:'',busy:0,last:''};
+const PUSH_TPL=[['🧠','Quiz du Club','Le Quiz du Club commence bientôt : ouvre le jeu pour jouer !','quiz'],['🎉','Nouvel événement','Un nouvel événement vient de commencer dans le Gambetta Game !','ev'],['🏆','Tournoi','Les inscriptions au tournoi sont ouvertes !','ev'],['✨','Nouveautés','Nouvelle version du jeu : viens découvrir les nouveautés !','hub'],['🎁','Cadeau','Un cadeau t\'attend dans le jeu !','hub']];
+const PUSHA={title:'',text:'',busy:0,last:'',go:'hub'};
 function adminPush(b){if(!PUSH_URL){b.innerHTML='<div class="trempty">📣 Le relais des notifications n\'est pas encore branché.<br>Dès qu\'il le sera, tu pourras écrire ici à tout le club.</div>';return;}
   b.innerHTML=`<div class="abox"><h4>📣 Message à tout le club</h4><p class="asum">Envoyé en notification à tous ceux qui ont activé 🔔 dans Moi.</p>
     <div class="asel">${PUSH_TPL.map((t,i)=>`<button class="apill" data-ptpl="${i}">${t[0]} ${t[1]}</button>`).join('')}</div>
     <input class="ainput" id="pT" maxlength="60" placeholder="Titre (ex. : 🧠 Quiz ce soir !)" value="${esc(PUSHA.title)}">
     <textarea class="ainput" id="pX" maxlength="180" rows="3" placeholder="Ton message (180 caractères max)">${esc(PUSHA.text)}</textarea>
     <div class="asum"><span id="pN">${PUSHA.text.length}</span>/180</div>
+    <label class="asum">📍 Quand on touche la notification, ouvrir :</label><select class="ainput" id="pG">${Object.entries(PUSH_GO).map(([k,n])=>`<option value="${k}"${PUSHA.go===k?' selected':''}>${n}</option>`).join('')}</select>
     <button class="asend" id="pGo">📣 Envoyer à tout le club</button>${PUSHA.last?`<p class="asum">${PUSHA.last}</p>`:''}</div>`;
-  const T=b.querySelector('#pT'),X=b.querySelector('#pX');T.oninput=()=>PUSHA.title=T.value;X.oninput=()=>{PUSHA.text=X.value;b.querySelector('#pN').textContent=X.value.length;};
-  b.querySelectorAll('[data-ptpl]').forEach(x=>x.onclick=()=>{const t=PUSH_TPL[+x.dataset.ptpl];PUSHA.title=t[0]+' '+t[1];PUSHA.text=t[2];adminPush(b);});
+  const T=b.querySelector('#pT'),X=b.querySelector('#pX');T.oninput=()=>PUSHA.title=T.value;X.oninput=()=>{PUSHA.text=X.value;b.querySelector('#pN').textContent=X.value.length;};b.querySelector('#pG').onchange=e=>PUSHA.go=e.target.value;
+  b.querySelectorAll('[data-ptpl]').forEach(x=>x.onclick=()=>{const t=PUSH_TPL[+x.dataset.ptpl];PUSHA.title=t[0]+' '+t[1];PUSHA.text=t[2];PUSHA.go=t[3]||'hub';adminPush(b);});
   b.querySelector('#pGo').onclick=()=>{if(!PUSHA.text.trim()){toast('📣','Écris un message','');return;}
-    const sh=sheet(`<h3>📣 Envoyer à tout le club ?</h3><div class="sec"><b>${esc(PUSHA.title||'Gambetta Game')}</b><br>${esc(PUSHA.text)}</div><div class="trbtns"><button class="btn alt" id="bx">Annuler</button><button class="btn" id="pOk">Envoyer</button></div>`);
+    const sh=sheet(`<h3>📣 Envoyer à tout le club ?</h3><div class="sec"><b>${esc(PUSHA.title||'Gambetta Game')}</b><br>${esc(PUSHA.text)}<br><small>📍 Ouvre : ${PUSH_GO[PUSHA.go]||''}</small></div><div class="trbtns"><button class="btn alt" id="bx">Annuler</button><button class="btn" id="pOk">Envoyer</button></div>`);
     sh.querySelector('#bx').onclick=()=>sh.remove();sh.querySelector('#pOk').onclick=async e=>{e.target.disabled=true;e.target.textContent='Envoi…';
-      let r={};try{r=await ggPost({kind:'club',title:PUSHA.title,text:PUSHA.text});}catch(_){r={error:'réseau'};}sh.remove();
-      if(r.ok){PUSHA.last='✅ Envoyé à '+new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});PUSHA.title='';PUSHA.text='';toast('📣','Message envoyé !','Le club va le recevoir');}
+      let r={};try{r=await ggPost({kind:'club',title:PUSHA.title,text:PUSHA.text,go:PUSHA.go});}catch(_){r={error:'réseau'};}sh.remove();
+      if(r.ok){PUSHA.last='✅ Envoyé à '+new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});PUSHA.title='';PUSHA.text='';PUSHA.go='hub';toast('📣','Message envoyé !','Le club va le recevoir');}
       else{PUSHA.last='❌ Échec : '+esc(r.error==='admin'?'connecte-toi en admin':r.error==='auth'?'reconnecte-toi':JSON.stringify(r.errors||r.error||'erreur'));}
       adminPush(b);};};}
 /* ================= NOTIFICATIONS ================= */
@@ -7433,20 +7453,32 @@ function ptPlayMg(key,k){PLAYCTX={t:'party',code:PT.code,turn:key,k};openIntro(k
 function ptAfter(k,win,val){if(!PLAYCTX||PLAYCTX.t!=='party'||PLAYCTX.k!==k||PLAYCTX.sent)return;PLAYCTX.sent=1;
   const r={w:win?1:0,at:Date.now()};if(val!=null&&isFinite(val))r.s=+val;GG.party.set(PLAYCTX.code,'res/'+PLAYCTX.turn+'/'+ptMe(),r).catch(()=>{});}
 function ptBackFromMg(){if(PLAYCTX&&PLAYCTX.t==='party'&&!PLAYCTX.sent)ptAfter(PLAYCTX.k,false,null);PLAYCTX=null;openParty();}
+/* inviter un joueur dans une partie (Gambetta Party ou Qui est-ce ?) : il reçoit une notification */
+const PINV={};
+function ptInvite(kind,code,P){const inP=P.players||{},sent=PINV[code]||{};
+  pickPlayer(kind==='qq'?{e:'🕵️',n:'Inviter au Qui est-ce ?'}:{e:'🎲',n:'Inviter à la Gambetta Party'},
+    'Il recevra une notification. En la touchant, il arrive directement dans ta partie (s\'il a activé 🔔 dans Moi).',
+    p=>{if(!PUSH_URL){toast('📨','Invitations pas disponibles ici','Ouvre le jeu depuis son lien');return;}
+      PINV[code]=PINV[code]||{};PINV[code][p.id]={n:p.name,at:Date.now()};ggNotify(kind,p.id,{code});
+      toast('📨','Invitation envoyée à '+esc(p.name),'Code '+code);ptRender();},
+    pid=>!inP[pid]&&!(sent[pid]&&Date.now()-sent[pid].at<5*60e3));}
+function ptInvRows(code,P){const inP=P.players||{},L=Object.entries(PINV[code]||{}).filter(([pid,x])=>!inP[pid]&&Date.now()-x.at<30*60e3);
+  return L.map(([pid,x])=>`<div class="ptp wait"><span class="pw">📨</span><b>${esc(x.n)}</b><span class="trstat wait">Invité</span></div>`).join('');}
 function ptLobbyUI(b,P){PT.boardFor=null;const me=ptMe(),host=P.host===me,pl=P.players||{},ord=Object.keys(pl).sort((a,c)=>(pl[a].at||0)-(pl[c].at||0)),n=ord.length,
   taken={};ord.forEach(p=>{if(pl[p].ch)taken[pl[p].ch]=p;});const myCh=(pl[me]||{}).ch;
   b.innerHTML=`<div class="ptcode"><small>Code de la partie</small><b>${PT.code}</b><small>Donne-le à tes amis pour qu'ils te rejoignent</small></div>
    <div class="dsec">🎭 Choisis ton perso <small>c'est ton pion, et il a un pouvoir</small></div>
    <div class="ptpgrid">${Object.entries(PT_PERSOS).map(([k,x])=>{const by=taken[k],mine=by===me,off=by&&!mine;return `<button class="ptpc${mine?' on':''}${off?' off':''}" data-ch="${k}"${off?' disabled':''}>${ptAv(k)}<b>${esc(CHARS[k].name)}</b><small>${x.e} ${x.pn}</small><em>${off?'Pris par '+esc(ptName(P,by)):x.pd}</em></button>`;}).join('')}</div>
    <div class="dsec">👥 Joueurs <small>${n}/${PT_MAX}</small></div>
-   <div class="ptpl">${ord.map((p,i)=>`<div class="ptp"><span class="pw" style="background:${PT_COL[i%8]}">${pl[p].ch?ptAv(pl[p].ch,'mini'):pl[p].bot?'🤖':'?'}</span><b>${esc(pl[p].n||'Joueur')}${p===me?' (toi)':''}</b>${pl[p].ch?`<small>${PT_PERSOS[pl[p].ch].e}</small>`:''}${p===P.host?'<span class="trstat yes">Hôte</span>':''}${pl[p].bot?'<span class="trstat wait">Ordi</span>':''}${pl[p].on===false&&!pl[p].bot?'<span class="trstat nope">Hors ligne</span>':''}${host&&pl[p].bot?`<button class="mini-b" data-rb="${p}">✖</button>`:''}</div>`).join('')}</div>
+   <div class="ptpl">${ord.map((p,i)=>`<div class="ptp"><span class="pw" style="background:${PT_COL[i%8]}">${pl[p].ch?ptAv(pl[p].ch,'mini'):pl[p].bot?'🤖':'?'}</span><b>${esc(pl[p].n||'Joueur')}${p===me?' (toi)':''}</b>${pl[p].ch?`<small>${PT_PERSOS[pl[p].ch].e}</small>`:''}${p===P.host?'<span class="trstat yes">Hôte</span>':''}${pl[p].bot?'<span class="trstat wait">Ordi</span>':''}${pl[p].on===false&&!pl[p].bot?'<span class="trstat nope">Hors ligne</span>':''}${host&&pl[p].bot?`<button class="mini-b" data-rb="${p}">✖</button>`:''}</div>`).join('')}${ptInvRows(PT.code,P)}</div>
+   ${n<PT_MAX?`<div class="trbtns"><button class="btn alt" id="ptInv">📨 Inviter un joueur</button></div>`:''}
    ${host?`<div class="trbtns"><button class="btn alt" id="ptBot"${n>=PT_MAX?' disabled':''}>🤖 Ajouter un ordi</button></div>
      <div class="dsec">🗺️ Carte</div><div class="ptmaps">${Object.entries(PT_MAPS).map(([k,m])=>`<button class="ptmc${(P.map||'belletanche')===k?' on':''}" data-pm="${k}"><span class="e">${m.e}</span><b>${m.n}</b><span class="ptlv l${m.lv}">${m.lvl}</span></button>`).join('')}</div>
      <div class="dsec">⏱️ Nombre de tours</div><div class="rllv">${[5,10,15].map(t=>`<button class="apill${(P.tours||10)===t?' on':''}" data-tt="${t}">${t===5?'⚡ 5 tours · rapide':t+' tours · ~'+t*2+' min'}</button>`).join('')}</div>${(P.tours||10)<=5?`<div class="bbhint">⚡ Partie rapide : plateau réduit à 16 cases et ${ptMap(P).coins} pièces au départ${ptMap(P).star!==PT_MAPS[P.map||'belletanche'].star?', étoile à '+ptMap(P).star:''}.</div>`:''}
      <div class="trbtns"><button class="btn" id="ptGo"${n<2?' disabled':''}>▶ Lancer la partie</button></div>${n<2?'<div class="bbhint">Il faut au moins 2 joueurs (ajoute un ordi pour jouer seul).</div>':!myCh?'<div class="bbhint">Sans choix, un perso libre te sera donné au hasard.</div>':''}`
    :`<div class="drew">⏳ En attente que <b>${esc(ptName(P,P.host))}</b> lance la partie…<br>${ptMap(P).e} ${ptMap(P).n} (${ptMap(P).lvl}) · ${P.tours||10} tours${(P.tours||10)<=5?' · ⚡ partie rapide':''}</div>`}
    <div class="trbtns"><button class="btn alt" id="ptQuit">🚪 Quitter</button></div><div style="height:96px"></div>`;
-  b.querySelector('#ptQuit').onclick=ptLeave;
+  b.querySelector('#ptQuit').onclick=ptLeave;{const iv=b.querySelector('#ptInv');if(iv)iv.onclick=()=>ptInvite('party',PT.code,P);}
   b.querySelectorAll('[data-ch]').forEach(x=>x.onclick=()=>{if(x.disabled)return;GG.party.set(PT.code,'players/'+me+'/ch',x.dataset.ch).catch(()=>{});});
   if(host){const bt=b.querySelector('#ptBot');bt.onclick=()=>{const k=Object.keys(pl).filter(p=>pl[p].bot).length+1,id='bot'+Date.now().toString(36);
       GG.party.set(PT.code,'players/'+id,{n:'Ordi '+k,bot:1,sk:Math.round((.35+Math.random()*.3)*100)/100,at:Date.now()}).catch(()=>{});};
@@ -7626,7 +7658,7 @@ function ptFinalFx(ov,P){const S=P.state,ord=(S.order||[]).slice().sort((a,b)=>(
 function ptBonusFx(ov,P){const S=P.state,B=[].concat(S.bon||[]).filter(Boolean);
   ov.innerHTML=`<div class="ptcard ptbonus"><div class="big">🏅</div><h3>Les étoiles bonus !</h3>${B.map((x,i)=>`<div class="bon" id="bon${i}"><span class="e">${x.e}</span><div><b>${x.n}</b><small class="who">🥁…</small></div><span class="st">?</span></div>`).join('')}</div>`;
   B.forEach((x,i)=>{const el=ov.querySelector('#bon'+i);setTimeout(()=>el.classList.add('show'),300+i*3600);
-    setTimeout(()=>{el.classList.add('rev');el.querySelector('.who').textContent=x.w.length?x.w.map(p=>ptName(P,p)).join(', ')+` (${x.v})`:'Personne…';el.querySelector('.st').textContent=x.w.length?'+1 ⭐':'—';},300+i*3600+1800);});}
+    setTimeout(()=>{const w=[].concat(x.w||[]).filter(Boolean);el.classList.add('rev');el.querySelector('.who').textContent=w.length?w.map(p=>ptName(P,p)).join(', ')+` (${x.v})`:'Personne…';el.querySelector('.st').textContent=w.length?'+1 ⭐':'—';},300+i*3600+1800);});}
 function ptEndHTML(P){const S=P.state||{},me=ptMe(),fin=[].concat(S.fin||[]).filter(Boolean),rk=S.rk||{},med=['🥇','🥈','🥉'],mine=rk[me];
   const human=fin.includes(me)&&!ptPl(P,me).bot&&!ptPl(P,me).left,pod=fin.slice(0,3),ordp=[pod[1],pod[0],pod[2]].filter(Boolean);
   return `<div class="ptconf">${Array.from({length:26},(_,i)=>`<i style="left:${(i*37)%100}%;animation-delay:${(i%7)*.25}s;animation-duration:${2.2+(i%5)*.4}s">${['🎉','⭐','🪙','🎊','✨'][i%5]}</i>`).join('')}</div><div class="ptcard ptend"><div class="big bounce">🏆</div><h3>${esc(ptName(P,fin[0]))} gagne !</h3>
@@ -8921,10 +8953,11 @@ function qqTick(){const P=QQ.P;if(!P||P.st!=='wp')return;const el=document.query
 /* ---------- salle d'attente ---------- */
 function qqLobbyUI(b,P){const me=ptMe(),pl=P.players||{},ord=Object.keys(pl),n=ord.length,host=P.host===me;
   b.innerHTML=`<div class="ptcode"><small>Code du Qui est-ce ?</small><b>${QQ.code}</b><small>Donne-le à ton adversaire</small></div>
-   <div class="dsec">👥 Joueurs <small>${n}/2</small></div><div class="ptpl">${ord.map(p=>`<div class="ptp"><span class="pw" style="background:${p===P.host?'#e0217a':'#2f80ed'}">🕵️</span><b>${esc(pl[p].n||'Joueur')}${p===me?' (toi)':''}</b>${p===P.host?'<span class="trstat yes">Hôte</span>':''}${pl[p].on===false?'<span class="trstat nope">Hors ligne</span>':''}</div>`).join('')}${n<2?'<div class="ptp wait"><span class="pw">⏳</span><b>En attente d\'un adversaire…</b></div>':''}</div>
+   <div class="dsec">👥 Joueurs <small>${n}/2</small></div><div class="ptpl">${ord.map(p=>`<div class="ptp"><span class="pw" style="background:${p===P.host?'#e0217a':'#2f80ed'}">🕵️</span><b>${esc(pl[p].n||'Joueur')}${p===me?' (toi)':''}</b>${p===P.host?'<span class="trstat yes">Hôte</span>':''}${pl[p].on===false?'<span class="trstat nope">Hors ligne</span>':''}</div>`).join('')}${n<2?ptInvRows(QQ.code,P)+'<div class="ptp wait"><span class="pw">⏳</span><b>En attente d\'un adversaire…</b></div>':''}</div>
+   ${n<2?`<div class="trbtns"><button class="btn alt" id="qqInv">📨 Inviter un joueur</button></div>`:''}
    ${host?`<div class="trbtns"><button class="btn" id="qqGo"${n<2?' disabled':''}>▶ Lancer la partie</button></div>`:`<div class="drew">⏳ En attente que <b>${esc(qqName(P,P.host))}</b> lance la partie…</div>`}
    <div class="trbtns"><button class="btn alt" id="qqQuit">🚪 Quitter</button></div><div style="height:96px"></div>`;
-  b.querySelector('#qqQuit').onclick=qqLeave;const go=b.querySelector('#qqGo');if(go)go.onclick=()=>{if(Object.keys((QQ.P||{}).players||{}).length<2)return;qqStart();};}
+  b.querySelector('#qqQuit').onclick=qqLeave;{const iv=b.querySelector('#qqInv');if(iv)iv.onclick=()=>ptInvite('qq',QQ.code,P);}const go=b.querySelector('#qqGo');if(go)go.onclick=()=>{if(Object.keys((QQ.P||{}).players||{}).length<2)return;qqStart();};}
 function qqNewState(P){const ord=Object.keys(P.players||{}),board=qqShuffle(qqPool().map(m=>m.id)).slice(0,QQ_N);
   return{id:Date.now().toString(36)+qqRand(1e6).toString(36),b:board,ph:'pick',cur:ord[qqRand(2)],n:1,start:GG.party.now()};}
 function qqStart(){const P=QQ.P;if(!P)return;const S=qqNewState(P),u={st:'wp',state:S,at:Date.now()};Object.keys(P.players||{}).forEach(p=>u['players/'+p+'/f']='');
