@@ -5030,7 +5030,7 @@ function drawPack(size,o){size=size||PACK_SIZE;o=o||{};if(!o.nop)size+=presExtra
       if(x<RAR_W.L&&has('L'))r='L';else if(x<RAR_W.L+RAR_W.E&&has('E'))r='E';if(!has(r))r=['R','E','L'].find(has);const c=pick(miss.filter(m=>m.r===r));out.push(c.id);miss=miss.filter(m=>m!==c);}}
   else{const pool=r=>MEMBERS.filter(m=>m.r===r);
     for(let i=0;i<size;i++){if(Math.random()<BONUS_P){out.push(bonusRoll());continue;}let x=Math.random()*100,r='R';if(x<RAR_W.L&&pool('L').length)r='L';else if(x<RAR_W.L+RAR_W.E&&pool('E').length)r='E';
-      let L=pool(r);if(pm&&Math.random()<pm){const ms=L.filter(m=>!COL.members[m.id]&&!out.includes(m.id));if(ms.length)L=ms;}out.push(pick(L).id);}
+      let L=pool(r);if(pm&&Math.random()<pm){const nd=presNeed(),ms=L.filter(m=>(COL.members[m.id]||0)+out.filter(x=>x===m.id).length<nd);if(ms.length)L=ms;}out.push(pick(L).id);}
     if(o.leg&&!out.some(id=>memObj(id).r==='L')){const L=pool('L'),ms=L.filter(m=>!COL.members[m.id]);const i=out.findIndex(id=>!memObj(id).bonus);out[i>=0?i:0]=pick(ms.length?ms:L).id;}
     if(o.bonus)out.push(bonusRoll());}
   const ord={R:0,E:1,L:2},key=id=>{const m=memObj(id);return m.bonus?3:ord[m.r];};return out.sort((a,b)=>key(a)-key(b));}
@@ -5515,7 +5515,7 @@ function buildMoi(){const b=$('#moiBody');if(!b)return;const name=(window.GG&&GG
       ${keyBtn&&!keyBtn.hidden?row('moiKey','🔑','Ma sauvegarde','Ton code pour retrouver ta partie sur un autre téléphone'):''}
       ${row('moiNotif','🔔','Notifications',pushTxt())}
       ${row('moiCol','🃏','Ma collection','Toutes tes cartes et tes boosters')}
-      ${row('moiPres','🏊','Le Grand Plongeon',presOK()?'Disponible ! Replonge tout pour devenir une légende':PRES()?'Prestige '+PRES()+' · voir mes bonus':'Réunis toutes les cartes pour devenir une légende')}
+      ${row('moiPres','🏊','Le Grand Plongeon',presOK()?'Disponible ! Replonge tout pour devenir une légende':PRES()?'Prestige '+PRES()+' · prochain : chaque carte'+presX(presNeed()):'Réunis toutes les cartes pour devenir une légende')}
       ${row('moiBat','⚔️','Mon deck de bataille','Changer et améliorer tes cartes')}
       ${isAdm?row('moiAdm','🛠️','Gestion du jeu','Cadeaux, joueurs, tournois, événements (toi seul)'):''}</div>
     <div class="cloudnote">${window.GG&&GG.code?'☁️ Ta partie est sauvegardée en ligne.':'☁️ Ta partie est sauvegardée sur ce téléphone.'}</div>`;
@@ -5869,11 +5869,13 @@ const SERIES=[
 ];
 const serList=()=>SERIES.concat(window.__SERIES_DEMO||[]);
 const serOwned=s=>s.cards.filter(id=>COL.members[id]).length;
-const serRew=s=>s.cards.length<=5?3:5;
+/* récompense d'une série : 1 carte par tranche de 3 cartes de la série (min 1, max 4) */
+const serRew=s=>Math.max(1,Math.min(4,Math.round(s.cards.length/3)));
+const serRewTxt=s=>{const n=serRew(s);return n>1?'un paquet de '+n+' cartes':'une pochette (1 carte)';};
 function serCheck(){COL.ser=COL.ser||{};const nw=[];serList().forEach(s=>{if(COL.ser[s.id]||!s.cards.length)return;if(serOwned(s)>=s.cards.length){COL.ser[s.id]=Date.now();grantPack(serRew(s),'Série « '+s.n+' »');nw.push(s);}});
   if(!nw.length)return;progBusy=true;saveCol();progBusy=false;updBoostBtn();const s=nw[0];
   const pop=document.createElement('div');pop.className='giftpop';
-  pop.innerHTML=`<div class="gcard"><div class="emo">${s.e||'📚'}</div><h3>Série complète !</h3><p>Tu as toutes les cartes de « <b>${esc(s.n)}</b> ».<br>Tu gagnes un <b>booster de ${serRew(s)} cartes</b> 🎁</p>
+  pop.innerHTML=`<div class="gcard"><div class="emo">${s.e||'📚'}</div><h3>Série complète !</h3><p>Tu as toutes les cartes de « <b>${esc(s.n)}</b> ».<br>Tu gagnes <b>${serRewTxt(s)}</b> 🎁</p>
     <div class="endbtns"><button class="btn" id="srOpen">L'ouvrir 🎁</button><button class="btn alt" id="srLater">Plus tard</button></div></div>`;
   $('#app').appendChild(pop);pop.querySelector('#srLater').onclick=()=>pop.remove();pop.querySelector('#srOpen').onclick=()=>{pop.remove();goAlbumMembers();openBooster();};}
 function serHTML(){const L=serList();if(!L.length)return `<div class="cmsg">📚 Les séries arrivent bientôt !<br><small>Mathéo prépare des groupes de cartes à compléter. Chaque série complète rapporte un booster et un badge.</small></div>`;
@@ -5881,7 +5883,7 @@ function serHTML(){const L=serList();if(!L.length)return `<div class="cmsg">📚
   return `<div class="cmsg" style="border-style:solid">📚 ${done} / ${L.length} séries complètes — Complète une série pour gagner un booster !</div>`+L.map(s=>{const o=serOwned(s),t=s.cards.length,ok=COL.ser&&COL.ser[s.id];
     return `<div class="sercard${ok?' done':''}"><div class="sh"><span style="font-size:22px">${s.e||'📚'}</span><b>${esc(s.n)}</b><span>${o} / ${t}</span></div><div class="sb"><i style="width:${t?o/t*100:0}%"></i></div>
       <div class="sc">${s.cards.map(id=>{const i=memIdx(id);if(i<0)return '';const m=MEMBERS[i],rl=s.roles&&s.roles[id]?`<div class="srole">${esc(s.roles[id])}</div>`:'';return COL.members[id]?`<div>${mini(id)}${rl}</div>`:`<div><div class="tcard locked r-${m.r}"><div class="lq">?</div><div class="lh">#${String(i+1).padStart(2,'0')}</div></div>${rl}</div>`;}).join('')}</div>
-      <div class="sr">${ok?'✅ Série complète · récompense reçue':'🎁 Récompense : booster de '+serRew(s)+' cartes + badge'}</div></div>`;}).join('');}
+      <div class="sr">${ok?'✅ Série complète · récompense reçue':'🎁 Récompense : '+serRewTxt(s)+' + badge'}</div></div>`;}).join('');}
 
 /* ================= QUÊTES DU JOUR ================= */
 const QUESTS=[
@@ -8085,7 +8087,7 @@ const ofCards=()=>MEMBERS.filter(m=>(COL.members[m.id]||0)>0);
 function ofOwnedN(){return ofCards().reduce((s,m)=>s+(COL.members[m.id]||0),0);}
 /* sélection automatique : doubles des cartes niveau 1 d'abord (aucune perte), puis les autres doubles ; jamais la dernière carte */
 function ofAuto(O){const C=ofCost(O),take={},left={};ofCards().forEach(m=>left[m.id]=(COL.members[m.id]||0)-1);
-  const pain=m=>(bbLvlOf(m.id)>1?100:0)-(left[m.id]||0);let need=C.n;
+  const nd=presNeed(),pain=m=>(bbLvlOf(m.id)>1?100:0)+((left[m.id]||0)<nd?50:0)-(left[m.id]||0);let need=C.n;
   const grab=(f)=>{const m=ofCards().filter(z=>left[z.id]>0&&f(z)).sort((a,b)=>pain(a)-pain(b))[0];if(!m)return false;take[m.id]=(take[m.id]||0)+1;left[m.id]--;need--;return true;};
   for(let i=0;i<C.l;i++)if(!grab(m=>m.r==='L'))return null;for(let i=0;i<C.e;i++)if(!grab(m=>m.r==='E'))return null;
   for(const r of ['R','E','L'])while(need>0&&grab(m=>m.r===r));return need>0?null:take;}
@@ -8104,11 +8106,11 @@ function ofConfirm(){const O=ofToday();if(ofCan(O))return;OFS.take=ofAuto(O)||{}
 function ofSelFill(sh,O){const box=sh.querySelector('#ofSel'),T=OFS.take,K=ofCheck(O,T),C=K.C;
   let L=ofCards();if(OFS.f==='dup')L=L.filter(m=>(COL.members[m.id]||0)>=2);else if(OFS.f==='sel')L=L.filter(m=>T[m.id]);
   const ord={L:0,E:1,R:2};L=L.slice().sort((a,b)=>((T[b.id]?1:0)-(T[a.id]?1:0))||((COL.members[b.id]||0)-(COL.members[a.id]||0))||(ord[a.r]-ord[b.r]));
-  const lost=Object.keys(T).filter(id=>T[id]>=(COL.members[id]||0)),down=Object.keys(T).filter(id=>T[id]<(COL.members[id]||0)&&bbLvlOf(id)>1);
+  const nd=presNeed(),lost=Object.keys(T).filter(id=>T[id]>=(COL.members[id]||0)),need=nd>1?Object.keys(T).filter(id=>T[id]<(COL.members[id]||0)&&(COL.members[id]||0)>=nd&&(COL.members[id]||0)-T[id]<nd):[],down=Object.keys(T).filter(id=>T[id]<(COL.members[id]||0)&&bbLvlOf(id)>1);
   box.innerHTML=`<h3>${O.e} ${esc(O.n)}</h3><div class="ofreq"><span class="${K.n===C.n?'ok':''}">🃏 ${K.n} / ${C.n} cartes</span>${C.e?`<span class="${K.e>=C.e?'ok':''}">💜 épique ${Math.min(K.e,C.e)}/${C.e}</span>`:''}${C.l?`<span class="${K.l>=C.l?'ok':''}">✨ légendaire ${Math.min(K.l,C.l)}/${C.l}</span>`:''}</div>
     <div class="tabs offt"><button class="tab${OFS.f==='dup'?' on':''}" data-of="dup">En double</button><button class="tab${OFS.f==='all'?' on':''}" data-of="all">Toutes</button><button class="tab${OFS.f==='sel'?' on':''}" data-of="sel">Choisies (${K.n})</button></div>
     <div class="ofgrid">${L.length?L.map(m=>{const own=COL.members[m.id]||0,t=T[m.id]||0,lv=bbLvlOf(m.id);return `<div class="ofg${t?' on':''}" data-add="${m.id}">${mini(m.id)}<span class="own">×${own}</span>${lv>1?`<span class="lv">niv ${lv}</span>`:''}${t?`<span class="tk">−${t}</span><button class="rm" data-rm="${m.id}">↩</button>`:''}</div>`;}).join(''):'<div class="trempty">Aucune carte ici.</div>'}</div>
-    ${lost.length||down.length?`<div class="ofwarn">${lost.length?`<div>💔 <b>Perdues pour de bon :</b> ${lost.map(id=>esc(memObj(id).n)).join(', ')}</div>`:''}${down.length?`<div>⬇️ <b>Baissent en Bataille :</b> ${down.map(id=>esc(memObj(id).n)+' niv '+bbLvlOf(id)+'→'+Math.max(1,bbLvlOf(id)-T[id])).join(', ')}</div>`:''}</div>`:''}
+    ${lost.length||down.length||need.length?`<div class="ofwarn">${need.length?`<div>🏊 <b>Plus assez pour le Grand Plongeon (×${nd}) :</b> ${need.map(id=>esc(memObj(id).n)).join(', ')}</div>`:''}${lost.length?`<div>💔 <b>Perdues pour de bon :</b> ${lost.map(id=>esc(memObj(id).n)).join(', ')}</div>`:''}${down.length?`<div>⬇️ <b>Baissent en Bataille :</b> ${down.map(id=>esc(memObj(id).n)+' niv '+bbLvlOf(id)+'→'+Math.max(1,bbLvlOf(id)-T[id])).join(', ')}</div>`:''}</div>`:''}
     <div class="trbtns"><button class="btn alt" id="ofAuto">⚡ Mes doubles</button><button class="btn alt" id="ofClr">Vider</button></div>
     <div class="trbtns"><button class="btn alt" id="ofx">Annuler</button><button class="btn" id="ofgo" ${K.ok?'':'disabled'}>${O.pick?'Choisir ›':'Je sacrifie ! ✋'}</button></div>`;
   const re=()=>{const sc=box.querySelector('.ofgrid').scrollTop;ofSelFill(sh,O);const g=box.querySelector('.ofgrid');if(g)g.scrollTop=sc;};
@@ -9061,8 +9063,11 @@ function qqReward(P){const S=P.state||{},me=ptMe(),key=QQ.code+':'+(S.id||'');CO
    Aucun bonus de force contre les autres joueurs : seulement des récompenses. */
 function PRES(){return (typeof COL!=='undefined'&&COL&&COL.pres)||0;}
 function presTag(p){return p?' ⭐'+(p>1?p:''):'';}
-function presOK(){return MEMBERS.every(m=>COL.members[m.id])&&MG_ORDER.every(k=>COL.cards[k]);}
-function presProg(){return{m:MEMBERS.filter(m=>COL.members[m.id]).length,M:MEMBERS.length,g:ownedMG(),G:MG_ORDER.length};}
+/* exemplaires de chaque carte membre demandés pour le prochain Grand Plongeon : ×1, puis ×2, ×3… (max ×5) */
+function presNeed(p){p=p==null?PRES():p;return Math.min(5,p+1);}
+const presX=n=>n>1?' ×'+n:'';
+function presOK(){const n=presNeed();return MEMBERS.every(m=>(COL.members[m.id]||0)>=n)&&MG_ORDER.every(k=>COL.cards[k]);}
+function presProg(){const n=presNeed();return{n,m:MEMBERS.filter(m=>(COL.members[m.id]||0)>=n).length,M:MEMBERS.length,c:MEMBERS.reduce((t,m)=>t+Math.min(n,COL.members[m.id]||0),0),C:MEMBERS.length*n,g:ownedMG(),G:MG_ORDER.length};}
 function presExtra(p,n){p=p==null?PRES():p;if(n!=null&&n<3)return 0;return p?Math.min(3,Math.ceil(p/2)):0;}
 function presMiss(p){p=p==null?PRES():p;return p?Math.min(.6,.3+.1*(p-1)):0;}
 function presTro(p){p=p==null?PRES():p;return Math.min(1,.25*p);}
@@ -9087,17 +9092,18 @@ function presSvg(n){const st=[];for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.
 function presCard(id){if(!/^sp_pres\d+$/.test(String(id)))return null;if(PRES_CARDS[id])return PRES_CARDS[id];const n=+String(id).slice(7);
   return PRES_CARDS[id]={id,n:'Légende du bassin ⭐'+n,r:'L',sp:1,pres:n,t:`Offerte par tout le club pour ton ${n===1?'1er':n+'e'} Grand Plongeon : toutes les cartes réunies… et tout replongé !`,img:'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(presSvg(n)),pos:'50% 50%',full:1,ar:.8};}
 /* bandeau dans la collection */
-function presBannerHTML(){const P=PRES();if(presOK())return `<button class="presban ready" id="presBan">🏊 <b>Grand Plongeon disponible !</b><small>Tu as toutes les cartes : replonge tout pour devenir une légende</small></button>`;
-  if(P)return `<button class="presban" id="presBan">⭐ <b>Prestige ${P}</b><small>Voir mes bonus de légende</small></button>`;
-  const p=presProg();return `<button class="presban off" id="presBan">🏊 <b>Grand Plongeon</b><small>${p.m}/${p.M} membres · ${p.g}/${p.G} mini-jeux</small></button>`;}
+function presBannerHTML(){const P=PRES();if(presOK())return `<button class="presban ready" id="presBan">🏊 <b>Grand Plongeon disponible !</b><small>Tu as toutes les cartes${presX(presNeed())} : replonge tout pour devenir une légende</small></button>`;
+  const p=presProg();
+  if(P)return `<button class="presban" id="presBan">⭐ <b>Prestige ${P}</b><small>Prochain plongeon : ${p.m}/${p.M} membres${presX(p.n)} · ${p.g}/${p.G} mini-jeux</small></button>`;
+  return `<button class="presban off" id="presBan">🏊 <b>Grand Plongeon</b><small>${p.m}/${p.M} membres · ${p.g}/${p.G} mini-jeux</small></button>`;}
 /* écran d'explication + maintien pour confirmer */
-function presSheet(){const p=presProg(),ok=presOK(),P=PRES(),left=(p.M-p.m)+(p.G-p.g);
+function presSheet(){const p=presProg(),ok=presOK(),P=PRES(),left=(p.C-p.c)+(p.G-p.g);
   const sh=sheet(`<h3>🏊 Le Grand Plongeon</h3>
     ${P?`<div class="presnow"><b>⭐ Tu es Prestige ${P}</b>${presBonusList(P).map(([e,t])=>`<div><i>${e}</i>${t}</div>`).join('')}</div>`:''}
-    <div class="sec">Réunis <b>toutes les cartes</b> (membres et mini-jeux), puis replonge tout pour devenir une légende du club !</div>
-    <div class="presprog"><div><span>👥 Cartes membres</span><b>${p.m} / ${p.M}</b><i style="--v:${Math.round(p.m/p.M*100)}%"></i></div><div><span>🎮 Cartes mini-jeux</span><b>${p.g} / ${p.G}</b><i style="--v:${Math.round(p.g/p.G*100)}%"></i></div></div>
+    <div class="sec">${p.n>1?`Pour ce plongeon, il te faut <b>chaque carte membre en ${p.n} exemplaires</b> (×${p.n}) et toutes les cartes mini-jeux. Garde tes doubles !`:'Réunis <b>toutes les cartes</b> (membres et mini-jeux), puis replonge tout pour devenir une légende du club !'}</div>
+    <div class="presprog"><div><span>👥 Cartes membres${presX(p.n)}</span><b>${p.m} / ${p.M}</b><i style="--v:${Math.round(p.c/p.C*100)}%"></i></div><div><span>🎮 Cartes mini-jeux</span><b>${p.g} / ${p.G}</b><i style="--v:${Math.round(p.g/p.G*100)}%"></i></div></div>
     <div class="presgrid"><div class="lose"><b>💧 Tu repars de zéro</b><small>Cartes membres et doubles, cartes mini-jeux, niveaux des cartes de la Bataille</small></div><div class="keep"><b>💾 Tu gardes</b><small>Badges, records, trophées, stats, cartes bonus et spéciales, Combat, Party</small></div></div>
-    <div class="presgain"><b>🎁 Tu gagnes · Prestige ${P+1}</b><div><i>🃏</i>Un méga-booster de 15 cartes avec une Légendaire garantie</div><div><i>🏅</i>La carte unique « Légende du bassin ⭐${P+1} »</div>${presBonusList(P+1).map(([e,t])=>`<div><i>${e}</i>${t}</div>`).join('')}<div><i>🔁</i>Les séries et les paliers de mini-jeux redonnent leurs boosters</div><small>Les bonus s'ajoutent à chaque nouveau Grand Plongeon, sans limite !</small></div>
+    <div class="presgain"><b>🎁 Tu gagnes · Prestige ${P+1}</b><div><i>🃏</i>Un méga-booster de 15 cartes avec une Légendaire garantie</div><div><i>🏅</i>La carte unique « Légende du bassin ⭐${P+1} »</div>${presBonusList(P+1).map(([e,t])=>`<div><i>${e}</i>${t}</div>`).join('')}<div><i>🔁</i>Les séries et les paliers de mini-jeux redonnent leurs boosters</div><small>Les bonus s'ajoutent à chaque nouveau Grand Plongeon. Mais attention : le suivant demandera chaque carte${presX(presNeed(P+1))} !</small></div>
     <div class="trbtns">${ok?'<button class="btn hold" id="psGo"><i></i><span>🏊 Maintiens pour plonger</span></button>':`<button class="btn" disabled>🔒 Encore ${left} carte${left>1?'s':''} à trouver</button>`}<button class="btn alt" id="bx">Fermer</button></div>`);
   sh.querySelector('#bx').onclick=()=>sh.remove();const go=sh.querySelector('#psGo');if(!go)return;
   let t0=0,raf=0;const bar=go.querySelector('i'),lab=go.querySelector('span');
