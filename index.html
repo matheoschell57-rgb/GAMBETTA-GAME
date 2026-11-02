@@ -5568,7 +5568,18 @@ function saveCol(){if(typeof progLater==='function')progLater();if(typeof pushBo
 var cloudT=0,cloudK="";
 function cloudFlush(){clearTimeout(cloudT);cloudT=0;if(!colRef)return;try{const j=JSON.stringify(COL);if(j===cloudK)return;cloudK=j;const r=colRef.set(JSON.parse(j));if(r&&r.catch)r.catch(()=>{cloudK='';});}catch(_){cloudK='';}}
 addEventListener('pagehide',cloudFlush);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')cloudFlush();});
-function mergeCol(o){if(!o)return;if(o.st){COL.st=COL.st||{};for(const k in o.st)COL.st[k]=Math.max(COL.st[k]||0,o.st[k]||0);}if(o.bUsed){COL.bUsed=COL.bUsed||{};for(const k in o.bUsed)COL.bUsed[k]=Math.max(COL.bUsed[k]||0,o.bUsed[k]||0);}['badges','ser','tSeen','qHist','evGot','acDone','noRew','bSeen'].forEach(f=>{if(o[f])COL[f]=Object.assign({},o[f],COL[f]||{});});if(o.fav&&!COL.fav)COL.fav=o.fav;if(o.q&&(!COL.q||o.q.d>COL.q.d))COL.q=o.q;if(o.chClaim)COL.chClaim=Object.assign(COL.chClaim||{},o.chClaim);if(o.duDone)COL.duDone=Object.assign(COL.duDone||{},o.duDone);if(o.chs){COL.chs=COL.chs||{};for(const d in o.chs){const a=COL.chs[d],b=o.chs[d];if(b&&(!a||(a.k===b.k&&better(b.k,b.v,a.v))))COL.chs[d]=b;}}if(o.trDone){COL.trDone=Object.assign(COL.trDone||{},o.trDone);}COL.bbt=Math.max(COL.bbt||0,o.bbt||0);COL.bbtm=Math.max(COL.bbtm||0,o.bbtm||0);if(o.bbl){COL.bbl=COL.bbl||{};for(const k in o.bbl)COL.bbl[k]=Math.max(COL.bbl[k]||0,o.bbl[k]||0);}if(o.bbtd&&(!COL.bbtd||o.bbtd>COL.bbtd))COL.bbtd=o.bbtd;if(!Array.isArray(COL.bbd)&&Array.isArray(o.bbd))COL.bbd=o.bbd;if(o.bbj&&(!COL.bbj||o.bbj.d>COL.bbj.d||(o.bbj.d===COL.bbj.d&&(o.bbj.v||0)>(COL.bbj.v||0))))COL.bbj=o.bbj;if(o.bbr&&(!COL.bbr||o.bbr.d>COL.bbr.d))COL.bbr=o.bbr;COL.boosters=Math.max(COL.boosters||0,o.boosters||0);if((!COL.packs||!COL.packs.length)&&o.packs)COL.packs=o.packs;
+function mergeCol(o){if(!o)return;
+  // ce que ce téléphone ne connaît pas encore (nouvel appareil, Safari ↔ appli…) : on reprend la sauvegarde en ligne
+  for(const k in o){if(COL[k]===undefined&&o[k]!==undefined)COL[k]=o[k];}
+  // temps de jeu : on garde le plus grand compteur de chaque jour et toutes les sessions, au lieu d'écraser
+  COL.pt=Math.max(COL.pt||0,o.pt||0);COL.sess=Math.max(COL.sess||0,o.sess||0);COL.lastAt=Math.max(COL.lastAt||0,o.lastAt||0);
+  if(o.ptd){COL.ptd=COL.ptd||{};for(const d in o.ptd)COL.ptd[d]=Math.max(COL.ptd[d]||0,o.ptd[d]||0);}
+  if(Array.isArray(o.sx)){const m={};(Array.isArray(COL.sx)?COL.sx:[]).concat(o.sx).forEach(x=>{if(Array.isArray(x)&&x.length===2)m[x[0]]=Math.max(m[x[0]]||0,x[1]);});
+    const L=Object.keys(m).map(Number).sort((a,b)=>a-b).map(k=>[k,m[k]]),out=[];L.forEach(x=>{const l=out[out.length-1];if(l&&x[0]<=l[1]+1)l[1]=Math.max(l[1],x[1]);else out.push(x);});COL.sx=out.slice(-30);}
+  // Manager : la partie la plus avancée gagne · prestige : le plus haut
+  if(o.gm&&COL.gm&&o.gm.v===COL.gm.v&&(o.gm.lifeAll||0)>(COL.gm.lifeAll||0))COL.gm=o.gm;
+  if((o.pres||0)>(COL.pres||0)){COL.pres=o.pres;if(o.presAt)COL.presAt=o.presAt;}
+if(o.st){COL.st=COL.st||{};for(const k in o.st)COL.st[k]=Math.max(COL.st[k]||0,o.st[k]||0);}if(o.bUsed){COL.bUsed=COL.bUsed||{};for(const k in o.bUsed)COL.bUsed[k]=Math.max(COL.bUsed[k]||0,o.bUsed[k]||0);}['badges','ser','tSeen','qHist','evGot','acDone','noRew','bSeen'].forEach(f=>{if(o[f])COL[f]=Object.assign({},o[f],COL[f]||{});});if(o.fav&&!COL.fav)COL.fav=o.fav;if(o.q&&(!COL.q||o.q.d>COL.q.d))COL.q=o.q;if(o.chClaim)COL.chClaim=Object.assign(COL.chClaim||{},o.chClaim);if(o.duDone)COL.duDone=Object.assign(COL.duDone||{},o.duDone);if(o.chs){COL.chs=COL.chs||{};for(const d in o.chs){const a=COL.chs[d],b=o.chs[d];if(b&&(!a||(a.k===b.k&&better(b.k,b.v,a.v))))COL.chs[d]=b;}}if(o.trDone){COL.trDone=Object.assign(COL.trDone||{},o.trDone);}COL.bbt=Math.max(COL.bbt||0,o.bbt||0);COL.bbtm=Math.max(COL.bbtm||0,o.bbtm||0);if(o.bbl){COL.bbl=COL.bbl||{};for(const k in o.bbl)COL.bbl[k]=Math.max(COL.bbl[k]||0,o.bbl[k]||0);}if(o.bbtd&&(!COL.bbtd||o.bbtd>COL.bbtd))COL.bbtd=o.bbtd;if(!Array.isArray(COL.bbd)&&Array.isArray(o.bbd))COL.bbd=o.bbd;if(o.bbj&&(!COL.bbj||o.bbj.d>COL.bbj.d||(o.bbj.d===COL.bbj.d&&(o.bbj.v||0)>(COL.bbj.v||0))))COL.bbj=o.bbj;if(o.bbr&&(!COL.bbr||o.bbr.d>COL.bbr.d))COL.bbr=o.bbr;COL.boosters=Math.max(COL.boosters||0,o.boosters||0);if((!COL.packs||!COL.packs.length)&&o.packs)COL.packs=o.packs;
   if(o.daily&&(!COL.daily||o.daily>COL.daily))COL.daily=o.daily;if(o.got){COL.got=COL.got||{};for(const k in o.got)COL.got[k]=Math.max(COL.got[k]||0,o.got[k]||0);}
   if(o.rew){COL.rew=COL.rew||{mil:{},all:false};Object.assign(COL.rew.mil,o.rew.mil||{});COL.rew.all=COL.rew.all||o.rew.all;}['wins','cards','members','seen'].forEach(f=>{const src=o[f]||{};COL[f]=COL[f]||{};for(const k in src){if(f==='members')COL[f][k]=Math.max(COL[f][k]||0,src[k]||0);else if(!COL[f][k])COL[f][k]=src[k];}});}
 (async function cloud(){try{if(!window.claude||!window.claude.use)return;
@@ -6031,7 +6042,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=37;
+const APP_V=38;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
@@ -6392,9 +6403,10 @@ const CH_REW=[5,3,3];
 let PLAYCTX=null,chBoardOK=false;
 function dayKey(d){d=d||new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 function dayShift(key,n){const [y,m,d]=key.split('-').map(Number);return dayKey(new Date(y,m-1,d+n));}
-const CH_GAMES=()=>ORDER.filter(k=>GAMES[k]&&CHARS[k]&&metricOf(k).t!=='wins');
+/* un nouveau mini-jeu (champ since: 'AAAA-MM-JJ' dans CHARS) n'entre dans le défi du jour que le lendemain de sa sortie : le défi ne change jamais en cours de journée */
+const CH_GAMES=key=>ORDER.filter(k=>GAMES[k]&&CHARS[k]&&metricOf(k).t!=='wins'&&(!key||!CHARS[k].since||CHARS[k].since<key));
 const hstr=t=>{let x=2166136261;for(const c of t){x^=c.charCodeAt(0);x=Math.imul(x,16777619)>>>0;}return x;};
-function chGame(key){const L=CH_GAMES();let i=hstr('gmb'+key)%L.length;const p=hstr('gmb'+dayShift(key,-1))%L.length;if(i===p)i=(i+1)%L.length;return L[i];}
+function chGame(key){const L=CH_GAMES(key);let i=hstr('gmb'+key)%L.length;const p=hstr('gmb'+dayShift(key,-1))%L.length;if(i===p)i=(i+1)%L.length;return L[i];}
 function chRecord(k,v){const d=dayKey();if(v==null||chGame(d)!==k)return null;COL.chs=COL.chs||{};const cur=COL.chs[d];const nb=!cur||cur.k!==k||better(k,v,cur.v);
   if(nb){COL.chs[d]={k,v};Object.keys(COL.chs).forEach(x=>{if(x<dayShift(d,-4))delete COL.chs[x];});saveCol();pushBoard();}return{nb,v:COL.chs[d].v};}
 function chRank(day){const k=chGame(day),L=[];Object.entries(BOARD||{}).forEach(([id,b])=>{const c=b&&b.chs&&b.chs[day];if(id!==myId&&c&&c.k===k&&c.v!=null)L.push({id,v:c.v,name:b.name});});
