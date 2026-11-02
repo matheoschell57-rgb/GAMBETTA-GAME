@@ -1855,7 +1855,7 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
   // Outils admin : codes de tout le monde et sauvegarde complète
   GG.delPlayer=async(pid,code)=>{if(!GG.admin||pid===GG.pid)return false;if(code)await fs.doc('players/'+code).delete();try{await fs.doc('owners/'+pid).delete();}catch(_){}await fs.doc('board/'+pid).delete();return true;};
   GG.idToken=()=>auth&&auth.currentUser?auth.currentUser.getIdToken():Promise.resolve(null);
-  GG.saves=async()=>{if(!GG.admin)return null;const q=await fs.collection('players').get();const o={};q.docs.forEach(d=>{const x=d.data();if(x&&x.pid){const c=x.col||{};const prev=o[x.pid];const cur=Object.assign({},c,{_at:x.at||0,_n:(prev?prev._n:0)+1});if(!prev||(x.at||0)>(prev._at||0))o[x.pid]=cur;else prev._n=cur._n;}});return o;};
+  GG.saves=async()=>{if(!GG.admin)return null;const q=await fs.collection('players').get();const o={};q.docs.forEach(d=>{const x=d.data();if(x&&x.pid){const c=(window.colDec||(z=>z))(x.col||{});const prev=o[x.pid];const cur=Object.assign({},c,{_at:x.at||0,_n:(prev?prev._n:0)+1});if(!prev||(x.at||0)>(prev._at||0))o[x.pid]=cur;else prev._n=cur._n;}});return o;};
   GG.codes=async()=>{if(!GG.admin)return{};const q=await fs.collection('owners').get();const o={};q.docs.forEach(d=>o[d.id]=d.data().code);return o;};
   GG.backup=async()=>{if(!GG.admin)return;const out={date:new Date().toISOString()};
     for(const c of ['players','board','gifts','owners','trades','duels','tournaments','events','actions','requests','bounties','battles']){const q=await fs.collection(c).get();out[c]={};q.docs.forEach(d=>out[c][d.id]=d.data());}
@@ -2189,8 +2189,8 @@ const CHARS={
   maurice:{name:'Maurice',game:"L'aquabike qui avance",bg:'#dff4ff',
     line:"Record personnel : 0,1 mètre en aquabike. Aujourd'hui, j'ai des inventions… et je vais jusqu'à la buvette !",
     look:{skin:'#e0a982',hair:'short',hairColor:'#cfcfcf',shirt:PINK,logo:true,round:true}},
-  willi:{name:'Willi',game:'Reste à Metz',bg:'#e7e0ff',
-    line:"Je suis venu en moto, tranquille… Par contre, pas de photo, hein ! Ce qui se passe à Metz reste à Metz !",
+  willi:{name:'Willi',game:'La moto amphibie',bg:'#e7e0ff',
+    line:"Du soleil jusqu'à Metz en moto… Routes inondées, rivières, lacs : pas grave, ma moto sait nager !",
     look:{skin:'#f0c4a6',hair:'short',hairColor:'#eeeeee',beard:'medium',beardColor:'#f2f2f2',glasses:true,shirt:PINK,logo:true,round:true}},
   pierre:{name:'Pierre',game:'Le paparazzi du bassin',bg:'#e8f1ff',
     line:"Roland qui fait un plat, Marcel qui nage… Ces moments-là, il ne faut pas les rater ! Mille photos pour un 50 m, c'est normal, non ?",
@@ -5372,97 +5372,97 @@ function gameMaurice(stage,api){
   };
 }
 
-/* ================= WILLI : ce qui se passe à Metz reste à Metz ================= */
+/* ================= WILLI : la moto amphibie ================= */
 function gameWilli(stage,api){
-  const cv=makeCanvas(stage),ctx=cv.ctx,L=CHARS.willi.look,LIVES=3,DUR=45;
-  const wil=svgImg(avatar(L)),helm=svgImg(avatar(Object.assign({},L,{cap:'#1b2a3a'})));
-  const mar=svgImg(avatar(CHARS.marcel.look));
-  const HD={};['christian','matheo','roland','christine','agnes','laetitia','jf','aude'].filter(k=>CHARS[k]).forEach(k=>HD[k]=svgImg(avatar(CHARS[k].look,{viewBox:'30 20 140 140'})));
-  // menaces : chacune a sa bonne parade
-  const TH={photo:{e:'📱',n:'Une photo !',ok:['casque','marcel','baisse']},
-    selfie:{e:'🤳',n:'Selfie de Christian !',ok:['baisse'],who:'christian'},
-    video:{e:'🎥',n:'Mathéo filme !',ok:['marcel'],who:'matheo',len:1.6},
-    groupe:{e:'📸',n:'Photo de groupe !',ok:['casque']}};
-  const ACT={casque:{e:'🪖',n:'Casque',dur:1.3,cd:1.6},marcel:{e:'🍺',n:'Derrière Marcel',dur:3,cd:4.5},baisse:{e:'🙇',n:'Se baisser',dur:1.2,cd:1.1}};
-  let t=0,over=false,won=0,lives=LIVES,saved=0,cur=null,act=null,cds={casque:0,marcel:0,baisse:0},thT=1.6,flash=0,msg=null;const fx=[];
-  const hud=()=>api.hud(`🛵 ${saved} évitées  ⏱️ ${Math.max(0,Math.ceil(DUR-t))} s  ❤️ ${lives}`);hud();
-  const geo=()=>{const W=cv.W,H=cv.H,bh=Math.min(70,H*0.09);return{W,H,bh,by:H-bh-14};};
-  function spawn(){const p=t/DUR,r=Math.random(),cT=Math.max(0.95,1.8-p*0.8);let k=r<0.34?'photo':r<0.58?'selfie':r<0.8?'video':'groupe';if(t<6)k=pick(['photo','photo','selfie']);
-    // jamais une menace impossible à parer : la bonne cachette doit être prête à temps
-    const ready=x=>TH[x].ok.some(a=>cds[a]<cT-0.35);if(!ready(k)){const L=Object.keys(TH).filter(ready);if(!L.length){thT=0.3;return;}k=pick(L);}
-    const who=TH[k].who||pick(Object.keys(HD).filter(x=>x!=='christian'&&x!=='matheo'));cur={k,who,c:0,cT,side:Math.random()<.5?-1:1,shoot:0};}
-  function shoot(){const T=TH[cur.k],okA=act&&act.t>0&&T.ok.includes(act.k);flash=1;
-    if(okA){saved++;hud();fx.push({x:cv.W/2,y:cv.H*0.3,txt:'Ouf ! Rien vu 😎',t:0,c:'#7dffa8'});}
-    else{lives--;hud();msg={txt:'📲 Envoyé à Madame !',t:1.6};try{navigator.vibrate&&navigator.vibrate(140);}catch(_){}
-      if(lives<=0){over=true;setTimeout(()=>api.end(false,'Grillé !',`La photo est partie chez Madame… Willi va devoir s'expliquer. ${saved} photo${saved>1?'s':''} évitée${saved>1?'s':''} quand même !`),1100);}}}
-  function doAct(k){if(over||won||cds[k]>0)return;act={k,t:ACT[k].dur};cds[k]=ACT[k].cd;try{fgSfx('pop');}catch(_){}}
-  const onDown=e=>{e.preventDefault();const q=cv.pt(e),g=geo();if(q.y<g.by-6)return;const i=Math.floor(q.x/(g.W/3));doAct(['casque','marcel','baisse'][Math.max(0,Math.min(2,i))]);};
-  const onKey=e=>{const m={'1':'casque','2':'marcel','3':'baisse'};if(m[e.key]){e.preventDefault();doAct(m[e.key]);}};
+  const cv=makeCanvas(stage),ctx=cv.ctx,L=CHARS.willi.look,LIVES=3,NSEG=22;
+  const wil=svgImg(avatar(L,{viewBox:'20 10 160 170'}));
+  const STAGES=[{n:'Provence',e:'☀️',sky:['#7fd3ff','#ffe9b0']},{n:'Lyon',e:'🦁',sky:['#8ac8ff','#e8f3ff']},{n:'Vosges',e:'🌲',sky:['#9fc0e8','#dde9f5']},{n:'Moselle',e:'🍇',sky:['#ffb37a','#ffe0c0']},{n:'Metz',e:'🏊',sky:['#ff9a8a','#ffd6b0']}];
+  // la route : alternance route / eau, de plus en plus serrée
+  const seg=[];let x=0;for(let i=0;i<NSEG;i++){const p=i/NSEG,road=i%2===0,len=road?(760-p*300)*(0.8+Math.random()*0.4):(560-p*180)*(0.8+Math.random()*0.4);
+    const ob=[];const n=Math.floor(len/(road?330:300)*(0.5+p));for(let k=0;k<n;k++){const ox=x+120+(len-240)*(k+0.5)/n+(Math.random()-.5)*60;ob.push({x:ox,e:road?pick(['🕳️','🐄','🚧']):pick(['🪵','🦆','🚣']),hit:0});}
+    seg.push({x0:x,x1:x+len,road,ob});x+=len;}
+  const END=x;
+  let t=0,over=false,pos=0,v=240,mode='road',lives=LIVES,jump=0,inv=0,plouf=0,fric=0,fx=[],warnT=0;
+  const hud=()=>api.hud(`🏍️ ${Math.round(pos/END*100)} %  ❤️ ${lives}`);hud();
+  const segAt=p=>p<0?seg[0]:(seg.find(s=>p>=s.x0&&p<s.x1)||seg[seg.length-1]);
+  const say=(txt,c)=>fx.push({x:cv.W*0.3,y:cv.H*0.4,txt,t:0,c:c||'#ffcf33'});
+  function lose(msg){if(inv>0)return;lives--;hud();inv=1.6;say(msg,'#ff6b5b');try{navigator.vibrate&&navigator.vibrate(130);}catch(_){}
+    if(lives<=0){over=true;setTimeout(()=>api.end(false,'Willi a pris l\'eau…',`La moto a coulé avant d'arriver à Metz (${Math.round(pos/END*100)} % du trajet). Sors les flotteurs juste avant l'eau !`),1000);}}
+  function toggle(){if(over||plouf>0)return;mode=mode==='road'?'boat':'road';fx.push({x:cv.W*0.25,y:cv.H*0.5,txt:mode==='boat'?'🛟 Flotteurs !':'🛞 Roues !',t:0,c:'#fff'});try{fgSfx('pop');}catch(_){}}
+  function hop(){if(over||jump>0||plouf>0)return;jump=0.62;}
+  const geo=()=>{const W=cv.W,H=cv.H,bh=Math.min(74,H*0.1);return{W,H,bh,by:H-bh-12,gy:H*0.62};};
+  const onDown=e=>{e.preventDefault();const q=cv.pt(e),g=geo();if(q.x<g.W/2)toggle();else hop();};
+  const onKey=e=>{if(e.key==='ArrowDown'||e.key==='f'){e.preventDefault();toggle();}else if(e.key===' '||e.key==='ArrowUp'){e.preventDefault();hop();}};
   cv.c.addEventListener('pointerdown',onDown);window.addEventListener('keydown',onKey);
   return{
-    update(dt){for(let k=fx.length-1;k>=0;k--){fx[k].t+=dt;if(fx[k].t>1.2)fx.splice(k,1);}flash=Math.max(0,flash-dt*3);if(msg){msg.t-=dt;if(msg.t<=0)msg=null;}
-      if(over||won)return;t+=dt;hud();for(const k in cds)cds[k]=Math.max(0,cds[k]-dt);if(act){act.t-=dt;if(act.t<=0)act=null;}
-      if(t>=DUR){won=1;api.score(saved);setTimeout(()=>{over=true;api.end(true,'Ce qui se passe à Metz…',`…reste à Metz ! 45 secondes sans une seule photo envoyée : ${saved} évitées. Willi peut rentrer tranquille.`);},600);return;}
-      if(cur){if(cur.shoot>0){cur.shoot-=dt;if(cur.shoot<=0){shoot();cur=null;thT=Math.max(0.35,1.1-t/DUR*0.7)*(0.6+Math.random()*0.7);}}
-        else{cur.c+=dt;if(cur.c>=cur.cT){if(TH[cur.k].len){cur.shoot=TH[cur.k].len;}else{shoot();cur=null;thT=Math.max(0.35,1.1-t/DUR*0.7)*(0.6+Math.random()*0.7);}}}}
-      else{thT-=dt;if(thT<=0)spawn();}
-      // pendant la vidéo, il faut rester caché tout du long
-      if(cur&&cur.shoot>0&&!(act&&act.t>0&&TH[cur.k].ok.includes(act.k))){cur.shoot=0.001;}},
-    draw(){const g=geo(),W=g.W,H=g.H;ctx.clearRect(0,0,W,H);
-      // soirée du club
-      const sk=ctx.createLinearGradient(0,0,0,H);sk.addColorStop(0,'#2b2f5f');sk.addColorStop(1,'#7a4b8c');ctx.fillStyle=sk;ctx.fillRect(0,0,W,H);
-      for(let i=0;i<14;i++){ctx.fillStyle=['#ffcf33','#ff5fa2','#3cb4e6','#7dffa8'][i%4];ctx.globalAlpha=0.6+0.4*Math.sin(t*3+i);ctx.beginPath();ctx.arc(W*(i+0.5)/14,H*0.06+Math.sin(i)*6,4,0,7);ctx.fill();}ctx.globalAlpha=1;
-      ctx.font=Math.round(W*0.09)+'px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('🏍️',W*0.86,H*0.68);
-      // table de l'apéro
-      rr(ctx,W*0.08,H*0.68,W*0.84,H*0.07,10);ctx.fillStyle='#fff';ctx.fill();ctx.lineWidth=3;ctx.strokeStyle=INK;ctx.stroke();ctx.font=Math.round(W*0.06)+'px sans-serif';['🍺','🥨','🍷','🧀','🍺'].forEach((e,i)=>ctx.fillText(e,W*(0.16+i*0.17),H*0.68));
-      // Willi
-      const ws=Math.min(W*0.42,170),wx=W/2,low=act&&act.k==='baisse'&&act.t>0,hel=act&&act.k==='casque'&&act.t>0,wy=H*0.68+(low?ws*0.55:0);
-      ctx.save();ctx.beginPath();ctx.rect(0,0,W,H*0.68+4);ctx.clip();drawImg(ctx,hel?helm:wil,wx-ws/2,wy-ws*1.05,ws,ws*1.15);if(hel){ctx.font=Math.round(ws*0.3)+'px sans-serif';ctx.fillText('🪖',wx,wy-ws*0.85);}ctx.restore();
-      if(low){ctx.font='22px sans-serif';ctx.fillText('🙈',wx,H*0.66);}
-      // Marcel devant lui
-      if(act&&act.k==='marcel'&&act.t>0){const ms=Math.min(W*0.5,200),k=Math.min(1,(ACT.marcel.dur-act.t)/0.25);drawImg(ctx,mar,wx-ms/2+(1-k)*W*0.6,H*0.74-ms*1.0,ms,ms*1.15);bubbleText(ctx,wx+ms*0.3,H*0.74-ms*1.05,'Santé ! 🍺',12);}
-      // la menace
-      if(cur){const T=TH[cur.k],side=cur.side,hx=cur.k==='selfie'?wx+side*ws*0.45:W*(side<0?0.15:0.85),hy=cur.k==='selfie'?H*0.28:H*0.22,hs=Math.min(W*0.2,80);
-        if(cur.k==='groupe'){Object.keys(HD).slice(2,6).forEach((k,i)=>drawImg(ctx,HD[k],W*(0.12+i*0.25)-hs*0.35,H*0.12,hs*0.7,hs*0.7));}
-        else drawImg(ctx,HD[cur.who],hx-hs/2,hy-hs/2,hs,hs);
-        ctx.font=Math.round(hs*0.45)+'px sans-serif';ctx.fillText(T.e,cur.k==='groupe'?W/2:hx+side*-hs*0.55,cur.k==='groupe'?H*0.3:hy+hs*0.15);
-        const k=cur.shoot>0?1:cur.c/cur.cT;ctx.lineWidth=5;ctx.strokeStyle=k>0.66?'#ff3b3b':'#ffcf33';ctx.beginPath();ctx.arc(cur.k==='groupe'?W/2:hx,cur.k==='groupe'?H*0.3:hy,hs*0.62,-Math.PI/2,-Math.PI/2+(1-k)*Math.PI*2);ctx.stroke();
-        bubbleText(ctx,W/2,H*0.42,cur.shoot>0?'🔴 Ça filme… reste caché !':T.n,14);}
-      // boutons de parade
-      ['casque','marcel','baisse'].forEach((k,i)=>{const A=ACT[k],bw=(W-28)/3,bx=8+i*(bw+6),on=act&&act.k===k&&act.t>0,cd=cds[k];rr(ctx,bx,g.by,bw,g.bh,12);ctx.fillStyle=on?'#7dffa8':cd>0?'#c9ced4':'#fff';ctx.fill();ctx.lineWidth=3;ctx.strokeStyle=INK;ctx.stroke();
-        if(cd>0&&!on){ctx.fillStyle='rgba(27,42,58,.15)';ctx.fillRect(bx+2,g.by+2,(bw-4)*(cd/A.cd),g.bh-4);}
-        ctx.font=Math.round(g.bh*0.42)+'px sans-serif';ctx.fillStyle=INK;ctx.fillText(A.e,bx+bw/2,g.by+g.bh*0.38);ctx.font='700 '+Math.round(Math.min(12,bw/9))+'px Fredoka, sans-serif';ctx.fillText(A.n,bx+bw/2,g.by+g.bh*0.8);});
-      // aide : quelle parade pour quelle menace
-      ctx.font='600 '+Math.round(Math.min(11,W/34))+'px Fredoka, sans-serif';ctx.fillStyle='rgba(255,255,255,.85)';ctx.fillText('📱 tout marche · 🤳 se baisser · 🎥 Marcel · 📸 casque',W/2,g.by-14);
-      if(flash>0){ctx.fillStyle=`rgba(255,255,255,${flash*0.75})`;ctx.fillRect(0,0,W,H);}
+    update(dt){dt=Math.max(0,dt||0);t+=dt;for(let k=fx.length-1;k>=0;k--){fx[k].t+=dt;if(fx[k].t>1.2)fx.splice(k,1);}if(over)return;
+      inv=Math.max(0,inv-dt);if(jump>0)jump=Math.max(0,jump-dt);
+      if(plouf>0){plouf-=dt;if(plouf<=0){mode='boat';}return;}
+      const p=pos/END,S=segAt(pos);v=240+p*170;
+      // mauvais mode : sur la route avec les flotteurs = ça frotte ; dans l'eau avec les roues = PLOUF
+      let sp=v;if(S.road&&mode==='boat'&&jump<=0){sp*=0.45;fric+=dt;if(fric>0.7){fric=0;fx.push({x:cv.W*0.25,y:cv.H*0.55,txt:'Ça frotte ! 🛟',t:0,c:'#ff9a1f'});}}
+      pos+=sp*dt;const S2=segAt(pos);
+      if(!S2.road&&mode==='road'&&jump<=0&&S2.x1-pos>110){lose('PLOUF ! 💦');plouf=1;pos=S2.x0+40;return;}
+      S2.ob.forEach(o=>{if(o.hit)return;if(Math.abs(o.x-pos)<26&&jump<=0.12){o.hit=1;lose(S2.road?'Aïe ! '+o.e:'Bonk ! '+o.e);}else if(o.x<pos-30&&!o.hit){o.hit=2;}});
+      // prévenir juste avant un changement
+      const nx=seg[seg.indexOf(S2)+1];if(nx&&nx.x0-pos<260&&nx.x0-pos>0&&((nx.road&&mode==='boat')||(!nx.road&&mode==='road')))warnT=0.2;else warnT=Math.max(0,warnT-dt);
+      if(pos>=END){over=true;pos=END;const s=Math.round((performance.now()-gameT0)/100)/10;say('🏊 Metz !','#7dffa8');setTimeout(()=>api.end(true,'Arrivé à Metz !',`Willi a traversé routes, rivières et lacs en ${String(s).replace('.',',')} s, juste à temps pour l'apéro du club. Ce qui se passe à Metz… 🤫`),1100);}
+      hud();},
+    draw(){const g=geo(),W=g.W,H=g.H,p=pos/END,st=STAGES[Math.min(4,Math.floor(p*5))];ctx.clearRect(0,0,W,H);
+      const sk=ctx.createLinearGradient(0,0,0,g.gy);sk.addColorStop(0,st.sky[0]);sk.addColorStop(1,st.sky[1]);ctx.fillStyle=sk;ctx.fillRect(0,0,W,g.gy+10);
+      // collines au loin
+      ctx.fillStyle='rgba(90,140,110,.45)';ctx.beginPath();ctx.moveTo(0,g.gy);for(let x=0;x<=W;x+=10)ctx.lineTo(x,g.gy-40-Math.sin((x+pos*0.15)*0.012)*24-Math.sin((x+pos*0.15)*0.03)*10);ctx.lineTo(W,g.gy);ctx.fill();
+      ctx.font='26px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';for(let i=0;i<4;i++){const x=((i*W*0.4-pos*0.3)%(W*1.6)+W*1.6)%(W*1.6)-W*0.2;ctx.fillText(st.e,x,g.gy-70-(i%2)*20);}
+      // sol : route ou eau
+      const bx=W*0.25,toS=wx=>bx+(wx-pos);
+      seg.forEach(s=>{const a=toS(s.x0),b=toS(s.x1);if(b<-20||a>W+20)return;
+        if(s.road){ctx.fillStyle='#6f6f78';ctx.fillRect(a,g.gy,b-a+1,H);ctx.fillStyle='#8fbf6a';ctx.fillRect(a,g.gy-8,b-a+1,8);ctx.strokeStyle='#fff';ctx.lineWidth=4;ctx.setLineDash([22,18]);ctx.lineDashOffset=pos;ctx.beginPath();ctx.moveTo(a,g.gy+40);ctx.lineTo(b,g.gy+40);ctx.stroke();ctx.setLineDash([]);}
+        else{const wg=ctx.createLinearGradient(0,g.gy,0,H);wg.addColorStop(0,'#2bb3d6');wg.addColorStop(1,'#0e6f8c');ctx.fillStyle=wg;ctx.fillRect(a,g.gy+10,b-a+1,H);ctx.strokeStyle='rgba(255,255,255,.7)';ctx.lineWidth=2;ctx.beginPath();for(let x=Math.max(a,0);x<=Math.min(b,W);x+=8)ctx.lineTo(x,g.gy+12+Math.sin(x*0.06+t*4)*3);ctx.stroke();}
+        s.ob.forEach(o=>{const ox=toS(o.x);if(ox<-30||ox>W+30)return;ctx.globalAlpha=o.hit===1?0.35:1;ctx.font='30px sans-serif';ctx.fillText(o.e,ox,s.road?g.gy-14:g.gy+8+Math.sin(t*3+o.x)*3);ctx.globalAlpha=1;});});
+      // arrivée : la piscine du club
+      const fxp=toS(END);if(fxp<W+80){rr(ctx,fxp-10,g.gy-90,120,90,8);ctx.fillStyle='#fff';ctx.fill();ctx.lineWidth=3;ctx.strokeStyle=INK;ctx.stroke();ctx.font='700 12px Fredoka, sans-serif';ctx.fillStyle=PINK;ctx.fillText('CLUB',fxp+50,g.gy-68);ctx.fillText('GAMBETTA',fxp+50,g.gy-52);ctx.font='24px sans-serif';ctx.fillText('🏊🍺',fxp+50,g.gy-26);}
+      // Willi et sa moto
+      const S=segAt(pos),onW=!S.road&&plouf<=0,jy=jump>0?-Math.sin((1-jump/0.62)*Math.PI)*70:0,by=g.gy-24+jy+(onW?14+Math.sin(t*6)*2:0)+(plouf>0?(1-plouf)*60:0),blink=inv>0&&Math.floor(t*12)%2;
+      if(!blink){ctx.save();ctx.translate(bx,by);ctx.scale(1.35,1.35);ctx.rotate(jump>0?-0.15:0);
+        if(mode==='road'){[-24,24].forEach(wx=>{ctx.fillStyle='#1b2a3a';ctx.beginPath();ctx.arc(wx,14,13,0,7);ctx.fill();ctx.fillStyle='#c9ced4';ctx.beginPath();ctx.arc(wx,14,5,0,7);ctx.fill();});}
+        else{ctx.fillStyle='#ff8a3d';rr(ctx,-38,8,76,14,7);ctx.fill();ctx.lineWidth=2.5;ctx.strokeStyle=INK;ctx.stroke();ctx.save();ctx.translate(-40,16);ctx.rotate(t*25);ctx.fillStyle='#ffcf33';ctx.fillRect(-2,-9,4,18);ctx.restore();}
+        ctx.fillStyle='#e63b3b';ctx.beginPath();ctx.moveTo(-30,4);ctx.lineTo(26,4);ctx.lineTo(34,-10);ctx.lineTo(10,-14);ctx.lineTo(-24,-8);ctx.closePath();ctx.fill();ctx.lineWidth=3;ctx.strokeStyle=INK;ctx.stroke();
+        ctx.strokeStyle=INK;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(26,-10);ctx.lineTo(32,-28);ctx.stroke();
+        drawImg(ctx,wil,-34,-82,60,64);ctx.restore();}
+      if(plouf>0){ctx.font='40px sans-serif';ctx.fillText('💦',bx,g.gy);}
+      // progression
+      rr(ctx,W*0.08,14,W*0.84,10,5);ctx.fillStyle='rgba(255,255,255,.7)';ctx.fill();ctx.lineWidth=2;ctx.strokeStyle=INK;ctx.stroke();rr(ctx,W*0.08,14,W*0.84*p,10,5);ctx.fillStyle=PINK;ctx.fill();
+      STAGES.forEach((s,i)=>{ctx.font='14px sans-serif';ctx.fillText(s.e,W*(0.08+0.84*(i+0.5)/5),36);});ctx.font='18px sans-serif';ctx.fillText('🏍️',W*(0.08+0.84*p),19);
+      if(warnT>0){const nx=seg[seg.indexOf(segAt(pos))+1];bubbleText(ctx,W/2,H*0.3,nx&&nx.road?'🛞 La route arrive : les roues !':'🌊 De l\'eau ! Les flotteurs !',13);}
+      // boutons
+      [['toggle',mode==='road'?'🛟 Flotteurs':'🛞 Roues',8,'#ff8a3d'],['hop','⬆️ Saut',W/2+4,'#3cb4e6']].forEach(([k,txt,x0,c])=>{rr(ctx,x0,g.by,W/2-12,g.bh,14);ctx.fillStyle=c;ctx.fill();ctx.lineWidth=3;ctx.strokeStyle=INK;ctx.stroke();ctx.font='700 17px Fredoka, sans-serif';ctx.fillStyle='#fff';ctx.lineJoin='round';ctx.lineWidth=4;ctx.strokeText(txt,x0+(W/2-12)/2,g.by+g.bh/2);ctx.fillText(txt,x0+(W/2-12)/2,g.by+g.bh/2);});
       for(const f of fx)floatText(ctx,f);
-      if(msg)bubbleText(ctx,W/2,H*0.5,msg.txt,16);else if(t<4&&!over)bubbleText(ctx,W/2,H*0.5,'Choisis la bonne cachette avant le flash !',13);
-      if(won)bubbleText(ctx,W/2,H*0.5,'🤫 Ce qui se passe à Metz reste à Metz !',14);
+      if(t<4&&!over)bubbleText(ctx,W/2,H*0.22,'Flotteurs avant l\'eau, roues avant la route !',12);
     },
-    _dbg:()=>({cur:cur?{k:cur.k,c:cur.c,cT:cur.cT,shoot:cur.shoot}:null,act:act?act.k:null,cds,lives,saved,t}),
+    _dbg:()=>{const S=segAt(pos),i=seg.indexOf(S),nx=seg[i+1];return{pos,mode,lives,jump,plouf,road:S.road,nxt:nx?{d:nx.x0-pos,road:nx.road}:null,ob:S.ob.concat(nx?nx.ob:[]).filter(o=>!o.hit&&o.x>pos).map(o=>o.x-pos)[0],v};},
     destroy(){cv.c.removeEventListener('pointerdown',onDown);window.removeEventListener('keydown',onKey);cv.destroy();}
   };
 }
 
 /* ================= PIERRE : le paparazzi du bassin ================= */
 function gamePierre(stage,api){
-  const cv=makeCanvas(stage),ctx=cv.ctx,L=CHARS.pierre.look,DUR=60,NEED=100;
+  const cv=makeCanvas(stage),ctx=cv.ctx,L=CHARS.pierre.look,DUR=60,NEED=60;
   const pie=svgImg(avatar(L));const HD={};['roland','christian','marcel','matheo','agnes','bouchon','richard','christine'].filter(k=>CHARS[k]).forEach(k=>HD[k]=svgImg(avatar(CHARS[k].look,{viewBox:'30 20 140 140'})));
   const SC=[{k:'plat',who:'roland',e:'💥',n:'Le plat de Roland !',p:3,w:3,mv:[0,0.25]},{k:'bonnet',who:'christian',e:'🧢',n:"Le bonnet de Christian s'envole !",p:2,w:3,mv:[0.18,-0.12]},
     {k:'chien',who:'bouchon',e:'💦',n:'Bouchon plonge !',p:2,w:3,mv:[0.15,0.15]},{k:'marcel',who:'marcel',e:'🏊',n:'Marcel… NAGE ?!',p:6,w:0.8,mv:[0.08,0]},
     {k:'canard',e:'🦆🦆🦆',n:'La famille canard',p:1,w:4,mv:[0.14,0]},{k:'epuis',who:'matheo',e:'💩',n:"Mathéo et l'épuisette",p:2,w:2.5,mv:[0.1,0.05]},
-    {k:'quiche',who:'agnes',e:'🥧',n:"Les quiches d'Agnès flottent",p:3,w:2,mv:[0.06,0.02]},{k:'sifflet',who:'richard',e:'📣',n:'Le coup de sifflet de Richard',p:2,w:2.5,mv:[0,0]},{k:'rien',e:'🏊‍♂️',n:'Juste un nageur',p:-2,w:4,mv:[0.2,0]},{k:'rien2',e:'🏊‍♀️',n:'Juste une nageuse',p:-2,w:3,mv:[-0.16,0]}];
+    {k:'quiche',who:'agnes',e:'🥧',n:"Les quiches d'Agnès flottent",p:3,w:2,mv:[0.06,0.02]},{k:'sifflet',who:'richard',e:'📣',n:'Le coup de sifflet de Richard',p:2,w:2.5,mv:[0,0]},{k:'rien',e:'🏊‍♂️',n:'Juste un nageur',p:-1,w:2,mv:[0.16,0]},{k:'rien2',e:'🏊‍♀️',n:'Juste une nageuse',p:-1,w:1.5,mv:[-0.13,0]}];
   let t=0,over=false,pts=0,ev=[],evT=0.8,vf={x:0.5,y:0.42,a:0},flash=0,fx=[],pol=[],quip=null;
   const hud=()=>api.hud(`📸 ${pts} / ${NEED} pts  ⏱️ ${Math.max(0,Math.ceil(DUR-t))} s`);hud();
-  const geo=()=>{const W=cv.W,H=cv.H;return{W,H,top:H*0.1,bot:H*0.76,fw:W*0.26,fh:H*0.11};};
+  const geo=()=>{const W=cv.W,H=cv.H;return{W,H,top:H*0.1,bot:H*0.76,fw:W*0.32,fh:H*0.14};};
   function spawn(){const tot=SC.reduce((s,x)=>s+x.w,0);let r=Math.random()*tot,S=SC[0];for(const x of SC){r-=x.w;if(r<=0){S=x;break;}}
-    const p=t/DUR,dir=Math.random()<.5?1:-1;ev.push({S,x:0.15+Math.random()*0.7,y:0.25+Math.random()*0.5,vx:S.mv[0]*dir*(1.4+p*1.2),vy:S.mv[1]*(1.3+p*0.6),age:0,dur:Math.max(0.85,1.9-p*1.0)*(S.k==='marcel'?0.7:1),got:0});}
+    const p=t/DUR,dir=Math.random()<.5?1:-1;ev.push({S,x:0.15+Math.random()*0.7,y:0.25+Math.random()*0.5,vx:S.mv[0]*dir*(1+p*0.6),vy:S.mv[1]*(1+p*0.4),age:0,dur:Math.max(1.3,2.5-p*1.0)*(S.k==='marcel'?0.75:1),got:0});}
   const inFrame=(e,g)=>{const ex=e.x*g.W,ey=g.top+e.y*(g.bot-g.top),cx=vf.x*g.W,cy=vf.y*g.H;return Math.abs(ex-cx)<g.fw/2&&Math.abs(ey-cy)<g.fh/2?Math.hypot((ex-cx)/(g.fw/2),(ey-cy)/(g.fh/2)):-1;};
-  function snap(){const g=geo();flash=1;let got=0;ev.forEach(e=>{if(e.got||e.age>e.dur)return;const d=inFrame(e,g);if(d<0)return;e.got=1;if(e.S.p<0){pts=Math.max(0,pts+e.S.p);got=-1;fx.push({x:e.x*g.W,y:g.top+e.y*(g.bot-g.top)-20,txt:'−2 Juste un nageur… 🙄',t:0,c:'#ff6b5b'});pol.push({e:'🙄',ok:0});return;}const c=d<0.4,v=e.S.p+(c?1:0);pts+=v;got+=v;
+  function snap(){const g=geo();flash=1;let got=0;ev.forEach(e=>{if(e.got||e.age>e.dur)return;const d=inFrame(e,g);if(d<0)return;e.got=1;if(e.S.p<0){pts=Math.max(0,pts+e.S.p);got=-1;fx.push({x:e.x*g.W,y:g.top+e.y*(g.bot-g.top)-20,txt:'−1 Juste un nageur… 🙄',t:0,c:'#ff6b5b'});pol.push({e:'🙄',ok:0});return;}const c=d<0.4,v=e.S.p+(c?1:0);pts+=v;got+=v;
       fx.push({x:e.x*g.W,y:g.top+e.y*(g.bot-g.top)-20,txt:`+${v} ${c?'🎯 Parfait !':'📸'}`,t:0,c:c?'#ffcf33':'#7dffa8'});pol.push({e:e.S.e,ok:1});});
-    if(!got){pts=Math.max(0,pts-2);quip={txt:pick(['Encore une photo pour rien…','1 001 photos… 😅','Joli carrelage ! 🙃']),t:1.2};pol.push({e:'🙃',ok:0});}
+    if(!got){pts=Math.max(0,pts-1);quip={txt:pick(['Encore une photo pour rien…','1 001 photos… 😅','Joli carrelage ! 🙃']),t:1.2};pol.push({e:'🙃',ok:0});}
     if(pol.length>6)pol.shift();hud();}
-  const onDown=e=>{e.preventDefault();if(over||vf.a>0)return;const q=cv.pt(e),g=geo();vf.x=Math.max(0.18,Math.min(0.82,q.x/g.W));vf.y=Math.max((g.top+g.fh/2)/g.H,Math.min((g.bot-g.fh/2)/g.H,q.y/g.H));vf.a=0.28;};
+  const onDown=e=>{e.preventDefault();if(over||vf.a>0)return;const q=cv.pt(e),g=geo();vf.x=Math.max(0.18,Math.min(0.82,q.x/g.W));vf.y=Math.max((g.top+g.fh/2)/g.H,Math.min((g.bot-g.fh/2)/g.H,q.y/g.H));vf.a=0.2;};
   cv.c.addEventListener('pointerdown',onDown);
   return{
     update(dt){flash=Math.max(0,flash-dt*4);for(let k=fx.length-1;k>=0;k--){fx[k].t+=dt;if(fx[k].t>1.2)fx.splice(k,1);}if(quip){quip.t-=dt;if(quip.t<=0)quip=null;}
@@ -5481,7 +5481,7 @@ function gamePierre(stage,api){
         if(!e.got&&e.S.p>0){ctx.font='700 '+Math.round(Math.min(11,W/34))+'px Fredoka, sans-serif';ctx.fillStyle='#fff';ctx.lineWidth=3;ctx.strokeStyle=INK;ctx.lineJoin='round';const s='★'.repeat(Math.min(3,Math.ceil(e.S.p/2)));ctx.strokeText(s,0,r+10);ctx.fillText(s,0,r+10);}
         ctx.restore();});
       // le viseur
-      const cx=vf.x*W,cy=vf.y*H,fw=g.fw,fh=g.fh,k=vf.a>0?1-vf.a/0.28:0;ctx.save();ctx.strokeStyle=vf.a>0?'#ffcf33':'#fff';ctx.lineWidth=3;const cs=14;
+      const cx=vf.x*W,cy=vf.y*H,fw=g.fw,fh=g.fh,k=vf.a>0?1-vf.a/0.2:0;ctx.save();ctx.strokeStyle=vf.a>0?'#ffcf33':'#fff';ctx.lineWidth=3;const cs=14;
       [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([sx,sy])=>{const x=cx+sx*fw/2,y=cy+sy*fh/2;ctx.beginPath();ctx.moveTo(x,y-sy*cs);ctx.lineTo(x,y);ctx.lineTo(x-sx*cs,y);ctx.stroke();});
       ctx.beginPath();ctx.arc(cx,cy,fh*0.18*(1.3-k*0.3),0,7);ctx.stroke();ctx.restore();
       // Pierre
@@ -5550,7 +5550,7 @@ const MG_CARDS={
   pascal:{r:'R',e:'📢',t:"Personne ne se repose dans le cours adultes. Une seconde au bord ? Dix longueurs de plus !"},
   angelique:{r:'R',e:'🥂',t:"Un plateau plein de verres, une fête bondée, et pas une goutte renversée… enfin, presque."},
   maurice:{r:'R',e:'🚴',t:"Hélice, voile, soda, palmes, catapulte à frites… Tout est bon pour enfin faire avancer un aquabike."},
-  willi:{r:'R',e:'🏍️',t:"Il traverse la France en moto pour l'apéro du club. Les photos ? Interdites. Ce qui se passe à Metz reste à Metz !"},
+  willi:{r:'R',e:'🏍️',t:"Routes inondées, rivières, Moselle : rien n'arrête sa moto amphibie quand il y a un apéro au club à Metz."},
   pierre:{r:'R',e:'📸',t:"Le plat de Roland, le bonnet de Christian, Marcel qui nage : aucun scoop du bassin n'échappe à son objectif."},
   bonus:{r:'L',e:'🕶️',t:"Casquette, lunettes noires, et le plat le plus spectaculaire du club. Qui est-il vraiment ?"}
 };
@@ -5562,13 +5562,16 @@ let MEMBER_SLOTS=60;
 let COL={wins:{},cards:{},members:{},seen:{}},colRef=null,cloudOK=false;
 (function loadLocal(){try{const c=JSON.parse(localStorage.getItem('gambetta-col')||'null');if(c&&typeof c==='object')COL=Object.assign(COL,c);}catch(_){}
   try{const w=JSON.parse(localStorage.getItem('gambetta-wins')||'{}')||{};for(const k in w){COL.wins[k]=true;if(MG_CARDS[k]&&!COL.cards[k])COL.cards[k]=Date.now();}}catch(_){}})();
+/* le mini-jeu de Willi a changé (photos évitées → course au temps) : on oublie les anciens records */
+function colMig(){try{if(COL.mgW!==1){if(COL.best&&COL.best.willi!=null)delete COL.best.willi;if(COL.chs)for(const d in COL.chs)if(COL.chs[d]&&COL.chs[d].k==='willi')delete COL.chs[d];COL.mgW=1;}}catch(_){}}
+colMig();
 function saveCol(){if(typeof progLater==='function')progLater();if(typeof pushBoard==='function')setTimeout(()=>{try{pushBoard();}catch(_){}},0);try{localStorage.setItem('gambetta-col',JSON.stringify(COL));}catch(_){}
   if(colRef){clearTimeout(cloudT);cloudT=setTimeout(cloudFlush,1500);}}
 /* sauvegarde en ligne regroupée : une seule écriture après une rafale de changements, et rien si rien n'a changé */
 var cloudT=0,cloudK="";
-function cloudFlush(){clearTimeout(cloudT);cloudT=0;if(!colRef)return;try{const j=JSON.stringify(COL);if(j===cloudK)return;cloudK=j;const r=colRef.set(JSON.parse(j));if(r&&r.catch)r.catch(()=>{cloudK='';});}catch(_){cloudK='';}}
+function cloudFlush(){clearTimeout(cloudT);cloudT=0;if(!colRef)return;try{const j=JSON.stringify(COL);if(j===cloudK)return;cloudK=j;const r=colRef.set(colEnc(JSON.parse(j)));if(r&&r.catch)r.catch(e=>{cloudK='';try{console.warn('sauvegarde en ligne',e);}catch(_){}});}catch(_){cloudK='';}}
 addEventListener('pagehide',cloudFlush);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')cloudFlush();});
-function mergeCol(o){if(!o)return;
+function mergeCol(o){if(!o)return;if(o.mgW!==1&&o.best&&o.best.willi!=null){o=Object.assign({},o,{best:Object.assign({},o.best)});delete o.best.willi;}
   // ce que ce téléphone ne connaît pas encore (nouvel appareil, Safari ↔ appli…) : on reprend la sauvegarde en ligne
   for(const k in o){if(COL[k]===undefined&&o[k]!==undefined)COL[k]=o[k];}
   // temps de jeu : on garde le plus grand compteur de chaque jour et toutes les sessions, au lieu d'écraser
@@ -5582,11 +5585,15 @@ function mergeCol(o){if(!o)return;
 if(o.st){COL.st=COL.st||{};for(const k in o.st)COL.st[k]=Math.max(COL.st[k]||0,o.st[k]||0);}if(o.bUsed){COL.bUsed=COL.bUsed||{};for(const k in o.bUsed)COL.bUsed[k]=Math.max(COL.bUsed[k]||0,o.bUsed[k]||0);}['badges','ser','tSeen','qHist','evGot','acDone','noRew','bSeen'].forEach(f=>{if(o[f])COL[f]=Object.assign({},o[f],COL[f]||{});});if(o.fav&&!COL.fav)COL.fav=o.fav;if(o.q&&(!COL.q||o.q.d>COL.q.d))COL.q=o.q;if(o.chClaim)COL.chClaim=Object.assign(COL.chClaim||{},o.chClaim);if(o.duDone)COL.duDone=Object.assign(COL.duDone||{},o.duDone);if(o.chs){COL.chs=COL.chs||{};for(const d in o.chs){const a=COL.chs[d],b=o.chs[d];if(b&&(!a||(a.k===b.k&&better(b.k,b.v,a.v))))COL.chs[d]=b;}}if(o.trDone){COL.trDone=Object.assign(COL.trDone||{},o.trDone);}COL.bbt=Math.max(COL.bbt||0,o.bbt||0);COL.bbtm=Math.max(COL.bbtm||0,o.bbtm||0);if(o.bbl){COL.bbl=COL.bbl||{};for(const k in o.bbl)COL.bbl[k]=Math.max(COL.bbl[k]||0,o.bbl[k]||0);}if(o.bbtd&&(!COL.bbtd||o.bbtd>COL.bbtd))COL.bbtd=o.bbtd;if(!Array.isArray(COL.bbd)&&Array.isArray(o.bbd))COL.bbd=o.bbd;if(o.bbj&&(!COL.bbj||o.bbj.d>COL.bbj.d||(o.bbj.d===COL.bbj.d&&(o.bbj.v||0)>(COL.bbj.v||0))))COL.bbj=o.bbj;if(o.bbr&&(!COL.bbr||o.bbr.d>COL.bbr.d))COL.bbr=o.bbr;COL.boosters=Math.max(COL.boosters||0,o.boosters||0);if((!COL.packs||!COL.packs.length)&&o.packs)COL.packs=o.packs;
   if(o.daily&&(!COL.daily||o.daily>COL.daily))COL.daily=o.daily;if(o.got){COL.got=COL.got||{};for(const k in o.got)COL.got[k]=Math.max(COL.got[k]||0,o.got[k]||0);}
   if(o.rew){COL.rew=COL.rew||{mil:{},all:false};Object.assign(COL.rew.mil,o.rew.mil||{});COL.rew.all=COL.rew.all||o.rew.all;}['wins','cards','members','seen'].forEach(f=>{const src=o[f]||{};COL[f]=COL[f]||{};for(const k in src){if(f==='members')COL[f][k]=Math.max(COL[f][k]||0,src[k]||0);else if(!COL[f][k])COL[f][k]=src[k];}});}
+/* la base en ligne refuse les tableaux rangés dans des tableaux (comme les sessions [[début,fin],…]) : on les emballe avant l'envoi */
+function colEnc(v){if(Array.isArray(v))return v.map(x=>Array.isArray(x)?{__a:colEnc(x)}:colEnc(x));if(v&&typeof v==='object'){const o={};for(const k in v)o[k]=colEnc(v[k]);return o;}return v;}
+function colDec(v){if(Array.isArray(v))return v.map(colDec);if(v&&typeof v==='object'){const ks=Object.keys(v);if(ks.length===1&&ks[0]==='__a'&&Array.isArray(v.__a))return colDec(v.__a);const o={};for(const k in v)o[k]=colDec(v[k]);return o;}return v;}
+window.colDec=colDec;
 (async function cloud(){try{if(!window.claude||!window.claude.use)return;
   const user=await window.claude.use('user'),db=await window.claude.use('db');if(!user||!db)return;
   const id=await user.id();if(!id)return;const ref=db.doc('data/users/'+id+'/collection');
-  const snap=await ref.get();if(snap.exists)mergeCol(snap.data());
-  await ref.set(JSON.parse(JSON.stringify(COL)));colRef=ref;cloudOK=true;
+  const snap=await ref.get();if(snap.exists)mergeCol(colDec(snap.data()));
+  colRef=ref;cloudOK=true;try{cloudK=JSON.stringify(COL);await ref.set(colEnc(JSON.parse(cloudK)));}catch(e){cloudK='';console.warn('sauvegarde en ligne',e);}
   if($('#select').classList.contains('active'))buildSelect();if($('#collection').classList.contains('active'))buildCol();
 }catch(_){colRef=null;}})();
 function wins(){return COL.wins;}
@@ -5917,7 +5924,7 @@ $('#boostClose').onclick=()=>{const opened=BST&&BST.phase!=='pack';closeBooster(
 
 /* ================= CLASSEMENTS ================= */
 /* Mesure par mini-jeu : temps de victoire (plus court = mieux) ou points (plus = mieux) */
-const METRIC={pierre:{t:'pts',u:'points'},willi:{t:'pts',u:'photos évitées'},angelique:{t:'pts',u:'verres'},manon:{t:'pts',u:'regards'},ethan:{t:'pts',u:'soulevés'},christine:{t:'pts',u:'%'},bonus:{t:'pts',u:'pts'},laetitia:{t:'wins',u:'victoires'}};
+const METRIC={pierre:{t:'pts',u:'points'},angelique:{t:'pts',u:'verres'},manon:{t:'pts',u:'regards'},ethan:{t:'pts',u:'soulevés'},christine:{t:'pts',u:'%'},bonus:{t:'pts',u:'pts'},laetitia:{t:'wins',u:'victoires'}};
 const metricOf=k=>METRIC[k]||{t:'time',u:'s'};
 COL.best=COL.best||{};COL.wins_n=COL.wins_n||{};
 let BOARD={},boardRef=null,myId=null,USER=null,rkTab='time',rkGame=null,pendingScore=null,gameT0=0;
@@ -6042,7 +6049,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=38;
+const APP_V=39;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
