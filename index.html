@@ -2177,12 +2177,21 @@ const CHARS={
   manon:{name:'Manon',game:'Cache tes fesses !',bg:'#dff3f7',
     line:"Mon maillot remonte encore… Vite, une serviette ! Ils regardent tous par ici !",
     look:{skin:'#f6d0b8',hair:'long',hairColor:'#c99a5e',shirt:PINK,logo:true,glasses:true}},
+  helene:{name:'Hélène',game:'Bobo express',bg:'#e6f6ff',
+    line:"Montre-moi où ça fait mal… Et rassure-toi : ici, je ne vais endormir personne !",
+    look:{skin:'#f0c4a6',hair:'bob',hairColor:'#5a3a22',shirt:PINK,logo:true,round:true}},
+  pascal:{name:'Pascal',game:'Les tire-au-flanc',bg:'#dff0ff',
+    line:"Une pause ? Quelle pause ? Allez, 10 longueurs de plus pour tout le monde !",
+    look:{skin:'#e8b896',hair:'short',hairColor:'#d0d0d0',shirt:PINK,logo:true,round:true,glasses:true}},
+  angelique:{name:'Angélique',game:'Le tour du plateau',bg:'#ffe9d6',
+    line:"Le club, c'est 50 % piscine, 50 % apéro ! Attention, je passe avec le plateau…",
+    look:{skin:'#f2c8ac',hair:'long',hairColor:'#2b1d14',shirt:PINK,logo:true,earrings:true}},
   bonus:{name:'Bonus',game:'Le plat parfait',bg:'#e5dcff',
     line:"Regardez les enfants, je vais vous montrer ce que c'est un vrai plongeon !",
     look:{skin:'#f0c4a2',hair:'short',hairColor:'#2b1d14',shirt:PINK,logo:true,hat:'#1b2a3a',sunglasses:true}}
 };
 /* Le Bonus reste toujours en dernier : ajouter les nouveaux persos avant lui */
-const ORDER=['roland','christian','laetitia','marcel','christophe','agnes','jacky','noel','duo','christine','ethan','aude','nathan','manu','stephane','margaux','richard','jf','david','anthony','gwen','francoise','matheo','zoe','bouchon','dario','kayak','alix','lilian','mickey','manon','bonus'];
+const ORDER=['roland','christian','laetitia','marcel','christophe','agnes','jacky','noel','duo','christine','ethan','aude','nathan','manu','stephane','margaux','richard','jf','david','anthony','gwen','francoise','matheo','zoe','bouchon','dario','kayak','alix','lilian','mickey','manon','helene','pascal','angelique','bonus'];
 
 /* Prénoms du club pour le mini-jeu de Christian */
 const NAMES=['Christine','Ethan','Lucie','Agnès','Jean-François','Christophe','David','Françoise','Aude','Nathan','Manue','Angélique','Richard','Stéphane','Margaux','Pascal','Laurent','Karine','Fabrice','Dario','Brigitte','Alain','Audrey','Mickey','Bouchon','Manon','Hélène','Zoé','Camille','Marcel','Laetitia','Mathéo'];
@@ -5059,8 +5068,217 @@ function gameManon(stage,api){
   };
 }
 
+/* ================= HÉLÈNE : Bobo express ================= */
+function gameHelene(stage,api){
+  const cv=makeCanvas(stage),ctx=cv.ctx,GOAL=20,LIVES=3,L=CHARS.helene.look;
+  const hel=svgImg(avatar(L));
+  const TOOLS=[{k:'pans',e:'🩹',n:'Pansement'},{k:'glace',e:'🧊',n:'Glace'},{k:'comp',e:'🧻',n:'Compresse'},{k:'pince',e:'🔍',n:'Pince'},{k:'creme',e:'🧴',n:'Crème'},{k:'nage',e:'🏊',n:'Retourne nager !'}];
+  const BOBO=[{k:'genou',e:'🦵',t:'pans',say:["Je suis tombé sur le carrelage !","Mon genou est tout écorché…"]},
+    {k:'bosse',e:'🤕',t:'glace',say:["Je me suis cogné au plongeoir !","J'ai une grosse bosse !"]},
+    {k:'abeille',e:'🐝',t:'glace',say:["Une abeille m'a piqué !","Aïe, ça pique ma main !"]},
+    {k:'nez',e:'🩸',t:'comp',say:["Mon nez saigne !","J'ai pris un ballon dans le nez !"]},
+    {k:'echarde',e:'🌵',t:'pince',say:["J'ai une écharde du banc !","Y a un truc dans mon doigt !"]},
+    {k:'soleil',e:'☀️',t:'creme',say:["J'ai un coup de soleil !","Mon dos est tout rouge !"]}];
+  const FAKE=["J'ai super mal… quelque part !","Je peux avoir un bonbon ?","J'ai mal au ventre (j'ai faim)…","Je suis trop fatigué pour nager…"];
+  let t=0,over=false,healed=0,lives=LIVES,arr=0,fly=null,shake=0,spawnT=0;const q=[],fx=[],gone=[];
+  const hud=()=>api.hud(`🩺 ${healed}/${GOAL}  ❤️ ${lives}`);hud();
+  function newKid(){const p=healed/GOAL,fake=healed>=2&&Math.random()<0.2,two=!fake&&healed>=8&&Math.random()<0.3;
+    let need=[];if(!fake){const a=pick(BOBO);need.push(a);if(two){const b=pick(BOBO.filter(x=>x.t!==a.t));need.push(b);}}
+    q.push({img:svgImg(avatar(randLook({kid:true,kidScale:.78,beard:false,mustache:false}))),fake,need,done:{},say:fake?pick(FAKE):pick(need[0].say),pat:1,patT:Math.max(3.2,6.5-p*3.5)*(two?1.4:1),x:1.3,mood:0});}
+  for(let i=0;i<3;i++)newKid();
+  const geo=()=>{const W=cv.W,H=cv.H,bw=(W-28)/3,bh=Math.min(64,H*0.085);return{W,H,bw,bh,by:H-bh*2-22};};
+  function toolAt(x,y){const g=geo();for(let i=0;i<TOOLS.length;i++){const c=i%3,r=Math.floor(i/3),bx=8+c*(g.bw+6),yy=g.by+r*(g.bh+6);if(x>=bx&&x<=bx+g.bw&&y>=yy&&y<=yy+g.bh)return i;}return -1;}
+  function lose(msg){lives--;hud();shake=0.4;fx.push({x:cv.W*0.6,y:cv.H*0.3,txt:msg,t:0,c:'#ff6b5b'});try{navigator.vibrate&&navigator.vibrate(100);}catch(_){}
+    if(lives<=0){over=true;setTimeout(()=>api.end(false,'Poste de secours débordé !',`Trop de petits bobos mal soignés… ${healed} enfant${healed>1?'s':''} soigné${healed>1?'s':''} quand même. Courage Hélène !`),900);}}
+  function leave(k,happy){const kid=q.shift();if(!kid)return;gone.push({kid,t:0,happy});arr=0;if(q.length<3)newKid();}
+  function use(i){if(over||!q.length||q[0].x>0.7)return;const k=q[0],T=TOOLS[i];const g=geo();fly={e:T.e,x0:8+(i%3)*(g.bw+6)+g.bw/2,y0:g.by+Math.floor(i/3)*(g.bh+6)+g.bh/2,k:0};
+    if(T.k==='nage'){if(k.fake){healed++;hud();fx.push({x:cv.W*0.62,y:cv.H*0.3,txt:'Démasqué ! 😏',t:0,c:'#7dffa8'});k.say='Zut… bon, j\'y retourne !';leave(k,true);win();}
+      else lose(k.need.length?'Il avait vraiment mal ! 😢':'');return;}
+    if(k.fake){lose('Il n\'avait rien du tout ! 🤥');k.say='Hé hé… merci !';return;}
+    const it=k.need.find(n=>n.t===T.k&&!k.done[n.k]);
+    if(!it){k.mood=0.6;k.say='Aïe ! Ça marche pas !';lose('Mauvais soin ! 😖');return;}
+    k.done[it.k]=1;fx.push({x:cv.W*0.62,y:cv.H*0.42,txt:T.e+' ✨',t:0,c:'#fff'});
+    if(k.need.every(n=>k.done[n.k])){healed++;hud();k.say=pick(['Merci Hélène !','Ça va mieux ! 😁','Trop forte !','Bisou magique ✨']);leave(k,true);win();}
+    else k.say='Et l\'autre bobo ?';}
+  function win(){if(healed>=GOAL&&!over){over=true;const s=Math.round((performance.now()-gameT0)/100)/10;setTimeout(()=>api.end(true,'Tout le monde est soigné !',`${GOAL} petits bobos réglés en ${String(s).replace('.',',')} s. Hélène, la meilleure infirmière du bassin !`),900);}}
+  const onDown=e=>{e.preventDefault();const p=cv.pt(e),i=toolAt(p.x,p.y);if(i>=0)use(i);};
+  const KEYS={'1':0,'2':1,'3':2,'4':3,'5':4,'6':5};const onKey=e=>{if(KEYS[e.key]!=null){e.preventDefault();use(KEYS[e.key]);}};
+  cv.c.addEventListener('pointerdown',onDown);window.addEventListener('keydown',onKey);
+  return{
+    update(dt){t+=dt;shake=Math.max(0,shake-dt);for(let k=fx.length-1;k>=0;k--){fx[k].t+=dt;if(fx[k].t>1.2)fx.splice(k,1);}
+      if(fly){fly.k+=dt/0.22;if(fly.k>=1)fly=null;}
+      for(let i=gone.length-1;i>=0;i--){gone[i].t+=dt;if(gone[i].t>1)gone.splice(i,1);}
+      q.forEach((k,i)=>{k.x+=((i===0?0.6:0.86+(i-1)*0.13)-k.x)*Math.min(1,dt*6);if(k.mood>0)k.mood-=dt;});
+      if(over)return;const k=q[0];if(k&&k.x<0.7){k.pat-=dt/k.patT;if(k.pat<=0){k.say='Je vais voir Roland… 😭';lose('Trop long ! 😭');leave(k,false);}}},
+    draw(){const g=geo(),W=g.W,H=g.H;ctx.clearRect(0,0,W,H);ctx.save();if(shake>0)ctx.translate((Math.random()-.5)*8*shake,0);
+      // le poste de secours
+      ctx.fillStyle='#f4fbff';ctx.fillRect(0,0,W,H);ctx.fillStyle='#d6eef6';ctx.fillRect(0,0,W,H*0.12);
+      rr(ctx,W*0.06,H*0.03,W*0.28,H*0.07,8);ctx.fillStyle='#fff';ctx.fill();ctx.lineWidth=2.5;ctx.strokeStyle=INK;ctx.stroke();ctx.font='700 '+Math.round(Math.min(14,W/28))+'px Fredoka, sans-serif';ctx.fillStyle='#e63b3b';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('✚ Infirmerie',W*0.2,H*0.065);
+      rr(ctx,W*0.62,H*0.025,W*0.32,H*0.08,6);ctx.fillStyle='#63d4ea';ctx.fill();ctx.stroke();ctx.strokeStyle='rgba(255,255,255,.7)';ctx.beginPath();ctx.moveTo(W*0.64,H*0.07);ctx.quadraticCurveTo(W*0.78,H*0.05,W*0.92,H*0.07);ctx.stroke();
+      ctx.fillStyle='#efe6d6';ctx.fillRect(0,H*0.64,W,g.by-H*0.64-8);
+      // déco : étagère et affiche
+      rr(ctx,W*0.05,H*0.3,W*0.42,8,3);ctx.fillStyle='#b07a4a';ctx.fill();ctx.lineWidth=2;ctx.strokeStyle=INK;ctx.stroke();ctx.font=Math.round(W*0.07)+'px sans-serif';ctx.textAlign='center';ctx.textBaseline='alphabetic';
+      ['🍬','🧴','🩹','🌡️'].forEach((e,i)=>ctx.fillText(e,W*(0.1+i*0.105),H*0.3-2));
+      rr(ctx,W*0.58,H*0.17,W*0.36,H*0.15,8);ctx.fillStyle='#fff';ctx.fill();ctx.lineWidth=2.5;ctx.stroke();ctx.textBaseline='middle';ctx.fillStyle='#e0217a';ctx.font='700 '+Math.round(Math.min(13,W/30))+'px Fredoka, sans-serif';
+      ctx.fillText('Bisou magique',W*0.76,H*0.215);ctx.fillText('offert ✨',W*0.76,H*0.245);ctx.fillStyle=INK;ctx.font='600 '+Math.round(Math.min(11,W/36))+'px Fredoka, sans-serif';ctx.fillText('(sauf aux tricheurs)',W*0.76,H*0.285);
+      // Hélène derrière son comptoir
+      const hs=Math.min(W*0.44,180);drawImg(ctx,hel,W*0.0,H*0.62-hs*0.95,hs,hs*1.15);
+      rr(ctx,-4,H*0.58,W*0.42,H*0.09,6);ctx.fillStyle='#fff';ctx.fill();ctx.lineWidth=3;ctx.strokeStyle=INK;ctx.stroke();ctx.fillStyle='#e63b3b';ctx.font='24px sans-serif';ctx.fillText('✚',W*0.2,H*0.625);
+      // file d'attente (de la fin vers le début)
+      for(let i=q.length-1;i>=0;i--){const k=q[i],ks=Math.min(W*(i?0.24:0.44),i?96:180),x=k.x*W,y=H*(i?0.6:0.66),wob=k.mood>0?Math.sin(t*40)*3:Math.sin(t*3+i)*1.5;
+        drawImg(ctx,k.img,x-ks/2+wob,y-ks,ks,ks*1.15);
+        if(i===0&&k.x<0.7){
+          // bobos sur l'enfant
+          ctx.font=Math.round(ks*0.26)+'px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+          if(k.fake)ctx.fillText(Math.floor(t*2)%2?'😏':'🍬',x+ks*0.36,y-ks*0.7);
+          k.need.forEach((n,j)=>{const bx=x+(j?-1:1)*ks*0.28,by=y-ks*0.18;ctx.fillText(n.e,bx,by);if(k.done[n.k]){ctx.font=Math.round(ks*0.16)+'px sans-serif';ctx.fillText('✅',bx+ks*0.12,by-ks*0.12);ctx.font=Math.round(ks*0.26)+'px sans-serif';}});
+          // patience
+          ctx.lineWidth=6;ctx.strokeStyle='rgba(27,42,58,.15)';ctx.beginPath();ctx.arc(x,y-ks*1.05,14,0,7);ctx.stroke();ctx.strokeStyle=k.pat>.5?'#2fb36d':k.pat>.25?'#ffcf33':'#ff3b3b';ctx.beginPath();ctx.arc(x,y-ks*1.05,14,-Math.PI/2,-Math.PI/2+k.pat*Math.PI*2);ctx.stroke();
+          ctx.font='13px sans-serif';ctx.fillText('⏳',x,y-ks*1.05);
+          bubbleText(ctx,Math.min(W-90,Math.max(90,x)),y-ks*1.05-30,k.say,12);}}
+      gone.forEach(o=>{const ks=Math.min(W*0.44,180),x=W*0.6+o.t*W*(o.happy?0.25:-0.15),y=H*0.66-o.t*H*0.25-Math.abs(Math.sin(o.t*12))*(o.happy?16:4);ctx.globalAlpha=Math.max(0,1-o.t*1.6);drawImg(ctx,o.kid.img,x-ks/2,y-ks,ks,ks*1.15);ctx.font='22px sans-serif';ctx.fillText(o.happy?'😁':'😭',x+ks*0.35,y-ks*0.8);ctx.globalAlpha=1;});
+      // la trousse
+      rr(ctx,2,g.by-12,W-4,H-g.by+10,14);ctx.fillStyle='#e63b3b';ctx.fill();ctx.lineWidth=3;ctx.strokeStyle=INK;ctx.stroke();
+      TOOLS.forEach((T,i)=>{const c=i%3,r=Math.floor(i/3),bx=8+c*(g.bw+6),yy=g.by+r*(g.bh+6);rr(ctx,bx,yy,g.bw,g.bh,10);ctx.fillStyle=T.k==='nage'?'#c6f0ff':'#fff';ctx.fill();ctx.lineWidth=2.5;ctx.strokeStyle=INK;ctx.stroke();
+        ctx.font=Math.round(g.bh*0.42)+'px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(T.e,bx+g.bw/2,yy+g.bh*0.38);ctx.font='700 '+Math.round(Math.min(11,g.bw/9))+'px Fredoka, sans-serif';ctx.fillStyle=INK;ctx.fillText(T.n,bx+g.bw/2,yy+g.bh*0.8);});
+      if(fly){const k=Math.min(1,fly.k),x=fly.x0+(W*0.6-fly.x0)*k,y=fly.y0+(H*0.5-fly.y0)*k-Math.sin(k*Math.PI)*60;ctx.font='30px sans-serif';ctx.fillText(fly.e,x,y);}
+      ctx.restore();for(const f of fx)floatText(ctx,f);
+      if(t<4&&!over)bubbleText(ctx,W/2,H*0.71,'Touche le bon soin dans la trousse !',13);
+    },
+    _dbg:()=>({healed,lives,cur:q[0]?{fake:q[0].fake,need:q[0].need.filter(n=>!q[0].done[n.k]).map(n=>n.t),ready:q[0].x<0.7}:null}),
+    destroy(){cv.c.removeEventListener('pointerdown',onDown);window.removeEventListener('keydown',onKey);cv.destroy();}
+  };
+}
+
+/* ================= PASCAL : les tire-au-flanc ================= */
+function gamePascal(stage,api){
+  const cv=makeCanvas(stage),ctx=cv.ctx,GOAL=25,LIVES=3,L=CHARS.pascal.look;
+  const pas=svgImg(avatar(L));
+  const CAPS=['#e0217a','#2f80ed','#ffcf33','#2fb36d','#ff8a3d','#b06bff','#fff'];
+  const SH=["📢 10 longueurs de plus !","📢 On ne s'arrête pas !","📢 Allez, on nage !","📢 C'est pas le club de bridge !","📢 Encore 400 m, papillon !","📢 Je t'ai vu !"];
+  const CH={bord:{e:'😮‍💨',t:"Je souffle un peu…"},marche:{e:'🚶',t:"(il marche au fond)"},boit:{e:'🥤',t:"Une petite pause boisson…"},dos:{e:'😎',t:"Je fais la planche…"},papote:{e:'💬',t:"T'as vu la dernière de Marcel ?"}};
+  let t=0,over=false,caught=0,lives=LIVES,cheatT=2,shout=null;const sw=[],fx=[];
+  for(let i=0;i<8;i++){const lane=i%4;sw.push({lane,x:(i<4?0.15:0.6)+Math.random()*0.25,dir:Math.random()<.5?1:-1,v:0.13+Math.random()*0.07,st:'swim',k:null,ct:0,max:0,boost:0,ph:Math.random()*6,
+    img:svgImg(avatar(randLook({cap:pick(CAPS),beard:Math.random()<.2,mustache:Math.random()<.2}),{viewBox:'30 20 140 140'}))});}
+  const hud=()=>api.hud(`📢 ${caught}/${GOAL}  ❤️ ${lives}`);hud();
+  const geo=()=>{const W=cv.W,H=cv.H,top=H*0.1,bot=H*0.72,lh=(bot-top)/4;return{W,H,top,bot,lh,sz:Math.min(lh*0.62,W*0.13)};};
+  const pos=s=>{const g=geo();return{x:g.W*(0.06+s.x*0.88),y:g.top+g.lh*(s.lane+0.5)};};
+  function lose(msg,x,y){lives--;hud();fx.push({x,y,txt:msg,t:0,c:'#ff6b5b'});try{navigator.vibrate&&navigator.vibrate(100);}catch(_){}
+    if(lives<=0){over=true;setTimeout(()=>api.end(false,'Séance ratée…',`Les adultes ont fait la sieste dans le bassin ! ${caught} tire-au-flanc pris quand même. Pascal n'est pas content.`),900);}}
+  function startCheat(){const p=caught/GOAL,cand=sw.filter(s=>s.st==='swim'&&!s.boost&&!(s.turn>0)&&!(s.kick>0));if(!cand.length)return;const s=pick(cand);
+    const k=pick(['bord','marche','boit','dos','papote']);s.st='cheat';s.k=k;s.ct=0;s.max=Math.max(1.45,2.6-p*1.2);
+    if(k==='bord'||k==='boit'){s.x=s.dir>0?0.97:0.03;}}
+  const onDown=e=>{e.preventDefault();if(over)return;const q=cv.pt(e),g=geo();let best=null,bd=g.sz*1.1;
+    for(const s of sw){const p=pos(s),d=Math.hypot(p.x-q.x,p.y-q.y);if(d<bd){bd=d;best=s;}}if(!best)return;const p=pos(best);
+    if(best.st==='cheat'){caught++;hud();best.st='swim';best.k=null;best.boost=1.6;shout={txt:pick(SH),t:1.3};fx.push({x:p.x,y:p.y-24,txt:'+1 💪',t:0,c:'#7dffa8'});
+      if(caught>=GOAL){over=true;const sec=Math.round((performance.now()-gameT0)/100)/10;setTimeout(()=>api.end(true,'Séance terminée !',`${GOAL} tire-au-flanc remis à l'eau en ${String(sec).replace('.',',')} s. Les adultes ont mal partout, Pascal est ravi !`),900);}}
+    else{best.say={t:1.2,txt:'Mais je nage, moi ! 😤'};lose('Raté ! 😅',p.x,p.y-24);}};
+  cv.c.addEventListener('pointerdown',onDown);
+  return{
+    update(dt){t+=dt;for(let k=fx.length-1;k>=0;k--){fx[k].t+=dt;if(fx[k].t>1.2)fx.splice(k,1);}if(shout){shout.t-=dt;if(shout.t<=0)shout=null;}
+      sw.forEach(s=>{s.ph+=dt*(s.boost?14:8);if(s.say){s.say.t-=dt;if(s.say.t<=0)s.say=null;}if(s.boost>0)s.boost=Math.max(0,s.boost-dt);
+        if(s.turn>0){s.turn-=dt;}else if(s.st==='swim'){if(s.kick>0)s.kick-=dt;else if(!s.boost&&Math.random()<dt*0.04)s.kick=3;s.x+=s.dir*s.v*(s.boost?2.2:s.kick>0?0.45:1)*dt;if(s.x>0.97){s.x=0.97;s.dir=-1;s.turn=0.7;}if(s.x<0.03){s.x=0.03;s.dir=1;s.turn=0.7;}}
+        else if(s.k==='marche'){s.x+=s.dir*s.v*0.25*dt;if(s.x>0.97||s.x<0.03)s.dir*=-1;}
+        else if(s.k==='dos'){s.x+=s.dir*0.01*dt;}});
+      if(over)return;const p=caught/GOAL;
+      sw.forEach(s=>{if(s.st!=='cheat')return;s.ct+=dt;if(s.ct>=s.max){const q=pos(s);s.st='swim';s.k=null;lose("Pascal n'a rien vu ! 😤",q.x,q.y-24);}});
+      cheatT-=dt;const n=sw.filter(s=>s.st==='cheat').length;if(cheatT<=0&&n<(p<0.3?2:3)){startCheat();cheatT=Math.max(0.4,1.2-p*0.8)*(0.6+Math.random()*0.6);}},
+    draw(){const g=geo(),W=g.W,H=g.H;ctx.clearRect(0,0,W,H);
+      ctx.fillStyle='#efe9df';ctx.fillRect(0,0,W,H);
+      const pw=ctx.createLinearGradient(0,g.top,0,g.bot);pw.addColorStop(0,'#1b9fb2');pw.addColorStop(1,'#4fd0d3');rr(ctx,8,g.top,W-16,g.bot-g.top,10);ctx.fillStyle=pw;ctx.fill();ctx.lineWidth=4;ctx.strokeStyle=INK;ctx.stroke();
+      for(let i=1;i<4;i++){const y=g.top+g.lh*i;for(let x=14,n=0;x<W-14;x+=14,n++){ctx.fillStyle=n%2?'#ff5d5d':'#fff';ctx.beginPath();ctx.arc(x,y,3.5,0,7);ctx.fill();}}
+      ctx.fillStyle='rgba(27,42,58,.15)';for(let i=0;i<4;i++){ctx.fillRect(W*0.1,g.top+g.lh*(i+0.5)-2,W*0.8,4);}
+      sw.forEach(s=>{const p=pos(s),r=g.sz/2,ch=s.st==='cheat';
+        if((!ch||s.k==='papote')&&!(s.turn>0)){[-1,1].forEach(sd=>{const a=s.ph+(sd>0?Math.PI:0);ctx.strokeStyle=INK;ctx.lineWidth=7;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x+Math.cos(a)*r*1.4*s.dir,p.y+sd*r*0.9+Math.sin(a)*r*0.3);ctx.stroke();});
+          if(!ch){ctx.fillStyle='rgba(255,255,255,.7)';for(let k=0;k<3;k++){ctx.beginPath();ctx.arc(p.x-s.dir*(r*1.2+k*7),p.y+Math.sin(s.ph+k)*4,2.5+(s.boost?2:0),0,7);ctx.fill();}}}
+        ctx.save();if(ch)ctx.translate(Math.sin(t*20)*1.5,0);drawImg(ctx,s.img,p.x-r,p.y-r,r*2,r*2);ctx.restore();
+        if(s.kick>0&&!ch){ctx.font=Math.round(r*0.8)+'px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('🏄',p.x-s.dir*r*1.1,p.y);}
+        if(ch&&s.ct>0.45){ctx.font=Math.round(r*0.9)+'px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(CH[s.k].e,p.x+r*0.9,p.y-r*0.8);
+          ctx.lineWidth=4;ctx.strokeStyle=s.ct/s.max>0.66?'#ff3b3b':'#ffcf33';ctx.beginPath();ctx.arc(p.x,p.y,r+5,-Math.PI/2,-Math.PI/2+(1-s.ct/s.max)*Math.PI*2);ctx.stroke();}
+        if(s.say)bubbleText(ctx,p.x,p.y-r-14,s.say.txt,11);});
+      // Pascal au bord avec son mégaphone
+      const ps=Math.min(W*0.32,130);drawImg(ctx,pas,W*0.05,H*0.98-ps*1.15,ps,ps*1.15);ctx.font=Math.round(ps*0.32)+'px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('📢',W*0.05+ps*1.02,H*0.98-ps*0.75);
+      if(shout)bubbleText(ctx,Math.min(W-100,W*0.05+ps+80),H*0.79,shout.txt,13);
+      for(const f of fx)floatText(ctx,f);
+      if(t<4&&!over)bubbleText(ctx,W/2,H*0.79,'Touche les tricheurs… pas ceux qui font leur virage !',12);
+    },
+    _dbg:()=>({caught,lives,ch:sw.filter(s=>s.st==='cheat'&&s.ct>0.45).map(s=>pos(s))}),
+    destroy(){cv.c.removeEventListener('pointerdown',onDown);cv.destroy();}
+  };
+}
+
+/* ================= ANGÉLIQUE : le tour du plateau ================= */
+function gameAngelique(stage,api){
+  const cv=makeCanvas(stage),ctx=cv.ctx,L=CHARS.angelique.look,TRIPS=3,NG=5,NEED=8,TRIP_T=13;
+  const ang=svgImg(avatar(L));
+  const DRINKS=['🍷','🍺','🥂','🍹','🍾'];const FR=['marcel','roland','christian','agnes','christine','jf'].filter(k=>CHARS[k]);
+  let t=0,over=false,trip=0,tt=0,deliv=0,dist=0,fxp=0.5,drag=false,pomp=0,d=0,dv=0,warn=null,bumpT=3,tchin=null,tchT=5,phase='walk',ph=0,glasses=[];const fx=[];
+  const frImg={};FR.forEach(k=>frImg[k]=svgImg(avatar(CHARS[k].look,{viewBox:'30 20 140 140'})));
+  function fill(){glasses=[];for(let i=0;i<NG;i++)glasses.push({x:-0.7+i*0.35,v:0,e:pick(DRINKS),fall:null});}
+  fill();
+  const hud=()=>api.hud(`🍷 ${deliv} livrés  🚶 ${Math.min(TRIPS,trip+1)}/${TRIPS}  🥴 ${'●'.repeat(pomp)}${'○'.repeat(Math.max(0,4-pomp))}`);hud();
+  const onDown=e=>{e.preventDefault();drag=true;fxp=cv.pt(e).x/cv.W;};const onMove=e=>{if(drag){e.preventDefault();fxp=cv.pt(e).x/cv.W;}};const onUp=()=>{drag=false;};
+  cv.c.addEventListener('pointerdown',onDown);cv.c.addEventListener('pointermove',onMove);window.addEventListener('pointerup',onUp);window.addEventListener('pointercancel',onUp);
+  const tilt=()=>d+(fxp-0.5)*1.5;
+  function endTrip(){const n=glasses.filter(g=>!g.fall).length;deliv+=n;hud();fx.push({x:cv.W*0.7,y:cv.H*0.35,txt:'+'+n+' 🍷',t:0,c:'#7dffa8'});
+    trip++;if(trip>=TRIPS){over=true;api.score(deliv);const ok=deliv>=NEED;setTimeout(()=>api.end(ok,ok?'Santé ! 🥂':'Trop de verres cassés…',ok?`${deliv} verres sur ${TRIPS*NG} sont arrivés à table. Angélique, reine de l'apéro !`:`Seulement ${deliv} verres arrivés à table (il en fallait ${NEED}). Le carrelage, lui, a bien trinqué.`),900);return;}
+    phase='bar';ph=0;pomp=Math.min(4,pomp+1);hud();}
+  return{
+    update(dt){t+=dt;for(let k=fx.length-1;k>=0;k--){fx[k].t+=dt;if(fx[k].t>1.2)fx.splice(k,1);}
+      glasses.forEach(g=>{if(g.fall){g.fall.t+=dt;g.fall.vy+=900*dt;g.fall.y+=g.fall.vy*dt;g.fall.x+=g.fall.vx*dt;}});
+      if(over)return;
+      if(phase==='bar'){ph+=dt;if(ph>1.6){phase='walk';tt=0;dist=0;fill();d=0;dv=0;}return;}
+      tt+=dt;dist=Math.min(1,tt/TRIP_T);
+      // le plateau tangue : de plus en plus à chaque tournée
+      const amp=0.28+0.2*pomp;dv+=((Math.random()-.5)*amp*6-d*0.9-dv*1.1)*dt;d+=dv*dt;
+      // bousculades
+      bumpT-=dt;if(!warn&&bumpT<=0){warn={s:Math.random()<.5?-1:1,t:0.8,who:pick(['🧒','🐶','🏃'])};bumpT=2.6+Math.random()*2.5-pomp*0.3;}
+      if(warn){warn.t-=dt;if(warn.t<=0){dv+=warn.s*(0.85+0.2*pomp);fx.push({x:cv.W*(warn.s<0?0.2:0.8),y:cv.H*0.4,txt:'Bousculade ! '+warn.who,t:0,c:'#ff9a1f'});warn=null;}}
+      // « Tchin ! » : quelqu'un trinque, ça secoue
+      tchT-=dt;if(!tchin&&tchT<=0&&dist<0.85){tchin={k:pick(FR),t:1.2};tchT=4+Math.random()*3;}
+      if(tchin){tchin.t-=dt;dv+=Math.sin(t*25)*0.9*dt*(1+pomp*0.3);if(tchin.t<=0)tchin=null;}
+      const a=tilt();
+      glasses.forEach(g=>{if(g.fall)return;const sa=Math.abs(a)<0.04?0:Math.sin(a);g.v+=sa*2.4*dt;g.v*=Math.pow(0.2,dt);g.x+=g.v*dt;
+        if(Math.abs(g.x)>1.05){g.fall={x:0,y:0,vx:Math.sign(g.x)*120,vy:-60,t:0,s:Math.sign(g.x)};fx.push({x:cv.W*0.5+Math.sign(g.x)*cv.W*0.25,y:cv.H*0.45,txt:'Oups ! 💥',t:0,c:'#ff6b5b'});try{navigator.vibrate&&navigator.vibrate(60);}catch(_){}}});
+      // les verres se poussent entre eux
+      const L2=glasses.filter(g=>!g.fall).sort((p,q)=>p.x-q.x);for(let i=1;i<L2.length;i++){if(L2[i].x-L2[i-1].x<0.24){const m=(L2[i].x+L2[i-1].x)/2;L2[i-1].x=m-0.12;L2[i].x=m+0.12;}}
+      if(dist>=1||!glasses.some(g=>!g.fall))endTrip();},
+    draw(){const W=cv.W,H=cv.H;ctx.clearRect(0,0,W,H);const sway=Math.sin(t*1.3)*pomp*0.012;ctx.save();ctx.translate(W/2,H/2);ctx.rotate(sway);ctx.translate(-W/2,-H/2);
+      // jardin de la fête
+      const sk=ctx.createLinearGradient(0,0,0,H*0.5);sk.addColorStop(0,'#ffb26b');sk.addColorStop(1,'#ffe3b0');ctx.fillStyle=sk;ctx.fillRect(-20,-20,W+40,H*0.52+20);ctx.fillStyle='#9fd37a';ctx.fillRect(-20,H*0.5,W+40,H*0.6);
+      const off=(trip*TRIP_T+tt)*60;for(let i=-1;i<6;i++){const x=((i*W*0.4-off)%(W*2.4)+W*2.4)%(W*2.4)-W*0.2;ctx.font='34px sans-serif';ctx.textAlign='center';ctx.fillText(['🎪','🌳','🎈','🌳','🍖','🎶'][((i%6)+6)%6],x,H*0.48);}
+      ctx.strokeStyle='#5c4033';ctx.lineWidth=2;ctx.beginPath();for(let x=-20;x<W+20;x+=8)ctx.lineTo(x,H*0.12+Math.sin((x+off)*0.03)*6);ctx.stroke();
+      for(let x=0;x<W;x+=26){ctx.fillStyle=['#ff5fa2','#ffcf33','#3cb4e6','#2fb36d'][Math.floor((x+off)/26)%4|0];ctx.beginPath();ctx.arc(x,H*0.13+Math.sin((x+off)*0.03)*6,4,0,7);ctx.fill();}
+      // table d'arrivée
+      if(dist>0.7&&phase==='walk'){const tx=W*(1.4-dist*0.75);rr(ctx,tx,H*0.56,W*0.4,16,6);ctx.fillStyle='#fff';ctx.fill();ctx.lineWidth=3;ctx.strokeStyle=INK;ctx.stroke();ctx.font='14px sans-serif';ctx.fillText('🍽️ Table',tx+W*0.2,H*0.54);}
+      // Angélique et son plateau
+      const as=Math.min(W*0.42,170),ax=W/2,ay=H*0.82,bob=phase==='walk'?Math.abs(Math.sin(t*7))*5:0;
+      drawImg(ctx,ang,ax-as/2,ay-as*1.05-bob,as,as*1.15);
+      const a=phase==='walk'?tilt():0,tw=Math.min(W*0.8,330),ty=ay-as*1.1-bob;
+      ctx.strokeStyle=INK;ctx.lineWidth=11;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(ax+as*0.28,ay-as*0.45-bob);ctx.lineTo(ax+as*0.1,ty+8);ctx.stroke();ctx.strokeStyle=L.skin;ctx.lineWidth=6;ctx.stroke();
+      ctx.save();ctx.translate(ax,ty);ctx.rotate(a);
+      glasses.forEach(g=>{if(g.fall)return;ctx.font=Math.round(tw*0.13)+'px sans-serif';ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText(g.e,g.x*tw*0.45,-4);});
+      rr(ctx,-tw/2,-4,tw,10,5);ctx.fillStyle='#c9ced4';ctx.fill();ctx.lineWidth=3;ctx.strokeStyle=INK;ctx.stroke();ctx.restore();
+      glasses.forEach(g=>{if(!g.fall||g.fall.t>1)return;const bx=ax+g.fall.s*tw*0.45*Math.cos(a)+g.fall.x,by=ty+g.fall.y;ctx.font='24px sans-serif';ctx.textAlign='center';ctx.save();ctx.translate(bx,by);ctx.rotate(g.fall.t*8*g.fall.s);ctx.fillText(g.e,0,0);ctx.restore();});
+      // niveau
+      const lv=Math.max(-1,Math.min(1,a/0.6));rr(ctx,W*0.2,H*0.17,W*0.6,14,7);ctx.fillStyle='rgba(255,255,255,.85)';ctx.fill();ctx.lineWidth=2.5;ctx.strokeStyle=INK;ctx.stroke();
+      ctx.fillStyle=Math.abs(lv)<0.25?'#2fb36d':Math.abs(lv)<0.6?'#ffcf33':'#ff3b3b';ctx.beginPath();ctx.arc(W/2+lv*W*0.28,H*0.17+7,8,0,7);ctx.fill();ctx.stroke();ctx.fillStyle=INK;ctx.fillRect(W/2-1,H*0.17,2,14);
+      // progression jusqu'à la table
+      ctx.fillStyle='rgba(27,42,58,.18)';ctx.fillRect(W*0.1,H*0.22,W*0.8,5);ctx.fillStyle=PINK;ctx.fillRect(W*0.1,H*0.22,W*0.8*dist,5);ctx.font='16px sans-serif';ctx.textBaseline='middle';ctx.fillText('🍽️',W*0.92,H*0.225);
+      if(warn){ctx.font='30px sans-serif';ctx.fillText((warn.s<0?'⬅️':'➡️')+warn.who,W*(warn.s<0?0.18:0.82),H*0.62);}
+      if(tchin){const r=Math.min(W*0.16,64),x=W*0.84,y=H*0.56;drawImg(ctx,frImg[tchin.k],x-r/2,y-r/2,r,r);bubbleText(ctx,x-30,y-r*0.8,'Tchin ! 🥂',13);}
+      ctx.restore();
+      if(phase==='bar')bubbleText(ctx,W/2,H*0.4,trip?'🍾 Retour au bar… tournée n°'+(trip+1)+' ! 🥴':'',15);
+      for(const f of fx)floatText(ctx,f);
+      if(t<4&&!over)bubbleText(ctx,W/2,H*0.32,'Glisse le doigt pour garder le plateau droit !',12);
+    },
+    _dbg:()=>({tilt:tilt(),d,deliv,trip,phase,left:glasses.filter(g=>!g.fall).length,fxp}),
+    destroy(){cv.c.removeEventListener('pointerdown',onDown);cv.c.removeEventListener('pointermove',onMove);window.removeEventListener('pointerup',onUp);window.removeEventListener('pointercancel',onUp);cv.destroy();}
+  };
+}
+
 /* ================= Navigation ================= */
-const GAMES={manon:gameManon,mickey:gameMickey,lilian:gameLilian,alix:gameAlix,kayak:gameKayak,dario:gameDario,bouchon:gameBouchon,zoe:gameZoe,francoise:gameFrancoise,matheo:gameMatheo,gwen:gameGwen,anthony:gameAnthony,david:gameDavid,jf:gameJF,richard:gameRichard,margaux:gameMargaux,stephane:gameStephane,manu:gameManu,christine:gameChristine,ethan:gameEthan,aude:gameAude,nathan:gameNathan,duo:gameDuo,roland:gameRoland,christian:gameChristian,laetitia:gameLaetitia,marcel:gameMarcel,christophe:gameChristophe,agnes:gameAgnes,jacky:gameJacky,noel:gameNoel,bonus:gameBonus};
+const GAMES={pascal:gamePascal,angelique:gameAngelique,helene:gameHelene,manon:gameManon,mickey:gameMickey,lilian:gameLilian,alix:gameAlix,kayak:gameKayak,dario:gameDario,bouchon:gameBouchon,zoe:gameZoe,francoise:gameFrancoise,matheo:gameMatheo,gwen:gameGwen,anthony:gameAnthony,david:gameDavid,jf:gameJF,richard:gameRichard,margaux:gameMargaux,stephane:gameStephane,manu:gameManu,christine:gameChristine,ethan:gameEthan,aude:gameAude,nathan:gameNathan,duo:gameDuo,roland:gameRoland,christian:gameChristian,laetitia:gameLaetitia,marcel:gameMarcel,christophe:gameChristophe,agnes:gameAgnes,jacky:gameJacky,noel:gameNoel,bonus:gameBonus};
 let current=null,raf=0,last=0,ended=false,curKey=null,typing=null,freshCard=null;
 /* historique des pages pour la flèche ← */
 const NAVH=[];let NAVSKIP=false;const NAV_NOHIST=['title','intro','game'];
@@ -5109,6 +5327,9 @@ const MG_CARDS={
   lilian:{r:'E',e:'🧗',t:"Le plus sportif du club. Une main à gauche, une main à droite… et le drapeau Gambetta planté au sommet !"},
   mickey:{r:'R',e:'💼',t:"Toujours une carte du club dans la poche. Une poussette à l'horizon ? Il est déjà là, tout sourire."},
   manon:{r:'R',e:'🩱',t:"Toujours le maillot de travers… et tout le club qui crie « Manon, cache tes fesses ! ». Un jour, elle y arrivera."},
+  helene:{r:'R',e:'🩺',t:"Pansement, glace ou compresse : elle a toujours le bon soin. Et pour les malades imaginaires… retour au bassin !"},
+  pascal:{r:'R',e:'📢',t:"Personne ne se repose dans le cours adultes. Une seconde au bord ? Dix longueurs de plus !"},
+  angelique:{r:'R',e:'🥂',t:"Un plateau plein de verres, une fête bondée, et pas une goutte renversée… enfin, presque."},
   bonus:{r:'L',e:'🕶️',t:"Casquette, lunettes noires, et le plat le plus spectaculaire du club. Qui est-il vraiment ?"}
 };
 const MG_ORDER=ORDER.filter(k=>MG_CARDS[k]);
@@ -5463,7 +5684,7 @@ $('#boostClose').onclick=()=>{const opened=BST&&BST.phase!=='pack';closeBooster(
 
 /* ================= CLASSEMENTS ================= */
 /* Mesure par mini-jeu : temps de victoire (plus court = mieux) ou points (plus = mieux) */
-const METRIC={manon:{t:'pts',u:'regards'},ethan:{t:'pts',u:'soulevés'},christine:{t:'pts',u:'%'},bonus:{t:'pts',u:'pts'},laetitia:{t:'wins',u:'victoires'}};
+const METRIC={angelique:{t:'pts',u:'verres'},manon:{t:'pts',u:'regards'},ethan:{t:'pts',u:'soulevés'},christine:{t:'pts',u:'%'},bonus:{t:'pts',u:'pts'},laetitia:{t:'wins',u:'victoires'}};
 const metricOf=k=>METRIC[k]||{t:'time',u:'s'};
 COL.best=COL.best||{};COL.wins_n=COL.wins_n||{};
 let BOARD={},boardRef=null,myId=null,USER=null,rkTab='time',rkGame=null,pendingScore=null,gameT0=0;
@@ -5588,7 +5809,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=34;
+const APP_V=35;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
