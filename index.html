@@ -1855,7 +1855,7 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
   // Outils admin : codes de tout le monde et sauvegarde complète
   GG.delPlayer=async(pid,code)=>{if(!GG.admin||pid===GG.pid)return false;if(code)await fs.doc('players/'+code).delete();try{await fs.doc('owners/'+pid).delete();}catch(_){}await fs.doc('board/'+pid).delete();return true;};
   GG.idToken=()=>auth&&auth.currentUser?auth.currentUser.getIdToken():Promise.resolve(null);
-  GG.saves=async()=>{if(!GG.admin)return null;const q=await fs.collection('players').get();const o={};q.docs.forEach(d=>{const x=d.data();if(x&&x.pid)o[x.pid]=x.col||{};});return o;};
+  GG.saves=async()=>{if(!GG.admin)return null;const q=await fs.collection('players').get();const o={};q.docs.forEach(d=>{const x=d.data();if(x&&x.pid){const c=x.col||{};const prev=o[x.pid];const cur=Object.assign({},c,{_at:x.at||0,_n:(prev?prev._n:0)+1});if(!prev||(x.at||0)>(prev._at||0))o[x.pid]=cur;else prev._n=cur._n;}});return o;};
   GG.codes=async()=>{if(!GG.admin)return{};const q=await fs.collection('owners').get();const o={};q.docs.forEach(d=>o[d.id]=d.data().code);return o;};
   GG.backup=async()=>{if(!GG.admin)return;const out={date:new Date().toISOString()};
     for(const c of ['players','board','gifts','owners','trades','duels','tournaments','events','actions','requests','bounties','battles']){const q=await fs.collection(c).get();out[c]={};q.docs.forEach(d=>out[c][d.id]=d.data());}
@@ -4977,7 +4977,7 @@ function gameMickey(stage,api){
 
 /* ================= MANON : « Cache tes fesses ! » (la serviette-bouclier) ================= */
 function gameManon(stage,api){
-  const cv=makeCanvas(stage),ctx=cv.ctx,L=CHARS.manon.look,LIVES=3,DUR=45;
+  const cv=makeCanvas(stage),ctx=cv.ctx,L=CHARS.manon.look,LIVES=2,DUR=45;
   const st=`stroke="${INK}" stroke-width="5" stroke-linejoin="round"`;
   // Manon de dos, maillot turquoise, cheveux bouclés
   const SUIT='#ff5fa2';/* maillot de bain rose */
@@ -5588,11 +5588,15 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-(function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();
+const APP_V=34;
+function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+  return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
+(function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
   setInterval(()=>{if(document.hidden)return;const k=dayKey();COL.pt=(COL.pt||0)+15;COL.ptd=COL.ptd||{};COL.ptd[k]=(COL.ptd[k]||0)+15;COL.lastAt=Date.now();sxTouch(false);
     const ks=Object.keys(COL.ptd);if(ks.length>35)ks.sort().slice(0,ks.length-35).forEach(x=>delete COL.ptd[x]);
-    if(Date.now()-lastSave>120e3){lastSave=Date.now();try{saveCol();}catch(_){}}},15000);
-  document.addEventListener('visibilitychange',()=>{if(document.hidden){hiddenAt=Date.now();COL.lastAt=Date.now();sxTouch(false);try{saveCol();}catch(_){}}
+    if(Date.now()-lastSave>60e3){lastSave=Date.now();try{saveCol();}catch(_){}}},15000);
+  addEventListener('pagehide',()=>{COL.lastAt=Date.now();sxTouch(false);try{localStorage.setItem('gambetta-col',JSON.stringify(COL));}catch(_){}try{cloudFlush();}catch(_){}});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){hiddenAt=Date.now();COL.lastAt=Date.now();sxTouch(false);try{saveCol();cloudFlush();}catch(_){}}
     else{sxTouch(!!hiddenAt&&Date.now()-hiddenAt>5*60e3);COL.lastAt=Date.now();}});})();
 function ptFmt(sec){sec=Math.round(sec||0);if(sec<60)return sec?'< 1 min':(ACT.S?'—':'< 15 min');const h=Math.floor(sec/3600),m=Math.floor(sec%3600/60);return h?h+' h '+String(m).padStart(2,'0'):m+' min';}
 function ptAgo(t){if(!t)return '—';const m=Math.round((Date.now()-t)/60000);return m<2?'en ce moment':m<60?'il y a '+m+' min':m<1440?'il y a '+Math.round(m/60)+' h':'il y a '+Math.round(m/1440)+' j';}
@@ -5606,22 +5610,28 @@ function actSess(r){const L=(r.sx||[]).slice().reverse();if(!L.length)return '<d
   return `<div class="actsx">${Object.keys(by).map(d=>`<div class="d">${dn(d)} <small>${ptFmt(by[d].reduce((s,x)=>s+(x[1]-x[0])*60,0)||30)}</small></div>`+by[d].map(x=>`<div class="s"><span>🟢 ${hm(x[0])}</span><span>→</span><span>${hm(x[1])}</span><b>${x[1]-x[0]<1?'< 1 min':ptFmt((x[1]-x[0])*60)}</b></div>`).join('')).join('')}
     <small>Les ${L.length} dernière${L.length>1?'s':''} session${L.length>1?'s':''}. Une pause de plus de 5 min commence une nouvelle session.</small></div>`;}
 
+/* petit diagnostic sous la fiche d'un joueur : version du jeu, appareil, dernière sauvegarde */
+function actDiag(r){if(isMe(r.id))return '';const L=[];
+  if(r.nosave)L.push('⚠️ Aucune sauvegarde en ligne trouvée pour ce joueur : il joue peut-être sans compte, ou avec un autre code.');
+  else{L.push('💾 Dernière sauvegarde : '+(r.sv?ptAgo(r.sv):'—'));L.push('📱 '+(r.dev||'appareil inconnu')+' · '+(r.appv?'version '+r.appv+(r.appv<APP_V?' ⚠️ ancienne, il doit fermer et rouvrir le jeu':' ✅'):'⚠️ ancienne version du jeu (avant le suivi du temps)'));
+    if(r.nsv>1)L.push('👥 '+r.nsv+' sauvegardes avec le même joueur : il a peut-être recommencé une partie sur un autre appareil.');}
+  return `<div class="actsx">${L.map(x=>`<div class="s" style="display:block">${x}</div>`).join('')}</div>`;}
 function adminAct(b,P){
   /* sur le site : on lit directement les sauvegardes des joueurs (à jour toutes les 2 min), seulement quand tu ouvres cet onglet */
   if(window.GG&&GG.admin&&GG.saves&&!ACT.busy&&(!ACT.S||Date.now()-ACT.St>60e3)){ACT.busy=1;if(!ACT.S)b.innerHTML='<div class="rkempty">Chargement…</div>';
     GG.saves().then(S=>{ACT.S=S;ACT.St=Date.now();}).catch(()=>{}).finally(()=>{ACT.busy=0;if(ADM.tab==='act'&&$('#admin').classList.contains('active'))adminAct(b,P);});if(!ACT.S)return;}
   const live=!!ACT.S;
   const rows=P.map(p=>{const me=isMe(p.id),c=me?COL:(live?ACT.S[p.id]:null);
-    if(c)return{id:p.id,sx:c.sx||[],name:p.name+(me?' (toi)':''),pt:c.pt||0,pt7:ptSum(7,c),ptT:ptSum(1,c),last:me?Date.now():(c.lastAt||0),sess:c.sess||0,played:(c.st||{}).played||0,cards:p.cards,old:!me&&c.pt==null&&!(c.sx||[]).length};
+    if(c)return{id:p.id,sx:c.sx||[],name:p.name+(me?' (toi)':''),pt:c.pt||0,pt7:ptSum(7,c),ptT:ptSum(1,c),last:me?Date.now():(c.lastAt||0),sess:c.sess||0,played:(c.st||{}).played||0,cards:p.cards,old:!me&&c.pt==null&&!(c.sx||[]).length,appv:c.appv||0,dev:c.dev||'',sv:c._at||0,nsv:c._n||1};
     const st=(((BOARD[p.id]||{}).pf||{}).st||{});
-    return{id:p.id,sx:[],name:p.name,pt:st.pt||0,pt7:st.pt7||0,ptT:st.ptT||0,last:st.last||0,sess:st.sess||0,played:st.played||0,cards:p.cards,old:st.pt==null};});
+    return{id:p.id,sx:[],name:p.name,pt:st.pt||0,pt7:st.pt7||0,ptT:st.ptT||0,last:st.last||0,sess:st.sess||0,played:st.played||0,cards:p.cards,old:st.pt==null,nosave:live};});
   rows.sort((a,b)=>(b[ACT.by]-a[ACT.by])||(b.last-a.last));const now=Date.now();
   const d0=new Date();d0.setHours(0,0,0,0);const actT=rows.filter(r=>r.ptT>0||r.last>=d0.getTime()).length,act7=rows.filter(r=>r.pt7>0||r.last>=d0.getTime()-6*864e5).length,tot7=rows.reduce((s,r)=>s+r.pt7,0),med=['🥇','🥈','🥉'];
   b.innerHTML=`<div class="abox"><h4>📈 Qui joue le plus ?</h4><div class="actsum"><div><b>${actT}</b><span>joueurs aujourd'hui</span></div><div><b>${act7}</b><span>sur 7 jours</span></div><div><b>${ptFmt(tot7)}</b><span>de jeu en 7 jours (club)</span></div></div>
     <div class="asel">${[['ptT','Aujourd\'hui'],['pt7','7 jours'],['pt','Depuis le début'],['last','Dernière visite']].map(([k,t])=>`<button class="apill${ACT.by===k?' on':''}" data-actby="${k}">${t}</button>`).join('')}</div>
     <p class="asum">Le temps compte seulement quand le jeu est ouvert à l'écran. ${live?'À jour à 2 min près.':'Arrondi au quart d\'heure (version sans compte).'} Touche un joueur pour voir ses heures d'ouverture et de fermeture. Visible par toi seul.${live?' <button class="gglink" id="actRf">🔄 Actualiser</button>':''}</p></div>
     ${rows.map((r,i)=>`<div class="prow actrow${ACT.open===r.id?' open':''}" data-actp="${r.id}"><span class="pos">${ACT.by==='last'?'':(med[i]||i+1)}</span><span class="who">${esc(r.name)}<small>${r.old?'⏳ pas encore de temps enregistré (ancienne version du jeu)':`${actLast(r)} · ${r.sess} visite${r.sess>1?'s':''} · ${r.played} partie${r.played>1?'s':''} · ${r.cards} 🃏`}</small></span>
-      <span class="acttime"><b>${ptFmt(ACT.by==='ptT'?r.ptT:ACT.by==='pt'?r.pt:r.pt7)}</b><small>${ACT.by==='ptT'?'aujourd\'hui':ACT.by==='pt'?'au total':'7 jours'}</small></span></div>${ACT.open===r.id?actSess(r):''}`).join('')||'<div class="rkempty">Aucun joueur.</div>'}`;
+      <span class="acttime"><b>${ptFmt(ACT.by==='ptT'?r.ptT:ACT.by==='pt'?r.pt:r.pt7)}</b><small>${ACT.by==='ptT'?'aujourd\'hui':ACT.by==='pt'?'au total':'7 jours'}</small></span></div>${ACT.open===r.id?actDiag(r)+actSess(r):''}`).join('')||'<div class="rkempty">Aucun joueur.</div>'}`;
   b.querySelectorAll('[data-actby]').forEach(x=>x.onclick=()=>{ACT.by=x.dataset.actby;adminAct(b,P);});
   b.querySelectorAll('[data-actp]').forEach(x=>x.onclick=()=>{ACT.open=ACT.open===x.dataset.actp?null:x.dataset.actp;adminAct(b,P);});
   const rf=b.querySelector('#actRf');if(rf)rf.onclick=()=>{ACT.St=0;rf.textContent='Chargement…';adminAct(b,P);};}
@@ -8074,16 +8084,22 @@ function gmAuto(G,a){const D=gmDef(a);if(G.sick&&G.sick.a===a&&G.sick.end>Date.n
 function gmSpeed(A){let n=0;GM_MS.forEach(m=>{if(A.l>=m)n++;});return Math.pow(2,n);}
 function gmNextMs(A){return GM_MS.find(m=>A.l<m)||null;}
 function gmMul(G,a,now){now=now||Date.now();let m=1;const stk=G.strike&&G.strike>now;GM_BENU.forEach(([id,t,x])=>{if(!stk&&G.ben[id]&&(t===a||t==='all'))m*=x+gmPL(G,'benx');});
-  m*=1+.02*gmStarsFree(G);m*=1+gmFrK(G)*Object.keys(G.fr||{}).length;m*=gmVest(G);(G.smod||[]).forEach(z=>m*=z.x);m*=gmThMul(G,a);
-  if(GM.noTmp)return m;let bx=1;for(const k in G.man){const M=G.man[k];if(M&&M.end>now)bx=Math.max(bx,gmManX(G,k));}if(G.vb&&G.vb.end>now)m*=G.vb.x;
-  (G.tb||[]).forEach(b=>{if(b.end>now&&(!b.st||b.st<=now)&&(!b.a||b.a===a))m*=b.x;});return m*bx;}
+  m*=gmStarMul(gmStarsFree(G));m*=1+gmFrK(G)*Object.keys(G.fr||{}).length;m*=gmVest(G);(G.smod||[]).forEach(z=>m*=z.x);m*=gmThMul(G,a);
+  if(GM.noTmp)return m;let bx=1,pen=1;for(const k in G.man){const M=G.man[k];if(M&&M.end>now)bx=Math.max(bx,gmManX(G,k));}if(G.vb&&G.vb.end>now)bx*=G.vb.x;
+  (G.tb||[]).forEach(b=>{if(b.end>now&&(!b.st||b.st<=now)&&(!b.a||b.a===a)){if(b.x>=1)bx*=b.x;else pen*=b.x;}});
+  /* les boosts du moment (manif, décisions, visiteurs, thème…) ne se cumulent pas au-delà de ×GM_TMPMAX */
+  return m*Math.min(bx,GM_TMPMAX)*pen;}
+const GM_TMPMAX=6;
 function gmCycle(G,a){const D=gmDef(a),A=G.act[a];return Math.max(.05,D.t/gmSpeed(A));}
 function gmProf(A){return Math.pow(3,Math.floor((A.l||0)/100));}
 function gmPer(G,a,now){const D=gmDef(a),A=G.act[a];return D.rv*A.l*gmProf(A)*gmMul(G,a,now);}
 function gmRate(G,now){let r=0;for(const a in G.act){const A=G.act[a];if(!A.l)continue;if(gmAuto(G,a)||A.go)r+=gmPer(G,a,now)/gmCycle(G,a);}return r;}
 function gmCost(G,a,n){const D=gmDef(a),A=G.act[a]||{l:0};const L=A.l||0;return D.c0*Math.pow(D.g,L)*(Math.pow(D.g,n)-1)/(D.g-1);}
 function gmBuyN(G,a){const D=gmDef(a),A=G.act[a]||{l:0};let n=GM.bm;if(GM.bm==='max'){const L=A.l||0,c1=D.c0*Math.pow(D.g,L);n=Math.max(1,Math.floor(Math.log(G.m*(D.g-1)/c1+1)/Math.log(D.g)));}return{n,c:gmCost(G,a,n)};}
-function gmXThr(G){return 3e10*Math.pow(30,G.x||0);}
+/* bonus des étoiles : +2 % chacune jusqu'à 500 étoiles (×11), puis ça grandit beaucoup moins vite */
+function gmStarMul(S){S=Math.max(0,S||0);return S<=500?1+.02*S:11*Math.sqrt(S/500);}
+const gmStarPct=S=>gmFmt((gmStarMul(S)-1)*100);
+function gmXThr(G){return 3e10*Math.pow(30,G.x||0)*Math.max(1,gmStarMul(gmStarsFree(G))/3);}
 function gmXOK(G){return !!GM_XTRA[G.x||0]&&G.run>=gmXThr(G);}
 function gmStarsTot(G){return Math.floor(60*Math.cbrt((G.lifeAll||0)/1e10));}
 function gmStarsNew(G){const raw=G.starsRaw!=null?G.starsRaw:(G.stars||0);return Math.max(0,Math.floor((gmStarsTot(G)-raw)*(1+.15*gmPL(G,'sais'))*(G.th==='etoile'?1.25:1)));}
@@ -8129,8 +8145,8 @@ function gmManOn(G){const n=Date.now();return Object.keys(G.man).find(k=>G.man[k
 function gmManReady(G,k){const M=GM_MAN[k],R=G.man[k];if(M.need&&!(G.act[M.need]||{}).l)return false;if(gmManOn(G))return false;return !R||Date.now()>=R.ready;}
 function gmSeasonHTML(G){const nx=GM_XTRA[G.x||0],ns=gmStarsNew(G);const xl=nx?`<div class="gmxt" ${gmLv(()=>gmXOK(G)?{t:'✅ '+nx.e+' '+nx.n+' sera débloquée !',c:'ok'}:{t:'🔒 '+nx.e+' '+nx.n+' : gagne '+gmE(gmXThr(G))+' dans la saison ('+gmE(G.run)+')',c:''})}></div>`:'';
   const th=gmThO(G);let h=`<div class="gmthnow">${th?`<span class="e">${th.e}</span><div><small>Thème de la saison</small><b>${th.n}</b><small>${th.d}</small></div>`:`<span class="e">🎴</span><div><b>Pas encore de thème</b><small>Choisis un thème pour pimenter ta saison</small></div><button class="mini-b" data-thpick="1">Choisir</button>`}</div>`;
-  h+=`<div class="gmpres"><div class="h"><span class="e">🌅</span><div><b>Nouvelle saison</b><small>Le club repart de zéro, mais tu gagnes des <b>⭐ étoiles</b> (+2 % de gains chacune, ou à dépenser en talents)${nx?`, et une nouvelle activité si ta saison a été assez grosse`:''}.</small></div></div>${xl}
-    <div class="gmstars"><div><small>Étoiles libres (+${gmFmt(gmStarsFree(G)*2)} %)</small><b>⭐ ${gmFmt(G.stars||0)}</b></div><div><small>Tu gagnerais</small><b ${gmLv(()=>'+ '+gmFmt(gmStarsNew(G))+' ⭐')}></b></div></div>
+  h+=`<div class="gmpres"><div class="h"><span class="e">🌅</span><div><b>Nouvelle saison</b><small>Le club repart de zéro, mais tu gagnes des <b>⭐ étoiles</b> (+2 % de gains chacune, un peu moins après 500, ou à dépenser en talents)${nx?`, et une nouvelle activité si ta saison a été assez grosse`:''}.</small></div></div>${xl}
+    <div class="gmstars"><div><small>Étoiles libres (+${gmStarPct(gmStarsFree(G))} %)</small><b>⭐ ${gmFmt(G.stars||0)}</b></div><div><small>Tu gagnerais</small><b ${gmLv(()=>'+ '+gmFmt(gmStarsNew(G))+' ⭐')}></b></div></div>
     <small class="gmkeep">On garde : étoiles, talents, médailles, bâtiments, amis du club, objectifs, activités de saison. On repart à zéro : argent, créneaux, maîtres-nageurs, bénévoles, effets des décisions.</small>
     <button class="gmbuy gold" id="gmPr" ${gmLv(()=>({d:gmStarsNew(G)<1,t:gmStarsNew(G)<1?'Gagne encore un peu pour ta 1re étoile…':'🌅 Commencer la saison '+(G.p+2)}))}></button></div>`;
   h+=`<div class="dsec">🎯 Objectifs <small>quelques cartes pour ta collection</small></div>`+GM_OBJ.map(o=>{const got=G.obj[o.id],ok=o.ok(G);return `<div class="gmobj${got?' got':ok?' ok':''}"><span>${got?'✅':ok?'🎁':'⬜'}</span><b>${o.t}</b>${got?'<small>reçu</small>':ok?`<button class="mini-b" data-obj="${o.id}">${o.r>1?'Booster de '+o.r:'1 carte'}</button>`:`<small>${o.r>1?'🎁 booster de '+o.r:'🎁 1 carte'}</small>`}</div>`;}).join('');
@@ -8141,12 +8157,12 @@ function gmPrestigeAsk(G){const ns=gmStarsNew(G);if(ns<1)return;const nx=gmXOK(G
   const ss=G.ss||{},dur=ss.at?(Date.now()-ss.at)/1000:0,rec=G.run>(G.rb||0)&&G.p>0,th=gmThO(G);
   const sh=sheet(`<h3>🌅 Fin de la saison ${(G.p||0)+1}</h3><div class="gmbilan"><b>📊 Le bilan${th?' · '+th.e+' '+th.n:''}</b>${rec?'<div class="rec">🏆 Nouveau record de saison !</div>':''}
     <div class="g"><span>💶<b>${gmE(G.run)}</b><small>gagnés</small></span><span>🎉<b>${ss.m||0}</b><small>manifs</small></span><span>🚨<b>${ss.i||0}</b><small>incidents</small></span><span>📬<b>${ss.d||0}</b><small>décisions</small></span><span>🦆<b>${ss.v||0}</b><small>visiteurs</small></span>${dur?`<span>⏱️<b>${gmTime(dur)}</b><small>durée</small></span>`:''}</div></div>
-    <div class="sec">Le club repart de zéro… mais en beaucoup plus fort ! Ensuite, tu choisiras le <b>🎴 thème</b> de ta nouvelle saison.</div><div class="presgain"><b>Saison ${G.p+2}</b><div><i>⭐</i>+${gmFmt(ns)} étoiles : +${gmFmt(ns*2)} % de gains (ou des talents)</div><div><i>🏅</i>+5 médailles pour ton complexe</div>${nx?`<div><i>${nx.e}</i>Nouvelle activité : ${nx.n}</div>`:''}<div><i>🎁</i>${pk?'Un paquet de 3 cartes':'Paquet de 3 cartes déjà reçu aujourd\'hui (1 par jour)'}</div></div>
+    <div class="sec">Le club repart de zéro… mais en beaucoup plus fort ! Ensuite, tu choisiras le <b>🎴 thème</b> de ta nouvelle saison.</div><div class="presgain"><b>Saison ${G.p+2}</b><div><i>⭐</i>+${gmFmt(ns)} étoiles : +${gmFmt((gmStarMul(gmStarsFree(G)+ns)-gmStarMul(gmStarsFree(G)))*100)} % de gains (ou des talents)</div><div><i>🏅</i>+5 médailles pour ton complexe</div>${nx?`<div><i>${nx.e}</i>Nouvelle activité : ${nx.n}</div>`:''}<div><i>🎁</i>${pk?'Un paquet de 3 cartes':'Paquet de 3 cartes déjà reçu aujourd\'hui (1 par jour)'}</div></div>
     <div class="trbtns"><button class="btn alt" id="bx">Pas encore</button><button class="btn" id="bgo">🌅 C'est parti !</button></div>`);
   sh.querySelector('#bx').onclick=()=>sh.remove();sh.querySelector('#bgo').onclick=()=>{sh.remove();
     if(G.run>(G.rb||0))G.rb=G.run;G.stars=(G.stars||0)+ns;G.starsRaw=gmStarsTot(G);G.p=(G.p||0)+1;G.th=null;G.ss={at:Date.now()};if(nx)G.x=(G.x||0)+1;Object.assign(G,{m:GM_CASH[gmPL(G,'cash')],run:0,act:{bebe:{l:1,pg:0,go:0}},mns:gmKeepMns(G),ben:{},man:{},tb:[],smod:[],sick:null,strike:0,mbl:0,dec:null});G.med=(G.med||0)+5;
     if(pk){G.pkd=dayKey();grantPack(3,'Gambetta Manager · nouvelle saison');try{updBoostBtn();}catch(_){}}try{stat('gmPres');}catch(_){}gmSave(true);
-    GM.tab='act';gmRender();gmThDraft(G,t=>{const ov=document.createElement('div');ov.className='giftpop';ov.innerHTML=`<div class="gcard"><div class="ptconf">${Array.from({length:26},(_,i)=>`<i style="left:${(i*37)%100}%;animation-delay:${(i%7)*.2}s">${[t.e,'⭐','🎉','💶','🏊'][i%5]}</i>`).join('')}</div><div class="emo">${t.e}</div><h3>Saison ${G.p+1} !</h3><p><b>${t.e} ${t.n}</b><br><small>${t.d}</small><br><br>⭐ ${gmFmt(G.stars)} étoiles : <b>+${gmFmt(gmStarsFree(G)*2)} % de gains</b>${nx?`<br>Nouvelle activité : <b>${nx.e} ${nx.n}</b>`:''}<br>🏅 +5 médailles pour ton complexe${pk?'<br>🎁 Un paquet de 3 cartes t\'attend !':''}</p><div class="endbtns"><button class="btn">Plonger !</button></div></div>`;
+    GM.tab='act';gmRender();gmThDraft(G,t=>{const ov=document.createElement('div');ov.className='giftpop';ov.innerHTML=`<div class="gcard"><div class="ptconf">${Array.from({length:26},(_,i)=>`<i style="left:${(i*37)%100}%;animation-delay:${(i%7)*.2}s">${[t.e,'⭐','🎉','💶','🏊'][i%5]}</i>`).join('')}</div><div class="emo">${t.e}</div><h3>Saison ${G.p+1} !</h3><p><b>${t.e} ${t.n}</b><br><small>${t.d}</small><br><br>⭐ ${gmFmt(G.stars)} étoiles : <b>+${gmStarPct(gmStarsFree(G))} % de gains</b>${nx?`<br>Nouvelle activité : <b>${nx.e} ${nx.n}</b>`:''}<br>🏅 +5 médailles pour ton complexe${pk?'<br>🎁 Un paquet de 3 cartes t\'attend !':''}</p><div class="endbtns"><button class="btn">Plonger !</button></div></div>`;
       $('#app').appendChild(ov);ov.querySelector('.btn').onclick=()=>ov.remove();});};}
 /* ---------- animations ---------- */
 function gmFloat(txt,col){if(!gmActive())return;const d=document.createElement('div');d.className='gmfloat';d.style.color=col||'#fff';d.textContent=txt;d.style.left=(30+Math.random()*40)+'%';$('#manager').appendChild(d);setTimeout(()=>d.remove(),1400);}
@@ -8167,7 +8183,7 @@ function gmLaneHTML(G,a){const D=gmDef(a),A=G.act[a],auto=gmAuto(G,a),own=!!G.mn
 function gmRender(){const b=$('#gmBody');if(!b)return;const G=gmG();GM.L=[];const sc=b.scrollTop,D=gmDots(G),now=Date.now();
   const acts=gmActs(G),open=acts.filter(a=>(G.act[a]||{}).l),next=acts.find(a=>!(G.act[a]||{}).l);
   const hired=GM_BENU.filter(u=>G.ben[u[0]]).map(u=>u[0]),fr=Object.keys(G.fr||{});
-  let h=`<div class="gmhead"><div class="gmmoney"><b ${gmLv(()=>gmE(G.m))}></b><span ${gmLv(()=>'+'+gmE(gmRate(G))+' / s')}></span>${G.stars?`<button class="st" data-sheet="shop">⭐ ${gmFmt(gmStarsFree(G))} · +${gmFmt(gmStarsFree(G)*2)} % · talents ›</button>`:''}</div>
+  let h=`<div class="gmhead"><div class="gmmoney"><b ${gmLv(()=>gmE(G.m))}></b><span ${gmLv(()=>'+'+gmE(gmRate(G))+' / s')}></span>${G.stars?`<button class="st" data-sheet="shop">⭐ ${gmFmt(gmStarsFree(G))} · +${gmStarPct(gmStarsFree(G))} % · talents ›</button>`:''}</div>
     <div class="gmboost" ${gmLv(()=>{const now=Date.now(),L=Object.keys(G.man).filter(k=>G.man[k].end>now);const vb=G.vb&&G.vb.end>now?[G.vb.e+' ×'+G.vb.x+' '+gmTime((G.vb.end-now)/1000)]:[];const T=L.map(k=>GM_MAN[k].e+' ×'+gmManX(G,k)+' '+gmTime((G.man[k].end-now)/1000)).concat(vb).concat((G.tb||[]).filter(b=>b.end>now&&(!b.st||b.st<=now)).map(b=>b.e+' '+(b.x===0?'fermé':(b.x<1?'−'+Math.round((1-b.x)*100)+' %':'×'+gmFmt(b.x)))+(b.a?' ('+gmDef(b.a).e+')':'')+' '+gmTime((b.end-now)/1000)));if(G.strike>now)T.push('✊ grève '+gmTime((G.strike-now)/1000));return{t:T.join('   '),h:!T.length};})}></div>
     <div class="gminc" ${gmLv(()=>{const C=GM.inc;if(!C)return{h:true};return{h:false,t:'🚨 '+C.I.e+' '+C.I.n+' en '+gmDef(C.a).e+' '+gmDef(C.a).n+' ! Touche la ligne'+(C.I.taps>1?' '+(C.I.taps-C.got)+' fois':'')+' · '+Math.max(0,Math.ceil(C.left))+' s'};})}></div></div>
    <div class="gmscene"><div class="gmdeco" id="gmDeco"></div>
@@ -8356,7 +8372,7 @@ const GM_TH=[
   {k:'post',e:'📬',n:'Saison mouvementée',d:'Courrier 2× plus souvent, +1 🏅 à chaque décision'},
   {k:'fete',e:'🎉',n:'Saison des fêtes',d:'Attente entre deux manifestations −30 %'},
   {k:'nuit',e:'🌙',n:'Saison nocturne',d:'Gains hors ligne : +8 h de plus'},
-  {k:'mecene',e:'💶',n:'Le mécène',d:'Gains ×3 pendant les 15 premières minutes'},
+  {k:'mecene',e:'💶',n:'Le mécène',d:'Gains ×2 pendant les 10 premières minutes'},
   {k:'etoile',e:'⭐',n:'Saison des étoiles',d:'+25 % d\'étoiles à la fin, mais gains −15 %'},
   {k:'benev',e:'🙋',n:'Saison des bénévoles',d:'Bénévoles 2× moins chers'}
 ];
@@ -8370,7 +8386,7 @@ function gmThDraft(G,done){const last=G.thl||'',L=qqShuffle(GM_TH.filter(t=>t.k!
   const sh=sheet(`<h3>🎴 Thème de saison</h3><div class="sec">Choisis comment va se passer la saison ${(G.p||0)+1}. Il dure jusqu'à la prochaine nouvelle saison !</div>
     <div class="gmth">${L.map(t=>`<button class="gmthc" data-th="${t.k}"><span class="e">${t.e}</span><b>${t.n}</b><small>${t.d}</small></button>`).join('')}</div>`);
   sh.classList.add('gmthsh');sh.querySelectorAll('[data-th]').forEach((x,i)=>{x.style.animationDelay=(i*.15)+'s';x.onclick=()=>{const t=GM_TH.find(z=>z.k===x.dataset.th);G.th=t.k;G.thl=t.k;
-    if(t.k==='mecene')gmTB(G,{x:3,end:Date.now()+900e3,e:'💶'});try{fgSfx('parry');}catch(_){}sh.remove();gmSave(true);gmRender();if(done)done(t);else toast(t.e,t.n,t.d);};});}
+    if(t.k==='mecene')gmTB(G,{x:2,end:Date.now()+600e3,e:'💶'});try{fgSfx('parry');}catch(_){}sh.remove();gmSave(true);gmRender();if(done)done(t);else toast(t.e,t.n,t.d);};});}
 const GM_DEC=[
   {k:'sifflet',e:'📯',n:'Roland a perdu son sifflet !',t:'Impossible de lancer les cours de bébés nageurs sans lui… Il est peut-être au fond du bassin.',o:c=>[
     {t:'🤿 Plonger le chercher',d:'Bassin fermé 2 min, puis +2 🏅',go:G=>{gmClose(G,2,'🤿');gmMed(G,2);return 'Retrouvé ! Roland siffle de joie.';}},
@@ -8461,8 +8477,8 @@ function gmBldHTML(G){return `<h3>🏗️ Le complexe</h3><div class="gmhint">Le
   <div class="gmmed">🏅 <b ${gmLv(()=>gmFmt(G.med||0))}></b> médailles</div>`+GM_BLD.map(B=>{const l=gmBL(G,B.k),mx=B.c.length,c=B.c[l];
     return `<div class="gmper${l>=mx?' own':''}"><span class="gmbe${l?'':' off'}">${B.e}</span><div class="i"><b>${B.n}</b> <span class="lvs">${'★'.repeat(l)}${'☆'.repeat(mx-l)}</span><small>${l?'Maintenant : '+B.d(l):'Pas encore construit'}${l<mx?'<br>'+(l?'Niveau '+(l+1):'Construit')+' : <b>'+B.d(l+1)+'</b>':''}</small></div>
     ${l<mx?`<button class="mini-b gmh" data-bld="${B.k}" ${gmLv(()=>({d:(G.med||0)<c}))}>${l?'Améliorer':'Construire'}<br><b>🏅 ${c}</b></button>`:'<span class="ok">✅</span>'}</div>`;}).join('');}
-function gmShopHTML(G){return `<h3>⭐ Les talents</h3><div class="gmhint">Chaque ⭐ étoile <b>non dépensée</b> donne +2 % de gains. Tu peux aussi les dépenser pour des <b>talents gardés pour toujours</b>… mais une étoile dépensée ne donne plus ses +2 %, et chaque niveau coûte environ 3× plus que le précédent. Certains talents ne s'ouvrent qu'après plusieurs saisons. À toi de choisir !</div>
-  <div class="gmmed">⭐ <b>${gmFmt(gmStarsFree(G))}</b> étoiles libres <small>sur ${gmFmt(G.stars||0)} · +${gmFmt(gmStarsFree(G)*2)} % de gains</small></div>`+GM_PERK.map(P=>{const l=gmPL(G,P.k),mx=P.c.length,c=P.c[l];
+function gmShopHTML(G){return `<h3>⭐ Les talents</h3><div class="gmhint">Chaque ⭐ étoile <b>non dépensée</b> donne +2 % de gains (au-delà de 500 étoiles, le bonus grandit moins vite). Tu peux aussi les dépenser pour des <b>talents gardés pour toujours</b>… mais une étoile dépensée ne donne plus ses +2 %, et chaque niveau coûte environ 3× plus que le précédent. Certains talents ne s'ouvrent qu'après plusieurs saisons. À toi de choisir !</div>
+  <div class="gmmed">⭐ <b>${gmFmt(gmStarsFree(G))}</b> étoiles libres <small>sur ${gmFmt(G.stars||0)} · +${gmStarPct(gmStarsFree(G))} % de gains</small></div>`+GM_PERK.map(P=>{const l=gmPL(G,P.k),mx=P.c.length,c=P.c[l];
     return `<div class="gmper${l>=mx?' own':''}"><span class="gmbe${l?'':' off'}">${P.e}</span><div class="i"><b>${P.n}</b> <span class="lvs">${'★'.repeat(l)}${'☆'.repeat(mx-l)}</span><small>${l?'Maintenant : '+P.d(l):'Pas encore appris'}${l<mx?'<br>'+(l?'Niveau '+(l+1):'Apprendre')+' : <b>'+P.d(l+1)+'</b>':''}</small></div>
     ${gmPLock(G,P)?`<span class="lockt">🔒 Après ${P.p} saison${P.p>1?'s':''} terminée${P.p>1?'s':''}</span>`:l<mx?`<button class="mini-b gmh" data-perk="${P.k}" ${gmStarsFree(G)<c?'disabled':''}>${l?'Améliorer':'Apprendre'}<br><b>⭐ ${gmFmt(c)}</b><small>−${gmFmt(c*2)} %</small></button>`:'<span class="ok">✅</span>'}</div>`;}).join('');}
 function gmAutoBuy(G){let n=0;const budget=G.m*[0,.25,.5][gmPL(G,'auto')];let spent=0;while(n<25){let best=null,bc=Infinity;gmOpen(G).forEach(a=>{const c=gmCost(G,a,1);if(c<bc){bc=c;best=a;}});if(!best||spent+bc>budget)break;G.m-=bc;spent+=bc;G.act[best].l++;n++;}return n;}
