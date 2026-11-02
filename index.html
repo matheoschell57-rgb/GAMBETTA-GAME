@@ -1025,6 +1025,21 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 .fgabil i{grid-row:1/3;font-style:normal;font-size:20px;text-align:center}.fgabil b{font-size:13.5px}.fgabil small{font-size:11.5px;line-height:1.25;color:var(--muted);font-weight:600}
 .fglad .st em{font-style:normal;font-size:8.5px;color:#e0a800;letter-spacing:-1px;height:10px}
 .fghelp{text-align:left;font-size:13px;line-height:1.45}
+.rulesov{position:absolute;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(10,30,50,.55);animation:pop .25s both}
+.rulescard{background:var(--card);color:var(--text);border:3px solid var(--ink);border-radius:22px;box-shadow:0 6px 0 var(--ink);padding:16px 16px 14px;max-width:360px;width:100%;text-align:center}
+.rulescard .rav{width:76px;height:76px;border-radius:50%;margin:-50px auto 6px;border:3px solid var(--ink);overflow:hidden}.rulescard .rav svg{width:100%;height:100%;display:block}
+.rulescard h3{margin:0 0 10px;font-size:20px}.rulescard p{margin:0 0 10px;text-align:left;font-size:15px;line-height:1.35;background:rgba(0,120,200,.07);border-radius:12px;padding:8px 10px}
+.rulescard p b{display:block;font-size:13px;margin-bottom:2px}.rulescard .btn{width:100%;margin-top:4px}
+#game .rq{position:absolute;right:8px;top:66px;z-index:30;width:32px;height:32px;border-radius:50%;border:2.5px solid var(--ink);background:rgba(255,255,255,.85);color:#1b2a3a;font:inherit;font-weight:900;font-size:16px;line-height:1;padding:0;box-shadow:0 2px 0 var(--ink);cursor:pointer}
+.fghelp summary{cursor:pointer;list-style:none}.fghelp summary::-webkit-details-marker{display:none}.fghelp[open] summary{margin-bottom:8px}
+.fgtips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0 8px}.fgtips div{background:var(--card);border:2.5px solid var(--ink);border-radius:14px;padding:8px 6px;text-align:center;box-shadow:0 3px 0 var(--ink)}
+.fgtips i{display:block;font-style:normal;font-size:26px}.fgtips b{display:block;font-size:13px}.fgtips small{display:block;font-size:11px;line-height:1.25;opacity:.8;margin-top:2px}
+.fgtuto{width:100%;margin:2px 0 10px}
+.fgtb{position:absolute;left:8px;right:8px;top:78px;background:rgba(27,42,58,.88);color:#fff;border-radius:14px;padding:8px 10px;text-align:center;pointer-events:none;z-index:3;transition:background .2s}
+.fgtb.ok{background:rgba(30,150,80,.92)}.fgtb b{display:block;font-size:15px}.fgtb small{display:block;font-size:12px;opacity:.9;margin-top:2px}
+.fgtb button{pointer-events:auto;margin-top:6px;border:0;border-radius:10px;padding:4px 10px;font:inherit;font-size:12px;font-weight:800;background:#fff;color:#1b2a3a}
+.fgpad button.hl{animation:fghl .8s ease-in-out infinite;outline:4px solid #ffd23f;outline-offset:2px}
+@keyframes fghl{50%{transform:scale(1.07)}}
 .fgvs q{display:block;margin-top:8px;background:#fff;color:#1b2a3a;border:2.5px solid #1b2a3a;border-radius:14px;padding:5px 8px;font-size:11.5px;font-weight:700;line-height:1.25;quotes:none;position:relative;animation:pop .4s .9s both;max-width:150px}
 .fgvs .r q{animation-delay:1.5s}.fgvs q::before{content:'';position:absolute;top:-8px;left:50%;margin-left:-6px;border:6px solid transparent;border-bottom-color:#1b2a3a;border-top:0}
 .fgstars{display:flex;gap:6px;justify-content:center;margin:4px 0 2px}.fgstars span{font-size:38px;color:rgba(255,255,255,.3);-webkit-text-stroke:2px #1b2a3a}.fgstars span.on{color:#ffd23f;animation:fgstar .5s cubic-bezier(.2,1.8,.5,1) both}
@@ -5374,7 +5389,7 @@ function gameMaurice(stage,api){
 
 /* ================= WILLI : la moto amphibie ================= */
 function gameWilli(stage,api){
-  const cv=makeCanvas(stage),ctx=cv.ctx,L=CHARS.willi.look,LIVES=3,NSEG=22;
+  const cv=makeCanvas(stage),ctx=cv.ctx,L=CHARS.willi.look,LIVES=3,NSEG=22,JMP=0.9;
   const wil=svgImg(avatar(L,{viewBox:'20 10 160 170'}));
   const STAGES=[{n:'Provence',e:'☀️',sky:['#7fd3ff','#ffe9b0']},{n:'Lyon',e:'🦁',sky:['#8ac8ff','#e8f3ff']},{n:'Vosges',e:'🌲',sky:['#9fc0e8','#dde9f5']},{n:'Moselle',e:'🍇',sky:['#ffb37a','#ffe0c0']},{n:'Metz',e:'🏊',sky:['#ff9a8a','#ffd6b0']}];
   // la route : alternance route / eau, de plus en plus serrée
@@ -5389,7 +5404,7 @@ function gameWilli(stage,api){
   function lose(msg){if(inv>0)return;lives--;hud();inv=1.6;say(msg,'#ff6b5b');try{navigator.vibrate&&navigator.vibrate(130);}catch(_){}
     if(lives<=0){over=true;setTimeout(()=>api.end(false,'Willi a pris l\'eau…',`La moto a coulé avant d'arriver à Metz (${Math.round(pos/END*100)} % du trajet). Sors les flotteurs juste avant l'eau !`),1000);}}
   function toggle(){if(over||plouf>0)return;mode=mode==='road'?'boat':'road';fx.push({x:cv.W*0.25,y:cv.H*0.5,txt:mode==='boat'?'🛟 Flotteurs !':'🛞 Roues !',t:0,c:'#fff'});try{fgSfx('pop');}catch(_){}}
-  function hop(){if(over||jump>0||plouf>0)return;jump=0.62;}
+  function hop(){if(over||jump>0||plouf>0)return;jump=JMP;}
   const geo=()=>{const W=cv.W,H=cv.H,bh=Math.min(74,H*0.1);return{W,H,bh,by:H-bh-12,gy:H*0.62};};
   const onDown=e=>{e.preventDefault();const q=cv.pt(e),g=geo();if(q.x<g.W/2)toggle();else hop();};
   const onKey=e=>{if(e.key==='ArrowDown'||e.key==='f'){e.preventDefault();toggle();}else if(e.key===' '||e.key==='ArrowUp'){e.preventDefault();hop();}};
@@ -5422,8 +5437,8 @@ function gameWilli(stage,api){
       // arrivée : la piscine du club
       const fxp=toS(END);if(fxp<W+80){rr(ctx,fxp-10,g.gy-90,120,90,8);ctx.fillStyle='#fff';ctx.fill();ctx.lineWidth=3;ctx.strokeStyle=INK;ctx.stroke();ctx.font='700 12px Fredoka, sans-serif';ctx.fillStyle=PINK;ctx.fillText('CLUB',fxp+50,g.gy-68);ctx.fillText('GAMBETTA',fxp+50,g.gy-52);ctx.font='24px sans-serif';ctx.fillText('🏊🍺',fxp+50,g.gy-26);}
       // Willi et sa moto
-      const S=segAt(pos),onW=!S.road&&plouf<=0,jy=jump>0?-Math.sin((1-jump/0.62)*Math.PI)*70:0,by=g.gy-24+jy+(onW?14+Math.sin(t*6)*2:0)+(plouf>0?(1-plouf)*60:0),blink=inv>0&&Math.floor(t*12)%2;
-      if(!blink){ctx.save();ctx.translate(bx,by);ctx.scale(1.35,1.35);ctx.rotate(jump>0?-0.15:0);
+      const S=segAt(pos),onW=!S.road&&plouf<=0,jy=jump>0?-Math.sin((1-jump/JMP)*Math.PI)*Math.min(150,cv.H*0.17):0,by=g.gy-24+jy+(onW?14+Math.sin(t*6)*2:0)+(plouf>0?(1-plouf)*60:0),blink=inv>0&&Math.floor(t*12)%2;
+      if(!blink){ctx.save();ctx.translate(bx,by);ctx.scale(1.35,1.35);ctx.rotate(jump>0?-0.25*Math.cos((1-jump/JMP)*Math.PI):0);
         if(mode==='road'){[-24,24].forEach(wx=>{ctx.fillStyle='#1b2a3a';ctx.beginPath();ctx.arc(wx,14,13,0,7);ctx.fill();ctx.fillStyle='#c9ced4';ctx.beginPath();ctx.arc(wx,14,5,0,7);ctx.fill();});}
         else{ctx.fillStyle='#ff8a3d';rr(ctx,-38,8,76,14,7);ctx.fill();ctx.lineWidth=2.5;ctx.strokeStyle=INK;ctx.stroke();ctx.save();ctx.translate(-40,16);ctx.rotate(t*25);ctx.fillStyle='#ffcf33';ctx.fillRect(-2,-9,4,18);ctx.restore();}
         ctx.fillStyle='#e63b3b';ctx.beginPath();ctx.moveTo(-30,4);ctx.lineTo(26,4);ctx.lineTo(34,-10);ctx.lineTo(10,-14);ctx.lineTo(-24,-8);ctx.closePath();ctx.fill();ctx.lineWidth=3;ctx.strokeStyle=INK;ctx.stroke();
@@ -5613,119 +5628,119 @@ function cardHTML(k,big){const m=MG_CARDS[k],c=CHARS[k],num=String(MG_ORDER.inde
 function lockedHTML(k){const c=CHARS[k];return `<div class="tcard locked" data-k="${k}" data-locked="1" role="button"><div class="lq">?</div><div class="lh">${c.name}</div></div>`;}
 /* ================= CARTES MEMBRES (dessins fournis par Mathéo) ================= */
 const MEMBERS=[
- {id:'emma',n:'Emma',r:'R',pos:'52% 22%',t:"Une attitude de star du club et un vrai rayon de soleil !",img:'img/m/emma.webp',ar:1.333,thumb:'img/m/emma_s.webp'},
- {id:'pascal',n:'Pascal',r:'R',pos:'50% 30%',t:"Le seul qui a réussi à faire danser le maire !",img:'img/m/pascal.webp',ar:0.794,thumb:'img/m/pascal_s.webp'},
- {id:'richard',n:'Richard',r:'R',pos:'50% 45%',t:"Son sifflement est assourdissant.",img:'img/m/richard.webp',ar:1.049,thumb:'img/m/richard_s.webp'},
- {id:'stephane',n:'Stéphane',r:'R',pos:'50% 46%',t:"La dernière fois qu’on l’a vu dans l’eau, la photo n’existait pas. Cette peinture en est le seul témoignage.",img:'img/m/stephane.webp',ar:0.867,thumb:'img/m/stephane_s.webp'},
- {"id": "p_christophe", "n": "Petit Christophe", "r": "R", "t": "Répond aux mails plus vite que son ombre.", "pos": "40% 50%", "img": "img/m/p_christophe.webp",ar:1.501, "full": 0, "thumb": "img/m/p_christophe_s.webp"},
- {"id": "gendarmes", "n": "Les gendarmes du club", "r": "E", "t": "Prêts à tout pour protéger leur mère patrie : Gambetta !", "pos": "50% 30%", "img": "img/m/gendarmes.webp",ar:0.746, "full": 0, "thumb": "img/m/gendarmes_s.webp"},
- {"id": "nageurs_fous", "n": "Les nageurs fous", "r": "E", "t": "Nager sans se noyer : la mission de 2 skieurs et d’un plongeur (normal qu’il coule, il n’a pas l’habitude).", "pos": "50% 12%", "img": "img/m/nageurs_fous.webp",ar:0.746, "full": 0, "thumb": "img/m/nageurs_fous_s.webp"},
- {"id": "selfies_christian", "n": "Les mythiques selfies de Christian", "r": "E", "t": "Toujours au premier plan avec son crâne luisant.", "pos": "25% 60%", "img": "img/m/selfies_christian.webp",ar:1.333, "full": 0, "thumb": "img/m/selfies_christian_s.webp"},
- {"id": "plus_qu_un_club", "n": "Club Gambetta, plus qu’un club", "r": "L", "t": "", "pos": "50% 50%", "img": "img/m/plus_qu_un_club.webp",ar:0.528, "full": 1, "thumb": "img/m/plus_qu_un_club_s.webp"},
- {"id": "mascottes", "n": "Les mascottes", "r": "E", "t": "Fêtes du club ou Messine : les mascottes du club sont toujours mobilisées !", "pos": "50% 50%", "img": "img/m/mascottes.webp",ar:0.805, "full": 0, "thumb": "img/m/mascottes_s.webp"},
- {"id": "laetitia_matin", "n": "Laetitia le matin", "r": "E", "t": "Quand c'est pas le moment, c'est pas le moment. D'ailleurs, c'est rarement le moment avant 12 h.", "pos": "50% 0%", "img": "img/m/laetitia_matin.webp",ar:0.745, "full": 0, "thumb": "img/m/laetitia_matin_s.webp"},
- {"id": "alan", "n": "Alan", "r": "R", "t": "Propriétaire de Hulk et Alix.", "pos": "50% 25%", "img": "img/m/alan.webp",ar:0.746, "full": 0, "thumb": "img/m/alan_s.webp"},
- {"id": "inseparables", "n": "Les inséparables", "r": "E", "t": "Toujours ensemble pour « surveiller »… mais surtout pour discuter.", "pos": "50% 60%", "img": "img/m/inseparables.webp",ar:0.746, "full": 0, "thumb": "img/m/inseparables_s.webp"},
- {"id": "noah", "n": "Noah", "r": "R", "t": "Un maître-nageur made in Gambetta.", "pos": "50% 30%", "img": "img/m/noah.webp",ar:0.746, "full": 0, "thumb": "img/m/noah_s.webp"},
- {"id": "lilian", "n": "Lilian", "r": "R", "t": "Le plus sportif du club.", "pos": "50% 22%", "img": "img/m/lilian.webp",ar:0.746, "full": 0, "thumb": "img/m/lilian_s.webp"},
- {"id": "crepes", "n": "L’équipe des crêpes", "r": "E", "t": "Merci de nous régaler à chaque compétition !", "pos": "50% 40%", "img": "img/m/crepes.webp",ar:0.746, "full": 0, "thumb": "img/m/crepes_s.webp"},
- {"id": "mickey", "n": "Mickey", "r": "R", "t": "Notre petit clown du club.", "pos": "50% 30%", "img": "img/m/mickey.webp",ar:0.863, "full": 0, "thumb": "img/m/mickey_s.webp"},
- {"id": "maurice", "n": "Maurice", "r": "R", "t": "Le meilleur des aquabikers : son record de distance dans le bassin est de 0,1 m. C'est fort !", "pos": "50% 20%", "img": "img/m/maurice.webp",ar:0.755, "full": 0, "thumb": "img/m/maurice_s.webp"},
- {"id": "matheo", "n": "Mathéo", "r": "R", "t": "Waouh, les muscles… (si seulement).", "pos": "50% 25%", "img": "img/m/matheo.webp",ar:0.746, "full": 0, "thumb": "img/m/matheo_s.webp"},
- {"id": "alix", "n": "Alix", "r": "R", "t": "HULKKKKK ou BLEUARGHULKKKK… ou juste une envie de vomir.", "pos": "50% 30%", "img": "img/m/alix.webp",ar:0.746, "full": 0, "thumb": "img/m/alix_s.webp"},
- {"id": "christophe", "n": "Christophe", "r": "R", "t": "Quand il rase sa barbe, ça nous fait toujours un choc.", "pos": "50% 20%", "img": "img/m/christophe.webp",ar:0.746, "full": 0, "thumb": "img/m/christophe_s.webp"},
- {"id": "roland", "n": "Roland", "r": "L", "t": "Fondateur bien-aimé de notre club bien-aimé.", "pos": "50% 20%", "img": "img/m/roland.webp",ar:0.746, "full": 0, "thumb": "img/m/roland_s.webp"},
- {"id": "christine", "n": "Christine", "r": "R", "t": "Entre le club et le département, grâce à elle, à Gambetta on est sur tous les fronts.", "pos": "50% 40%", "img": "img/m/christine.webp",ar:0.746, "full": 0, "thumb": "img/m/christine_s.webp"},
- {"id": "genevieve_alain", "n": "Geneviève et Alain", "r": "R", "t": "Jamais l'un sans l'autre à mes yeux.", "pos": "50% 30%", "img": "img/m/genevieve_alain.webp",ar:0.746, "full": 0, "thumb": "img/m/genevieve_alain_s.webp"},
- {"id": "clement", "n": "Clément", "r": "R", "t": "De superbes montages vidéo (vive les poissons) !", "pos": "50% 35%", "img": "img/m/clement.webp",ar:0.746, "full": 0, "thumb": "img/m/clement_s.webp"},
- {"id": "cyril", "n": "Cyril", "r": "R", "t": "Toujours dans son camion, c'est pour ça qu'on ne le voit plus dans l'eau.", "pos": "50% 30%", "img": "img/m/cyril.webp",ar:0.746, "full": 0, "thumb": "img/m/cyril_s.webp"},
- {"id": "dario", "n": "Dario", "r": "R", "t": "Le plus heureux à chaque retour de la machine à glace.", "pos": "35% 45%", "img": "img/m/dario.webp",ar:0.746, "full": 0, "thumb": "img/m/dario_s.webp"},
- {"id": "jacky", "n": "Jacky", "r": "R", "t": "Sans lui, les bikes ne seraient pas en aussi bon état. N'est-ce pas, la ville de Metz ?!", "pos": "50% 30%", "img": "img/m/jacky.webp",ar:0.746, "full": 0, "thumb": "img/m/jacky_s.webp"},
- {"id": "jean_francois", "n": "Jean-François", "r": "R", "t": "Depuis le début, il nous entraîne et nous forme pour le BNSSA, et tout ça bénévolement. Mais quel homme !", "pos": "50% 30%", "img": "img/m/jean_francois.webp",ar:0.746, "full": 0, "thumb": "img/m/jean_francois_s.webp"},
- {"id": "zoe", "n": "Zoé", "r": "R", "t": "OH, ON TE VOIT PLUS LÀ ! REVIENS UN PEU, NON ?!?!", "pos": "50% 30%", "img": "img/m/zoe.webp",ar:0.746, "full": 0, "thumb": "img/m/zoe_s.webp"},
- {"id": "romain", "n": "Romain", "r": "R", "t": "Vivre avec une blonde, pas trop dur ? Demande à Christian ou Mathéo, ils ont l’habitude (même des fausses) !", "pos": "50% 15%", "img": "img/m/romain.webp",ar:0.746, "full": 0, "thumb": "img/m/romain_s.webp"},
- {"id": "marcel", "n": "Marcel", "r": "R", "t": "Le roi de l'organisation, mais surtout le roi de la buvette !", "pos": "50% 35%", "img": "img/m/marcel.webp",ar:0.820, "full": 0, "thumb": "img/m/marcel_s.webp"},
- {"id": "bouchon", "n": "Bouchon", "r": "R", "t": "On l’appelle « mon petit bouchon », mais avec ses clés autour du cou, c’est plutôt Bouchon-Partout !", "pos": "52% 45%", "img": "img/m/bouchon.webp",ar:1.333, "full": 0, "thumb": "img/m/bouchon_s.webp"},
- {"id": "poisson_toutouille", "n": "Poisson toutouille", "r": "E", "t": "Une espèce rarement observée, mais les chances augmentent énormément s'il y a du saucisson.", "pos": "50% 8%", "img": "img/m/poisson_toutouille.webp",ar:0.750, "full": 0, "thumb": "img/m/poisson_toutouille_s.webp"},
- {"id": "agnes", "n": "Agnès", "r": "R", "t": "La maman du groupe, mais aussi la cuisinière des apéros. Elle a vraiment tout pour elle.", "pos": "50% 50%", "img": "img/m/agnes.webp",ar:0.750, "full": 0, "thumb": "img/m/agnes_s.webp"},
- {"id": "3_generations", "n": "3 générations", "r": "E", "t": "Gambetta, c’est avant tout une histoire de famille.", "pos": "50% 35%", "ar": 1.009, "full": 0, "img": "img/m/3_generations.webp", "fit": 1, "thumb": "img/m/3_generations_s.webp"},
- {"id": "audrey", "n": "Audrey", "r": "R", "t": "Un club sans secrétaire, c’est comme des lasagnes de Christian sans petits pois : c’est nul !", "pos": "50% 35%", "ar": 0.666, "full": 0, "img": "img/m/audrey.webp", "thumb": "img/m/audrey_s.webp"},
- {"id": "art_gambetta", "n": "Art Gambetta", "r": "E", "t": "Toujours de bonnes idées dans ce club !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/art_gambetta.webp", "thumb": "img/m/art_gambetta_s.webp"},
- {"id": "sofian", "n": "Sofian", "r": "R", "t": "Notre infiltré pour la sécurité de nos évènements.", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/sofian.webp", "thumb": "img/m/sofian_s.webp"},
- {"id": "lucas", "n": "Lucas", "r": "R", "t": "Encore un SCHELL, ça fait beaucoup là, non ?", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/lucas.webp", "thumb": "img/m/lucas_s.webp"},
- {"id": "laurent", "n": "Laurent", "r": "R", "t": "Pas son seul club, mais sûrement son préféré. N’est-ce pas Laurent ?", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/laurent.webp", "thumb": "img/m/laurent_s.webp"},
- {"id": "quentin", "n": "Quentin", "r": "R", "t": "Un nouveau Parisien, mais un ancien Gambetien.", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/quentin.webp", "thumb": "img/m/quentin_s.webp"},
- {"id": "anthony", "n": "Anthony", "r": "R", "t": "Un fou à mes yeux : que ce soit au bike, à la course ou n’importe quoi, c’est un fou !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/anthony.webp", "thumb": "img/m/anthony_s.webp"},
- {"id": "laurence", "n": "Laurence", "r": "R", "t": "", "pos": "50% 35%", "ar": 0.747, "full": 0, "img": "img/m/laurence.webp", "thumb": "img/m/laurence_s.webp"},
- {"id": "margaux", "n": "Margaux", "r": "R", "t": "Toujours le sourire, malgré le fait qu’elle soit l’esclave préférée de Laetitia.", "pos": "50% 35%", "ar": 0.769, "full": 0, "img": "img/m/margaux.webp", "thumb": "img/m/margaux_s.webp"},
- {"id": "pierre", "n": "Pierre", "r": "R", "t": "Quel photographe talentueux. MAIS 1000 PHOTOS POUR UN 50 m, ÇA VA PAS OU QUOI !?!?", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/pierre.webp", "thumb": "img/m/pierre_s.webp"},
- {"id": "julien", "n": "Julien", "r": "R", "t": "Je te tiens, tu me tiens par la GIGA BARBICHETTE !", "pos": "50% 35%", "ar": 0.75, "full": 0, "img": "img/m/julien.webp", "thumb": "img/m/julien_s.webp"},
- {"id": "manue", "n": "Manue", "r": "R", "t": "Même sans soutien-gorge, elle ne lâche rien.", "pos": "50% 35%", "ar": 0.75, "full": 0, "img": "img/m/manue.webp", "thumb": "img/m/manue_s.webp"},
- {"id": "ethan", "n": "Ethan", "r": "R", "t": "Ethan ? Je crois pas. Touillette, beaucoup mieux !", "pos": "50% 35%", "ar": 0.803, "full": 0, "img": "img/m/ethan.webp", "thumb": "img/m/ethan_s.webp"},
- {"id": "couple_noel", "n": "Couple Noël", "r": "E", "t": "Quelle chance on a que le Père Noël et sa femme nous réservent une semaine entière avant les fêtes !", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/couple_noel.webp", "thumb": "img/m/couple_noel_s.webp"},
- {"id": "mathis", "n": "Mathis", "r": "R", "t": "Il est parti petit, mais nous est revenu complètement différent.", "pos": "50% 35%", "ar": 0.75, "full": 0, "img": "img/m/mathis.webp", "thumb": "img/m/mathis_s.webp"},
- {"id": "mae", "n": "Maé", "r": "R", "t": "Mais oh, il est où notre petit Maé, là ?!", "pos": "50% 35%", "ar": 0.75, "full": 0, "img": "img/m/mae.webp", "thumb": "img/m/mae_s.webp"},
- {"id": "manon", "n": "Manon", "r": "R", "t": "Qu’est-ce qu’on ferait sans notre petite Manon ? Franchement, on rigolerait BEAUCOUP moins, ça c’est sûr !", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/manon.webp", "thumb": "img/m/manon_s.webp"},
- {"id": "la_fameuse_manon_au_nez_rouge", "n": "La fameuse Manon au nez rouge", "r": "E", "t": "Manon et les coups de soleil, une grande histoire d’amour.", "pos": "50% 40%", "ar": 1.0, "full": 0, "img": "img/m/la_fameuse_manon_au_nez_rouge.webp", "thumb": "img/m/la_fameuse_manon_au_nez_rouge_s.webp"},
- {"id": "alex", "n": "Alex", "r": "R", "t": "Il a fait le site avant l’arrivée des IA, comme moi avec ce jeu et ces dessins. Tout fait à la main !", "pos": "50% 35%", "ar": 0.75, "full": 0, "img": "img/m/alex.webp", "thumb": "img/m/alex_s.webp"},
- {"id": "carole", "n": "Carole", "r": "R", "t": "Notre prof d’allemand favori !", "pos": "50% 35%", "ar": 0.635, "full": 0, "img": "img/m/carole.webp", "thumb": "img/m/carole_s.webp"},
- {"id": "catherine", "n": "Catherine", "r": "R", "t": "", "pos": "50% 35%", "ar": 0.659, "full": 0, "img": "img/m/catherine.webp", "thumb": "img/m/catherine_s.webp"},
- {"id": "un_pere_un_fils_2_presidents", "n": "Un père, un fils, 2 présidents", "r": "L", "t": "", "pos": "50% 35%", "ar": 0.805, "full": 1, "img": "img/m/un_pere_un_fils_2_presidents.webp", "thumb": "img/m/un_pere_un_fils_2_presidents_s.webp"},
- {"id": "david", "n": "David", "r": "R", "t": "Il gère bien plus que la trésorerie, et surtout il me paie. David, t’es le meilleur, continue !", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/david.webp", "thumb": "img/m/david_s.webp"},
- {"id": "louis", "n": "Louis", "r": "R", "t": "Vous me le protégez, ce petit loup !", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/louis.webp", "thumb": "img/m/louis_s.webp"},
- {"id": "team_profs", "n": "Team profs", "r": "E", "t": "Enfin des vrais enseignants dans ce club, avec plus de faux maîtres-nageurs que de vrais !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/team_profs.webp", "thumb": "img/m/team_profs_s.webp"},
- {"id": "angelique", "n": "Angélique", "r": "R", "t": "Le club c’est 50% piscine 50% alcool !", "pos": "50% 35%", "ar": 0.7, "full": 0, "img": "img/m/angelique.webp", "thumb": "img/m/angelique_s.webp"},
- {"id": "camille", "n": "Camille", "r": "R", "t": "La blonde attitude, et de loin la meilleure !", "pos": "50% 35%", "ar": 0.929, "full": 0, "img": "img/m/camille.webp", "thumb": "img/m/camille_s.webp"},
- {"id": "eugenie", "n": "Eugénie", "r": "R", "t": "Toujours le sourire et ça fait plaisir !", "pos": "50% 50%", "ar": 1.359, "full": 0, "img": "img/m/eugenie.webp", "thumb": "img/m/eugenie_s.webp"},
- {"id": "henri", "n": "Henri", "r": "R", "t": "Une force tranquille en toute circonstance.", "pos": "52% 45%", "ar": 1.017, "full": 0, "img": "img/m/henri.webp", "thumb": "img/m/henri_s.webp"},
- {"id": "nathan", "n": "Nathan", "r": "R", "t": "Toutes les filles lui courent après, quel succès !", "pos": "48% 40%", "ar": 1.339, "full": 0, "img": "img/m/nathan.webp", "thumb": "img/m/nathan_s.webp"},
- {"id": "axel", "n": "Axel", "r": "R", "t": "Toujours partant pour nous aider.", "pos": "50% 45%", "ar": 1.339, "full": 0, "img": "img/m/axel.webp", "thumb": "img/m/axel_s.webp"},
- {"id": "la_raie", "n": "La raie", "r": "L", "t": "Elle nous suit partout et en a choqué plus d’un.", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/la_raie.webp", "thumb": "img/m/la_raie_s.webp"},
- {"id": "denis_et_thierry", "n": "Denis et Thierry", "r": "R", "t": "Nos cuistots préférés des fêtes du club !", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/denis_et_thierry.webp", "thumb": "img/m/denis_et_thierry_s.webp"},
- {"id": "aude", "n": "Aude", "r": "R", "t": "Sa sainteté et le saint Graal.", "pos": "50% 35%", "ar": 0.75, "full": 0, "img": "img/m/aude.webp", "thumb": "img/m/aude_s.webp"},
- {"id": "victor", "n": "Victor", "r": "R", "t": "Notre petit titi !", "pos": "50% 35%", "ar": 0.708, "full": 0, "img": "img/m/victor.webp", "thumb": "img/m/victor_s.webp"},
- {"id": "petite_zoe", "n": "Zoé", "r": "R", "t": "Merci d’avoir tartiné Christian de gâteau plusieurs fois.", "pos": "50% 35%", "ar": 0.728, "full": 0, "img": "img/m/petite_zoe.webp", "thumb": "img/m/petite_zoe_s.webp"},
- {"id": "lhistoire_du_soutif", "n": "L’histoire du soutif", "r": "L", "t": "Une histoire sombrement commencée, mais qui finit extrêmement colorée.", "pos": "50% 35%", "ar": 0.75, "full": 0, "img": "img/m/lhistoire_du_soutif.webp", "thumb": "img/m/lhistoire_du_soutif_s.webp"},
- {"id": "les_garcons_et_les_misses", "n": "Les garçons et les misses", "r": "E", "t": "Les Miss Mirabelle, qui font tourner les cœurs d’artichaut de nos garçons (surtout Nathan).", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/les_garcons_et_les_misses.webp", "thumb": "img/m/les_garcons_et_les_misses_s.webp"},
- {"id": "zoe_et_le_nutella", "n": "Zoé et le Nutella", "r": "E", "t": "Une envie folle de faire des bisous à tout le monde !", "pos": "50% 35%", "ar": 0.804, "full": 0, "img": "img/m/zoe_et_le_nutella.webp", "thumb": "img/m/zoe_et_le_nutella_s.webp"},
- {"id": "sortie_pompidou", "n": "Sortie Pompidou", "r": "E", "t": "Une sortie… heuuu… intéressante. Mais le monsieur et son ketchup, c’est non !", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/sortie_pompidou.webp", "thumb": "img/m/sortie_pompidou_s.webp"},
- {"id": "les_vrais_sportifs", "n": "Les vrais sportifs", "r": "E", "t": "Ils représentent fièrement le club, bravo à eux !", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/les_vrais_sportifs.webp", "thumb": "img/m/les_vrais_sportifs_s.webp"},
- {"id": "flo", "n": "Flo", "r": "R", "t": "Jamais vu dans l’eau, et c’est normal : il est prêt à tout pour ne pas y aller. VRAIMENT TOUT !", "pos": "50% 35%", "ar": 0.642, "full": 0, "img": "img/m/flo.webp", "thumb": "img/m/flo_s.webp"},
- {"id": "famille_bruker", "n": "Famille Bruker", "r": "E", "t": "Ils nous ont quittés pour aller au soleil, alors que la pluie, c’est bien aussi, non ?", "pos": "50% 35%", "ar": 0.75, "full": 0, "img": "img/m/famille_bruker.webp", "thumb": "img/m/famille_bruker_s.webp"},
- {"id": "la_verite_cachee", "n": "La vérité cachée", "r": "L", "t": "Eh oui, Nathan vous l’a caché tout ce temps, mais il a bien fini par pécho Lilie dans le Jura !", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/la_verite_cachee.webp", "thumb": "img/m/la_verite_cachee_s.webp"},
- {"id": "les_zamoureux_made_in_gambetta", "n": "Les zamoureux made in Gambetta", "r": "E", "t": "Eh oui, le temps avance et les personnes se trouvent.", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/les_zamoureux_made_in_gambetta.webp", "thumb": "img/m/les_zamoureux_made_in_gambetta_s.webp"},
- {"id": "relique_de_la_mort", "n": "Relique de la mort", "r": "L", "t": "Sans ça, peut-être que le club n’aurait jamais existé. Le père de Roland était aussi maître-nageur !", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/relique_de_la_mort.webp", "thumb": "img/m/relique_de_la_mort_s.webp"},
- {"id": "gwen", "n": "Gwen", "r": "R", "t": "N’aime pas le rose mais porte fièrement les couleurs du club !", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/gwen.webp", "thumb": "img/m/gwen_s.webp"},
- {"id": "simon", "n": "Simon", "r": "R", "t": "C’est l’histoire d’un maître-nageur devenu écrivain, et quelle belle histoire !", "pos": "50% 35%", "ar": 0.838, "full": 0, "img": "img/m/simon.webp", "thumb": "img/m/simon_s.webp"},
- {"id": "lucie", "n": "Lucie", "r": "R", "t": "A toujours le seum que, depuis qu’elle est adulte, les voyages du club se fassent en France.", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/lucie.webp", "thumb": "img/m/lucie_s.webp"},
- {"id": "marie_ange", "n": "Marie-Ange", "r": "R", "t": "Attention David, protège les caisses du club. Les femmes peuvent se montrer TRÈS persuasives.", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/marie_ange.webp", "thumb": "img/m/marie_ange_s.webp"},
- {"id": "francis", "n": "Francis", "r": "R", "t": "Ça ne lui ressemble pas, mais je n’ai pas pu faire mieux. Désolé Francis, ne m’en voulez pas !", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/francis.webp", "thumb": "img/m/francis_s.webp"},
- {"id": "tony", "n": "Tony", "r": "R", "t": "C’est du vieux pour celle-là ! Mais il faut se rappeler des gens qui ont compté pour le club.", "pos": "50% 35%", "ar": 0.729, "full": 0, "img": "img/m/tony.webp", "thumb": "img/m/tony_s.webp"},
- {"id": "marie", "n": "Marie", "r": "R", "t": "Elle a sauté dans le grand bain de bouche (rapport à son métier de dentiste).", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/marie.webp", "thumb": "img/m/marie_s.webp"},
- {"id": "les_6_bellules", "n": "Les 6-bellules", "r": "L", "t": "Les premiers à avoir fait de la natation désicônisée, et parfaitement assumée !", "pos": "50% 35%", "ar": 0.808, "full": 0, "img": "img/m/les_6_bellules.webp", "thumb": "img/m/les_6_bellules_s.webp"},
- {"id": "chouky", "n": "Chouky", "r": "R", "t": "La sœur de la fratrie Schell au club.", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/chouky.webp", "thumb": "img/m/chouky_s.webp"},
-{"id": "christian", "n": "Christian", "r": "R", "t": "Un crâne chauve, un gros ventre et un tee-shirt moche. Pas de doute, c'est bien lui !", "pos": "50% 40%", "img": "img/m/christian.webp", "full": 0, "thumb": "img/m/christian_s.webp"},
-{"id": "laetitia", "n": "Laetitia", "r": "R", "t": "On n'oubliera jamais cette vidéo, JAMAIS !", "pos": "50% 40%", "img": "img/m/laetitia.webp", "full": 0, "thumb": "img/m/laetitia_s.webp"},
-{"id": "helene", "n": "Hélène", "r": "R", "t": "Soyez gentils avec elle. Si vous vous faites opérer, c'est elle qui vous réveille. Je dis ça, je dis rien.", "pos": "50% 35%", "img": "img/m/helene.webp", "full": 0, "thumb": "img/m/helene_s.webp"},
-{"id": "willi", "n": "Willi", "r": "R", "t": "Heureusement qu'il a sa moto pour venir nous voir sans sa femme et ses enfants. Ce qui se passe à Metz reste à Metz !", "pos": "50% 35%", "img": "img/m/willi.webp", "full": 0, "thumb": "img/m/willi_s.webp"},
-{"id": "virginie", "n": "Virginie", "r": "R", "t": "", "pos": "50% 35%", "img": "img/m/virginie.webp", "full": 0, "thumb": "img/m/virginie_s.webp"},
-{"id": "francoise", "n": "Françoise", "r": "R", "t": "Son accent chantant nous manque. Mais depuis qu'elle est partie, on saute moins à la baignade ludique !", "pos": "50% 35%", "img": "img/m/francoise.webp", "full": 0, "thumb": "img/m/francoise_s.webp"},
- {"id": "chez_mireille", "n": "Chez Mireille", "r": "E", "t": "Sacrée Mireille !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/chez_mireille.webp", "thumb": "img/m/chez_mireille_s.webp"},
- {"id": "tchou_tchou", "n": "Tchou tchou !", "r": "E", "t": "Un train à vapeur, mais on est où, là ? Même Roland n’a pas connu ça à son époque.", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/tchou_tchou.webp", "thumb": "img/m/tchou_tchou_s.webp"},
- {"id": "les_phoques", "n": "Les phoques", "r": "E", "t": "Mais what the phoque ?!", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/les_phoques.webp", "thumb": "img/m/les_phoques_s.webp"},
- {"id": "baie_de_somme_2025", "n": "Baie de Somme 2025", "r": "E", "t": "", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/baie_de_somme_2025.webp", "thumb": "img/m/baie_de_somme_2025_s.webp"},
- {"id": "les_tares_schell", "n": "Les tarés Schell", "r": "E", "t": "Une eau super froide… mais ils sont fous, ceux-là !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/les_tares_schell.webp", "thumb": "img/m/les_tares_schell_s.webp"},
- {"id": "jura_2026", "n": "Jura 2026", "r": "E", "t": "", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/jura_2026.webp", "thumb": "img/m/jura_2026_s.webp"},
- {"id": "luc", "n": "Luc", "r": "R", "t": "Un Marcel copié-collé, à mes yeux.", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/luc.webp", "thumb": "img/m/luc_s.webp"},
- {"id": "hotel_des_lacs", "n": "L’hôtel des Lacs", "r": "E", "t": "L’hôtel et son personnel ont beaucoup fait pour la réussite de ce voyage, vous ne trouvez pas ?", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/hotel_des_lacs.webp", "thumb": "img/m/hotel_des_lacs_s.webp"},
- {"id": "petite_helene", "n": "Petite Hélène", "r": "R", "t": "Une nouvelle petite bouille au club !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/petite_helene.webp", "thumb": "img/m/petite_helene_s.webp"},
- {"id": "grottes_de_han", "n": "Grottes de Han", "r": "E", "t": "♫ Aux grottes de Han, c’est la nature en grand, pour les petits et les grands ! ♫", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/grottes_de_han.webp", "thumb": "img/m/grottes_de_han_s.webp"},
- {"id": "le_50m", "n": "50 m", "r": "L", "t": "", "pos": "50% 35%", "ar": 0.806, "full": 1, "fit": 1, "img": "img/m/le_50m.webp", "thumb": "img/m/le_50m_s.webp"},
- {"id": "baignade_ludique", "n": "Baignade ludique", "r": "L", "t": "", "pos": "50% 35%", "ar": 0.806, "full": 1, "fit": 1, "img": "img/m/baignade_ludique.webp", "thumb": "img/m/baignade_ludique_s.webp"},
- {"id": "fete_du_club", "n": "Fête du club", "r": "L", "t": "", "pos": "50% 35%", "ar": 0.806, "full": 1, "fit": 1, "img": "img/m/fete_du_club.webp", "thumb": "img/m/fete_du_club_s.webp"},
- {"id": "plus_qu_un_club_2", "n": "Merci à tous les bénévoles", "r": "L", "t": "", "pos": "50% 35%", "ar": 0.805, "full": 1, "fit": 1, "img": "img/m/plus_qu_un_club_2.webp", "thumb": "img/m/plus_qu_un_club_2_s.webp"},
- {"id": "gaufre_zizi", "n": "Gaufre zizi", "r": "E", "t": "Une délicieuse gaufre !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/gaufre_zizi.webp", "thumb": "img/m/gaufre_zizi_s.webp"},
- {"id": "lieutenant_pierre", "n": "Lieutenant Pierre", "r": "R", "t": "Notre formateur préféré, et surtout le seul qui accepte qu’on fasse des apéros !", "pos": "50% 30%", "ar": 0.803, "full": 0, "img": "img/m/lieutenant_pierre.webp", "thumb": "img/m/lieutenant_pierre_s.webp"}
+ {id:'emma',n:'Emma',r:'R',pos:'52% 22%',t:"Une attitude de star du club et un vrai rayon de soleil !",img:'img/m/emma.webp?v=9edb1285',ar:1.333,thumb:'img/m/emma_s.webp?v=74281a5a'},
+ {id:'pascal',n:'Pascal',r:'R',pos:'50% 30%',t:"Le seul qui a réussi à faire danser le maire !",img:'img/m/pascal.webp?v=3ec81de7',ar:0.794,thumb:'img/m/pascal_s.webp?v=502a9a3f'},
+ {id:'richard',n:'Richard',r:'R',pos:'50% 45%',t:"Son sifflement est assourdissant.",img:'img/m/richard.webp?v=405453e8',ar:1.049,thumb:'img/m/richard_s.webp?v=77692c3f'},
+ {id:'stephane',n:'Stéphane',r:'R',pos:'50% 46%',t:"La dernière fois qu’on l’a vu dans l’eau, la photo n’existait pas. Cette peinture en est le seul témoignage.",img:'img/m/stephane.webp?v=8c1142ed',ar:0.867,thumb:'img/m/stephane_s.webp?v=e4a43855'},
+ {"id": "p_christophe", "n": "Petit Christophe", "r": "R", "t": "Répond aux mails plus vite que son ombre.", "pos": "40% 50%", "img": "img/m/p_christophe.webp?v=1c4cdf5e",ar:1.501, "full": 0, "thumb": "img/m/p_christophe_s.webp?v=294cde0e"},
+ {"id": "gendarmes", "n": "Les gendarmes du club", "r": "E", "t": "Prêts à tout pour protéger leur mère patrie : Gambetta !", "pos": "50% 30%", "img": "img/m/gendarmes.webp?v=05269989",ar:0.746, "full": 0, "thumb": "img/m/gendarmes_s.webp?v=f4add9a2"},
+ {"id": "nageurs_fous", "n": "Les nageurs fous", "r": "E", "t": "Nager sans se noyer : la mission de 2 skieurs et d’un plongeur (normal qu’il coule, il n’a pas l’habitude).", "pos": "50% 12%", "img": "img/m/nageurs_fous.webp?v=43ac1ac8",ar:0.746, "full": 0, "thumb": "img/m/nageurs_fous_s.webp?v=199eef49"},
+ {"id": "selfies_christian", "n": "Les mythiques selfies de Christian", "r": "E", "t": "Toujours au premier plan avec son crâne luisant.", "pos": "25% 60%", "img": "img/m/selfies_christian.webp?v=b52c0802",ar:1.333, "full": 0, "thumb": "img/m/selfies_christian_s.webp?v=3ab5a3cc"},
+ {"id": "plus_qu_un_club", "n": "Club Gambetta, plus qu’un club", "r": "L", "t": "", "pos": "50% 50%", "img": "img/m/plus_qu_un_club.webp?v=221ae349",ar:0.528, "full": 1, "thumb": "img/m/plus_qu_un_club_s.webp?v=9b27199d"},
+ {"id": "mascottes", "n": "Les mascottes", "r": "E", "t": "Fêtes du club ou Messine : les mascottes du club sont toujours mobilisées !", "pos": "50% 50%", "img": "img/m/mascottes.webp?v=b20a8144",ar:0.805, "full": 0, "thumb": "img/m/mascottes_s.webp?v=ae8051f1"},
+ {"id": "laetitia_matin", "n": "Laetitia le matin", "r": "E", "t": "Quand c'est pas le moment, c'est pas le moment. D'ailleurs, c'est rarement le moment avant 12 h.", "pos": "50% 0%", "img": "img/m/laetitia_matin.webp?v=d7f36fd2",ar:0.745, "full": 0, "thumb": "img/m/laetitia_matin_s.webp?v=ba4ef083"},
+ {"id": "alan", "n": "Alan", "r": "R", "t": "Propriétaire de Hulk et Alix.", "pos": "50% 25%", "img": "img/m/alan.webp?v=b24308f5",ar:0.746, "full": 0, "thumb": "img/m/alan_s.webp?v=6dd3aa3e"},
+ {"id": "inseparables", "n": "Les inséparables", "r": "E", "t": "Toujours ensemble pour « surveiller »… mais surtout pour discuter.", "pos": "50% 60%", "img": "img/m/inseparables.webp?v=88f19a9b",ar:0.746, "full": 0, "thumb": "img/m/inseparables_s.webp?v=a9943606"},
+ {"id": "noah", "n": "Noah", "r": "R", "t": "Un maître-nageur made in Gambetta.", "pos": "50% 30%", "img": "img/m/noah.webp?v=9d46563a",ar:0.746, "full": 0, "thumb": "img/m/noah_s.webp?v=279968eb"},
+ {"id": "lilian", "n": "Lilian", "r": "R", "t": "Le plus sportif du club.", "pos": "50% 22%", "img": "img/m/lilian.webp?v=9c766830",ar:0.746, "full": 0, "thumb": "img/m/lilian_s.webp?v=c0facc90"},
+ {"id": "crepes", "n": "L’équipe des crêpes", "r": "E", "t": "Merci de nous régaler à chaque compétition !", "pos": "50% 40%", "img": "img/m/crepes.webp?v=9e5bf000",ar:0.746, "full": 0, "thumb": "img/m/crepes_s.webp?v=b6725fa8"},
+ {"id": "mickey", "n": "Mickey", "r": "R", "t": "Notre petit clown du club.", "pos": "50% 30%", "img": "img/m/mickey.webp?v=e7a772ce",ar:0.863, "full": 0, "thumb": "img/m/mickey_s.webp?v=e6d0a2a9"},
+ {"id": "maurice", "n": "Maurice", "r": "R", "t": "Le meilleur des aquabikers : son record de distance dans le bassin est de 0,1 m. C'est fort !", "pos": "50% 20%", "img": "img/m/maurice.webp?v=793f4381",ar:0.755, "full": 0, "thumb": "img/m/maurice_s.webp?v=619891ca"},
+ {"id": "matheo", "n": "Mathéo", "r": "R", "t": "Waouh, les muscles… (si seulement).", "pos": "50% 25%", "img": "img/m/matheo.webp?v=01a4cfed",ar:0.746, "full": 0, "thumb": "img/m/matheo_s.webp?v=2708a759"},
+ {"id": "alix", "n": "Alix", "r": "R", "t": "HULKKKKK ou BLEUARGHULKKKK… ou juste une envie de vomir.", "pos": "50% 30%", "img": "img/m/alix.webp?v=9edf7f00",ar:0.746, "full": 0, "thumb": "img/m/alix_s.webp?v=2dce05ee"},
+ {"id": "christophe", "n": "Christophe", "r": "R", "t": "Quand il rase sa barbe, ça nous fait toujours un choc.", "pos": "50% 20%", "img": "img/m/christophe.webp?v=b14353ab",ar:0.746, "full": 0, "thumb": "img/m/christophe_s.webp?v=2fe67944"},
+ {"id": "roland", "n": "Roland", "r": "L", "t": "Fondateur bien-aimé de notre club bien-aimé.", "pos": "50% 20%", "img": "img/m/roland.webp?v=1d28c176",ar:0.746, "full": 0, "thumb": "img/m/roland_s.webp?v=bb7eea30"},
+ {"id": "christine", "n": "Christine", "r": "R", "t": "Entre le club et le département, grâce à elle, à Gambetta on est sur tous les fronts.", "pos": "50% 40%", "img": "img/m/christine.webp?v=94853434",ar:0.746, "full": 0, "thumb": "img/m/christine_s.webp?v=821946e2"},
+ {"id": "genevieve_alain", "n": "Geneviève et Alain", "r": "R", "t": "Jamais l'un sans l'autre à mes yeux.", "pos": "50% 30%", "img": "img/m/genevieve_alain.webp?v=fd124398",ar:0.746, "full": 0, "thumb": "img/m/genevieve_alain_s.webp?v=f72edc87"},
+ {"id": "clement", "n": "Clément", "r": "R", "t": "De superbes montages vidéo (vive les poissons) !", "pos": "50% 35%", "img": "img/m/clement.webp?v=a3d26bc6",ar:0.746, "full": 0, "thumb": "img/m/clement_s.webp?v=377be98e"},
+ {"id": "cyril", "n": "Cyril", "r": "R", "t": "Toujours dans son camion, c'est pour ça qu'on ne le voit plus dans l'eau.", "pos": "50% 30%", "img": "img/m/cyril.webp?v=0598e4d6",ar:0.746, "full": 0, "thumb": "img/m/cyril_s.webp?v=6fb00a40"},
+ {"id": "dario", "n": "Dario", "r": "R", "t": "Le plus heureux à chaque retour de la machine à glace.", "pos": "35% 45%", "img": "img/m/dario.webp?v=9e6a68f0",ar:0.746, "full": 0, "thumb": "img/m/dario_s.webp?v=cb5eb997"},
+ {"id": "jacky", "n": "Jacky", "r": "R", "t": "Sans lui, les bikes ne seraient pas en aussi bon état. N'est-ce pas, la ville de Metz ?!", "pos": "50% 30%", "img": "img/m/jacky.webp?v=52288352",ar:0.746, "full": 0, "thumb": "img/m/jacky_s.webp?v=da3e7b10"},
+ {"id": "jean_francois", "n": "Jean-François", "r": "R", "t": "Depuis le début, il nous entraîne et nous forme pour le BNSSA, et tout ça bénévolement. Mais quel homme !", "pos": "50% 30%", "img": "img/m/jean_francois.webp?v=96bf28dd",ar:0.746, "full": 0, "thumb": "img/m/jean_francois_s.webp?v=6b9be5ad"},
+ {"id": "zoe", "n": "Zoé", "r": "R", "t": "OH, ON TE VOIT PLUS LÀ ! REVIENS UN PEU, NON ?!?!", "pos": "50% 30%", "img": "img/m/zoe.webp?v=4f149cf3",ar:0.746, "full": 0, "thumb": "img/m/zoe_s.webp?v=46e6b882"},
+ {"id": "romain", "n": "Romain", "r": "R", "t": "Vivre avec une blonde, pas trop dur ? Demande à Christian ou Mathéo, ils ont l’habitude (même des fausses) !", "pos": "50% 15%", "img": "img/m/romain.webp?v=e2f96a56",ar:0.746, "full": 0, "thumb": "img/m/romain_s.webp?v=e960415b"},
+ {"id": "marcel", "n": "Marcel", "r": "R", "t": "Le roi de l'organisation, mais surtout le roi de la buvette !", "pos": "50% 35%", "img": "img/m/marcel.webp?v=01904b4a",ar:0.820, "full": 0, "thumb": "img/m/marcel_s.webp?v=d7757863"},
+ {"id": "bouchon", "n": "Bouchon", "r": "R", "t": "On l’appelle « mon petit bouchon », mais avec ses clés autour du cou, c’est plutôt Bouchon-Partout !", "pos": "52% 45%", "img": "img/m/bouchon.webp?v=9cbed616",ar:1.333, "full": 0, "thumb": "img/m/bouchon_s.webp?v=07159e31"},
+ {"id": "poisson_toutouille", "n": "Poisson toutouille", "r": "E", "t": "Une espèce rarement observée, mais les chances augmentent énormément s'il y a du saucisson.", "pos": "50% 8%", "img": "img/m/poisson_toutouille.webp?v=9f429182",ar:0.750, "full": 0, "thumb": "img/m/poisson_toutouille_s.webp?v=55c2dc65"},
+ {"id": "agnes", "n": "Agnès", "r": "R", "t": "La maman du groupe, mais aussi la cuisinière des apéros. Elle a vraiment tout pour elle.", "pos": "50% 50%", "img": "img/m/agnes.webp?v=f7d24e02",ar:0.750, "full": 0, "thumb": "img/m/agnes_s.webp?v=2d99391a"},
+ {"id": "3_generations", "n": "3 générations", "r": "E", "t": "Gambetta, c’est avant tout une histoire de famille.", "pos": "50% 35%", "ar": 1.009, "full": 0, "img": "img/m/3_generations.webp?v=99b02f6e", "fit": 1, "thumb": "img/m/3_generations_s.webp?v=a88d01bc"},
+ {"id": "audrey", "n": "Audrey", "r": "R", "t": "Un club sans secrétaire, c’est comme des lasagnes de Christian sans petits pois : c’est nul !", "pos": "50% 35%", "ar": 0.666, "full": 0, "img": "img/m/audrey.webp?v=d6461363", "thumb": "img/m/audrey_s.webp?v=e22d0f4b"},
+ {"id": "art_gambetta", "n": "Art Gambetta", "r": "E", "t": "Toujours de bonnes idées dans ce club !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/art_gambetta.webp?v=ee5704c5", "thumb": "img/m/art_gambetta_s.webp?v=05042740"},
+ {"id": "sofian", "n": "Sofian", "r": "R", "t": "Notre infiltré pour la sécurité de nos évènements.", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/sofian.webp?v=e487b390", "thumb": "img/m/sofian_s.webp?v=57d76ca2"},
+ {"id": "lucas", "n": "Lucas", "r": "R", "t": "Encore un SCHELL, ça fait beaucoup là, non ?", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/lucas.webp?v=af40cb08", "thumb": "img/m/lucas_s.webp?v=1ccdaf53"},
+ {"id": "laurent", "n": "Laurent", "r": "R", "t": "Pas son seul club, mais sûrement son préféré. N’est-ce pas Laurent ?", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/laurent.webp?v=0eee6822", "thumb": "img/m/laurent_s.webp?v=103f1aac"},
+ {"id": "quentin", "n": "Quentin", "r": "R", "t": "Un nouveau Parisien, mais un ancien Gambetien.", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/quentin.webp?v=d96c9c69", "thumb": "img/m/quentin_s.webp?v=1c9ba99c"},
+ {"id": "anthony", "n": "Anthony", "r": "R", "t": "Un fou à mes yeux : que ce soit au bike, à la course ou n’importe quoi, c’est un fou !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/anthony.webp?v=54d5c494", "thumb": "img/m/anthony_s.webp?v=9ddfba18"},
+ {"id": "laurence", "n": "Laurence", "r": "R", "t": "", "pos": "50% 35%", "ar": 0.747, "full": 0, "img": "img/m/laurence.webp?v=bd93f56f", "thumb": "img/m/laurence_s.webp?v=48b6ecd5"},
+ {"id": "margaux", "n": "Margaux", "r": "R", "t": "Toujours le sourire, malgré le fait qu’elle soit l’esclave préférée de Laetitia.", "pos": "50% 35%", "ar": 0.769, "full": 0, "img": "img/m/margaux.webp?v=3e2dc21d", "thumb": "img/m/margaux_s.webp?v=f33da497"},
+ {"id": "pierre", "n": "Pierre", "r": "R", "t": "Quel photographe talentueux. MAIS 1000 PHOTOS POUR UN 50 m, ÇA VA PAS OU QUOI !?!?", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/pierre.webp?v=e9315bd0", "thumb": "img/m/pierre_s.webp?v=4fa99c1b"},
+ {"id": "julien", "n": "Julien", "r": "R", "t": "Je te tiens, tu me tiens par la GIGA BARBICHETTE !", "pos": "50% 35%", "ar": 0.75, "full": 0, "img": "img/m/julien.webp?v=49712d37", "thumb": "img/m/julien_s.webp?v=33d618da"},
+ {"id": "manue", "n": "Manue", "r": "R", "t": "Même sans soutien-gorge, elle ne lâche rien.", "pos": "50% 35%", "ar": 0.75, "full": 0, "img": "img/m/manue.webp?v=fae31b2f", "thumb": "img/m/manue_s.webp?v=31d43f8e"},
+ {"id": "ethan", "n": "Ethan", "r": "R", "t": "Ethan ? Je crois pas. Touillette, beaucoup mieux !", "pos": "50% 35%", "ar": 0.803, "full": 0, "img": "img/m/ethan.webp?v=89428579", "thumb": "img/m/ethan_s.webp?v=e16bed49"},
+ {"id": "couple_noel", "n": "Couple Noël", "r": "E", "t": "Quelle chance on a que le Père Noël et sa femme nous réservent une semaine entière avant les fêtes !", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/couple_noel.webp?v=1c00669f", "thumb": "img/m/couple_noel_s.webp?v=c2d08f5f"},
+ {"id": "mathis", "n": "Mathis", "r": "R", "t": "Il est parti petit, mais nous est revenu complètement différent.", "pos": "50% 35%", "ar": 0.75, "full": 0, "img": "img/m/mathis.webp?v=767fb340", "thumb": "img/m/mathis_s.webp?v=982ca259"},
+ {"id": "mae", "n": "Maé", "r": "R", "t": "Mais oh, il est où notre petit Maé, là ?!", "pos": "50% 35%", "ar": 0.75, "full": 0, "img": "img/m/mae.webp?v=a484c702", "thumb": "img/m/mae_s.webp?v=eb34d883"},
+ {"id": "manon", "n": "Manon", "r": "R", "t": "Qu’est-ce qu’on ferait sans notre petite Manon ? Franchement, on rigolerait BEAUCOUP moins, ça c’est sûr !", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/manon.webp?v=aa73be93", "thumb": "img/m/manon_s.webp?v=e5d45c78"},
+ {"id": "la_fameuse_manon_au_nez_rouge", "n": "La fameuse Manon au nez rouge", "r": "E", "t": "Manon et les coups de soleil, une grande histoire d’amour.", "pos": "50% 40%", "ar": 1.0, "full": 0, "img": "img/m/la_fameuse_manon_au_nez_rouge.webp?v=52a0a223", "thumb": "img/m/la_fameuse_manon_au_nez_rouge_s.webp?v=d3d9b2cd"},
+ {"id": "alex", "n": "Alex", "r": "R", "t": "Il a fait le site avant l’arrivée des IA, comme moi avec ce jeu et ces dessins. Tout fait à la main !", "pos": "50% 35%", "ar": 0.75, "full": 0, "img": "img/m/alex.webp?v=4a6927a3", "thumb": "img/m/alex_s.webp?v=6a66d52a"},
+ {"id": "carole", "n": "Carole", "r": "R", "t": "Notre prof d’allemand favori !", "pos": "50% 35%", "ar": 0.635, "full": 0, "img": "img/m/carole.webp?v=ee9c80f5", "thumb": "img/m/carole_s.webp?v=dc50df16"},
+ {"id": "catherine", "n": "Catherine", "r": "R", "t": "", "pos": "50% 35%", "ar": 0.659, "full": 0, "img": "img/m/catherine.webp?v=2ef1eebf", "thumb": "img/m/catherine_s.webp?v=6ce029b5"},
+ {"id": "un_pere_un_fils_2_presidents", "n": "Un père, un fils, 2 présidents", "r": "L", "t": "", "pos": "50% 35%", "ar": 0.805, "full": 1, "img": "img/m/un_pere_un_fils_2_presidents.webp?v=68468dbf", "thumb": "img/m/un_pere_un_fils_2_presidents_s.webp?v=7d3bb11d"},
+ {"id": "david", "n": "David", "r": "R", "t": "Il gère bien plus que la trésorerie, et surtout il me paie. David, t’es le meilleur, continue !", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/david.webp?v=0cfd7074", "thumb": "img/m/david_s.webp?v=5f91a6fc"},
+ {"id": "louis", "n": "Louis", "r": "R", "t": "Vous me le protégez, ce petit loup !", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/louis.webp?v=af150b9d", "thumb": "img/m/louis_s.webp?v=d7f61de4"},
+ {"id": "team_profs", "n": "Team profs", "r": "E", "t": "Enfin des vrais enseignants dans ce club, avec plus de faux maîtres-nageurs que de vrais !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/team_profs.webp?v=129e7185", "thumb": "img/m/team_profs_s.webp?v=b0a6a5a0"},
+ {"id": "angelique", "n": "Angélique", "r": "R", "t": "Le club c’est 50% piscine 50% alcool !", "pos": "50% 35%", "ar": 0.7, "full": 0, "img": "img/m/angelique.webp?v=f73c74da", "thumb": "img/m/angelique_s.webp?v=1f918895"},
+ {"id": "camille", "n": "Camille", "r": "R", "t": "La blonde attitude, et de loin la meilleure !", "pos": "50% 35%", "ar": 0.929, "full": 0, "img": "img/m/camille.webp?v=0041561d", "thumb": "img/m/camille_s.webp?v=4d017df2"},
+ {"id": "eugenie", "n": "Eugénie", "r": "R", "t": "Toujours le sourire et ça fait plaisir !", "pos": "50% 50%", "ar": 1.359, "full": 0, "img": "img/m/eugenie.webp?v=12174766", "thumb": "img/m/eugenie_s.webp?v=7bf042aa"},
+ {"id": "henri", "n": "Henri", "r": "R", "t": "Une force tranquille en toute circonstance.", "pos": "52% 45%", "ar": 1.017, "full": 0, "img": "img/m/henri.webp?v=fd0a2366", "thumb": "img/m/henri_s.webp?v=4b6c86aa"},
+ {"id": "nathan", "n": "Nathan", "r": "R", "t": "Toutes les filles lui courent après, quel succès !", "pos": "48% 40%", "ar": 1.339, "full": 0, "img": "img/m/nathan.webp?v=fc846b65", "thumb": "img/m/nathan_s.webp?v=dc89b6ad"},
+ {"id": "axel", "n": "Axel", "r": "R", "t": "Toujours partant pour nous aider.", "pos": "50% 45%", "ar": 1.339, "full": 0, "img": "img/m/axel.webp?v=04b82f4b", "thumb": "img/m/axel_s.webp?v=d3bd7e2c"},
+ {"id": "la_raie", "n": "La raie", "r": "L", "t": "Elle nous suit partout et en a choqué plus d’un.", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/la_raie.webp?v=1bcd578a", "thumb": "img/m/la_raie_s.webp?v=74a2b42b"},
+ {"id": "denis_et_thierry", "n": "Denis et Thierry", "r": "R", "t": "Nos cuistots préférés des fêtes du club !", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/denis_et_thierry.webp?v=95af1a6c", "thumb": "img/m/denis_et_thierry_s.webp?v=a7b1dd4c"},
+ {"id": "aude", "n": "Aude", "r": "R", "t": "Sa sainteté et le saint Graal.", "pos": "50% 35%", "ar": 0.75, "full": 0, "img": "img/m/aude.webp?v=0baf0b0a", "thumb": "img/m/aude_s.webp?v=e0a887bd"},
+ {"id": "victor", "n": "Victor", "r": "R", "t": "Notre petit titi !", "pos": "50% 35%", "ar": 0.708, "full": 0, "img": "img/m/victor.webp?v=7ff25cae", "thumb": "img/m/victor_s.webp?v=44fea2da"},
+ {"id": "petite_zoe", "n": "Zoé", "r": "R", "t": "Merci d’avoir tartiné Christian de gâteau plusieurs fois.", "pos": "50% 35%", "ar": 0.728, "full": 0, "img": "img/m/petite_zoe.webp?v=42f4d104", "thumb": "img/m/petite_zoe_s.webp?v=be66d780"},
+ {"id": "lhistoire_du_soutif", "n": "L’histoire du soutif", "r": "L", "t": "Une histoire sombrement commencée, mais qui finit extrêmement colorée.", "pos": "50% 35%", "ar": 0.75, "full": 0, "img": "img/m/lhistoire_du_soutif.webp?v=ebcc4de4", "thumb": "img/m/lhistoire_du_soutif_s.webp?v=81ab6ece"},
+ {"id": "les_garcons_et_les_misses", "n": "Les garçons et les misses", "r": "E", "t": "Les Miss Mirabelle, qui font tourner les cœurs d’artichaut de nos garçons (surtout Nathan).", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/les_garcons_et_les_misses.webp?v=b2dec12d", "thumb": "img/m/les_garcons_et_les_misses_s.webp?v=51554ed6"},
+ {"id": "zoe_et_le_nutella", "n": "Zoé et le Nutella", "r": "E", "t": "Une envie folle de faire des bisous à tout le monde !", "pos": "50% 35%", "ar": 0.804, "full": 0, "img": "img/m/zoe_et_le_nutella.webp?v=8e4ee96b", "thumb": "img/m/zoe_et_le_nutella_s.webp?v=a4fcddf4"},
+ {"id": "sortie_pompidou", "n": "Sortie Pompidou", "r": "E", "t": "Une sortie… heuuu… intéressante. Mais le monsieur et son ketchup, c’est non !", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/sortie_pompidou.webp?v=f5e1629b", "thumb": "img/m/sortie_pompidou_s.webp?v=cd93dce5"},
+ {"id": "les_vrais_sportifs", "n": "Les vrais sportifs", "r": "E", "t": "Ils représentent fièrement le club, bravo à eux !", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/les_vrais_sportifs.webp?v=91bbb162", "thumb": "img/m/les_vrais_sportifs_s.webp?v=69546769"},
+ {"id": "flo", "n": "Flo", "r": "R", "t": "Jamais vu dans l’eau, et c’est normal : il est prêt à tout pour ne pas y aller. VRAIMENT TOUT !", "pos": "50% 35%", "ar": 0.642, "full": 0, "img": "img/m/flo.webp?v=cc74632e", "thumb": "img/m/flo_s.webp?v=d04f20e3"},
+ {"id": "famille_bruker", "n": "Famille Bruker", "r": "E", "t": "Ils nous ont quittés pour aller au soleil, alors que la pluie, c’est bien aussi, non ?", "pos": "50% 35%", "ar": 0.75, "full": 0, "img": "img/m/famille_bruker.webp?v=d65f71f9", "thumb": "img/m/famille_bruker_s.webp?v=e6d7d83d"},
+ {"id": "la_verite_cachee", "n": "La vérité cachée", "r": "L", "t": "Eh oui, Nathan vous l’a caché tout ce temps, mais il a bien fini par pécho Lilie dans le Jura !", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/la_verite_cachee.webp?v=557f3304", "thumb": "img/m/la_verite_cachee_s.webp?v=8b14970c"},
+ {"id": "les_zamoureux_made_in_gambetta", "n": "Les zamoureux made in Gambetta", "r": "E", "t": "Eh oui, le temps avance et les personnes se trouvent.", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/les_zamoureux_made_in_gambetta.webp?v=bada9596", "thumb": "img/m/les_zamoureux_made_in_gambetta_s.webp?v=22cd4c93"},
+ {"id": "relique_de_la_mort", "n": "Relique de la mort", "r": "L", "t": "Sans ça, peut-être que le club n’aurait jamais existé. Le père de Roland était aussi maître-nageur !", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/relique_de_la_mort.webp?v=526e7356", "thumb": "img/m/relique_de_la_mort_s.webp?v=dd1e1c48"},
+ {"id": "gwen", "n": "Gwen", "r": "R", "t": "N’aime pas le rose mais porte fièrement les couleurs du club !", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/gwen.webp?v=ccad304b", "thumb": "img/m/gwen_s.webp?v=ed5e9e58"},
+ {"id": "simon", "n": "Simon", "r": "R", "t": "C’est l’histoire d’un maître-nageur devenu écrivain, et quelle belle histoire !", "pos": "50% 35%", "ar": 0.838, "full": 0, "img": "img/m/simon.webp?v=0fe009e3", "thumb": "img/m/simon_s.webp?v=6531088f"},
+ {"id": "lucie", "n": "Lucie", "r": "R", "t": "A toujours le seum que, depuis qu’elle est adulte, les voyages du club se fassent en France.", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/lucie.webp?v=a302c15e", "thumb": "img/m/lucie_s.webp?v=5d8aeb4f"},
+ {"id": "marie_ange", "n": "Marie-Ange", "r": "R", "t": "Attention David, protège les caisses du club. Les femmes peuvent se montrer TRÈS persuasives.", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/marie_ange.webp?v=6976c9ce", "thumb": "img/m/marie_ange_s.webp?v=d0430897"},
+ {"id": "francis", "n": "Francis", "r": "R", "t": "Ça ne lui ressemble pas, mais je n’ai pas pu faire mieux. Désolé Francis, ne m’en voulez pas !", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/francis.webp?v=fc172fc8", "thumb": "img/m/francis_s.webp?v=47ea05d0"},
+ {"id": "tony", "n": "Tony", "r": "R", "t": "C’est du vieux pour celle-là ! Mais il faut se rappeler des gens qui ont compté pour le club.", "pos": "50% 35%", "ar": 0.729, "full": 0, "img": "img/m/tony.webp?v=366ac627", "thumb": "img/m/tony_s.webp?v=bb15ae4f"},
+ {"id": "marie", "n": "Marie", "r": "R", "t": "Elle a sauté dans le grand bain de bouche (rapport à son métier de dentiste).", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/marie.webp?v=549b7fc0", "thumb": "img/m/marie_s.webp?v=c9f55e48"},
+ {"id": "les_6_bellules", "n": "Les 6-bellules", "r": "L", "t": "Les premiers à avoir fait de la natation désicônisée, et parfaitement assumée !", "pos": "50% 35%", "ar": 0.808, "full": 0, "img": "img/m/les_6_bellules.webp?v=5926e61a", "thumb": "img/m/les_6_bellules_s.webp?v=e2e4d20a"},
+ {"id": "chouky", "n": "Chouky", "r": "R", "t": "La sœur de la fratrie Schell au club.", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/chouky.webp?v=b45b887e", "thumb": "img/m/chouky_s.webp?v=95a001a5"},
+{"id": "christian", "n": "Christian", "r": "R", "t": "Un crâne chauve, un gros ventre et un tee-shirt moche. Pas de doute, c'est bien lui !", "pos": "50% 40%", "img": "img/m/christian.webp?v=783682a0", "full": 0, "thumb": "img/m/christian_s.webp?v=2a2221fe"},
+{"id": "laetitia", "n": "Laetitia", "r": "R", "t": "On n'oubliera jamais cette vidéo, JAMAIS !", "pos": "50% 40%", "img": "img/m/laetitia.webp?v=cc1c8bff", "full": 0, "thumb": "img/m/laetitia_s.webp?v=7ab1cc96"},
+{"id": "helene", "n": "Hélène", "r": "R", "t": "Soyez gentils avec elle. Si vous vous faites opérer, c'est elle qui vous réveille. Je dis ça, je dis rien.", "pos": "50% 35%", "img": "img/m/helene.webp?v=8efa0981", "full": 0, "thumb": "img/m/helene_s.webp?v=e31e8e5f"},
+{"id": "willi", "n": "Willi", "r": "R", "t": "Heureusement qu'il a sa moto pour venir nous voir sans sa femme et ses enfants. Ce qui se passe à Metz reste à Metz !", "pos": "50% 35%", "img": "img/m/willi.webp?v=a8d247c7", "full": 0, "thumb": "img/m/willi_s.webp?v=e5808ebb"},
+{"id": "virginie", "n": "Virginie", "r": "R", "t": "", "pos": "50% 35%", "img": "img/m/virginie.webp?v=3d612e25", "full": 0, "thumb": "img/m/virginie_s.webp?v=cd6f7160"},
+{"id": "francoise", "n": "Françoise", "r": "R", "t": "Son accent chantant nous manque. Mais depuis qu'elle est partie, on saute moins à la baignade ludique !", "pos": "50% 35%", "img": "img/m/francoise.webp?v=4ae1c194", "full": 0, "thumb": "img/m/francoise_s.webp?v=8b5ac24f"},
+ {"id": "chez_mireille", "n": "Chez Mireille", "r": "E", "t": "Sacrée Mireille !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/chez_mireille.webp?v=96885884", "thumb": "img/m/chez_mireille_s.webp?v=d7af25da"},
+ {"id": "tchou_tchou", "n": "Tchou tchou !", "r": "E", "t": "Un train à vapeur, mais on est où, là ? Même Roland n’a pas connu ça à son époque.", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/tchou_tchou.webp?v=f7a1dae4", "thumb": "img/m/tchou_tchou_s.webp?v=03b39add"},
+ {"id": "les_phoques", "n": "Les phoques", "r": "E", "t": "Mais what the phoque ?!", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/les_phoques.webp?v=f788583a", "thumb": "img/m/les_phoques_s.webp?v=b0c50283"},
+ {"id": "baie_de_somme_2025", "n": "Baie de Somme 2025", "r": "E", "t": "", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/baie_de_somme_2025.webp?v=39132059", "thumb": "img/m/baie_de_somme_2025_s.webp?v=42d7247d"},
+ {"id": "les_tares_schell", "n": "Les tarés Schell", "r": "E", "t": "Une eau super froide… mais ils sont fous, ceux-là !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/les_tares_schell.webp?v=87beec58", "thumb": "img/m/les_tares_schell_s.webp?v=ce73ad48"},
+ {"id": "jura_2026", "n": "Jura 2026", "r": "E", "t": "", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/jura_2026.webp?v=7d40bd97", "thumb": "img/m/jura_2026_s.webp?v=6eef2247"},
+ {"id": "luc", "n": "Luc", "r": "R", "t": "Un Marcel copié-collé, à mes yeux.", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/luc.webp?v=8b0be84c", "thumb": "img/m/luc_s.webp?v=50d9a1bd"},
+ {"id": "hotel_des_lacs", "n": "L’hôtel des Lacs", "r": "E", "t": "L’hôtel et son personnel ont beaucoup fait pour la réussite de ce voyage, vous ne trouvez pas ?", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/hotel_des_lacs.webp?v=0aa8b9ae", "thumb": "img/m/hotel_des_lacs_s.webp?v=b993ace6"},
+ {"id": "petite_helene", "n": "Petite Hélène", "r": "R", "t": "Une nouvelle petite bouille au club !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/petite_helene.webp?v=bbc8e287", "thumb": "img/m/petite_helene_s.webp?v=bb197a17"},
+ {"id": "grottes_de_han", "n": "Grottes de Han", "r": "E", "t": "♫ Aux grottes de Han, c’est la nature en grand, pour les petits et les grands ! ♫", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/grottes_de_han.webp?v=38678e90", "thumb": "img/m/grottes_de_han_s.webp?v=c2d171bb"},
+ {"id": "le_50m", "n": "50 m", "r": "L", "t": "", "pos": "50% 35%", "ar": 0.806, "full": 1, "fit": 1, "img": "img/m/le_50m.webp?v=b337f587", "thumb": "img/m/le_50m_s.webp?v=9eef168b"},
+ {"id": "baignade_ludique", "n": "Baignade ludique", "r": "L", "t": "", "pos": "50% 35%", "ar": 0.806, "full": 1, "fit": 1, "img": "img/m/baignade_ludique.webp?v=652f71e0", "thumb": "img/m/baignade_ludique_s.webp?v=5b57a716"},
+ {"id": "fete_du_club", "n": "Fête du club", "r": "L", "t": "", "pos": "50% 35%", "ar": 0.806, "full": 1, "fit": 1, "img": "img/m/fete_du_club.webp?v=07a63c5b", "thumb": "img/m/fete_du_club_s.webp?v=4f419d54"},
+ {"id": "plus_qu_un_club_2", "n": "Merci à tous les bénévoles", "r": "L", "t": "", "pos": "50% 35%", "ar": 0.805, "full": 1, "fit": 1, "img": "img/m/plus_qu_un_club_2.webp?v=59608f64", "thumb": "img/m/plus_qu_un_club_2_s.webp?v=0f907d12"},
+ {"id": "gaufre_zizi", "n": "Gaufre zizi", "r": "E", "t": "Une délicieuse gaufre !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/gaufre_zizi.webp?v=c7caba95", "thumb": "img/m/gaufre_zizi_s.webp?v=3b5dd86d"},
+ {"id": "lieutenant_pierre", "n": "Lieutenant Pierre", "r": "R", "t": "Notre formateur préféré, et surtout le seul qui accepte qu’on fasse des apéros !", "pos": "50% 30%", "ar": 0.803, "full": 0, "img": "img/m/lieutenant_pierre.webp?v=a8da5b28", "thumb": "img/m/lieutenant_pierre_s.webp?v=98d22f0f"}
 ];
 MEMBER_SLOTS=Math.max(60,MEMBERS.length);
 const memIdx=id=>MEMBERS.findIndex(m=>m.id===id);
@@ -6049,7 +6064,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=39;
+const APP_V=40;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
@@ -6244,7 +6259,10 @@ $('#colBack').onclick=()=>openHub();
 document.querySelectorAll('.tab[data-t]').forEach(b=>b.onclick=()=>{colTab=b.dataset.t;document.querySelectorAll('.tab[data-t]').forEach(x=>x.classList.toggle('on',x===b));buildCol();});
 
 $('#titleChars').innerHTML=ORDER.slice(0,5).map(k=>`<div>${avatar(CHARS[k].look)}</div>`).join('');
-$('#title').addEventListener('click',()=>{openHub();setTimeout(dailyPop,500);});
+$('#title').addEventListener('click',()=>{openHub();});
+/* booster du jour : proposé dès qu'on est sur un écran calme (accueil, cartes…), même si l'appli est restée ouverte d'un jour à l'autre ou a été ouverte par une notification */
+function dailyTry(){try{const a=document.querySelector('.screen.active');if(!a||!['hub','select','collection','defi','ranks','trade','moi'].includes(a.id))return;if(document.querySelector('.giftpop')||$('#booster').classList.contains('on'))return;dailyPop();}catch(_){}}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(dailyTry,800);});setInterval(dailyTry,30000);
 function dailyPop(){if(!dailyCheck())return;const pop=document.createElement('div');pop.className='giftpop';
   pop.innerHTML=`<div class="gcard"><div class="emo">🌞</div><h3>Ton booster du jour !</h3><p>Un booster de <b>${DAILY_N*(PRES()?2:1)+presExtra()} cartes + 1 carte bonus ⚡</b> t'attend aujourd'hui.<br>Reviens demain pour le suivant !</p>
     <div class="endbtns"><button class="btn" id="dOpen">L'ouvrir 🎁</button><button class="btn alt" id="dLater">Plus tard</button></div></div>`;
@@ -6298,6 +6316,7 @@ function hubGo(g){PLAYCTX=null;
   else if(g==='party'){if(!QQ.code)QQ.sub='party';openParty();}else if(g==='qq'){if(!PT.code)QQ.sub='qq';openParty();}
   else if(g==='quiz'){if(QZ.live)qzJoin(QZ.live.code);else hubRender();}else openDefi();}
 function openHub(){try{bbClose();}catch(_){}try{fgStop();}catch(_){}PLAYCTX=null;show('hub');HUB.h='';hubRender();const sc=$('#hubBody');if(sc)sc.scrollTop=0;
+  setTimeout(dailyTry,500);
   clearInterval(HUB.t);HUB.t=setInterval(()=>{const H=$('#hub');if(!H||!H.classList.contains('active')){clearInterval(HUB.t);return;}hubRender();},2000);}
 function hubPtTitle(){const h=$('#party .col-head h2');if(!h)return;h.textContent=QZ.code?'🧠 Quiz du Club':PT.code?'🎲 Gambetta Party':(QQ.code||QQ.sub==='qq')?'🕵️ Qui est-ce ?':'🎲 Gambetta Party';}
 document.querySelectorAll('[data-hub]').forEach(x=>x.onclick=()=>openHub());
@@ -9130,16 +9149,17 @@ const FG_MV={
 };
 /* niveaux de l'ordi (difficulté « Normal ») : réaction, garde, agressivité, parade, combos, anti-saut, punition, dégâts */
 const FG_LV=[
-  {re:20,bl:.2,ag:.45,pp:0,cmb:.25,aa:.15,pun:.2,dm:.85},
-  {re:18,bl:.25,ag:.5,pp:.02,cmb:.35,aa:.25,pun:.3,dm:.88},
-  {re:16,bl:.3,ag:.55,pp:.04,cmb:.45,aa:.32,pun:.38,dm:.92},
-  {re:14,bl:.34,ag:.59,pp:.06,cmb:.53,aa:.4,pun:.45,dm:.93},
-  {re:13,bl:.37,ag:.62,pp:.07,cmb:.58,aa:.45,pun:.5,dm:.94},
+  {re:30,bl:.08,ag:.3,pp:0,cmb:.08,aa:.05,pun:.08,dm:.7},
+  {re:25,bl:.15,ag:.4,pp:0,cmb:.18,aa:.12,pun:.15,dm:.78},
+  {re:20,bl:.24,ag:.5,pp:.02,cmb:.34,aa:.25,pun:.3,dm:.86},
+  {re:17,bl:.27,ag:.53,pp:.04,cmb:.4,aa:.32,pun:.36,dm:.89},
+  {re:14.5,bl:.33,ag:.58,pp:.06,cmb:.52,aa:.4,pun:.45,dm:.92},
   {re:12,bl:.4,ag:.65,pp:.08,cmb:.64,aa:.5,pun:.55,dm:.96},
   {re:11,bl:.43,ag:.67,pp:.1,cmb:.68,aa:.54,pun:.58,dm:.98}];
 const FG_DIF={f:{n:'😊 Facile',re:1.6,p:.5,dm:.78},n:{n:'💪 Normal',re:1,p:1,dm:1},d:{n:'🔥 Difficile',re:.7,p:1.3,dm:1.12}};
 const FG_BONUS_AFTER=[1,3];
 const FG={sel:null,run:null,raf:0,img:{},flash:{},snd:null,in:{},ed:{},boost:0};
+function fgHelp(k,st){const n=((fgProg(k).lo||[])[st])||0;return n>=4?.65:n>=2?.8:1;}
 function fgLadder(k){const L=FG_ORDER.filter(x=>x!==k&&x!=='roland');return L.slice(0,6).concat(['roland']);}
 function fgSave(){COL.fg=COL.fg||{p:{}};COL.fg.p=COL.fg.p||{};if(!COL.fg.dif)COL.fg.dif='n';return COL.fg;}
 function fgProg(k){const G=fgSave();const p=G.p[k]=G.p[k]||{s:0,done:0};if(!p.st)p.st=[0,0,0,0,0,0,0];return p;}
@@ -9180,12 +9200,15 @@ function fgHome(){fgStop();const b=$('#fgBody');if(!b)return;const sc=$('#fighte
      <div class="fglad">${lad.map((o,i)=>`<div class="st${i<pr.s?' won':i===cur?' cur':''}${i===6?' boss':''}" data-fs="${i}"><span class="av">${charArt(CHARS[o])}</span>${i===6?'<i class="cr">👑</i>':''}<small>${i===6?'Boss':i+1}</small><em>${pr.st[i]?fgStars(pr.st[i]):''}</em></div>`).join('<span class="ar">›</span>')}</div>
      <button class="btn fggo" id="fgGo">${pr.s>=7?'🔁 Recommencer l\'histoire':'▶ Combat '+(cur+1)+'/7 : '+esc(fgName(lad[cur],cur===6))}</button>
      ${pr.s>0?'<small class="fghint">Touche un adversaire déjà battu pour gagner plus d\'étoiles ★</small>':''}</div>
-   <div class="drew fghelp"><b>🎮 Commandes</b><br>◀ ▶ avancer / reculer · <b>reculer = se protéger</b> 🛡️ · ⬆ sauter<br>🥢 <b>Frite</b> rapide · 🛟 <b>Bouée</b> forte mais lente
-     <br><br><b>🔥 Techniques</b><br>• <b>Combo</b> : Frite, Frite… puis Bouée = coup final qui envoie en l'air (à enchaîner dès que ça touche).<br>• <b>Parade parfaite</b> : recule <b>juste au moment</b> où le coup arrive → l'adversaire est sonné.<br>• <b>Garde</b> : elle s'use si tu te protèges trop longtemps… attention à la garde cassée !<br>• <b>Bord du bassin</b> : un gros coup près du bord et… PLOUF, manche perdue !<br>• <b>⚡ Spécial</b> avec une barre de jauge, <b>💥 Super</b> avec deux barres.<br>• Pièges : flaques glissantes, ballon de plage, sifflet du maître-nageur…
-     <br><br><b>⭐ Étoiles</b> : 1 pour la victoire, 1 sans perdre de manche, 1 si la dernière manche finit par un super coup ou un plouf.<br>🎈 Manches bonus après les combats 2 et 4 : éclate des bouées pour commencer le combat suivant avec la jauge pleine.<br>🎁 Une carte pour ta 1re victoire du jour · un booster quand tu bats Roland Doré avec un nouveau perso (en Normal ou Difficile).<br>⌨️ Ordinateur : flèches + <b>A</b> frite, <b>Z</b> bouée, <b>E</b> spécial.</div><div style="height:96px"></div>`;
+   <div class="fgtips"><div><i>🥢</i><b>Taper</b><small>Frite = rapide<br>Bouée 🛟 = fort</small></div><div><i>🛡️</i><b>Se protéger</b><small>Recule (flèche vers l'arrière)</small></div><div><i>⚡</i><b>Super coup</b><small>Quand la jauge est pleine</small></div></div>
+   <button class="btn alt fgtuto" id="fgTutoB">🎓 Entraînement guidé${G.tuto?'':' (conseillé)'}</button>
+   <details class="drew fghelp"><summary><b>🔥 Pour les pros</b> : combos, parade, plouf…</summary>
+     • <b>Combo</b> : Frite, Frite… puis Bouée = coup final qui envoie en l'air (à enchaîner dès que ça touche).<br>• <b>Parade parfaite</b> : recule <b>juste au moment</b> où le coup arrive → l'adversaire est sonné.<br>• <b>Garde</b> : elle s'use si tu te protèges trop longtemps… attention à la garde cassée !<br>• <b>Bord du bassin</b> : un gros coup près du bord et… PLOUF, manche perdue !<br>• <b>⚡ Spécial</b> avec une barre de jauge, <b>💥 Super</b> avec deux barres.<br>• Pièges : flaques glissantes, ballon de plage, sifflet du maître-nageur…
+     <br><br><b>⭐ Étoiles</b> : 1 pour la victoire, 1 sans perdre de manche, 1 si la dernière manche finit par un super coup ou un plouf.<br>🎈 Manches bonus après les combats 2 et 4 : éclate des bouées pour commencer le combat suivant avec la jauge pleine.<br>🤝 Perdu 2 fois contre le même adversaire ? Il commence avec moins de vie.<br>🎁 Une carte pour ta 1re victoire du jour · un booster quand tu bats Roland Doré avec un nouveau perso (plus petit en Facile).<br>⌨️ Ordinateur : flèches + <b>A</b> frite, <b>Z</b> bouée, <b>E</b> spécial.</details><div style="height:96px"></div>`;
   b.querySelectorAll('[data-fk]').forEach(x=>x.onclick=()=>{FG.sel=x.dataset.fk;fgSave().last=FG.sel;fgHome();});
   b.querySelectorAll('[data-fd]').forEach(x=>x.onclick=()=>{fgSave().dif=x.dataset.fd;saveCol();fgHome();});
-  b.querySelector('#fgGo').onclick=()=>{const p=fgProg(k);if(p.s>=7)p.s=0;saveCol();fgFight(k,Math.min(p.s,6));};
+  b.querySelector('#fgGo').onclick=()=>{const p=fgProg(k);if(p.s>=7)p.s=0;saveCol();if(!fgSave().tuto)return fgTuto(k,Math.min(p.s,6));fgFight(k,Math.min(p.s,6));};
+  b.querySelector('#fgTutoB').onclick=()=>fgTuto(k,null);
   b.querySelectorAll('[data-fs]').forEach(x=>x.onclick=()=>{const i=+x.dataset.fs;if(i<=fgProg(k).s&&i<=6)fgFight(k,i);});
   fgPreview(k);}
 /* aperçu animé du perso choisi */
@@ -9209,7 +9232,7 @@ function fgDom(){const sc=$('#fighter');sc.classList.add('ingame');try{navSync('
   b.querySelectorAll('[data-in]').forEach(x=>{const k2=x.dataset.in;const dn=e=>{e.preventDefault();fgAudio();if(!FG.in[k2])FG.ed[k2]=6;FG.in[k2]=1;x.classList.add('on');try{x.setPointerCapture(e.pointerId);}catch(_){}};const up=()=>{FG.in[k2]=0;x.classList.remove('on');};
     x.addEventListener('pointerdown',dn);x.addEventListener('pointerup',up);x.addEventListener('pointercancel',up);x.addEventListener('lostpointercapture',up);x.addEventListener('contextmenu',e=>e.preventDefault());});}
 function fgFight(k,stage){const lad=fgLadder(k),o=lad[stage],boss=stage===6,dif=fgSave().dif||'n';fgStop();
-  FG.run={mode:'fight',k,stage,o,boss,dif,p:fgMk(k,0,false,null),e:fgMk(o,1,boss,fgLvl(stage,dif)),round:1,ph:'vs',t:0,time:FG_ROUND*60,fx:[],pr:[],txt:[],hz:[],shake:0,stop:0,slow:0,flash:0,ai:{t:0},pl:[],res:null,sp:null,cine:null,cam:null,flashy:0};
+  FG.run={mode:'fight',k,stage,o,boss,dif,p:fgMk(k,0,false,null),e:fgMk(o,1,boss,fgLvl(stage,dif)),round:1,ph:'vs',t:0,time:FG_ROUND*60,fx:[],pr:[],txt:[],hz:[],shake:0,stop:0,slow:0,flash:0,ai:{t:0},pl:[],res:null,sp:null,cine:null,cam:null,flashy:0,help:fgHelp(k,stage)};
   FG.run.p.me=FG.boost||0;FG.boost=0;
   fgDom();fgImg(k);fgImg(o,boss);fgVS();FG.last=performance.now();FG.acc=0;FG.raf=requestAnimationFrame(fgLoop);}
 function fgStop(){cancelAnimationFrame(FG.raf);cancelAnimationFrame(FG.pvRaf);FG.raf=0;if(FG.run)clearTimeout(FG.run.vsT);FG.run=null;}
@@ -9219,10 +9242,10 @@ document.addEventListener('keyup',e=>{if(!FG.run)return;const k=FG_KEYS[e.key]||
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&FG.run)FG.run.pause=FG.run.pause||2;else if(FG.run&&FG.run.pause===2)FG.run.pause=0;});
 /* écran « VS » avec la petite phrase de chaque perso */
 function fgVS(){const r=FG.run,ov=$('#fgOv');if(!ov)return;r.ph='vs';const A=FG_P[r.k],B=FG_P[r.o];
-  ov.innerHTML=`<div class="fgvs"><div class="l"><span class="av">${charArt(CHARS[r.k])}</span><b>${esc(fgName(r.k))}</b><small>${A.st}</small><q>${esc(A.q)}</q></div><div class="vs">VS</div><div class="r${r.boss?' boss':''}"><span class="av">${charArt(CHARS[r.o])}</span>${r.boss?'<i>👑</i>':''}<b>${esc(fgName(r.o,r.boss))}</b><small>${r.boss?'Le boss final':B.st}</small><q>${esc(r.boss?'Personne ne détrône Roland Doré !':B.q)}</q></div><div class="stg">${r.boss?'💀 COMBAT FINAL':'Combat '+(r.stage+1)+' / 7'} · ${FG_DIF[r.dif].n}</div><div class="tap">Touche pour commencer</div></div>`;
+  ov.innerHTML=`<div class="fgvs"><div class="l"><span class="av">${charArt(CHARS[r.k])}</span><b>${esc(fgName(r.k))}</b><small>${A.st}</small><q>${esc(A.q)}</q></div><div class="vs">VS</div><div class="r${r.boss?' boss':''}"><span class="av">${charArt(CHARS[r.o])}</span>${r.boss?'<i>👑</i>':''}<b>${esc(fgName(r.o,r.boss))}</b><small>${r.boss?'Le boss final':B.st}</small><q>${esc(r.boss?'Personne ne détrône Roland Doré !':B.q)}</q></div><div class="stg">${r.boss?'💀 COMBAT FINAL':'Combat '+(r.stage+1)+' / 7'} · ${FG_DIF[r.dif].n}${r.help<1?' · 🤝 Coup de pouce':''}</div><div class="tap">Touche pour commencer</div></div>`;
   const go=()=>{if(r.ph!=='vs')return;ov.innerHTML='';fgRoundStart();};ov.onclick=go;r.vsT=setTimeout(go,4200);}
 function fgRoundStart(){const r=FG.run;if(!r)return;clearTimeout(r.vsT);const P0=r.p,E0=r.e;
-  r.p=Object.assign(fgMk(r.k,0,false,null),{win:P0.win,me:P0.me});if(ofOn('train'))r.p.me=200;r.e=Object.assign(fgMk(r.o,1,r.boss,E0.lv),{win:E0.win,me:E0.me});
+  r.p=Object.assign(fgMk(r.k,0,false,null),{win:P0.win,me:P0.me});if(ofOn('train'))r.p.me=200;r.e=Object.assign(fgMk(r.o,1,r.boss,E0.lv),{win:E0.win,me:E0.me});if(r.help<1){r.e.mx=r.e.hp=r.e.lag=Math.round(r.e.mx*r.help);}
   r.pr=[];r.fx=[];r.hz=[];r.hzT=500+Math.random()*300;r.time=FG_ROUND*60;r.ph='ann';r.ai={t:20};r.flashy=0;r.cam=null;
   const last=r.p.win===1&&r.e.win===1;r.txt=[{s:last?'MANCHE DÉCISIVE !':'MANCHE '+r.round,t:0,d:70,big:1,ann:1},{s:'PLONGEZ !',t:-70,d:55,big:1,c:'#ffd23f',ann:1}];fgSfx('ann');setTimeout(()=>fgSfx('ann'),1150);}
 function fgLoop(now){const r=FG.run;if(!r)return;FG.raf=requestAnimationFrame(fgLoop);let dt=Math.min(100,now-FG.last);FG.last=now;if(r.pause){fgDraw();return;}
@@ -9241,7 +9264,7 @@ function fgStep(){const r=FG.run;r.t++;if(r.slow>0)r.slow--;if(r.shake>0)r.shake
   if(r.sp){r.sp.t++;if(r.sp.t>=r.sp.d){const s=r.sp;r.sp=null;fgSpecialGo(s.f,s.o);}return;}
   if(r.stop>0){r.stop--;return;}
   if(r.ph==='fight'){r.time--;if(r.time<=0){fgTimeUp();return;}
-    fgUpdate(r.p,r.e,fgInputP());fgUpdate(r.e,r.p,fgAI(r.e,r.p,r.ai,r.e.lv));fgProj();fgHazStep();fgPush(r.p,r.e);}
+    fgUpdate(r.p,r.e,fgInputP());fgUpdate(r.e,r.p,r.tuto?fgTutoAI(r.e,r.p):fgAI(r.e,r.p,r.ai,r.e.lv));if(r.tuto)fgTutoStep();fgProj();fgHazStep();fgPush(r.p,r.e);}
   else if(r.ph==='ko'){[r.p,r.e].forEach(f=>{if(f.st==='ko')fgKoFly(f);else fgIdle(f,true);});fgProj();r.kt++;if(r.kt>125)fgAfterRound();}
   [r.p,r.e].forEach(f=>{if(f.lag>f.hp)f.lag=Math.max(f.hp,f.lag-.6);if(f.cmbT>0&&--f.cmbT===0)f.cmb=0;if(f.vc>0)f.vc--;f.bob+=.08;if(f.trail>0)f.trail--;});}
 function fgIdle(f,win){f.t++;if(f.y<FG_GY){f.vy+=.55;f.y=Math.min(FG_GY,f.y+f.vy);}else{f.y=FG_GY;f.vy=0;}f.vx*=.8;f.x+=f.vx;f.x=Math.max(FG_X0+14,Math.min(FG_X1-14,f.x));f.atk=null;
@@ -9298,7 +9321,8 @@ function fgAtkTick(f,o,I){const A=f.atk,r=FG.run;A.f++;if(A.k==='s'||A.k==='S'){
   if(A.f>=M.st+M.ac+M.rc||(A.air&&gr&&A.f>M.st)){f.atk=null;f.st=gr?'idle':'jump';}}
 function fgReach(f,o,M){if(!o||o.st==='ko'||o.out)return false;const a=f.x+f.face*8,b=f.x+f.face*M.rg;return o.x+18>=Math.min(a,b)&&o.x-18<=Math.max(a,b)&&Math.abs(o.y-f.y)<85;}
 /* un coup qui arrive : parade parfaite, garde, armure ou touché */
-function fgHit(o,f,M,proj){const r=FG.run;if(o.st==='ko'||o.out||o.inv>0)return 'x';
+function fgHit(o,f,M,proj){const res=fgHit0(o,f,M,proj);try{if(FG.run&&FG.run.tuto)fgTutoEv(res,o,f);}catch(_){}return res;}
+function fgHit0(o,f,M,proj){const r=FG.run;if(o.st==='ko'||o.out||o.inv>0)return 'x';
   const front=(f.x-o.x)*o.face>0||Math.abs(f.x-o.x)<4,gr=o.y>=FG_GY,pw=o.k==='manu'?13:9;
   if(!M.unbl&&front&&gr&&!o.atk&&o.hb&&o.st!=='hit'&&o.stun<=0&&o.bs<=0&&r.t-o.bkT<=pw){
     if(!proj&&f.k){f.stun=30;f.st='stun';f.atk=null;}o.me=Math.min(200,o.me+20);r.slow=26;o.inv=6;
@@ -9447,16 +9471,55 @@ function fgMatchEnd(won){const r=FG.run;r.ph='end';const ov=$('#fgOv'),k=r.k,pr=
   if(won){const d=dayKey();if(G.dw!==d){G.dw=d;grantPack(1,'Gambetta Fighter · 1re victoire du jour');rew='🎁 1re victoire du jour : une carte !';}
     if(r.stage>=pr.s)pr.s=r.stage+1;
     if(r.boss){try{stat('fgBoss');if(r.dif==='d')stat('fgBossD');}catch(_){}
-      if(r.dif==='f')rew+=(rew?'<br>':'')+(pr.done?'':'😊 En Facile, pas de booster de champion : tente le Normal !');
-      else if(!pr.done){pr.done=1;const first=Object.values(G.p).filter(p=>p.done).length===1;grantPack(first?5:3,'Gambetta Fighter · '+fgName(k)+' champion');rew+=(rew?'<br>':'')+`🏆 ${esc(fgName(k))} est champion du bassin : booster de ${first?5:3} cartes !`;}}}
+      if(!pr.done){pr.done=1;const first=Object.values(G.p).filter(p=>p.done).length===1,nb=r.dif==='f'?(first?3:2):(first?5:3);grantPack(nb,'Gambetta Fighter · '+fgName(k)+' champion');rew+=(rew?'<br>':'')+`🏆 ${esc(fgName(k))} est champion du bassin : booster de ${nb} cartes !`;}}}
+  pr.lo=pr.lo||[0,0,0,0,0,0,0];if(won)pr.lo[r.stage]=0;else if(!r.tuto)pr.lo[r.stage]=(pr.lo[r.stage]||0)+1;const hlp=fgHelp(k,r.stage);
   saveCol();try{updBoostBtn();}catch(_){}
   const lad=fgLadder(k),nx=Math.min(pr.s,6),champ=won&&r.boss,bonus=won&&!r.boss&&FG_BONUS_AFTER.includes(r.stage)&&r.stage+1===nx;
   ov.innerHTML=`<div class="fgres ${won?'win':'lose'}"><div class="big">${champ?'👑':won?'🏆':'💦'}</div><h3>${champ?'Champion du bassin !':won?'Victoire !':'Plouf… perdu !'}</h3>
     <p>${won?`« ${esc(FG_P[k].qw)} »`:esc(fgName(r.o,r.boss))+' t\'a envoyé dans le bassin.'}</p>
     ${won?`<div class="fgstars">${[0,1,2].map(i=>`<span class="${i<stars?'on':''}" style="animation-delay:${.25+i*.35}s">★</span>`).join('')}</div><div class="fgsl"><span class="${stars>=1?'on':''}">Victoire</span><span class="${r.e.win===0?'on':''}">Sans perdre de manche</span><span class="${r.lastFlashy?'on':''}">Fin spectaculaire</span></div>`:''}
-    ${rew?`<div class="rw">${rew}</div>`:''}
-    <div class="trbtns">${bonus?`<button class="btn" id="fgBon">🎈 Manche bonus !</button>`:won&&!r.boss?`<button class="btn" id="fgNext">▶ Combat suivant : ${esc(fgName(lad[nx],nx===6))}</button>`:''}${!won?'<button class="btn" id="fgAgain">🔁 Réessayer</button>':''}<button class="btn alt" id="fgBack">Retour</button></div></div>`;
+    ${rew?`<div class="rw">${rew}</div>`:''}${!won&&hlp<1?`<div class="rw">🤝 Coup de pouce : au prochain essai, ${esc(fgName(r.o,r.boss))} commence avec ${Math.round((1-hlp)*100)} % de vie en moins.</div>`:''}
+    <div class="trbtns">${bonus?`<button class="btn" id="fgBon">🎈 Manche bonus !</button>`:won&&!r.boss?`<button class="btn" id="fgNext">▶ Combat suivant : ${esc(fgName(lad[nx],nx===6))}</button>`:''}${!won?`<button class="btn" id="fgAgain">🔁 Réessayer${hlp<1?' · 🤝 coup de pouce':''}</button>`:''}<button class="btn alt" id="fgBack">Retour</button></div></div>`;
   const g=s=>ov.querySelector(s);const n1=g('#fgNext');if(n1)n1.onclick=()=>fgFight(k,nx);const a1=g('#fgAgain');if(a1)a1.onclick=()=>fgFight(k,r.stage);const b1=g('#fgBon');if(b1)b1.onclick=()=>fgBonus(k,nx);g('#fgBack').onclick=()=>fgHome();}
+/* ---------- entraînement guidé ---------- */
+const FG_TUTO=[
+  {t:'Avance vers ton adversaire',h:'Garde le doigt sur la flèche ▶',b:'fw'},
+  {t:'Tape-le avec la Frite 🥢',h:'3 coups rapides',b:'a',ev:'A',n:3},
+  {t:'Coup fort : la Bouée 🛟',h:'Plus lente, mais elle repousse loin',b:'b',ev:'B',n:1},
+  {t:'Combo !',h:'🥢 puis 🥢 puis tout de suite 🛟 pendant que ça touche',b:'a',ev:'F',n:1,skip:1},
+  {t:'Il attaque : protège-toi 🛡️',h:'Garde le doigt sur la flèche qui t\'éloigne de lui',b:'bk',ev:'K',n:2,skip:1},
+  {t:'Ta jauge est pleine ⚡',h:'Touche le bouton Spécial',b:'s',ev:'S',n:1,me:100}];
+function fgTuto(k,next){const o=FG_ORDER.find(x=>x!==k&&x!=='roland');fgStop();
+  FG.run={mode:'fight',tuto:{i:0,c:0,ok:0,t:0,next},k,stage:0,o,boss:false,dif:'f',p:fgMk(k,0,false,null),e:fgMk(o,1,false,Object.assign({},FG_LV[0],{dm:.35})),round:1,ph:'vs',t:0,time:FG_ROUND*60,fx:[],pr:[],txt:[],hz:[],shake:0,stop:0,slow:0,flash:0,ai:{t:0},pl:[],res:null,sp:null,cine:null,cam:null,flashy:0,help:1};
+  fgDom();fgImg(k);fgImg(o);const cvw=$('.fgcv');cvw.insertAdjacentHTML('beforeend','<div class="fgtb" id="fgTb"><b></b><small></small><button id="fgTbSkip" hidden>Passer ⏭</button></div>');
+  $('#fgTbSkip').onclick=()=>fgTutoNext();FG.last=performance.now();FG.acc=0;fgRoundStart();FG.run.txt=[{s:'ENTRAÎNEMENT',t:0,d:60,big:1,ann:1}];fgTutoShow();FG.raf=requestAnimationFrame(fgLoop);}
+function fgTutoShow(){const r=FG.run,T=r&&r.tuto;if(!T)return;const S=FG_TUTO[T.i],tb=$('#fgTb');if(!tb||!S)return;
+  tb.querySelector('b').textContent=(T.i+1)+'/'+FG_TUTO.length+' · '+S.t;tb.querySelector('small').textContent=S.h+(S.n>1?' ('+T.c+'/'+S.n+')':'');tb.classList.toggle('ok',!!T.ok);
+  if(T.ok){tb.querySelector('b').textContent='✅ Bien joué !';tb.querySelector('small').textContent='';}
+  const fw=r.e.x>r.p.x?'r':'l',bk=fw==='r'?'l':'r',key=S.b==='fw'?fw:S.b==='bk'?bk:S.b;
+  document.querySelectorAll('.fgpad [data-in]').forEach(x=>x.classList.toggle('hl',!T.ok&&x.dataset.in===key));
+  $('#fgTbSkip').hidden=!(S.skip&&T.t>600&&!T.ok);}
+function fgTutoEv(res,o,f){const r=FG.run,T=r.tuto,S=FG_TUTO[T.i];if(!S||T.ok)return;let e=null;
+  if(f===r.p&&res==='h'){const k=f.atk&&f.atk.k;e=k==='fin'?'F':k==='b'||k==='jb'?'B':'A';}
+  if(o===r.p&&(res==='b'||res==='p'))e='K';
+  if(e===S.ev||(S.ev==='A'&&e==='F')){T.c++;if(T.c>=S.n)T.ok=1;fgTutoShow();}}
+function fgTutoNext(){const r=FG.run,T=r.tuto;T.i++;T.c=0;T.ok=0;T.t=0;if(T.i>=FG_TUTO.length)return fgTutoEnd();const S=FG_TUTO[T.i];if(S.me)r.p.me=Math.max(r.p.me,S.me);fgSfx('ann');fgTutoShow();}
+function fgTutoStep(){const r=FG.run,T=r.tuto,S=FG_TUTO[T.i];if(!S)return;T.t++;r.time=FG_ROUND*60;
+  [r.p,r.e].forEach(f=>{if(f.hp<f.mx*.55)f.hp=f.lag=f.mx;f.gd=100;});
+  if(S.b==='fw'&&!T.ok&&Math.abs(r.e.x-r.p.x)<95){T.ok=1;fgTutoShow();}
+  if(S.ev==='S'&&!T.ok&&(r.sp&&r.sp.f===r.p||r.cine&&r.cine.f===r.p)){T.ok=1;fgTutoShow();}
+  if(S.me&&!T.ok&&!r.sp&&!r.cine&&r.p.me<100&&!(r.p.atk&&(r.p.atk.k==='s'||r.p.atk.k==='S')))r.p.me=100;
+  if(T.ok){T.ok++;if(T.ok>70)fgTutoNext();}
+  if(T.t%30===0)fgTutoShow();}
+function fgTutoAI(f,o){const out={l:0,r:0,u:0,a:0,b:0,s:0},T=FG.run.tuto,S=FG_TUTO[T.i]||{},dx=o.x-f.x,d=Math.abs(dx);
+  if(S.ev!=='K'||T.ok||f.atk||f.st==='hit'||f.stun>0)return out;
+  if(d>62){out[dx>0?'r':'l']=1;return out;}
+  if(T.t%75===40)out.a=1;return out;}
+function fgTutoEnd(){const r=FG.run,G=fgSave();G.tuto=1;saveCol();const nx=r.tuto.next,k=r.k;r.ph='end';const tb=$('#fgTb');if(tb)tb.remove();
+  document.querySelectorAll('.fgpad .hl').forEach(x=>x.classList.remove('hl'));
+  $('#fgOv').innerHTML=`<div class="fgres win"><div class="big">🎓</div><h3>Entraînement réussi !</h3><p>Tu sais avancer, taper, faire un combo, te protéger et lancer ton spécial. À toi le tournoi !</p>
+    <div class="trbtns"><button class="btn" id="fgTgo">▶ ${nx!=null?'Commencer le combat':'Au tournoi !'}</button></div></div>`;
+  $('#fgTgo').onclick=()=>{if(nx!=null)fgFight(k,nx);else fgHome();};}
 /* ---------- manche bonus : éclate les bouées ---------- */
 function fgBonus(k,next){fgStop();FG.run={mode:'bonus',k,next,stage:-1,p:fgMk(k,0,false,null),e:fgDummy(),ph:'ann',t:0,time:20*60,fx:[],pr:[],txt:[{s:'MANCHE BONUS',t:0,d:70,big:1,ann:1},{s:'ÉCLATE LES BOUÉES !',t:-70,d:60,big:1,c:'#ffd23f',ann:1}],hz:[],tg:[],score:0,sp:null,cine:null,shake:0,stop:0,slow:0,flash:0};
   FG.run.p.x=FG_W/2;FG.run.p.me=0;fgDom();fgImg(k);FG.last=performance.now();FG.acc=0;fgSfx('ann');FG.raf=requestAnimationFrame(fgLoop);}
@@ -10116,10 +10179,21 @@ const api={
       const dfn=ec.querySelector('[data-dfin]');if(dfn)dfn.onclick=()=>duFinish(dfn.dataset.dfin,()=>{dfn.outerHTML='<div style="margin-top:6px">🏁 Résultat gardé !</div>';const dl=ec.querySelector('.duleft');if(dl)dl.remove();$('#toSel').textContent='⚔️ Défis';});
       const ptc=PLAYCTX&&PLAYCTX.t==='party';$('#toSel').textContent=ptc?'🎲 Retour à la partie':PLAYCTX?'⚔️ Défis':'Persos';$('#again').hidden=ptc;$('#end').classList.add('show');$('#again').focus();},400);}
 };
+/* règle du jeu : affichée au premier lancement de chaque mini-jeu, et avec le bouton ? */
+const RULES={"roland": {"b": "Ramène les 8 nageurs au bord en 45 secondes.", "c": "Touche l'écran pour lancer la bouée sur un nageur qui appelle à l'aide."}, "christian": {"b": "Fais un sans-faute.", "c": "Retiens qui a des cheveux, puis glisse chaque carte (ou touche un bouton) : cheveux ou pas de cheveux ?"}, "laetitia": {"b": "Tiens 40 secondes sans laisser 3 postes vides.", "c": "Touche les jeunes qui quittent leur poste pour les renvoyer surveiller."}, "marcel": {"b": "Sers tout le monde sans une seule erreur.", "c": "Eau pour un enfant, un nageur (bonnet, lunettes, serviette) ou quelqu'un qui a trop bu. Bière pour les autres."}, "christophe": {"b": "Démasque Christophe 3 fois avant la fin du chrono.", "c": "Cherche-le dans la foule et touche-le."}, "agnes": {"b": "Sers 15 nageurs avant d'en rater 5.", "c": "Touche un nageur affamé pour lui lancer une mini-quiche."}, "jacky": {"b": "Trouve les 7 différences à chaque manche avant la fin du temps.", "c": "Compare les deux images et touche chaque différence."}, "noel": {"b": "Ramasse 15 cadeaux en 45 secondes sans trop te mouiller.", "c": "Glisse le doigt pour déplacer le Père Noël : passe sur les cadeaux, évite l'eau."}, "duo": {"b": "Papote jusqu'à 100 % sans te faire prendre 3 fois.", "c": "Garde le doigt appuyé pour papoter et lâche dès que Christian regarde. Et surveille les enfants !"}, "christine": {"b": "Réussis au moins 70 % des mouvements.", "c": "Tape le bon mouvement au moment où il arrive dans le cercle."}, "ethan": {"b": "Soulève la barre en 15 secondes… et garde-la en haut !", "c": "Tape le plus vite possible : si tu ralentis, la barre redescend."}, "aude": {"b": "Tranche 30 oranges sans rater 3 fois.", "c": "Glisse le doigt pour trancher les oranges… mais jamais les bouteilles !"}, "nathan": {"b": "Amène Nathan jusqu'à sa chérie sans toucher un thon.", "c": "Pars de Nathan et trace son chemin avec le doigt. Chaque niveau a plus de thons."}, "manu": {"b": "Rattrape le soutien-gorge 5 fois avant qu'il tombe devant tout le monde.", "c": "Glisse le doigt pour placer Manue sous le soutien-gorge. Attention aux coups de vent !"}, "stephane": {"b": "Tiens 8 refrains pour faire craquer Stéphane.", "c": "Regarde la suite de touches qui s'allument, puis répète-la. Elle s'allonge à chaque fois. 3 erreurs max."}, "margaux": {"b": "Attrape 20 enfants en bas du toboggan, 5 erreurs max.", "c": "Touche les enfants qui arrivent seuls. Pas ceux qui sont déjà accompagnés !"}, "richard": {"b": "Fais sortir tous les enfants de l'eau sans casser d'oreilles.", "c": "Maintiens pour siffler : plus tu tiens, plus ça porte loin. Lâche avant le rouge, sinon AÏE !"}, "jf": {"b": "Marque 6 buts sur 10 tirs.", "c": "Tire le ballon en arrière, vise et lâche pour tirer."}, "david": {"b": "Échappe à Marcel pendant 6 manches sans vider ton portefeuille.", "c": "Touche une cachette pour David avant que Marcel arrive."}, "anthony": {"b": "Cours jusqu'au nageur en détresse sans tomber 3 fois.", "c": "Glisse à gauche ou à droite pour changer de côté, vers le haut (ou tape) pour sauter."}, "gwen": {"b": "Réussis 6 analyses de chlore, 3 erreurs max.", "c": "Glisse les produits dans le tube dans le bon ordre, puis lis le bon résultat."}, "francoise": {"b": "Ramène 12 enfants au bord, pas plus de 3 qui boivent la tasse.", "c": "Touche l'enfant le plus urgent pour sauter le chercher, puis tape gauche, droite… pour nager."}, "matheo": {"b": "Ramasse tout ce qui flotte au fond, sans manquer d'air.", "c": "Glisse le doigt pour guider l'épuisette et vide-la au bord quand elle est pleine. Remonte respirer !"}, "zoe": {"b": "Écrase le gâteau sur la tête de Christian sans te faire repérer 3 fois.", "c": "Glisse le doigt pour approcher en douceur et cache-toi derrière les obstacles. Touche sa tête pour lancer !"}, "alix": {"b": "Fais revenir Hulk sans avoir trop honte.", "c": "Maintiens pour remplir l'appel et lâche dans la bonne zone. Si Hulk file vers le bassin, attention au plouf !"}, "kayak": {"b": "Remonte les 2 téléphones au kayak sans manquer d'air.", "c": "Glisse le doigt pour plonger, suis les vibrations 📳, attrape le téléphone et ramène-le au kayak."}, "dario": {"b": "Trouve la bonne excuse à chaque rencontre pour échapper à l'aquajogging.", "c": "Lis bien ce qu'on te dit : un indice cache la seule excuse qui tient la route. 3 vies."}, "bouchon": {"b": "Récupère les 4 clés de chaque niveau avec Bouchon.", "c": "Glisse le doigt pour la déplacer. Évite les douches, les pieds, les vêtements et les bouches d'aspiration."}, "bonus": {"b": "Fais le plat parfait à chaque plongeoir.", "c": "Touche l'écran pour sauter : il faut arriver à plat (90°) dans l'eau. Plus c'est haut, plus ça tourne !"}, "lilian": {"b": "Grimpe jusqu'au sommet sans tomber 3 fois.", "c": "Touche à gauche ou à droite selon la prise qui brille. Quand une pierre tombe, ne bouge plus !"}, "mickey": {"b": "Donne 20 cartes du club sans te tromper 3 fois.", "c": "Donne une carte seulement aux futures mamans 🤰 et aux poussettes 👶. Pas aux autres !"}, "manon": {"b": "Tiens 45 secondes sans que personne ne voie les fesses de Manon.", "c": "Glisse la serviette devant chaque regard 👀. 2 vies seulement !"}, "helene": {"b": "Soigne 20 enfants sans te tromper 3 fois.", "c": "Écoute le bobo et touche le bon soin dans la trousse."}, "pascal": {"b": "Attrape 25 tire-au-flanc avant de te tromper 3 fois.", "c": "Touche ceux qui trichent… mais pas ceux qui font leur virage ou qui nagent vraiment !"}, "angelique": {"b": "Apporte au moins 8 verres à table en 3 tournées.", "c": "Glisse le doigt pour garder le plateau droit, même quand Angélique tangue un peu…"}, "maurice": {"b": "Fais avancer l'aquabike de Maurice avec 5 inventions folles.", "c": "Chaque invention a sa règle, écrite en haut de l'écran. 3 vies."}, "willi": {"b": "Emmène Willi jusqu'à Metz sur routes, rivières et lacs.", "c": "Touche pour changer : les flotteurs juste avant l'eau, les roues juste avant la route. Saute les obstacles !"}, "pierre": {"b": "Fais 60 points de scoops en 60 secondes.", "c": "Touche un scoop au bon moment pour le photographier. Les simples nageurs font perdre des points !"}};
+function rulesShow(k,then){const R=RULES[k],g=$('#game');if(!R||!g){then();return;}document.querySelectorAll('.rulesov').forEach(x=>x.remove());
+  const o=document.createElement('div');o.className='rulesov';o.innerHTML=`<div class="rulescard"><div class="rav" style="background:${CHARS[k].bg}">${avatar(CHARS[k].look,{viewBox:'30 20 140 140'})}</div><h3>${esc(CHARS[k].game)}</h3>
+    <p><b>🎯 But</b>${esc(R.b)}</p><p><b>👆 Comment</b>${esc(R.c)}</p><button class="btn" id="rulesGo">J'ai compris ▶</button></div>`;
+  g.appendChild(o);const go=()=>{o.remove();COL.rul=COL.rul||{};if(!COL.rul[k]){COL.rul[k]=1;saveCol();}then();};o.querySelector('#rulesGo').onclick=e=>{e.stopPropagation();go();};}
+function rulesBtn(){const h=$('#game');if(!h||$('#rulesQ'))return;const b=document.createElement('button');b.className='rq';b.id='rulesQ';b.setAttribute('aria-label','Règle du jeu');b.textContent='?';h.appendChild(b);
+  b.onclick=()=>{const k=curKey;if(!k||!RULES[k])return;stopGame();$('#end').classList.remove('show');rulesShow(k,()=>runGame(k));};}
 function startGame(k){
   try{ctxStart(k);}catch(_){}
-  stopGame();curKey=k;show('game');$('#hudTitle').textContent=CHARS[k].game;$('#end').classList.remove('show');
-  const st=$('#stage');st.innerHTML='';ended=false;
+  stopGame();curKey=k;show('game');$('#hudTitle').textContent=CHARS[k].game;$('#end').classList.remove('show');try{rulesBtn();}catch(_){}
+  $('#stage').innerHTML='';document.querySelectorAll('.rulesov').forEach(x=>x.remove());
+  if(RULES[k]&&!(COL.rul&&COL.rul[k]))rulesShow(k,()=>runGame(k));else runGame(k);
+}
+function runGame(k){if(curKey!==k)return;const st=$('#stage');st.innerHTML='';ended=false;
   pendingScore=null;gameT0=performance.now();current=GAMES[k](st,api);last=performance.now();raf=requestAnimationFrame(tick);
 }
 function tick(t){
@@ -10128,7 +10202,7 @@ function tick(t){
   raf=requestAnimationFrame(tick);
 }
 function stopGame(){cancelAnimationFrame(raf);if(current&&current.destroy)current.destroy();current=null;}
-function toSelect(){stopGame();$('#end').classList.remove('show');$('#again').hidden=false;if(PLAYCTX&&PLAYCTX.t==='party'){ptBackFromMg();return;}if(PLAYCTX){PLAYCTX=null;openDefi();return;}buildSelect();show('select');}
+function toSelect(){stopGame();document.querySelectorAll('.rulesov').forEach(x=>x.remove());$('#end').classList.remove('show');$('#again').hidden=false;if(PLAYCTX&&PLAYCTX.t==='party'){ptBackFromMg();return;}if(PLAYCTX){PLAYCTX=null;openDefi();return;}buildSelect();show('select');}
 $('#quit').onclick=toSelect;$('#toSel').onclick=toSelect;$('#again').onclick=()=>startGame(curKey);
 })();
 </script>

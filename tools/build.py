@@ -45,12 +45,15 @@ def member_entry(m):
         return s
     cid = idm.group(1)
     raw = base64.b64decode(um.group(0).split(',', 1)[1])
-    write(f'img/m/{cid}.webp', to_webp(raw, BIG_W))
-    write(f'img/m/{cid}_s.webp', to_webp(raw, THUMB_W, 72))
+    big, small = to_webp(raw, BIG_W), to_webp(raw, THUMB_W, 72)
+    write(f'img/m/{cid}.webp', big)
+    write(f'img/m/{cid}_s.webp', small)
     n_members += 1
-    s = s.replace(um.group(0), f'img/m/{cid}.webp')
+    # ?v=… change dès que la photo change : le téléphone peut garder les photos sans jamais en afficher une vieille
+    hb, hs = hashlib.sha1(big).hexdigest()[:8], hashlib.sha1(small).hexdigest()[:8]
+    s = s.replace(um.group(0), f'img/m/{cid}.webp?v={hb}')
     # ajoute le champ miniature juste avant la fin de l'objet
-    return s[:-1] + (f', "thumb": "img/m/{cid}_s.webp"' if s.lstrip().startswith('{"') else f",thumb:'img/m/{cid}_s.webp'") + '}'
+    return s[:-1] + (f', "thumb": "img/m/{cid}_s.webp?v={hs}"' if s.lstrip().startswith('{"') else f",thumb:'img/m/{cid}_s.webp?v={hs}'") + '}'
 
 start = html.index('const MEMBERS=[')
 end = html.index('\n];', start)
