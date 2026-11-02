@@ -2186,12 +2186,15 @@ const CHARS={
   angelique:{name:'Angélique',game:'Le tour du plateau',bg:'#ffe9d6',
     line:"Le club, c'est 50 % piscine, 50 % apéro ! Attention, je passe avec le plateau…",
     look:{skin:'#f2c8ac',hair:'long',hairColor:'#2b1d14',shirt:PINK,logo:true,earrings:true}},
+  maurice:{name:'Maurice',game:"L'aquabike qui avance",bg:'#dff4ff',
+    line:"Record personnel : 0,1 mètre en aquabike. Aujourd'hui, j'ai des inventions… et je vais jusqu'à la buvette !",
+    look:{skin:'#e0a982',hair:'short',hairColor:'#cfcfcf',shirt:PINK,logo:true,round:true}},
   bonus:{name:'Bonus',game:'Le plat parfait',bg:'#e5dcff',
     line:"Regardez les enfants, je vais vous montrer ce que c'est un vrai plongeon !",
     look:{skin:'#f0c4a2',hair:'short',hairColor:'#2b1d14',shirt:PINK,logo:true,hat:'#1b2a3a',sunglasses:true}}
 };
 /* Le Bonus reste toujours en dernier : ajouter les nouveaux persos avant lui */
-const ORDER=['roland','christian','laetitia','marcel','christophe','agnes','jacky','noel','duo','christine','ethan','aude','nathan','manu','stephane','margaux','richard','jf','david','anthony','gwen','francoise','matheo','zoe','bouchon','dario','kayak','alix','lilian','mickey','manon','helene','pascal','angelique','bonus'];
+const ORDER=['roland','christian','laetitia','marcel','christophe','agnes','jacky','noel','duo','christine','ethan','aude','nathan','manu','stephane','margaux','richard','jf','david','anthony','gwen','francoise','matheo','zoe','bouchon','dario','kayak','alix','lilian','mickey','manon','helene','pascal','angelique','maurice','bonus'];
 
 /* Prénoms du club pour le mini-jeu de Christian */
 const NAMES=['Christine','Ethan','Lucie','Agnès','Jean-François','Christophe','David','Françoise','Aude','Nathan','Manue','Angélique','Richard','Stéphane','Margaux','Pascal','Laurent','Karine','Fabrice','Dario','Brigitte','Alain','Audrey','Mickey','Bouchon','Manon','Hélène','Zoé','Camille','Marcel','Laetitia','Mathéo'];
@@ -5277,8 +5280,94 @@ function gameAngelique(stage,api){
   };
 }
 
+/* ================= MAURICE : les inventions pour faire avancer l'aquabike ================= */
+function gameMaurice(stage,api){
+  const cv=makeCanvas(stage),ctx=cv.ctx,LIVES=3,L=CHARS.maurice.look;
+  const mau=svgImg(avatar(L));
+  const LV=[{e:'🌀',n:"L'hélice",h:'Tape à gauche, à droite, à gauche… Reste dans le vert !'},
+    {e:'⛵',n:'Voile + ventilo',h:'Maintiens pour souffler… et lâche avant que ça chauffe !'},
+    {e:'🥤',n:'Soda + bonbons',h:'Tape pour secouer, puis LÂCHE quand c\'est dans le vert !'},
+    {e:'🦶',n:'Les palmes géantes',h:'Tape du bon côté quand la palme touche la ligne !'},
+    {e:'🍟',n:'La catapulte à frites',h:'Tape quand la puissance est au max !'}];
+  let t=0,over=false,lv=0,dist=0,base=0,lives=LIVES,ban=1.8,boom=0,fx=[],S={},hold=false;
+  const hud=()=>api.hud(`${LV[lv].e} ${lv+1}/5  📏 ${Math.round(dist*25)} m  ❤️ ${lives}`);
+  const say=(txt,c)=>fx.push({x:cv.W/2,y:cv.H*0.3,txt,t:0,c:c||'#ffcf33'});
+  function reset(){S={s:0,heat:0,p:0,win:0.62,wd:1,ok:0,notes:[],nt:0.8,miss:0,hit:0,pw:0,pd:1,ps:0.9,gust:0,gT:3,fly:0,last:0};}
+  reset();hud();
+  function lose(msg){lives--;boom=0.9;say(msg,'#ff6b5b');try{navigator.vibrate&&navigator.vibrate(150);}catch(_){}reset();hud();
+    if(lives<=0){over=true;setTimeout(()=>api.end(false,'Toujours au même endroit…',`Maurice a tout essayé, mais son aquabike n'a avancé que de ${Math.round(dist*25)} m. Record personnel quand même !`),1000);}}
+  function adv(x){if(over)return;dist=Math.min(base+0.2,dist+x);hud();if(dist>=base+0.2-1e-6&&ban<=0){next();}}
+  function next(){if(lv>=4){over=true;dist=1;const s=Math.round((performance.now()-gameT0)/100)/10;say('🍟 LA BUVETTE !','#7dffa8');setTimeout(()=>api.end(true,'Maurice a avancé !',`25 m en aquabike jusqu'à la buvette, en ${String(s).replace('.',',')} s. Un record mondial, Maurice !`),1200);return;}
+    say('✅ Invention réussie !','#7dffa8');lv++;base=lv*0.2;dist=base;ban=1.8;reset();hud();}
+  const pg=()=>{const W=cv.W,H=cv.H;return{W,H,top:H*0.52,mid:W/2};};
+  const onDown=e=>{e.preventDefault();if(over||ban>0||boom>0)return;const q=cv.pt(e),g=pg();if(q.y<g.top-20&&lv!==1)return;const side=q.x<g.mid?-1:1;
+    if(lv===0){if(side!==S.last){S.s=Math.min(1.2,S.s+0.12);S.last=side;}else{S.s=Math.max(0,S.s-0.06);fx.push({x:q.x,y:q.y-20,txt:'Ça patine !',t:0,c:'#ff9a1f'});}}
+    else if(lv===1)hold=true;
+    else if(lv===2){const bx=g.W*0.62,by=g.H*0.86;if(q.x>g.W*0.56&&q.y>g.H*0.8){// bouton lâcher
+        const p=S.p;if(p>=S.win&&p<=S.win+0.16){S.ok++;S.fly=0.8;adv(0.1);say('🚀 PSCHHHHHH !','#7dffa8');}else if(p<S.win){adv(0.02);say('Pschiiit… 😐','#bfe9ff');}else{lose('💥 La bouteille explose !');return;}S.p=0;}
+      else{S.p+=0.075;if(S.p>1){lose('💥 Trop secouée !');}}}
+    else if(lv===3){const n=S.notes.find(n=>!n.done&&Math.abs(n.y-0.8)<0.075&&n.s===side);if(n){n.done=1;S.hit++;adv(0.0125);fx.push({x:q.x,y:g.H*0.78,txt:'Flop !',t:0,c:'#7dffa8'});}else{fx.push({x:q.x,y:g.H*0.78,txt:'Raté',t:0,c:'#ff9a1f'});}}
+    else if(lv===4){const p=S.pw;if(p>=0.85){S.fly=1.4;adv(0.2);}else if(p>=0.6){adv(0.04);say('Un peu court… 🍟','#ffcf33');S.ps+=0.15;}else{lose('PLOUF ! 💦');}}};
+  const onUp=()=>{hold=false;};
+  cv.c.addEventListener('pointerdown',onDown);window.addEventListener('pointerup',onUp);window.addEventListener('pointercancel',onUp);
+  return{
+    update(dt){t+=dt;for(let k=fx.length-1;k>=0;k--){fx[k].t+=dt;if(fx[k].t>1.2)fx.splice(k,1);}if(boom>0)boom-=dt;if(S.fly>0)S.fly-=dt;
+      if(over)return;if(ban>0){ban-=dt;return;}if(boom>0)return;
+      if(lv===0){S.s*=Math.exp(-1.1*dt);if(S.s>0.8){S.heat+=dt*0.7;if(S.heat>=1){lose('💥 L\'hélice a lâché !');return;}}else S.heat=Math.max(0,S.heat-dt*0.4);if(S.s>0.4)adv(S.s*0.034*dt);}
+      else if(lv===1){S.s=hold?Math.min(1,S.s+dt*1.5):Math.max(0,S.s-dt*2);if(S.s>0.55)S.heat+=dt*0.3*(S.s+0.3);else S.heat=Math.max(0,S.heat-dt*0.45);if(S.heat>=1){hold=false;lose('💥 Le ventilo a cramé !');return;}
+        S.gT-=dt;if(S.gT<=0&&!S.gust){S.gust=2;S.gT=4+Math.random()*3;}if(S.gust>0)S.gust=Math.max(0,S.gust-dt);adv(S.s*0.032*(S.gust?0.25:1)*dt);}
+      else if(lv===2){S.p=Math.max(0,S.p-dt*0.05);S.win+=S.wd*dt*0.12;if(S.win>0.78){S.win=0.78;S.wd=-1;}if(S.win<0.45){S.win=0.45;S.wd=1;}}
+      else if(lv===3){S.nt-=dt;const sp=0.42+(dist-base)*1.6;if(S.nt<=0){S.notes.push({s:Math.random()<.5?-1:1,y:0,done:0});S.nt=Math.max(0.42,0.9-(dist-base)*2)*(0.8+Math.random()*0.4);}
+        S.notes.forEach(n=>{n.y+=sp*dt;if(!n.done&&n.y>0.9){n.done=2;S.miss++;if(S.miss>=5){lose('🦵 Crampe !');}}});S.notes=S.notes.filter(n=>n.y<1.05&&n.done!==1);}
+      else if(lv===4){S.pw+=S.pd*S.ps*dt;if(S.pw>1){S.pw=1;S.pd=-1;}if(S.pw<0){S.pw=0;S.pd=1;}}},
+    draw(){const g=pg(),W=g.W,H=g.H;ctx.clearRect(0,0,W,H);
+      // bassin vu de côté
+      ctx.fillStyle='#efe9df';ctx.fillRect(0,0,W,H);const wy=H*0.24;const pw=ctx.createLinearGradient(0,wy,0,g.top-10);pw.addColorStop(0,'#2bb3d6');pw.addColorStop(1,'#167f9c');ctx.fillStyle=pw;ctx.fillRect(0,wy,W,g.top-10-wy);
+      ctx.strokeStyle='rgba(255,255,255,.6)';ctx.lineWidth=2;ctx.beginPath();for(let x=0;x<=W;x+=10)ctx.lineTo(x,wy+Math.sin(x*0.05+t*2)*3);ctx.stroke();
+      for(let i=0;i<=5;i++){ctx.fillStyle='rgba(255,255,255,.5)';ctx.font='10px Fredoka, sans-serif';ctx.textAlign='center';ctx.fillText(i*5+' m',W*(0.08+i*0.144),g.top-16);}
+      ctx.font='34px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('🍟',W*0.93,wy-26);rr(ctx,W*0.86,wy-8,W*0.14,10,3);ctx.fillStyle='#b07a4a';ctx.fill();
+      // Maurice sur son aquabike
+      const mx=W*(0.08+dist*0.72)+(S.fly>0&&lv===4?0:0),my=wy+26-(S.fly>0&&lv===4?Math.sin((1.4-S.fly)/1.4*Math.PI)*90:0),ms=Math.min(W*0.3,118),sh=boom>0?(Math.random()-.5)*8:0;
+      ctx.save();ctx.translate(mx+sh,my);
+      ctx.strokeStyle='#9aa3ab';ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(-16,30);ctx.lineTo(0,-4);ctx.lineTo(18,-12);ctx.moveTo(0,-4);ctx.lineTo(0,46);ctx.moveTo(-22,46);ctx.lineTo(22,46);ctx.stroke();
+      ctx.strokeStyle=INK;ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,30,12,0,7);ctx.stroke();ctx.fillStyle='#e0217a';rr(ctx,-12,-10,22,7,3);ctx.fill();
+      // gadget du niveau
+      if(lv===0){ctx.save();ctx.translate(-26,32);ctx.rotate(t*S.s*30);ctx.fillStyle='#ffcf33';for(let i=0;i<3;i++){ctx.rotate(2.09);ctx.beginPath();ctx.ellipse(0,-9,4,9,0,0,7);ctx.fill();ctx.stroke();}ctx.restore();}
+      if(lv===1){ctx.fillStyle='#fff';ctx.beginPath();ctx.moveTo(4,-ms*1.1);ctx.quadraticCurveTo(30+S.s*20,-ms*0.6,4,-ms*0.15);ctx.closePath();ctx.fill();ctx.stroke();ctx.font='26px sans-serif';ctx.fillText('🪭',-40,-ms*0.5);if(S.s>0.1){ctx.strokeStyle='rgba(255,255,255,.8)';for(let i=0;i<3;i++){ctx.beginPath();ctx.moveTo(-28,-ms*0.6+i*10);ctx.lineTo(-28+20+((t*80+i*13)%20),-ms*0.6+i*10);ctx.stroke();}}}
+      if(lv===2){ctx.font='28px sans-serif';ctx.fillText('🥤',-30,10+(S.p>0?Math.sin(t*40)*S.p*4:0));if(S.fly>0){ctx.fillStyle='rgba(255,255,255,.85)';for(let i=0;i<8;i++){ctx.beginPath();ctx.arc(-40-i*8,10+Math.sin(i+t*20)*4,5-i*0.4,0,7);ctx.fill();}}}
+      if(lv===3){ctx.font='22px sans-serif';ctx.fillText('🦶',-14+Math.sin(t*10)*4,58);ctx.fillText('🦶',14-Math.sin(t*10)*4,58);}
+      if(lv===4&&S.fly<=0){ctx.font='24px sans-serif';ctx.fillText('🍟',-32,20);}
+      drawImg(ctx,mau,-ms/2,-ms*1.15,ms,ms*1.15);
+      if(boom>0){ctx.font=Math.round(40+boom*20)+'px sans-serif';ctx.fillText('💥',0,-ms*0.4);}
+      ctx.restore();
+      // panneau de l'invention
+      rr(ctx,6,g.top,W-12,H-g.top-6,16);ctx.fillStyle='#fff8e6';ctx.fill();ctx.lineWidth=3;ctx.strokeStyle=INK;ctx.stroke();
+      ctx.font='700 16px Fredoka, sans-serif';ctx.fillStyle=INK;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(`Invention ${lv+1}/5 : ${LV[lv].e} ${LV[lv].n}`,W/2,g.top+20);
+      ctx.font='600 12px Fredoka, sans-serif';ctx.fillStyle='#4a5b6d';ctx.fillText(LV[lv].h,W/2,g.top+42);
+      const bar=(y,v,lo,hi,lab,col)=>{const x0=W*0.1,bw=W*0.8;rr(ctx,x0,y,bw,18,9);ctx.fillStyle='#e9eef2';ctx.fill();ctx.lineWidth=2.5;ctx.strokeStyle=INK;ctx.stroke();if(hi>lo){ctx.fillStyle='rgba(47,179,109,.35)';ctx.fillRect(x0+bw*lo,y+2,bw*(hi-lo),14);}
+        rr(ctx,x0+2,y+2,Math.max(0,(bw-4)*Math.min(1,v)),14,7);ctx.fillStyle=col;ctx.fill();ctx.font='600 11px Fredoka, sans-serif';ctx.fillStyle=INK;ctx.textAlign='left';ctx.fillText(lab,x0,y-9);ctx.textAlign='center';};
+      const prog=(dist-base)/0.2;bar(H-30,prog,0,0,'📏 Distance pour cette invention','#3cb4e6');
+      if(lv===0){bar(g.top+78,S.s,0.4,0.8,'🌀 Vitesse de l\'hélice',S.s>0.8?'#ff3b3b':S.s>0.4?'#2fb36d':'#ffcf33');bar(g.top+122,S.heat,0,0,'🔥 Surchauffe','#ff8a3d');
+        ctx.font='34px sans-serif';ctx.globalAlpha=.5;ctx.fillText('👈',W*0.25,H*0.85);ctx.fillText('👉',W*0.75,H*0.85);ctx.globalAlpha=1;}
+      if(lv===1){bar(g.top+78,S.s,0,0,'🪭 Puissance du ventilo','#2fb36d');bar(g.top+122,S.heat,0,0,'🔥 Chaleur du moteur',S.heat>0.7?'#ff3b3b':'#ff8a3d');if(S.gust>0)bubbleText(ctx,W/2,g.top+160,'🌬️ Vent contraire !',13);
+        ctx.font='34px sans-serif';ctx.globalAlpha=hold?1:.5;ctx.fillText('👆 Maintiens',W/2,H*0.86);ctx.globalAlpha=1;}
+      if(lv===2){bar(g.top+78,S.p,S.win,S.win+0.16,'🫧 Pression','#7dc8ff');ctx.font='600 12px Fredoka, sans-serif';ctx.fillText(`Jets réussis : ${S.ok}/2`,W/2,g.top+118);
+        rr(ctx,W*0.58,H*0.8,W*0.36,H*0.11,14);ctx.fillStyle='#e0217a';ctx.fill();ctx.lineWidth=3;ctx.strokeStyle=INK;ctx.stroke();ctx.fillStyle='#fff';ctx.font='700 16px Fredoka, sans-serif';ctx.fillText('🚀 LÂCHER',W*0.76,H*0.855);
+        ctx.fillStyle=INK;ctx.font='28px sans-serif';ctx.fillText('🫨 Secoue ici',W*0.28,H*0.855);}
+      if(lv===3){const top=g.top+60,bot=H-46,ly=top+(bot-top)*0.8;ctx.strokeStyle='rgba(27,42,58,.2)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(W/2,top);ctx.lineTo(W/2,bot);ctx.stroke();ctx.strokeStyle='#e0217a';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(W*0.1,ly);ctx.lineTo(W*0.9,ly);ctx.stroke();
+        S.notes.forEach(n=>{if(n.done===1)return;ctx.font='28px sans-serif';ctx.globalAlpha=n.done===2?.3:1;ctx.fillText(n.s<0?'🦶':'🦶',W*(n.s<0?0.3:0.7),top+(bot-top)*n.y);ctx.globalAlpha=1;});ctx.font='600 11px Fredoka, sans-serif';ctx.fillText(`Ratés : ${S.miss}/5`,W*0.85,top+6);}
+      if(lv===4){const cx=W/2,cy=H*0.84,R=Math.min(W*0.3,110);ctx.lineWidth=14;[[0,0.6,'#ff6b5b'],[0.6,0.85,'#ffcf33'],[0.85,1,'#2fb36d']].forEach(([a,b,c])=>{ctx.strokeStyle=c;ctx.beginPath();ctx.arc(cx,cy,R,Math.PI+a*Math.PI,Math.PI+b*Math.PI);ctx.stroke();});
+        const an=Math.PI+S.pw*Math.PI;ctx.strokeStyle=INK;ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(an)*R*0.9,cy+Math.sin(an)*R*0.9);ctx.stroke();ctx.fillStyle=INK;ctx.beginPath();ctx.arc(cx,cy,7,0,7);ctx.fill();}
+      if(ban>0&&!over)bubbleText(ctx,W/2,H*0.42,`${LV[lv].e} ${LV[lv].n} !`,17);
+      for(const f of fx)floatText(ctx,f);
+    },
+    _dbg:()=>({lv,dist,base,ban,boom,lives,S:{s:S.s,heat:S.heat,p:S.p,win:S.win,pw:S.pw,notes:S.notes.filter(n=>!n.done).map(n=>({s:n.s,y:n.y}))},hold}),
+    destroy(){cv.c.removeEventListener('pointerdown',onDown);window.removeEventListener('pointerup',onUp);window.removeEventListener('pointercancel',onUp);cv.destroy();}
+  };
+}
+
 /* ================= Navigation ================= */
-const GAMES={pascal:gamePascal,angelique:gameAngelique,helene:gameHelene,manon:gameManon,mickey:gameMickey,lilian:gameLilian,alix:gameAlix,kayak:gameKayak,dario:gameDario,bouchon:gameBouchon,zoe:gameZoe,francoise:gameFrancoise,matheo:gameMatheo,gwen:gameGwen,anthony:gameAnthony,david:gameDavid,jf:gameJF,richard:gameRichard,margaux:gameMargaux,stephane:gameStephane,manu:gameManu,christine:gameChristine,ethan:gameEthan,aude:gameAude,nathan:gameNathan,duo:gameDuo,roland:gameRoland,christian:gameChristian,laetitia:gameLaetitia,marcel:gameMarcel,christophe:gameChristophe,agnes:gameAgnes,jacky:gameJacky,noel:gameNoel,bonus:gameBonus};
+const GAMES={maurice:gameMaurice,pascal:gamePascal,angelique:gameAngelique,helene:gameHelene,manon:gameManon,mickey:gameMickey,lilian:gameLilian,alix:gameAlix,kayak:gameKayak,dario:gameDario,bouchon:gameBouchon,zoe:gameZoe,francoise:gameFrancoise,matheo:gameMatheo,gwen:gameGwen,anthony:gameAnthony,david:gameDavid,jf:gameJF,richard:gameRichard,margaux:gameMargaux,stephane:gameStephane,manu:gameManu,christine:gameChristine,ethan:gameEthan,aude:gameAude,nathan:gameNathan,duo:gameDuo,roland:gameRoland,christian:gameChristian,laetitia:gameLaetitia,marcel:gameMarcel,christophe:gameChristophe,agnes:gameAgnes,jacky:gameJacky,noel:gameNoel,bonus:gameBonus};
 let current=null,raf=0,last=0,ended=false,curKey=null,typing=null,freshCard=null;
 /* historique des pages pour la flèche ← */
 const NAVH=[];let NAVSKIP=false;const NAV_NOHIST=['title','intro','game'];
@@ -5330,6 +5419,7 @@ const MG_CARDS={
   helene:{r:'R',e:'🩺',t:"Pansement, glace ou compresse : elle a toujours le bon soin. Et pour les malades imaginaires… retour au bassin !"},
   pascal:{r:'R',e:'📢',t:"Personne ne se repose dans le cours adultes. Une seconde au bord ? Dix longueurs de plus !"},
   angelique:{r:'R',e:'🥂',t:"Un plateau plein de verres, une fête bondée, et pas une goutte renversée… enfin, presque."},
+  maurice:{r:'R',e:'🚴',t:"Hélice, voile, soda, palmes, catapulte à frites… Tout est bon pour enfin faire avancer un aquabike."},
   bonus:{r:'L',e:'🕶️',t:"Casquette, lunettes noires, et le plat le plus spectaculaire du club. Qui est-il vraiment ?"}
 };
 const MG_ORDER=ORDER.filter(k=>MG_CARDS[k]);
@@ -5809,7 +5899,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=35;
+const APP_V=36;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
