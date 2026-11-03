@@ -1025,6 +1025,7 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 .fgabil i{grid-row:1/3;font-style:normal;font-size:20px;text-align:center}.fgabil b{font-size:13.5px}.fgabil small{font-size:11.5px;line-height:1.25;color:var(--muted);font-weight:600}
 .fglad .st em{font-style:normal;font-size:8.5px;color:#e0a800;letter-spacing:-1px;height:10px}
 .fghelp{text-align:left;font-size:13px;line-height:1.45}
+.gmsprb{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 8px);z-index:70;background:#1b2a3a;color:#fff;border:3px solid #ffd23f;border-radius:999px;padding:6px 14px;font-size:15px;box-shadow:0 4px 0 rgba(0,0,0,.25);white-space:nowrap;pointer-events:none}.gmsprb.hot{background:#e0217a;animation:fghl .6s ease-in-out infinite}
 .rulesov{position:absolute;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(10,30,50,.55);animation:pop .25s both}
 .rulescard{background:var(--card);color:var(--text);border:3px solid var(--ink);border-radius:22px;box-shadow:0 6px 0 var(--ink);padding:16px 16px 14px;max-width:360px;width:100%;text-align:center}
 .rulescard .rav{width:76px;height:76px;border-radius:50%;margin:-50px auto 6px;border:3px solid var(--ink);overflow:hidden}.rulescard .rav svg{width:100%;height:100%;display:block}
@@ -5595,7 +5596,7 @@ function mergeCol(o){if(!o)return;if(o.mgW!==1&&o.best&&o.best.willi!=null){o=Ob
   if(Array.isArray(o.sx)){const m={};(Array.isArray(COL.sx)?COL.sx:[]).concat(o.sx).forEach(x=>{if(Array.isArray(x)&&x.length===2)m[x[0]]=Math.max(m[x[0]]||0,x[1]);});
     const L=Object.keys(m).map(Number).sort((a,b)=>a-b).map(k=>[k,m[k]]),out=[];L.forEach(x=>{const l=out[out.length-1];if(l&&x[0]<=l[1]+1)l[1]=Math.max(l[1],x[1]);else out.push(x);});COL.sx=out.slice(-30);}
   // Manager : la partie la plus avancée gagne · prestige : le plus haut
-  if(o.gm&&COL.gm&&o.gm.v===COL.gm.v&&(o.gm.lifeAll||0)>(COL.gm.lifeAll||0))COL.gm=o.gm;
+  if(o.gm&&COL.gm&&!COL.gm.spr&&!o.gm.spr&&o.gm.v===COL.gm.v&&(o.gm.lifeAll||0)>(COL.gm.lifeAll||0))COL.gm=o.gm;
   if((o.pres||0)>(COL.pres||0)){COL.pres=o.pres;if(o.presAt)COL.presAt=o.presAt;}
 if(o.st){COL.st=COL.st||{};for(const k in o.st)COL.st[k]=Math.max(COL.st[k]||0,o.st[k]||0);}if(o.bUsed){COL.bUsed=COL.bUsed||{};for(const k in o.bUsed)COL.bUsed[k]=Math.max(COL.bUsed[k]||0,o.bUsed[k]||0);}['badges','ser','tSeen','qHist','evGot','acDone','noRew','bSeen'].forEach(f=>{if(o[f])COL[f]=Object.assign({},o[f],COL[f]||{});});if(o.fav&&!COL.fav)COL.fav=o.fav;if(o.q&&(!COL.q||o.q.d>COL.q.d))COL.q=o.q;if(o.chClaim)COL.chClaim=Object.assign(COL.chClaim||{},o.chClaim);if(o.duDone)COL.duDone=Object.assign(COL.duDone||{},o.duDone);if(o.chs){COL.chs=COL.chs||{};for(const d in o.chs){const a=COL.chs[d],b=o.chs[d];if(b&&(!a||(a.k===b.k&&better(b.k,b.v,a.v))))COL.chs[d]=b;}}if(o.trDone){COL.trDone=Object.assign(COL.trDone||{},o.trDone);}COL.bbt=Math.max(COL.bbt||0,o.bbt||0);COL.bbtm=Math.max(COL.bbtm||0,o.bbtm||0);if(o.bbl){COL.bbl=COL.bbl||{};for(const k in o.bbl)COL.bbl[k]=Math.max(COL.bbl[k]||0,o.bbl[k]||0);}if(o.bbtd&&(!COL.bbtd||o.bbtd>COL.bbtd))COL.bbtd=o.bbtd;if(!Array.isArray(COL.bbd)&&Array.isArray(o.bbd))COL.bbd=o.bbd;if(o.bbj&&(!COL.bbj||o.bbj.d>COL.bbj.d||(o.bbj.d===COL.bbj.d&&(o.bbj.v||0)>(COL.bbj.v||0))))COL.bbj=o.bbj;if(o.bbr&&(!COL.bbr||o.bbr.d>COL.bbr.d))COL.bbr=o.bbr;COL.boosters=Math.max(COL.boosters||0,o.boosters||0);if((!COL.packs||!COL.packs.length)&&o.packs)COL.packs=o.packs;
   if(o.daily&&(!COL.daily||o.daily>COL.daily))COL.daily=o.daily;if(o.got){COL.got=COL.got||{};for(const k in o.got)COL.got[k]=Math.max(COL.got[k]||0,o.got[k]||0);}
@@ -5839,7 +5840,7 @@ COL.boosters=COL.boosters||0;COL.packs=COL.packs||[];
 const MILESTONES=[5,10,15,20,25,30,35,40];
 function packCount(){return (COL.boosters||0)+(COL.packs||[]).length;}
 function curPack(){return (COL.packs&&COL.packs.length)?COL.packs[0]:{n:PACK_SIZE,label:'Booster'};}
-function grantPack(n,label,x){COL.packs=COL.packs||[];COL.packs.push(Object.assign({n,label},x||{}));}
+function grantPack(n,label,x){try{if(GM.sprint&&/Gambetta Manager|Objectif du club/.test(label||''))return;}catch(_){}COL.packs=COL.packs||[];COL.packs.push(Object.assign({n,label},x||{}));}
 (function initRew(){if(COL.rew)return;const n=ownedMGsafe();COL.rew={mil:{},all:false};MILESTONES.forEach(m=>{if(n>=m)COL.rew.mil[m]=true;});})();
 function ownedMGsafe(){try{return Object.keys(COL.cards||{}).filter(k=>MG_CARDS[k]).length;}catch(_){return 0;}}
 function winRewards(k){const out=[];COL.rew=COL.rew||{mil:{},all:false};
@@ -5943,7 +5944,7 @@ const METRIC={pierre:{t:'pts',u:'points'},angelique:{t:'pts',u:'verres'},manon:{
 const metricOf=k=>METRIC[k]||{t:'time',u:'s'};
 COL.best=COL.best||{};COL.wins_n=COL.wins_n||{};
 let BOARD={},boardRef=null,myId=null,USER=null,rkTab='time',rkGame=null,pendingScore=null,gameT0=0;
-function fmtVal(k,v){const m=metricOf(k);if(v==null)return '–';if(m.t==='time'){const mm=Math.floor(v/60),ss=(v%60).toFixed(1);return mm?`${mm} min ${ss.padStart(4,'0')} s`:`${ss} s`;}return `${v} ${m.t==='wins'&&v<2?'victoire':m.u}`;}
+function fmtVal(k,v){const m=metricOf(k);if(v==null)return '–';if(k==='manager')return gmE(v);if(m.t==='time'){const mm=Math.floor(v/60),ss=(v%60).toFixed(1);return mm?`${mm} min ${ss.padStart(4,'0')} s`:`${ss} s`;}return `${v} ${m.t==='wins'&&v<2?'victoire':m.u}`;}
 function better(k,a,b){if(b==null)return true;return metricOf(k).t==='time'?a<b:a>b;}
 function cardCount(){return ownedMG()+MEMBERS.filter(m=>COL.members[m.id]).length+BONUS.filter(b=>(COL.members[b.id]||0)>0||((COL.bUsed||{})[b.id]||0)>0).length;}
 function recordResult(k,win){if(!win)return;const m=metricOf(k);let v;
@@ -5952,7 +5953,7 @@ function recordResult(k,win){if(!win)return;const m=metricOf(k);let v;
   else v=pendingScore;
   if(v!=null&&(m.t==='wins'||better(k,v,COL.best[k]))){const had=COL.best[k]!=null;COL.best[k]=v;if(had&&m.t!=='wins'){try{stat('rec');qHit('rec');}catch(_){}}saveCol();pushBoard();}return v;}
 let pushT=0;
-function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()=>{const o={pres:COL.pres||0,gm:COL.gm&&COL.gm.v===2?{s:COL.gm.stars||0,p:COL.gm.p||0,b:(x=>x<10?x:Math.pow(10,Math.floor(Math.log10(x))))(Math.floor(COL.gm.lifeAll||0))}:null,best:Object.assign({},COL.best),cards:cardCount(),dups:myDoubles().map(x=>x.id),chs:Object.assign({},COL.chs||{}),pf:pfPublic(),own:MEMBERS.filter(m=>COL.members[m.id]).map(m=>m.id),bbd:(()=>{try{return bbMyDeck();}catch(_){return null;}})(),bbt:COL.bbt||0,ptw:ST('ptWin'),ptp:ST('ptPlay'),bbj:COL.bbj&&COL.bbj.d===dayKey()?{d:COL.bbj.d,v:COL.bbj.v}:null,cw:(()=>{try{const c=COL.gm&&COL.gm.cw;return c&&c.w===gmWeek()?c:null;}catch(_){return null;}})()};
+function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()=>{const GMR=COL.gm&&COL.gm.spr&&COL.gmBak&&!COL.gmBak.none?COL.gmBak:COL.gm;const o={pres:COL.pres||0,gm:GMR&&GMR.v===2?{s:GMR.stars||0,p:GMR.p||0,b:(x=>x<10?x:Math.pow(10,Math.floor(Math.log10(x))))(Math.floor(GMR.lifeAll||0))}:null,best:Object.assign({},COL.best),cards:cardCount(),dups:myDoubles().map(x=>x.id),chs:Object.assign({},COL.chs||{}),pf:pfPublic(),own:MEMBERS.filter(m=>COL.members[m.id]).map(m=>m.id),bbd:(()=>{try{return bbMyDeck();}catch(_){return null;}})(),bbt:COL.bbt||0,ptw:ST('ptWin'),ptp:ST('ptPlay'),bbj:COL.bbj&&COL.bbj.d===dayKey()?{d:COL.bbj.d,v:COL.bbj.v}:null,cw:(()=>{try{const c=GMR&&GMR.cw;return c&&c.w===gmWeek()?c:null;}catch(_){return null;}})()};
     /* on n'écrit que si quelque chose a changé (ou au moins une fois par heure, pour « vu récemment ») */
     const k=JSON.stringify(o),now=Date.now();if(k===pushBoard.k&&now-(pushBoard.t||0)<3600e3)return;
     // les simples compteurs (parties jouées, victoires…) ne partent qu'une fois toutes les 10 minutes :
@@ -6064,7 +6065,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=40;
+const APP_V=41;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
@@ -6450,8 +6451,8 @@ function chClaim(){if(!boardRef||!chBoardOK)return;const t=dayKey();COL.chClaim=
     <div class="endbtns"><button class="btn" id="chOpen">L'ouvrir 🎁</button><button class="btn alt" id="chLater">Plus tard</button></div></div>`;
   $('#app').appendChild(pop);pop.querySelector('#chLater').onclick=()=>pop.remove();pop.querySelector('#chOpen').onclick=()=>{pop.remove();goAlbumMembers();openBooster();};}
 function timeLeft(){const n=new Date(),e=new Date(n.getFullYear(),n.getMonth(),n.getDate()+1),m=Math.max(1,Math.round((e-n)/60000));return m>=60?Math.floor(m/60)+' h '+String(m%60).padStart(2,'0'):m+' min';}
-const avSmall=k=>k==='bataille'?'<span class="av bbav">⚔️</span>':`<span class="av" style="background:${CHARS[k].bg}">${avatar(CHARS[k].look,{viewBox:'30 20 140 140'})}</span>`;
-const goalTxt=k=>k==='bataille'?'Contre son deck joué par l\'ordi · tours cassées + dégâts':metricOf(k).t==='time'?'Gagne le plus vite possible':'Fais le plus de points possible';
+const avSmall=k=>k==='bataille'?'<span class="av bbav">⚔️</span>':k==='manager'?'<span class="av bbav">🏢</span>':`<span class="av" style="background:${CHARS[k].bg}">${avatar(CHARS[k].look,{viewBox:'30 20 140 140'})}</span>`;
+const goalTxt=k=>k==='manager'?'Club vide, chrono court : gagne le plus d\'€ possible':k==='bataille'?'Contre son deck joué par l\'ordi · tours cassées + dégâts':metricOf(k).t==='time'?'Gagne le plus vite possible':'Fais le plus de points possible';
 
 /* ================= DUELS ================= */
 /* Un joueur en défie un autre sur un mini-jeu : 3 essais chacun, 24 h max. Chacun peut s'arrêter avant (« J'ai fini »).
@@ -6552,7 +6553,7 @@ async function buildDefi(){const b=$('#dfBody'),today=dayKey(),k=chGame(today),c
   b.querySelectorAll('[data-dft]').forEach(x=>x.onclick=()=>{DF.tab=x.dataset.dft;buildDefi();b.scrollTop=0;});try{bbDfBind(b);}catch(_){}
   $('#chPlay').onclick=()=>{PLAYCTX={t:'ch'};openIntro(k);};try{ofWire(b);}catch(_){}
   const nw=$('#duNew');if(nw)nw.onclick=duNew;tournBind(b);evBind(b);b.querySelectorAll('[data-bh]').forEach(x=>x.onclick=()=>duNew(x.dataset.bh,x.dataset.bn));
-  b.querySelectorAll('[data-dplay]').forEach(x=>x.onclick=()=>{const d=DUELS.find(y=>y.id===x.dataset.dplay);if(!d)return;if(d.k==='bataille'){bbDuelPlay(d);return;}PLAYCTX={t:'duel',id:d.id};openIntro(d.k);});
+  b.querySelectorAll('[data-dplay]').forEach(x=>x.onclick=()=>{const d=DUELS.find(y=>y.id===x.dataset.dplay);if(!d)return;if(d.k==='bataille'){bbDuelPlay(d);return;}if(d.k==='manager'){gmSprint(d);return;}PLAYCTX={t:'duel',id:d.id};openIntro(d.k);});
   b.querySelectorAll('[data-dok]').forEach(x=>x.onclick=()=>{x.disabled=true;GG.duels.set(x.dataset.dok,{st:'on',acc:Date.now()}).catch(()=>{x.disabled=false;});});
   b.querySelectorAll('[data-dno]').forEach(x=>x.onclick=()=>{x.disabled=true;GG.duels.set(x.dataset.dno,{st:'no'}).catch(()=>{x.disabled=false;});});
   b.querySelectorAll('[data-dfin]').forEach(x=>x.onclick=()=>duFinish(x.dataset.dfin));
@@ -6827,23 +6828,25 @@ function tournHTML(){const t=tCur();if(!t)return '';const n=Object.keys(t.player
 function tournBind(b){const j=b.querySelector('#tJoin');if(!j)return;j.onclick=()=>{const t=tCur();if(!t||!TOK())return;j.disabled=true;GG.tourn.join(t.id,!(t.players&&t.players[myId])).catch(()=>{j.disabled=false;});};}
 function fmtDur(m){m=Math.max(1,Math.round(m));return m>=1440&&m%1440===0?(m/1440)+' j':m>=60?Math.floor(m/60)+' h'+(m%60?' '+String(m%60).padStart(2,'0'):''):m+' min';}
 /* --- côté admin --- */
-const AT={name:'',k:null,dur:30,pw:2,pf:1};let ATD={tid:null,list:[]};
+const AT={name:'',k:null,dur:30,pw:2,pf:1,gmd:3};let ATD={tid:null,list:[]};
 function adminTourn(b){if(!TOK()){b.innerHTML='<div class="rkempty">🏆 Les tournois se gèrent sur le site du jeu, connecté avec ton compte admin.</div>';return;}
   const t=TOURNS.find(x=>x.st==='reg'||x.st==='run');
   if(!t){const durs=[5,10,15,20,30,45,60,120,1440];
     b.innerHTML=`<div class="abox atour"><h4>1. Nom du tournoi</h4><input class="ainput" id="atN" maxlength="40" placeholder="Ex. : Tournoi de la soirée d'Halloween" value="${esc(AT.name)}"></div>
-      <div class="abox"><h4>2. Mini-jeu</h4><div class="ggrid">${['bataille'].concat(CH_GAMES()).map(k=>`<button data-g="${k}" class="${AT.k===k?'sel':''}">${avSmall(k)}<span>${CHARS[k].game}</span></button>`).join('')}</div></div>
+      <div class="abox"><h4>2. Mini-jeu</h4><div class="ggrid">${['bataille','manager'].concat(CH_GAMES()).map(k=>`<button data-g="${k}" class="${AT.k===k?'sel':''}">${avSmall(k)}<span>${CHARS[k].game}</span></button>`).join('')}</div>
+      ${AT.k==='manager'?`<h4 style="margin-top:12px">⏱️ Durée du sprint</h4><div class="arow">${[2,3,5,10,15].map(d=>`<button class="apill${AT.gmd===d?' on':''}" data-gmd="${d}">${d} min</button>`).join('')}</div><p class="asum" style="margin-top:6px">Chaque joueur repart d'un club vide et a ce temps pour gagner le plus d'€. Sa vraie partie est mise de côté puis lui est rendue juste après.</p>`:''}</div>
       <div class="abox atour"><h4>3. Durée de chaque manche</h4><div class="arow">${durs.map(d=>`<button class="apill${AT.dur===d?' on':''}" data-d="${d}">${fmtDur(d)}</button>`).join('')}</div><p class="asum" style="margin-top:6px">Tu pourras aussi arrêter une manche quand tu veux.</p></div>
       <div class="abox"><h4>4. Lots (boosters de 5)</h4><div class="astep"><span>🥇 Vainqueur</span><button data-s="pw-">−</button><b>${AT.pw}</b><button data-s="pw+">+</button></div><div class="astep"><span>🥈 Finaliste</span><button data-s="pf-">−</button><b>${AT.pf}</b><button data-s="pf+">+</button></div></div>
       <button class="asend" id="atGo"${AT.k&&AT.name.trim()?'':' disabled'}>📣 Ouvrir les inscriptions</button>`;
     b.querySelector('#atN').oninput=e=>{AT.name=e.target.value;b.querySelector('#atGo').disabled=!(AT.k&&AT.name.trim());};
     b.querySelectorAll('[data-g]').forEach(x=>x.onclick=()=>{AT.k=x.dataset.g;buildAdmin();});
     b.querySelectorAll('[data-d]').forEach(x=>x.onclick=()=>{AT.dur=+x.dataset.d;buildAdmin();});
+    b.querySelectorAll('[data-gmd]').forEach(x=>x.onclick=()=>{AT.gmd=+x.dataset.gmd;buildAdmin();});
     b.querySelectorAll('[data-s]').forEach(x=>x.onclick=()=>{const f=x.dataset.s.slice(0,2),d=x.dataset.s.endsWith('+')?1:-1;AT[f]=Math.max(f==='pw'?1:0,Math.min(10,AT[f]+d));buildAdmin();});
-    b.querySelector('#atGo').onclick=async e=>{e.target.disabled=true;e.target.textContent='…';try{await GG.tourn.create({name:AT.name.trim(),k:AT.k,dur:AT.dur,pw:AT.pw,pf:AT.pf,st:'reg',players:{},round:0,rounds:{}});AT.name='';}catch(_){e.target.textContent='Échec, réessaie';e.target.disabled=false;}};
+    b.querySelector('#atGo').onclick=async e=>{e.target.disabled=true;e.target.textContent='…';try{await GG.tourn.create(Object.assign({name:AT.name.trim(),k:AT.k,dur:AT.dur,pw:AT.pw,pf:AT.pf,st:'reg',players:{},round:0,rounds:{}},AT.k==='manager'?{gmd:AT.gmd}:{}));AT.name='';}catch(_){e.target.textContent='Échec, réessaie';e.target.disabled=false;}};
     return;}
   const P=t.players||{},n=Object.keys(P).length;
-  if(t.st==='reg'){b.innerHTML=`<div class="abox"><h4>🏆 ${esc(t.name)}</h4><p class="asum">${CHARS[t.k].game} · manches de ${fmtDur(t.dur)} · ${tPrize(t)}</p></div>
+  if(t.st==='reg'){b.innerHTML=`<div class="abox"><h4>🏆 ${esc(t.name)}</h4><p class="asum">${CHARS[t.k].game}${t.k==='manager'?' ('+(t.gmd||3)+' min)':''} · manches de ${fmtDur(t.dur)} · ${tPrize(t)}</p></div>
       <div class="abox"><h4>👥 ${n} inscrit${n>1?'s':''}</h4>${n?Object.values(P).map(x=>`<div class="prow"><span class="who">${esc(x)}</span></div>`).join(''):'<p class="asum">Les joueurs s\'inscrivent depuis l\'onglet ⚔️ Défis.</p>'}</div>
       <button class="asend" id="atStart"${n>=2?'':' disabled'}>▶ Lancer le tournoi${n>=2?' ('+n+' joueurs)':''}</button>
       <button class="gglink" id="atCancel" style="display:block;margin:14px auto;color:var(--red)">Annuler ce tournoi</button>`;
@@ -7406,6 +7409,7 @@ function bbDailyRank(){const d=dayKey(),L=[];Object.entries(BOARD||{}).forEach((
 function bbPlayDaily(){const D=bbDaily();bbStart({mode:'daily',lvl:1,seed:bbSeed(),decks:[D.deck,D.ai],oppName:'Ordi',rule:D.rule.k});}
 /* duels et tournois « Bataille » : l'ordi joue le deck de l'adversaire, on garde le meilleur score */
 CHARS.bataille={name:'ton deck',game:'Bataille du Bassin',bg:'#5cc3f0'};METRIC.bataille={t:'pts',u:'pts'};
+CHARS.manager={name:'ton club',game:'Sprint Manager',bg:'#ffe36b'};METRIC.manager={t:'pts',u:'€'};
 function bbDuelPlay(d){if(!d||!duCanPlay(d))return;PLAYCTX={t:'duel',id:d.id};ctxStart('bataille');const o=duOther(d),bd=BOARD[o.id]&&BOARD[o.id].bbd,seed=bbSeed();
   const deck=Array.isArray(bd)&&bd.length===8?bd:bbAiDeckL(1,bbRng(seed^7));
   bbStart({mode:'duel',lvl:1,seed,decks:[bbMyDeck(),deck],oppName:o.name,oppId:o.id,duel:d.id});}
@@ -8565,20 +8569,20 @@ function gmAuto(G,a){const D=gmDef(a);if(G.sick&&G.sick.a===a&&G.sick.end>Date.n
 function gmSpeed(A){let n=0;GM_MS.forEach(m=>{if(A.l>=m)n++;});return Math.pow(2,n);}
 function gmNextMs(A){return GM_MS.find(m=>A.l<m)||null;}
 function gmMul(G,a,now){now=now||Date.now();let m=1;const stk=G.strike&&G.strike>now;GM_BENU.forEach(([id,t,x])=>{if(!stk&&G.ben[id]&&(t===a||t==='all'))m*=x+gmPL(G,'benx');});
-  m*=gmStarMul(gmStarsFree(G));m*=1+gmFrK(G)*Object.keys(G.fr||{}).length;m*=gmVest(G);(G.smod||[]).forEach(z=>m*=z.x);m*=gmThMul(G,a);
+  m*=gmStarMul(gmStarsFree(G))*[1,1.5,2,3][gmPL(G,'spon')];m*=1+gmFrK(G)*Object.keys(G.fr||{}).length;m*=gmVest(G);(G.smod||[]).forEach(z=>m*=z.x);m*=gmThMul(G,a);
   if(GM.noTmp)return m;let bx=1,pen=1;for(const k in G.man){const M=G.man[k];if(M&&M.end>now)bx=Math.max(bx,gmManX(G,k));}if(G.vb&&G.vb.end>now)bx*=G.vb.x;
   (G.tb||[]).forEach(b=>{if(b.end>now&&(!b.st||b.st<=now)&&(!b.a||b.a===a)){if(b.x>=1)bx*=b.x;else pen*=b.x;}});
   /* les boosts du moment (manif, décisions, visiteurs, thème…) ne se cumulent pas au-delà de ×GM_TMPMAX */
   return m*Math.min(bx,GM_TMPMAX)*pen;}
 const GM_TMPMAX=6;
-function gmCycle(G,a){const D=gmDef(a),A=G.act[a];return Math.max(.05,D.t/gmSpeed(A));}
+function gmCycle(G,a){const D=gmDef(a),A=G.act[a];return Math.max(.05,D.t/gmSpeed(A)/(1+[0,.15,.3,.5][gmPL(G,'lign')]));}
 function gmProf(A){return Math.pow(3,Math.floor((A.l||0)/100));}
 function gmPer(G,a,now){const D=gmDef(a),A=G.act[a];return D.rv*A.l*gmProf(A)*gmMul(G,a,now);}
 function gmRate(G,now){let r=0;for(const a in G.act){const A=G.act[a];if(!A.l)continue;if(gmAuto(G,a)||A.go)r+=gmPer(G,a,now)/gmCycle(G,a);}return r;}
 function gmCost(G,a,n){const D=gmDef(a),A=G.act[a]||{l:0};const L=A.l||0;return D.c0*Math.pow(D.g,L)*(Math.pow(D.g,n)-1)/(D.g-1);}
 function gmBuyN(G,a){const D=gmDef(a),A=G.act[a]||{l:0};let n=GM.bm;if(GM.bm==='max'){const L=A.l||0,c1=D.c0*Math.pow(D.g,L);n=Math.max(1,Math.floor(Math.log(G.m*(D.g-1)/c1+1)/Math.log(D.g)));}return{n,c:gmCost(G,a,n)};}
 /* bonus des étoiles : +2 % chacune jusqu'à 500 étoiles (×11), puis ça grandit beaucoup moins vite */
-function gmStarMul(S){S=Math.max(0,S||0);return S<=500?1+.02*S:11*Math.sqrt(S/500);}
+function gmStarMul(S){S=Math.max(0,S||0);return S<=500?1+.01*S:6*Math.sqrt(S/500);}
 const gmStarPct=S=>gmFmt((gmStarMul(S)-1)*100);
 function gmXThr(G){return 3e10*Math.pow(30,G.x||0)*Math.max(1,gmStarMul(gmStarsFree(G))/3);}
 function gmXOK(G){return !!GM_XTRA[G.x||0]&&G.run>=gmXThr(G);}
@@ -8600,7 +8604,32 @@ let gmSaveL=0;function gmSave(force){const now=Date.now();if(force||now-gmSaveL>
 function gmWelcome(r){if(!(r&&r.off>60&&r.gain>0)||document.querySelector('.gmoff'))return;const cap=r.cap||28800,h=Math.floor(Math.min(r.off,cap)/3600),mn=Math.floor(Math.min(r.off,cap)%3600/60);
   const sh=sheet(`<div class="gmoff"><div class="e">🌙</div><h3>Pendant ton absence…</h3><p>Tes maîtres-nageurs ont fait tourner le club pendant <b>${h?h+' h ':''}${mn} min</b>${r.off>cap?' ('+Math.round(cap/3600)+' h maximum)':''}.</p><div class="big">+${gmE(r.gain)}</div></div><div class="trbtns"><button class="btn" id="bx">💶 Encaisser</button></div>`);
   sh.querySelector('#bx').onclick=()=>{sh.remove();gmFloat('+'+gmE(r.gain),'#2fb35a');};}
-function openManager(){try{bbClose();}catch(_){}try{fgStop();}catch(_){}gmG();const r=gmCatch();show('manager');gmRender();gmWelcome(r);gmSave(true);
+/* ---------- Sprint Manager (duels et tournois) : club vide, chrono, puis on rend la vraie partie ---------- */
+function gmSprMins(d){const T=(typeof TOURNS!=='undefined'?TOURNS:[]).find(t=>t.id===d.t);return (T&&T.gmd)||d.gmd||3;}
+function gmSprFix(){try{if(GM.sprint)return;if(COL.gm&&COL.gm.spr){const b=COL.gmBak;if(b&&!b.none)COL.gm=b;else delete COL.gm;delete COL.gmBak;saveCol();}else if(COL.gmBak){delete COL.gmBak;saveCol();}}catch(e){console.warn(e);}}
+function gmSprint(d){if(!d||!duCanPlay(d)||GM.sprint)return;gmSprFix();PLAYCTX={t:'duel',id:d.id};ctxStart('manager');const mins=gmSprMins(d);
+  try{if(COL.gm&&gmActive())gmCatch();}catch(_){}
+  COL.gmBak=COL.gm?JSON.parse(JSON.stringify(COL.gm)):{none:1};COL.gm=null;const G=gmG();G.spr={d:d.id,end:Date.now()+mins*60e3,mins};GM.sprint=1;saveCol();
+  openManager();gmSprBar();clearInterval(GM.sprT);GM.sprT=setInterval(gmSprTick,250);
+  const sh=sheet(`<div class="gmoff"><div class="e">⏱️</div><h3>Sprint Manager · ${mins} min</h3><p>Tu repars d'un <b>club vide</b>. Achète des créneaux, tape sur les activités, lance les manifestations… et gagne le plus d'€ possible avant la fin du chrono !</p><p><small>Ta vraie partie est mise de côté : tu la retrouves juste après.</small></p></div><div class="trbtns"><button class="btn" id="bx">▶ C'est parti !</button></div>`);
+  G.spr.end=Date.now()+mins*60e3+864e5;const go=()=>{sh.remove();G.spr.end=Date.now()+mins*60e3;G.t=Date.now();};sh.querySelector('#bx').onclick=go;sh.onclick=e=>{if(e.target===sh)go();};}
+function gmSprBar(){let b=$('#gmSprB');if(!b){b=document.createElement('div');b.id='gmSprB';b.className='gmsprb';$('#app').appendChild(b);}
+  const G=COL.gm;if(!G||!G.spr){b.remove();return;}const left=Math.max(0,(G.spr.end-Date.now())/1000),wait=left>G.spr.mins*60+5;
+  b.innerHTML=`⏱️ <b>${wait?G.spr.mins+':00':Math.floor(left/60)+':'+String(Math.floor(left%60)).padStart(2,'0')}</b> · 💶 <b>${gmE(G.lifeAll||0)}</b>`;b.classList.toggle('hot',!wait&&left<20);}
+function gmSprTick(){const G=COL.gm;if(!GM.sprint||!G||!G.spr){clearInterval(GM.sprT);return;}gmSprBar();if(Date.now()>=G.spr.end)gmSprEnd();}
+function gmSprEnd(){const G=COL.gm;if(!G||!G.spr)return;clearInterval(GM.sprT);try{if(!gmActive()){G.t=Math.min(G.t||G.spr.end,G.spr.end);const dt=(G.spr.end-G.t)/1000;if(dt>0)gmStep(G,dt,G.spr.end);}}catch(_){}
+  const v=Math.floor(G.lifeAll||0),id=G.spr.d;clearInterval(GM.iv);cancelAnimationFrame(GM.raf);
+  const b=COL.gmBak;if(b&&!b.none)COL.gm=b;else delete COL.gm;delete COL.gmBak;GM.sprint=0;const bar=$('#gmSprB');if(bar)bar.remove();
+  document.querySelectorAll('.trsheet,.gmoff,.gmintro').forEach(x=>{try{x.remove();}catch(_){}});
+  const d=DUELS.find(x=>x.id===id);let h='',left=0;try{stat('played');qHit('play4');}catch(_){}
+  if(d){const side=duMine(d),me=Object.assign({n:0,v:null},d[side]);if(me.v==null||v>me.v){me.v=v;d[side]=me;if(DUOK())GG.duels.set(d.id,{[side]:{n:me.n||0,v,f:!!me.f}}).catch(()=>{});}
+    left=DU_TRIES-(me.n||0);h=`<div class="dctx">⚔️ Contre ${esc(duOther(d).name)} : essai ${me.n||1}/${DU_TRIES} · ton meilleur : ${gmE(me.v||0)}${left>0&&duCanPlay(d)?`<button class="btn alt" data-dfin="${d.id}" style="display:block;width:100%;margin-top:8px;font-size:14px;padding:7px">🏁 J'ai fini, je garde ce résultat</button>`:'<br><small>Tu as utilisé tous tes essais !</small>'}</div>`;}
+  saveCol();try{pushBoard();}catch(_){}PLAYCTX=null;
+  const sh=sheet(`<div class="gmoff"><div class="e">🏁</div><h3>Fin du sprint !</h3><p>Ton club a gagné</p><div class="big">${gmE(v)}</div>${h}<p><small>Ta vraie partie du Manager t'attend, comme avant le sprint.</small></p></div><div class="trbtns"><button class="btn alt" id="spBack">Retour</button>${d&&left>0&&duCanPlay(d)?'<button class="btn" id="spAgain">🔁 Essai suivant</button>':''}</div>`);
+  const back=()=>{sh.remove();openDefi();};sh.onclick=e=>{if(e.target===sh)back();};sh.querySelector('#spBack').onclick=back;
+  const ag=sh.querySelector('#spAgain');if(ag)ag.onclick=()=>{sh.remove();const D=DUELS.find(x=>x.id===id);if(D&&duCanPlay(D))gmSprint(D);else openDefi();};
+  const df=sh.querySelector('[data-dfin]');if(df)df.onclick=e=>{e.stopPropagation();sh.remove();duFinish(df.dataset.dfin);};}
+function openManager(){if(!GM.sprint)gmSprFix();try{bbClose();}catch(_){}try{fgStop();}catch(_){}gmG();const r=gmCatch();show('manager');gmRender();gmWelcome(r);gmSave(true);
   GM.incT=0;GM.decT=Date.now()+(90+Math.random()*90)*1000;GM.inc=null;clearInterval(GM.iv);GM.iv=setInterval(gmTick,100);cancelAnimationFrame(GM.raf);GM.raf=requestAnimationFrame(gmPool);}
 function gmActive(){const s=$('#manager');return s&&s.classList.contains('active');}
 let gmLiveT=0;
@@ -8626,7 +8655,7 @@ function gmManOn(G){const n=Date.now();return Object.keys(G.man).find(k=>G.man[k
 function gmManReady(G,k){const M=GM_MAN[k],R=G.man[k];if(M.need&&!(G.act[M.need]||{}).l)return false;if(gmManOn(G))return false;return !R||Date.now()>=R.ready;}
 function gmSeasonHTML(G){const nx=GM_XTRA[G.x||0],ns=gmStarsNew(G);const xl=nx?`<div class="gmxt" ${gmLv(()=>gmXOK(G)?{t:'✅ '+nx.e+' '+nx.n+' sera débloquée !',c:'ok'}:{t:'🔒 '+nx.e+' '+nx.n+' : gagne '+gmE(gmXThr(G))+' dans la saison ('+gmE(G.run)+')',c:''})}></div>`:'';
   const th=gmThO(G);let h=`<div class="gmthnow">${th?`<span class="e">${th.e}</span><div><small>Thème de la saison</small><b>${th.n}</b><small>${th.d}</small></div>`:`<span class="e">🎴</span><div><b>Pas encore de thème</b><small>Choisis un thème pour pimenter ta saison</small></div><button class="mini-b" data-thpick="1">Choisir</button>`}</div>`;
-  h+=`<div class="gmpres"><div class="h"><span class="e">🌅</span><div><b>Nouvelle saison</b><small>Le club repart de zéro, mais tu gagnes des <b>⭐ étoiles</b> (+2 % de gains chacune, un peu moins après 500, ou à dépenser en talents)${nx?`, et une nouvelle activité si ta saison a été assez grosse`:''}.</small></div></div>${xl}
+  h+=`<div class="gmpres"><div class="h"><span class="e">🌅</span><div><b>Nouvelle saison</b><small>Le club repart de zéro, mais tu gagnes des <b>⭐ étoiles</b> (+1 % de gains chacune, un peu moins après 500, ou à dépenser en talents)${nx?`, et une nouvelle activité si ta saison a été assez grosse`:''}.</small></div></div>${xl}
     <div class="gmstars"><div><small>Étoiles libres (+${gmStarPct(gmStarsFree(G))} %)</small><b>⭐ ${gmFmt(G.stars||0)}</b></div><div><small>Tu gagnerais</small><b ${gmLv(()=>'+ '+gmFmt(gmStarsNew(G))+' ⭐')}></b></div></div>
     <small class="gmkeep">On garde : étoiles, talents, médailles, bâtiments, amis du club, objectifs, activités de saison. On repart à zéro : argent, créneaux, maîtres-nageurs, bénévoles, effets des décisions.</small>
     <button class="gmbuy gold" id="gmPr" ${gmLv(()=>({d:gmStarsNew(G)<1,t:gmStarsNew(G)<1?'Gagne encore un peu pour ta 1re étoile…':'🌅 Commencer la saison '+(G.p+2)}))}></button></div>`;
@@ -8641,7 +8670,7 @@ function gmPrestigeAsk(G){const ns=gmStarsNew(G);if(ns<1)return;const nx=gmXOK(G
     <div class="sec">Le club repart de zéro… mais en beaucoup plus fort ! Ensuite, tu choisiras le <b>🎴 thème</b> de ta nouvelle saison.</div><div class="presgain"><b>Saison ${G.p+2}</b><div><i>⭐</i>+${gmFmt(ns)} étoiles : +${gmFmt((gmStarMul(gmStarsFree(G)+ns)-gmStarMul(gmStarsFree(G)))*100)} % de gains (ou des talents)</div><div><i>🏅</i>+5 médailles pour ton complexe</div>${nx?`<div><i>${nx.e}</i>Nouvelle activité : ${nx.n}</div>`:''}<div><i>🎁</i>${pk?'Un paquet de 3 cartes':'Paquet de 3 cartes déjà reçu aujourd\'hui (1 par jour)'}</div></div>
     <div class="trbtns"><button class="btn alt" id="bx">Pas encore</button><button class="btn" id="bgo">🌅 C'est parti !</button></div>`);
   sh.querySelector('#bx').onclick=()=>sh.remove();sh.querySelector('#bgo').onclick=()=>{sh.remove();
-    if(G.run>(G.rb||0))G.rb=G.run;G.stars=(G.stars||0)+ns;G.starsRaw=gmStarsTot(G);G.p=(G.p||0)+1;G.th=null;G.ss={at:Date.now()};if(nx)G.x=(G.x||0)+1;Object.assign(G,{m:GM_CASH[gmPL(G,'cash')],run:0,act:{bebe:{l:1,pg:0,go:0}},mns:gmKeepMns(G),ben:{},man:{},tb:[],smod:[],sick:null,strike:0,mbl:0,dec:null});G.med=(G.med||0)+5;
+    if(G.run>(G.rb||0))G.rb=G.run;G.stars=(G.stars||0)+ns;G.starsRaw=gmStarsTot(G);G.p=(G.p||0)+1;G.th=null;G.ss={at:Date.now()};if(nx)G.x=(G.x||0)+1;Object.assign(G,{m:GM_CASH[gmPL(G,'cash')],run:0,act:{bebe:{l:1,pg:0,go:0}},mns:gmKeepMns(G),ben:{},man:{},tb:[],smod:[],sick:null,strike:0,mbl:0,dec:null,cb:{}});G.med=(G.med||0)+5;
     if(pk){G.pkd=dayKey();grantPack(3,'Gambetta Manager · nouvelle saison');try{updBoostBtn();}catch(_){}}try{stat('gmPres');}catch(_){}gmSave(true);
     GM.tab='act';gmRender();gmThDraft(G,t=>{const ov=document.createElement('div');ov.className='giftpop';ov.innerHTML=`<div class="gcard"><div class="ptconf">${Array.from({length:26},(_,i)=>`<i style="left:${(i*37)%100}%;animation-delay:${(i%7)*.2}s">${[t.e,'⭐','🎉','💶','🏊'][i%5]}</i>`).join('')}</div><div class="emo">${t.e}</div><h3>Saison ${G.p+1} !</h3><p><b>${t.e} ${t.n}</b><br><small>${t.d}</small><br><br>⭐ ${gmFmt(G.stars)} étoiles : <b>+${gmStarPct(gmStarsFree(G))} % de gains</b>${nx?`<br>Nouvelle activité : <b>${nx.e} ${nx.n}</b>`:''}<br>🏅 +5 médailles pour ton complexe${pk?'<br>🎁 Un paquet de 3 cartes t\'attend !':''}</p><div class="endbtns"><button class="btn">Plonger !</button></div></div>`;
       $('#app').appendChild(ov);ov.querySelector('.btn').onclick=()=>ov.remove();});};}
@@ -8713,6 +8742,7 @@ function gmWire(b,G){const R=()=>{gmRender();gmSave(false);},sfx=k=>{try{fgSfx(k
     toast('🎁','Objectif réussi : '+o.t,o.r>1?'Booster de '+o.r+' cartes':'Une carte');gmSave(true);R();});
   b.querySelectorAll('[data-bld]').forEach(x=>x.onclick=()=>{const B=GM_BLD.find(z=>z.k===x.dataset.bld),l=gmBL(G,B.k),c=B.c[l];if(c==null||(G.med||0)<c)return;G.med-=c;G.bld[B.k]=l+1;sfx('parry');gmFloat(B.e+' '+B.n+(l?' niveau '+(l+1):' construit')+' !','#ffd23f');try{fgSfx('super');}catch(_){}gmSave(true);R();});
   b.querySelectorAll('[data-perk]').forEach(x=>x.onclick=()=>{const P=GM_PERK.find(z=>z.k===x.dataset.perk),l=gmPL(G,P.k),c=P.c[l];if(c==null||gmPLock(G,P)||gmStarsFree(G)<c)return;G.spent=(G.spent||0)+c;G.perk[P.k]=l+1;if(P.k==='mns')Object.assign(G.mns,gmKeepMns(G));sfx('parry');gmFloat(P.e+' '+P.n+' !','#ffe36b');gmSave(true);R();});
+  b.querySelectorAll('[data-cons]').forEach(x=>x.onclick=()=>{const C=GM_CONS.find(z=>z.k===x.dataset.cons);if(!C)return;const c=gmConsC(G,C);if(gmStarsFree(G)<c)return;G.spent=(G.spent||0)+c;G.cb=G.cb||{};G.cb[C.k]=(G.cb[C.k]||0)+1;let m='';try{m=C.go(G)||'';}catch(e){console.warn(e);}sfx('parry');gmFloat(C.e+' '+m,'#ffe36b');gmSave(true);R();});
   b.querySelectorAll('[data-dec]').forEach(x=>x.onclick=()=>{const o=(GM.decO||[])[+x.dataset.dec];if(!o||!G.dec||(o.dis&&o.dis(G)))return;const D=GM_DEC.find(z=>z.k===G.dec.k);G.dec=null;let msg='';try{msg=o.go(G)||'';}catch(e){console.warn(e);}G.decN=(G.decN||0)+1;gmCw(G,'d');if(G.th==='post')setTimeout(()=>gmMed(G,1),700);
     if(GM.shEl){GM.shEl.remove();GM.sheet=null;GM.shEl=null;}sfx('ann');toast(D?D.e:'📬',msg,o.t.replace(/^\S+\s/,''));gmSave(true);R();});
   const pr=b.querySelector('#gmPr');if(pr)pr.onclick=()=>{if(GM.shEl){GM.shEl.remove();GM.sheet=null;GM.shEl=null;}gmPrestigeAsk(G);};}
@@ -8764,18 +8794,20 @@ const GM_BLD=[
 /* talents : chaque niveau coûte ~3× le précédent ; certains se débloquent après plusieurs saisons (p = saisons terminées) */
 const GM_CASH=[0,2e4,2e6,2e8,2e10,2e12],GM_NUIT=[8,10,12,16,24],GM_LUCK=[1,1.5,2,3],GM_VISR=[1,1.5,2,3];
 const GM_PERK=[
-  {k:'cash',e:'💶',n:'Trésor de départ',c:[20,60,180,550,1600],d:l=>l?'Chaque saison commence avec '+gmE(GM_CASH[l]):'—'},
-  {k:'nuit',e:'🌙',n:'Nuits longues',c:[15,45,140,420],d:l=>'Gains hors ligne jusqu\'à '+GM_NUIT[l]+' h'},
-  {k:'org',e:'⏱️',n:'Organisateur',c:[25,75,220,650,2000],d:l=>'Attente entre deux manifestations −'+(l*10)+' %'},
-  {k:'mns',e:'🧑‍🏫',n:'Maîtres-nageurs fidèles',c:[30,90,270,800],d:l=>l?'Toujours là, même après une nouvelle saison : '+['bebe','enfants','adultes','gym'].slice(0,l).map(a=>gmName(GM_ACT[a].mns).split(' ')[0]).join(', '):'—'},
-  {k:'luck',e:'🍀',n:'Chance',c:[30,100,300],d:l=>l?'Visiteurs surprises '+gmFmt(GM_LUCK[l])+'× plus souvent'+(l>=2?', bouée en or plus fréquente':''):'Visiteurs normaux'},
-  {k:'visr',e:'🎁',n:'Visiteurs généreux',c:[40,140,450],d:l=>'Cadeaux des visiteurs ×'+gmFmt(GM_VISR[l])},
-  {k:'calm',e:'🧊',n:'Sang-froid',c:[40,150],d:l=>['—','Incidents : +50 % de temps pour réagir, pénalités 2× plus courtes','Incidents : 2× plus de temps, pénalités 4× plus courtes'][l]},
-  {k:'whis',e:'📣',n:'Coup de sifflet',c:[50,180],p:1,d:l=>'Récompenses des incidents réglés ×'+(1+l)},
-  {k:'medm',e:'🏅',n:'Collectionneur de médailles',c:[60,200,600],p:1,d:l=>'+'+l+' 🏅 à chaque manifestation'},
-  {k:'sais',e:'🌅',n:'Saisons glorieuses',c:[100,350,1200],p:2,d:l=>'+'+(l*15)+' % d\'étoiles à chaque nouvelle saison'},
-  {k:'auto',e:'🤖',n:'Gérant automatique',c:[150,600],p:3,d:l=>['—','Achète tout seul des créneaux (toutes les 4 s, jusqu\'à ¼ de ton argent)','Achète tout seul des créneaux (chaque seconde, jusqu\'à ½ de ton argent)'][l]},
-  {k:'benx',e:'🙋',n:'Bénévoles motivés',c:[300,1000],p:4,d:l=>'Chaque bénévole multiplie +'+l+' de plus (×3 → ×'+(3+l)+')'}
+  {k:'spon',e:'🤑',n:'Sponsor du club',c:[80,280,900],d:l=>'Tous les gains ×'+gmFmt([1,1.5,2,3][l])},
+  {k:'lign',e:'🏊',n:'Lignes d\'eau rapides',c:[100,350,1100],p:2,d:l=>l?'Toutes les activités '+[0,15,30,50][l]+' % plus rapides':'—'},
+  {k:'cash',e:'💶',n:'Trésor de départ',c:[40,120,360,1100,3200],d:l=>l?'Chaque saison commence avec '+gmE(GM_CASH[l]):'—'},
+  {k:'nuit',e:'🌙',n:'Nuits longues',c:[30,90,280,840],d:l=>'Gains hors ligne jusqu\'à '+GM_NUIT[l]+' h'},
+  {k:'org',e:'⏱️',n:'Organisateur',c:[50,150,440,1300,4000],d:l=>'Attente entre deux manifestations −'+(l*10)+' %'},
+  {k:'mns',e:'🧑‍🏫',n:'Maîtres-nageurs fidèles',c:[60,180,540,1600],d:l=>l?'Toujours là, même après une nouvelle saison : '+['bebe','enfants','adultes','gym'].slice(0,l).map(a=>gmName(GM_ACT[a].mns).split(' ')[0]).join(', '):'—'},
+  {k:'luck',e:'🍀',n:'Chance',c:[60,200,600],d:l=>l?'Visiteurs surprises '+gmFmt(GM_LUCK[l])+'× plus souvent'+(l>=2?', bouée en or plus fréquente':''):'Visiteurs normaux'},
+  {k:'visr',e:'🎁',n:'Visiteurs généreux',c:[80,280,900],d:l=>'Cadeaux des visiteurs ×'+gmFmt(GM_VISR[l])},
+  {k:'calm',e:'🧊',n:'Sang-froid',c:[80,300],d:l=>['—','Incidents : +50 % de temps pour réagir, pénalités 2× plus courtes','Incidents : 2× plus de temps, pénalités 4× plus courtes'][l]},
+  {k:'whis',e:'📣',n:'Coup de sifflet',c:[100,360],p:1,d:l=>'Récompenses des incidents réglés ×'+(1+l)},
+  {k:'medm',e:'🏅',n:'Collectionneur de médailles',c:[120,400,1200],p:1,d:l=>'+'+l+' 🏅 à chaque manifestation'},
+  {k:'sais',e:'🌅',n:'Saisons glorieuses',c:[200,700,2400],p:2,d:l=>'+'+(l*15)+' % d\'étoiles à chaque nouvelle saison'},
+  {k:'auto',e:'🤖',n:'Gérant automatique',c:[300,1200],p:3,d:l=>['—','Achète tout seul des créneaux (toutes les 4 s, jusqu\'à ¼ de ton argent)','Achète tout seul des créneaux (chaque seconde, jusqu\'à ½ de ton argent)'][l]},
+  {k:'benx',e:'🙋',n:'Bénévoles motivés',c:[600,2000],p:4,d:l=>'Chaque bénévole multiplie +'+l+' de plus (×3 → ×'+(3+l)+')'}
 ];
 const gmPLock=(G,P)=>(P.p||0)>(G.p||0);
 const gmBL=(G,k)=>(G.bld&&G.bld[k])||0,gmPL=(G,k)=>(G.perk&&G.perk[k])||0;
@@ -8958,10 +8990,18 @@ function gmBldHTML(G){return `<h3>🏗️ Le complexe</h3><div class="gmhint">Le
   <div class="gmmed">🏅 <b ${gmLv(()=>gmFmt(G.med||0))}></b> médailles</div>`+GM_BLD.map(B=>{const l=gmBL(G,B.k),mx=B.c.length,c=B.c[l];
     return `<div class="gmper${l>=mx?' own':''}"><span class="gmbe${l?'':' off'}">${B.e}</span><div class="i"><b>${B.n}</b> <span class="lvs">${'★'.repeat(l)}${'☆'.repeat(mx-l)}</span><small>${l?'Maintenant : '+B.d(l):'Pas encore construit'}${l<mx?'<br>'+(l?'Niveau '+(l+1):'Construit')+' : <b>'+B.d(l+1)+'</b>':''}</small></div>
     ${l<mx?`<button class="mini-b gmh" data-bld="${B.k}" ${gmLv(()=>({d:(G.med||0)<c}))}>${l?'Améliorer':'Construire'}<br><b>🏅 ${c}</b></button>`:'<span class="ok">✅</span>'}</div>`;}).join('');}
-function gmShopHTML(G){return `<h3>⭐ Les talents</h3><div class="gmhint">Chaque ⭐ étoile <b>non dépensée</b> donne +2 % de gains (au-delà de 500 étoiles, le bonus grandit moins vite). Tu peux aussi les dépenser pour des <b>talents gardés pour toujours</b>… mais une étoile dépensée ne donne plus ses +2 %, et chaque niveau coûte environ 3× plus que le précédent. Certains talents ne s'ouvrent qu'après plusieurs saisons. À toi de choisir !</div>
-  <div class="gmmed">⭐ <b>${gmFmt(gmStarsFree(G))}</b> étoiles libres <small>sur ${gmFmt(G.stars||0)} · +${gmStarPct(gmStarsFree(G))} % de gains</small></div>`+GM_PERK.map(P=>{const l=gmPL(G,P.k),mx=P.c.length,c=P.c[l];
+const GM_CONS=[
+  {k:'jump',e:'⏩',n:'Saut dans le temps',b:12,d:'Reçois tout de suite 1 h de gains',go:G=>{const v=gmRP(G)*3600;gmGain(G,v);return '+'+gmE(v);}},
+  {k:'fou',e:'🚀',n:'Journée de folie',b:20,d:'Tous les gains ×3 pendant 15 min',go:G=>{gmTB(G,{x:3,end:Date.now()+900e3,e:'🚀'});return '×3 pendant 15 min !';}},
+  {k:'med',e:'🏅',n:'Sac de médailles',b:10,d:'+5 🏅 pour construire des bâtiments',go:G=>{gmMed(G,5);return '+5 🏅';}}];
+/* prix : plus cher à chaque saison terminée, et à chaque achat dans la même saison */
+function gmConsC(G,C){const n=(G.cb||{})[C.k]||0;return Math.round(C.b*(1+.5*(G.p||0))*Math.pow(1.6,n));}
+function gmConsHTML(G){return `<h3>⚡ Coups de pouce</h3><div class="gmhint">À usage unique : l'effet est immédiat. Le prix monte à chaque achat (il redescend à la saison suivante).</div>`+GM_CONS.map(C=>{const c=gmConsC(G,C);
+  return `<div class="gmper"><span class="gmbe">${C.e}</span><div class="i"><b>${C.n}</b><small>${C.d}</small></div><button class="mini-b gmh" data-cons="${C.k}" ${gmStarsFree(G)<c?'disabled':''}>Utiliser<br><b>⭐ ${gmFmt(c)}</b><small>−${gmFmt(c)} %</small></button></div>`;}).join('')+'<div style="height:8px"></div>';}
+function gmShopHTML(G){return `<h3>⭐ Les talents</h3><div class="gmhint">Chaque ⭐ étoile <b>non dépensée</b> donne +1 % de gains (au-delà de 500 étoiles, le bonus grandit moins vite). Tu peux aussi les dépenser pour des <b>talents gardés pour toujours</b>… mais une étoile dépensée ne donne plus son +1 %, et chaque niveau coûte environ 3× plus que le précédent. Certains talents ne s'ouvrent qu'après plusieurs saisons. À toi de choisir !</div>
+  <div class="gmmed">⭐ <b>${gmFmt(gmStarsFree(G))}</b> étoiles libres <small>sur ${gmFmt(G.stars||0)} · +${gmStarPct(gmStarsFree(G))} % de gains</small></div>`+gmConsHTML(G)+'<h3>🌟 Talents pour toujours</h3>'+GM_PERK.map(P=>{const l=gmPL(G,P.k),mx=P.c.length,c=P.c[l];
     return `<div class="gmper${l>=mx?' own':''}"><span class="gmbe${l?'':' off'}">${P.e}</span><div class="i"><b>${P.n}</b> <span class="lvs">${'★'.repeat(l)}${'☆'.repeat(mx-l)}</span><small>${l?'Maintenant : '+P.d(l):'Pas encore appris'}${l<mx?'<br>'+(l?'Niveau '+(l+1):'Apprendre')+' : <b>'+P.d(l+1)+'</b>':''}</small></div>
-    ${gmPLock(G,P)?`<span class="lockt">🔒 Après ${P.p} saison${P.p>1?'s':''} terminée${P.p>1?'s':''}</span>`:l<mx?`<button class="mini-b gmh" data-perk="${P.k}" ${gmStarsFree(G)<c?'disabled':''}>${l?'Améliorer':'Apprendre'}<br><b>⭐ ${gmFmt(c)}</b><small>−${gmFmt(c*2)} %</small></button>`:'<span class="ok">✅</span>'}</div>`;}).join('');}
+    ${gmPLock(G,P)?`<span class="lockt">🔒 Après ${P.p} saison${P.p>1?'s':''} terminée${P.p>1?'s':''}</span>`:l<mx?`<button class="mini-b gmh" data-perk="${P.k}" ${gmStarsFree(G)<c?'disabled':''}>${l?'Améliorer':'Apprendre'}<br><b>⭐ ${gmFmt(c)}</b><small>−${gmFmt(c)} %</small></button>`:'<span class="ok">✅</span>'}</div>`;}).join('');}
 function gmAutoBuy(G){let n=0;const budget=G.m*[0,.25,.5][gmPL(G,'auto')];let spent=0;while(n<25){let best=null,bc=Infinity;gmOpen(G).forEach(a=>{const c=gmCost(G,a,1);if(c<bc){bc=c;best=a;}});if(!best||spent+bc>budget)break;G.m-=bc;spent+=bc;G.act[best].l++;n++;}return n;}
 function gmPlusTick(G,now,dt){
   if(G.tb.length&&G.tb.some(b=>b.end<=now)){G.tb=G.tb.filter(b=>b.end>now);gmRender();}
