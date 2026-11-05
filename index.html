@@ -1025,6 +1025,7 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 .fgabil i{grid-row:1/3;font-style:normal;font-size:20px;text-align:center}.fgabil b{font-size:13.5px}.fgabil small{font-size:11.5px;line-height:1.25;color:var(--muted);font-weight:600}
 .fglad .st em{font-style:normal;font-size:8.5px;color:#e0a800;letter-spacing:-1px;height:10px}
 .fghelp{text-align:left;font-size:13px;line-height:1.45}
+#hub #hubBody,#moi #moiBody{padding-bottom:calc(var(--navh) + env(safe-area-inset-bottom,0px) + 24px)}
 .pxhero{display:flex;gap:12px;align-items:center;background:linear-gradient(135deg,#ff9a2e,#e0217a);color:#fff;border:3px solid var(--ink);border-radius:18px;padding:12px;box-shadow:0 4px 0 var(--ink);margin:8px 0 10px}.pxhero .e{font-size:38px}.pxhero b{display:block;font-size:20px}.pxhero small{font-size:12.5px;line-height:1.3}
 .pxmodes{display:flex;gap:8px;justify-content:center}.pxmodes .apill{flex:1}.pxmodes small{opacity:.7;font-weight:700}.pxmd{text-align:center;font-size:13px;margin:8px 4px 10px;opacity:.85}
 .pxgo{width:100%;display:flex;flex-direction:column;align-items:center;gap:2px}.pxgo small{font-size:11.5px;font-weight:700;opacity:.85}
@@ -1039,6 +1040,7 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 .pxbk{touch-action:manipulation;-webkit-tap-highlight-color:transparent;width:52px;height:46px;border:3px solid var(--ink);border-radius:8px 8px 16px 16px;background:var(--c);color:#fff;font:inherit;font-weight:900;font-size:17px;text-shadow:0 1px 0 #1b2a3a,0 -1px 0 #1b2a3a,1px 0 0 #1b2a3a,-1px 0 0 #1b2a3a;box-shadow:0 4px 0 var(--ink);cursor:pointer;padding:0}
 .pxbk.back{width:40px;height:30px;font-size:12px;opacity:.55;box-shadow:none;cursor:default}.pxbk.shk{animation:pxshk .35s}.pxe{opacity:.4;font-weight:800;padding:12px 0}
 @keyframes pxshk{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.pxbdg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:6px}.pxbdg div{background:var(--card);border:2px solid var(--ink);border-radius:12px;padding:6px 4px;text-align:center;opacity:.5}.pxbdg div.ok{opacity:1;box-shadow:0 3px 0 var(--ink)}.pxbdg i{display:block;font-style:normal;font-size:24px}.pxbdg b{display:block;font-size:11.5px;line-height:1.15}.pxbdg small{display:block;font-size:9.5px;line-height:1.15;opacity:.8;margin-top:2px}
 .pxcard{margin:6px auto 8px;width:150px}.pxcard img{width:150px;aspect-ratio:4/5;object-fit:cover;border:3px solid var(--ink);border-radius:12px;display:block;animation:pop .5s both}.pxcard b{display:block;margin-top:4px}
 .gmsprb{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 8px);z-index:70;background:#1b2a3a;color:#fff;border:3px solid #ffd23f;border-radius:999px;padding:6px 14px;font-size:15px;box-shadow:0 4px 0 rgba(0,0,0,.25);white-space:nowrap;pointer-events:none}.gmsprb.hot{background:#e0217a;animation:fghl .6s ease-in-out infinite}
 .rulesov{position:absolute;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(10,30,50,.55);animation:pop .25s both}
@@ -6085,7 +6087,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=42;
+const APP_V=43;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
@@ -6652,6 +6654,15 @@ const BADGES=[
   {id:'tp',e:'🎟️',n:'Compétiteur',d:'Jouer un tournoi',ok:()=>ST('tPlayed')>=1},
   {id:'tw',e:'🏆',n:'Champion',d:'Gagner un tournoi',ok:()=>ST('tWins')>=1},
   {id:'to1',e:'🚪',n:'Sorti d\'entrée',d:'Éliminé au 1er tour d\'un tournoi',ok:()=>ST('tOut1')>=1,f:1},
+  {id:'px1',e:'🎨',n:'Premier coup d\'éponge',d:'Effacer une carte dans Pixel Gambetta',ok:()=>ST('pxW')>=1},
+  {id:'px10',e:'🧽',n:'Grand nettoyage',d:'Effacer 10 cartes dans Pixel Gambetta',ok:()=>ST('pxW')>=10},
+  {id:'px50',e:'🖌️',n:'Artiste du club',d:'Effacer 50 cartes dans Pixel Gambetta',ok:()=>ST('pxW')>=50},
+  {id:'pxb',e:'🔄',n:'Maître du tapis',d:'Effacer les 113 cartes en style Tapis',ok:()=>{try{return ((COL.px||{}).b||0)>=pxLevels().length;}catch(_){return false;}}},
+  {id:'pxr',e:'🌧️',n:'Faiseur de pluie',d:'Effacer les 113 cartes en style Pluie',ok:()=>{try{return ((COL.px||{}).r||0)>=pxLevels().length;}catch(_){return false;}}},
+  {id:'pxc',e:'🎯',n:'Du premier coup',d:'Effacer une carte sans renvoyer un seul seau',ok:()=>ST('pxClean')>=1},
+  {id:'pxg',e:'🖼️',n:'Chef-d\'œuvre',d:'Effacer une carte d\'au moins 100 pixels de large',ok:()=>ST('pxBig')>=1},
+  {id:'pxm',e:'💯',n:'100 000 pixels',d:'Effacer 100 000 pixels dans Pixel Gambetta',ok:()=>ST('pxPx')>=1e5},
+  {id:'pxl',e:'😅',n:'Tapis bouché',d:'Se faire bloquer dans Pixel Gambetta',ok:()=>ST('pxL')>=1,f:1},
   {id:'gm1',e:'🏢',n:'Directeur du club',d:'Gagner 1 M€ dans Gambetta Manager',ok:()=>((COL.gm||{}).lifeAll||0)>=1e6},
   {id:'gm2',e:'🎉',n:'Organisateur',d:'10 manifestations dans Gambetta Manager',ok:()=>((COL.gm||{}).manN||0)>=10},
   {id:'gm3',e:'🌅',n:'Nouvelle saison',d:'Terminer une saison de Gambetta Manager',ok:()=>((COL.gm||{}).p||0)>=1},
@@ -6787,7 +6798,8 @@ function pfPublic(){const st=COL.st||{};return{fav:COL.fav||null,b:Object.keys(C
   st:{played:st.played||0,won:st.won||0,lost:st.lost||0,duelW:st.duelW||0,duelL:st.duelL||0,trades:st.trades||0,boosters:st.boosters||0,chDays:st.chDays||0,chPod:st.chPod||0,tWins:st.tWins||0,quests:st.quests||0,pt:ptQ(COL.pt||0),pt7:ptQ(ptSum(7)),ptT:ptQ(ptSum(1)),last:Math.floor((COL.lastAt||0)/1800e3)*1800e3,sess:COL.sess||0,gold:(COL.gold||0)>Date.now()?COL.gold:0,ofN:st.offers||0,
     bbW:st.bbW||0,bbL:st.bbL||0,bbt:COL.bbt||0,fgW:st.fgW||0,fgL:st.fgL||0,fgS:fgStarsAll(),fgC:Object.values((COL.fg||{}).p||{}).filter(p=>p&&p.done).length,fgB:st.fgBoss||0,
     gmP:(COL.gm&&COL.gm.v===2&&COL.gm.p)||0,gmS:(COL.gm&&COL.gm.v===2&&COL.gm.stars)||0,gmB:(x=>x<1000?Math.floor(x):Math.pow(10,Math.floor(Math.log10(x))))((COL.gm&&COL.gm.v===2&&COL.gm.lifeAll)||0),gmM:(COL.gm&&COL.gm.manN)||0,
-    ptP:st.ptPlay||0,ptW:st.ptWin||0,qqP:st.qqP||0,qqW:st.qqW||0,qzP:st.quizP||0,qzW:st.quizW||0,pres:COL.pres||0}};}
+    ptP:st.ptPlay||0,ptW:st.ptWin||0,qqP:st.qqP||0,qqW:st.qqW||0,qzP:st.quizP||0,qzW:st.quizW||0,pres:COL.pres||0,
+    pxB:(COL.px||{}).b||0,pxR:(COL.px||{}).r||0,pxW:st.pxW||0,pxL:st.pxL||0,pxPx:st.pxPx||0,pxBk:st.pxBk||0}};}
 function favHTML(fav){if(!fav)return '<div class="nofav">🏊</div>';if(memObj(fav))return `<div class="fav">${mini(fav)}</div>`;if(MG_CARDS[fav])return `<div class="fav">${cardHTML(fav,false)}</div>`;return '<div class="nofav">🏊</div>';}
 async function openProfile(pid){const me=isMe(pid)||pid===myId;let name,pf,cards;
   if(me){pf=pfPublic();cards=cardCount();name=(window.GG&&GG.name)||'Toi';}
@@ -6801,6 +6813,7 @@ async function openProfile(pid){const me=isMe(pid)||pid===myId;let name,pf,cards
     ['⚔️ Bataille du Bassin',[[bt,'trophées'],[tier.e+' '+tier.n,'rang'],[st.bbW||0,'victoires'],[st.bbL||0,'défaites']]],
     ['🥊 Gambetta Fighter',[[(st.fgS||0)+'<small>/'+fgMax+'</small>','étoiles ★'],[(st.fgC||0)+'<small>/'+fgN+'</small>','champions'],[st.fgW||0,'combats gagnés'],[st.fgL||0,'combats perdus'],[st.fgB||0,'Roland battu']]],
     ['🏢 Gambetta Manager',[[gmFmt(st.gmS||0),'étoiles ★'],[st.gmP||0,'saisons finies'],[(me?'':(st.gmB>=1000?'+':''))+gmFmt(me?((COL.gm&&COL.gm.v===2&&COL.gm.lifeAll)||0):(st.gmB||0))+' €','gagnés en tout'],[st.gmM||0,'manifestations']]],
+    ['🎨 Pixel Gambetta',[[(st.pxB||0)+'<small>/'+pxLevels().length+'</small>','cartes en 🔄 Tapis'],[(st.pxR||0)+'<small>/'+pxLevels().length+'</small>','cartes en 🌧️ Pluie'],[st.pxW||0,'cartes effacées'],[st.pxL||0,'fois bloqué'],[gmFmt(st.pxPx||0),'pixels effacés'],[gmFmt(st.pxBk||0),'seaux envoyés']]],
     ['🎉 Entre amis',[[st.ptW||0,'Party gagnées'],[st.ptP||0,'Party jouées'],[st.qqW||0,'Qui est-ce gagnés'],[st.qqP||0,'Qui est-ce joués'],[st.qzW||0,'Quiz gagnés'],[st.qzP||0,'Quiz joués']]]];
   if(st.pres)SEC.push(['🏊 Grand Plongeon',[[st.pres,'plongeons']]]);
   const statsHTML=SEC.map(([t,L])=>`<div class="pfsec">${t}</div><div class="pfstats">${L.map(([v,l])=>`<div><b>${v}</b><span>${l}</span></div>`).join('')}</div>`).join('');
@@ -8697,11 +8710,13 @@ function pxGen(L,mode,spec){const W=L.W,H=L.H,K=L.pal.length,seq=[];
   const res=Array.from({length:spec.cols},()=>[]);seq.forEach((b,i)=>res[i%spec.cols].push(b));return res;}
 /* ---------- écran d'accueil du jeu ---------- */
 function openPixel(){try{bbClose();}catch(_){}try{fgStop();}catch(_){}show('pixel');pxHome();}
-function pxHome(){pxStop();const b=$('#pxBody');if(!b)return;$('#pixel').classList.remove('ingame');try{navSync('pixel');}catch(_){}const P=pxSave(),mode=P.mode,Lv=pxLevels(),done=P[mode],cur=Math.min(done,Lv.length-1),m=Lv[cur],sp=pxSpec(cur);
+function pxHome(){pxStop();const b=$('#pxBody');if(!b)return;try{badgeCheck();}catch(_){}$('#pixel').classList.remove('ingame');try{navSync('pixel');}catch(_){}const P=pxSave(),mode=P.mode,Lv=pxLevels(),done=P[mode],cur=Math.min(done,Lv.length-1),m=Lv[cur],sp=pxSpec(cur);
   b.innerHTML=`<div class="pxhero"><div class="e">🎨</div><div><b>Pixel Gambetta</b><small>Efface les ${Lv.length} cartes du club, pixel par pixel ! Chaque seau aspire les pixels de sa couleur… mais il n'y a pas de place pour tout le monde.</small></div></div>
     <div class="pxmodes">${Object.entries(PX_MODES).map(([k,x])=>`<button class="apill${mode===k?' on':''}" data-pxm="${k}">${x.e} ${x.n} <small>${P[k]}/${Lv.length}</small></button>`).join('')}</div>
     <div class="pxmd">${PX_MODES[mode].d}</div>
     <button class="btn pxgo" id="pxGo">${done>=Lv.length?'🏆 Toutes les cartes sont effacées ! Rejouer la dernière':'▶ Carte '+(cur+1)+' : '+esc(m.n)}<small>${sp.W}×${sp.H} pixels · ${sp.K} couleurs · ${sp.slots} places sur le ${mode==='b'?'tapis':'banc'}</small></button>
+    <div class="dsec">📊 Mes stats</div><div class="pfstats">${[[P.b+'<small>/'+Lv.length+'</small>','🔄 Tapis'],[P.r+'<small>/'+Lv.length+'</small>','🌧️ Pluie'],[gmFmt(ST('pxPx')),'pixels effacés'],[gmFmt(ST('pxBk')),'seaux envoyés'],[ST('pxL'),'fois bloqué'],[ST('pxBest')?(ST('pxBest')>=60?Math.floor(ST('pxBest')/60)+' min '+String(ST('pxBest')%60).padStart(2,'0'):ST('pxBest')+' s'):'–','carte la plus rapide']].map(([v,l])=>`<div><b>${v}</b><span>${l}</span></div>`).join('')}</div>
+    <div class="dsec">🏅 Badges <small>${BADGES.filter(x=>/^px/.test(x.id)&&(COL.badges||{})[x.id]).length}/${BADGES.filter(x=>/^px/.test(x.id)).length}</small></div><div class="pxbdg">${BADGES.filter(x=>/^px/.test(x.id)).map(x=>{const ok=!!(COL.badges||{})[x.id];return `<div class="${ok?'ok':''}"><i>${ok?x.e:'🔒'}</i><b>${esc(x.n)}</b><small>${esc(x.d)}</small></div>`;}).join('')}</div>
     <div class="dsec">🃏 Les cartes <small>${done}/${Lv.length} effacées</small></div>
     <div class="pxgrid">${Lv.map((x,i)=>`<button class="pxl${i<done?' ok':i===cur?' cur':''}" data-pxl="${i}" ${i>done?'disabled':''}>${i<=done?`<img src="${x.thumb||x.img}" loading="lazy" decoding="async" alt="">`:''}<span>${i<done?'✓':i===cur?'▶':'🔒'} ${i+1}</span></button>`).join('')}</div>
     <div class="drew" style="margin-top:12px">🎁 Une carte pour ta 1re victoire du jour · un booster de 3 cartes toutes les 10 cartes effacées (dans chaque style).</div><div style="height:90px"></div>`;
@@ -8746,7 +8761,7 @@ function pxResUI(){const R=PX.run,box=$('#pxRes');if(!R||!box)return;const pal=R
   box.querySelectorAll('[data-pxq]').forEach(x=>x.addEventListener('pointerdown',e=>{e.preventDefault();pxSend(+x.dataset.pxq,x);}));}
 function pxSend(j,el){const R=PX.run;if(!R||R.over)return;const q=R.res[j];if(!q||!q.length)return;
   if(pxUsed(R)>=R.sp.slots){if(el){el.classList.remove('shk');void el.offsetWidth;el.classList.add('shk');}R.msg={t:R.mode==='b'?'Le tapis est plein !':'Le banc est plein !',d:1.2};return;}
-  const s=q.shift(),B={c:s.c,cap:s.cap,n:0,ng:0,acc:0,in:0,q:j,id:R.nid=(R.nid||0)+1};
+  try{stat('pxBk');}catch(_){}const s=q.shift(),B={c:s.c,cap:s.cap,n:0,ng:0,acc:0,in:0,q:j,id:R.nid=(R.nid||0)+1};
   if(R.mode==='b'){B.s=-1-pxUsed(R)*0;B.wait=1;R.bk.push(B);}else{const k=R.sl.indexOf(null);B.k=k;R.sl[k]=B;}
   pxRainFill(R,j);pxRainCheck(R);R.stuckT=0;pxResUI();}
 function pxGeo(R){const cv=R.cv,W=R.L.W,H=R.L.H;
@@ -8803,10 +8818,11 @@ function pxDraw(R){const cv=R.cv,c=cv.ctx,G=pxGeo(R),W=R.L.W,H=R.L.H,pal=R.L.pal
   R.fx.forEach(f=>{if(f.t<0)return;const b=f.b,tx=b.x||f.x,ty=b.y||f.y,k=f.t,x=f.x+(tx-f.x)*k,y=f.y+(ty-f.y)*k-Math.sin(k*Math.PI)*20;c.fillStyle=col(f.c);c.fillRect(x-G.cs*.7,y-G.cs*.7,G.cs*1.4,G.cs*1.4);});
   if(R.msg){c.globalAlpha=Math.min(1,R.msg.d*3);bubbleText(c,cv.W/2,cv.H*.45,R.msg.t,14);c.globalAlpha=1;}}
 function pxEnd(R,win){if(PX.run!==R)return;const P=pxSave(),mode=R.mode,Lv=pxLevels(),i=R.i;let rew=[];
-  try{stat('played');stat(win?'won':'lost');qHit(win?'win2':'lose');if(win)stat('pxW');}catch(_){}
+  try{stat('played');stat(win?'won':'lost');qHit(win?'win2':'lose');const done=R.L.W*R.L.H-R.left;stat('pxPx',done);if(win){stat('pxW');stat(mode==='b'?'pxWb':'pxWr');if(R.undo===(mode==='r'?5:3))stat('pxClean');if(R.L.W>=100)stat('pxBig');const t=Math.round(R.t);if(!ST('pxBest')||t<ST('pxBest'))COL.st.pxBest=t;}else stat('pxL');}catch(_){}
   if(win){const first=i>=P[mode];if(first)P[mode]=i+1;const d=dayKey();if(P.d!==d){P.d=d;grantPack(1,'Pixel Gambetta · 1re victoire du jour');rew.push('🎁 1re victoire du jour : une carte !');}
     if(first&&P[mode]%10===0&&!P.rw[mode+P[mode]]){P.rw[mode+P[mode]]=1;grantPack(3,'Pixel Gambetta · '+P[mode]+' cartes effacées');rew.push(`🎉 ${P[mode]} cartes effacées en ${PX_MODES[mode].n} : un booster de 3 cartes !`);}
     saveCol();try{updBoostBtn();}catch(_){}}
+  try{badgeCheck();}catch(_){}
   const nx=Lv[i+1],m=R.m;const sh=sheet(`<div class="gmoff pxend"><div class="e">${win?'✨':'🧽'}</div><h3>${win?'Carte effacée !':(R.mode==='b'?'Tapis bouché…':'Banc bouché…')}</h3>
     ${win?`<div class="pxcard"><img src="${m.img||m.thumb}" alt=""><b>${esc(m.n)}</b></div>`:`<p>Plus aucun seau ne peut rien aspirer. Essaie d'${R.mode==='b'?'éplucher la carte par l\'extérieur':'vider le bas de la carte'} avant d'envoyer les couleurs cachées !</p>`}
     ${rew.map(x=>`<div class="rw">${x}</div>`).join('')}</div><div class="trbtns"><button class="btn alt" id="pxB">Retour</button>${win&&nx?`<button class="btn" id="pxN">▶ Carte suivante</button>`:`<button class="btn" id="pxA">🔁 Réessayer</button>`}</div>`);
