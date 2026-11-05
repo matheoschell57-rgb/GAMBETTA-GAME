@@ -1025,6 +1025,8 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 .fgabil i{grid-row:1/3;font-style:normal;font-size:20px;text-align:center}.fgabil b{font-size:13.5px}.fgabil small{font-size:11.5px;line-height:1.25;color:var(--muted);font-weight:600}
 .fglad .st em{font-style:normal;font-size:8.5px;color:#e0a800;letter-spacing:-1px;height:10px}
 .fghelp{text-align:left;font-size:13px;line-height:1.45}
+.intro-rec{margin:6px auto 0;max-width:320px;background:rgba(255,255,255,.85);color:#1b2a3a;border:2.5px solid #1b2a3a;border-radius:14px;padding:6px 12px;font-size:14px;text-align:center;box-shadow:0 3px 0 #1b2a3a}.intro-rec:empty{display:none}.intro-rec small{display:block;font-size:12px;opacity:.8;margin-top:2px}
+.rkgs{display:block;font-size:11px;opacity:.7;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #hub #hubBody,#moi #moiBody{padding-bottom:calc(var(--navh) + env(safe-area-inset-bottom,0px) + 24px)}
 .pxhero{display:flex;gap:12px;align-items:center;background:linear-gradient(135deg,#ff9a2e,#e0217a);color:#fff;border:3px solid var(--ink);border-radius:18px;padding:12px;box-shadow:0 4px 0 var(--ink);margin:8px 0 10px}.pxhero .e{font-size:38px}.pxhero b{display:block;font-size:20px}.pxhero small{font-size:12.5px;line-height:1.3}
 .pxmodes{display:flex;gap:8px;justify-content:center}.pxmodes .apill{flex:1}.pxmodes small{opacity:.7;font-weight:700}.pxmd{text-align:center;font-size:13px;margin:8px 4px 10px;opacity:.85}
@@ -1555,6 +1557,7 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
     <div class="bubble"><span id="bubbleText"></span></div>
     <div class="intro-av" id="introAv"></div>
     <div class="intro-name" id="introName"></div>
+    <div class="intro-rec" id="introRec"></div>
     <button class="btn go" id="goBtn">C'est parti ! ▶</button>
   </section>
 
@@ -6000,18 +6003,14 @@ async function buildRanks(){
   $('#rkGames').style.display='none';
   const med=['🥇','🥈','🥉'];
   if(rkTab==='time'){
-    const lists={};ORDER.forEach(k=>lists[k]=rankList(k));
-    const ids=[...new Set(Object.values(lists).flat().map(r=>r.id))];const names=await nameOf(ids);
+    /* mini-jeux : qui détient le plus de records (1re place d'un mini-jeu) */
+    const lists={};ORDER.forEach(k=>lists[k]=rankList(k));const cnt={};
+    ORDER.forEach(k=>{const L=lists[k];[0,1,2].forEach(p=>{const r=L[p];if(!r)return;const c=cnt[r.id]=cnt[r.id]||{id:r.id,n:0,s:0,t:0,g:[]};if(p===0){c.n++;c.g.push(k);}else if(p===1)c.s++;else c.t++;});});
+    const list=Object.values(cnt).sort((a,b)=>(b.n-a.n)||(b.s-a.s)||(b.t-a.t));const names=await nameOf(list.map(r=>r.id));
     const nm=id=>isMe(id)?((names[id]&&names[id]!=='Joueur'&&names[id]!=='Toi')?names[id]+' (toi)':'Toi'):names[id];
-    $('#rkList').innerHTML=ORDER.map(k=>{const L=lists[k],top=L[0],open=k===rkGame,m=metricOf(k);
-      return `<div class="rkgame${open?' open':''}" data-k="${k}">
-        <button class="rkg-head" aria-expanded="${open}">
-          <span class="av">${avatar(CHARS[k].look,{viewBox:'30 20 140 140'})}</span>
-          <span class="rkg-t"><b>${CHARS[k].game}</b><small>${top?'🥇 '+esc(nm(top.id)):'Pas encore de record'}</small></span>
-          <span class="rkg-v">${top?fmtVal(k,top.v):'–'}</span><span class="chev">▾</span></button>
-        ${open?`<div class="rkg-body"><div class="rkg-sub">${m.t==='time'?'Temps pour gagner':m.t==='wins'?'Nombre de victoires':'Meilleur score'}</div>${L.length?L.map((r,i)=>`<div class="rkrow${isMe(r.id)?' me':''}"><span class="pos">${med[i]||i+1}</span><span class="who" data-pid="${r.id}">${esc(nm(r.id))}</span><span class="v">${fmtVal(k,r.v)}</span></div>`).join(''):'<div class="rkempty">Personne n\'a encore gagné ce mini-jeu. Sois le premier ! 🏁</div>'}</div>`:''}
-      </div>`;}).join('');
-    $('#rkList').querySelectorAll('.rkg-head').forEach(b=>b.onclick=()=>{const k=b.parentNode.dataset.k;rkGame=rkGame===k?null:k;buildRanks().then(()=>{const el=$(`.rkgame[data-k="${k}"]`);if(el&&rkGame)el.scrollIntoView({block:'nearest',behavior:'smooth'});});});
+    $('#rkList').innerHTML=`<div class="rkhead">🏆 Les rois des records<small>Nombre de mini-jeux où le joueur a le meilleur record du club (puis les 2e et 3e places)</small></div>`+
+      (list.length?list.map((r,i)=>`<div class="rkrow${isMe(r.id)?' me':''}"><span class="pos">${med[i]||i+1}</span><span class="who" data-pid="${r.id}">${esc(nm(r.id))}<small class="rkgs">${r.g.slice(0,6).map(k=>esc(CHARS[k].name)).join(' · ')}${r.g.length>6?' · …':''}</small></span><span class="v">${r.n} 🏆${r.s||r.t?`<small> · ${r.s} 🥈 · ${r.t} 🥉</small>`:''}</span></div>`).join(''):'<div class="rkempty">Personne n\'a encore de record. Lance un mini-jeu ! 🏁</div>')+
+      `<div class="drew" style="margin-top:10px">👀 Le record de chaque mini-jeu (et qui l'a) est affiché juste avant de jouer, sur l'écran « C'est parti ! ».</div>`;
   }else if(rkTab==='gm'){
     const mine=COL.gm&&COL.gm.v===2?{s:COL.gm.stars||0,p:COL.gm.p||0,b:Math.floor(COL.gm.lifeAll||0)}:{s:0,p:0,b:0};
     const list=rows().map(r=>({id:r.id,g:isMe(r.id)?mine:(r.d.gm||{p:0,b:0})})).filter(r=>r.g.b>0||isMe(r.id)).sort((a,b)=>((b.g.s||0)-(a.g.s||0))||(b.g.b-a.g.b));const names=await nameOf(list.map(r=>r.id));
@@ -6087,7 +6086,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=43;
+const APP_V=44;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
@@ -10418,9 +10417,13 @@ function buildSelect(){
   $('#grid').querySelectorAll('button.char').forEach(b=>b.onclick=()=>{PLAYCTX=null;openIntro(b.dataset.k);});
   try{const k=chGame(dayKey());$('#dChip').innerHTML=`🎯 Défi du jour : <b>${CHARS[k].game}</b> ›`;evChip();}catch(_){}
 }
+async function introRec(k){const el=$('#introRec');if(!el)return;el.innerHTML='';try{const L=rankList(k),top=L[0];
+    if(!top){el.innerHTML='🏆 Pas encore de record : sois le premier !';return;}const names=await nameOf([top.id]);if(curKey!==k)return;
+    const who=isMe(top.id)?'toi 😎':(names[top.id]||'un joueur');const me=L.findIndex(r=>isMe(r.id));
+    el.innerHTML=`🏆 Record : <b>${fmtVal(k,top.v)}</b> par <b>${esc(who)}</b>${me>0?`<small>Ton meilleur : ${fmtVal(k,L[me].v)} (${me+1}e)</small>`:''}`;}catch(_){}}
 function openIntro(k){
   curKey=k;const c=CHARS[k];
-  $('#introAv').innerHTML=charArt(c);$('#introName').textContent=c.name;
+  $('#introAv').innerHTML=charArt(c);$('#introName').textContent=c.name;introRec(k);
   const b=$('#bubbleText');b.textContent='';$('#goBtn').classList.remove('show');
   clearInterval(typing);let n=0;
   typing=setInterval(()=>{n++;b.textContent=c.line.slice(0,n);if(n>=c.line.length){clearInterval(typing);typing=null;$('#goBtn').classList.add('show');}},32);

@@ -2,7 +2,7 @@
 // et la dernière version vue reste jouable si le réseau coupe.
 // Notifications (OneSignal) : chargées ici pour partager ce service worker
 try{importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js');}catch(_){}
-const CACHE='gambetta-v43';
+const CACHE='gambetta-v44';
 // Les photos des cartes (dossier img/) sont gardées sur le téléphone d'une version à l'autre :
 // leur adresse change dès que la photo change (?v=…), donc pas besoin de les retélécharger.
 const IMG='gambetta-img';
