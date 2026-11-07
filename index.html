@@ -2251,22 +2251,22 @@ const CHARS={
   pierre:{name:'Pierre',game:'Le paparazzi du bassin',bg:'#e8f1ff',
     line:"Roland qui fait un plat, Marcel qui nage… Ces moments-là, il ne faut pas les rater ! Mille photos pour un 50 m, c'est normal, non ?",
     look:{skin:'#f0c4a6',hair:'short',hairColor:'#8a6a4a',shirt:PINK,logo:true,round:true}},
-  laurence:{name:'Laurence',game:'Aquajogging penché',bg:'#dff3ff',since:'2026-11-06',
+  laurence:{name:'Laurence',game:'Aquajogging penché',bg:'#dff3ff',since:'2026-11-07',
     line:"Une ceinture, un couloir, et on court ! Penche-toi en avant… mais reste bien au milieu, les lignes d'eau font mal !",
     look:{skin:'#f3c9ad',hair:'short',hairColor:'#b5532a',shirt:PINK,logo:true}},
-  romain:{name:'Romain',game:'Réception à deux',bg:'#fff1d6',since:'2026-11-06',
+  romain:{name:'Romain',game:'Réception à deux',bg:'#fff1d6',since:'2026-11-07',
     line:"Au volley, on ne laisse jamais tomber un ballon… même quand ils arrivent des deux côtés en même temps !",
     look:{skin:'#efc2a2',hair:'short',hairColor:'#3a2a1e',beard:'short',beardColor:'#3a2a1e',shirt:PINK,logo:true}},
-  clement:{name:'Clément',game:'Le montage',bg:'#e6f7ff',since:'2026-11-06',
+  clement:{name:'Clément',game:'Le montage',bg:'#e6f7ff',since:'2026-11-07',
     line:"Une caméra étanche, des poissons partout, et une nuit de montage. Aide-moi à remettre mes films dans l'ordre !",
     look:{skin:'#f2c8ac',hair:'short',hairColor:'#3a2a1e',glasses:true,shirt:PINK,logo:true}},
-  simon:{name:'Simon',game:'Les mots mélangés',bg:'#fff4e0',since:'2026-11-06',
+  simon:{name:'Simon',game:'Les mots mélangés',bg:'#fff4e0',since:'2026-11-07',
     line:"Maître-nageur devenu écrivain… Mais là, toutes les lettres de mon livre sont tombées dans le bassin !",
     look:{skin:'#efc09c',hair:'short',hairColor:'#2b2b2b',hat:'#2b2b2b',goatee:'#2b2b2b',shirt:PINK,logo:true,round:true}},
-  julien:{name:'Julien',game:'La barbichette',bg:'#fff0dc',since:'2026-11-06',
+  julien:{name:'Julien',game:'La barbichette',bg:'#fff0dc',since:'2026-11-07',
     line:"Je te tiens, tu me tiens par la GIGA barbichette… Le premier qui rira aura une tapette !",
     look:{skin:'#f0c4a6',hair:'short',hairColor:'#8a6a3a',hat:'#1b2a3a',glasses:true,beard:'medium',beardColor:'#c9a46a',shirt:PINK,logo:true}},
-  alex:{name:'Alex',game:'Le site fait main',bg:'#e3ecff',since:'2026-11-06',
+  alex:{name:'Alex',game:'Le site fait main',bg:'#e3ecff',since:'2026-11-07',
     line:"Le site du club, je l'ai fait à la main, câble par câble. Et là… tout est débranché !",
     look:{skin:'#f2c8ac',hair:'short',hairColor:'#9a7650',beard:'short',beardColor:'#9a7650',shirt:PINK,logo:true}},
   bonus:{name:'Bonus',game:'Le plat parfait',bg:'#e5dcff',
@@ -6419,7 +6419,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=45;
+const APP_V=46;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
