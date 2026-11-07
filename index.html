@@ -1025,6 +1025,16 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 .fgabil i{grid-row:1/3;font-style:normal;font-size:20px;text-align:center}.fgabil b{font-size:13.5px}.fgabil small{font-size:11.5px;line-height:1.25;color:var(--muted);font-weight:600}
 .fglad .st em{font-style:normal;font-size:8.5px;color:#e0a800;letter-spacing:-1px;height:10px}
 .fghelp{text-align:left;font-size:13px;line-height:1.45}
+.gmhead .st.cn{background:linear-gradient(90deg,#19b8b0,#2f80ed);color:#fff}.cnback{border:0;background:rgba(255,255,255,.22);color:#fff;font:inherit;font-weight:800;font-size:12.5px;border-radius:999px;padding:3px 10px;margin-bottom:4px;cursor:pointer}
+.ban .bdeco{display:block;margin-top:2px;font-size:16px;line-height:1.2}.ban .bdeco i{font-style:normal;display:inline-block;animation:gmswing 1.6s ease-in-out infinite alternate}
+.gmtabs{display:flex;gap:6px;margin:4px 0 8px}.gmtabs button{flex:1;border:2.5px solid var(--ink);border-radius:12px;background:var(--card);color:var(--text);font:inherit;font-weight:800;font-size:13.5px;padding:7px 4px;box-shadow:0 3px 0 var(--ink);cursor:pointer}.gmtabs button.on{background:#ffd23f;color:#1b2a3a}.gmtabs button.lock{opacity:.6}
+.gmdecor{display:flex;align-items:center;gap:4px;width:100%;border:2.5px solid var(--ink);border-radius:12px;background:linear-gradient(90deg,#bff0ff,#fff6c9);padding:4px 8px;margin:0 0 6px;font:inherit;cursor:pointer;min-height:36px;overflow:hidden}.gmdecor span{font-size:20px;display:inline-block;animation:gmswing 1.6s ease-in-out infinite alternate}.gmdecor small{flex:1;text-align:left;font-weight:800;color:#1b2a3a}.gmdecor b{margin-left:auto;font-size:12px;color:#1b2a3a;white-space:nowrap}
+.cnhead{background:linear-gradient(135deg,#0f6fb8,#19b8b0);color:#fff;border:3px solid var(--ink);border-radius:16px;padding:10px 12px;box-shadow:0 4px 0 var(--ink);margin-bottom:8px}.cnm b{display:block;font-size:24px;font-family:'Lilita One',sans-serif;font-weight:400}.cnm span{font-size:13px;font-weight:700;opacity:.9}
+.cnb{margin-top:6px;font-size:13px;background:rgba(255,255,255,.18);border-radius:10px;padding:6px 8px}.cnb small{display:block;font-size:11px;opacity:.85;margin-top:2px}
+.cnlist{display:flex;flex-direction:column;gap:8px;margin-top:8px}.cnrow{display:grid;grid-template-columns:44px 1fr 96px;gap:8px;align-items:center;background:linear-gradient(90deg,#d9f4ff,#f2fbff);border:2.5px solid var(--ink);border-radius:14px;padding:8px;color:#1b2a3a;cursor:pointer;box-shadow:0 3px 0 var(--ink);transition:transform .1s}.cnrow.pop{transform:scale(.97)}
+.cnrow.build{background:repeating-linear-gradient(45deg,#fff7d6 0 10px,#ffeeb0 10px 20px);cursor:default}.cne{font-size:30px;text-align:center}.cni b{display:block;font-size:14px}.cni b small{font-weight:700;opacity:.7}.cni>small{display:block;font-size:11px;opacity:.8;margin-top:3px}
+.cnbar{height:10px;border:2px solid var(--ink);border-radius:6px;background:#fff;overflow:hidden;margin-top:4px}.cnbar i{display:block;height:100%;background:linear-gradient(90deg,#19b8b0,#2f80ed);width:0}
+.cnbt{display:flex;flex-direction:column;gap:5px}.cnbt .gmbuy{font-size:12px;padding:6px 4px;white-space:pre-line;line-height:1.15}.cnch{border:2px solid var(--ink);border-radius:10px;background:#fff;font:inherit;font-size:10.5px;font-weight:800;padding:4px 2px;cursor:pointer}.cnch:disabled,.cnbt .gmbuy:disabled{opacity:.5}
 .clm,.smn{position:absolute;inset:0;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:10px;background:linear-gradient(#1b2a3a,#2c3e57);color:#fff;touch-action:manipulation}
 .clm-h{font-size:15px;text-align:center}.clm-h small{display:block;opacity:.75;font-size:12px;margin-top:2px}
 .clm-strip{display:grid;gap:8px;background:#111;padding:10px 8px;border-radius:12px;border-top:8px dashed #555;border-bottom:8px dashed #555}.clm-strip.c2{grid-template-columns:repeat(2,1fr)}.clm-strip.c3{grid-template-columns:repeat(3,1fr)}
@@ -6419,7 +6429,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=46;
+const APP_V=47;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
@@ -8934,7 +8944,7 @@ function gmAuto(G,a){const D=gmDef(a);if(G.sick&&G.sick.a===a&&G.sick.end>Date.n
 function gmSpeed(A){let n=0;GM_MS.forEach(m=>{if(A.l>=m)n++;});return Math.pow(2,n);}
 function gmNextMs(A){return GM_MS.find(m=>A.l<m)||null;}
 function gmMul(G,a,now){now=now||Date.now();let m=1;const stk=G.strike&&G.strike>now;GM_BENU.forEach(([id,t,x])=>{if(!stk&&G.ben[id]&&(t===a||t==='all'))m*=x+gmPL(G,'benx');});
-  m*=gmStarMul(gmStarsFree(G))*[1,1.5,2,3][gmPL(G,'spon')];m*=1+gmFrK(G)*Object.keys(G.fr||{}).length;m*=gmVest(G);(G.smod||[]).forEach(z=>m*=z.x);m*=gmThMul(G,a);
+  m*=gmStarMul(gmStarsFree(G))*[1,1.5,2,3][gmPL(G,'spon')]*cnBoost(G)*gmDecoBoost(G);m*=1+gmFrK(G)*Object.keys(G.fr||{}).length;m*=gmVest(G);(G.smod||[]).forEach(z=>m*=z.x);m*=gmThMul(G,a);
   if(GM.noTmp)return m;let bx=1,pen=1;for(const k in G.man){const M=G.man[k];if(M&&M.end>now)bx=Math.max(bx,gmManX(G,k));}if(G.vb&&G.vb.end>now)bx*=G.vb.x;
   (G.tb||[]).forEach(b=>{if(b.end>now&&(!b.st||b.st<=now)&&(!b.a||b.a===a)){if(b.x>=1)bx*=b.x;else pen*=b.x;}});
   /* les boosts du moment (manif, décisions, visiteurs, thème…) ne se cumulent pas au-delà de ×GM_TMPMAX */
@@ -8954,7 +8964,7 @@ function gmXOK(G){return !!GM_XTRA[G.x||0]&&G.run>=gmXThr(G);}
 function gmStarsTot(G){return Math.floor(60*Math.cbrt((G.lifeAll||0)/1e10));}
 function gmStarsNew(G){const raw=G.starsRaw!=null?G.starsRaw:(G.stars||0);return Math.max(0,Math.floor((gmStarsTot(G)-raw)*(1+.15*gmPL(G,'sais'))*(G.th==='etoile'?1.25:1)));}
 /* avance le temps (gère aussi le hors-ligne, avec les boosts au bon moment) */
-function gmStep(G,dt,now){for(const a in G.act){const A=G.act[a];if(!A.l)continue;const auto=gmAuto(G,a);if(!auto&&!A.go)continue;
+function gmStep(G,dt,now){try{cnStep(G,dt);}catch(_){}for(const a in G.act){const A=G.act[a];if(!A.l)continue;const auto=gmAuto(G,a);if(!auto&&!A.go)continue;
     const cy=gmCycle(G,a);A.pg=(A.pg||0)+dt/cy;let n=Math.floor(A.pg);if(!auto&&n>=1){n=1;A.pg=0;A.go=0;}else A.pg-=n;
     if(n>0){const v=n*gmPer(G,a,now);G.m+=v;G.run+=v;G.lifeAll+=v;if(GM.live&&v>0&&GM.pops.length<30)GM.pops.push({a,v,t:0});}}}
 function gmCatch(){const G=gmG(),now=Date.now();let dt=(now-(G.t||now))/1000;G.t=now;if(!(dt>0))return null;const off=dt;dt=Math.min(dt,gmOffCap(G));const m0=G.m;
@@ -9166,7 +9176,7 @@ function gmSprMins(d){const T=(typeof TOURNS!=='undefined'?TOURNS:[]).find(t=>t.
 function gmSprFix(){try{if(GM.sprint)return;if(COL.gm&&COL.gm.spr){const b=COL.gmBak;if(b&&!b.none)COL.gm=b;else delete COL.gm;delete COL.gmBak;saveCol();}else if(COL.gmBak){delete COL.gmBak;saveCol();}}catch(e){console.warn(e);}}
 function gmSprint(d){if(!d||!duCanPlay(d)||GM.sprint)return;gmSprFix();PLAYCTX={t:'duel',id:d.id};ctxStart('manager');const mins=gmSprMins(d);
   try{if(COL.gm&&gmActive())gmCatch();}catch(_){}
-  COL.gmBak=COL.gm?JSON.parse(JSON.stringify(COL.gm)):{none:1};COL.gm=null;const G=gmG();G.spr={d:d.id,end:Date.now()+mins*60e3,mins};GM.sprint=1;saveCol();
+  COL.gmBak=COL.gm?JSON.parse(JSON.stringify(COL.gm)):{none:1};COL.gm=null;const G=gmG();G.spr={d:d.id,end:Date.now()+mins*60e3,mins};GM.sprint=1;GM.view='club';saveCol();
   openManager();gmSprBar();clearInterval(GM.sprT);GM.sprT=setInterval(gmSprTick,250);
   const sh=sheet(`<div class="gmoff"><div class="e">⏱️</div><h3>Sprint Manager · ${mins} min</h3><p>Tu repars d'un <b>club vide</b>. Achète des créneaux, tape sur les activités, lance les manifestations… et gagne le plus d'€ possible avant la fin du chrono !</p><p><small>Ta vraie partie est mise de côté : tu la retrouves juste après.</small></p></div><div class="trbtns"><button class="btn" id="bx">▶ C'est parti !</button></div>`);
   G.spr.end=Date.now()+mins*60e3+864e5;const go=()=>{sh.remove();G.spr.end=Date.now()+mins*60e3;G.t=Date.now();};sh.querySelector('#bx').onclick=go;sh.onclick=e=>{if(e.target===sh)go();};}
@@ -9193,7 +9203,7 @@ let gmLiveT=0;
 function gmTick(){if(!gmActive()){clearInterval(GM.iv);cancelAnimationFrame(GM.raf);if(COL.gm){gmCatch();gmSave(true);}return;}
   const G=gmG(),now=Date.now(),dt=Math.min(5,(now-G.t)/1000);G.t=now;GM.live=1;if(dt>0)gmStep(G,dt,now);GM.live=0;
   for(const k in G.man){const M=G.man[k];if(M&&M.end<=now&&!M.over){M.over=1;toast(GM_MAN[k].e,GM_MAN[k].n+' terminée','Le boost ×'+gmManX(G,k)+' est fini');gmRender();}}
-  try{gmPlusTick(G,now,dt);}catch(e){console.warn(e);}gmLive();gmSave(false);}
+  try{if(GM.view!=='cn')gmPlusTick(G,now,dt);}catch(e){console.warn(e);}gmLive();gmSave(false);}
 document.addEventListener('visibilitychange',()=>{try{if(document.hidden&&COL.gm){if(gmActive())gmCatch();gmSave(true);}else if(!document.hidden&&gmActive()){const r=gmCatch();gmRender();gmWelcome(r);}}catch(_){}});
 function gmLv(fn){GM.L.push(fn);return `data-l="${GM.L.length-1}"`;}
 function gmLive(){GM.els.forEach(([el,fn])=>{let r;try{r=fn();}catch(_){return;}if(r==null)return;if(typeof r!=='object')r={t:r};
@@ -9247,18 +9257,77 @@ function gmLaneHTML(G,a){const D=gmDef(a),A=G.act[a],auto=gmAuto(G,a),own=!!G.mn
       <div class="lab"><b>${D.e} ${D.n}</b><span class="lv">${A.l}</span><em ${gmLv(()=>'+'+gmE(gmPer(G,a)))}></em></div>
       <div class="st" ${gmLv(()=>{const cy=gmCycle(G,a),n=gmNextMs(A);const tt=cy<.3?'⚡ '+gmE(gmPer(G,a)/cy)+'/s':(!auto&&!A.go?'👆 Touche la ligne':gmTime(cy*(1-(A.pg||0))));return tt+(n?'  ·  '+A.l+'/'+n+' ⏩':'');})}></div></div>
     <button class="gmbuy" data-buy="${a}" ${gmLv(()=>{const q=gmBuyN(G,a);return{t:'＋'+q.n+'\n'+gmE(q.c),d:G.m<q.c};})}></button></div>`;}
-function gmRender(){const b=$('#gmBody');if(!b)return;const G=gmG();GM.L=[];const sc=b.scrollTop,D=gmDots(G),now=Date.now();
+/* ================= 2e PISCINE : le centre nautique (gardé d'une saison à l'autre) ================= */
+const CN_ACT=[
+  {k:'riv',n:'Rivière à courant',e:'🌊',t:1.5,c0:4,g:1.13,rv:1,ch:60},
+  {k:'tob',n:'Toboggans géants',e:'🎢',t:4,c0:120,g:1.15,rv:40,ch:2500},
+  {k:'fos',n:'Fosse de plongée',e:'🤿',t:10,c0:2500,g:1.14,rv:520,ch:5e4},
+  {k:'oly',n:'Bassin olympique',e:'🏅',t:25,c0:5e4,g:1.13,rv:6500,ch:1e6},
+  {k:'spa',n:'Spa & hammam',e:'🧖',t:60,c0:1e6,g:1.12,rv:9e4,ch:2e7},
+  {k:'surf',n:'Vague de surf',e:'🏄',t:180,c0:2.5e7,g:1.11,rv:1.6e6,ch:5e8}];
+const CN_MS=[25,50,100,200,300,400,500];
+function cnOK(G){return !!G.cn||((G.p||0)>=1&&gmActs(G).every(a=>(G.act[a]||{}).l));}
+function cnG(G){if(!G.cn)G.cn={m:0,life:0,act:{riv:{l:1,pg:0,go:0}},ch:{}};return G.cn;}
+function cnBoost(G){return G.cn?1+.25*Math.log10(1+(G.cn.life||0)):1;}
+function cnMul(l){return Math.pow(2,CN_MS.filter(m=>l>=m).length);}
+function cnPer(D,A){return D.rv*A.l*cnMul(A.l);}
+function cnCost(D,l,n){return D.c0*Math.pow(D.g,l)*(Math.pow(D.g,n)-1)/(D.g-1);}
+function cnBuyN(C,D){const l=(C.act[D.k]||{}).l||0;if(GM.bm!=='max'){const n=GM.bm||1;return{n,c:cnCost(D,l,n)};}
+  let n=Math.max(1,Math.floor(Math.log(1+C.m*(D.g-1)/(D.c0*Math.pow(D.g,l)))/Math.log(D.g)));return{n,c:cnCost(D,l,n)};}
+function cnStep(G,dt){const C=G.cn;if(!C)return;CN_ACT.forEach(D=>{const A=C.act[D.k];if(!A||!A.l)return;const auto=!!C.ch[D.k]||A.l>=10;if(!auto&&!A.go)return;
+  A.pg=(A.pg||0)+dt/D.t;let n=Math.floor(A.pg);if(!auto&&n>=1){n=1;A.pg=0;A.go=0;}else A.pg-=n;if(n>0){const v=n*cnPer(D,A);C.m+=v;C.life+=v;}});}
+function cnRate(C){let r=0;CN_ACT.forEach(D=>{const A=C.act[D.k];if(A&&A.l&&(C.ch[D.k]||A.l>=10||A.go))r+=cnPer(D,A)/D.t;});return r;}
+
+function gmTabsWire(b,G){b.querySelectorAll('[data-gv]').forEach(x=>x.onclick=()=>{const v=x.dataset.gv;
+  if(v==='cn'&&!cnOK(G)){toast('🏟️','Centre nautique','Ouvre toutes les lignes de ton bassin (après au moins une saison terminée) pour construire ta 2e piscine !');return;}
+  if(v==='cn'&&!G.cn){cnG(G);gmFloat('🏟️ Le centre nautique ouvre ses portes !','#ffd23f');try{fgSfx('parry');}catch(_){}}
+  GM.view=v;b.scrollTop=0;gmRender();gmSave(true);});}
+function gmCnRender(b,G){const C=cnG(G);GM.L=[];const sc=b.scrollTop;const open=CN_ACT.filter(D=>(C.act[D.k]||{}).l),next=CN_ACT.find(D=>!(C.act[D.k]||{}).l);
+  let h=`<div class="cnhead"><button class="cnback" data-gv="club">‹ Club Gambetta</button><div class="cnm"><b ${gmLv(()=>'🎟️ '+gmFmt(C.m))}></b><span ${gmLv(()=>'+'+gmFmt(cnRate(C))+' billets / s')}></span></div>
+    <div class="cnb">🌟 Renommée du centre : <b ${gmLv(()=>'×'+cnBoost(G).toFixed(2))}></b> sur tous les gains du club<small>Elle grandit avec les billets vendus. Le centre est gardé d'une saison à l'autre.</small></div></div>
+    <div class="gmbm">${[1,10,100,'max'].map(v=>`<button class="apill${GM.bm===v?' on':''}" data-bm="${v}">${v==='max'?'Max':'×'+v}</button>`).join('')}</div><div class="cnlist">`;
+  open.forEach(D=>{const A=C.act[D.k],auto=()=>!!C.ch[D.k]||A.l>=10;
+    h+=`<div class="cnrow" data-cnt="${D.k}"><div class="cne">${D.e}</div><div class="cni"><b>${D.n} <small>niv. <span ${gmLv(()=>A.l)}></span></small></b>
+      <div class="cnbar"><i ${gmLv(()=>({w:Math.min(100,(A.pg||0)*100)}))}></i></div><small ${gmLv(()=>'🎟️ '+gmFmt(cnPer(D,A))+' / '+gmTime(D.t)+(auto()?' · 🧑‍💼 tourne tout seul':(A.go?' · en cours':' · touche pour lancer · auto au niv. 10'))+(CN_MS.find(m=>A.l<m)?' · ×2 au niv. '+CN_MS.find(m=>A.l<m):''))}></small></div>
+      <div class="cnbt"><button class="gmbuy" data-cnbuy="${D.k}" ${gmLv(()=>{const q=cnBuyN(C,D);return{t:'＋'+q.n+'\n🎟️ '+gmFmt(q.c),d:C.m<q.c};})}></button>
+</div></div>`;});
+  if(next)h+=`<div class="cnrow build"><div class="cne">🚧</div><div class="cni"><b>${next.e} ${next.n}</b><small>Nouveau bassin · ${gmTime(next.t)} par séance</small></div><div class="cnbt"><button class="gmbuy" data-cnbuy="${next.k}" ${gmLv(()=>({t:'🏗️ Construire\n🎟️ '+gmFmt(next.c0),d:C.m<next.c0}))}></button></div></div>`;
+  else h+=`<div class="cnrow build"><div class="cni"><small>🎉 Ton centre nautique est complet ! Continue à le faire grandir pour la renommée.</small></div></div>`;
+  h+=`</div><div class="drew" style="margin-top:10px">💡 Touche un bassin pour lancer une séance. Au niveau 10, un 🧑‍💼 chef de bassin le fait tourner tout seul, même quand tu n'es pas là. Plus le centre vend de billets, plus ton club gagne d'argent.</div>`;
+  b.innerHTML=h+'<div style="height:110px"></div>';GM.els=[...b.querySelectorAll('[data-l]')].map(el=>[el,GM.L[+el.dataset.l]]);b.scrollTop=sc;
+  const R=()=>{gmRender();gmSave(false);},sfx=k=>{try{fgSfx(k);}catch(_){}};gmTabsWire(b,G);
+  b.querySelectorAll('[data-bm]').forEach(x=>x.onclick=()=>{GM.bm=x.dataset.bm==='max'?'max':+x.dataset.bm;R();});
+  b.querySelectorAll('[data-cnt]').forEach(x=>x.onclick=e=>{if(e.target.closest('button'))return;const A=C.act[x.dataset.cnt];if(!A||C.ch[x.dataset.cnt]||A.l>=10||A.go)return;A.go=1;A.pg=0;sfx('swing');x.classList.add('pop');setTimeout(()=>x.classList.remove('pop'),200);gmLive();});
+  b.querySelectorAll('[data-cnbuy]').forEach(x=>x.onclick=()=>{const D=CN_ACT.find(z=>z.k===x.dataset.cnbuy),A=C.act[D.k],q=A&&A.l?cnBuyN(C,D):{n:1,c:D.c0};if(C.m+1e-9<q.c)return;
+    C.m-=q.c;const old=A?A.l:0;C.act[D.k]=C.act[D.k]||{l:0,pg:0,go:0};C.act[D.k].l+=q.n;sfx('pop');if(!old){gmFloat('🏟️ Nouveau bassin : '+D.n+' !','#2fb35a');sfx('parry');}
+    else{const o=CN_MS.filter(m=>old<m&&C.act[D.k].l>=m).length;if(o){gmFloat(D.e+' gains ×'+Math.pow(2,o)+' !','#ff9a00');sfx('parry');}}R();});
+  b.querySelectorAll('[data-cnch]').forEach(x=>x.onclick=()=>{const D=CN_ACT.find(z=>z.k===x.dataset.cnch);if(C.ch[D.k]||C.m<D.ch)return;C.m-=D.ch;C.ch[D.k]=1;gmFloat('🧑‍💼 Chef de bassin embauché !','#ffd23f');sfx('parry');R();});
+  gmLive();}
+/* ================= DÉCOR DU CLUB : dépenser son argent pour embellir la piscine ================= */
+const GM_DECO=[
+  {k:'palm',e:'🌴',n:'Palmiers',s:600},{k:'para',e:'⛱️',n:'Parasols',s:900},{k:'fla',e:'🦩',n:'Flamant gonflable',s:1200},{k:'bal',e:'🎈',n:'Arche de ballons',s:1800},
+  {k:'dau',e:'🐬',n:'Mascotte dauphin',s:2700},{k:'plage',e:'🏖️',n:'Plage de sable',s:3600},{k:'tobo',e:'🎢',n:'Toboggan géant',s:5400},{k:'plo',e:'🗼',n:'Plongeoir de 10 m',s:7200},
+  {k:'stat',e:'🗿',n:'Statue de Roland',s:10800},{k:'roue',e:'🎡',n:'Grande roue',s:14400},{k:'bal2',e:'🐳',n:'Baleine géante',s:21600},{k:'feu',e:'🎆',n:'Feu d\'artifice permanent',s:28800}];
+function gmDecoN(G){return Object.keys(G.deco||{}).length;}
+function gmDecoBoost(G){return 1+.03*gmDecoN(G);}
+function gmDecoPrice(G,D,i){return Math.max(2e3*Math.pow(i+1,2.2),gmRP(G)*D.s);}
+function gmDecoStrip(G){const L=GM_DECO.filter(D=>(G.deco||{})[D.k]);return `<button class="gmdecor" data-sheet="deco">${L.length?L.map((D,i)=>`<span style="animation-delay:${(i*.27).toFixed(2)}s">${D.e}</span>`).join(''):'<small>🎨 Décore ton club !</small>'}<b>🎨 ${L.length}/${GM_DECO.length}</b></button>`;}
+function gmDecoHTML(G){const own=G.deco||{};return `<h3>🎨 Le décor du club</h3><div class="gmhint">Embellis ta piscine ! Chaque élément est gardé pour toujours (même après une nouvelle saison) et donne <b>+3 %</b> à tous les gains. Le prix dépend de ce que ton club gagne en ce moment.</div>
+  <div class="gmhint">Décor actuel : <b>${gmDecoN(G)}/${GM_DECO.length}</b> · bonus <b>+${Math.round((gmDecoBoost(G)-1)*100)} %</b></div>`+
+  GM_DECO.map((D,i)=>{const ok=own[D.k],c=gmDecoPrice(G,D,i);return `<div class="gmper${ok?' done':''}"><span class="gmbe">${D.e}</span><div class="i"><b>${D.n}</b><small>${ok?'✅ Installé':'≈ '+(D.s<3600?Math.round(D.s/60)+' min':String(Math.round(D.s/360)/10).replace('.',',')+' h')+' de gains du club'}</small></div>${ok?'<span class="gmok">✓</span>':`<button class="mini-b gmh" data-deco="${D.k}" ${G.m<c?'disabled':''}>Installer<br><b>${gmE(c)}</b></button>`}</div>`;}).join('');}
+
+function gmRender(){const b=$('#gmBody');if(!b)return;const G=gmG();if(GM.view==='cn'&&cnOK(G)&&!GM.sprint)return gmCnRender(b,G);GM.L=[];const sc=b.scrollTop,D=gmDots(G),now=Date.now();
   const acts=gmActs(G),open=acts.filter(a=>(G.act[a]||{}).l),next=acts.find(a=>!(G.act[a]||{}).l);
   const hired=GM_BENU.filter(u=>G.ben[u[0]]).map(u=>u[0]),fr=Object.keys(G.fr||{});
-  let h=`<div class="gmhead"><div class="gmmoney"><b ${gmLv(()=>gmE(G.m))}></b><span ${gmLv(()=>'+'+gmE(gmRate(G))+' / s')}></span>${G.stars?`<button class="st" data-sheet="shop">⭐ ${gmFmt(gmStarsFree(G))} · +${gmStarPct(gmStarsFree(G))} % · talents ›</button>`:''}</div>
+  let h=`<div class="gmhead"><div class="gmmoney"><b ${gmLv(()=>gmE(G.m))}></b><span ${gmLv(()=>'+'+gmE(gmRate(G))+' / s')}></span>${G.stars?`<button class="st" data-sheet="shop">⭐ ${gmFmt(gmStarsFree(G))} · +${gmStarPct(gmStarsFree(G))} % · talents ›</button>`:''}${!GM.sprint&&cnOK(G)?`<button class="st cn" data-gv="cn">🏟️ Centre nautique ›</button>`:''}</div>
     <div class="gmboost" ${gmLv(()=>{const now=Date.now(),L=Object.keys(G.man).filter(k=>G.man[k].end>now);const vb=G.vb&&G.vb.end>now?[G.vb.e+' ×'+G.vb.x+' '+gmTime((G.vb.end-now)/1000)]:[];const T=L.map(k=>GM_MAN[k].e+' ×'+gmManX(G,k)+' '+gmTime((G.man[k].end-now)/1000)).concat(vb).concat((G.tb||[]).filter(b=>b.end>now&&(!b.st||b.st<=now)).map(b=>b.e+' '+(b.x===0?'fermé':(b.x<1?'−'+Math.round((1-b.x)*100)+' %':'×'+gmFmt(b.x)))+(b.a?' ('+gmDef(b.a).e+')':'')+' '+gmTime((b.end-now)/1000)));if(G.strike>now)T.push('✊ grève '+gmTime((G.strike-now)/1000));return{t:T.join('   '),h:!T.length};})}></div>
     <div class="gminc" ${gmLv(()=>{const C=GM.inc;if(!C)return{h:true};return{h:false,t:'🚨 '+C.I.e+' '+C.I.n+' en '+gmDef(C.a).e+' '+gmDef(C.a).n+' ! Touche la ligne'+(C.I.taps>1?' '+(C.I.taps-C.got)+' fois':'')+' · '+Math.max(0,Math.ceil(C.left))+' s'};})}></div></div>
    <div class="gmscene"><div class="gmdeco" id="gmDeco"></div>
-    <div class="gmwall"><div class="ban">🏊 CLUB GAMBETTA ${G.p?'· SAISON '+(G.p+1):''}${gmThO(G)?' '+gmThO(G).e:''}</div>
+    <div class="gmwall"><div class="ban">🏊 CLUB GAMBETTA ${G.p?'· SAISON '+(G.p+1):''}${gmThO(G)?' '+gmThO(G).e:''}${!GM.sprint&&gmDecoN(G)?`<span class="bdeco">${GM_DECO.filter(D=>G.deco[D.k]).map((D,i)=>`<i style="animation-delay:${(i*.27).toFixed(2)}s">${D.e}</i>`).join('')}</span>`:''}</div>
       <button class="mail" data-sheet="dec" ${gmLv(()=>({h:!G.dec}))}><span>📬</span><b>Courrier</b></button><button class="sign${D.season?' hot':''}" data-sheet="season"><span>🌅</span><b>Fin de saison</b><small ${gmLv(()=>{const n=gmStarsNew(G);return n?'+'+gmFmt(n)+' ⭐':'objectifs';})}></small></button></div>${gmCwBar(G)}
     <button class="gmstands${D.ben?' hot':''}" data-sheet="ben"><div class="seats">${GM_BENU.map(u=>G.ben[u[0]]?gmAv(u[0],'ben'):'<span class="seat"></span>').join('')}</div>
       <div class="lbl">🙋 Bénévoles ${hired.length}/${GM_BENU.length}${D.ben?' · <b>recrute !</b>':''}${fr.length?` · 🤝 ${fr.length} ami${fr.length>1?'s':''}`:''}</div></button>
-    <button class="gmcplx${D.bld?' hot':''}" data-sheet="bld"><div class="bl">${GM_BLD.map(B=>{const l=gmBL(G,B.k);return `<span class="b${l?'':' off'}"><i>${B.e}</i><small>${l?'★'.repeat(l):'&nbsp;'}</small></span>`;}).join('')}</div><div class="lbl">🏗️ Le complexe · <span ${gmLv(()=>'🏅 '+gmFmt(G.med||0))}></span>${D.bld?' · <b>construis !</b>':''}</div></button>
+    <button class="gmcplx${D.bld?' hot':''}" data-sheet="bld"><div class="bl">${GM_BLD.map(B=>{const l=gmBL(G,B.k);return `<span class="b${l?'':' off'}"><i>${B.e}</i><small>${l?'★'.repeat(l):'&nbsp;'}</small></span>`;}).join('')}</div><div class="lbl">🏗️ Complexe & 🎨 décor · <span ${gmLv(()=>'🏅 '+gmFmt(G.med||0))}></span>${D.bld?' · <b>construis !</b>':''}</div></button>
     <div class="gmbm">${[1,10,100,'max'].map(v=>`<button class="apill${GM.bm===v?' on':''}" data-bm="${v}">${v==='max'?'Max':'×'+v}</button>`).join('')}</div>
     <div class="gmbig">${open.map(a=>gmLaneHTML(G,a)).join('')}
       ${next?(()=>{const N=gmDef(next),c=gmCost(G,next,1);return `<div class="gml build"><div class="dk"><span class="ch">🚧</span></div><div class="wt"><div class="lab"><b>${N.e} ${N.n}</b></div><div class="st">Nouvelle ligne · séance de ${gmTime(N.t)} · ${gmE(N.rv*gmMul(G,next))}</div></div>
@@ -9267,12 +9336,12 @@ function gmRender(){const b=$('#gmBody');if(!b)return;const G=gmG();GM.L=[];cons
       return `<button class="stall" data-man="${k}" ${gmLv(()=>{const R=G.man[k],n=Date.now();if(lock)return{c:'lock',d:true};if(R&&R.end>n)return{c:'run',d:true};if(R&&R.ready>n)return{c:'cd',d:true};if(gmManOn(G)||(G.mbl&&G.mbl>n))return{c:'wait',d:true};return{c:'ok',d:false};})}><span class="e">${M.e}</span><b>×${gmManX(G,k)}</b><small ${gmLv(()=>{const R=G.man[k],n=Date.now();if(lock)return '🔒 '+gmDef(M.need).e;if(R&&R.end>n)return gmTime((R.end-n)/1000);if(R&&R.ready>n)return '🔄 '+gmTime((R.ready-n)/1000);if(G.mbl&&G.mbl>n)return '📱 '+gmTime((G.mbl-n)/1000);return M.n.split(' ')[0]+(M.n.split(' ').length>1?'…':'');})}></small></button>`;}).join('')}</div></div>
    </div>`;
   b.innerHTML=h+'<div style="height:110px"></div>';GM.els=[...b.querySelectorAll('[data-l]')].map(el=>[el,GM.L[+el.dataset.l]]);b.scrollTop=sc;
-  gmWire(b,G);gmLive();GM.lc={};b.querySelectorAll('[data-lc]').forEach(c=>GM.lc[c.dataset.lc]=c);if(GM.sheet)gmSheetFill();b.scrollTop=sc;requestAnimationFrame(()=>{if(Math.abs(b.scrollTop-sc)>1)b.scrollTop=sc;});}
+  gmWire(b,G);try{gmTabsWire(b,G);}catch(_){}gmLive();GM.lc={};b.querySelectorAll('[data-lc]').forEach(c=>GM.lc[c.dataset.lc]=c);if(GM.sheet)gmSheetFill();b.scrollTop=sc;requestAnimationFrame(()=>{if(Math.abs(b.scrollTop-sc)>1)b.scrollTop=sc;});}
 /* fenêtres : bénévoles (gradins) et fin de saison (panneau) */
 function gmOpenSheet(k){GM.sheet=k;const sh=sheet(`<div id="gmSh"></div><div class="trbtns"><button class="btn alt" id="bx">Fermer</button></div>`);GM.shEl=sh;sh.querySelector('#bx').onclick=()=>{sh.remove();GM.sheet=null;GM.shEl=null;gmRender();};gmSheetFill();}
 function gmSheetFill(){const sh=GM.shEl;if(!sh||!document.body.contains(sh)){GM.sheet=null;GM.shEl=null;return;}const G=gmG(),box=sh.querySelector('#gmSh'),n0=GM.L.length;
   if(GM.sheet==='ben'){const F=Object.keys(G.fr||{}),pool=gmFriendPool();box.innerHTML=`<h3>🙋 Les gradins</h3>`+gmBenHTML(G)+`<div class="dsec">🤝 Amis du club <small>${F.length}/${pool.length} · chaque manif en fait venir un · +1 % chacun</small></div><div class="gmfr">${pool.map(i=>F.includes(i)?`<div>${gmAv(i,'fr')}<small>${esc(gmName(i))}</small></div>`:`<div class="no"><span class="gmav">?</span><small>???</small></div>`).join('')}</div>`;}
-  else if(GM.sheet==='club')box.innerHTML=gmCwHTML(G);else if(GM.sheet==='bld')box.innerHTML=gmBldHTML(G);else if(GM.sheet==='shop')box.innerHTML=gmShopHTML(G);else if(GM.sheet==='dec')box.innerHTML=gmDecHTML(G);
+  else if(GM.sheet==='club')box.innerHTML=gmCwHTML(G);else if(GM.sheet==='bld')box.innerHTML=gmBldHTML(G);else if(GM.sheet==='shop')box.innerHTML=gmShopHTML(G);else if(GM.sheet==='dec')box.innerHTML=gmDecHTML(G);else if(GM.sheet==='deco')box.innerHTML=gmDecoHTML(G);
   else box.innerHTML=gmSeasonHTML(G);
   box.querySelectorAll('[data-l]').forEach(el=>GM.els.push([el,GM.L[+el.dataset.l]]));gmWire(box,G);gmLive();}
 /* actions */
@@ -9299,6 +9368,7 @@ function gmWire(b,G){const R=()=>{gmRender();gmSave(false);},sfx=k=>{try{fgSfx(k
     toast('🎁','Objectif réussi : '+o.t,o.r>1?'Booster de '+o.r+' cartes':'Une carte');gmSave(true);R();});
   b.querySelectorAll('[data-bld]').forEach(x=>x.onclick=()=>{const B=GM_BLD.find(z=>z.k===x.dataset.bld),l=gmBL(G,B.k),c=B.c[l];if(c==null||(G.med||0)<c)return;G.med-=c;G.bld[B.k]=l+1;sfx('parry');gmFloat(B.e+' '+B.n+(l?' niveau '+(l+1):' construit')+' !','#ffd23f');try{fgSfx('super');}catch(_){}gmSave(true);R();});
   b.querySelectorAll('[data-perk]').forEach(x=>x.onclick=()=>{const P=GM_PERK.find(z=>z.k===x.dataset.perk),l=gmPL(G,P.k),c=P.c[l];if(c==null||gmPLock(G,P)||gmStarsFree(G)<c)return;G.spent=(G.spent||0)+c;G.perk[P.k]=l+1;if(P.k==='mns')Object.assign(G.mns,gmKeepMns(G));sfx('parry');gmFloat(P.e+' '+P.n+' !','#ffe36b');gmSave(true);R();});
+  b.querySelectorAll('[data-deco]').forEach(x=>x.onclick=()=>{const i=GM_DECO.findIndex(z=>z.k===x.dataset.deco),D=GM_DECO[i];if(!D)return;G.deco=G.deco||{};if(G.deco[D.k])return;const c=gmDecoPrice(G,D,i);if(G.m<c)return;G.m-=c;G.deco[D.k]=1;sfx('parry');gmFloat(D.e+' '+D.n+' installé !','#ffe36b');try{stat('gmDeco');}catch(_){}gmSave(true);R();});
   b.querySelectorAll('[data-cons]').forEach(x=>x.onclick=()=>{const C=GM_CONS.find(z=>z.k===x.dataset.cons);if(!C)return;const c=gmConsC(G,C);if(gmStarsFree(G)<c)return;G.spent=(G.spent||0)+c;G.cb=G.cb||{};G.cb[C.k]=(G.cb[C.k]||0)+1;let m='';try{m=C.go(G)||'';}catch(e){console.warn(e);}sfx('parry');gmFloat(C.e+' '+m,'#ffe36b');gmSave(true);R();});
   b.querySelectorAll('[data-dec]').forEach(x=>x.onclick=()=>{const o=(GM.decO||[])[+x.dataset.dec];if(!o||!G.dec||(o.dis&&o.dis(G)))return;const D=GM_DEC.find(z=>z.k===G.dec.k);G.dec=null;let msg='';try{msg=o.go(G)||'';}catch(e){console.warn(e);}G.decN=(G.decN||0)+1;gmCw(G,'d');if(G.th==='post')setTimeout(()=>gmMed(G,1),700);
     if(GM.shEl){GM.shEl.remove();GM.sheet=null;GM.shEl=null;}sfx('ann');toast(D?D.e:'📬',msg,o.t.replace(/^\S+\s/,''));gmSave(true);R();});
@@ -9543,7 +9613,7 @@ function gmDecHTML(G){const c=gmDecCtx(G),D=c.D;if(!D)return '<div class="trempt
   return `<div class="gmdec"><div class="e">${D.e}</div><h3>${esc(D.n)}</h3><p>${esc(typeof D.t==='function'?D.t(c):D.t)}</p>
     <small class="exp" ${gmLv(()=>G.dec?'⏳ Réponds dans '+gmTime((G.dec.exp-Date.now())/1000):'')}></small>
     ${GM.decO.map((o,i)=>`<button class="gmopt" data-dec="${i}" ${o.dis&&o.dis(G)?'disabled':''}><b>${o.t}</b><small>${o.d}</small></button>`).join('')}</div>`;}
-function gmBldHTML(G){return `<h3>🏗️ Le complexe</h3><div class="gmhint">Les bâtiments <b>restent pour toujours</b>, même après une nouvelle saison. On les construit avec des 🏅 médailles : manifestations, incidents réglés, décisions et chaque nouvelle saison.</div>
+function gmBldHTML(G){return (GM.sprint?'':gmDecoHTML(G)+'<div style="height:14px"></div>')+`<h3>🏗️ Le complexe</h3><div class="gmhint">Les bâtiments <b>restent pour toujours</b>, même après une nouvelle saison. On les construit avec des 🏅 médailles : manifestations, incidents réglés, décisions et chaque nouvelle saison.</div>
   <div class="gmmed">🏅 <b ${gmLv(()=>gmFmt(G.med||0))}></b> médailles</div>`+GM_BLD.map(B=>{const l=gmBL(G,B.k),mx=B.c.length,c=B.c[l];
     return `<div class="gmper${l>=mx?' own':''}"><span class="gmbe${l?'':' off'}">${B.e}</span><div class="i"><b>${B.n}</b> <span class="lvs">${'★'.repeat(l)}${'☆'.repeat(mx-l)}</span><small>${l?'Maintenant : '+B.d(l):'Pas encore construit'}${l<mx?'<br>'+(l?'Niveau '+(l+1):'Construit')+' : <b>'+B.d(l+1)+'</b>':''}</small></div>
     ${l<mx?`<button class="mini-b gmh" data-bld="${B.k}" ${gmLv(()=>({d:(G.med||0)<c}))}>${l?'Améliorer':'Construire'}<br><b>🏅 ${c}</b></button>`:'<span class="ok">✅</span>'}</div>`;}).join('');}
