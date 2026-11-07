@@ -1025,6 +1025,21 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 .fgabil i{grid-row:1/3;font-style:normal;font-size:20px;text-align:center}.fgabil b{font-size:13.5px}.fgabil small{font-size:11.5px;line-height:1.25;color:var(--muted);font-weight:600}
 .fglad .st em{font-style:normal;font-size:8.5px;color:#e0a800;letter-spacing:-1px;height:10px}
 .fghelp{text-align:left;font-size:13px;line-height:1.45}
+.clm,.smn{position:absolute;inset:0;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:10px;background:linear-gradient(#1b2a3a,#2c3e57);color:#fff;touch-action:manipulation}
+.clm-h{font-size:15px;text-align:center}.clm-h small{display:block;opacity:.75;font-size:12px;margin-top:2px}
+.clm-strip{display:grid;gap:8px;background:#111;padding:10px 8px;border-radius:12px;border-top:8px dashed #555;border-bottom:8px dashed #555}.clm-strip.c2{grid-template-columns:repeat(2,1fr)}.clm-strip.c3{grid-template-columns:repeat(3,1fr)}
+.clm-f{position:relative;background:#fff;color:#1b2a3a;border-radius:10px;padding:8px 5px;text-align:center;min-height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;touch-action:none;user-select:none;-webkit-user-select:none;border:3px solid #fff;transition:transform .15s;cursor:grab}
+.clm-f b{font-size:34px;line-height:1}.clm-f span{font-size:11.5px;font-weight:700;line-height:1.15;margin-top:5px}.clm-f i{position:absolute;left:6px;top:3px;font-style:normal;font-size:11px;font-weight:900;opacity:.45}
+.clm-f.sel{border-color:#ffd23f;box-shadow:0 0 0 3px #ffd23f}.clm-f.play{border-color:#3cbf5a;background:#e7ffe9;transform:scale(1.06)}.clm-f.bad{animation:pxshk .4s;border-color:#ff6b5b}
+.clm-fish{position:absolute;right:3px;bottom:1px;font-style:normal;font-size:17px;cursor:pointer;opacity:.85}.clm-go{align-self:center;min-width:190px}
+.clm-msg,.smn-ok{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);background:#ffd23f;color:#1b2a3a;border:3px solid #1b2a3a;border-radius:14px;padding:8px 16px;font-weight:900;font-size:20px;z-index:9;pointer-events:none;white-space:nowrap}.smn-ok.skip{background:#fff}
+.smn{background:linear-gradient(#fff7e6,#ffe3b8);color:#1b2a3a;align-items:center}.smn-n{font-size:13px;font-weight:800;opacity:.7}
+.smn-hint{background:#fff;border:2.5px solid #1b2a3a;border-radius:14px;padding:10px 12px;font-size:15px;font-style:italic;text-align:center;box-shadow:0 3px 0 #1b2a3a;max-width:340px}
+.smn-slots{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin:6px 0}.smn-s{width:32px;height:40px;border:2.5px solid #1b2a3a;border-radius:8px;background:rgba(255,255,255,.55);font:inherit;font-weight:900;font-size:20px;color:#1b2a3a;padding:0}.smn-s.on{background:#fff}
+.smn-slots.bad{animation:pxshk .4s}.smn-slots.bad .smn-s{background:#ffd0d0}
+.smn-bq{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;max-width:340px}.smn-b{width:50px;height:50px;border-radius:50%;border:3px solid #1b2a3a;background:radial-gradient(circle,#fff 0 36%,#e8413c 37% 55%,#fff 56% 72%,#e8413c 73%);font:inherit;font-weight:900;font-size:19px;color:#1b2a3a;box-shadow:0 3px 0 #1b2a3a;padding:0}
+.smn-b:disabled{opacity:.22;box-shadow:none}.smn-act{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:auto}.smn-act .btn{font-size:13px;padding:8px 10px}
+.lrask{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%);z-index:5;display:flex;flex-direction:column;gap:10px;width:min(280px,80%)}
 .intro-rec{margin:6px auto 0;max-width:320px;background:rgba(255,255,255,.85);color:#1b2a3a;border:2.5px solid #1b2a3a;border-radius:14px;padding:6px 12px;font-size:14px;text-align:center;box-shadow:0 3px 0 #1b2a3a}.intro-rec:empty{display:none}.intro-rec small{display:block;font-size:12px;opacity:.8;margin-top:2px}
 .rkgs{display:block;font-size:11px;opacity:.7;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #hub #hubBody,#moi #moiBody{padding-bottom:calc(var(--navh) + env(safe-area-inset-bottom,0px) + 24px)}
@@ -2236,12 +2251,30 @@ const CHARS={
   pierre:{name:'Pierre',game:'Le paparazzi du bassin',bg:'#e8f1ff',
     line:"Roland qui fait un plat, Marcel qui nage… Ces moments-là, il ne faut pas les rater ! Mille photos pour un 50 m, c'est normal, non ?",
     look:{skin:'#f0c4a6',hair:'short',hairColor:'#8a6a4a',shirt:PINK,logo:true,round:true}},
+  laurence:{name:'Laurence',game:'Aquajogging penché',bg:'#dff3ff',since:'2026-11-06',
+    line:"Une ceinture, un couloir, et on court ! Penche-toi en avant… mais reste bien au milieu, les lignes d'eau font mal !",
+    look:{skin:'#f3c9ad',hair:'short',hairColor:'#b5532a',shirt:PINK,logo:true}},
+  romain:{name:'Romain',game:'Réception à deux',bg:'#fff1d6',since:'2026-11-06',
+    line:"Au volley, on ne laisse jamais tomber un ballon… même quand ils arrivent des deux côtés en même temps !",
+    look:{skin:'#efc2a2',hair:'short',hairColor:'#3a2a1e',beard:'short',beardColor:'#3a2a1e',shirt:PINK,logo:true}},
+  clement:{name:'Clément',game:'Le montage',bg:'#e6f7ff',since:'2026-11-06',
+    line:"Une caméra étanche, des poissons partout, et une nuit de montage. Aide-moi à remettre mes films dans l'ordre !",
+    look:{skin:'#f2c8ac',hair:'short',hairColor:'#3a2a1e',glasses:true,shirt:PINK,logo:true}},
+  simon:{name:'Simon',game:'Les mots mélangés',bg:'#fff4e0',since:'2026-11-06',
+    line:"Maître-nageur devenu écrivain… Mais là, toutes les lettres de mon livre sont tombées dans le bassin !",
+    look:{skin:'#efc09c',hair:'short',hairColor:'#2b2b2b',hat:'#2b2b2b',goatee:'#2b2b2b',shirt:PINK,logo:true,round:true}},
+  julien:{name:'Julien',game:'La barbichette',bg:'#fff0dc',since:'2026-11-06',
+    line:"Je te tiens, tu me tiens par la GIGA barbichette… Le premier qui rira aura une tapette !",
+    look:{skin:'#f0c4a6',hair:'short',hairColor:'#8a6a3a',hat:'#1b2a3a',glasses:true,beard:'medium',beardColor:'#c9a46a',shirt:PINK,logo:true}},
+  alex:{name:'Alex',game:'Le site fait main',bg:'#e3ecff',since:'2026-11-06',
+    line:"Le site du club, je l'ai fait à la main, câble par câble. Et là… tout est débranché !",
+    look:{skin:'#f2c8ac',hair:'short',hairColor:'#9a7650',beard:'short',beardColor:'#9a7650',shirt:PINK,logo:true}},
   bonus:{name:'Bonus',game:'Le plat parfait',bg:'#e5dcff',
     line:"Regardez les enfants, je vais vous montrer ce que c'est un vrai plongeon !",
     look:{skin:'#f0c4a2',hair:'short',hairColor:'#2b1d14',shirt:PINK,logo:true,hat:'#1b2a3a',sunglasses:true}}
 };
 /* Le Bonus reste toujours en dernier : ajouter les nouveaux persos avant lui */
-const ORDER=['roland','christian','laetitia','marcel','christophe','agnes','jacky','noel','duo','christine','ethan','aude','nathan','manu','stephane','margaux','richard','jf','david','anthony','gwen','francoise','matheo','zoe','bouchon','dario','kayak','alix','lilian','mickey','manon','helene','pascal','angelique','maurice','willi','pierre','bonus'];
+const ORDER=['roland','christian','laetitia','marcel','christophe','agnes','jacky','noel','duo','christine','ethan','aude','nathan','manu','stephane','margaux','richard','jf','david','anthony','gwen','francoise','matheo','zoe','bouchon','dario','kayak','alix','lilian','mickey','manon','helene','pascal','angelique','maurice','willi','pierre','laurence','romain','clement','simon','julien','alex','bonus'];
 
 /* Prénoms du club pour le mini-jeu de Christian */
 const NAMES=['Christine','Ethan','Lucie','Agnès','Jean-François','Christophe','David','Françoise','Aude','Nathan','Manue','Angélique','Richard','Stéphane','Margaux','Pascal','Laurent','Karine','Fabrice','Dario','Brigitte','Alain','Audrey','Mickey','Bouchon','Manon','Hélène','Zoé','Camille','Marcel','Laetitia','Mathéo'];
@@ -5200,6 +5233,300 @@ function gameHelene(stage,api){
   };
 }
 
+/* ================= LAURENCE : aquajogging en penchant le téléphone ================= */
+function gameLaurence(stage,api){
+  const cv=makeCanvas(stage),ctx=cv.ctx,DIST=100,LEN=25,MAXHIT=3,TMAX=120,L=CHARS.laurence.look;
+  const img=svgImg(avatar(L,{viewBox:'30 20 140 140'}));
+  let t=0,over=false,dist=0,x=0,vx=0,hits=0,hitCD=0,splash=[],fx=[],flash=null,lenDone=0;
+  // remous : zones qui poussent sur le côté (de plus en plus forts)
+  const rem=[];for(let d=10;d<DIST-4;d+=5+Math.random()*5){const k=d/DIST;rem.push({y:d,len:3+Math.random()*2.5,f:(Math.random()<.5?-1:1)*(0.95+k*1.5+Math.random()*.5),ph:Math.random()*6});}
+  // commandes : inclinaison du téléphone, ou boutons
+  let mode='wait',ori=null,b0=null,g0=null,calN=0,fwd=0,lat=0;const K={up:0,l:0,r:0};
+  const onOri=e=>{if(e.beta==null||e.gamma==null)return;if(b0===null){if(calN++<4)return;b0=e.beta;g0=e.gamma;}ori={b:e.beta,g:e.gamma};if(mode==='wait'||mode==='btn'&&!btnForced)mode='tilt';};
+  let btnForced=false,askBtn=null;
+  function listen(){window.addEventListener('deviceorientation',onOri);}
+  const needPerm=typeof DeviceOrientationEvent!=='undefined'&&typeof DeviceOrientationEvent.requestPermission==='function';
+  if(needPerm){try{DeviceOrientationEvent.requestPermission().then(r=>{if(r==='granted')listen();else mode='btn';}).catch(()=>{showAsk();});}catch(_){showAsk();}}else listen();
+  function showAsk(){if(askBtn)return;askBtn=document.createElement('div');askBtn.className='lrask';askBtn.innerHTML='<button class="btn">📱 Activer l\'inclinaison</button><button class="btn alt">🎮 Jouer avec les boutons</button>';stage.appendChild(askBtn);
+    const [a,b]=askBtn.querySelectorAll('button');a.onclick=()=>{DeviceOrientationEvent.requestPermission().then(r=>{if(r==='granted')listen();else{mode='btn';btnForced=true;}askBtn.remove();}).catch(()=>{mode='btn';btnForced=true;askBtn.remove();});};b.onclick=()=>{mode='btn';btnForced=true;askBtn.remove();};}
+  setTimeout(()=>{if(mode==='wait'&&!askBtn)mode='btn';},1300);
+  // boutons (et clavier)
+  const pads={};const onDown=e=>{e.preventDefault();const p=cv.pt(e),k=padAt(p.x,p.y);if(k){pads[e.pointerId]=k;K[k]=1;if(mode==='wait')mode='btn';}};
+  const onUp=e=>{const k=pads[e.pointerId];if(k){delete pads[e.pointerId];if(!Object.values(pads).includes(k))K[k]=0;}};
+  const onKey=(e,v)=>{const m={ArrowUp:'up',ArrowLeft:'l',ArrowRight:'r',' ':'up'}[e.key];if(m){e.preventDefault();K[m]=v;if(v&&mode==='wait')mode='btn';}};
+  const kd=e=>onKey(e,1),ku=e=>onKey(e,0);
+  cv.c.addEventListener('pointerdown',onDown);window.addEventListener('pointerup',onUp);window.addEventListener('pointercancel',onUp);window.addEventListener('keydown',kd);window.addEventListener('keyup',ku);
+  function padAt(px,py){if(mode==='tilt')return null;const W=cv.W,H=cv.H,s=Math.min(78,W*.2),y=H-s-12;
+    if(py>=y&&py<=y+s){if(px>=10&&px<=10+s)return 'l';if(px>=W-10-s&&px<=W-10)return 'r';if(px>=W/2-s*.75&&px<=W/2+s*.75)return 'up';}return null;}
+  const hud=()=>api.hud(`🏃‍♀️ ${Math.floor(dist)}/${DIST} m  💥 ${hits}/${MAXHIT}`);hud();
+  function hit(side){hits++;hitCD=.9;hud();x=side*.76;vx=-side*1.6;flash={t:0};fx.push({x:cv.W/2+side*cv.W*.25,y:cv.H*.55,txt:pick(['Aïe, la ligne !','Bonk !','Oups !']),t:0,c:'#ff6b5b'});try{navigator.vibrate&&navigator.vibrate(120);}catch(_){}
+    if(hits>=MAXHIT){over=true;setTimeout(()=>api.end(false,'Trop de lignes touchées !',`Laurence a fini dans les lignes d'eau à ${Math.floor(dist)} m… Garde le cap au milieu du couloir !`),800);}}
+  return{
+    update(dt){dt=Math.max(0,dt);t+=dt;hitCD=Math.max(0,hitCD-dt);for(let k=fx.length-1;k>=0;k--){fx[k].t+=dt;if(fx[k].t>1.2)fx.splice(k,1);}if(flash){flash.t+=dt;if(flash.t>.4)flash=null;}
+      splash.forEach(s=>s.t+=dt);splash=splash.filter(s=>s.t<.6);if(over)return;
+      if(mode==='tilt'&&ori){fwd=Math.max(0,Math.min(1,(b0-ori.b)/18));lat=Math.max(-1,Math.min(1,(ori.g-g0)/22));}
+      else{fwd=K.up?1:0;lat=(K.r?1:0)-(K.l?1:0);}
+      const sp=4.3*fwd*(hitCD>0?.45:1);dist+=sp*dt;
+      let push=Math.sin(t*1.3)*.22;rem.forEach(r=>{if(dist>r.y&&dist<r.y+r.len)push+=r.f*Math.sin(Math.PI*(dist-r.y)/r.len);});
+      vx+=(lat*2.6+push-vx*1.8)*dt*(mode==='tilt'?1:1.1);x+=vx*dt*1.2;
+      if(Math.abs(x)>.82&&hitCD<=0)hit(Math.sign(x));x=Math.max(-.9,Math.min(.9,x));
+      if(sp>.5&&Math.random()<dt*8)splash.push({x:x+(Math.random()-.5)*.3,t:0});
+      const ln=Math.floor(dist/LEN);if(ln>lenDone&&dist<DIST){lenDone=ln;fx.push({x:cv.W/2,y:cv.H*.3,txt:`Longueur ${ln+1}/4 ! 🔄`,t:0,c:'#fff'});}
+      if(dist>=DIST){dist=DIST;over=true;const s=Math.round((performance.now()-gameT0)/100)/10;setTimeout(()=>api.end(true,'100 m d\'aquajogging !',`4 longueurs en ${String(s).replace('.',',')} s, avec ${hits} ligne${hits>1?'s':''} touchée${hits>1?'s':''}. Laurence ne lâche rien !`),700);}
+      else if(t>TMAX){over=true;setTimeout(()=>api.end(false,'Fin de la séance !',`La séance est finie et Laurence n'a fait que ${Math.floor(dist)} m. Penche le téléphone vers l'avant pour courir plus vite !`),300);}
+      hud();},
+    draw(){const W=cv.W,H=cv.H;ctx.clearRect(0,0,W,H);const lw=Math.min(W*.78,300),lx=(W-lw)/2,py=H*(mode==='tilt'?.66:.58),ppm=H/13;
+      const gr=ctx.createLinearGradient(0,0,0,H);gr.addColorStop(0,'#5cc8f0');gr.addColorStop(1,'#2b8fd0');ctx.fillStyle=gr;ctx.fillRect(0,0,W,H);
+      ctx.fillStyle='rgba(255,255,255,.12)';for(let i=0;i<6;i++){const yy=((i*H/5+dist*ppm*.5)%(H+40))-20;ctx.fillRect(0,yy,W,3);}
+      // repères de distance et murs
+      for(let m=Math.floor(dist-6);m<dist+16;m++){if(m<0||m>DIST)continue;const yy=py-(m-dist)*ppm;
+        if(m%LEN===0){ctx.fillStyle=m===DIST?'#ffd23f':'#e8f6ff';ctx.fillRect(lx-10,yy-5,lw+20,10);ctx.fillStyle=INK;ctx.font='700 13px Fredoka,sans-serif';ctx.textAlign='center';ctx.fillText(m===DIST?'🏁 ARRIVÉE':m?`Mur · ${m} m 🔄`:'Départ',W/2,yy-10);}
+        else if(m%5===0){ctx.fillStyle='rgba(27,42,58,.35)';ctx.fillRect(W/2-14,yy-1.5,28,3);ctx.font='600 10px sans-serif';ctx.fillStyle='rgba(27,42,58,.55)';ctx.textAlign='left';ctx.fillText(m+' m',lx+lw*.5+20,yy+3);}}
+      // remous
+      rem.forEach(r=>{const y0=py-(r.y-dist)*ppm,y1=py-(r.y+r.len-dist)*ppm;if(y0<-20||y1>H+20)return;const cy=(y0+y1)/2,cx=W/2-Math.sign(r.f)*lw*.18;
+        ctx.save();ctx.translate(cx,cy);ctx.rotate(t*2*Math.sign(r.f)+r.ph);ctx.strokeStyle='rgba(255,255,255,.55)';ctx.lineWidth=3;for(let k=1;k<=3;k++){ctx.beginPath();ctx.arc(0,0,k*9,0,Math.PI*1.4);ctx.stroke();}ctx.restore();
+        ctx.font='20px sans-serif';ctx.textAlign='center';ctx.fillText(r.f>0?'➡️':'⬅️',cx+Math.sign(r.f)*lw*.2,cy+7);});
+      // lignes d'eau
+      const off=dist*ppm,o0=Math.floor(off/16);[lx,lx+lw].forEach(ex=>{for(let k=-2;k<H/16+3;k++){const yy=k*16+(off%16);ctx.fillStyle=((k-o0)%4+4)%4===0?'#e8413c':'#fff';ctx.beginPath();ctx.arc(ex,yy,6,0,7);ctx.fill();ctx.lineWidth=1.5;ctx.strokeStyle=INK;ctx.stroke();}});
+      if(flash){ctx.fillStyle=`rgba(255,80,80,${.35*(1-flash.t/.4)})`;ctx.fillRect(0,0,W,H);}
+      // Laurence
+      const lxp=W/2+x*(lw/2),bob=Math.sin(t*10)*(fwd>0?3:1);splash.forEach(s=>{const sx=W/2+s.x*(lw/2);ctx.globalAlpha=1-s.t/.6;ctx.strokeStyle='#fff';ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(sx,py+26+s.t*30,6+s.t*18,0,7);ctx.stroke();ctx.globalAlpha=1;});
+      ctx.fillStyle='rgba(255,255,255,.35)';ctx.beginPath();ctx.ellipse(lxp,py+22,34,10,0,0,7);ctx.fill();
+      ctx.fillStyle='#ffd23f';ctx.strokeStyle=INK;ctx.lineWidth=2.5;rr(ctx,lxp-24,py+8,48,12,6);ctx.fill();ctx.stroke();
+      drawImg(ctx,img,lxp-32,py-46+bob,64,64);
+      // aide aux commandes
+      if(mode==='tilt'){const cx=38,cy=40;ctx.fillStyle='rgba(255,255,255,.75)';ctx.beginPath();ctx.arc(cx,cy,26,0,7);ctx.fill();ctx.strokeStyle=INK;ctx.lineWidth=2;ctx.stroke();ctx.fillStyle='#e0217a';ctx.beginPath();ctx.arc(cx+lat*18,cy-fwd*18+(fwd>0?0:0),7,0,7);ctx.fill();ctx.font='10px sans-serif';ctx.fillStyle=INK;ctx.textAlign='center';ctx.fillText('📱',cx,cy+22);}
+      else if(mode==='btn'){const s=Math.min(78,W*.2),y=H-s-12;[['l','◀',10],['up','🏃‍♀️ Cours',W/2-s*.75],['r','▶',W-10-s]].forEach(([k,lb,bx])=>{const w=k==='up'?s*1.5:s;rr(ctx,bx,y,w,s,16);ctx.fillStyle=K[k]?'#ffd23f':'rgba(255,255,255,.85)';ctx.fill();ctx.lineWidth=3;ctx.strokeStyle=INK;ctx.stroke();ctx.fillStyle=INK;ctx.font=`700 ${k==='up'?16:26}px Fredoka,sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(lb,bx+w/2,y+s/2);ctx.textBaseline='alphabetic';});}
+      for(const f of fx)floatText(ctx,f);
+      if(t<4&&!over)bubbleText(ctx,W/2,H*.16,mode==='tilt'?'Penche vers l\'avant pour courir, à gauche/droite pour rester au milieu !':mode==='btn'?'Garde 🏃‍♀️ appuyé pour courir, ◀ ▶ pour rester au milieu !':'Tiens ton téléphone devant toi…',13);},
+    _dbg:()=>({dist,x,hits,mode,over}),
+    destroy(){window.removeEventListener('deviceorientation',onOri);cv.c.removeEventListener('pointerdown',onDown);window.removeEventListener('pointerup',onUp);window.removeEventListener('pointercancel',onUp);window.removeEventListener('keydown',kd);window.removeEventListener('keyup',ku);if(askBtn)askBtn.remove();cv.destroy();}
+  };
+}
+
+/* ================= ROMAIN : réception à deux (un pouce par joueur) ================= */
+function gameRomain(stage,api){
+  const cv=makeCanvas(stage),ctx=cv.ctx,DUR=45,MAXDROP=3,G=520;
+  const imR=svgImg(avatar(CHARS.romain.look,{viewBox:'30 20 140 140'}));
+  const mate=pick(['laurence','manon','angelique','helene','margaux','gwen','camille']);const imM=svgImg(avatar((CHARS[mate]||CHARS.laetitia).look,{viewBox:'30 20 140 140'}));
+  let t=0,over=false,n=0,drops=0,fx=[],balls=[],nxt=[1.2,2.4];
+  const P=[{x:.5,tx:.5,arm:0},{x:.5,tx:.5,arm:0}];// position dans sa moitié (0..1)
+  const half=s=>({x0:s?cv.W/2+6:6,w:cv.W/2-12});
+  const gy=()=>cv.H-46,hy=()=>gy()-62;// sol, hauteur des bras
+  const hud=()=>api.hud(`🏐 ${n}  ⏱ ${Math.max(0,Math.ceil(DUR-t))} s  ❌ ${drops}/${MAXDROP}`);hud();
+  function spawn(s){const h=half(s),p=Math.min(1,t/DUR),fx0=h.x0+h.w*(.15+Math.random()*.7),tx=h.x0+h.w*(.12+Math.random()*.76),T=Math.max(1.05,1.9-p*.8)*(.85+Math.random()*.3);
+    // trajectoire : part du haut, atterrit en tx au bout de T secondes à hauteur des bras
+    const y0=-20,yL=hy();const vy=(yL-y0-.5*G*T*T)/T;balls.push({s,x:fx0,y:y0,vx:(tx-fx0)/T,vy,tx,up:0,r:13});}
+  const pt={};const setT=(id,px)=>{const s=px>=cv.W/2?1:0,h=half(s);pt[id]=s;P[s].tx=Math.max(0,Math.min(1,(px-h.x0)/h.w));};
+  const onDown=e=>{e.preventDefault();const p=cv.pt(e);setT(e.pointerId,p.x);};
+  const onMove=e=>{if(pt[e.pointerId]==null)return;const p=cv.pt(e),s=pt[e.pointerId],h=half(s);P[s].tx=Math.max(0,Math.min(1,(p.x-h.x0)/h.w));};
+  const onUp=e=>{delete pt[e.pointerId];};
+  const KK={};const kd=e=>{KK[e.key]=1;},ku=e=>{KK[e.key]=0;};
+  cv.c.addEventListener('pointerdown',onDown);cv.c.addEventListener('pointermove',onMove);window.addEventListener('pointerup',onUp);window.addEventListener('pointercancel',onUp);window.addEventListener('keydown',kd);window.addEventListener('keyup',ku);
+  function miss(b){drops++;hud();fx.push({x:b.x,y:gy()-30,txt:pick(['Raté !','Oups !','Ballon perdu !']),t:0,c:'#ff6b5b'});try{navigator.vibrate&&navigator.vibrate(90);}catch(_){}
+    if(drops>=MAXDROP&&!over){over=true;setTimeout(()=>api.end(false,'Trop de ballons au sol !',`${n} réception${n>1?'s':''} réussie${n>1?'s':''} avant le 3e ballon perdu. Les deux pouces en même temps, c'est tout un art !`),800);}}
+  return{
+    update(dt){dt=Math.max(0,dt);t+=dt;for(let k=fx.length-1;k>=0;k--){fx[k].t+=dt;if(fx[k].t>1.1)fx.splice(k,1);}
+      if(KK.q||KK.a)P[0].tx=Math.max(0,P[0].tx-dt*1.6);if(KK.d)P[0].tx=Math.min(1,P[0].tx+dt*1.6);if(KK.ArrowLeft)P[1].tx=Math.max(0,P[1].tx-dt*1.6);if(KK.ArrowRight)P[1].tx=Math.min(1,P[1].tx+dt*1.6);
+      P.forEach(p=>{const d=p.tx-p.x,mv=Math.sign(d)*Math.min(Math.abs(d),dt*2.4);p.x+=mv;p.arm=Math.max(0,p.arm-dt*3);});
+      balls.forEach(b=>{b.vy+=G*dt;b.x+=b.vx*dt;b.y+=b.vy*dt;});
+      if(!over){
+        balls.forEach(b=>{if(b.up||b.dead)return;if(b.vy>0&&b.y>=hy()-4&&b.y<=hy()+16){const h=half(b.s),px=h.x0+P[b.s].x*h.w;if(Math.abs(b.x-px)<38){b.up=1;b.vy=-G*.95;b.vx=(b.x-px)*3+(b.s?60:-60);P[b.s].arm=1;n++;api.score(n);hud();fx.push({x:px,y:hy()-40,txt:pick(['Manchette !','Bien reçu !','Hop !','Joli !']),t:0,c:'#fff'});}}
+          if(b.y>gy()-6&&!b.up){b.dead=1;miss(b);}});
+        for(let s=0;s<2;s++){nxt[s]-=dt;if(nxt[s]<=0){spawn(s);const p=Math.min(1,t/DUR);nxt[s]=(s?1.9:2.3)*(1-p*.45)*(.75+Math.random()*.5);if(Math.random()<p*.25)nxt[s]*=.4;}}
+        if(t>=DUR&&drops<MAXDROP){over=true;api.score(n);setTimeout(()=>api.end(true,'Réception parfaite !',`${n} ballons renvoyés en ${DUR} s à deux. Romain et son équipe ont tenu le terrain !`),400);}
+        hud();}
+      balls=balls.filter(b=>b.y<cv.H+40&&!(b.up&&b.vy>0)&&!(b.dead&&b.y>gy()+10));},
+    draw(){const W=cv.W,H=cv.H;ctx.clearRect(0,0,W,H);const gr=ctx.createLinearGradient(0,0,0,H);gr.addColorStop(0,'#bfe8ff');gr.addColorStop(1,'#eaf6ff');ctx.fillStyle=gr;ctx.fillRect(0,0,W,H);
+      // terrain
+      ctx.fillStyle='#f2c98a';ctx.fillRect(0,gy(),W,H-gy());ctx.fillStyle='#e0b06a';for(let i=0;i<W;i+=22)ctx.fillRect(i,gy()+8+((i/22)%2)*10,10,3);
+      ctx.fillStyle='rgba(255,255,255,.9)';ctx.fillRect(W/2-3,gy()-150,6,150);ctx.strokeStyle=INK;ctx.lineWidth=2;ctx.strokeRect(W/2-3,gy()-150,6,150);
+      for(let k=0;k<9;k++){ctx.strokeStyle='rgba(27,42,58,.35)';ctx.beginPath();ctx.moveTo(W/2-3,gy()-150+k*8);ctx.lineTo(W/2+3,gy()-150+k*8);ctx.stroke();}
+      ctx.font='700 12px Fredoka,sans-serif';ctx.fillStyle='rgba(27,42,58,.6)';ctx.textAlign='center';ctx.fillText('👈 pouce gauche',W*.25,gy()+30);ctx.fillText('pouce droit 👉',W*.75,gy()+30);
+      // ombres des ballons (où ils vont tomber)
+      balls.forEach(b=>{if(b.up||b.dead)return;const k=Math.max(0,Math.min(1,(b.y+20)/(hy()+20)));ctx.fillStyle=`rgba(27,42,58,${.18+k*.3})`;ctx.beginPath();ctx.ellipse(b.tx,gy()+4,10+k*12,5+k*3,0,0,7);ctx.fill();});
+      // joueurs
+      [imR,imM].forEach((im,s)=>{const h=half(s),px=h.x0+P[s].x*h.w,y=gy(),a=P[s].arm;
+        ctx.strokeStyle=INK;ctx.lineWidth=4;ctx.lineCap='round';ctx.fillStyle=PINK;rr(ctx,px-20,y-52,40,46,12);ctx.fill();ctx.stroke();
+        ctx.strokeStyle='#f0c4a6';ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(px-16,y-44);ctx.lineTo(px-6,y-62-a*14);ctx.moveTo(px+16,y-44);ctx.lineTo(px+6,y-62-a*14);ctx.stroke();
+        ctx.strokeStyle='#2f5f9e';ctx.lineWidth=8;ctx.beginPath();ctx.moveTo(px-9,y-8);ctx.lineTo(px-11,y);ctx.moveTo(px+9,y-8);ctx.lineTo(px+11,y);ctx.stroke();
+        drawImg(ctx,im,px-26,y-100,52,52);ctx.font='700 11px Fredoka,sans-serif';ctx.fillStyle=INK;ctx.textAlign='center';ctx.fillText(s?(CHARS[mate]||{name:'Coéquipier'}).name:'Romain',px,y+16);});
+      // ballons
+      balls.forEach(b=>{ctx.save();ctx.translate(b.x,b.y);ctx.rotate(t*6);ctx.fillStyle='#fff';ctx.strokeStyle=INK;ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(0,0,b.r,0,7);ctx.fill();ctx.stroke();
+        ctx.strokeStyle='#ffd23f';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,b.r*.6,-.8,.8);ctx.stroke();ctx.strokeStyle='#2f80ed';ctx.beginPath();ctx.arc(0,0,b.r*.6,2.3,3.9);ctx.stroke();ctx.restore();});
+      for(const f of fx)floatText(ctx,f);
+      if(t<4&&!over)bubbleText(ctx,W/2,H*.18,'Un pouce de chaque côté : place-toi sous les ballons !',13);},
+    _dbg:()=>({n,drops,t,balls:balls.filter(b=>!b.up&&!b.dead).map(b=>({s:b.s,tx:b.tx,y:b.y})),P:P.map(p=>p.x),hy:hy(),W:cv.W,over}),
+    destroy(){cv.c.removeEventListener('pointerdown',onDown);cv.c.removeEventListener('pointermove',onMove);window.removeEventListener('pointerup',onUp);window.removeEventListener('pointercancel',onUp);window.removeEventListener('keydown',kd);window.removeEventListener('keyup',ku);cv.destroy();}
+  };
+}
+
+/* ================= CLÉMENT : le montage ================= */
+const CLEM_FILMS=[
+  {n:'Le plat de Roland',f:['🪜|Roland monte au plongeoir','🙆|Il prend la pose','🤸|Il saute…','💥|PLAAAT !','😂|Tout le monde rit','🩹|Hélène le soigne']},
+  {n:'Le gâteau de Christian',f:['🎂|Zoé prépare un gâteau','🤫|Elle s\'approche en douce','🎯|SPLATCH sur Christian','😤|Christian plein de crème','📸|Pierre a la photo','🧽|Grand nettoyage']},
+  {n:'Marcel à la buvette',f:['🏊|Marcel finit sa longueur','🚿|Petite douche','🚶|Direction la buvette','😱|Plus de bière !','🥤|Il prend… de l\'eau','😭|Journée gâchée']},
+  {n:'La séance d\'aquajogging',f:['🎽|Laurence met sa ceinture','🏃‍♀️|Elle court dans l\'eau','🌀|Un remous la pousse','💥|Bonk, la ligne d\'eau !','🏁|Elle finit ses longueurs','🏅|Médaille du courage']},
+  {n:'Le tournage de Clément',f:['🎥|Clément sort sa caméra','🤿|Il plonge sous l\'eau','🐠|Les poissons arrivent','🌙|Montage toute la nuit','🍿|Projection au club','👏|Standing ovation']},
+  {n:'Hulk au bassin',f:['🐶|Hulk s\'échappe','📣|Alix l\'appelle','💨|Il file vers le bassin','💦|PLOUF !','🧻|Séchage général','🦴|Un os pour se faire pardonner']},
+  {n:'La fête du club',f:['🔥|Denis et Thierry allument le barbecue','🎶|La musique démarre','💃|Tout le monde danse','🎆|Le feu d\'artifice','🧹|Rangement à 2 h du matin','😴|Dodo bien mérité']}];
+function gameClement(stage,api){
+  const LENS=[4,4,5,5,6],LIMIT=150,films=qqShuffle(CLEM_FILMS.slice()).slice(0,LENS.length);
+  let fi=0,order=[],sel=-1,fish=-1,fishOk=false,over=false,t=0,playing=null,drag=null;
+  const box=document.createElement('div');box.className='clm';stage.appendChild(box);
+  const hud=()=>api.hud(`🎬 ${fi+1}/${LENS.length}  ⏱ ${Math.floor((performance.now()-gameT0)/1000)} s`);
+  function load(){const F=films[fi],n=LENS[fi],keep=[0];const mid=qqShuffle([...Array(F.f.length-2).keys()].map(i=>i+1)).slice(0,n-2).sort((a,b)=>a-b);
+    const frames=keep.concat(mid,[F.f.length-1]).map(i=>F.f[i]);F.cur=frames;
+    do{order=qqShuffle(frames.map((_,i)=>i));}while(order.every((v,i)=>v===i));sel=-1;fish=Math.floor(Math.random()*n);fishOk=false;render();}
+  function render(){const F=films[fi],n=order.length;
+    box.innerHTML=`<div class="clm-h">🎞️ Film ${fi+1} : <b>${esc(F.n)}</b><small>Remets les images dans l'ordre, puis ▶ Lecture</small></div>
+      <div class="clm-strip c${n>4?3:2}">${order.map((v,p)=>{const [e,c]=F.cur[v].split('|');return `<div class="clm-f${sel===p?' sel':''}${playing&&playing.i===p?' play':''}" data-p="${p}"><i>${p+1}</i><b>${e}</b><span>${esc(c)}</span>${v===fish&&!fishOk?`<em class="clm-fish" data-fish="1">🐟</em>`:''}</div>`;}).join('')}</div>
+      <button class="btn clm-go" id="clmGo">▶ Lecture</button>`;
+    box.querySelector('#clmGo').onclick=check;
+    box.querySelectorAll('.clm-f').forEach(el=>{el.onpointerdown=e=>{if(over||playing)return;if(e.target.dataset.fish){e.stopPropagation();fishOk=true;gameT0+=3000;floatMsg('🐟 −3 s !');render();return;}drag={p:+el.dataset.p,x:e.clientX,y:e.clientY,el};el.setPointerCapture&&el.setPointerCapture(e.pointerId);};
+      el.onpointermove=e=>{if(!drag||drag.el!==el)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(Math.hypot(dx,dy)>8){el.style.transform=`translate(${dx}px,${dy}px) scale(1.05)`;el.style.zIndex=5;drag.moved=1;}};
+      el.onpointerup=e=>{if(!drag||drag.el!==el)return;el.style.transform='';el.style.zIndex='';const from=drag.p;let to=-1;
+        if(drag.moved){el.style.pointerEvents='none';const u=document.elementFromPoint(e.clientX,e.clientY);el.style.pointerEvents='';const f=u&&u.closest&&u.closest('.clm-f');if(f)to=+f.dataset.p;}
+        drag=null;if(to>=0&&to!==from){swap(from,to);return;}
+        if(!(to>=0)){if(sel<0)sel=from;else if(sel===from)sel=-1;else{swap(sel,from);return;}render();}};});}
+  function swap(a,b){const v=order[a];order[a]=order[b];order[b]=v;sel=-1;render();}
+  let msgT=null;function floatMsg(m){const d=document.createElement('div');d.className='clm-msg';d.textContent=m;box.appendChild(d);setTimeout(()=>d.remove(),1100);}
+  function check(){if(over||playing)return;if(order.every((v,i)=>v===i)){playing={i:0,t:0};render();}
+    else{gameT0-=5000;floatMsg('✂️ Mauvais montage : +5 s');box.querySelectorAll('.clm-f').forEach((el,p)=>{if(order[p]!==p){el.classList.remove('bad');void el.offsetWidth;el.classList.add('bad');}});try{navigator.vibrate&&navigator.vibrate(80);}catch(_){}}}
+  load();hud();
+  return{
+    update(dt){dt=Math.max(0,dt);t+=dt;if(over)return;hud();
+      if(playing){playing.t+=dt;if(playing.t>.45){playing.t=0;playing.i++;if(playing.i>=order.length){playing=null;fi++;if(fi>=LENS.length){over=true;const s=Math.round((performance.now()-gameT0)/100)/10;
+        api.end(true,'Coupez, c\'est dans la boîte !',`${LENS.length} films montés en ${String(s).replace('.',',')} s. Clément, le roi du montage (et des poissons) !`);return;}load();}else render();}}
+      if((performance.now()-gameT0)/1000>LIMIT){over=true;api.end(false,'La projection a commencé…','… et les films ne sont pas prêts ! Plus vite au montage, Clément.');}},
+    draw(){},
+    _dbg:()=>({fi,order:order.slice(),fish,playing:!!playing,over}),
+    destroy(){box.remove();}};
+}
+
+/* ================= SIMON : les mots mélangés ================= */
+const SIMON_WORDS=[["NAGE", "Ce qu'on fait dans le bassin… normalement."], ["BAIN", "Le grand, le petit : on y saute tous."], ["PLAT", "Le plongeon préféré de Roland."], ["CLUB", "Gambetta, plus qu'un…"], ["BRAS", "On les fait tourner au crawl."], ["LIGNE", "Elle sépare les couloirs… et Laurence s'y cogne."], ["FRITE", "Une mousse longue et colorée pour flotter."], ["BOUEE", "Roland la lance depuis Napoléon."], ["APERO", "Angélique ne le rate jamais."], ["CRAWL", "La nage la plus rapide."], ["BONNET", "On le porte sur la tête, même sans cheveux."], ["CHLORE", "Gwen le mesure dans ses tubes."], ["PALMES", "Aux pieds, pour aller plus vite."], ["NAGEUR", "Celui qui enchaîne les longueurs."], ["DOUCHE", "Obligatoire avant d'entrer dans l'eau."], ["SIFFLET", "Richard en abuse pour faire sortir les enfants."], ["BUVETTE", "Le repaire préféré de Marcel."], ["PLANCHE", "On la tient à bout de bras pour battre des jambes."], ["COULOIR", "Laurence doit rester bien au milieu."], ["DOSSARD", "Ton numéro, le jour de la compétition."], ["LUNETTES", "Pour voir sous l'eau sans pleurer."], ["TOBOGGAN", "Margaux attend les enfants en bas."], ["GAMBETTA", "Plus qu'un club !"], ["BRASSARD", "Les tout-petits en portent pour flotter."], ["PLONGEON", "Un saut, la tête la première."], ["PLONGEOIR", "On y monte fier, on en tombe à plat."], ["SERVIETTE", "Manon s'en sert comme bouclier."], ["VESTIAIRE", "On s'y change, et on y oublie ses chaussettes."], ["DEDICACES", "Ce que Simon fait derrière sa table de livres."], ["SAUVETAGE", "Le métier des maîtres-nageurs : le … aquatique."], ["AQUABIKING", "Le vélo dans l'eau… que Maurice n'arrive pas à faire avancer."], ["SECOURISME", "Ce qu'apprend Lieutenant Pierre (avec apéro)."], ["ENTRAINEUR", "Celui qui donne les séances… et les crampes."], ["TRAMPOLINE", "On rebondit dessus avant de plonger."], ["CHAMPIONNE", "Médaille d'or autour du cou."], ["AQUAJOGGING", "Laurence court… mais dans l'eau."], ["CHRONOMETRE", "Il mesure ton temps au 50 m."], ["COMPETITION", "Le grand jour des médailles."], ["PATAUGEOIRE", "Le bassin des tout-petits."], ["THERMOMETRE", "Il dit si l'eau est trop froide."]];
+function gameSimon(stage,api){
+  /* 8 niveaux : un mot tiré au hasard, avec une lettre de plus à chaque niveau (de 4 à 11 lettres) */
+  const N=8,LIMIT=240,words=[...Array(N).keys()].map(k=>pick(SIMON_WORDS.filter(w=>w[0].length===4+k)));
+  let wi=0,letters=[],pickd=[],over=false,lock=false,t=0;
+  const box=document.createElement('div');box.className='smn';stage.appendChild(box);
+  const hud=()=>api.hud(`✍️ ${wi}/${N}  ⏱ ${Math.floor((performance.now()-gameT0)/1000)} s`);
+  function mix(w){let a;do{a=qqShuffle(w.split(''));}while(a.join('')===w&&w.length>1);return a.map((c,i)=>({c,id:i}));}
+  function load(){letters=mix(words[wi][0]);pickd=[];render();}
+  function render(){const [w,h]=words[wi];
+    box.innerHTML=`<div class="smn-n">Niveau ${wi+1} sur ${N} · ${w.length} lettres</div><div class="smn-hint">🖋️ « ${esc(h)} »</div>
+      <div class="smn-slots">${w.split('').map((_,i)=>{const L=pickd[i]!=null?letters.find(x=>x.id===pickd[i]):null;const sw=Math.min(32,Math.floor(((box.clientWidth||360)-28)/w.length)-4);return `<button class="smn-s${L?' on':''}" data-s="${i}" style="width:${sw}px">${L?L.c:''}</button>`;}).join('')}</div>
+      <div class="smn-bq">${letters.map(L=>`<button class="smn-b" data-l="${L.id}" ${pickd.includes(L.id)?'disabled':''}>${L.c}</button>`).join('')}</div>
+      <div class="smn-act"><button class="btn alt" id="smnMix">🔀 Mélanger</button><button class="btn alt" id="smnTip">💡 Une lettre (+5 s)</button><button class="btn alt" id="smnSkip">⏭ Passer (+10 s)</button></div>`;
+    box.querySelectorAll('.smn-b').forEach(b=>b.onpointerdown=e=>{e.preventDefault();if(lock||over)return;pickd.push(+b.dataset.l);render();test();});
+    box.querySelectorAll('.smn-s').forEach(b=>b.onpointerdown=e=>{e.preventDefault();if(lock||over)return;const i=+b.dataset.s;if(pickd[i]==null)return;pickd=pickd.slice(0,i);render();});
+    box.querySelector('#smnMix').onclick=()=>{if(lock)return;const keep=new Set(pickd);const free=qqShuffle(letters.filter(L=>!keep.has(L.id)));letters=letters.filter(L=>keep.has(L.id)).concat(free);render();};
+    box.querySelector('#smnTip').onclick=()=>{if(lock||over)return;/* on garde le début correct, puis on ajoute la bonne lettre suivante */
+      let ok=0;while(ok<pickd.length&&letters.find(x=>x.id===pickd[ok]).c===w[ok])ok++;pickd=pickd.slice(0,ok);const nx=letters.find(L=>L.c===w[ok]&&!pickd.includes(L.id));if(nx){pickd.push(nx.id);gameT0-=5000;}render();test();};
+    box.querySelector('#smnSkip').onclick=()=>{if(lock||over)return;gameT0-=10000;flash(`C'était ${w}`,'skip');};}
+  function test(){const w=words[wi][0];if(pickd.length<w.length)return;const s=pickd.map(id=>letters.find(x=>x.id===id).c).join('');
+    if(s===w)flash('✅ '+w,'ok');else{lock=true;box.querySelector('.smn-slots').classList.add('bad');try{navigator.vibrate&&navigator.vibrate(80);}catch(_){}setTimeout(()=>{lock=false;pickd=[];render();},600);}}
+  function flash(m,k){lock=true;const d=document.createElement('div');d.className='smn-ok '+k;d.textContent=m;box.appendChild(d);
+    setTimeout(()=>{lock=false;wi++;hud();if(wi>=N){over=true;const s=Math.round((performance.now()-gameT0)/100)/10;api.end(true,'Le livre est fini !',`${N} mots retrouvés en ${String(s).replace('.',',')} s. Simon peut passer aux dédicaces !`);return;}load();},k==='ok'?650:1100);}
+  load();hud();
+  return{update(dt){t+=dt;if(over)return;hud();if((performance.now()-gameT0)/1000>LIMIT){over=true;api.end(false,'Panne d\'inspiration…',`Seulement ${wi} mot${wi>1?'s':''} sur ${N}. Simon range son stylo pour aujourd'hui.`);}},
+    draw(){},_dbg:()=>({wi,word:words[wi]&&words[wi][0],letters:letters.map(L=>L.c+L.id),pickd:pickd.slice(),lock,over}),destroy(){box.remove();}};
+}
+
+/* ================= JULIEN : je te tiens par la barbichette ================= */
+function gameJulien(stage,api){
+  const cv=makeCanvas(stage),ctx=cv.ctx,GOAL=30,LIVES=3,TOL=20,L=CHARS.julien.look;
+  const img=svgImg(avatar(L));const laughImg=svgImg(avatar(Object.assign({},L,{flush:true,wavy:true})));
+  let t=0,held=0,lives=LIVES,over=false,touch=null,state='wait',lift=0,laugh=0,shake=0,fx=[],gr=[],nextG=1.2,boo=null,ox=0,oy=0,jx=0,jy=0,jT=0,warn=null;
+  const FACES=[{k:'christian',say:'🎂 Gâteau sur la tête !'},{k:'roland',say:'🐟 Bloub bloub !'},{k:'marcel',say:'🍺 Santé !'},{k:'laetitia',say:'😎 Trop stylée…'},{k:'manu',say:'👙 Oups !'},{k:'mickey',say:'💼 Ma carte ?'},{k:'angelique',say:'🥂 Tchin !'},{k:'pierre',say:'📸 Souris !'},{k:'maurice',say:'🚲 Ça avance !'},{k:'dario',say:'🤥 J\'ai une excuse…'}];
+  const ims={};FACES.forEach(F=>{if(CHARS[F.k])ims[F.k]=svgImg(avatar(Object.assign({},CHARS[F.k].look,{drunk:Math.random()<.3,redNose:Math.random()<.4})));});
+  const geo=()=>{const W=cv.W,H=cv.H,s=Math.min(W*.8,H*.55);return{W,H,s,x:W/2-s/2+ox,y:H*.2+oy,bx:W/2+ox,by:H*.2+s*.83+oy,br:Math.max(34,s*.13)};};
+  const hud=()=>api.hud(`🧔 ${Math.floor(held)}/${GOAL} s  ❤️ ${lives}`);hud();
+  function lose(msg){lives--;laugh=1.3;shake=.4;hud();fx.push({x:cv.W/2,y:cv.H*.14,txt:msg,t:0,c:'#ff6b5b'});touch=null;state='wait';try{navigator.vibrate&&navigator.vibrate(150);}catch(_){}
+    if(lives<=0){over=true;setTimeout(()=>api.end(false,'Julien a craqué !',`Il a tenu ${Math.floor(held)} s avant d'éclater de rire. La barbichette, c'est sérieux !`),900);}}
+  const onDown=e=>{e.preventDefault();if(over)return;const p=cv.pt(e),g=geo();if(touch&&touch.id!==e.pointerId){lose('Un seul doigt ! 😂');return;}
+    if(Math.hypot(p.x-g.bx,p.y-g.by)>g.br*1.6){if(state!=='hold')fx.push({x:p.x,y:p.y-20,txt:'Sur la barbichette !',t:0,c:'#fff'});return;}
+    touch={id:e.pointerId,x:p.x,y:p.y,cx:p.x,cy:p.y};state='hold';lift=0;};
+  const onMove=e=>{if(!touch||e.pointerId!==touch.id||state!=='hold')return;const p=cv.pt(e);touch.cx=p.x;touch.cy=p.y;};
+  const onUp=e=>{if(!touch||e.pointerId!==touch.id)return;if(state==='hold'){state='lift';lift=1;}touch=null;};
+  cv.c.addEventListener('pointerdown',onDown);cv.c.addEventListener('pointermove',onMove);window.addEventListener('pointerup',onUp);window.addEventListener('pointercancel',onUp);
+  function grimace(){const F=pick(FACES),side=Math.random()<.5?-1:1,p=held/GOAL;gr.push({F,side,y:cv.H*(.25+Math.random()*.5),t:0,d:1.6+Math.random()*.8,big:p>.6&&Math.random()<.5});
+    if(Math.random()<.3+p*.4){const txt=pick(['BOUH !','COUCOU !','ATCHOUM !','PROUT !','HOP HOP HOP !','UNE GUÊPE !']);warn={t:0,d:Math.max(.45,.85-p*.36),txt};}}
+  function jerk(txt){const p=held/GOAL,a=24+p*35,W=cv.W,ang=Math.random()*Math.PI*2;jx=Math.max(-W*.28,Math.min(W*.28,jx+Math.cos(ang)*a));jy=Math.max(-50,Math.min(60,jy+Math.sin(ang)*a*.6));jT=.4;boo={t:0,txt};shake=.3;try{navigator.vibrate&&navigator.vibrate([60,40,60]);}catch(_){}}
+  return{
+    update(dt){dt=Math.max(0,dt);t+=dt;shake=Math.max(0,shake-dt);laugh=Math.max(0,laugh-dt);for(let k=fx.length-1;k>=0;k--){fx[k].t+=dt;if(fx[k].t>1.2)fx.splice(k,1);}
+      gr.forEach(g=>g.t+=dt);gr=gr.filter(g=>g.t<g.d);if(boo){boo.t+=dt;if(boo.t>.9)boo=null;}if(over)return;
+      // Julien bouge tout le temps (de plus en plus), et sursaute quand on l'embête
+      {const p=held/GOAL,A=19+p*42;const tx=jx+Math.sin(t*(1.1+p))*A+Math.sin(t*2.7)*A*.35,ty=jy+Math.cos(t*(.9+p*.8))*A*.45;const k=jT>0?Math.min(1,dt*6):Math.min(1,dt*3);jT=Math.max(0,jT-dt);ox+=(tx-ox)*k;oy+=(ty-oy)*k;jx*=Math.pow(.6,dt);jy*=Math.pow(.6,dt);}
+      if(warn){warn.t+=dt;if(warn.t>=warn.d){jerk(warn.txt);warn=null;}}
+      if(state==='hold'&&touch){const g=geo();if(Math.hypot(touch.cx-g.bx,touch.cy-g.by)>g.br*1.5){lose('Tu as lâché la barbichette ! 🤣');return;}}
+      if(state==='hold'){held+=dt;nextG-=dt;if(nextG<=0){grimace();const p=held/GOAL;nextG=Math.max(.5,1.6-p*1.1)*(.7+Math.random()*.6);}
+        if(held>=GOAL){over=true;state='done';const s=Math.round((performance.now()-gameT0)/100)/10;setTimeout(()=>api.end(true,'Imperturbable !',`${GOAL} s sans lâcher la barbichette (au total ${String(s).replace('.',',')} s). La barbichette de Julien est à toi !`),500);}}
+      else if(state==='lift'){lift-=dt;if(lift<=0)lose('Doigt levé trop longtemps ! 😂');}
+      hud();},
+    draw(){const g=geo(),W=g.W,H=g.H;ctx.clearRect(0,0,W,H);ctx.save();if(shake>0)ctx.translate((Math.random()-.5)*14*shake,(Math.random()-.5)*14*shake);
+      const bg=ctx.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#ffe9c7');bg.addColorStop(1,'#ffd1a8');ctx.fillStyle=bg;ctx.fillRect(-20,-20,W+40,H+40);
+      drawImg(ctx,laugh>0?laughImg:img,g.x,g.y,g.s,g.s*1.15);
+      // la giga barbichette
+      const bc=L.beardColor||'#c9a46a';ctx.fillStyle=bc;ctx.strokeStyle=INK;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(g.bx-g.br*.9,g.by-g.br*1.2);ctx.quadraticCurveTo(g.bx-g.br*.7,g.by+g.br*1.4,g.bx,g.by+g.br*2.2+Math.sin(t*2)*4);ctx.quadraticCurveTo(g.bx+g.br*.7,g.by+g.br*1.4,g.bx+g.br*.9,g.by-g.br*1.2);ctx.closePath();ctx.fill();ctx.stroke();
+      for(let k=-2;k<=2;k++){ctx.strokeStyle='rgba(120,80,30,.6)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(g.bx+k*g.br*.3,g.by-g.br*.8);ctx.quadraticCurveTo(g.bx+k*g.br*.2,g.by+g.br,g.bx+k*g.br*.05,g.by+g.br*1.9);ctx.stroke();}
+      ctx.setLineDash(state==='hold'?[]:[6,6]);ctx.strokeStyle=state==='hold'?'#3cbf5a':'#e0217a';ctx.lineWidth=4;ctx.beginPath();ctx.arc(g.bx,g.by,g.br*(state==='hold'?1:1+Math.sin(t*5)*.08),0,7);ctx.stroke();ctx.setLineDash([]);
+      // grimaces
+      gr.forEach(o=>{const k=o.t/o.d,inn=Math.min(1,o.t*4,(o.d-o.t)*4),s=(o.big?150:100),x=o.side<0?-s+inn*(s*.95):W-inn*(s*.95),y=o.y+Math.sin(o.t*8)*6;const im=ims[o.F.k];if(im)drawImg(ctx,im,x,y-s/2,s,s*1.15);
+        ctx.globalAlpha=inn;bubbleText(ctx,Math.max(70,Math.min(W-70,x+s/2)),y-s/2-8,o.F.say,12);ctx.globalAlpha=1;});
+      if(boo){ctx.globalAlpha=1-boo.t/.9;ctx.font=`900 ${Math.round(46+boo.t*30)}px Fredoka,sans-serif`;ctx.textAlign='center';ctx.lineWidth=7;ctx.strokeStyle='#fff';ctx.strokeText(boo.txt,W/2,H*.5);ctx.fillStyle='#e0217a';ctx.fillText(boo.txt,W/2,H*.5);ctx.globalAlpha=1;}
+      // barre de temps
+      const bw=W*.7;rr(ctx,W/2-bw/2,H-34,bw,16,8);ctx.fillStyle='rgba(255,255,255,.7)';ctx.fill();ctx.lineWidth=2.5;ctx.strokeStyle=INK;ctx.stroke();rr(ctx,W/2-bw/2,H-34,bw*Math.min(1,held/GOAL),16,8);ctx.fillStyle='#3cbf5a';ctx.fill();
+      ctx.restore();for(const f of fx)floatText(ctx,f);
+      if(warn&&!over){ctx.font='900 30px sans-serif';ctx.textAlign='center';ctx.fillText('❗',g.bx+g.s*.38,g.y+20+Math.sin(t*30)*3);}
+      if(state==='wait'&&!over)bubbleText(ctx,W/2,Math.max(30,g.y-6),'Pose ton doigt sur la barbichette… et ne la lâche plus !',13);
+      if(state==='lift'&&!over)bubbleText(ctx,W/2,H*.5,'Vite, repose ton doigt ! ⏱',15);},
+    _dbg:()=>({held,lives,state,g:geo(),over}),
+    destroy(){cv.c.removeEventListener('pointerdown',onDown);cv.c.removeEventListener('pointermove',onMove);window.removeEventListener('pointerup',onUp);window.removeEventListener('pointercancel',onUp);cv.destroy();}};
+}
+
+/* ================= ALEX : le site fait main (tuiles à tourner) ================= */
+function gameAlex(stage,api){
+  const cv=makeCanvas(stage),ctx=cv.ctx,LV=[4,4,5,5,6],LIMIT=240,D=[[0,-1],[1,0],[0,1],[-1,0]];// haut, droite, bas, gauche
+  let li=0,N=4,cells=[],srv=null,lit=new Set(),over=false,t=0,done=0,moves=0,fx=[],anim={};
+  const hud=()=>api.hud(`💻 ${li+1}/${LV.length}  ⏱ ${Math.floor((performance.now()-gameT0)/1000)} s`);
+  const rot=(m,r)=>{let o=0;for(let k=0;k<4;k++)if(m&(1<<k))o|=1<<((k+r)%4);return o;};
+  function gen(){N=LV[li];cells=[];for(let i=0;i<N*N;i++)cells.push({m:0,r:0});const seen=new Set(),st=[Math.floor(Math.random()*N*N)];srv=st[0];seen.add(srv);
+    // arbre couvrant aléatoire : chaque câble mène quelque part, sans boucle
+    const front=[srv];while(front.length){const i=front[Math.floor(Math.random()*front.length)],x=i%N,y=Math.floor(i/N);const nb=[];
+      D.forEach(([dx,dy],k)=>{const X=x+dx,Y=y+dy;if(X>=0&&Y>=0&&X<N&&Y<N&&!seen.has(Y*N+X)&&popc(cells[i].m)<3)nb.push([Y*N+X,k]);});
+      if(!nb.length){front.splice(front.indexOf(i),1);continue;}const [j,k]=pick(nb);cells[i].m|=1<<k;cells[j].m|=1<<((k+2)%4);seen.add(j);front.push(j);}
+    if(seen.size<N*N){return gen();}
+    let solved;do{cells.forEach(c=>{c.r=Math.floor(Math.random()*4);});solved=check(true);}while(solved);anim={};light();}
+  const popc=m=>(m&1)+(m>>1&1)+(m>>2&1)+(m>>3&1);
+  const cm=i=>rot(cells[i].m,cells[i].r);
+  function light(){lit=new Set([srv]);const q=[srv];while(q.length){const i=q.shift(),x=i%N,y=Math.floor(i/N),m=cm(i);D.forEach(([dx,dy],k)=>{if(!(m&(1<<k)))return;const X=x+dx,Y=y+dy;if(X<0||Y<0||X>=N||Y>=N)return;const j=Y*N+X;if(lit.has(j))return;if(cm(j)&(1<<((k+2)%4))){lit.add(j);q.push(j);}});}}
+  function check(silent){for(let i=0;i<N*N;i++){const x=i%N,y=Math.floor(i/N),m=cm(i);for(let k=0;k<4;k++){if(!(m&(1<<k)))continue;const X=x+D[k][0],Y=y+D[k][1];if(X<0||Y<0||X>=N||Y>=N)return false;if(!(cm(Y*N+X)&(1<<((k+2)%4))))return false;}}return true;}
+  const geo=()=>{const W=cv.W,H=cv.H,s=Math.min(W-24,H-90),cs=s/N;return{W,H,s,cs,x:(W-s)/2,y:(H-s)/2+10};};
+  const onDown=e=>{e.preventDefault();if(over||done>0)return;const p=cv.pt(e),g=geo(),cx=Math.floor((p.x-g.x)/g.cs),cy=Math.floor((p.y-g.y)/g.cs);if(cx<0||cy<0||cx>=N||cy>=N)return;const i=cy*N+cx;
+    cells[i].r=(cells[i].r+1)%4;anim[i]=1;moves++;light();if(check()){done=1.1;fx.push({x:cv.W/2,y:cv.H*.12,txt:'🌐 Site en ligne !',t:0,c:'#3cbf5a'});}};
+  cv.c.addEventListener('pointerdown',onDown);gen();hud();
+  return{
+    update(dt){dt=Math.max(0,dt);t+=dt;for(const k in anim){anim[k]-=dt*7;if(anim[k]<=0)delete anim[k];}for(let k=fx.length-1;k>=0;k--){fx[k].t+=dt;if(fx[k].t>1.3)fx.splice(k,1);}if(over)return;
+      if(done>0){done-=dt;if(done<=0){done=0;li++;if(li>=LV.length){over=true;const s=Math.round((performance.now()-gameT0)/100)/10;api.end(true,'Le site est en ligne !',`${LV.length} tableaux reconnectés en ${String(s).replace('.',',')} s (${moves} rotations). Tout fait main, comme Alex !`);return;}gen();}}
+      hud();if((performance.now()-gameT0)/1000>LIMIT){over=true;api.end(false,'Erreur 404…',`Le site du club est toujours en panne après ${LIMIT/60} minutes. Alex va devoir rester tard ce soir !`);}},
+    draw(){const g=geo(),W=g.W,H=g.H;ctx.clearRect(0,0,W,H);ctx.fillStyle='#16233a';ctx.fillRect(0,0,W,H);
+      ctx.fillStyle='rgba(255,255,255,.06)';for(let i=0;i<40;i++){ctx.fillRect((i*73)%W,(i*131+t*20)%H,2,2);}
+      ctx.font='700 13px Fredoka,sans-serif';ctx.fillStyle='#9fd3ff';ctx.textAlign='center';ctx.fillText(`Tableau ${li+1}/${LV.length} · touche une tuile pour la faire tourner`,W/2,g.y-14);
+      for(let i=0;i<N*N;i++){const x=g.x+(i%N)*g.cs,y=g.y+Math.floor(i/N)*g.cs,on=lit.has(i),m=cells[i].m,a=(cells[i].r-(anim[i]||0))*Math.PI/2;
+        rr(ctx,x+2,y+2,g.cs-4,g.cs-4,8);ctx.fillStyle=on?'#1f3c5e':'#22314a';ctx.fill();ctx.strokeStyle='rgba(255,255,255,.12)';ctx.lineWidth=1;ctx.stroke();
+        ctx.save();ctx.translate(x+g.cs/2,y+g.cs/2);ctx.rotate(a);ctx.lineCap='round';const w=Math.max(6,g.cs*.17);
+        for(const col of [[INK,w+5],[on?'#4fc3ff':'#5d6b80',w]]){ctx.strokeStyle=col[0];ctx.lineWidth=col[1];D.forEach(([dx,dy],k)=>{if(m&(1<<k)){ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(dx*g.cs/2,dy*g.cs/2);ctx.stroke();}});}
+        ctx.restore();ctx.textAlign='center';ctx.textBaseline='middle';const em=i===srv?'🖥️':popc(m)===1?'📱':null;
+        if(em){ctx.font=`${Math.round(g.cs*.42)}px sans-serif`;ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(x+g.cs/2,y+g.cs/2,g.cs*.28,0,7);ctx.fillStyle=i===srv?'#ffd23f':on?'#c8f7d4':'#e8edf3';ctx.fill();ctx.lineWidth=2.5;ctx.strokeStyle=INK;ctx.stroke();ctx.fillText(em,x+g.cs/2,y+g.cs/2+1);}
+        ctx.textBaseline='alphabetic';}
+      for(const f of fx)floatText(ctx,f);
+      if(t<4&&!over&&li===0)bubbleText(ctx,W/2,g.y+g.s+28,'Relie le serveur 🖥️ à tous les écrans 📱 !',13);},
+    _dbg:()=>({li,N,cells:cells.map(c=>({m:c.m,r:c.r})),srv,solved:check(),over}),
+    destroy(){cv.c.removeEventListener('pointerdown',onDown);cv.destroy();}};
+}
+
 /* ================= PASCAL : les tire-au-flanc ================= */
 function gamePascal(stage,api){
   const cv=makeCanvas(stage),ctx=cv.ctx,GOAL=25,LIVES=3,L=CHARS.pascal.look;
@@ -5538,7 +5865,7 @@ function gamePierre(stage,api){
 }
 
 /* ================= Navigation ================= */
-const GAMES={pierre:gamePierre,willi:gameWilli,maurice:gameMaurice,pascal:gamePascal,angelique:gameAngelique,helene:gameHelene,manon:gameManon,mickey:gameMickey,lilian:gameLilian,alix:gameAlix,kayak:gameKayak,dario:gameDario,bouchon:gameBouchon,zoe:gameZoe,francoise:gameFrancoise,matheo:gameMatheo,gwen:gameGwen,anthony:gameAnthony,david:gameDavid,jf:gameJF,richard:gameRichard,margaux:gameMargaux,stephane:gameStephane,manu:gameManu,christine:gameChristine,ethan:gameEthan,aude:gameAude,nathan:gameNathan,duo:gameDuo,roland:gameRoland,christian:gameChristian,laetitia:gameLaetitia,marcel:gameMarcel,christophe:gameChristophe,agnes:gameAgnes,jacky:gameJacky,noel:gameNoel,bonus:gameBonus};
+const GAMES={clement:gameClement,simon:gameSimon,julien:gameJulien,alex:gameAlex,laurence:gameLaurence,romain:gameRomain,pierre:gamePierre,willi:gameWilli,maurice:gameMaurice,pascal:gamePascal,angelique:gameAngelique,helene:gameHelene,manon:gameManon,mickey:gameMickey,lilian:gameLilian,alix:gameAlix,kayak:gameKayak,dario:gameDario,bouchon:gameBouchon,zoe:gameZoe,francoise:gameFrancoise,matheo:gameMatheo,gwen:gameGwen,anthony:gameAnthony,david:gameDavid,jf:gameJF,richard:gameRichard,margaux:gameMargaux,stephane:gameStephane,manu:gameManu,christine:gameChristine,ethan:gameEthan,aude:gameAude,nathan:gameNathan,duo:gameDuo,roland:gameRoland,christian:gameChristian,laetitia:gameLaetitia,marcel:gameMarcel,christophe:gameChristophe,agnes:gameAgnes,jacky:gameJacky,noel:gameNoel,bonus:gameBonus};
 let current=null,raf=0,last=0,ended=false,curKey=null,typing=null,freshCard=null;
 /* historique des pages pour la flèche ← */
 const NAVH=[];let NAVSKIP=false;const NAV_NOHIST=['title','intro','game'];
@@ -5593,6 +5920,12 @@ const MG_CARDS={
   maurice:{r:'R',e:'🚴',t:"Hélice, voile, soda, palmes, catapulte à frites… Tout est bon pour enfin faire avancer un aquabike."},
   willi:{r:'R',e:'🏍️',t:"Routes inondées, rivières, Moselle : rien n'arrête sa moto amphibie quand il y a un apéro au club à Metz."},
   pierre:{r:'R',e:'📸',t:"Le plat de Roland, le bonnet de Christian, Marcel qui nage : aucun scoop du bassin n'échappe à son objectif."},
+  laurence:{r:'R',e:'🏃‍♀️',t:"Ceinture bouclée, elle court dans l'eau sans jamais toucher une ligne. Enfin… presque jamais."},
+  romain:{r:'R',e:'🏐',t:"Deux ballons en même temps ? Aucun problème : au volley comme au club, il ne laisse rien tomber."},
+  clement:{r:'R',e:'🎬',t:"Caméra étanche, poissons en vedette et montages toute la nuit : le Spielberg du bassin."},
+  simon:{r:'R',e:'✍️',t:"Du sifflet au stylo : il raconte le bassin mieux que personne. Dédicaces à la buvette !"},
+  julien:{r:'R',e:'🧔',t:"Une barbichette si longue qu'elle a sa propre ligne d'eau. Interdit de rire !"},
+  alex:{r:'R',e:'💻',t:"Le site du club, fait main avant les IA. Chaque câble, chaque pixel : du travail d'artisan."},
   bonus:{r:'L',e:'🕶️',t:"Casquette, lunettes noires, et le plat le plus spectaculaire du club. Qui est-il vraiment ?"}
 };
 const MG_ORDER=ORDER.filter(k=>MG_CARDS[k]);
@@ -5965,7 +6298,7 @@ $('#boostClose').onclick=()=>{const opened=BST&&BST.phase!=='pack';closeBooster(
 
 /* ================= CLASSEMENTS ================= */
 /* Mesure par mini-jeu : temps de victoire (plus court = mieux) ou points (plus = mieux) */
-const METRIC={pierre:{t:'pts',u:'points'},angelique:{t:'pts',u:'verres'},manon:{t:'pts',u:'regards'},ethan:{t:'pts',u:'soulevés'},christine:{t:'pts',u:'%'},bonus:{t:'pts',u:'pts'},laetitia:{t:'wins',u:'victoires'}};
+const METRIC={romain:{t:'pts',u:'ballons'},pierre:{t:'pts',u:'points'},angelique:{t:'pts',u:'verres'},manon:{t:'pts',u:'regards'},ethan:{t:'pts',u:'soulevés'},christine:{t:'pts',u:'%'},bonus:{t:'pts',u:'pts'},laetitia:{t:'wins',u:'victoires'}};
 const metricOf=k=>METRIC[k]||{t:'time',u:'s'};
 COL.best=COL.best||{};COL.wins_n=COL.wins_n||{};
 let BOARD={},boardRef=null,myId=null,USER=null,rkTab='time',rkGame=null,pendingScore=null,gameT0=0;
@@ -6086,7 +6419,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=44;
+const APP_V=45;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
@@ -10448,7 +10781,7 @@ const api={
       const ptc=PLAYCTX&&PLAYCTX.t==='party';$('#toSel').textContent=ptc?'🎲 Retour à la partie':PLAYCTX?'⚔️ Défis':'Persos';$('#again').hidden=ptc;$('#end').classList.add('show');$('#again').focus();},400);}
 };
 /* règle du jeu : affichée au premier lancement de chaque mini-jeu, et avec le bouton ? */
-const RULES={"roland": {"b": "Ramène les 8 nageurs au bord en 45 secondes.", "c": "Touche l'écran pour lancer la bouée sur un nageur qui appelle à l'aide."}, "christian": {"b": "Fais un sans-faute.", "c": "Retiens qui a des cheveux, puis glisse chaque carte (ou touche un bouton) : cheveux ou pas de cheveux ?"}, "laetitia": {"b": "Tiens 40 secondes sans laisser 3 postes vides.", "c": "Touche les jeunes qui quittent leur poste pour les renvoyer surveiller."}, "marcel": {"b": "Sers tout le monde sans une seule erreur.", "c": "Eau pour un enfant, un nageur (bonnet, lunettes, serviette) ou quelqu'un qui a trop bu. Bière pour les autres."}, "christophe": {"b": "Démasque Christophe 3 fois avant la fin du chrono.", "c": "Cherche-le dans la foule et touche-le."}, "agnes": {"b": "Sers 15 nageurs avant d'en rater 5.", "c": "Touche un nageur affamé pour lui lancer une mini-quiche."}, "jacky": {"b": "Trouve les 7 différences à chaque manche avant la fin du temps.", "c": "Compare les deux images et touche chaque différence."}, "noel": {"b": "Ramasse 15 cadeaux en 45 secondes sans trop te mouiller.", "c": "Glisse le doigt pour déplacer le Père Noël : passe sur les cadeaux, évite l'eau."}, "duo": {"b": "Papote jusqu'à 100 % sans te faire prendre 3 fois.", "c": "Garde le doigt appuyé pour papoter et lâche dès que Christian regarde. Et surveille les enfants !"}, "christine": {"b": "Réussis au moins 70 % des mouvements.", "c": "Tape le bon mouvement au moment où il arrive dans le cercle."}, "ethan": {"b": "Soulève la barre en 15 secondes… et garde-la en haut !", "c": "Tape le plus vite possible : si tu ralentis, la barre redescend."}, "aude": {"b": "Tranche 30 oranges sans rater 3 fois.", "c": "Glisse le doigt pour trancher les oranges… mais jamais les bouteilles !"}, "nathan": {"b": "Amène Nathan jusqu'à sa chérie sans toucher un thon.", "c": "Pars de Nathan et trace son chemin avec le doigt. Chaque niveau a plus de thons."}, "manu": {"b": "Rattrape le soutien-gorge 5 fois avant qu'il tombe devant tout le monde.", "c": "Glisse le doigt pour placer Manue sous le soutien-gorge. Attention aux coups de vent !"}, "stephane": {"b": "Tiens 8 refrains pour faire craquer Stéphane.", "c": "Regarde la suite de touches qui s'allument, puis répète-la. Elle s'allonge à chaque fois. 3 erreurs max."}, "margaux": {"b": "Attrape 20 enfants en bas du toboggan, 5 erreurs max.", "c": "Touche les enfants qui arrivent seuls. Pas ceux qui sont déjà accompagnés !"}, "richard": {"b": "Fais sortir tous les enfants de l'eau sans casser d'oreilles.", "c": "Maintiens pour siffler : plus tu tiens, plus ça porte loin. Lâche avant le rouge, sinon AÏE !"}, "jf": {"b": "Marque 6 buts sur 10 tirs.", "c": "Tire le ballon en arrière, vise et lâche pour tirer."}, "david": {"b": "Échappe à Marcel pendant 6 manches sans vider ton portefeuille.", "c": "Touche une cachette pour David avant que Marcel arrive."}, "anthony": {"b": "Cours jusqu'au nageur en détresse sans tomber 3 fois.", "c": "Glisse à gauche ou à droite pour changer de côté, vers le haut (ou tape) pour sauter."}, "gwen": {"b": "Réussis 6 analyses de chlore, 3 erreurs max.", "c": "Glisse les produits dans le tube dans le bon ordre, puis lis le bon résultat."}, "francoise": {"b": "Ramène 12 enfants au bord, pas plus de 3 qui boivent la tasse.", "c": "Touche l'enfant le plus urgent pour sauter le chercher, puis tape gauche, droite… pour nager."}, "matheo": {"b": "Ramasse tout ce qui flotte au fond, sans manquer d'air.", "c": "Glisse le doigt pour guider l'épuisette et vide-la au bord quand elle est pleine. Remonte respirer !"}, "zoe": {"b": "Écrase le gâteau sur la tête de Christian sans te faire repérer 3 fois.", "c": "Glisse le doigt pour approcher en douceur et cache-toi derrière les obstacles. Touche sa tête pour lancer !"}, "alix": {"b": "Fais revenir Hulk sans avoir trop honte.", "c": "Maintiens pour remplir l'appel et lâche dans la bonne zone. Si Hulk file vers le bassin, attention au plouf !"}, "kayak": {"b": "Remonte les 2 téléphones au kayak sans manquer d'air.", "c": "Glisse le doigt pour plonger, suis les vibrations 📳, attrape le téléphone et ramène-le au kayak."}, "dario": {"b": "Trouve la bonne excuse à chaque rencontre pour échapper à l'aquajogging.", "c": "Lis bien ce qu'on te dit : un indice cache la seule excuse qui tient la route. 3 vies."}, "bouchon": {"b": "Récupère les 4 clés de chaque niveau avec Bouchon.", "c": "Glisse le doigt pour la déplacer. Évite les douches, les pieds, les vêtements et les bouches d'aspiration."}, "bonus": {"b": "Fais le plat parfait à chaque plongeoir.", "c": "Touche l'écran pour sauter : il faut arriver à plat (90°) dans l'eau. Plus c'est haut, plus ça tourne !"}, "lilian": {"b": "Grimpe jusqu'au sommet sans tomber 3 fois.", "c": "Touche à gauche ou à droite selon la prise qui brille. Quand une pierre tombe, ne bouge plus !"}, "mickey": {"b": "Donne 20 cartes du club sans te tromper 3 fois.", "c": "Donne une carte seulement aux futures mamans 🤰 et aux poussettes 👶. Pas aux autres !"}, "manon": {"b": "Tiens 45 secondes sans que personne ne voie les fesses de Manon.", "c": "Glisse la serviette devant chaque regard 👀. 2 vies seulement !"}, "helene": {"b": "Soigne 20 enfants sans te tromper 3 fois.", "c": "Écoute le bobo et touche le bon soin dans la trousse."}, "pascal": {"b": "Attrape 25 tire-au-flanc avant de te tromper 3 fois.", "c": "Touche ceux qui trichent… mais pas ceux qui font leur virage ou qui nagent vraiment !"}, "angelique": {"b": "Apporte au moins 8 verres à table en 3 tournées.", "c": "Glisse le doigt pour garder le plateau droit, même quand Angélique tangue un peu…"}, "maurice": {"b": "Fais avancer l'aquabike de Maurice avec 5 inventions folles.", "c": "Chaque invention a sa règle, écrite en haut de l'écran. 3 vies."}, "willi": {"b": "Emmène Willi jusqu'à Metz sur routes, rivières et lacs.", "c": "Touche pour changer : les flotteurs juste avant l'eau, les roues juste avant la route. Saute les obstacles !"}, "pierre": {"b": "Fais 60 points de scoops en 60 secondes.", "c": "Touche un scoop au bon moment pour le photographier. Les simples nageurs font perdre des points !"}};
+const RULES={"roland": {"b": "Ramène les 8 nageurs au bord en 45 secondes.", "c": "Touche l'écran pour lancer la bouée sur un nageur qui appelle à l'aide."}, "christian": {"b": "Fais un sans-faute.", "c": "Retiens qui a des cheveux, puis glisse chaque carte (ou touche un bouton) : cheveux ou pas de cheveux ?"}, "laetitia": {"b": "Tiens 40 secondes sans laisser 3 postes vides.", "c": "Touche les jeunes qui quittent leur poste pour les renvoyer surveiller."}, "marcel": {"b": "Sers tout le monde sans une seule erreur.", "c": "Eau pour un enfant, un nageur (bonnet, lunettes, serviette) ou quelqu'un qui a trop bu. Bière pour les autres."}, "christophe": {"b": "Démasque Christophe 3 fois avant la fin du chrono.", "c": "Cherche-le dans la foule et touche-le."}, "agnes": {"b": "Sers 15 nageurs avant d'en rater 5.", "c": "Touche un nageur affamé pour lui lancer une mini-quiche."}, "jacky": {"b": "Trouve les 7 différences à chaque manche avant la fin du temps.", "c": "Compare les deux images et touche chaque différence."}, "noel": {"b": "Ramasse 15 cadeaux en 45 secondes sans trop te mouiller.", "c": "Glisse le doigt pour déplacer le Père Noël : passe sur les cadeaux, évite l'eau."}, "duo": {"b": "Papote jusqu'à 100 % sans te faire prendre 3 fois.", "c": "Garde le doigt appuyé pour papoter et lâche dès que Christian regarde. Et surveille les enfants !"}, "christine": {"b": "Réussis au moins 70 % des mouvements.", "c": "Tape le bon mouvement au moment où il arrive dans le cercle."}, "ethan": {"b": "Soulève la barre en 15 secondes… et garde-la en haut !", "c": "Tape le plus vite possible : si tu ralentis, la barre redescend."}, "aude": {"b": "Tranche 30 oranges sans rater 3 fois.", "c": "Glisse le doigt pour trancher les oranges… mais jamais les bouteilles !"}, "nathan": {"b": "Amène Nathan jusqu'à sa chérie sans toucher un thon.", "c": "Pars de Nathan et trace son chemin avec le doigt. Chaque niveau a plus de thons."}, "manu": {"b": "Rattrape le soutien-gorge 5 fois avant qu'il tombe devant tout le monde.", "c": "Glisse le doigt pour placer Manue sous le soutien-gorge. Attention aux coups de vent !"}, "stephane": {"b": "Tiens 8 refrains pour faire craquer Stéphane.", "c": "Regarde la suite de touches qui s'allument, puis répète-la. Elle s'allonge à chaque fois. 3 erreurs max."}, "margaux": {"b": "Attrape 20 enfants en bas du toboggan, 5 erreurs max.", "c": "Touche les enfants qui arrivent seuls. Pas ceux qui sont déjà accompagnés !"}, "richard": {"b": "Fais sortir tous les enfants de l'eau sans casser d'oreilles.", "c": "Maintiens pour siffler : plus tu tiens, plus ça porte loin. Lâche avant le rouge, sinon AÏE !"}, "jf": {"b": "Marque 6 buts sur 10 tirs.", "c": "Tire le ballon en arrière, vise et lâche pour tirer."}, "david": {"b": "Échappe à Marcel pendant 6 manches sans vider ton portefeuille.", "c": "Touche une cachette pour David avant que Marcel arrive."}, "anthony": {"b": "Cours jusqu'au nageur en détresse sans tomber 3 fois.", "c": "Glisse à gauche ou à droite pour changer de côté, vers le haut (ou tape) pour sauter."}, "gwen": {"b": "Réussis 6 analyses de chlore, 3 erreurs max.", "c": "Glisse les produits dans le tube dans le bon ordre, puis lis le bon résultat."}, "francoise": {"b": "Ramène 12 enfants au bord, pas plus de 3 qui boivent la tasse.", "c": "Touche l'enfant le plus urgent pour sauter le chercher, puis tape gauche, droite… pour nager."}, "matheo": {"b": "Ramasse tout ce qui flotte au fond, sans manquer d'air.", "c": "Glisse le doigt pour guider l'épuisette et vide-la au bord quand elle est pleine. Remonte respirer !"}, "zoe": {"b": "Écrase le gâteau sur la tête de Christian sans te faire repérer 3 fois.", "c": "Glisse le doigt pour approcher en douceur et cache-toi derrière les obstacles. Touche sa tête pour lancer !"}, "alix": {"b": "Fais revenir Hulk sans avoir trop honte.", "c": "Maintiens pour remplir l'appel et lâche dans la bonne zone. Si Hulk file vers le bassin, attention au plouf !"}, "kayak": {"b": "Remonte les 2 téléphones au kayak sans manquer d'air.", "c": "Glisse le doigt pour plonger, suis les vibrations 📳, attrape le téléphone et ramène-le au kayak."}, "dario": {"b": "Trouve la bonne excuse à chaque rencontre pour échapper à l'aquajogging.", "c": "Lis bien ce qu'on te dit : un indice cache la seule excuse qui tient la route. 3 vies."}, "bouchon": {"b": "Récupère les 4 clés de chaque niveau avec Bouchon.", "c": "Glisse le doigt pour la déplacer. Évite les douches, les pieds, les vêtements et les bouches d'aspiration."}, "bonus": {"b": "Fais le plat parfait à chaque plongeoir.", "c": "Touche l'écran pour sauter : il faut arriver à plat (90°) dans l'eau. Plus c'est haut, plus ça tourne !"}, "lilian": {"b": "Grimpe jusqu'au sommet sans tomber 3 fois.", "c": "Touche à gauche ou à droite selon la prise qui brille. Quand une pierre tombe, ne bouge plus !"}, "mickey": {"b": "Donne 20 cartes du club sans te tromper 3 fois.", "c": "Donne une carte seulement aux futures mamans 🤰 et aux poussettes 👶. Pas aux autres !"}, "manon": {"b": "Tiens 45 secondes sans que personne ne voie les fesses de Manon.", "c": "Glisse la serviette devant chaque regard 👀. 2 vies seulement !"}, "helene": {"b": "Soigne 20 enfants sans te tromper 3 fois.", "c": "Écoute le bobo et touche le bon soin dans la trousse."}, "pascal": {"b": "Attrape 25 tire-au-flanc avant de te tromper 3 fois.", "c": "Touche ceux qui trichent… mais pas ceux qui font leur virage ou qui nagent vraiment !"}, "angelique": {"b": "Apporte au moins 8 verres à table en 3 tournées.", "c": "Glisse le doigt pour garder le plateau droit, même quand Angélique tangue un peu…"}, "maurice": {"b": "Fais avancer l'aquabike de Maurice avec 5 inventions folles.", "c": "Chaque invention a sa règle, écrite en haut de l'écran. 3 vies."}, "willi": {"b": "Emmène Willi jusqu'à Metz sur routes, rivières et lacs.", "c": "Touche pour changer : les flotteurs juste avant l'eau, les roues juste avant la route. Saute les obstacles !"}, "pierre": {"b": "Fais 60 points de scoops en 60 secondes.", "c": "Touche un scoop au bon moment pour le photographier. Les simples nageurs font perdre des points !"}, "laurence": {"b": "Fais 4 longueurs (100 m) sans toucher les lignes d'eau 3 fois.", "c": "Penche le téléphone vers l'avant pour courir, à gauche ou à droite pour rester au milieu. Attention aux remous ! Sans inclinaison : garde 🏃‍♀️ appuyé et utilise ◀ ▶."}, "romain": {"b": "Tiens 45 secondes sans laisser tomber 3 ballons.", "c": "Un pouce de chaque côté de l'écran : le gauche déplace Romain, le droit son coéquipier. Place-toi sous les ombres, là où les ballons vont tomber."}, "clement": {"b": "Remonte 5 films du club dans le bon ordre, le plus vite possible.", "c": "Fais glisser une image sur une autre pour les échanger (ou touche-les l'une après l'autre), puis ▶ Lecture. Mauvais ordre : +5 s. Touche le 🐟 caché pour gagner 3 s !"}, "simon": {"b": "8 niveaux : retrouve un mot de la piscine aux lettres mélangées, avec une lettre de plus à chaque niveau (de 4 à 11).", "c": "Touche les bouées dans le bon ordre pour écrire le mot (l'indice de Simon t'aide). Touche une lettre posée pour l'enlever. 💡 une lettre : +5 s, ⏭ passer : +10 s."}, "julien": {"b": "Garde le doigt 30 secondes sur la barbichette de Julien.", "c": "Julien bouge sans arrêt, et quand le club l'embête (❗ BOUH, ATCHOUM…), il sursaute d'un coup : suis sa barbichette du doigt ! Si tu la lâches ou lèves le doigt plus d'une seconde : une vie en moins (3 vies)."}, "alex": {"b": "Reconnecte les câbles du site du club sur 5 tableaux.", "c": "Touche une tuile pour la faire tourner. Relie le serveur 🖥️ à tous les écrans 📱 : les câbles branchés s'allument en bleu."}};
 function rulesShow(k,then){const R=RULES[k],g=$('#game');if(!R||!g){then();return;}document.querySelectorAll('.rulesov').forEach(x=>x.remove());
   const o=document.createElement('div');o.className='rulesov';o.innerHTML=`<div class="rulescard"><div class="rav" style="background:${CHARS[k].bg}">${avatar(CHARS[k].look,{viewBox:'30 20 140 140'})}</div><h3>${esc(CHARS[k].game)}</h3>
     <p><b>🎯 But</b>${esc(R.b)}</p><p><b>👆 Comment</b>${esc(R.c)}</p><button class="btn" id="rulesGo">J'ai compris ▶</button></div>`;
