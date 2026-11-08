@@ -17,9 +17,10 @@ const SRC=process.argv[2],LF=process.argv[3]||'';
   const games=await p.evaluate(()=>__T.ORDER());const bad={};
   for(const g of games){where='mini-jeu '+g;const n0=errs.length;
     await p.evaluate(g=>__T.startGame(g),g);await p.waitForTimeout(300);
+    /* vérifié juste après le lancement : ensuite, les touches au hasard peuvent finir la partie et quitter l'écran */
+    const live=await p.evaluate(()=>{const st=document.querySelector('#stage');return !!(st&&st.childElementCount)&&document.querySelector('#game').classList.contains('active');});if(!live)bad[g]=(bad[g]||'')+' (ne démarre pas)';
     for(let i=0;i<14;i++){const x=40+Math.random()*310,y=150+Math.random()*560;await p.mouse.move(x,y);await p.mouse.down();await p.mouse.move(x+(Math.random()-.5)*120,y+(Math.random()-.5)*120,{steps:3});await p.mouse.up();
       await p.keyboard.press(['ArrowLeft','ArrowRight','ArrowUp','Space'][i%4]);await p.waitForTimeout(110);}
-    const live=await p.evaluate(()=>{const st=document.querySelector('#stage');return !!(st&&st.childElementCount)&&document.querySelector('#game').classList.contains('active');});if(!live)bad[g]=(bad[g]||'')+' (ne démarre pas)';
     await p.evaluate(()=>{__T.stopGame();document.querySelectorAll('.rulesov').forEach(x=>x.remove());});if(errs.length>n0)bad[g]=errs.length-n0;}
   where='écrans';
   for(const h of ['select','bataille','fighter','pixel','manager','go','party','qq']){where='écran '+h;await p.evaluate(()=>__T.openHub());await p.waitForTimeout(200);await p.evaluate(h=>__T.hubGo(h),h);await p.waitForTimeout(h==='go'?1500:500);
