@@ -6472,7 +6472,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=48;
+const APP_V=49;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
@@ -9122,7 +9122,7 @@ const GO_SPOTS=[
   {k:'bt',n:'Piscine Belletanche',lat:49.1083647,lng:6.2097311},
   {k:'lo',n:'Piscine Lothaire',lat:49.1010212,lng:6.1861665},
   {k:'bp',n:'Piscine du Bon Pasteur',lat:49.1118763,lng:6.2249136}];
-const GO_CFG={slot:15*60e3,dLat:.0018,dLng:.0027,view:380,catchR:40,spotR:90,egg:1000,maxSpd:4.6};
+const GO_CFG={slot:15*60e3,dLat:.0018,dLng:.0027,view:380,catchR:40,spotR:90,egg:1000,maxSpd:4.6,gap:240e3};
 const GO={map:null,me:null,acc:null,mk:{},spMk:[],wid:null,pos:null,last:null,lastT:0,follow:true,tick:null,dex:false,busy:false,err:''};
 function goSave(){COL.go=COL.go||{};const G=COL.go;G.c=G.c||{};G.got=G.got||{};G.m=G.m||0;G.egg=G.egg||0;G.sp=G.sp||{};G.spv=G.spv||{};G.n=G.n||0;return G;}
 function goPool(){return MEMBERS.filter(m=>!m.bonus&&!m.sp);}
@@ -9137,10 +9137,10 @@ function goSpawns(lat,lng){const slot=Math.floor(Date.now()/GO_CFG.slot),ci=Math
     const boost=!!goNearSpot(cLat,cLng,350);let n=rnd()<.7?1:0;if(rnd()<.2)n++;if(boost)n++;
     for(let k=0;k<n;k++){const a=(i+rnd())*GO_CFG.dLat,b=(j+rnd())*GO_CFG.dLng,m=goPick(rnd,boost);if(!m)continue;
       const key=slot+':'+i+':'+j+':'+k;if(goDist(lat,lng,a,b)<=GO_CFG.view)out.push({key,lat:a,lng:b,id:m.id});}}
-  const G=goSave(),d=dayKey();if(!G.home||G.home.d!==d){const rnd=goRnd(goHash('home',d,Math.random()));
-    G.home={d,pts:[0,1].map(k=>{const ang=rnd()*Math.PI*2,r=25+rnd()*35,m=goPick(rnd,false);return{key:'h:'+d+':'+k,lat:lat+Math.cos(ang)*r/111320,lng:lng+Math.sin(ang)*r/(111320*Math.cos(lat*Math.PI/180)),id:m.id};})};
-  goSaveLater();}
-  G.home.pts.forEach(p=>out.push(p));
+  const G=goSave(),d=dayKey();if(G.home)delete G.home;let H=null;try{H=JSON.parse(localStorage.getItem('gg-go-home')||'null');}catch(_){}if(!H||H.d!==d){const rnd=goRnd(goHash('home',d,Math.random()));
+    H={d,pts:[0,1].map(k=>{const ang=rnd()*Math.PI*2,r=25+rnd()*35,m=goPick(rnd,false);return{key:'h:'+d+':'+k,lat:lat+Math.cos(ang)*r/111320,lng:lng+Math.sin(ang)*r/(111320*Math.cos(lat*Math.PI/180)),id:m.id};})};
+  try{localStorage.setItem('gg-go-home',JSON.stringify(H));}catch(_){}}
+  H.pts.forEach(p=>out.push(p));
   return out.filter(s=>!G.got[s.key]);}
 function goMem(id){return MEMBERS.find(m=>m.id===id);}
 function goRC(r){return r==='L'?'#ffb300':r==='E'?'#b05cff':'#2f9be8';}
@@ -9176,11 +9176,14 @@ function goStopMap(full){if(GO.wid!=null){try{navigator.geolocation.clearWatch(G
   if(full!==false&&GO.map){try{GO.map.remove();}catch(_){}GO.map=null;}else if(GO.map&&!$('#goMap')){try{GO.map.remove();}catch(_){}GO.map=null;}}
 function goFix(p){const c=p.coords,now=Date.now(),pos={lat:c.latitude,lng:c.longitude,acc:c.accuracy||50};const first=!GO.pos;GO.pos=pos;goMsg('');
   const G=goSave();
-  if(pos.acc<=35){if(GO.last){const d=goDist(GO.last.lat,GO.last.lng,pos.lat,pos.lng),dt=Math.max(1,(now-GO.lastT)/1000);
+  if(pos.acc<=35){if(!GO.last){try{const lf=JSON.parse(localStorage.getItem('gg-go-lf')||'null');if(lf&&now-lf.t<=GO_CFG.gap&&now>=lf.t){GO.last={lat:lf.lat,lng:lf.lng};GO.lastT=lf.t;}}catch(_){}}
+    if(GO.last&&now-GO.lastT>GO_CFG.gap){GO.last=null;}
+    if(GO.last){const d=goDist(GO.last.lat,GO.last.lng,pos.lat,pos.lng),dt=Math.max(1,(now-GO.lastT)/1000);
       if(d>=8){if(d/dt<=GO_CFG.maxSpd){G.m+=d;G.egg+=d;stat('goM',Math.round(d));
           while(G.egg>=GO_CFG.egg){G.egg-=GO_CFG.egg;COL.boosters=(COL.boosters||0)+1;stat('goEgg');try{updBoostBtn();}catch(_){}toast('🥚','Œuf éclos !','Tu as marché 1 km : un booster t\'attend dans ta collection.');try{fgSfx('parry');}catch(_){}}
-          goSaveLater();}GO.last={lat:pos.lat,lng:pos.lng};GO.lastT=now;}}
-    else{GO.last={lat:pos.lat,lng:pos.lng};GO.lastT=now;}}
+          goSaveLater();}GO.last={lat:pos.lat,lng:pos.lng};}GO.lastT=now;}
+    else{GO.last={lat:pos.lat,lng:pos.lng};GO.lastT=now;}
+    try{localStorage.setItem('gg-go-lf',JSON.stringify({lat:GO.last.lat,lng:GO.last.lng,t:GO.lastT}));}catch(_){}}
   const s=goNearSpot(pos.lat,pos.lng,GO_CFG.spotR),d=dayKey();
   if(s&&G.sp[s.k]!==d){G.sp[s.k]=d;G.spv[s.k]=1;COL.boosters=(COL.boosters||0)+1;stat('goSp');try{updBoostBtn();}catch(_){}toast('🏊',s.n,'Bienvenue à la piscine ! Un booster est ajouté à ta collection.');try{fgSfx('parry');}catch(_){}saveCol();}
   if(GO.map){if(!GO.me){GO.acc=L.circle([pos.lat,pos.lng],{radius:pos.acc,color:'#2f9be8',weight:1,fillOpacity:.08,interactive:false}).addTo(GO.map);
