@@ -1293,6 +1293,17 @@ button,a,[data-hg],.rkscroll{touch-action:manipulation}
 @keyframes hpulse{50%{transform:scale(1.025)}}
 .hgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 #gogo.screen{bottom:calc(var(--navh) + env(safe-area-inset-bottom,0px))}.permbox{background:#f4f7fb;border-radius:14px;padding:12px;margin:10px 0}.permh{display:flex;gap:10px;align-items:center}.permh>span{font-size:28px}.permh b{display:block;font-size:16px}.permh small{color:#5a6576}.permbox p{margin:8px 0;font-size:14px}.permbox ul{margin:6px 0 10px;padding-left:4px;list-style:none;font-size:13.5px}.permbox li{margin:6px 0}.permbox .btn{width:100%}.permw{color:#b0123f;font-weight:600}
+.gotuto{position:fixed;inset:0;z-index:9500;background:#0d2f4fcc;display:flex;align-items:center;justify-content:center;padding:16px}
+.gotb{background:#fff;color:#1d2433;border-radius:22px;padding:22px 18px 16px;max-width:360px;width:100%;text-align:center;box-shadow:0 12px 40px #0006}
+.gote{font-size:64px;line-height:1.1}.gotb b{display:block;font-family:'Lilita One',system-ui;font-size:24px;margin:6px 0}.gotb p{font-size:15px;line-height:1.4;margin:0 0 12px}
+.gotd{display:flex;justify-content:center;gap:6px;margin-bottom:12px}.gotd i{width:8px;height:8px;border-radius:50%;background:#d5dbe3}.gotd i.on{background:#2fc4b2;width:22px;border-radius:4px}
+.gotb .btn{width:100%}
+.goflt{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#1d2433;margin:0 0 10px}.goflt select{flex:1;font:inherit;padding:7px 8px;border-radius:10px;border:2px solid #d5dbe3;background:#fff;color:#1d2433}.goflt span{background:#1d2433;color:#fff;border-radius:10px;padding:2px 8px;font-size:12px}
+.gotlink{display:block;text-align:center;margin:16px 0 4px;font-size:13px;color:#0e7f9b;text-decoration:underline;cursor:pointer}
+.hnews{display:flex;align-items:center;gap:10px;background:#fff;border-radius:14px;padding:9px 12px;box-shadow:0 2px 8px #0001;color:#1d2433;cursor:pointer;min-height:44px;box-sizing:border-box;overflow:hidden}
+.hnews[hidden]{display:none}.hne{font-size:22px}.hnt{flex:1;font-size:13px;line-height:1.25;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}.hnews small{font-size:10.5px;color:#7a8794;white-space:nowrap}
+.hnews.in .hnt,.hnews.in .hne{animation:hnIn .45s ease}@keyframes hnIn{from{opacity:0;transform:translateY(8px)}}
+.newsl{max-height:60vh;overflow-y:auto}.newsr{display:flex;gap:10px;padding:9px 2px;border-bottom:1px solid #eef1f5;font-size:14px}.newsr>span{font-size:22px}.newsr small{display:block;color:#7a8794;font-size:11.5px;margin-top:2px}
 .gobody{flex:1;min-height:0;position:relative;display:flex;flex-direction:column}
 .godexb{margin-left:auto;white-space:nowrap}
 .gobar{display:flex;justify-content:space-around;gap:6px;padding:8px 10px;font-size:13px;background:#fff;border-bottom:2px solid #e3e8ef;color:#1d2433}
@@ -1302,7 +1313,7 @@ button,a,[data-hg],.rkscroll{touch-action:manipulation}
 .gorec{position:absolute;right:12px;bottom:58px;z-index:600;width:46px;height:46px;border-radius:50%;border:0;background:#fff;font-size:22px;box-shadow:0 3px 10px #0004}
 .gohint{font-size:11.5px;text-align:center;padding:6px 10px;background:#fff;color:#5a6576;border-top:2px solid #e3e8ef}
 .gome i{display:block;width:22px;height:22px;border-radius:50%;background:#2f9be8;border:4px solid #fff;box-shadow:0 0 0 2px #2f9be8,0 2px 6px #0006;box-sizing:border-box}
-.gocard{background:none;border:0}
+.gocard{background:none;border:0;position:relative}
 .gocard img{width:46px;height:46px;border-radius:12px;object-fit:cover;border:3px solid #2f9be8;background:#fff;box-shadow:0 3px 8px #0005;box-sizing:border-box;animation:goBob 1.6s ease-in-out infinite;display:block}
 .gocard.rE img{border-color:#b05cff}.gocard.rL img{border-color:#ffb300;box-shadow:0 0 12px #ffb300,0 3px 8px #0005}
 .gocard i{display:block;text-align:center;font-style:normal;font-size:9px;color:#ffd23f;text-shadow:0 1px 2px #000;margin-top:-2px}
@@ -1321,7 +1332,19 @@ button,a,[data-hg],.rkscroll{touch-action:manipulation}
 .gocb .x{background:#ffffff33;color:#fff;border:0;border-radius:12px;padding:8px 12px;font-weight:700;width:auto;height:auto}
 .gohelp{text-align:center;font-weight:700;padding:8px 12px calc(16px + env(safe-area-inset-bottom,0px));font-size:15px}
 .godex{flex:1;overflow-y:auto;padding:12px 12px 24px}
-.gostat{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
+.gostat{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-bottom:8px}
+.golvh{font-size:11.5px;color:#5a6576;text-align:center;margin:0 0 10px}
+.godc em{display:block;font-style:normal;font-size:10px;color:#f0a500;letter-spacing:1px;line-height:1.1}
+.godc u{position:absolute;top:6px;left:6px;text-decoration:none;font-size:11px;background:#1d2433;color:#ffd23f;border-radius:8px;padding:1px 4px}
+.godc.lv2{background:#eaf6ff}.godc.lv3{background:#f2e6ff}.godc.lv4{background:#fff1cf}.godc.lv5{background:linear-gradient(135deg,#fff3c4,#ffd36b,#fff3c4)}
+.godc.shiny{box-shadow:0 0 0 2px #ffd23f,0 0 10px #ffcf33}
+.gocard.shiny img{border-color:#ffd23f;animation:goBob 1.6s ease-in-out infinite,goShine 1.2s linear infinite}
+.gosk{position:absolute;top:-8px;right:-8px;font-size:16px;filter:drop-shadow(0 1px 2px #000)}
+@keyframes goShine{0%,100%{box-shadow:0 0 6px #fff59a,0 3px 8px #0005}50%{box-shadow:0 0 16px #ffd23f,0 3px 8px #0005}}
+.goshl{background:#1d2433!important;color:#ffd23f!important;margin-left:6px}
+.gotgt.shiny{box-shadow:0 0 22px #ffe066,0 8px 20px #0005;animation:goShine 1.2s linear infinite}
+.goaim{position:absolute;left:0;top:0;z-index:2;width:200px;height:200px;border-radius:50%;border:5px solid #ffffffcc;pointer-events:none;box-sizing:border-box;transform-origin:center}
+.goaim.a2{border-color:#ffd23f}.goaim.a3{border-color:#3ee07a;box-shadow:0 0 14px #3ee07a}
 .gostat div{background:#fff;border-radius:12px;padding:8px 4px;text-align:center;color:#1d2433}.gostat b{display:block;font-size:15px}.gostat small{font-size:10px;color:#6b7686}
 .gogrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:8px}
 .godc{position:relative;background:#fff;border-radius:12px;padding:4px;text-align:center;border:3px solid var(--rc);color:#1d2433}
@@ -1562,7 +1585,7 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
 
   <section id="ranks" class="screen" aria-label="Classements">
     <div class="col-head"><button class="x" id="rkBack" aria-label="Retour">✕</button><h2>Classements</h2></div>
-    <div class="tabs"><button class="tab rt on" data-r="time">⏱ Records</button><button class="tab rt" data-r="cards">🃏 Cartes</button><button class="tab rt" data-r="bat">⚔️ Bataille</button><button class="tab rt" data-r="pty">🎲 Party</button><button class="tab rt" data-r="gm">🏢 Club</button><button class="tab rt" data-r="fg">🥊 Combat</button></div>
+    <div class="tabs"><button class="tab rt on" data-r="time">⏱ Records</button><button class="tab rt" data-r="cards">🃏 Cartes</button><button class="tab rt" data-r="bat">⚔️ Bataille</button><button class="tab rt" data-r="go">📍 GO</button><button class="tab rt" data-r="gm">🏢 Club</button><button class="tab rt" data-r="fg">🥊 Combat</button></div>
     <div class="rkgames" id="rkGames"></div>
     <div class="rkscroll"><div id="rkList"></div></div>
     <div class="cloudnote" id="rkNote"></div>
@@ -6009,7 +6032,7 @@ function mergeCol(o){if(!o)return;if(o.mgW!==1&&o.best&&o.best.willi!=null){o=Ob
   // Manager : la partie la plus avancée gagne · prestige : le plus haut
   if(o.gm&&COL.gm&&!COL.gm.spr&&!o.gm.spr&&o.gm.v===COL.gm.v&&(o.gm.lifeAll||0)>(COL.gm.lifeAll||0))COL.gm=o.gm;
   if((o.pres||0)>(COL.pres||0)){COL.pres=o.pres;if(o.presAt)COL.presAt=o.presAt;}
-if(o.go){const a=COL.go||{},b=o.go;const w=((b.n||0)+(b.m||0)/1000)>((a.n||0)+(a.m||0)/1000)?b:a,c={};[a.c||{},b.c||{}].forEach(x=>{for(const k in x)c[k]=Math.max(c[k]||0,x[k]||0);});const sv=Object.assign({},a.spv||{},b.spv||{}),sp=Object.assign({},a.sp||{},b.sp||{});COL.go=Object.assign({},w,{c,spv:sv,sp});}if(o.st){COL.st=COL.st||{};for(const k in o.st)COL.st[k]=Math.max(COL.st[k]||0,o.st[k]||0);}if(o.bUsed){COL.bUsed=COL.bUsed||{};for(const k in o.bUsed)COL.bUsed[k]=Math.max(COL.bUsed[k]||0,o.bUsed[k]||0);}['badges','ser','tSeen','qHist','evGot','acDone','noRew','bSeen'].forEach(f=>{if(o[f])COL[f]=Object.assign({},o[f],COL[f]||{});});if(o.fav&&!COL.fav)COL.fav=o.fav;if(o.q&&(!COL.q||o.q.d>COL.q.d))COL.q=o.q;if(o.chClaim)COL.chClaim=Object.assign(COL.chClaim||{},o.chClaim);if(o.duDone)COL.duDone=Object.assign(COL.duDone||{},o.duDone);if(o.chs){COL.chs=COL.chs||{};for(const d in o.chs){const a=COL.chs[d],b=o.chs[d];if(b&&(!a||(a.k===b.k&&better(b.k,b.v,a.v))))COL.chs[d]=b;}}if(o.trDone){COL.trDone=Object.assign(COL.trDone||{},o.trDone);}COL.bbt=Math.max(COL.bbt||0,o.bbt||0);COL.bbtm=Math.max(COL.bbtm||0,o.bbtm||0);if(o.bbl){COL.bbl=COL.bbl||{};for(const k in o.bbl)COL.bbl[k]=Math.max(COL.bbl[k]||0,o.bbl[k]||0);}if(o.bbtd&&(!COL.bbtd||o.bbtd>COL.bbtd))COL.bbtd=o.bbtd;if(!Array.isArray(COL.bbd)&&Array.isArray(o.bbd))COL.bbd=o.bbd;if(o.bbj&&(!COL.bbj||o.bbj.d>COL.bbj.d||(o.bbj.d===COL.bbj.d&&(o.bbj.v||0)>(COL.bbj.v||0))))COL.bbj=o.bbj;if(o.bbr&&(!COL.bbr||o.bbr.d>COL.bbr.d))COL.bbr=o.bbr;COL.boosters=Math.max(COL.boosters||0,o.boosters||0);if((!COL.packs||!COL.packs.length)&&o.packs)COL.packs=o.packs;
+if(o.go){const a=COL.go||{},b=o.go;const w=((b.n||0)+(b.m||0)/1000)>((a.n||0)+(a.m||0)/1000)?b:a,c={};[a.c||{},b.c||{}].forEach(x=>{for(const k in x)c[k]=Math.max(c[k]||0,x[k]||0);});const sh={};[a.sh||{},b.sh||{}].forEach(x=>{for(const k in x)sh[k]=Math.max(sh[k]||0,x[k]||0);});const sv=Object.assign({},a.spv||{},b.spv||{}),sp=Object.assign({},a.sp||{},b.sp||{});COL.go=Object.assign({},w,{c,sh,spv:sv,sp});}if(o.st){COL.st=COL.st||{};for(const k in o.st)COL.st[k]=Math.max(COL.st[k]||0,o.st[k]||0);}if(o.bUsed){COL.bUsed=COL.bUsed||{};for(const k in o.bUsed)COL.bUsed[k]=Math.max(COL.bUsed[k]||0,o.bUsed[k]||0);}['badges','ser','tSeen','qHist','evGot','acDone','noRew','bSeen'].forEach(f=>{if(o[f])COL[f]=Object.assign({},o[f],COL[f]||{});});if(o.fav&&!COL.fav)COL.fav=o.fav;if(o.q&&(!COL.q||o.q.d>COL.q.d))COL.q=o.q;if(o.chClaim)COL.chClaim=Object.assign(COL.chClaim||{},o.chClaim);if(o.duDone)COL.duDone=Object.assign(COL.duDone||{},o.duDone);if(o.chs){COL.chs=COL.chs||{};for(const d in o.chs){const a=COL.chs[d],b=o.chs[d];if(b&&(!a||(a.k===b.k&&better(b.k,b.v,a.v))))COL.chs[d]=b;}}if(o.trDone){COL.trDone=Object.assign(COL.trDone||{},o.trDone);}COL.bbt=Math.max(COL.bbt||0,o.bbt||0);COL.bbtm=Math.max(COL.bbtm||0,o.bbtm||0);if(o.bbl){COL.bbl=COL.bbl||{};for(const k in o.bbl)COL.bbl[k]=Math.max(COL.bbl[k]||0,o.bbl[k]||0);}if(o.bbtd&&(!COL.bbtd||o.bbtd>COL.bbtd))COL.bbtd=o.bbtd;if(!Array.isArray(COL.bbd)&&Array.isArray(o.bbd))COL.bbd=o.bbd;if(o.bbj&&(!COL.bbj||o.bbj.d>COL.bbj.d||(o.bbj.d===COL.bbj.d&&(o.bbj.v||0)>(COL.bbj.v||0))))COL.bbj=o.bbj;if(o.bbr&&(!COL.bbr||o.bbr.d>COL.bbr.d))COL.bbr=o.bbr;COL.boosters=Math.max(COL.boosters||0,o.boosters||0);if((!COL.packs||!COL.packs.length)&&o.packs)COL.packs=o.packs;
   if(o.daily&&(!COL.daily||o.daily>COL.daily))COL.daily=o.daily;if(o.got){COL.got=COL.got||{};for(const k in o.got)COL.got[k]=Math.max(COL.got[k]||0,o.got[k]||0);}
   if(o.rew){COL.rew=COL.rew||{mil:{},all:false};Object.assign(COL.rew.mil,o.rew.mil||{});COL.rew.all=COL.rew.all||o.rew.all;}['wins','cards','members','seen'].forEach(f=>{const src=o[f]||{};COL[f]=COL[f]||{};for(const k in src){if(f==='members')COL[f][k]=Math.max(COL[f][k]||0,src[k]||0);else if(!COL[f][k])COL[f][k]=src[k];}});}
 /* la base en ligne refuse les tableaux rangés dans des tableaux (comme les sessions [[début,fin],…]) : on les emballe avant l'envoi */
@@ -6362,9 +6385,20 @@ function recordResult(k,win){if(!win)return;const m=metricOf(k);let v;
   if(m.t==='time')v=Math.round((performance.now()-gameT0)/100)/10;
   else if(m.t==='wins'){COL.wins_n[k]=(COL.wins_n[k]||0)+1;v=COL.wins_n[k];}
   else v=pendingScore;
+  if(v!=null&&m.t!=='wins'&&better(k,v,COL.best[k])){try{const oth=rankList(k).filter(r=>!isMe(r.id)),top=oth[0];if(top&&better(k,v,top.v)&&!(COL.best[k]!=null&&better(k,COL.best[k],top.v)))newsAdd('🏆','a battu le record du club à « '+CHARS[k].game+' »');}catch(_){}}
   if(v!=null&&(m.t==='wins'||better(k,v,COL.best[k]))){const had=COL.best[k]!=null;COL.best[k]=v;if(had&&m.t!=='wins'){try{stat('rec');qHit('rec');}catch(_){}}saveCol();pushBoard();}return v;}
 let pushT=0;
-function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()=>{const GMR=COL.gm&&COL.gm.spr&&COL.gmBak&&!COL.gmBak.none?COL.gmBak:COL.gm;const o={pres:COL.pres||0,gm:GMR&&GMR.v===2?{s:GMR.stars||0,p:GMR.p||0,b:(x=>x<10?x:Math.pow(10,Math.floor(Math.log10(x))))(Math.floor(GMR.lifeAll||0))}:null,best:Object.assign({},COL.best),cards:cardCount(),dups:myDoubles().map(x=>x.id),chs:Object.assign({},COL.chs||{}),pf:pfPublic(),own:MEMBERS.filter(m=>COL.members[m.id]).map(m=>m.id),bbd:(()=>{try{return bbMyDeck();}catch(_){return null;}})(),bbt:COL.bbt||0,ptw:ST('ptWin'),ptp:ST('ptPlay'),bbj:COL.bbj&&COL.bbj.d===dayKey()?{d:COL.bbj.d,v:COL.bbj.v}:null,cw:(()=>{try{const c=GMR&&GMR.cw;return c&&c.w===gmWeek()?c:null;}catch(_){return null;}})()};
+/* actualités : chaque joueur publie ses 6 derniers exploits (jamais de position) */
+function newsAdd(e,x){COL.ev=(COL.ev||[]).filter(n=>n.x!==x);COL.ev.unshift({t:Date.now(),e,x});COL.ev=COL.ev.slice(0,6);saveCol();pushBoard();}
+async function newsList(){const wk=Date.now()-7*864e5,L=[];rows().forEach(r=>{const ev=isMe(r.id)?(COL.ev||[]):(r.d.ev||[]);if(Array.isArray(ev))ev.forEach(n=>{if(n&&n.t>wk&&typeof n.x==='string')L.push({id:r.id,t:n.t,e:String(n.e||'📰').slice(0,4),x:n.x.slice(0,90)});});});
+  L.sort((a,b)=>b.t-a.t);const top=L.slice(0,20),names=await nameOf([...new Set(top.map(n=>n.id))]);top.forEach(n=>{n.me=isMe(n.id);n.n=n.me?'Toi':(names[n.id]||'Un joueur');n.h=n.me&&n.x.startsWith('a ')?'<b>Tu as</b> '+esc(n.x.slice(2)):'<b>'+esc(n.n)+'</b> '+esc(n.x);});return top;}
+function newsAgo(t){const m=Math.round((Date.now()-t)/60e3);return m<1?'à l\'instant':m<60?'il y a '+m+' min':m<1440?'il y a '+Math.round(m/60)+' h':'il y a '+Math.round(m/1440)+' j';}
+let NEWS={i:0,L:[],t:null};
+async function newsHub(){const el=$('#hNews');if(!el)return;let L=[];try{L=await newsList();}catch(_){}NEWS.L=L;if(!L.length){el.hidden=true;return;}el.hidden=false;
+  const R=()=>{const n=NEWS.L[NEWS.i%NEWS.L.length];if(!n)return;el.innerHTML=`<span class="hne">${n.e}</span><span class="hnt">${n.h}</span><small>${newsAgo(n.t)}</small>`;el.classList.remove('in');void el.offsetWidth;el.classList.add('in');};
+  NEWS.i=0;R();clearInterval(NEWS.t);NEWS.t=setInterval(()=>{if(!$('#hub').classList.contains('active')||!$('#hNews')){clearInterval(NEWS.t);return;}NEWS.i++;R();},5000);
+  el.onclick=()=>{const sh=sheet(`<h3>📰 Les actus du club</h3><div class="newsl">${NEWS.L.map(n=>`<div class="newsr"><span>${n.e}</span><div>${n.h}<small>${newsAgo(n.t)}</small></div></div>`).join('')}</div><div class="trbtns"><button class="btn alt" id="bx">Fermer</button></div>`);sh.querySelector('#bx').onclick=()=>sh.remove();};}
+function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()=>{const GMR=COL.gm&&COL.gm.spr&&COL.gmBak&&!COL.gmBak.none?COL.gmBak:COL.gm;const o={pres:COL.pres||0,gm:GMR&&GMR.v===2?{s:GMR.stars||0,p:GMR.p||0,b:(x=>x<10?x:Math.pow(10,Math.floor(Math.log10(x))))(Math.floor(GMR.lifeAll||0))}:null,best:Object.assign({},COL.best),cards:cardCount(),dups:myDoubles().map(x=>x.id),chs:Object.assign({},COL.chs||{}),pf:pfPublic(),own:MEMBERS.filter(m=>COL.members[m.id]).map(m=>m.id),bbd:(()=>{try{return bbMyDeck();}catch(_){return null;}})(),bbt:COL.bbt||0,ptw:ST('ptWin'),ptp:ST('ptPlay'),goc:(COL.go&&COL.go.n)||0,ev:(COL.ev||[]).slice(0,6),gom:Math.floor(((COL.go&&COL.go.m)||0)/100)*100,bbj:COL.bbj&&COL.bbj.d===dayKey()?{d:COL.bbj.d,v:COL.bbj.v}:null,cw:(()=>{try{const c=GMR&&GMR.cw;return c&&c.w===gmWeek()?c:null;}catch(_){return null;}})()};
     /* on n'écrit que si quelque chose a changé (ou au moins une fois par heure, pour « vu récemment ») */
     const k=JSON.stringify(o),now=Date.now();if(k===pushBoard.k&&now-(pushBoard.t||0)<3600e3)return;
     // les simples compteurs (parties jouées, victoires…) ne partent qu'une fois toutes les 10 minutes :
@@ -6409,11 +6443,12 @@ async function buildRanks(){
     const nm=id=>isMe(id)?((names[id]&&names[id]!=='Joueur'&&names[id]!=='Toi')?names[id]+' (toi)':'Toi'):names[id];
     $('#rkList').innerHTML=`<div class="rkhead">🥊 Gambetta Fighter<small>Champions du bassin (puis étoiles ★)</small></div>`+
       list.map((r,i)=>`<div class="rkrow${isMe(r.id)?' me':''}"><span class="pos">${med[i]||i+1}</span><span class="who" data-pid="${r.id}">${esc(nm(r.id))}</span><span class="v">🏆 ${r.g.c} · ★ ${r.g.s}</span></div>`).join('');
-  }else if(rkTab==='pty'){
-    const list=rows().map(r=>({id:r.id,w:isMe(r.id)?ST('ptWin'):(r.d.ptw||0),n:isMe(r.id)?ST('ptPlay'):(r.d.ptp||0)})).filter(r=>r.n>0||isMe(r.id)).sort((a,b)=>(b.w-a.w)||(b.n-a.n));const names=await nameOf(list.map(r=>r.id));
+  }else if(rkTab==='go'){
+    const G=COL.go||{},mine={c:G.n||0,m:Math.round(G.m||0)};
+    const list=rows().map(r=>({id:r.id,c:isMe(r.id)?mine.c:(r.d.goc||0),m:isMe(r.id)?mine.m:(r.d.gom||0)})).filter(r=>r.c>0||r.m>0||isMe(r.id)).sort((a,b)=>(b.c-a.c)||(b.m-a.m));const names=await nameOf(list.map(r=>r.id));
     const nm=id=>isMe(id)?((names[id]&&names[id]!=='Joueur'&&names[id]!=='Toi')?names[id]+' (toi)':'Toi'):names[id];
-    $('#rkList').innerHTML=`<div class="rkhead">🎲 Gambetta Party<small>Parties gagnées (puis parties jouées)</small></div>`+
-      list.map((r,i)=>`<div class="rkrow${isMe(r.id)?' me':''}"><span class="pos">${med[i]||i+1}</span><span class="who" data-pid="${r.id}">${esc(nm(r.id))}</span><span class="v">${r.w} 🏆 · ${r.n} 🎲</span></div>`).join('');
+    $('#rkList').innerHTML=`<div class="rkhead">📍 Gambetta GO<small>Cartes attrapées (puis kilomètres parcourus)</small></div>`+
+      list.map((r,i)=>`<div class="rkrow${isMe(r.id)?' me':''}"><span class="pos">${med[i]||i+1}</span><span class="who" data-pid="${r.id}">${esc(nm(r.id))}</span><span class="v">${r.c} 🛟 · ${(r.m/1000).toFixed(1)} km</span></div>`).join('');
   }else if(rkTab==='bat'){
     const list=rows().map(r=>({id:r.id,t:isMe(r.id)?(COL.bbt||0):(r.d.bbt||0)})).filter(r=>r.t>0||isMe(r.id)).sort((a,b)=>b.t-a.t);const names=await nameOf(list.map(r=>r.id));
     const nm=id=>isMe(id)?((names[id]&&names[id]!=='Joueur'&&names[id]!=='Toi')?names[id]+' (toi)':'Toi'):names[id];
@@ -6472,7 +6507,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=49;
+const APP_V=50;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
@@ -6708,7 +6743,7 @@ function hubRender(){const b=$('#hubBody');if(!b)return;const d=hubData();let h=
   h+=`<button class="hday${d.dd?' done':''}" data-hg="defi"><span class="he">🎯</span><div><small>Défi du jour</small><b>${esc(d.dn||'—')}</b></div><em>${d.dd?'✅ Fait':'À jouer'} ›</em></button>`;
   try{const O=ofToday(),tn=ofTodayN();h+=`<button class="hday of" data-hg="defi"><span class="he">${O.e}</span><div><small>Proposition du jour</small><b>${esc(O.n)}</b></div><em>${tn?'✅ ×'+tn:'🃏 '+ofCost(O).n} ›</em></button>`;}catch(_){}
   if(d.ev)h+=`<button class="hday ev" data-hg="defi"><span class="he">🎉</span><div><small>Événement</small><b>${esc(d.ev.name||'')}</b></div><em>fin à ${hhmm(d.ev.endAt)} ›</em></button>`;
-  h+='<div class="hgrid">'
+  h+='<div class="hnews" id="hNews" hidden></div><div class="hgrid">'
    +hubTile('select','🎮','Mini-jeux',`🃏 ${d.mg||0}/${d.mgT||0} cartes jeux`,'#2f9be8','#1565c0')
    +hubTile('bataille','⚔️','Bataille',d.bInv?`📩 ${d.bInv} invitation${d.bInv>1?'s':''} !`:(d.bt?`${d.bt.e} ${d.bt.n} · ${d.btt} 🏆`:'Défends ton plongeoir'),'#ff8a3d','#d84315',d.bInv>0)
    +hubTile('fighter','🥊','Combat',d.fn?`★ ${d.fs}/${d.fn*21} · 🏆 ${d.fc}/${d.fn}`:'Le tournoi du bassin','#ff5a7a','#b0123f')
@@ -6716,7 +6751,7 @@ function hubRender(){const b=$('#hubBody');if(!b)return;const d=hubData();let h=
    +hubTile('go','📍','Gambetta GO',(()=>{try{const G=goSave();return G.n?`📒 ${goDexN()}/${goPool().length} · 🚶 ${(G.m/1000).toFixed(1)} km`:'Chasse les cartes en marchant';}catch(_){return '';}})(),'#2fc4b2','#0e7f9b')+hubTile('party','🎲','Gambetta Party',d.pt?'▶ Partie en cours !':'Plateau entre amis','#9b5cf0','#5b2bb5',d.pt)
    +hubTile('qq','🕵️','Qui est-ce ?',d.qq?'▶ Partie en cours !':'Duel à 2 joueurs','#f2b51f','#c77c00',d.qq)
    +'</div>';
-  if(h===HUB.h&&b.childElementCount)return;HUB.h=h;b.innerHTML=h;
+  if(h===HUB.h&&b.childElementCount)return;HUB.h=h;b.innerHTML=h;setTimeout(newsHub,50);
   b.querySelectorAll('[data-hg]').forEach(x=>x.onclick=()=>hubGo(x.dataset.hg));}
 function hubGo(g){PLAYCTX=null;
   if(g==='select'){buildSelect();show('select');const gr=$('#grid');if(gr)gr.scrollTop=0;}
@@ -7061,6 +7096,9 @@ const BADGES=[
   {id:'go100',e:'🏆',n:'Maître de la bouée',d:'Attraper 100 cartes dans Gambetta GO',ok:()=>ST('goC')>=100},
   {id:'goL',e:'👑',n:'Prise légendaire',d:'Attraper une carte légendaire dans Gambetta GO',ok:()=>ST('goL')>=1},
   {id:'gok10',e:'🚶',n:'Grand marcheur',d:'Marcher 10 km avec Gambetta GO',ok:()=>ST('goM')>=10000},
+  {id:'gosh',e:'✨',n:'Éclat rare',d:'Attraper une carte brillante dans Gambetta GO',ok:()=>ST('goSh')>=1},
+  {id:'golv',e:'⭐',n:'Fan absolu',d:'Monter une carte au niveau 5 dans Gambetta GO (20 captures)',ok:()=>{try{return Object.values(goSave().c).some(c=>c>=20);}catch(_){return false;}}},
+  {id:'gopf',e:'🎯',n:'Lancer parfait',d:'Réussir 10 lancers parfaits dans Gambetta GO',ok:()=>ST('goPf')>=10},
   {id:'gosp',e:'🏊',n:'Tour des piscines',d:'Visiter les 3 piscines du club avec Gambetta GO',ok:()=>{try{return Object.keys(goSave().spv).length>=3;}catch(_){return false;}}},
   {id:'px1',e:'🎨',n:'Premier coup d\'éponge',d:'Effacer une carte dans Pixel Gambetta',ok:()=>ST('pxW')>=1},
   {id:'px10',e:'🧽',n:'Grand nettoyage',d:'Effacer 10 cartes dans Pixel Gambetta',ok:()=>ST('pxW')>=10},
@@ -9123,8 +9161,9 @@ const GO_SPOTS=[
   {k:'lo',n:'Piscine Lothaire',lat:49.1010212,lng:6.1861665},
   {k:'bp',n:'Piscine du Bon Pasteur',lat:49.1118763,lng:6.2249136}];
 const GO_CFG={slot:15*60e3,dLat:.0018,dLng:.0027,view:380,catchR:40,spotR:90,egg:1000,maxSpd:4.6,gap:240e3};
-const GO={map:null,me:null,acc:null,mk:{},spMk:[],wid:null,pos:null,last:null,lastT:0,follow:true,tick:null,dex:false,busy:false,err:''};
-function goSave(){COL.go=COL.go||{};const G=COL.go;G.c=G.c||{};G.got=G.got||{};G.m=G.m||0;G.egg=G.egg||0;G.sp=G.sp||{};G.spv=G.spv||{};G.n=G.n||0;return G;}
+const GO={flt:'all',map:null,me:null,acc:null,mk:{},spMk:[],wid:null,pos:null,last:null,lastT:0,follow:true,tick:null,dex:false,busy:false,err:''};
+function goSave(){COL.go=COL.go||{};const G=COL.go;G.c=G.c||{};G.got=G.got||{};G.m=G.m||0;G.egg=G.egg||0;G.sp=G.sp||{};G.spv=G.spv||{};G.n=G.n||0;G.sh=G.sh||{};return G;}
+function goLv(c){return Math.min(5,1+Math.floor((c||0)/5));}
 function goPool(){return MEMBERS.filter(m=>!m.bonus&&!m.sp);}
 function goDist(a,b,c,d){const R=6371e3,r=Math.PI/180,x=(d-b)*r*Math.cos((a+c)/2*r),y=(c-a)*r;return Math.sqrt(x*x+y*y)*R;}
 function goHash(){let h=2166136261;for(const v of arguments){const s=String(v);for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}h^=124;h=Math.imul(h,16777619);}return h>>>0;}
@@ -9136,19 +9175,26 @@ function goSpawns(lat,lng){const slot=Math.floor(Date.now()/GO_CFG.slot),ci=Math
   for(let i=ci-3;i<=ci+3;i++)for(let j=cj-3;j<=cj+3;j++){const rnd=goRnd(goHash('go',slot,i,j));const cLat=(i+.5)*GO_CFG.dLat,cLng=(j+.5)*GO_CFG.dLng;
     const boost=!!goNearSpot(cLat,cLng,350);let n=rnd()<.7?1:0;if(rnd()<.2)n++;if(boost)n++;
     for(let k=0;k<n;k++){const a=(i+rnd())*GO_CFG.dLat,b=(j+rnd())*GO_CFG.dLng,m=goPick(rnd,boost);if(!m)continue;
-      const key=slot+':'+i+':'+j+':'+k;if(goDist(lat,lng,a,b)<=GO_CFG.view)out.push({key,lat:a,lng:b,id:m.id});}}
+      const sh=rnd()<.02,key=slot+':'+i+':'+j+':'+k;if(goDist(lat,lng,a,b)<=GO_CFG.view)out.push({key,lat:a,lng:b,id:m.id,sh});}}
   const G=goSave(),d=dayKey();if(G.home)delete G.home;let H=null;try{H=JSON.parse(localStorage.getItem('gg-go-home')||'null');}catch(_){}if(!H||H.d!==d){const rnd=goRnd(goHash('home',d,Math.random()));
-    H={d,pts:[0,1].map(k=>{const ang=rnd()*Math.PI*2,r=25+rnd()*35,m=goPick(rnd,false);return{key:'h:'+d+':'+k,lat:lat+Math.cos(ang)*r/111320,lng:lng+Math.sin(ang)*r/(111320*Math.cos(lat*Math.PI/180)),id:m.id};})};
+    H={d,pts:[0,1].map(k=>{const ang=rnd()*Math.PI*2,r=25+rnd()*35,m=goPick(rnd,false),sh=rnd()<.02;return{key:'h:'+d+':'+k,sh,lat:lat+Math.cos(ang)*r/111320,lng:lng+Math.sin(ang)*r/(111320*Math.cos(lat*Math.PI/180)),id:m.id};})};
   try{localStorage.setItem('gg-go-home',JSON.stringify(H));}catch(_){}}
   H.pts.forEach(p=>out.push(p));
   return out.filter(s=>!G.got[s.key]);}
 function goMem(id){return MEMBERS.find(m=>m.id===id);}
 function goRC(r){return r==='L'?'#ffb300':r==='E'?'#b05cff':'#2f9be8';}
 function goDexN(){const G=goSave();return Object.keys(G.c).length;}
-function openGo(){const db=$('#goDexBtn');if(db)db.onclick=()=>{GO.dex=!GO.dex;goRender();};try{bbClose();}catch(_){}try{fgStop();}catch(_){}try{pxStop();}catch(_){}show('gogo');goRender();}
+function goTuto(then){const S=[
+  {e:'🗺️',t:'Promène-toi !',d:'Des cartes Gambetta apparaissent autour de toi sur le plan. Elles changent tous les quarts d\'heure, et tout le club voit les mêmes au même endroit.'},
+  {e:'🛟',t:'Lance la bouée',d:'Approche-toi à moins de 40 m d\'une carte et touche-la. Glisse la bouée vers le haut pour la lancer. Lance quand le cercle est petit et vert : lancer parfait 🎯 !'},
+  {e:'🏊',t:'Piscines et œufs',d:'Passe à Belletanche, Lothaire ou Bon Pasteur : un booster par jour dans chaque piscine. Et chaque kilomètre marché fait éclore un œuf : encore un booster !'}];
+  let i=0;const o=document.createElement('div');o.className='gotuto';document.body.appendChild(o);
+  const R=()=>{const x=S[i];o.innerHTML=`<div class="gotb"><div class="gote">${x.e}</div><b>${x.t}</b><p>${x.d}</p><div class="gotd">${S.map((_,j)=>`<i class="${j===i?'on':''}"></i>`).join('')}</div><button class="btn" id="gotN">${i<S.length-1?'Suivant ›':'C\'est parti ! 📍'}</button></div>`;
+    o.querySelector('#gotN').onclick=()=>{if(i<S.length-1){i++;R();}else{o.remove();COL.goTut=1;saveCol();if(then)then();}};};R();}
+function openGo(){if(!COL.goTut){show('gogo');goTuto(()=>openGo());return;}const db=$('#goDexBtn');if(db)db.onclick=()=>{GO.dex=!GO.dex;goRender();};try{bbClose();}catch(_){}try{fgStop();}catch(_){}try{pxStop();}catch(_){}show('gogo');goRender();}
 function goRender(){const b=$('#goBody');if(!b)return;const G=goSave(),N=goPool().length;
   $('#goDexBtn').textContent=GO.dex?'🗺️ Carte':'📒 '+goDexN()+'/'+N;
-  if(GO.dex){goStopMap(true);b.innerHTML=goDexHTML();return;}
+  if(GO.dex){goStopMap(true);const sc=b.querySelector('.godex');const top=sc?sc.scrollTop:0;b.innerHTML=goDexHTML();const f=$('#goFlt');if(f)f.onchange=()=>{GO.flt=f.value;goRender();};const ta=$('#goTutAgain');if(ta)ta.onclick=()=>goTuto();return;}
   if(!b.querySelector('#goMap')){b.innerHTML=`<div class="gobar"><span>🥚 <b id="goEgg"></b></span><span>🚶 <b id="goKm"></b></span><span>🛟 <b id="goN"></b></span></div>
     <div id="goMap"><div class="gomsg" id="goMsg">📡 Recherche de ta position…</div></div><button class="gorec" id="goRec" aria-label="Me recentrer">📍</button>
     <div class="gohint">Approche-toi à moins de ${GO_CFG.catchR} m d'une carte puis touche-la · 🏊 passe aux piscines du club pour un booster par jour</div>`;
@@ -9195,7 +9241,7 @@ function goFix(p){const c=p.coords,now=Date.now(),pos={lat:c.latitude,lng:c.long
 let goLS=0,goCL=Date.now();function goSaveLater(){const now=Date.now();if(now-goLS>5000){goLS=now;try{localStorage.setItem('gambetta-col',JSON.stringify(COL));}catch(_){}}if(now-goCL>180e3){goCL=now;saveCol();}}
 function goDraw(){if(!GO.map||!GO.pos)return;const S=goSpawns(GO.pos.lat,GO.pos.lng),keep={};
   S.forEach(s=>{keep[s.key]=1;if(GO.mk[s.key])return;const m=goMem(s.id);if(!m)return;
-    const mk=L.marker([s.lat,s.lng],{icon:L.divIcon({className:'gocard r'+m.r,html:`<img src="${m.thumb||m.img}" alt="" style="object-position:${m.pos||'50% 30%'}"><i>${m.r==='L'?'★★★':m.r==='E'?'★★':'★'}</i>`,iconSize:[46,58],iconAnchor:[23,29]})}).addTo(GO.map);
+    const mk=L.marker([s.lat,s.lng],{icon:L.divIcon({className:'gocard r'+m.r+(s.sh?' shiny':''),html:`<img src="${m.thumb||m.img}" alt="" style="object-position:${m.pos||'50% 30%'}">${s.sh?'<b class="gosk">✨</b>':''}<i>${m.r==='L'?'★★★':m.r==='E'?'★★':'★'}</i>`,iconSize:[46,58],iconAnchor:[23,29]})}).addTo(GO.map);
     mk.on('click',()=>goTap(s));GO.mk[s.key]=mk;});
   for(const k in GO.mk)if(!keep[k]){GO.map.removeLayer(GO.mk[k]);delete GO.mk[k];}
   const G=goSave(),slot=Math.floor(Date.now()/GO_CFG.slot);for(const k in G.got){const n=+k.split(':')[0];if(k[0]!=='h'&&n<slot-2)delete G.got[k];else if(k[0]==='h'&&k.slice(2,12)!==dayKey())delete G.got[k];}}
@@ -9207,16 +9253,17 @@ function goSpotInfo(s){const G=goSave(),d=GO.pos?Math.round(goDist(GO.pos.lat,GO
 /* la capture : lance la bouée sur la carte qui bouge */
 function goCatch(s){const m=goMem(s.id);if(!m)return;GO.busy=true;const G=goSave();
   const sp={R:1,E:1.5,L:2.1}[m.r],fleeP={R:0,E:.15,L:.28}[m.r],holdP={R:1,E:.8,L:.6}[m.r];
-  const o=document.createElement('div');o.className='gocatch';o.innerHTML=`<div class="goct"><b>${m.n}</b><small style="color:${goRC(m.r)}">${m.r==='L'?'Légendaire ★★★':m.r==='E'?'Épique ★★':'Rare ★'}</small></div>
-    <div class="gofield"><div class="gotgt" style="border-color:${goRC(m.r)}"><img src="${m.img}" alt="" style="object-position:${m.pos||'50% 30%'}"></div><div class="goring">🛟</div></div>
-    <div class="gocb"><span id="goTry"></span><button class="x" id="goRun" aria-label="Fuir">🏃 Laisser filer</button></div><div class="gohelp">Glisse la bouée vers le haut pour la lancer !</div>`;
-  document.body.appendChild(o);const F=o.querySelector('.gofield'),T=o.querySelector('.gotgt'),R=o.querySelector('.goring');
+  const o=document.createElement('div');o.className='gocatch';o.innerHTML=`<div class="goct"><b>${m.n}</b><small style="color:${goRC(m.r)}">${m.r==='L'?'Légendaire ★★★':m.r==='E'?'Épique ★★':'Rare ★'}</small>${s.sh?'<small class="goshl">✨ Brillante</small>':''}</div>
+    <div class="gofield"><div class="goaim"></div><div class="gotgt${s.sh?' shiny':''}" style="border-color:${goRC(m.r)}"><img src="${m.img}" alt="" style="object-position:${m.pos||'50% 30%'}"></div><div class="goring">🛟</div></div>
+    <div class="gocb"><span id="goTry"></span><button class="x" id="goRun" aria-label="Fuir">🏃 Laisser filer</button></div><div class="gohelp">Glisse la bouée vers le haut pour la lancer !<br><small>Lance quand le cercle est petit et vert : lancer parfait 🎯</small></div>`;
+  document.body.appendChild(o);const F=o.querySelector('.gofield'),T=o.querySelector('.gotgt'),R=o.querySelector('.goring'),A=o.querySelector('.goaim');let aim=1;
   let x=.5,y=.3,vx=(Math.random()<.5?-1:1)*.25*sp,vy=.06*sp,t0=performance.now(),lt=t0,raf=0,thr=null,tries=0,end=false;
   const W=()=>F.clientWidth,H=()=>F.clientHeight;
   const loop=now=>{const dt=Math.min(.05,(now-lt)/1000);lt=now;if(!thr||thr.p<1){x+=vx*dt;y+=vy*dt;
       if(x<.15||x>.85){vx=-vx;x=Math.max(.15,Math.min(.85,x));}if(y<.18||y>.42){vy=-vy;y=Math.max(.18,Math.min(.42,y));}
       if(m.r!=='R'&&Math.random()<dt*(m.r==='L'?1.4:.7))vx=(Math.random()<.5?-1:1)*(.18+Math.random()*.2)*sp;}
     T.style.transform=`translate(${x*W()-T.offsetWidth/2}px,${y*H()-T.offsetHeight/2}px) rotate(${Math.sin(now/300)*6}deg)`;
+    if(!thr){aim=1-.72*(((now-t0)/1300)%1);}A.style.transform=`translate(${x*W()-A.offsetWidth/2}px,${y*H()-A.offsetHeight/2}px) scale(${aim})`;A.className='goaim'+(aim<.5?' a3':aim<.75?' a2':'');
     if(thr){thr.p=Math.min(1,(now-thr.t)/420);const p=thr.p,rx=thr.x0+(thr.x1-thr.x0)*p,ry=thr.y0+(thr.y1-thr.y0)*p-Math.sin(p*Math.PI)*.08;
       R.style.transform=`translate(${rx*W()-R.offsetWidth/2}px,${ry*H()-R.offsetHeight/2}px) scale(${1-.45*p}) rotate(${p*540}deg)`;
       if(p>=1&&!thr.done){thr.done=1;const hit=Math.abs(rx-x)<.13&&Math.abs(ry-y)<.12;res(hit);}}
@@ -9224,15 +9271,17 @@ function goCatch(s){const m=goMem(s.id);if(!m)return;GO.busy=true;const G=goSave
     if(!end)raf=requestAnimationFrame(loop);};
   const upd=()=>{o.querySelector('#goTry').textContent=tries?'Lancers : '+tries:'';};
   const close=(ok)=>{end=true;cancelAnimationFrame(raf);GO.busy=false;setTimeout(()=>o.remove(),ok?1400:900);};
-  const res=hit=>{tries++;upd();stat('goT');
-    if(hit&&Math.random()<holdP){T.classList.add('got');R.style.opacity=0;G.got[s.key]=1;const nw=!G.c[m.id];G.c[m.id]=(G.c[m.id]||0)+1;G.n++;stat('goC');if(m.r==='L')stat('goL');
-      o.querySelector('.gohelp').innerHTML=`🎉 <b>${m.n}</b> attrapé${nw?' · <b>nouvelle carte !</b>':' · ×'+G.c[m.id]}`;try{fgSfx('parry');}catch(_){}saveCol();try{badgeCheck();}catch(_){}
+  const res=hit=>{tries++;upd();stat('goT');const q=aim<.5?2:aim<.75?1:0,ql=q===2?'🎯 Lancer parfait ! ':q===1?'👍 Super lancer ! ':'';
+    if(hit&&Math.random()<Math.min(1,holdP+[0,.2,.35][q])){if(q===2)stat('goPf');T.classList.add('got');R.style.opacity=0;G.got[s.key]=1;const nw=!G.c[m.id];G.c[m.id]=(G.c[m.id]||0)+1;G.n++;stat('goC');if(m.r==='L')stat('goL');
+      if(s.sh){G.sh[m.id]=(G.sh[m.id]||0)+1;stat('goSh');}const c=G.c[m.id],up=c%5===0&&c<=20;
+      try{if(s.sh)newsAdd('✨','a attrapé '+m.n+' en version brillante dans Gambetta GO');else if(m.r==='L')newsAdd('👑','a attrapé la légendaire « '+m.n+' » dans Gambetta GO');if(c===20)newsAdd('⭐','a fait monter « '+m.n+' » au niveau 5 dans Gambetta GO');}catch(_){}
+      o.querySelector('.gohelp').innerHTML=`${ql}🎉 <b>${m.n}</b>${s.sh?' ✨':''} attrapé${nw?' · <b>nouvelle carte !</b>':' · ×'+c}${up?`<br>⬆️ <b>Niveau ${goLv(c)} !</b> ${'★'.repeat(goLv(c))}`:''}`;if(up)stat('goUp');try{fgSfx('parry');}catch(_){}saveCol();try{badgeCheck();}catch(_){}
       if(GO.mk[s.key]&&GO.map){GO.map.removeLayer(GO.mk[s.key]);delete GO.mk[s.key];}goBar();close(true);return;}
-    if(hit){T.classList.add('esc');setTimeout(()=>T.classList.remove('esc'),500);o.querySelector('.gohelp').textContent='Oh non ! '+m.n+' s\'est échappé de la bouée !';}
+    if(hit){T.classList.add('esc');setTimeout(()=>T.classList.remove('esc'),500);o.querySelector('.gohelp').textContent=ql+'Oh non ! '+m.n+' s\'est échappé de la bouée !';}
     else o.querySelector('.gohelp').textContent='Raté ! Vise bien la carte.';
     try{fgSfx('swing');}catch(_){}
     if(Math.random()<fleeP){G.got[s.key]=1;o.querySelector('.gohelp').textContent='💨 '+m.n+' s\'est enfui…';T.classList.add('flee');if(GO.mk[s.key]&&GO.map){GO.map.removeLayer(GO.mk[s.key]);delete GO.mk[s.key];}saveCol();close(false);return;}
-    setTimeout(()=>{thr=null;},250);};
+    setTimeout(()=>{thr=null;t0=performance.now();},250);};
   let st=null;F.addEventListener('pointerdown',e=>{if(thr||end)return;st={x:e.clientX,y:e.clientY,t:performance.now()};try{F.setPointerCapture(e.pointerId);}catch(_){}});
   F.addEventListener('pointerup',e=>{if(!st||thr||end)return;const dx=e.clientX-st.x,dy=e.clientY-st.y;st=null;if(dy>-30)return;
     const r=F.getBoundingClientRect(),k=Math.min(2.2,Math.max(.6,(-dy)/(r.height*.4)));
@@ -9240,9 +9289,13 @@ function goCatch(s){const m=goMem(s.id);if(!m)return;GO.busy=true;const G=goSave
   o.querySelector('#goRun').onclick=()=>{close(false);};
   upd();raf=requestAnimationFrame(loop);}
 function goDexHTML(){const G=goSave(),P=goPool(),n=goDexN();
-  const sorted=P.slice().sort((a,b)=>('LER'.indexOf(a.r)-'LER'.indexOf(b.r)));
-  return `<div class="godex"><div class="gostat"><div><b>${n}/${P.length}</b><small>cartes trouvées</small></div><div><b>${G.n}</b><small>captures</small></div><div><b>${(G.m/1000).toFixed(1)} km</b><small>parcourus</small></div><div><b>${Object.keys(G.spv).length}/3</b><small>piscines</small></div></div>
-    <div class="gogrid">${sorted.map(m=>{const c=G.c[m.id];return `<div class="godc${c?'':' no'}" style="--rc:${goRC(m.r)}">${c?`<img src="${m.thumb||m.img}" alt="" style="object-position:${m.pos||'50% 30%'}"><b>${m.n}</b>${c>1?`<i>×${c}</i>`:''}`:'<span>?</span><b>???</b>'}</div>`;}).join('')}</div></div>`;}
+  const F={all:()=>1,miss:m=>!G.c[m.id],have:m=>!!G.c[m.id],L:m=>m.r==='L',E:m=>m.r==='E',R:m=>m.r==='R',sh:m=>!!G.sh[m.id]}[GO.flt]||(()=>1);
+  const sorted=P.filter(F).sort((a,b)=>('LER'.indexOf(a.r)-'LER'.indexOf(b.r)));
+  const opts=[['all','Toutes les cartes'],['miss','Celles qui me manquent'],['have','Celles que j\'ai'],['L','Légendaires ★★★'],['E','Épiques ★★'],['R','Rares ★'],['sh','Brillantes ✨']];
+  return `<div class="godex"><div class="gostat"><div><b>${n}/${P.length}</b><small>cartes trouvées</small></div><div><b>${G.n}</b><small>captures</small></div><div><b>${(G.m/1000).toFixed(1)} km</b><small>parcourus</small></div><div><b>${Object.keys(G.spv).length}/3</b><small>piscines</small></div><div><b>✨ ${Object.keys(G.sh).length}</b><small>brillantes</small></div></div>
+    <div class="golvh">⬆️ Une carte monte d'un niveau toutes les 5 captures (jusqu'au niveau 5) · ✨ 1 carte sur 50 est brillante</div>
+    <label class="goflt">Afficher <select id="goFlt">${opts.map(([k,t])=>`<option value="${k}"${GO.flt===k?' selected':''}>${t}</option>`).join('')}</select><span>${sorted.length}</span></label>
+    <div class="gogrid">${sorted.map(m=>{const c=G.c[m.id],lv=goLv(c),sh=G.sh[m.id];return `<div class="godc${c?' lv'+lv:' no'}${sh?' shiny':''}" style="--rc:${goRC(m.r)}">${c?`<img src="${m.thumb||m.img}" alt="" style="object-position:${m.pos||'50% 30%'}"><b>${m.n}</b><em>${'★'.repeat(lv)}</em>${c>1?`<i>×${c}</i>`:''}${sh?`<u>✨${sh>1?sh:''}</u>`:''}`:'<span>?</span><b>???</b>'}</div>`;}).join('')||'<div class="rkempty" style="grid-column:1/-1">Aucune carte ici pour l\'instant.</div>'}</div><a class="gotlink" id="goTutAgain">Revoir comment jouer</a></div>`;}
 
 function openPixel(){try{bbClose();}catch(_){}try{fgStop();}catch(_){}show('pixel');pxHome();}
 function pxHome(){pxStop();const b=$('#pxBody');if(!b)return;try{badgeCheck();}catch(_){}$('#pixel').classList.remove('ingame');try{navSync('pixel');}catch(_){}const P=pxSave(),mode=P.mode,Lv=pxLevels(),done=P[mode],cur=Math.min(done,Lv.length-1),m=Lv[cur],sp=pxSpec(cur);
