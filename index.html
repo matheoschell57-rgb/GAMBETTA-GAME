@@ -3343,10 +3343,10 @@ function gameAude(stage,api){
 
 /* ================= NATHAN : gare aux thons ================= */
 function gameNathan(stage,api){
-  const cv=makeCanvas(stage),ctx=cv.ctx;const LV=[{n:4,v:70,t:22},{n:6,v:90,t:20},{n:8,v:110,t:18},{n:10,v:125,t:16}];
+  const cv=makeCanvas(stage),ctx=cv.ctx;const LV=[{n:4,v:68,t:22},{n:5,v:84,t:22},{n:7,v:98,t:20},{n:8,v:110,t:19}];
   const nat=svgImg(avatar(CHARS.nathan.look,{viewBox:'30 20 140 140'}));
   const girl=svgImg(avatar(randLook({hair:'long',hairColor:'#d9a441',shirt:'#ff7eb6',earrings:true,beard:false,mustache:false,glasses:false})));
-  let lv=0,lives=3,t=0,lvT=0,over=false,path=[],pi=0,nx=0.5,ny=0.9,drawing=false,inv=0,tunas=[],won=0;const fx=[];
+  let lv=0,lives=4,t=0,lvT=0,over=false,path=[],pi=0,nx=0.5,ny=0.9,drawing=false,inv=0,tunas=[],won=0;const fx=[];
   const hud=()=>api.hud(`💖 ${lv+1}/${LV.length}  ❤️ ${lives}  ⏱ ${Math.ceil(Math.max(0,lvT))}s`);
   function setup(){tunas=[];const n=LV[lv].n;for(let k=0;k<n;k++){tunas.push({x:Math.random(),y0:0.22+0.58*(k+0.5)/n,y:0.22+0.58*(k+0.5)/n,d:Math.random()<.5?1:-1,v:LV[lv].v*(0.7+Math.random()*0.6),ph:Math.random()*6,amp:lv>0&&Math.random()<0.5?0.03+lv*0.01:0,burst:0});}
     lvT=LV[lv].t;reset();hud();}
@@ -3361,14 +3361,14 @@ function gameNathan(stage,api){
   return{
     update(dt){
       if(over)return;t+=dt;inv=Math.max(0,inv-dt);const W=cv.W,H=cv.H;
-      for(const tu of tunas){tu.ph+=dt*5;tu.y=tu.y0+Math.sin(tu.ph*0.35)*tu.amp;if(tu.burst<=0&&lv>=2&&Math.random()<dt*0.25)tu.burst=0.8;tu.burst=Math.max(0,tu.burst-dt);tu.x+=tu.d*tu.v*(tu.burst>0?2.2:1)*dt/W;if(tu.x>1.08){tu.x=1.08;tu.d=-1;}if(tu.x<-0.08){tu.x=-0.08;tu.d=1;}}
+      for(const tu of tunas){tu.ph+=dt*5;tu.y=tu.y0+Math.sin(tu.ph*0.35)*tu.amp;if(tu.burst<=0&&lv>=2&&Math.random()<dt*0.17)tu.burst=0.7;tu.burst=Math.max(0,tu.burst-dt);tu.x+=tu.d*tu.v*(tu.burst>0?2.2:1)*dt/W;if(tu.x>1.08){tu.x=1.08;tu.d=-1;}if(tu.x<-0.08){tu.x=-0.08;tu.d=1;}}
       if(won>0){won-=dt;if(won<=0){lv++;if(lv>=LV.length){over=true;api.end(true,'Il est arrivé !',"Nathan a traversé tout le bassin sans croiser un seul thon. Il peut enfin lui dire bonjour 💕");}else setup();}return;}
       lvT-=dt;if(lvT<=0){lives--;fx.push({x:cv.W/2,y:cv.H*0.2,txt:'Elle s\'impatiente !',t:0,c:'#ff6b5b'});lvT=LV[lv].t;reset();
         if(lives<=0){over=true;hud();api.end(false,'Elle est partie !','Nathan a mis trop de temps à traverser le bassin…');return;}}
-      hud();let step=125*dt;let p=P();
+      hud();let step=135*dt;let p=P();
       while(step>0&&pi<path.length){const tg=path[pi],d=Math.hypot(tg.x-p.x,tg.y-p.y);if(d<=step){p={x:tg.x,y:tg.y};step-=d;pi++;}else{p={x:p.x+(tg.x-p.x)/d*step,y:p.y+(tg.y-p.y)/d*step};step=0;}}
       nx=p.x/W;ny=p.y/H;
-      if(inv<=0)for(const tu of tunas){if(Math.abs(tu.x*W-p.x)<38&&Math.abs(tu.y*H-p.y)<22){lives--;inv=1.2;fx.push({x:p.x,y:p.y-30,txt:'Aïe, un thon !',t:0,c:'#ff6b5b'});reset();hud();
+      if(inv<=0)for(const tu of tunas){if(Math.abs(tu.x*W-p.x)<33&&Math.abs(tu.y*H-p.y)<19){lives--;inv=1.5;fx.push({x:p.x,y:p.y-30,txt:'Aïe, un thon !',t:0,c:'#ff6b5b'});reset();hud();
         if(lives<=0){over=true;api.end(false,'Trop de thons !','Nathan s\'est fait bousculer par les thons… Il retentera sa chance au prochain cours.');}break;}}
       if(ny<0.17){won=1.3;fx.push({x:p.x,y:p.y-30,txt:'💖',t:0,c:'#ff7eb6'});}
       for(let k=fx.length-1;k>=0;k--){fx[k].t+=dt;if(fx[k].t>1.2)fx.splice(k,1);}
@@ -5839,19 +5839,19 @@ function gameMaurice(stage,api){
 
 /* ================= WILLI : la moto amphibie ================= */
 function gameWilli(stage,api){
-  const cv=makeCanvas(stage),ctx=cv.ctx,L=CHARS.willi.look,LIVES=4,NSEG=18,JMP=1.0;
+  const cv=makeCanvas(stage),ctx=cv.ctx,L=CHARS.willi.look,LIVES=3,NSEG=20,JMP=0.95;
   const wil=svgImg(avatar(L,{viewBox:'20 10 160 170'}));
   const STAGES=[{n:'Provence',e:'☀️',sky:['#7fd3ff','#ffe9b0']},{n:'Lyon',e:'🦁',sky:['#8ac8ff','#e8f3ff']},{n:'Vosges',e:'🌲',sky:['#9fc0e8','#dde9f5']},{n:'Moselle',e:'🍇',sky:['#ffb37a','#ffe0c0']},{n:'Metz',e:'🏊',sky:['#ff9a8a','#ffd6b0']}];
   // la route : alternance route / eau, de plus en plus serrée
   const seg=[];let x=0;for(let i=0;i<NSEG;i++){const p=i/NSEG,road=i%2===0,len=road?(760-p*300)*(0.8+Math.random()*0.4):(560-p*180)*(0.8+Math.random()*0.4);
-    const ob=[];const n=Math.floor(len/(road?380:360)*(0.35+p*0.55));for(let k=0;k<n;k++){const ox=x+120+(len-240)*(k+0.5)/n+(Math.random()-.5)*60;ob.push({x:ox,e:road?pick(['🕳️','🐄','🚧']):pick(['🪵','🦆','🚣']),hit:0});}
+    const ob=[];const n=Math.floor(len/(road?355:330)*(0.42+p*0.75));for(let k=0;k<n;k++){const ox=x+120+(len-240)*(k+0.5)/n+(Math.random()-.5)*60;ob.push({x:ox,e:road?pick(['🕳️','🐄','🚧']):pick(['🪵','🦆','🚣']),hit:0});}
     seg.push({x0:x,x1:x+len,road,ob});x+=len;}
   const END=x;
   let t=0,over=false,pos=0,v=240,mode='road',lives=LIVES,jump=0,inv=0,plouf=0,fric=0,fx=[],warnT=0;
   const hud=()=>api.hud(`🏍️ ${Math.round(pos/END*100)} %  ❤️ ${lives}`);hud();
   const segAt=p=>p<0?seg[0]:(seg.find(s=>p>=s.x0&&p<s.x1)||seg[seg.length-1]);
   const say=(txt,c)=>fx.push({x:cv.W*0.3,y:cv.H*0.4,txt,t:0,c:c||'#ffcf33'});
-  function lose(msg){if(inv>0)return;lives--;hud();inv=2.2;say(msg,'#ff6b5b');try{navigator.vibrate&&navigator.vibrate(130);}catch(_){}
+  function lose(msg){if(inv>0)return;lives--;hud();inv=1.9;say(msg,'#ff6b5b');try{navigator.vibrate&&navigator.vibrate(130);}catch(_){}
     if(lives<=0){over=true;setTimeout(()=>api.end(false,'Willi a pris l\'eau…',`La moto a coulé avant d'arriver à Metz (${Math.round(pos/END*100)} % du trajet). Sors les flotteurs juste avant l'eau !`),1000);}}
   function toggle(){if(over||plouf>0)return;mode=mode==='road'?'boat':'road';fx.push({x:cv.W*0.25,y:cv.H*0.5,txt:mode==='boat'?'🛟 Flotteurs !':'🛞 Roues !',t:0,c:'#fff'});try{fgSfx('pop');}catch(_){}}
   function hop(){if(over||jump>0||plouf>0)return;jump=JMP;}
@@ -5863,12 +5863,12 @@ function gameWilli(stage,api){
     update(dt){dt=Math.max(0,dt||0);t+=dt;for(let k=fx.length-1;k>=0;k--){fx[k].t+=dt;if(fx[k].t>1.2)fx.splice(k,1);}if(over)return;
       inv=Math.max(0,inv-dt);if(jump>0)jump=Math.max(0,jump-dt);
       if(plouf>0){plouf-=dt;if(plouf<=0){mode='boat';}return;}
-      const p=pos/END,S=segAt(pos);v=210+p*110;
+      const p=pos/END,S=segAt(pos);v=225+p*140;
       // mauvais mode : sur la route avec les flotteurs = ça frotte ; dans l'eau avec les roues = PLOUF
       let sp=v;if(S.road&&mode==='boat'&&jump<=0){sp*=0.45;fric+=dt;if(fric>0.7){fric=0;fx.push({x:cv.W*0.25,y:cv.H*0.55,txt:'Ça frotte ! 🛟',t:0,c:'#ff9a1f'});}}
       pos+=sp*dt;const S2=segAt(pos);
       if(!S2.road&&mode==='road'&&jump<=0&&pos-S2.x0>45&&S2.x1-pos>420){lose('PLOUF ! 💦');plouf=1;pos=S2.x0+40;return;}
-      S2.ob.forEach(o=>{if(o.hit)return;if(Math.abs(o.x-pos)<20&&jump<=0.08){o.hit=1;lose(S2.road?'Aïe ! '+o.e:'Bonk ! '+o.e);}else if(o.x<pos-30&&!o.hit){o.hit=2;}});
+      S2.ob.forEach(o=>{if(o.hit)return;if(Math.abs(o.x-pos)<23&&jump<=0.1){o.hit=1;lose(S2.road?'Aïe ! '+o.e:'Bonk ! '+o.e);}else if(o.x<pos-30&&!o.hit){o.hit=2;}});
       // prévenir juste avant un changement
       const nx=seg[seg.indexOf(S2)+1];if(nx&&nx.x0-pos<380&&nx.x0-pos>0&&((nx.road&&mode==='boat')||(!nx.road&&mode==='road')))warnT=0.2;else warnT=Math.max(0,warnT-dt);
       if(pos>=END){over=true;pos=END;const s=Math.round((performance.now()-gameT0)/100)/10;say('🏊 Metz !','#7dffa8');setTimeout(()=>api.end(true,'Arrivé à Metz !',`Willi a traversé routes, rivières et lacs en ${String(s).replace('.',',')} s, juste à temps pour l'apéro du club. Ce qui se passe à Metz… 🤫`),1100);}
@@ -6574,7 +6574,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=54;
+const APP_V=55;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
