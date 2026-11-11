@@ -58,6 +58,7 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
   background:radial-gradient(circle at 20px 26px,#3cb4e6 20px,transparent 21px) repeat-x;background-size:40px 24px;animation:waves 2.5s linear infinite}
 .waves::after{content:"";position:absolute;left:0;right:0;top:22px;height:10px;
   background:radial-gradient(circle at 15px 12px,rgba(255,255,255,.5) 6px,transparent 7px) repeat-x;background-size:60px 12px;animation:waves 4s linear infinite reverse}
+.nobub .bubbles{display:none}
 .bubbles i{position:absolute;bottom:-20px;width:16px;height:16px;border-radius:50%;border:3px solid rgba(255,255,255,.8);animation:rise 7s linear infinite;z-index:1}
 .bubbles i:nth-child(1){left:8%;animation-delay:0s}.bubbles i:nth-child(2){left:22%;animation-delay:2.2s;width:10px;height:10px}
 .bubbles i:nth-child(3){left:41%;animation-delay:4.1s}.bubbles i:nth-child(4){left:63%;animation-delay:1.1s;width:22px;height:22px}
@@ -1348,7 +1349,7 @@ button,a,[data-hg],.rkscroll{touch-action:manipulation}
 .hquiz small{opacity:.9}
 @keyframes hpulse{50%{transform:scale(1.025)}}
 .hgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-#gogo.screen{bottom:calc(var(--navh) + env(safe-area-inset-bottom,0px))}.permbox{background:#f4f7fb;border-radius:14px;padding:12px;margin:10px 0}.permh{display:flex;gap:10px;align-items:center}.permh>span{font-size:28px}.permh b{display:block;font-size:16px}.permh small{color:#5a6576}.permbox p{margin:8px 0;font-size:14px}.permbox ul{margin:6px 0 10px;padding-left:4px;list-style:none;font-size:13.5px}.permbox li{margin:6px 0}.permbox .btn{width:100%}.permw{color:#b0123f;font-weight:600}
+#gogo.screen{bottom:calc(var(--navh) + env(safe-area-inset-bottom,0px))}.permt{margin:14px 2px 0;font-size:16px}.permbox{background:#f4f7fb;border-radius:14px;padding:12px;margin:10px 0}.permh{display:flex;gap:10px;align-items:center}.permh>span{font-size:28px}.permh b{display:block;font-size:16px}.permh small{color:#5a6576}.permbox p{margin:8px 0;font-size:14px}.permbox ul{margin:6px 0 10px;padding-left:4px;list-style:none;font-size:13.5px}.permbox li{margin:6px 0}.permbox .btn{width:100%}.permw{color:#b0123f;font-weight:600}
 .gotuto{position:fixed;inset:0;z-index:9500;background:#0d2f4fcc;display:flex;align-items:center;justify-content:center;padding:16px}
 .gotb{background:#fff;color:#1d2433;border-radius:22px;padding:22px 18px 16px;max-width:360px;width:100%;text-align:center;box-shadow:0 12px 40px #0006}
 .gote{font-size:64px;line-height:1.1}.gotb b{display:block;font-family:'Lilita One',system-ui;font-size:24px;margin:6px 0}.gotb p{font-size:15px;line-height:1.4;margin:0 0 12px}
@@ -6027,7 +6028,7 @@ let current=null,raf=0,last=0,ended=false,curKey=null,typing=null,freshCard=null
 const NAVH=[];let NAVSKIP=false;const NAV_NOHIST=['title','intro','game'];
 function navTrack(id){const cur=document.querySelector('.screen.active'),c=cur&&cur.id;if(!c||c===id)return;
   if(NAVH.length&&NAVH[NAVH.length-1]===id){NAVH.pop();return;}if(NAVSKIP||NAV_NOHIST.includes(c))return;NAVH.push(c);if(NAVH.length>30)NAVH.shift();}
-function show(id){try{if(SND.unlocked)setTimeout(()=>musPlay(musFor(id)),0);}catch(_){}if(id!=='gogo'){try{if(typeof goStopMap==='function'&&(GO.wid!=null||GO.map))goStopMap(true);}catch(_){}}try{navTrack(id);if(id==='hub')NAVH.length=0;}catch(_){}const _pv=(document.querySelector('.screen.active')||{}).id;document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));try{scrFx(_pv,id);}catch(_){}try{navSync(id);}catch(_){}try{if(boardRefresh){if(id==='ranks'||id==='defi')boardRefresh(60e3);else if(id==='hub')boardRefresh();}}catch(_){}
+function show(id){try{bubApply();}catch(_){}try{if(SND.unlocked)setTimeout(()=>musPlay(musFor(id)),0);}catch(_){}if(id!=='gogo'){try{if(typeof goStopMap==='function'&&(GO.wid!=null||GO.map))goStopMap(true);}catch(_){}}try{navTrack(id);if(id==='hub')NAVH.length=0;}catch(_){}const _pv=(document.querySelector('.screen.active')||{}).id;document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));try{scrFx(_pv,id);}catch(_){}try{navSync(id);}catch(_){}try{if(boardRefresh){if(id==='ranks'||id==='defi')boardRefresh(60e3);else if(id==='hub')boardRefresh();}}catch(_){}
   try{const h=!NAVH.length&&id!=='intro';document.querySelectorAll('#'+id+' .navback').forEach(b=>b.hidden=h);}catch(_){}}
 function navBack(){const cur=(document.querySelector('.screen.active')||{}).id;let prev=NAVH.pop();while(prev&&prev===cur)prev=NAVH.pop();
   if(cur==='intro'&&!prev)prev='select';
@@ -6656,7 +6657,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=57;
+const APP_V=58;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
@@ -6950,8 +6951,7 @@ function buildMoi(){const b=$('#moiBody');if(!b)return;const name=(window.GG&&GG
     <div class="moistats"><div><b>${cardCount()}</b><span>cartes</span></div><div><b>${nb}</b><span>badges</span></div><div><b>${tier.e} ${t}</b><span>trophées</span></div><div><b>${st.won||0}</b><span>victoires</span></div></div>
     <div class="moilist">${row('moiProf','📊','Mon profil','Statistiques, badges et carte préférée')}
       ${keyBtn&&!keyBtn.hidden?row('moiKey','🔑','Ma sauvegarde','Ton code pour retrouver ta partie sur un autre téléphone'):''}
-      ${row('moiNotif','🔐','Autorisations','Notifications et position · '+(pushOn()?'🔔 activées':'🔔 à activer'))}
-      ${row('moiSnd','🔊','Son','<span id="moiSndT">'+sndLabel()+'</span> · touche pour changer')}
+      ${row('moiNotif','⚙️','Paramètres','Autorisations, son et animations')}
       ${row('moiCol','🃏','Ma collection','Toutes tes cartes et tes boosters')}
       ${row('moiPres','🏊','Le Grand Plongeon',presOK()?'Disponible ! Replonge tout pour devenir une légende':PRES()?'Prestige '+PRES()+' · prochain : chaque carte'+presX(presNeed()):'Réunis toutes les cartes pour devenir une légende')}
       ${row('moiBat','⚔️','Mon deck de bataille','Changer et améliorer tes cartes')}
@@ -6959,7 +6959,7 @@ function buildMoi(){const b=$('#moiBody');if(!b)return;const name=(window.GG&&GG
     <div class="cloudnote">${window.GG&&GG.code?'☁️ Ta partie est sauvegardée en ligne.':'☁️ Ta partie est sauvegardée sur ce téléphone.'}</div>`;
   const on=(id,f)=>{const x=b.querySelector('#'+id);if(x)x.onclick=f;};
   on('moiProf',()=>openProfile(myId||'local'));on('moiKey',()=>{const k=document.querySelector('.selbtns .save');if(k)k.click();});
-  on('moiCol',()=>$('#openCol').click());on('moiNotif',permSheet);on('moiSnd',()=>{const t=sndCycle(),e=$('#moiSndT');if(e)e.textContent=t;});on('moiPres',presSheet);on('moiBat',()=>openBataille());on('moiAdm',()=>$('#openAdmin').click());}
+  on('moiCol',()=>$('#openCol').click());on('moiNotif',permSheet);on('moiPres',presSheet);on('moiBat',()=>openBataille());on('moiAdm',()=>$('#openAdmin').click());}
 
 
 
@@ -7023,7 +7023,12 @@ async function pushAsk(){const OS=window.GGPUSH;
 async function geoState(){try{if(navigator.permissions&&navigator.permissions.query){const r=await navigator.permissions.query({name:'geolocation'});return r.state;}}catch(_){}return navigator.geolocation?'prompt':'none';}
 async function permSheet(){document.querySelectorAll('.permsh').forEach(x=>x.remove());const g=await geoState(),pOn=pushOn();
   const gTxt=g==='granted'?'✅ Autorisée':g==='denied'?'🚫 Bloquée':g==='none'?'Non disponible sur ce téléphone':'⏸️ Pas encore autorisée';
-  const sh=sheet(`<h3>🔐 Autorisations</h3>
+  const sh=sheet(`<h3>⚙️ Paramètres</h3>
+    <div class="permbox"><div class="permh"><span>🔊</span><div><b>Son</b><small>Musique et bruitages du jeu</small></div></div>
+      <button class="btn alt" id="setSnd">${sndLabel()}</button></div>
+    <div class="permbox"><div class="permh"><span>🫧</span><div><b>Animations des bulles</b><small>Les bulles qui montent sur l'écran d'accueil</small></div></div>
+      <button class="btn alt" id="setBub">${bubOn()?'✅ Activées':'🚫 Désactivées'}</button></div>
+    <h4 class="permt">🔐 Autorisations</h4>
     <div class="permbox"><div class="permh"><span>🔔</span><div><b>Notifications</b><small>${pushTxt()}</small></div></div>
       <p>Pour être prévenu des quiz, événements, tournois, échanges et duels.</p>
       <button class="btn${pOn?' alt':''}" id="permN">${pOn?'Gérer les notifications':'Activer les notifications'}</button></div>
@@ -7035,6 +7040,8 @@ async function permSheet(){document.querySelectorAll('.permsh').forEach(x=>x.rem
       ${g==='granted'||g==='none'?'':g==='denied'?'<p class="permw">Pour la réactiver, va dans les réglages de ton navigateur (ou de ton téléphone) pour ce site, puis autorise la position.</p>':'<button class="btn" id="permG">Autoriser la position</button>'}</div>
     <div class="trbtns"><button class="btn alt" id="bx">Fermer</button></div>`);
   sh.classList.add('permsh');sh.querySelector('#bx').onclick=()=>sh.remove();
+  const sb=sh.querySelector('#setSnd');if(sb)sb.onclick=()=>{sb.textContent=sndCycle();};
+  const bb=sh.querySelector('#setBub');if(bb)bb.onclick=()=>{COL.bub=bubOn()?0:1;saveCol();bubApply();bb.textContent=bubOn()?'✅ Activées':'🚫 Désactivées';};
   const n=sh.querySelector('#permN');if(n)n.onclick=()=>{sh.remove();pushAsk();};
   const gb=sh.querySelector('#permG');if(gb)gb.onclick=()=>{gb.disabled=true;gb.textContent='…';navigator.geolocation.getCurrentPosition(()=>{toast('📍','Position autorisée','Elle ne sert que quand Gambetta GO est ouvert');sh.remove();permSheet();},()=>{sh.remove();permSheet();},{timeout:15000});};}
 window.addEventListener('ggpush',()=>{try{if($('#moi').classList.contains('active'))buildMoi();}catch(_){}});
@@ -10302,6 +10309,8 @@ function fgImg(k,boss){const id=k+(boss?'*':'');if(FG.img[id])return FG.img[id];
 /* ---------- bruitages ---------- */
 /* ================= SON : musiques composées en direct (aucun fichier) + effets sonores, réglables dans Moi ================= */
 const SND={ac:null,out:null,mg:null,fx:null,nb:null,track:'',step:0,next:0,iv:null,unlocked:false,combo:0,ct:0};
+function bubOn(){return !(typeof COL!=='undefined'&&COL&&COL.bub===0);}
+function bubApply(){document.documentElement.classList.toggle('nobub',!bubOn());}
 function sndMode(){return (typeof COL!=='undefined'&&COL&&COL.snd)||'all';}
 function sndOff(){return sndMode()==='off';}
 function musOn(){return sndMode()==='all';}
