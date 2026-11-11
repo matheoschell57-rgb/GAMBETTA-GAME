@@ -6657,7 +6657,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=58;
+const APP_V=59;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
@@ -11441,8 +11441,7 @@ function fxFlash(host,col){if(FXQ||!host)return;const d=document.createElement('
 const SCRFX={t:0,ord:['select','collection','defi','ranks','moi']};
 function scrFx(prev,id){if(FXQ||!prev||prev===id)return;const el=document.getElementById(id);if(!el)return;const a=SCRFX.ord.indexOf(prev),b=SCRFX.ord.indexOf(id);
   if(a>=0&&b>=0){el.style.setProperty('--tx',(b>a?26:-26)+'px');el.style.setProperty('--ty','0px');}else{el.style.setProperty('--tx','0px');el.style.setProperty('--ty','14px');}
-  const now=performance.now();if(now-SCRFX.t<450||id==='game'||id==='intro')return;SCRFX.t=now;const app=document.getElementById('app');if(!app)return;
-  const w=document.createElement('i');w.className='fxwave';app.appendChild(w);setTimeout(()=>w.remove(),640);
+  const now=performance.now();if(now-SCRFX.t<450||id==='game'||id==='intro'||!bubOn())return;SCRFX.t=now;const app=document.getElementById('app');if(!app)return;
   for(let i=0;i<9;i++){const d=document.createElement('i');d.className='fxb';const s=10+Math.random()*20,du=.65+Math.random()*.5;d.style.cssText=`left:${4+Math.random()*90}%;width:${s}px;height:${s}px;--sx:${(Math.random()-.5)*60}px;animation-duration:${du}s;animation-delay:${Math.random()*.18}s`;app.appendChild(d);setTimeout(()=>d.remove(),du*1000+260);}}
 /* mini-jeux : couche d'effets posée au-dessus du jeu */
 const GFX={x:0,y:0,t:-1e9,hurtT:0,goodT:0,p:null};
