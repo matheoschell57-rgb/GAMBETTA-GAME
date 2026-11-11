@@ -6535,7 +6535,7 @@ document.querySelectorAll('.tab.rt').forEach(b=>b.onclick=()=>{rkTab=b.dataset.r
 /* ================= ADMIN (propriétaire uniquement) + CADEAUX ================= */
 /* gifts/all et gifts/<id> : écrits par le propriétaire seulement, cumulatifs ; chaque joueur retient ce qu'il a déjà reçu */
 COL.got=COL.got||{all:0,me:0,cards:0};
-let DB=null,IS_ADMIN=false,GIFTS={},ADM={tab:'gift',to:'all',mode:'boost',n:1,msg:'',card:null};
+let DB=null,IS_ADMIN=false,GIFTS={},ADM={tab:'gift',to:'all',sel:[],mode:'boost',n:1,msg:'',card:null};
 (async function giftInit(){try{if(!window.claude||!window.claude.use)return;const db=await window.claude.use('db'),u=await window.claude.use('user');if(!db||!u)return;DB=db;
   try{qzWatchLive();}catch(_){}IS_ADMIN=await u.isOwner();if(IS_ADMIN){$('#openAdmin').hidden=false;db.collection('gifts').onSnapshot(q=>{const o={};q.docs.forEach(d=>o[d.id]=d.data());GIFTS=o;if($('#admin').classList.contains('active'))buildAdmin();},()=>{});}
   const id=await u.id();if(!id)return;
@@ -6574,7 +6574,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=55;
+const APP_V=56;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
@@ -6626,8 +6626,9 @@ async function adminPlayers(){const list=Object.entries(BOARD).map(([id,d])=>({i
   return list.map(r=>({id:r.id,name:names[r.id]||'Joueur',code:codes[r.id]||'',cards:r.d.cards||0,recs:Object.keys(r.d.best||{}).length,got:((GIFTS[r.id]||{}).boosters||0)})).sort((a,b)=>a.name.localeCompare(b.name));}
 async function buildAdmin(){const b=$('#admBody'),P=await adminPlayers();
   if(ADM.tab==='gift'){
-    const toName=ADM.to==='all'?'tout le club':(P.find(p=>p.id===ADM.to)||{}).name||'?';
-    b.innerHTML=`<div class="abox"><h4>1. À qui ?</h4><div class="asel"><button class="apill all${ADM.to==='all'?' on':''}" data-to="all">👥 Tout le club</button>${P.map(p=>`<button class="apill${ADM.to===p.id?' on':''}" data-to="${p.id}">${esc(p.name)}</button>`).join('')}</div>
+    ADM.sel=(ADM.sel||[]).filter(id=>P.some(p=>p.id===id));if(ADM.to!=='all'&&!ADM.sel.length)ADM.to='all';
+    const selN=ADM.sel.map(id=>(P.find(p=>p.id===id)||{}).name||'Joueur'),toName=ADM.to==='all'?'tout le club':selN.length<=3?selN.join(', '):selN.slice(0,3).join(', ')+' et '+(selN.length-3)+' autre'+(selN.length>4?'s':'');
+    b.innerHTML=`<div class="abox"><h4>1. À qui ?</h4><p class="asum" style="margin:0 0 8px">Touche une ou plusieurs personnes${ADM.to!=='all'?` · <b>${ADM.sel.length} sélectionnée${ADM.sel.length>1?'s':''}</b> · <a href="#" id="aClr">tout désélectionner</a>`:''}</p><div class="asel"><button class="apill all${ADM.to==='all'?' on':''}" data-to="all">👥 Tout le club</button>${P.map(p=>`<button class="apill${ADM.to!=='all'&&ADM.sel.includes(p.id)?' on':''}" data-to="${p.id}">${ADM.to!=='all'&&ADM.sel.includes(p.id)?'✓ ':''}${esc(p.name)}</button>`).join('')}</div>
       ${P.length?'':'<p class="asum">Les joueurs apparaîtront ici dès qu\'ils auront ouvert le jeu.</p>'}</div>
       <div class="abox"><h4>2. Quoi ?</h4><div class="amode"><button class="apill${ADM.mode==='boost'?' on':''}" data-mode="boost">🎁 Des boosters</button><button class="apill${ADM.mode==='card'?' on':''}" data-mode="card"${ADM.to==='all'?' disabled style="opacity:.4"':''}>🃏 Une carte précise</button></div>
       ${ADM.mode==='boost'?`<div class="astep"><button id="aMinus">−</button><b>${ADM.n}</b><button id="aPlus">+</button><span>booster${ADM.n>1?'s':''}</span></div>`:
@@ -6635,7 +6636,8 @@ async function buildAdmin(){const b=$('#admBody'),P=await adminPlayers();
       <div class="abox"><h4>3. Un petit mot ? (facultatif)</h4><input class="ainput" id="aMsg" maxlength="120" placeholder="Ex. : Bravo pour ta compétition !" value="${esc(ADM.msg)}"></div>
       <div class="asum">${ADM.mode==='boost'?`${ADM.n} booster${ADM.n>1?'s':''} pour <b>${esc(toName)}</b>`:ADM.card?`La carte <b>${esc(memObj(ADM.card).n)}</b> pour <b>${esc(toName)}</b>`:'Choisis une carte'}</div>
       <button class="asend" id="aSend"${(ADM.mode==='card'&&!ADM.card)?' disabled':''}>Envoyer 🚀</button>`;
-    b.querySelectorAll('[data-to]').forEach(x=>x.onclick=()=>{ADM.to=x.dataset.to;if(ADM.to==='all')ADM.mode='boost';buildAdmin();});
+    b.querySelectorAll('[data-to]').forEach(x=>x.onclick=()=>{const id=x.dataset.to;if(id==='all'){ADM.to='all';ADM.sel=[];ADM.mode='boost';}else{if(ADM.to==='all')ADM.sel=[];ADM.to='sel';const i=ADM.sel.indexOf(id);if(i>=0)ADM.sel.splice(i,1);else ADM.sel.push(id);if(!ADM.sel.length){ADM.to='all';ADM.mode='boost';}}buildAdmin();});
+    const clr=b.querySelector('#aClr');if(clr)clr.onclick=e=>{e.preventDefault();ADM.to='all';ADM.sel=[];ADM.mode='boost';buildAdmin();};
     b.querySelectorAll('[data-mode]').forEach(x=>x.onclick=()=>{if(x.disabled)return;ADM.mode=x.dataset.mode;buildAdmin();});
     const mi=b.querySelector('#aMinus'),pl=b.querySelector('#aPlus');if(mi)mi.onclick=()=>{ADM.n=Math.max(1,ADM.n-1);buildAdmin();};if(pl)pl.onclick=()=>{ADM.n=Math.min(20,ADM.n+1);buildAdmin();};
     b.querySelectorAll('[data-card]').forEach(x=>x.onclick=()=>{ADM.card=x.dataset.card;buildAdmin();});
@@ -6643,7 +6645,7 @@ async function buildAdmin(){const b=$('#admBody'),P=await adminPlayers();
     b.querySelector('#aSend').onclick=sendGift;}
   else if(ADM.tab==='players'){
     b.innerHTML=`<div class="rkhead">${P.length} joueur${P.length>1?'s':''}<small>Touche 🎁 pour offrir directement</small></div>${window.GG&&GG.admin?'<button class="asend" id="aBackup" style="margin-bottom:12px">💾 Télécharger une sauvegarde</button><button class="asend" id="aClean" style="margin-bottom:12px">🧹 Nettoyer les vieilles données</button>':''}`+(P.length?P.map(p=>`<div class="prow"><span class="who">${esc(p.name)}${P.filter(q=>q.name.trim().toLowerCase()===p.name.trim().toLowerCase()).length>1?' <i class="dup">⚠️ doublon</i>':''}<small>${p.code?'🔑 '+p.code+' · ':''}${p.recs} mini-jeu${p.recs>1?'x':''} gagné${p.recs>1?'s':''} · ${p.got} booster${p.got>1?'s':''} offert${p.got>1?'s':''}</small></span><span class="mini">${p.cards} 🃏</span><button class="gift" data-to="${p.id}" aria-label="Offrir">🎁</button>${window.GG&&GG.admin&&p.id!==GG.pid?`<button class="gift del" data-del="${p.id}" aria-label="Supprimer">🗑️</button>`:''}</div>`).join(''):'<div class="rkempty">Aucun joueur pour l\'instant.</div>')+(window.GG&&GG.admin?'<button class="gglink" id="aReset" style="display:block;margin:18px auto;color:var(--red)">⚠️ Réinitialiser…</button>':'');
-    b.querySelectorAll('.gift').forEach(x=>x.onclick=()=>{ADM.to=x.dataset.to;ADM.tab='gift';setATab();buildAdmin();});
+    b.querySelectorAll('.gift').forEach(x=>x.onclick=()=>{ADM.to='sel';ADM.sel=[x.dataset.to];ADM.tab='gift';setATab();buildAdmin();});
     const rs=b.querySelector('#aReset');if(rs)rs.onclick=()=>GG.resetFlow();
     b.querySelectorAll('[data-del]').forEach(x=>x.onclick=async()=>{const p=P.find(q=>q.id===x.dataset.del);if(!p)return;
       if(!confirm(`Supprimer définitivement « ${p.name} » ?\n${p.cards} carte(s)${p.code?' · code '+p.code:''}\n\nÀ faire seulement pour un doublon : sa progression sera perdue.`))return;
@@ -6660,12 +6662,15 @@ async function buildAdmin(){const b=$('#admBody'),P=await adminPlayers();
     b.innerHTML=`<div class="rkhead">Derniers envois</div>`+(L.length?L.map(g=>`<div class="prow"><span class="who">${g.what}<small>${new Date(g.at).toLocaleString('fr-FR',{dateStyle:'short',timeStyle:'short'})}${g.msg?' · « '+esc(g.msg)+' »':''}</small></span></div>`).join(''):'<div class="rkempty">Aucun envoi pour l\'instant.</div>');}}
 function setATab(){document.querySelectorAll('.tab.at').forEach(x=>x.classList.toggle('on',x.dataset.a===ADM.tab));}
 async function sendGift(){const btn=$('#aSend');btn.disabled=true;btn.textContent='Envoi…';
-  try{const P=await adminPlayers(),toName=ADM.to==='all'?'Tout le club':(P.find(p=>p.id===ADM.to)||{}).name||'Joueur';
-    const ref=DB.doc('gifts/'+ADM.to),cur=(await ref.get()).data()||{};let what;
-    if(ADM.mode==='boost'){await ref.set(Object.assign({},cur,{boosters:(cur.boosters||0)+ADM.n,msg:ADM.msg||''}));what=`🎁 ${ADM.n} booster${ADM.n>1?'s':''} → ${esc(toName)}`;}
-    else{await ref.set(Object.assign({},cur,{cards:(cur.cards||[]).concat([{id:ADM.card,msg:ADM.msg||'',at:Date.now()}])}));what=`🃏 ${esc(memObj(ADM.card).n)} → ${esc(toName)}`;}
+  try{const P=await adminPlayers(),T=ADM.to==='all'?['all']:ADM.sel.slice(),nm=id=>id==='all'?'Tout le club':(P.find(p=>p.id===id)||{}).name||'Joueur',toName=T.map(nm).join(', ');let what,done=0;
+    if(ADM.mode==='card'&&T.includes('all'))throw new Error('carte pour tout le club');
+    for(const id of T){const ref=DB.doc('gifts/'+id),cur=(await ref.get()).data()||{};
+      if(ADM.mode==='boost')await ref.set(Object.assign({},cur,{boosters:(cur.boosters||0)+ADM.n,msg:ADM.msg||''}));
+      else await ref.set(Object.assign({},cur,{cards:(cur.cards||[]).concat([{id:ADM.card,msg:ADM.msg||'',at:Date.now()}])}));
+      done++;btn.textContent='Envoi… '+done+'/'+T.length;}
+    what=ADM.mode==='boost'?`🎁 ${ADM.n} booster${ADM.n>1?'s':''} → ${esc(toName)}`:`🃏 ${esc(memObj(ADM.card).n)} → ${esc(toName)}`;
     const lg=DB.doc('gifts/log'),lc=(await lg.get()).data()||{};await lg.set({items:(lc.items||[]).concat([{what,msg:ADM.msg||'',at:Date.now()}]).slice(-100)});
-    btn.textContent='Envoyé ✅';ADM.msg='';setTimeout(buildAdmin,1200);
+    btn.textContent=T.length>1?'Envoyé à '+T.length+' personnes ✅':'Envoyé ✅';ADM.msg='';setTimeout(buildAdmin,1200);
   }catch(e){btn.textContent='Échec, réessaie';btn.disabled=false;}}
 
 /* ================= ÉCHANGES DE CARTES (interface) ================= */
@@ -9088,12 +9093,12 @@ const GM_ACT={
   enfants:{n:'Natation enfants',e:'🧒',t:5,c0:150,g:1.15,rv:60,mns:'laetitia',col:'#4fb7f5'},
   adultes:{n:'Natation adultes',e:'🏊',t:10,c0:2500,g:1.14,rv:540,mns:'mickey',col:'#2f6fe0'},
   gym:{n:'Aquagym',e:'🎵',grp:1,t:20,c0:40000,g:1.13,rv:4320,mns:'christine',col:'#2fb35a'},
-  jog:{n:'Aquajogging',e:'🏃',grp:1,t:40,c0:6e5,g:1.12,rv:51840,mns:'angelique',col:'#9b51e0'},
+  jog:{n:'Aquajogging',e:'🏃',grp:1,t:40,c0:6e5,g:1.12,rv:51840,mns:'laurence',col:'#9b51e0'},
   fit:{n:'Aquafitness',e:'💪',grp:1,t:120,c0:6e6,g:1.11,rv:622080,mns:'pascal',col:'#ff8a00'},
   bike:{n:'Aquabike',e:'🚴',grp:1,t:400,c0:5e7,g:1.10,rv:7464960,mns:'anthony',col:'#e24b4b'}
 };
-const GM_XTRA=[{n:'Natation synchronisée',e:'🩰',mns:'helene'},{n:'Water-polo',e:'🤽',mns:'jean_francois'},{n:'Sauvetage',e:'🛟',mns:'richard'},{n:'Nage avec palmes',e:'🦭',mns:'christian'},{n:'Triathlon',e:'🚲',mns:'henri'},
-  {n:'Plongée',e:'🤿'},{n:'Hockey subaquatique',e:'🏒'},{n:'Apnée',e:'🫧'},{n:'Plongeon',e:'🏊‍♀️'},{n:'Nage en eau libre',e:'🌊'}];
+const GM_XTRA=[{n:'Natation synchronisée',e:'🩰',mns:'camille'},{n:'Water-polo',e:'🤽',mns:'jean_francois'},{n:'Sauvetage',e:'🛟',mns:'richard'},{n:'Nage avec palmes',e:'🦭',mns:'christian'},{n:'Triathlon',e:'🚲',mns:'henri'},
+  {n:'Plongée',e:'🤿'},{n:'Rugby subaquatique',e:'🏉',mns:'matheo'},{n:'Apnée',e:'🫧',mns:'genevieve_alain'},{n:'Plongeon',e:'🏊‍♀️',mns:'francis'},{n:'Nage en eau libre',e:'🌊',mns:'lilian'},{n:'Cours pour aquaphobes',e:'🫣',mns:'stephane'},{n:'Formation SSA',e:'🦺',mns:'ethan'}];
 const GM_MNSC={bebe:800,enfants:4e4,adultes:4e5,gym:4e6,jog:3e7,fit:1.5e8,bike:1.2e9};
 /* bénévoles : un achat unique chacun, qui multiplie les gains */
 const GM_BENU=[['manon','bebe',3,2.5e5],['lucie','enfants',3,5e5],['alix','adultes',3,1e6],['nathan','gym',3,5e6],['margaux','jog',3,1e7],['aude','fit',3,2.5e7],['ethan','bike',3,5e7],
@@ -9168,7 +9173,7 @@ function gmCupEnd(){const d=new Date(gmWeek()+'T00:00:00');d.setDate(d.getDate()
 function gmPrevWeek(){const d=new Date(gmWeek()+'T12:00:00');d.setDate(d.getDate()-7);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 function gmCupG(){const w=gmWeek();if(!COL.gmc||COL.gmc.cup!==w)COL.gmc={v:2,cup:w,m:0,t:Date.now(),run:0,lifeAll:0,p:0,x:0,stars:0,act:{bebe:{l:1,pg:0,go:0}},mns:{},ben:{},man:{},manN:0,fr:{},obj:{}};
   const C=COL.gmc;/* coupe : toutes les activités sont débloquées (même celles qui demandent des saisons), pas d'étoiles */
-  if(!C.all){C.all=1;C.x=GM_XTRA.length;C.stars=0;C.spent=0;}return gmFix(C);}
+  if(!C.all){C.all=1;C.stars=0;C.spent=0;}C.x=GM_XTRA.length;return gmFix(C);}
 function gmCupScore(w){const C=COL.gmc;return C&&C.cup===w?Math.floor(C.lifeAll||0):0;}
 function gmCupRows(w){const L=[];rows().forEach(r=>{const d=r.d||{},v=isMe(r.id)?gmCupScore(w):(d.gcup&&d.gcup.w===w?+d.gcup.s||0:(d.gcupP&&d.gcupP.w===w?+d.gcupP.s||0:0));if(v>0)L.push({id:r.id,v});});if(gmCupScore(w)>0&&!L.some(r=>isMe(r.id)))L.push({id:'me',v:gmCupScore(w),me:1});return L.sort((a,b)=>b.v-a.v);}
 function gmCupPos(){const L=gmCupRows(gmWeek()),i=L.findIndex(r=>r.me||isMe(r.id));return {pos:i+1,n:L.length};}
@@ -9810,7 +9815,7 @@ const GM_PERK=[
 ];
 const gmPLock=(G,P)=>(P.p||0)>(G.p||0);
 const gmBL=(G,k)=>(G.bld&&G.bld[k])||0,gmPL=(G,k)=>(G.perk&&G.perk[k])||0;
-function gmFix(G){if(G.med==null)G.med=0;if(G.starsRaw==null)G.starsRaw=G.stars||0;G.bld=G.bld||{};G.perk=G.perk||{};G.spent=G.spent||0;G.tb=G.tb||[];G.smod=G.smod||[];return G;}
+function gmFix(G){if(!G.mig1){G.mig1=1;G.mns=G.mns||{};['x6','x7','x8','x9'].forEach(a=>{if(G.act&&G.act[a]&&G.act[a].l)G.mns[a]=1;});}if(G.med==null)G.med=0;if(G.starsRaw==null)G.starsRaw=G.stars||0;G.bld=G.bld||{};G.perk=G.perk||{};G.spent=G.spent||0;G.tb=G.tb||[];G.smod=G.smod||[];return G;}
 function gmVest(G){return [1,1.5,2,3][gmBL(G,'vest')];}
 function gmFrK(G){return .01*[1,2,3,5][gmBL(G,'trib')];}
 function gmManX(G,k){const b={bain:'tob',prev:'sec',comp:'plot',fete:'salle'}[k];return (GM_MAN[k].x+(b?gmBL(G,b):0))*(G.th==='ete'&&k==='bain'?2:1);}
