@@ -311,6 +311,7 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 /* Toutes les cartes membres en grand ont la même taille ; l'image est recadrée au format 4:5 */
 .tcard.big.mem{aspect-ratio:0.53;height:auto;width:min(78vw,330px,calc((100vh - 230px)*0.53))}
 .tcard.big.mem:not(.full) .tc-art{flex:none;height:auto;aspect-ratio:4/5}
+.tcard.big.mem.full.r88{aspect-ratio:63/88;width:min(78vw,330px,calc((100vh - 230px)*0.716))}
 .tcard.big.mem:not(.full) .tc-txt{flex:1;min-height:0;overflow:hidden}
 .tcard.big.mem .tc-who{display:none}
 .tcard.big.mem .tc-txt{font-size:5cqw;line-height:1.3}
@@ -6179,7 +6180,7 @@ const MEMBERS=[
  {"id": "bouchon", "n": "Bouchon", "r": "R", "t": "On l’appelle « mon petit bouchon », mais avec ses clés autour du cou, c’est plutôt Bouchon-Partout !", "pos": "52% 45%", "img": "img/m/bouchon.webp?v=9cbed616",ar:1.333, "full": 0, "thumb": "img/m/bouchon_s.webp?v=07159e31"},
  {"id": "poisson_toutouille", "n": "Poisson toutouille", "r": "E", "t": "Une espèce rarement observée, mais les chances augmentent énormément s'il y a du saucisson.", "pos": "50% 8%", "img": "img/m/poisson_toutouille.webp?v=9f429182",ar:0.750, "full": 0, "thumb": "img/m/poisson_toutouille_s.webp?v=55c2dc65"},
  {"id": "agnes", "n": "Agnès", "r": "R", "t": "La maman du groupe, mais aussi la cuisinière des apéros. Elle a vraiment tout pour elle.", "pos": "50% 50%", "img": "img/m/agnes.webp?v=f7d24e02",ar:0.750, "full": 0, "thumb": "img/m/agnes_s.webp?v=2d99391a"},
- {"id": "3_generations", "n": "3 générations", "r": "E", "t": "Gambetta, c’est avant tout une histoire de famille.", "pos": "50% 35%", "ar": 1.009, "full": 0, "img": "img/m/3_generations.webp?v=99b02f6e", "fit": 1, "thumb": "img/m/3_generations_s.webp?v=a88d01bc"},
+ {"id": "3_generations", "n": "3 générations", "r": "E", "t": "Gambetta, c’est avant tout une histoire de famille.", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/3_generations.webp?v=5ac6ef5d", "thumb": "img/m/3_generations_s.webp?v=01d03a58"},
  {"id": "audrey", "n": "Audrey", "r": "R", "t": "Un club sans secrétaire, c’est comme des lasagnes de Christian sans petits pois : c’est nul !", "pos": "50% 35%", "ar": 0.666, "full": 0, "img": "img/m/audrey.webp?v=d6461363", "thumb": "img/m/audrey_s.webp?v=e22d0f4b"},
  {"id": "art_gambetta", "n": "Art Gambetta", "r": "E", "t": "Toujours de bonnes idées dans ce club !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/art_gambetta.webp?v=ee5704c5", "thumb": "img/m/art_gambetta_s.webp?v=05042740"},
  {"id": "sofian", "n": "Sofian", "r": "R", "t": "Notre infiltré pour la sécurité de nos évènements.", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/sofian.webp?v=e487b390", "thumb": "img/m/sofian_s.webp?v=57d76ca2"},
@@ -6244,29 +6245,34 @@ const MEMBERS=[
  {"id": "chez_mireille", "n": "Chez Mireille", "r": "E", "t": "Sacrée Mireille !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/chez_mireille.webp?v=96885884", "thumb": "img/m/chez_mireille_s.webp?v=d7af25da"},
  {"id": "tchou_tchou", "n": "Tchou tchou !", "r": "E", "t": "Un train à vapeur, mais on est où, là ? Même Roland n’a pas connu ça à son époque.", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/tchou_tchou.webp?v=f7a1dae4", "thumb": "img/m/tchou_tchou_s.webp?v=03b39add"},
  {"id": "les_phoques", "n": "Les phoques", "r": "E", "t": "Mais what the phoque ?!", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/les_phoques.webp?v=f788583a", "thumb": "img/m/les_phoques_s.webp?v=b0c50283"},
- {"id": "baie_de_somme_2025", "n": "Baie de Somme 2025", "r": "E", "t": "", "pos": "50% 35%", "ar": 0.806, "full": 1, "fit": 1, "img": "img/m/baie_de_somme_2025.webp?v=39132059", "thumb": "img/m/baie_de_somme_2025_s.webp?v=42d7247d"},
+ {"id": "baie_de_somme_2025", "n": "Baie de Somme 2025", "r": "E", "t": "", "pos": "50% 35%", "ar": 0.528, "full": 1, "img": "img/m/baie_de_somme_2025.webp?v=e8d54218", "thumb": "img/m/baie_de_somme_2025_s.webp?v=14eef2a4"},
  {"id": "les_tares_schell", "n": "Les tarés Schell", "r": "E", "t": "Une eau super froide… mais ils sont fous, ceux-là !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/les_tares_schell.webp?v=87beec58", "thumb": "img/m/les_tares_schell_s.webp?v=ce73ad48"},
- {"id": "jura_2026", "n": "Jura 2026", "r": "E", "t": "", "pos": "50% 35%", "ar": 0.806, "full": 1, "fit": 1, "img": "img/m/jura_2026.webp?v=7d40bd97", "thumb": "img/m/jura_2026_s.webp?v=6eef2247"},
+ {"id": "jura_2026", "n": "Jura 2026", "r": "E", "t": "", "pos": "50% 35%", "ar": 0.528, "full": 1, "img": "img/m/jura_2026.webp?v=ef415909", "thumb": "img/m/jura_2026_s.webp?v=60441243"},
  {"id": "luc", "n": "Luc", "r": "R", "t": "Un Marcel copié-collé, à mes yeux.", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/luc.webp?v=8b0be84c", "thumb": "img/m/luc_s.webp?v=50d9a1bd"},
  {"id": "hotel_des_lacs", "n": "L’hôtel des Lacs", "r": "E", "t": "L’hôtel et son personnel ont beaucoup fait pour la réussite de ce voyage, vous ne trouvez pas ?", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/hotel_des_lacs.webp?v=0aa8b9ae", "thumb": "img/m/hotel_des_lacs_s.webp?v=b993ace6"},
  {"id": "petite_helene", "n": "Petite Hélène", "r": "R", "t": "Une nouvelle petite bouille au club !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/petite_helene.webp?v=bbc8e287", "thumb": "img/m/petite_helene_s.webp?v=bb197a17"},
  {"id": "grottes_de_han", "n": "Grottes de Han", "r": "E", "t": "♫ Aux grottes de Han, c’est la nature en grand, pour les petits et les grands ! ♫", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/grottes_de_han.webp?v=38678e90", "thumb": "img/m/grottes_de_han_s.webp?v=c2d171bb"},
- {"id": "le_50m", "n": "50 m", "r": "L", "t": "", "pos": "50% 35%", "ar": 0.806, "full": 1, "fit": 1, "img": "img/m/le_50m.webp?v=b337f587", "thumb": "img/m/le_50m_s.webp?v=9eef168b"},
- {"id": "baignade_ludique", "n": "Baignade ludique", "r": "L", "t": "", "pos": "50% 35%", "ar": 0.806, "full": 1, "fit": 1, "img": "img/m/baignade_ludique.webp?v=652f71e0", "thumb": "img/m/baignade_ludique_s.webp?v=5b57a716"},
- {"id": "fete_du_club", "n": "Fête du club", "r": "L", "t": "", "pos": "50% 35%", "ar": 0.806, "full": 1, "fit": 1, "img": "img/m/fete_du_club.webp?v=07a63c5b", "thumb": "img/m/fete_du_club_s.webp?v=4f419d54"},
- {"id": "plus_qu_un_club_2", "n": "Merci à tous les bénévoles", "r": "L", "t": "", "pos": "50% 35%", "ar": 0.805, "full": 1, "fit": 1, "img": "img/m/plus_qu_un_club_2.webp?v=59608f64", "thumb": "img/m/plus_qu_un_club_2_s.webp?v=0f907d12"},
+ {"id": "le_50m", "n": "50 m", "r": "L", "t": "", "pos": "50% 35%", "ar": 0.528, "full": 1, "img": "img/m/le_50m.webp?v=8fd4f7e3", "thumb": "img/m/le_50m_s.webp?v=46e5c316"},
+ {"id": "baignade_ludique", "n": "Baignade ludique", "r": "L", "t": "", "pos": "50% 35%", "ar": 0.528, "full": 1, "img": "img/m/baignade_ludique.webp?v=fb513a49", "thumb": "img/m/baignade_ludique_s.webp?v=c848aa58"},
+ {"id": "fete_du_club", "n": "Fête du club", "r": "L", "t": "", "pos": "50% 35%", "ar": 0.528, "full": 1, "img": "img/m/fete_du_club.webp?v=c5bbd8f2", "thumb": "img/m/fete_du_club_s.webp?v=49a7c77b"},
+ {"id": "plus_qu_un_club_2", "n": "Merci à tous les bénévoles", "r": "L", "t": "", "pos": "50% 35%", "ar": 0.528, "full": 1, "img": "img/m/plus_qu_un_club_2.webp?v=1438bc8a", "thumb": "img/m/plus_qu_un_club_2_s.webp?v=7361a252"},
  {"id": "gaufre_zizi", "n": "Gaufre zizi", "r": "E", "t": "Une délicieuse gaufre !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/gaufre_zizi.webp?v=c7caba95", "thumb": "img/m/gaufre_zizi_s.webp?v=3b5dd86d"},
- {"id": "lieutenant_pierre", "n": "Lieutenant Pierre", "r": "R", "t": "Notre formateur préféré, et surtout le seul qui accepte qu’on fasse des apéros !", "pos": "50% 30%", "ar": 0.803, "full": 0, "img": "img/m/lieutenant_pierre.webp?v=a8da5b28", "thumb": "img/m/lieutenant_pierre_s.webp?v=98d22f0f"}
+ {"id": "lieutenant_pierre", "n": "Lieutenant Pierre", "r": "R", "t": "Notre formateur préféré, et surtout le seul qui accepte qu’on fasse des apéros !", "pos": "50% 30%", "ar": 0.803, "full": 0, "img": "img/m/lieutenant_pierre.webp?v=a8da5b28", "thumb": "img/m/lieutenant_pierre_s.webp?v=98d22f0f"},
+  {"id": "center_parcs", "n": "Le club représenté à Center Parcs", "r": "E", "t": "Pas assez de travail au club. On va espionner la concurrence", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/center_parcs.webp?v=9a58fbf0", "thumb": "img/m/center_parcs_s.webp?v=dc708e75"},
+  {"id": "national_vtt", "n": "National VTT", "r": "E", "t": "Le club ferait vraiment n’importe quoi pour notre UFOLEP chérie !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/national_vtt.webp?v=e77eda63", "thumb": "img/m/national_vtt_s.webp?v=b67bdbc1"},
+  {"id": "impossible", "n": "Impossible", "r": "E", "t": "Même dans nos rêves les plus fou ce n’est pas possible !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/impossible.webp?v=5d33fd98", "thumb": "img/m/impossible_s.webp?v=bb5f835d"},
+  {"id": "impossible_2", "n": "Impossible 2", "r": "E", "t": "Même dans nos rêves les plus fou ce n’est VRAIMENT pas possible !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/impossible_2.webp?v=ea3302b3", "thumb": "img/m/impossible_2_s.webp?v=df97ebae"}
 ];
 MEMBER_SLOTS=Math.max(60,MEMBERS.length);
 const memIdx=id=>MEMBERS.findIndex(m=>m.id===id);
 /* Cartes spéciales : seulement pendant un événement, introuvables ailleurs */
-const SPECIALS=[{id:'sp_shooter',n:'Offrir un shooter à Mathéo',r:'L',sp:1,t:'Il te remercie d\'avance d\'avoir eu cette carte. Maintenant, t\'es obligé de le faire !',img:'img/x/ef7b082515c2.webp'}];
+const SPECIALS=[{id:'sp_shooter',n:'Offrir un shooter à Mathéo',r:'L',sp:1,t:'Il te remercie d\'avance d\'avoir eu cette carte. Maintenant, t\'es obligé de le faire !',img:'img/x/ef7b082515c2.webp'}
+];
 /* Cartes bonus (visuels provisoires en attendant ceux de Mathéo) */
 const BONUS=[{"id": "b_cadeau", "e": "🎁", "n": "Cadeau", "w": 31, "t": "Offre un booster de 5 cartes au joueur de ton choix (pas à toi !).", "r": "E", "bonus": 1, "img": "img/x/b7bb67f36f56.webp"}, {"id": "b_voleur", "e": "🦝", "n": "Voleur", "w": 24, "t": "Vole une carte au hasard au joueur de ton choix !", "r": "E", "bonus": 1, "img": "img/x/8d8b5809b585.webp"}, {"id": "b_joker", "e": "🌟", "n": "Joker", "w": 16, "t": "Choisis n'importe quelle carte membre qui te manque.", "r": "E", "bonus": 1, "img": "img/x/172d3081f9cf.webp"}, {"id": "b_myst", "e": "🃏", "n": "Carte mystère", "w": 8, "t": "Retourne-la : elle se transforme en une autre carte bonus au hasard !", "r": "E", "bonus": 1, "img": "img/x/e3e9172b0051.webp"}, {"id": "b_nouv", "e": "🆕", "n": "Paquet de nouveautés", "w": 9, "t": "Un booster de 5 cartes que tu n'as pas encore.", "r": "E", "bonus": 1, "img": "img/x/98a5146bf0fa.webp"}, {"id": "b_photo", "e": "📸", "n": "Photo à Mathéo", "w": 8, "t": "Propose une photo à Mathéo : il en fera une nouvelle carte, que tu recevras gratuitement !", "r": "E", "bonus": 1, "img": "img/x/5467679a7306.webp"}, {"id": "b_prime", "e": "🎯", "n": "Prime", "w": 6, "t": "Mets une prime sur un joueur : le prochain qui le bat en duel dans les 4 h gagne un booster de 5 cartes !", "r": "E", "bonus": 1, "img": "img/x/d1de55ec796d.webp"}, {"id": "b_mjeu", "e": "🎮", "n": "Mini-jeu à Mathéo", "w": 5, "t": "Propose une idée de mini-jeu à Mathéo : il le mettra dans le jeu !", "r": "E", "bonus": 1, "img": "img/x/9aee7cdf7aa8.webp"}, {"id": "b_suppr", "e": "💥", "n": "Supprimer la plus rare", "w": 5, "t": "Choisis un joueur et supprime une de ses cartes les plus rares (tous les exemplaires).", "r": "E", "bonus": 1, "img": "img/x/6b585af950a8.webp"}, {"id": "b_efface", "e": "🧹", "n": "Effacer les mini-jeux", "w": 2, "t": "Toutes les cartes mini-jeux du joueur de ton choix repassent « non réussies ».", "r": "E", "bonus": 1, "img": "img/x/61a2c238257f.webp"}];
 const memObj=id=>MEMBERS[memIdx(id)]||SPECIALS.find(x=>x.id===id)||BONUS.find(x=>x.id===id)||presCard(id);
 function memberHTML(id,big){const m=memObj(id),RR=m.bonus?{n:'Bonus',s:'⚡'}:m.sp?{n:'Spéciale',s:'🎉'}:RAR[m.r],num=m.bonus?'B'+(BONUS.indexOf(m)+1):m.sp?'SP':String(memIdx(id)+1).padStart(2,'0'),isNew=!big&&COL.members[id]&&!COL.seen['m_'+id];
-  if(m.full)return `<div class="tcard mem full${m.fit?' fit':''} r-${m.r}${big?' big':''}${!m.sp&&!m.bonus&&presGold(COL.members[id])?' gold':''}${m.pres?' legend':''}" data-mem="${id}" role="button" aria-label="Carte ${m.n}">
+  if(m.full)return `<div class="tcard mem full${m.fit?' fit':''}${m.ar>0.66&&m.ar<0.76?' r88':''} r-${m.r}${big?' big':''}${!m.sp&&!m.bonus&&presGold(COL.members[id])?' gold':''}${m.pres?' legend':''}" data-mem="${id}" role="button" aria-label="Carte ${m.n}">
     ${m.fit?`<img class="fitbg" src="${big?m.img:(m.thumb||m.img)}" ${big?'':'loading="lazy" '}decoding="async" alt="">`:''}<img class="fullimg" src="${big?m.img:(m.thumb||m.img)}" ${big?'':'loading="lazy" '}decoding="async" alt="${m.n}" style="object-position:${m.fit?'50% 30%':m.pos}">
     ${isNew?'<span class="newtag">NOUVEAU</span>':''}
     <div class="tc-top"><span class="tc-num">#${num}</span><span class="tc-rar" title="${RR.n}">${RR.s}</span></div>
@@ -6657,7 +6663,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=59;
+const APP_V=60;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
@@ -7270,8 +7276,8 @@ const BADGES=[
   {id:'px1',e:'🎨',n:'Premier coup d\'éponge',d:'Effacer une carte dans Pixel Gambetta',ok:()=>ST('pxW')>=1},
   {id:'px10',e:'🧽',n:'Grand nettoyage',d:'Effacer 10 cartes dans Pixel Gambetta',ok:()=>ST('pxW')>=10},
   {id:'px50',e:'🖌️',n:'Artiste du club',d:'Effacer 50 cartes dans Pixel Gambetta',ok:()=>ST('pxW')>=50},
-  {id:'pxb',e:'🔄',n:'Maître du tapis',d:'Effacer les 113 cartes en style Tapis',ok:()=>{try{return ((COL.px||{}).b||0)>=pxLevels().length;}catch(_){return false;}}},
-  {id:'pxr',e:'🌧️',n:'Faiseur de pluie',d:'Effacer les 113 cartes en style Pluie',ok:()=>{try{return ((COL.px||{}).r||0)>=pxLevels().length;}catch(_){return false;}}},
+  {id:'pxb',e:'🔄',n:'Maître du tapis',d:'Effacer les '+MEMBERS.length+' cartes en style Tapis',ok:()=>{try{return ((COL.px||{}).b||0)>=pxLevels().length;}catch(_){return false;}}},
+  {id:'pxr',e:'🌧️',n:'Faiseur de pluie',d:'Effacer les '+MEMBERS.length+' cartes en style Pluie',ok:()=>{try{return ((COL.px||{}).r||0)>=pxLevels().length;}catch(_){return false;}}},
   {id:'pxc',e:'🎯',n:'Du premier coup',d:'Effacer une carte sans renvoyer un seul seau',ok:()=>ST('pxClean')>=1},
   {id:'pxg',e:'🖼️',n:'Chef-d\'œuvre',d:'Effacer une carte d\'au moins 100 pixels de large',ok:()=>ST('pxBig')>=1},
   {id:'pxm',e:'💯',n:'100 000 pixels',d:'Effacer 100 000 pixels dans Pixel Gambetta',ok:()=>ST('pxPx')>=1e5},
@@ -10355,7 +10361,7 @@ function dClap(t,v,D){[0,.012,.026].forEach(o=>sn(t+o,.07,v*.7,{f:1500,ty:'bandp
 function dShk(t,v,D){sn(t,.05,v,{f:6000,ty:'bandpass',q:1.2,a:.012,dest:D});}
 /* effets sonores de l'interface et des événements */
 const PENTA=[72,74,76,79,81,84,86,88,91,93,96];
-function sfx(k){if(sndOff())return;const A=sndCtx();if(!A)return;try{if(A.state==='suspended')A.resume();const t=A.currentTime+.005;
+function sfx(k){if(sndOff())return;if(k==='tab'&&!bubOn())return;const A=sndCtx();if(!A)return;try{if(A.state==='suspended')A.resume();const t=A.currentTime+.005;
   switch(k){
     case 'tap':sv(t,{w:'sine',f:520,f1:820,d:.07,v:.11});sn(t,.015,.03,{f:5000,ty:'highpass'});break;
     case 'tab':sv(t,{w:'sine',f:340,f1:760,d:.1,v:.11});sv(t+.05,{w:'sine',f:620,f1:1100,d:.07,v:.05});break;
