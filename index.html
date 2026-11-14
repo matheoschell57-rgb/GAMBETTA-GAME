@@ -6271,7 +6271,7 @@ const SPECIALS=[{id:'sp_shooter',n:'Offrir un shooter à Mathéo',r:'L',sp:1,t:'
 ];
 /* Cartes bonus (visuels provisoires en attendant ceux de Mathéo) */
 const BONUS=[{"id": "b_cadeau", "e": "🎁", "n": "Cadeau", "w": 31, "t": "Offre un booster de 5 cartes au joueur de ton choix (pas à toi !).", "r": "E", "bonus": 1, "img": "img/x/b7bb67f36f56.webp"}, {"id": "b_voleur", "e": "🦝", "n": "Voleur", "w": 24, "t": "Vole une carte au hasard au joueur de ton choix !", "r": "E", "bonus": 1, "img": "img/x/8d8b5809b585.webp"}, {"id": "b_joker", "e": "🌟", "n": "Joker", "w": 16, "t": "Choisis n'importe quelle carte membre qui te manque.", "r": "E", "bonus": 1, "img": "img/x/172d3081f9cf.webp"}, {"id": "b_myst", "e": "🃏", "n": "Carte mystère", "w": 8, "t": "Retourne-la : elle se transforme en une autre carte bonus au hasard !", "r": "E", "bonus": 1, "img": "img/x/e3e9172b0051.webp"}, {"id": "b_nouv", "e": "🆕", "n": "Paquet de nouveautés", "w": 9, "t": "Un booster de 5 cartes que tu n'as pas encore.", "r": "E", "bonus": 1, "img": "img/x/98a5146bf0fa.webp"}, {"id": "b_photo", "e": "📸", "n": "Photo à Mathéo", "w": 8, "t": "Propose une photo à Mathéo : il en fera une nouvelle carte, que tu recevras gratuitement !", "r": "E", "bonus": 1, "img": "img/x/5467679a7306.webp"}, {"id": "b_prime", "e": "🎯", "n": "Prime", "w": 6, "t": "Mets une prime sur un joueur : le prochain qui le bat en duel dans les 4 h gagne un booster de 5 cartes !", "r": "E", "bonus": 1, "img": "img/x/d1de55ec796d.webp"}, {"id": "b_mjeu", "e": "🎮", "n": "Mini-jeu à Mathéo", "w": 5, "t": "Propose une idée de mini-jeu à Mathéo : il le mettra dans le jeu !", "r": "E", "bonus": 1, "img": "img/x/9aee7cdf7aa8.webp"}, {"id": "b_suppr", "e": "💥", "n": "Supprimer la plus rare", "w": 5, "t": "Choisis un joueur et supprime une de ses cartes les plus rares (tous les exemplaires).", "r": "E", "bonus": 1, "img": "img/x/6b585af950a8.webp"}, {"id": "b_efface", "e": "🧹", "n": "Effacer les mini-jeux", "w": 2, "t": "Toutes les cartes mini-jeux du joueur de ton choix repassent « non réussies ».", "r": "E", "bonus": 1, "img": "img/x/61a2c238257f.webp"},
- {"id": "b_gel", "e": "🧊", "n": "Gel", "w": 1, "t": "Choisis un joueur : pendant 24 h, il ne peut plus jouer ni ouvrir de booster !", "r": "L", "bonus": 1, "img": "img/x/29107b87b791.webp"},
+ {"id": "b_gel", "e": "🧊", "n": "Gel", "w": 1, "t": "Choisis un joueur : pendant 2 h, il ne peut plus jouer ni ouvrir de booster !", "r": "L", "bonus": 1, "img": "img/x/29107b87b791.webp"},
  {"id": "b_degel", "e": "🔥", "n": "Dégel", "w": 1, "t": "À utiliser quand tu es gelé : le blocage s'arrête tout de suite.", "r": "L", "bonus": 1, "img": "img/x/0cf880971c68.webp"}];
 const memObj=id=>MEMBERS[memIdx(id)]||SPECIALS.find(x=>x.id===id)||BONUS.find(x=>x.id===id)||presCard(id);
 function memberHTML(id,big){const m=memObj(id),RR=m.bonus?{n:'Bonus',s:'⚡'}:m.sp?{n:'Spéciale',s:'🎉'}:RAR[m.r],num=m.bonus?'B'+(BONUS.indexOf(m)+1):m.sp?'SP':String(memIdx(id)+1).padStart(2,'0'),isNew=!big&&COL.members[id]&&!COL.seen['m_'+id];
@@ -6666,7 +6666,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=61;
+const APP_V=62;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
@@ -6724,7 +6724,7 @@ async function buildAdmin(){const b=$('#admBody'),P=await adminPlayers();
       ${P.length?'':'<p class="asum">Les joueurs apparaîtront ici dès qu\'ils auront ouvert le jeu.</p>'}</div>
       <div class="abox"><h4>2. Quoi ?</h4><div class="amode"><button class="apill${ADM.mode==='boost'?' on':''}" data-mode="boost">🎁 Des boosters</button><button class="apill${ADM.mode==='card'?' on':''}" data-mode="card"${ADM.to==='all'?' disabled style="opacity:.4"':''}>🃏 Une carte précise</button></div>
       ${ADM.mode==='boost'?`<div class="astep"><button id="aMinus">−</button><b>${ADM.n}</b><button id="aPlus">+</button><span>booster${ADM.n>1?'s':''}</span></div>`:
-        `<div class="acards">${MEMBERS.concat(SPECIALS).map(m=>`<div class="${ADM.card===m.id?'sel':''}" data-card="${m.id}">${memberHTML(m.id,false).replace(/<span class="newtag">NOUVEAU<\/span>/,'')}</div>`).join('')}</div>`}</div>
+        `<div class="acards">${MEMBERS.concat(SPECIALS,BONUS).map(m=>`<div class="${ADM.card===m.id?'sel':''}" data-card="${m.id}">${memberHTML(m.id,false).replace(/<span class="newtag">NOUVEAU<\/span>/,'')}</div>`).join('')}</div>`}</div>
       <div class="abox"><h4>3. Un petit mot ? (facultatif)</h4><input class="ainput" id="aMsg" maxlength="120" placeholder="Ex. : Bravo pour ta compétition !" value="${esc(ADM.msg)}"></div>
       <div class="asum">${ADM.mode==='boost'?`${ADM.n} booster${ADM.n>1?'s':''} pour <b>${esc(toName)}</b>`:ADM.card?`La carte <b>${esc(memObj(ADM.card).n)}</b> pour <b>${esc(toName)}</b>`:'Choisis une carte'}</div>
       <button class="asend" id="aSend"${(ADM.mode==='card'&&!ADM.card)?' disabled':''}>Envoyer 🚀</button>`;
@@ -7706,7 +7706,7 @@ function useEfface(b){pickPlayer(b,'Qui va perdre toutes ses cartes mini-jeux ?'
 
 
 /* --- 🧊 Gel / 🔥 Dégel : cartes bonus très rares --- */
-const FRZ_IDS=['select','game','intro','party','bataille','fighter','manager','pixel','gogo','defi','booster'],FRZ_H=24;
+const FRZ_IDS=['select','game','intro','party','bataille','fighter','manager','pixel','gogo','defi','booster'],FRZ_H=2;
 function frzEnd(){const e=COL.frz||0;return(e>Date.now()&&(COL.frzX||0)<e)?e:0;}
 function frzBlock(id){if(!FRZ_IDS.includes(id)||!frzEnd())return false;frzSheet();return true;}
 function frzSheet(){if(document.querySelector('.frzsh'))return;const left=Math.max(1,Math.ceil((frzEnd()-Date.now())/60000)),has=(COL.members.b_degel||0)>0;
