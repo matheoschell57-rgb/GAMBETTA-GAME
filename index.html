@@ -6029,7 +6029,7 @@ let current=null,raf=0,last=0,ended=false,curKey=null,typing=null,freshCard=null
 const NAVH=[];let NAVSKIP=false;const NAV_NOHIST=['title','intro','game'];
 function navTrack(id){const cur=document.querySelector('.screen.active'),c=cur&&cur.id;if(!c||c===id)return;
   if(NAVH.length&&NAVH[NAVH.length-1]===id){NAVH.pop();return;}if(NAVSKIP||NAV_NOHIST.includes(c))return;NAVH.push(c);if(NAVH.length>30)NAVH.shift();}
-function show(id){try{bubApply();}catch(_){}try{if(SND.unlocked)setTimeout(()=>musPlay(musFor(id)),0);}catch(_){}if(id!=='gogo'){try{if(typeof goStopMap==='function'&&(GO.wid!=null||GO.map))goStopMap(true);}catch(_){}}try{navTrack(id);if(id==='hub')NAVH.length=0;}catch(_){}const _pv=(document.querySelector('.screen.active')||{}).id;document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));try{scrFx(_pv,id);}catch(_){}try{navSync(id);}catch(_){}try{if(boardRefresh){if(id==='ranks'||id==='defi')boardRefresh(60e3);else if(id==='hub')boardRefresh();}}catch(_){}
+function show(id){if(frzBlock(id))return;try{bubApply();}catch(_){}try{if(SND.unlocked)setTimeout(()=>musPlay(musFor(id)),0);}catch(_){}if(id!=='gogo'){try{if(typeof goStopMap==='function'&&(GO.wid!=null||GO.map))goStopMap(true);}catch(_){}}try{navTrack(id);if(id==='hub')NAVH.length=0;}catch(_){}const _pv=(document.querySelector('.screen.active')||{}).id;document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));try{scrFx(_pv,id);}catch(_){}try{navSync(id);}catch(_){}try{if(boardRefresh){if(id==='ranks'||id==='defi')boardRefresh(60e3);else if(id==='hub')boardRefresh();}}catch(_){}
   try{const h=!NAVH.length&&id!=='intro';document.querySelectorAll('#'+id+' .navback').forEach(b=>b.hidden=h);}catch(_){}}
 function navBack(){const cur=(document.querySelector('.screen.active')||{}).id;let prev=NAVH.pop();while(prev&&prev===cur)prev=NAVH.pop();
   if(cur==='intro'&&!prev)prev='select';
@@ -6113,6 +6113,7 @@ function mergeCol(o){if(!o)return;if(o.mgW!==1&&o.best&&o.best.willi!=null){o=Ob
     const L=Object.keys(m).map(Number).sort((a,b)=>a-b).map(k=>[k,m[k]]),out=[];L.forEach(x=>{const l=out[out.length-1];if(l&&x[0]<=l[1]+1)l[1]=Math.max(l[1],x[1]);else out.push(x);});COL.sx=out.slice(-30);}
   // Manager : la partie la plus avancée gagne · prestige : le plus haut
   if(o.gm&&COL.gm&&!COL.gm.spr&&!o.gm.spr&&o.gm.v===COL.gm.v&&(o.gm.lifeAll||0)>(COL.gm.lifeAll||0))COL.gm=o.gm;
+  if((o.frz||0)>(COL.frz||0))COL.frz=o.frz;if((o.frzX||0)>(COL.frzX||0))COL.frzX=o.frzX;
   if((o.pres||0)>(COL.pres||0)){COL.pres=o.pres;if(o.presAt)COL.presAt=o.presAt;}
 if(o.go){const a=COL.go||{},b=o.go;const w=((b.n||0)+(b.m||0)/1000)>((a.n||0)+(a.m||0)/1000)?b:a,c={};[a.c||{},b.c||{}].forEach(x=>{for(const k in x)c[k]=Math.max(c[k]||0,x[k]||0);});const sh={};[a.sh||{},b.sh||{}].forEach(x=>{for(const k in x)sh[k]=Math.max(sh[k]||0,x[k]||0);});const sv=Object.assign({},a.spv||{},b.spv||{}),sp=Object.assign({},a.sp||{},b.sp||{});COL.go=Object.assign({},w,{c,sh,spv:sv,sp});}if(o.st){COL.st=COL.st||{};for(const k in o.st)COL.st[k]=Math.max(COL.st[k]||0,o.st[k]||0);}if(o.bUsed){COL.bUsed=COL.bUsed||{};for(const k in o.bUsed)COL.bUsed[k]=Math.max(COL.bUsed[k]||0,o.bUsed[k]||0);}['badges','ser','tSeen','qHist','evGot','acDone','noRew','bSeen'].forEach(f=>{if(o[f])COL[f]=Object.assign({},o[f],COL[f]||{});});if(o.fav&&!COL.fav)COL.fav=o.fav;if(o.q&&(!COL.q||o.q.d>COL.q.d))COL.q=o.q;if(o.chClaim)COL.chClaim=Object.assign(COL.chClaim||{},o.chClaim);if(o.duDone)COL.duDone=Object.assign(COL.duDone||{},o.duDone);if(o.chs){COL.chs=COL.chs||{};for(const d in o.chs){const a=COL.chs[d],b=o.chs[d];if(b&&(!a||(a.k===b.k&&better(b.k,b.v,a.v))))COL.chs[d]=b;}}if(o.trDone){COL.trDone=Object.assign(COL.trDone||{},o.trDone);}COL.bbt=Math.max(COL.bbt||0,o.bbt||0);COL.bbtm=Math.max(COL.bbtm||0,o.bbtm||0);if(o.bbl){COL.bbl=COL.bbl||{};for(const k in o.bbl)COL.bbl[k]=Math.max(COL.bbl[k]||0,o.bbl[k]||0);}if(o.bbtd&&(!COL.bbtd||o.bbtd>COL.bbtd))COL.bbtd=o.bbtd;if(!Array.isArray(COL.bbd)&&Array.isArray(o.bbd))COL.bbd=o.bbd;if(o.bbj&&(!COL.bbj||o.bbj.d>COL.bbj.d||(o.bbj.d===COL.bbj.d&&(o.bbj.v||0)>(COL.bbj.v||0))))COL.bbj=o.bbj;if(o.bbr&&(!COL.bbr||o.bbr.d>COL.bbr.d))COL.bbr=o.bbr;COL.boosters=Math.max(COL.boosters||0,o.boosters||0);if((!COL.packs||!COL.packs.length)&&o.packs)COL.packs=o.packs;
   if(o.daily&&(!COL.daily||o.daily>COL.daily))COL.daily=o.daily;if(o.got){COL.got=COL.got||{};for(const k in o.got)COL.got[k]=Math.max(COL.got[k]||0,o.got[k]||0);}
@@ -6269,7 +6270,9 @@ const memIdx=id=>MEMBERS.findIndex(m=>m.id===id);
 const SPECIALS=[{id:'sp_shooter',n:'Offrir un shooter à Mathéo',r:'L',sp:1,t:'Il te remercie d\'avance d\'avoir eu cette carte. Maintenant, t\'es obligé de le faire !',img:'img/x/ef7b082515c2.webp'}
 ];
 /* Cartes bonus (visuels provisoires en attendant ceux de Mathéo) */
-const BONUS=[{"id": "b_cadeau", "e": "🎁", "n": "Cadeau", "w": 31, "t": "Offre un booster de 5 cartes au joueur de ton choix (pas à toi !).", "r": "E", "bonus": 1, "img": "img/x/b7bb67f36f56.webp"}, {"id": "b_voleur", "e": "🦝", "n": "Voleur", "w": 24, "t": "Vole une carte au hasard au joueur de ton choix !", "r": "E", "bonus": 1, "img": "img/x/8d8b5809b585.webp"}, {"id": "b_joker", "e": "🌟", "n": "Joker", "w": 16, "t": "Choisis n'importe quelle carte membre qui te manque.", "r": "E", "bonus": 1, "img": "img/x/172d3081f9cf.webp"}, {"id": "b_myst", "e": "🃏", "n": "Carte mystère", "w": 8, "t": "Retourne-la : elle se transforme en une autre carte bonus au hasard !", "r": "E", "bonus": 1, "img": "img/x/e3e9172b0051.webp"}, {"id": "b_nouv", "e": "🆕", "n": "Paquet de nouveautés", "w": 9, "t": "Un booster de 5 cartes que tu n'as pas encore.", "r": "E", "bonus": 1, "img": "img/x/98a5146bf0fa.webp"}, {"id": "b_photo", "e": "📸", "n": "Photo à Mathéo", "w": 8, "t": "Propose une photo à Mathéo : il en fera une nouvelle carte, que tu recevras gratuitement !", "r": "E", "bonus": 1, "img": "img/x/5467679a7306.webp"}, {"id": "b_prime", "e": "🎯", "n": "Prime", "w": 6, "t": "Mets une prime sur un joueur : le prochain qui le bat en duel dans les 4 h gagne un booster de 5 cartes !", "r": "E", "bonus": 1, "img": "img/x/d1de55ec796d.webp"}, {"id": "b_mjeu", "e": "🎮", "n": "Mini-jeu à Mathéo", "w": 5, "t": "Propose une idée de mini-jeu à Mathéo : il le mettra dans le jeu !", "r": "E", "bonus": 1, "img": "img/x/9aee7cdf7aa8.webp"}, {"id": "b_suppr", "e": "💥", "n": "Supprimer la plus rare", "w": 5, "t": "Choisis un joueur et supprime une de ses cartes les plus rares (tous les exemplaires).", "r": "E", "bonus": 1, "img": "img/x/6b585af950a8.webp"}, {"id": "b_efface", "e": "🧹", "n": "Effacer les mini-jeux", "w": 2, "t": "Toutes les cartes mini-jeux du joueur de ton choix repassent « non réussies ».", "r": "E", "bonus": 1, "img": "img/x/61a2c238257f.webp"}];
+const BONUS=[{"id": "b_cadeau", "e": "🎁", "n": "Cadeau", "w": 31, "t": "Offre un booster de 5 cartes au joueur de ton choix (pas à toi !).", "r": "E", "bonus": 1, "img": "img/x/b7bb67f36f56.webp"}, {"id": "b_voleur", "e": "🦝", "n": "Voleur", "w": 24, "t": "Vole une carte au hasard au joueur de ton choix !", "r": "E", "bonus": 1, "img": "img/x/8d8b5809b585.webp"}, {"id": "b_joker", "e": "🌟", "n": "Joker", "w": 16, "t": "Choisis n'importe quelle carte membre qui te manque.", "r": "E", "bonus": 1, "img": "img/x/172d3081f9cf.webp"}, {"id": "b_myst", "e": "🃏", "n": "Carte mystère", "w": 8, "t": "Retourne-la : elle se transforme en une autre carte bonus au hasard !", "r": "E", "bonus": 1, "img": "img/x/e3e9172b0051.webp"}, {"id": "b_nouv", "e": "🆕", "n": "Paquet de nouveautés", "w": 9, "t": "Un booster de 5 cartes que tu n'as pas encore.", "r": "E", "bonus": 1, "img": "img/x/98a5146bf0fa.webp"}, {"id": "b_photo", "e": "📸", "n": "Photo à Mathéo", "w": 8, "t": "Propose une photo à Mathéo : il en fera une nouvelle carte, que tu recevras gratuitement !", "r": "E", "bonus": 1, "img": "img/x/5467679a7306.webp"}, {"id": "b_prime", "e": "🎯", "n": "Prime", "w": 6, "t": "Mets une prime sur un joueur : le prochain qui le bat en duel dans les 4 h gagne un booster de 5 cartes !", "r": "E", "bonus": 1, "img": "img/x/d1de55ec796d.webp"}, {"id": "b_mjeu", "e": "🎮", "n": "Mini-jeu à Mathéo", "w": 5, "t": "Propose une idée de mini-jeu à Mathéo : il le mettra dans le jeu !", "r": "E", "bonus": 1, "img": "img/x/9aee7cdf7aa8.webp"}, {"id": "b_suppr", "e": "💥", "n": "Supprimer la plus rare", "w": 5, "t": "Choisis un joueur et supprime une de ses cartes les plus rares (tous les exemplaires).", "r": "E", "bonus": 1, "img": "img/x/6b585af950a8.webp"}, {"id": "b_efface", "e": "🧹", "n": "Effacer les mini-jeux", "w": 2, "t": "Toutes les cartes mini-jeux du joueur de ton choix repassent « non réussies ».", "r": "E", "bonus": 1, "img": "img/x/61a2c238257f.webp"},
+ {"id": "b_gel", "e": "🧊", "n": "Gel", "w": 1, "t": "Choisis un joueur : pendant 24 h, il ne peut plus jouer ni ouvrir de booster !", "r": "L", "bonus": 1, "img": "img/x/29107b87b791.webp"},
+ {"id": "b_degel", "e": "🔥", "n": "Dégel", "w": 1, "t": "À utiliser quand tu es gelé : le blocage s'arrête tout de suite.", "r": "L", "bonus": 1, "img": "img/x/0cf880971c68.webp"}];
 const memObj=id=>MEMBERS[memIdx(id)]||SPECIALS.find(x=>x.id===id)||BONUS.find(x=>x.id===id)||presCard(id);
 function memberHTML(id,big){const m=memObj(id),RR=m.bonus?{n:'Bonus',s:'⚡'}:m.sp?{n:'Spéciale',s:'🎉'}:RAR[m.r],num=m.bonus?'B'+(BONUS.indexOf(m)+1):m.sp?'SP':String(memIdx(id)+1).padStart(2,'0'),isNew=!big&&COL.members[id]&&!COL.seen['m_'+id];
   if(m.full)return `<div class="tcard mem full${m.fit?' fit':''}${m.ar>0.66&&m.ar<0.76?' r88':''} r-${m.r}${big?' big':''}${!m.sp&&!m.bonus&&presGold(COL.members[id])?' gold':''}${m.pres?' legend':''}" data-mem="${id}" role="button" aria-label="Carte ${m.n}">
@@ -6384,7 +6387,7 @@ function drawPack(size,o){size=size||PACK_SIZE;o=o||{};if(!o.nop)size+=presExtra
 function updBoostBtn(){try{cardsBadge();}catch(_){}const b=$('#openBoost');if(!b)return;const n=packCount();b.disabled=!n;b.textContent=n?`🎁 Ouvrir ${n>1?'mes paquets':'mon paquet'} (${n})`:'🎁 Aucun booster pour l\'instant';const ab=$('#openAllBoost');if(ab){ab.hidden=n<2;ab.textContent='⚡ Tout ouvrir';}
   const g=$('#boostGoal');if(g){const m=nextMilestone();g.innerHTML=m?`🎯 Encore <b>${m.left}</b> mini-jeu${m.left>1?'x':''} à gagner pour ton prochain booster de ${m.n} cartes`:'🏆 Tous les mini-jeux sont gagnés !';g.insertAdjacentHTML('beforeend',presBannerHTML());const pb=g.querySelector('#presBan');if(pb)pb.onclick=presSheet;}}
 let BST=null;
-function openBooster(){if(!(packCount()>0))return;$('#booster').classList.add('on');startPack();}
+function openBooster(){if(!(packCount()>0)||frzBlock('booster'))return;$('#booster').classList.add('on');startPack();}
 function closeBooster(){$('#booster').classList.remove('on');$('#bstage').innerHTML='';BST=null;progLater();}
 function sparks(x,y,n,cols){const st=$('#bstage');for(let i=0;i<n;i++){const d=document.createElement('div');d.className='spark';const a=Math.random()*Math.PI*2,r=60+Math.random()*120;
   d.style.cssText=`left:${x}px;top:${y}px;background:${pick(cols)};--dx:${Math.cos(a)*r}px;--dy:${Math.sin(a)*r}px`;st.appendChild(d);setTimeout(()=>d.remove(),950);}}
@@ -6663,7 +6666,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=60;
+const APP_V=61;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
@@ -7617,7 +7620,7 @@ function bonusRoll(excl){const L=BONUS.filter(b=>!(excl||[]).includes(b.id));let
 const isBonus=id=>!!BONUS.find(b=>b.id===id);
 const bOwned=id=>(COL.members[id]||0)>0||((COL.bUsed||{})[id]||0)>0;
 function bConsume(id){COL.members[id]=(COL.members[id]||0)-1;if(COL.members[id]<=0)delete COL.members[id];COL.bUsed=COL.bUsed||{};COL.bUsed[id]=(COL.bUsed[id]||0)+1;stat('bonusUsed');saveCol();}
-const NEED_ONLINE=['b_cadeau','b_voleur','b_suppr','b_efface','b_photo','b_mjeu','b_prime'];
+const NEED_ONLINE=['b_gel','b_cadeau','b_voleur','b_suppr','b_efface','b_photo','b_mjeu','b_prime'];
 const ACTOK=()=>!!(window.GG&&GG.actions&&GG.pid);
 
 /* --- onglet ⚡ Bonus de la collection --- */
@@ -7651,7 +7654,7 @@ function bonusOpen(id){const b=BONUS.find(x=>x.id===id),m=$('#cmodal'),c=COL.mem
 function sheet(html){const sh=document.createElement('div');sh.className='trsheet';sh.innerHTML=`<div class="in">${html}</div>`;$('#app').appendChild(sh);sh.onclick=e=>{if(e.target===sh)sh.remove();};return sh;}
 function bonusUse(id){const b=BONUS.find(x=>x.id===id);if(!(COL.members[id]>0))return;
   if(NEED_ONLINE.includes(id)&&!ACTOK()){const sh=sheet(`<h3>${b.e} ${b.n}</h3><div class="trempty">Cette carte marche sur le site du jeu, avec ta sauvegarde en ligne.</div><div class="trbtns"><button class="btn alt" id="x">Fermer</button></div>`);sh.querySelector('#x').onclick=()=>sh.remove();return;}
-  ({b_cadeau:useCadeau,b_voleur:useVoleur,b_joker:useJoker,b_nouv:useNouv,b_photo:useAsk,b_mjeu:useAsk,b_suppr:useSuppr,b_efface:useEfface,b_myst:useMyst,b_prime:usePrime})[id](b);}
+  ({b_cadeau:useCadeau,b_voleur:useVoleur,b_joker:useJoker,b_nouv:useNouv,b_photo:useAsk,b_mjeu:useAsk,b_suppr:useSuppr,b_efface:useEfface,b_myst:useMyst,b_prime:usePrime,b_gel:useGel,b_degel:useDegel})[id](b);}
 /* choisir un joueur + petit mot */
 function pickPlayer(b,intro,onPick,filter){const players=Object.entries(BOARD||{}).filter(([pid,d])=>pid!==myId&&d&&d.name&&(!filter||filter(pid,d))).map(([pid,d])=>({id:pid,name:d.name,d})).sort((x,y)=>x.name.localeCompare(y.name));
   let q='';const norm=t=>t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
@@ -7701,6 +7704,20 @@ function useSuppr(b){pickPlayer(b,'Choisis un joueur : tu verras ses cartes les 
   sh.querySelector('#bgo').onclick=()=>{sh.remove();confirmSend(b,who,`<div style="width:120px;margin:0 auto 8px">${mini(sel)}</div><div class="drew">💥 Cette carte va disparaître de la collection de ${esc(who.name)}.</div>`,'💥 Supprimer',async msg=>{await act({type:'suppr',to:who.id,toName:who.name,msg,card:sel});bConsume(b.id);toast('💥','Carte supprimée chez '+who.name+' !');});};});}
 function useEfface(b){pickPlayer(b,'Qui va perdre toutes ses cartes mini-jeux ?',who=>confirmSend(b,who,`<div class="drew">🧹 Toutes les cartes mini-jeux de ${esc(who.name)} vont repasser « non réussies ». Ses records restent.</div>`,'🧹 Effacer',async msg=>{await act({type:'efface',to:who.id,toName:who.name,msg});bConsume(b.id);toast('🧹','Mini-jeux effacés chez '+who.name+' !');}));}
 
+
+/* --- 🧊 Gel / 🔥 Dégel : cartes bonus très rares --- */
+const FRZ_IDS=['select','game','intro','party','bataille','fighter','manager','pixel','gogo','defi','booster'],FRZ_H=24;
+function frzEnd(){const e=COL.frz||0;return(e>Date.now()&&(COL.frzX||0)<e)?e:0;}
+function frzBlock(id){if(!FRZ_IDS.includes(id)||!frzEnd())return false;frzSheet();return true;}
+function frzSheet(){if(document.querySelector('.frzsh'))return;const left=Math.max(1,Math.ceil((frzEnd()-Date.now())/60000)),has=(COL.members.b_degel||0)>0;
+  const sh=sheet(`<h3>🧊 Tu es gelé !</h3><div class="trempty">Tu ne peux plus jouer ni ouvrir de booster pendant encore <b>${fmtDur(left)}</b>.<br><small>Tu peux toujours voir ta collection, les classements et utiliser tes cartes bonus.</small></div><div class="trbtns">${has?'<button class="btn" id="fzU">🔥 Utiliser Dégel</button>':''}<button class="btn alt" id="fzX">OK</button></div>`);
+  sh.classList.add('frzsh');sh.querySelector('#fzX').onclick=()=>sh.remove();const u=sh.querySelector('#fzU');if(u)u.onclick=()=>{sh.remove();bonusUse('b_degel');};}
+function useGel(b){pickPlayer(b,'Qui veux-tu geler ? Pendant '+FRZ_H+' h, il ne pourra ni jouer ni ouvrir de booster.',who=>confirmSend(b,who,`<div class="drew">🧊 ${esc(who.name)} sera bloqué pendant ${FRZ_H} h.</div>`,'🧊 Geler',async msg=>{
+    await act({type:'gel',to:who.id,toName:who.name,msg});bConsume(b.id);
+    const sh=sheet(`<h3>🧊 Gel lancé !</h3><div class="trempty">${esc(who.name)} sera bloqué ${FRZ_H} h dès qu'il ouvrira le jeu… sauf s'il a une carte Dégel 😈</div><div class="trbtns"><button class="btn" id="bx">OK 😈</button></div>`);sh.querySelector('#bx').onclick=()=>sh.remove();}));}
+function useDegel(b){if(!frzEnd()){toast('🔥','Tu n\'es pas gelé !','Garde cette carte pour le jour où ça arrive.');return;}
+  bConsume(b.id);COL.frzX=COL.frz;saveCol();toast('🔥','Dégel !','Tu peux rejouer et ouvrir des boosters.');if($('#collection').classList.contains('active'))buildCol();}
+
 /* --- 🃏 Carte mystère --- */
 function useMyst(b){const id=bonusRoll(['b_myst']);COL.members[b.id]--;if(COL.members[b.id]<=0)delete COL.members[b.id];COL.bUsed=COL.bUsed||{};COL.bUsed[b.id]=(COL.bUsed[b.id]||0)+1;
   COL.members[id]=(COL.members[id]||0)+1;stat('bonusUsed');saveCol();
@@ -7747,6 +7764,10 @@ function acApply(){COL.acDone=COL.acDone||{};let ch=false;const q=m=>m?`<q>« ${
       acPop('🦝','On t\'a volé !',`<p>${who} a utilisé la carte Voleur contre toi.</p>${take?`<div style="width:120px;margin:0 auto">${mini(take)}</div><p>Cette carte t'a été volée.</p>`:'<p>…mais tu n\'avais aucune carte à voler 😅</p>'}${q(a.msg)}`);}
     else if(a.type==='suppr'){const n=COL.members[a.card]||0;if(n)delete COL.members[a.card];GG.actions.set(a.id,{st:'done'}).catch(()=>{});
       acPop('💥','Carte supprimée !',`<p>${who} a utilisé « Supprimer la plus rare » contre toi.</p><div style="width:120px;margin:0 auto">${mini(a.card)}</div><p>${n?'Tu as perdu cette carte'+(n>1?' (×'+n+')':'')+'.':'Ouf, tu ne l\'avais déjà plus !'}</p>${q(a.msg)}`);}
+    else if(a.type==='gel'){GG.actions.set(a.id,{st:'done'}).catch(()=>{});const was=frzEnd();if(!was)COL.frz=Date.now()+FRZ_H*3600e3;
+      const cur=(document.querySelector('.screen.active')||{}).id;if(!was&&FRZ_IDS.includes(cur)){try{stopGame();}catch(_){}try{closeBooster();}catch(_){}show('hub');}
+      const p=acPop('🧊','Tu es gelé !',was?`<p>${who} a utilisé la carte Gel contre toi, mais tu étais déjà gelé : ça ne change rien.</p>${q(a.msg)}`:`<p>${who} a utilisé la carte Gel contre toi.<br>Pendant <b>${FRZ_H} h</b>, tu ne peux ni jouer ni ouvrir de booster.</p>${q(a.msg)}`);
+      if(!was&&(COL.members.b_degel||0)>0){p.querySelector('.endbtns').insertAdjacentHTML('afterbegin','<button class="btn" id="acD">🔥 Utiliser Dégel</button>');p.querySelector('#acD').onclick=()=>{p.remove();bonusUse('b_degel');};}}
     else if(a.type==='efface'){const had=MG_ORDER.filter(k=>COL.cards[k]);COL.noRew=COL.noRew||{};had.forEach(k=>COL.noRew[k]=1);COL.cards={};COL.wins={};try{localStorage.removeItem('gambetta-wins');}catch(_){}
       GG.actions.set(a.id,{st:'done'}).catch(()=>{});
       acPop('🧹','Mini-jeux effacés !',`<p>${who} a effacé tes <b>${had.length} cartes mini-jeux</b> !<br>Tes records restent. Regagne-les… mais sans les pochettes cette fois 😅</p>${q(a.msg)}`);}});
@@ -11504,7 +11525,7 @@ function rulesShow(k,then){const R=RULES[k],g=$('#game');if(!R||!g){then();retur
 function rulesBtn(){const h=$('#game');if(!h||$('#rulesQ'))return;const b=document.createElement('button');b.className='rq';b.id='rulesQ';b.setAttribute('aria-label','Règle du jeu');b.textContent='?';h.appendChild(b);
   b.onclick=()=>{const k=curKey;if(!k||!RULES[k])return;stopGame();$('#end').classList.remove('show');rulesShow(k,()=>runGame(k));};}
 function startGame(k){
-  try{ctxStart(k);}catch(_){}
+  if(frzBlock('game'))return;try{ctxStart(k);}catch(_){}
   stopGame();curKey=k;show('game');$('#hudTitle').textContent=CHARS[k].game;$('#end').classList.remove('show');try{rulesBtn();}catch(_){}
   $('#stage').innerHTML='';document.querySelectorAll('.rulesov').forEach(x=>x.remove());
   if(RULES[k]&&!(COL.rul&&COL.rul[k]))rulesShow(k,()=>runGame(k));else runGame(k);
