@@ -6293,21 +6293,25 @@ function memberHTML(id,big){const m=memObj(id),RR=m.bonus?{n:'Bonus',s:'⚡'}:m.
     <div class="tc-who">${RR.n}</div>
     <div class="tc-txt${m.t.length>165?' xxlong':m.t.length>120?' xlong':m.t.length>75?' long':''}">${m.t}</div>
     <div class="tc-foot"><span>Gambetta Game</span><span>${m.bonus?'Carte bonus':m.sp?'Carte spéciale':'Carte membre'}</span></div></div>`;}
-let colTab='mg';
+let colTab='mg',colSort='num',colLast='';
+const COL_SORTS=[['num','Numéro'],['hi','Rareté ↓'],['lo','Rareté ↑']],COL_RK={C:0,R:1,E:2,L:3};
+const colSortBtn=()=>`<button class="mini-b" id="colSort" style="margin:0 0 8px;width:100%">↕ Trier : ${(COL_SORTS.find(x=>x[0]===colSort)||COL_SORTS[0])[1]}</button>`;
+const colOrd=(ids,rf)=>{const a=ids.map((id,i)=>({id,i,r:COL_RK[rf(id)]||0}));if(colSort==='hi')a.sort((x,y)=>(y.r-x.r)||(x.i-y.i));else if(colSort==='lo')a.sort((x,y)=>(x.r-y.r)||(x.i-y.i));return a.map(x=>x.id);};
 function buildCol(){
-  updBoostBtn();
+  updBoostBtn();const csc=$('.cscroll'),keepTop=($('#collection').classList.contains('active')&&colLast===colTab+'|'+colSort)?csc.scrollTop:0;colLast=colTab+'|'+colSort;
   $('#colTotal').textContent=`${cardCount()} cartes`;
   const g=$('#cgrid');$('#rarLegend').style.display=colTab==='mem'?'flex':'none';
   if(colTab==='ser'){g.innerHTML=serHTML();}
   else if(colTab==='bon'){g.innerHTML=bonusTabHTML();}
-  else if(colTab==='mg'){g.innerHTML=`<div class="cmsg" style="border-style:solid">🎮 ${ownedMG()} / ${MG_ORDER.length} — Gagne un mini-jeu pour obtenir sa carte !</div>`+MG_ORDER.map(k=>COL.cards[k]?cardHTML(k,false):lockedHTML(k)).join('');}
+  else if(colTab==='mg'){g.innerHTML=`<div class="cmsg" style="border-style:solid">🎮 ${ownedMG()} / ${MG_ORDER.length} — Gagne un mini-jeu pour obtenir sa carte !</div>`+colSortBtn()+colOrd(MG_ORDER,k=>(MG_CARDS[k]||{}).r).map(k=>COL.cards[k]?cardHTML(k,false):lockedHTML(k)).join('');}
   else{const own=MEMBERS.filter(m=>COL.members[m.id]).length;
     g.innerHTML=`<div class="cmsg">👥 ${own} / ${MEMBER_SLOTS} — Les cartes membres s'obtiennent dans les <b>boosters</b>, les <b>pochettes</b> et le <b>booster du jour</b> 🎁</div>`+recyHTML()+
     (Object.keys(COL.members).some(k=>/^sp_pres/.test(k))?`<div class="cmsg" style="border-style:solid;background:linear-gradient(90deg,#ffe36b,#ffb84d);color:#1b2a3a">⭐ Cartes de légende</div>`+Object.keys(COL.members).filter(k=>/^sp_pres/.test(k)).sort().map(k=>memberHTML(k,false)).join(''):'')+(SPECIALS.some(x=>COL.members[x.id])?`<div class="cmsg" style="border-style:solid;background:#ffe9a8;color:#1b2a3a">🎉 Cartes spéciales d'événement</div>`+SPECIALS.filter(x=>COL.members[x.id]).map(x=>memberHTML(x.id,false)).join('')+`<div class="cmsg" style="border-style:solid">👥 Cartes membres</div>`:'')+
-    Array.from({length:MEMBER_SLOTS},(_,i)=>{const m=MEMBERS[i];if(m&&COL.members[m.id]){const n=COL.members[m.id];return n>1?`<div class="xwrap">${memberHTML(m.id,false)}<span class="xcnt">×${n}</span></div>`:memberHTML(m.id,false);}
+    colSortBtn()+colOrd(Array.from({length:MEMBER_SLOTS},(_,i)=>i),i=>(MEMBERS[i]||{}).r).map(i=>{const m=MEMBERS[i];if(m&&COL.members[m.id]){const n=COL.members[m.id];return n>1?`<div class="xwrap">${memberHTML(m.id,false)}<span class="xcnt">×${n}</span></div>`:memberHTML(m.id,false);}
       return `<div class="tcard locked${m?' r-'+m.r:''}" data-member="1"><div class="lq">?</div><div class="lh">#${String(i+1).padStart(2,'0')}${m?'<br>'+RAR[m.r].s:''}</div></div>`;}).join('');}
-  $('.cscroll').scrollTop=0;
+  csc.scrollTop=keepTop;
   $('#cloudNote').textContent=cloudOK?'☁️ Collection sauvegardée sur ton compte':'📱 Collection sauvegardée sur cet appareil';
+  const cs=g.querySelector('#colSort');if(cs)cs.onclick=()=>{const k=COL_SORTS.findIndex(x=>x[0]===colSort);colSort=COL_SORTS[(k+1)%COL_SORTS.length][0];buildCol();};
   g.querySelectorAll('.tcard').forEach(el=>el.onclick=()=>openCard(el));
   g.querySelectorAll('[data-rr]').forEach(b=>b.onclick=()=>recyConfirm(b.dataset.rr));const br=g.querySelector('#bRecy');if(br)br.onclick=bRecycle;
 }
@@ -6671,7 +6675,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=64;
+const APP_V=65;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
