@@ -6675,7 +6675,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=66;
+const APP_V=67;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
@@ -7813,11 +7813,13 @@ function bugSheet(){
     <div class="trbtns"><button class="btn alt" id="bx">Annuler</button><button class="btn" id="bgo" disabled>Envoyer</button></div>`);
   const T=sh.querySelector('#bgT'),G=sh.querySelector('#bgo');T.oninput=()=>{sh.querySelector('#bgN').textContent=T.value.length;G.disabled=T.value.trim().length<8;};
   sh.querySelector('#bx').onclick=()=>sh.remove();
+  /* le clavier qui se replie peut faire glisser la feuille : un appui à côté ne doit pas effacer le message */
+  sh.onclick=e=>{if(e.target===sh&&!T.value.trim())sh.remove();};
   G.onclick=async()=>{const day=dayKey();if(COL.bugD!==day){COL.bugD=day;COL.bugN=0;}
     if((COL.bugN||0)>=5){sh.querySelector('.in').innerHTML=`<h3>🐞 Merci !</h3><div class="trempty">Tu as déjà envoyé 5 messages aujourd'hui. Je les lis, reviens demain 😉</div><div class="trbtns"><button class="btn" id="bx2">Fermer</button></div>`;sh.querySelector('#bx2').onclick=()=>sh.remove();return;}
     G.disabled=true;G.textContent='Envoi…';
     try{await GG.actions.request({type:'bug',from:GG.pid,fromName:GG.name||'Joueur',at:Date.now(),done:false,msg:T.value.trim().slice(0,400),v:APP_V,scr:((document.querySelector('.screen.active')||{}).id||''),ua:(navigator.userAgent.match(/(iPhone|iPad|Android|Windows|Macintosh|Linux)/)||[''])[0]});}
-    catch(_){G.disabled=false;G.textContent='Envoyer';toast('⚠️','Envoi impossible','Vérifie ta connexion et réessaie');return;}
+    catch(err){G.disabled=false;G.textContent='Envoyer';toast('⚠️','Envoi impossible','Vérifie ta connexion et réessaie');let em=sh.querySelector('.bgerr');if(!em){em=document.createElement('div');em.className='bgerr trempty';em.style.color='#e5484d';sh.querySelector('.in').insertBefore(em,sh.querySelector('.trbtns'));}em.textContent='❌ Message non envoyé : '+((err&&(err.code||err.message))||'erreur')+'. Ton texte est gardé, réessaie.';return;}
     COL.bugN=(COL.bugN||0)+1;saveCol();sh.querySelector('.in').innerHTML=`<h3>✅ Merci !</h3><div class="trempty">Ton message est bien arrivé chez Mathéo. Il va regarder ça.</div><div class="trbtns"><button class="btn" id="bx2">Fermer</button></div>`;sh.querySelector('#bx2').onclick=()=>sh.remove();};}
 /* ---- notifications admin : pastille + alerte à chaque nouvelle demande (carte, mini-jeu, bug) ---- */
 const REQ_T={photo:['📸','Nouvelle carte'],mjeu:['🎮','Nouveau mini-jeu'],bug:['🐞','Bug signalé']};
