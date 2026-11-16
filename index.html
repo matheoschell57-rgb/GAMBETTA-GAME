@@ -1900,8 +1900,10 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
         catch(e){b.disabled=false;b.textContent="C'est parti !";err('Pas de connexion… réessaie.');}};
       d.querySelector('#ggHave').onclick=()=>{d.remove();askCode(resolve,true);};
     });}
+  // les cartes gardées sur ce téléphone appartiennent à l'ancien joueur : on les efface pour ne pas les mélanger avec un autre compte
+  const wipeLocal=()=>{['gambetta-col','gambetta-wins'].forEach(k=>{try{localStorage.removeItem(k);}catch(_){}});};
   function askCode(resolve,first){
-    const d=pop(`<div class="emo">🔑</div><h3>Mon code</h3><p>Tape le code de sauvegarde que le jeu t'a donné.</p>
+    const d=pop(`<div class="emo">🔑</div><h3>Mon code</h3><p>Tape le code de sauvegarde que le jeu t'a donné.</p>${first?'':'<div class="ggtwin">La partie actuelle reste sauvegardée sur son code. Ce téléphone passera sur la partie du nouveau code.</div>'}
       <input class="ainput" id="ggCode" maxlength="12" placeholder="GMB-XXXXXX" autocomplete="off" autocapitalize="characters">
       <div class="ggerr" id="ggErr"></div>
       <button class="btn alt" id="ggPaste" style="margin-bottom:6px">📋 Coller mon code</button>
@@ -1910,7 +1912,7 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
     const err=m=>{d.querySelector('#ggErr').textContent=m;};
     d.querySelector('#ggOk').onclick=async()=>{const code=normCode(d.querySelector('#ggCode').value);if(code.length<10)return err('Le code ressemble à GMB-XXXXXX');
       try{const data=await loadPlayer(code);if(!data)return err('Code inconnu 🤔 Vérifie les lettres.');
-        d.remove();if(first)resolve({code,data});else{LS.set('gg-code',code);location.reload();}}
+        d.remove();if(first)resolve({code,data});else{try{window.cloudFlush&&window.cloudFlush();}catch(_){}LS.set('gg-code',code);setTimeout(()=>{wipeLocal();location.reload();},900);}}
       catch(e){err('Pas de connexion… réessaie.');}};
     d.querySelector('#ggBack').onclick=()=>{d.remove();if(first)askPlayer().then(resolve);};
     d.querySelector('#ggPaste').onclick=async()=>{try{const t=await navigator.clipboard.readText();const m=(t||'').toUpperCase().match(/GMB-?[A-Z0-9]{6}/);if(m)d.querySelector('#ggCode').value=normCode(m[0]);else err('Aucun code copié 🤔 Tape-le à la main.');}catch(_){err('Tape le code à la main 🙂');}};
@@ -1948,6 +1950,7 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
     let code=LS.get('gg-code'),data=null;
     if(code){try{data=await loadPlayer(code);}catch(_){return false;}}
     if(code&&!data){try{const pn=JSON.parse(LS.get('gg-new')||'null');if(pn&&pn.code===code){await fs.doc('players/'+code).set(pn);data=pn;LS.set('gg-new','');}}catch(_){}}
+    if(code&&!data){wipeLocal();try{localStorage.removeItem('gg-code');}catch(_){}location.reload();return false;} // joueur supprimé par l'admin : on repart vraiment de zéro
     if(!data){const r=await askPlayer();code=r.code;data=r.data;}
     LS.set('gg-code',code);GG.code=code;GG.pid=data.pid;GG.name=data.name;NAMES[data.pid]=data.name;
     await fs.doc('owners/'+data.pid).set({uid:auth.currentUser.uid,code});
@@ -6102,7 +6105,7 @@ function saveCol(){if(typeof progLater==='function')progLater();if(typeof pushBo
 /* sauvegarde en ligne regroupée : une seule écriture après une rafale de changements, et rien si rien n'a changé */
 var cloudT=0,cloudK="";
 function cloudFlush(){clearTimeout(cloudT);cloudT=0;if(!colRef)return;try{const j=JSON.stringify(COL);if(j===cloudK)return;cloudK=j;const r=colRef.set(colEnc(JSON.parse(j)));if(r&&r.catch)r.catch(e=>{cloudK='';try{console.warn('sauvegarde en ligne',e);}catch(_){}});}catch(_){cloudK='';}}
-addEventListener('pagehide',cloudFlush);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')cloudFlush();});
+window.cloudFlush=cloudFlush;addEventListener('pagehide',cloudFlush);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')cloudFlush();});
 function mergeCol(o){if(!o)return;if(o.mgW!==1&&o.best&&o.best.willi!=null){o=Object.assign({},o,{best:Object.assign({},o.best)});delete o.best.willi;}
   // ce que ce téléphone ne connaît pas encore (nouvel appareil, Safari ↔ appli…) : on reprend la sauvegarde en ligne
   for(const k in o){if(COL[k]===undefined&&o[k]!==undefined)COL[k]=o[k];}
@@ -6675,7 +6678,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=67;
+const APP_V=68;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
@@ -6728,12 +6731,13 @@ function adminAct(b,P){
   const gms=src.filter(r=>r.d.gm),stars=gms.reduce((a,r)=>a+(r.d.gm.s||0),0),pres=src.filter(r=>(r.d.pres||0)>0).length,goP=src.filter(r=>(r.d.goc||0)>0).length;
   const bar=(v,m,c)=>`<span class="adbar"><i style="width:${Math.max(2,Math.round(v/m*100))}%;${c?'background:'+c:''}"></i></span>`;
   const row=(l,v,m)=>`<div class="adrow"><span>${l}</span>${bar(v,m)}<b>${v}</b></div>`;
-  b.innerHTML=`<style>.adbar{flex:1;height:8px;border-radius:5px;background:#0001;margin:0 8px;overflow:hidden;display:block}.adbar i{display:block;height:100%;background:var(--blue,#2a7de1);border-radius:5px}.adrow{display:flex;align-items:center;font-size:13px;padding:3px 0}.adrow span{width:42%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.adrow b{min-width:28px;text-align:right}.adcol{display:flex;align-items:flex-end;gap:3px;height:70px}.adcol div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;font-size:9px}.adcol i{display:block;width:100%;background:var(--blue,#2a7de1);border-radius:3px 3px 0 0}</style>
+  b.innerHTML=`<style>.adbar{flex:1;height:8px;border-radius:5px;background:#0001;margin:0 8px;overflow:hidden;display:block}.adbar i{display:block;height:100%;background:var(--blue,#2a7de1);border-radius:5px}.adrow{display:flex;align-items:center;font-size:13px;padding:3px 0}.adrow span{width:42%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.adrow b{min-width:28px;text-align:right}.adcol{display:flex;align-items:flex-end;gap:3px;height:70px}.adcol div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;font-size:9px}.adcol i{display:block;width:100%;background:var(--blue,#2a7de1);border-radius:3px 3px 0 0}.adcol em{display:block;height:13px;line-height:13px;margin-top:3px;font-style:normal}.adpt{display:grid;grid-template-columns:1fr 62px 62px 66px;gap:2px 6px;font-size:13px;align-items:center}.adpt b{font-size:11px;color:var(--muted)}.adpt span:not(:first-child),.adpt b:not(:first-child){text-align:right}.adpt .me{font-weight:800}.adpt .nm{text-align:left!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}</style>
     <div class="abox"><h4>📈 Le club en chiffres</h4><div class="actsum"><div><b>${P.length}</b><span>joueurs</span></div><div><b>${actT}</b><span>actifs aujourd'hui</span></div><div><b>${act7}</b><span>actifs sur 7 jours</span></div></div>
     <div class="actsum" style="margin-top:8px"><div><b>${ptFmt(t7)}</b><span>de jeu en 7 jours</span></div><div><b>${act7?ptFmt(t7/act7):'—'}</b><span>par joueur actif</span></div><div><b>${wins}</b><span>records de mini-jeux</span></div></div>
     <p class="asum">Visible par toi seul.${live?' À jour à 2 min près. <button class="gglink" id="actRf">🔄 Actualiser</button>':' (Le temps de jeu demande la version avec compte.)'}</p></div>
-    <div class="abox"><h4>⏱️ Temps de jeu par jour</h4><div class="adcol">${days.map(x=>`<div><i style="height:${Math.max(3,Math.round(x.t/maxD*54))}px" title="${ptFmt(x.t)}"></i>${x.lb}</div>`).join('')}</div><p class="asum">Aujourd'hui : <b>${ptFmt(tT)}</b></p></div>
-    <div class="abox"><h4>🕐 Heures les plus actives</h4>${live&&H.some(v=>v)?`<div class="adcol">${H.map((v,h)=>`<div><i style="height:${Math.max(2,Math.round(v/maxH*54))}px"></i>${h%3===0?h:''}</div>`).join('')}</div><p class="asum">Pic vers <b>${peak} h</b> · 7 derniers jours, tout le club.</p>`:'<p class="asum">Pas encore assez de données.</p>'}</div>
+    ${live?`<div class="abox"><h4>👤 Temps de jeu par joueur</h4><div class="adpt"><b>Joueur</b><b>Aujourd'hui</b><b>7 jours</b><b>Depuis le début</b>${src.filter(r=>r.c).map(r=>({n:r.p.name,me:isMe(r.p.id),d:ptSum(1,r.c),w:ptSum(7,r.c),a:r.c.pt||0})).sort((a,b)=>(b.w-a.w)||(b.d-a.d)||(b.a-a.a)).map(x=>`<span class="nm${x.me?' me':''}">${esc(x.n)}</span><span>${x.d?ptFmt(x.d):'—'}</span><span>${x.w?ptFmt(x.w):'—'}</span><span>${x.a?ptFmt(x.a):'—'}</span>`).join('')}</div><p class="asum">Trié par temps de jeu sur 7 jours.</p></div>`:''}
+    <div class="abox"><h4>⏱️ Temps de jeu par jour</h4><div class="adcol">${days.map(x=>`<div><i style="height:${Math.max(3,Math.round(x.t/maxD*54))}px" title="${ptFmt(x.t)}"></i><em>${x.lb}</em></div>`).join('')}</div><p class="asum">Aujourd'hui : <b>${ptFmt(tT)}</b></p></div>
+    <div class="abox"><h4>🕐 Heures les plus actives</h4>${live&&H.some(v=>v)?`<div class="adcol">${H.map((v,h)=>`<div><i style="height:${Math.max(2,Math.round(v/maxH*54))}px"></i><em>${h%3===0?h:''}</em></div>`).join('')}</div><p class="asum">Pic vers <b>${peak} h</b> · 7 derniers jours, tout le club.</p>`:'<p class="asum">Pas encore assez de données.</p>'}</div>
     <div class="abox"><h4>🃏 Collection</h4><div class="actsum"><div><b>${cards}</b><span>cartes en tout</span></div><div><b>${avg}</b><span>par joueur (sur ${tot})</span></div><div><b>${full}</b><span>collection complète</span></div></div>
       <div class="dsec">Plus gros collectionneurs</div>${topC.map((p,i)=>`<div class="adrow"><span>${['🥇','🥈','🥉'][i]} ${esc(p.name)}</span>${bar(p.cards,topC[0].cards||1)}<b>${p.cards}</b></div>`).join('')}
       <div class="dsec">Cartes les plus rares du club</div>${rare.map(r=>`<div class="adrow"><span>${esc(r.n)}</span>${bar(r.c,N)}<b>${r.c?r.c+' joueur'+(r.c>1?'s':''):'personne'}</b></div>`).join('')}</div>
