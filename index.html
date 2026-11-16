@@ -1647,7 +1647,7 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
 
   <section id="collection" class="screen" aria-label="Collection de cartes">
     <div class="tabs ctabs"><button class="tab on" data-ct="col">🃏 Ma collection</button><button class="tab" data-ct="tr">🔄 Échanges<span class="ctn"></span></button></div>
-    <div class="col-head"><button class="x" id="colBack" aria-label="Retour">✕</button><h2>Ma collection</h2><span class="col-count" id="colTotal"></span></div>
+    <div class="col-head"><button class="x" id="colBack" aria-label="Retour">✕</button><h2>Ma collection</h2><span class="col-count" id="colTotal"></span><button class="tab" id="colSort" hidden style="margin-left:auto;flex:0 0 auto;padding:8px 14px;font-size:14px;white-space:nowrap"></button></div>
     <div class="boostrow"><button class="boostbtn" id="openBoost">🎁 Ouvrir un booster</button><button class="boostbtn all" id="openAllBoost" hidden>⚡ Tout ouvrir</button></div><div class="boostgoal" id="boostGoal"></div>
     <div class="tabs"><button class="tab on" data-t="mg">🎮 Jeux</button><button class="tab" data-t="mem">👥 Membres</button><button class="tab" data-t="bon">⚡ Bonus</button><button class="tab" data-t="ser">📚 Séries</button></div>
     <div class="rarlegend" id="rarLegend"><span><i style="background:#3c8ee6"></i>Rare</span><span><i style="background:#8a4fe0"></i>Épique</span><span><i style="background:#f2c230"></i>Légendaire</span></div>
@@ -6295,10 +6295,10 @@ function memberHTML(id,big){const m=memObj(id),RR=m.bonus?{n:'Bonus',s:'⚡'}:m.
     <div class="tc-foot"><span>Gambetta Game</span><span>${m.bonus?'Carte bonus':m.sp?'Carte spéciale':'Carte membre'}</span></div></div>`;}
 let colTab='mg',colSort='num',colLast='';
 const COL_SORTS=[['num','Numéro'],['hi','Rareté ↓'],['lo','Rareté ↑']],COL_RK={C:0,R:1,E:2,L:3};
-const colSortBtn=()=>`<button class="mini-b" id="colSort" style="margin:0 0 8px;width:100%">↕ Trier : ${(COL_SORTS.find(x=>x[0]===colSort)||COL_SORTS[0])[1]}</button>`;
+const colSortBtn=()=>'';
 const colOrd=(ids,rf)=>{const a=ids.map((id,i)=>({id,i,r:COL_RK[rf(id)]||0}));if(colSort==='hi')a.sort((x,y)=>(y.r-x.r)||(x.i-y.i));else if(colSort==='lo')a.sort((x,y)=>(x.r-y.r)||(x.i-y.i));return a.map(x=>x.id);};
 function buildCol(){
-  updBoostBtn();const csc=$('.cscroll'),keepTop=($('#collection').classList.contains('active')&&colLast===colTab+'|'+colSort)?csc.scrollTop:0;colLast=colTab+'|'+colSort;
+  updBoostBtn();const csc=$('.cscroll'),keepTop=($('#collection').classList.contains('active')&&colLast===colTab)?csc.scrollTop:0;colLast=colTab;
   $('#colTotal').textContent=`${cardCount()} cartes`;
   const g=$('#cgrid');$('#rarLegend').style.display=colTab==='mem'?'flex':'none';
   if(colTab==='ser'){g.innerHTML=serHTML();}
@@ -6311,7 +6311,7 @@ function buildCol(){
       return `<div class="tcard locked${m?' r-'+m.r:''}" data-member="1"><div class="lq">?</div><div class="lh">#${String(i+1).padStart(2,'0')}${m?'<br>'+RAR[m.r].s:''}</div></div>`;}).join('');}
   csc.scrollTop=keepTop;
   $('#cloudNote').textContent=cloudOK?'☁️ Collection sauvegardée sur ton compte':'📱 Collection sauvegardée sur cet appareil';
-  const cs=g.querySelector('#colSort');if(cs)cs.onclick=()=>{const k=COL_SORTS.findIndex(x=>x[0]===colSort);colSort=COL_SORTS[(k+1)%COL_SORTS.length][0];buildCol();};
+  const cs=$('#colSort');if(cs){cs.hidden=!(colTab==='mg'||colTab==='mem');cs.textContent='↕ '+(COL_SORTS.find(x=>x[0]===colSort)||COL_SORTS[0])[1];cs.onclick=()=>{const k=COL_SORTS.findIndex(x=>x[0]===colSort);colSort=COL_SORTS[(k+1)%COL_SORTS.length][0];buildCol();};}
   g.querySelectorAll('.tcard').forEach(el=>el.onclick=()=>openCard(el));
   g.querySelectorAll('[data-rr]').forEach(b=>b.onclick=()=>recyConfirm(b.dataset.rr));const br=g.querySelector('#bRecy');if(br)br.onclick=bRecycle;
 }
@@ -6638,7 +6638,7 @@ document.querySelectorAll('.tab.rt').forEach(b=>b.onclick=()=>{rkTab=b.dataset.r
 COL.got=COL.got||{all:0,me:0,cards:0};
 let DB=null,IS_ADMIN=false,GIFTS={},ADM={tab:'gift',to:'all',sel:[],mode:'boost',n:1,msg:'',card:null};
 (async function giftInit(){try{if(!window.claude||!window.claude.use)return;const db=await window.claude.use('db'),u=await window.claude.use('user');if(!db||!u)return;DB=db;
-  try{qzWatchLive();}catch(_){}IS_ADMIN=await u.isOwner();if(IS_ADMIN){$('#openAdmin').hidden=false;db.collection('gifts').onSnapshot(q=>{const o={};q.docs.forEach(d=>o[d.id]=d.data());GIFTS=o;if($('#admin').classList.contains('active'))buildAdmin();},()=>{});}
+  try{qzWatchLive();}catch(_){}IS_ADMIN=await u.isOwner();if(IS_ADMIN){$('#openAdmin').hidden=false;try{reqWatch();}catch(_){}db.collection('gifts').onSnapshot(q=>{const o={};q.docs.forEach(d=>o[d.id]=d.data());GIFTS=o;if($('#admin').classList.contains('active'))buildAdmin();},()=>{});}
   const id=await u.id();if(!id)return;
   const check=async()=>{const a=await db.doc('gifts/all').get(),m=await db.doc('gifts/'+id).get();claimGifts(a.exists?a.data():{},m.exists?m.data():{});};
   check();setInterval(check,60000);
@@ -6675,7 +6675,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=65;
+const APP_V=66;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
@@ -6991,11 +6991,12 @@ function buildMoi(){const b=$('#moiBody');if(!b)return;const name=(window.GG&&GG
       ${row('moiCol','🃏','Ma collection','Toutes tes cartes et tes boosters')}
       ${row('moiPres','🏊','Le Grand Plongeon',presOK()?'Disponible ! Replonge tout pour devenir une légende':PRES()?'Prestige '+PRES()+' · prochain : chaque carte'+presX(presNeed()):'Réunis toutes les cartes pour devenir une légende')}
       ${row('moiBat','⚔️','Mon deck de bataille','Changer et améliorer tes cartes')}
+      ${row('moiBug','🐞','Signaler un bug','Dis-moi ce qui ne marche pas, Mathéo reçoit ton message')}
       ${isAdm?row('moiAdm','🛠️','Gestion du jeu','Cadeaux, joueurs, tournois, événements (toi seul)'):''}</div>
     <div class="cloudnote">${window.GG&&GG.code?'☁️ Ta partie est sauvegardée en ligne.':'☁️ Ta partie est sauvegardée sur ce téléphone.'}</div>`;
   const on=(id,f)=>{const x=b.querySelector('#'+id);if(x)x.onclick=f;};
   on('moiProf',()=>openProfile(myId||'local'));on('moiKey',()=>{const k=document.querySelector('.selbtns .save');if(k)k.click();});
-  on('moiCol',()=>$('#openCol').click());on('moiNotif',permSheet);on('moiPres',presSheet);on('moiBat',()=>openBataille());on('moiAdm',()=>$('#openAdmin').click());}
+  on('moiCol',()=>$('#openCol').click());on('moiNotif',permSheet);on('moiPres',presSheet);on('moiBat',()=>openBataille());on('moiAdm',()=>$('#openAdmin').click());on('moiBug',bugSheet);try{reqBadge();}catch(_){}}
 
 
 
@@ -7804,11 +7805,38 @@ function acApply(){COL.acDone=COL.acDone||{};let ch=false;const q=m=>m?`<q>« ${
 
 /* --- admin : demandes Photo et Mini-jeu --- */
 let REQS=[];
+/* ---- signaler un bug : le message arrive dans « Demandes » de l'admin ---- */
+function bugSheet(){
+  if(!ACTOK()){sheet(`<h3>🐞 Signaler un bug</h3><div class="trempty">Le signalement marche dans la version en ligne du jeu, avec ton compte.<br>Envoie-moi plutôt un message avec une capture d'écran !</div><div class="trbtns"><button class="btn alt" id="bx">Fermer</button></div>`).querySelector('#bx').onclick=e=>e.target.closest('.trsheet').remove();return;}
+  const sh=sheet(`<h3>🐞 Signaler un bug</h3><div class="sec">Explique ce qui s'est passé : sur quel écran, ce que tu as fait, ce que tu as vu. Plus c'est précis, plus je peux le corriger vite !</div>
+    <textarea class="ainput" id="bgT" maxlength="400" rows="5" placeholder="Ex. : en ouvrant un booster, l'écran est devenu tout blanc…"></textarea><div class="asum"><span id="bgN">0</span>/400 · la version du jeu est jointe automatiquement</div>
+    <div class="trbtns"><button class="btn alt" id="bx">Annuler</button><button class="btn" id="bgo" disabled>Envoyer</button></div>`);
+  const T=sh.querySelector('#bgT'),G=sh.querySelector('#bgo');T.oninput=()=>{sh.querySelector('#bgN').textContent=T.value.length;G.disabled=T.value.trim().length<8;};
+  sh.querySelector('#bx').onclick=()=>sh.remove();
+  G.onclick=async()=>{const day=dayKey();if(COL.bugD!==day){COL.bugD=day;COL.bugN=0;}
+    if((COL.bugN||0)>=5){sh.querySelector('.in').innerHTML=`<h3>🐞 Merci !</h3><div class="trempty">Tu as déjà envoyé 5 messages aujourd'hui. Je les lis, reviens demain 😉</div><div class="trbtns"><button class="btn" id="bx2">Fermer</button></div>`;sh.querySelector('#bx2').onclick=()=>sh.remove();return;}
+    G.disabled=true;G.textContent='Envoi…';
+    try{await GG.actions.request({type:'bug',from:GG.pid,fromName:GG.name||'Joueur',at:Date.now(),done:false,msg:T.value.trim().slice(0,400),v:APP_V,scr:((document.querySelector('.screen.active')||{}).id||''),ua:(navigator.userAgent.match(/(iPhone|iPad|Android|Windows|Macintosh|Linux)/)||[''])[0]});}
+    catch(_){G.disabled=false;G.textContent='Envoyer';toast('⚠️','Envoi impossible','Vérifie ta connexion et réessaie');return;}
+    COL.bugN=(COL.bugN||0)+1;saveCol();sh.querySelector('.in').innerHTML=`<h3>✅ Merci !</h3><div class="trempty">Ton message est bien arrivé chez Mathéo. Il va regarder ça.</div><div class="trbtns"><button class="btn" id="bx2">Fermer</button></div>`;sh.querySelector('#bx2').onclick=()=>sh.remove();};}
+/* ---- notifications admin : pastille + alerte à chaque nouvelle demande (carte, mini-jeu, bug) ---- */
+const REQ_T={photo:['📸','Nouvelle carte'],mjeu:['🎮','Nouveau mini-jeu'],bug:['🐞','Bug signalé']};
+function reqSeen(){try{return JSON.parse(localStorage.getItem('gg-req-seen')||'[]');}catch(_){return [];}}
+function reqBadge(){const n=REQS.filter(r=>!r.done).length;
+  [['#openAdmin',1],['#moiAdm',1],['.tab.at[data-a="req"]',0]].forEach(([q,abs])=>{const el=document.querySelector(q);if(!el)return;let b=el.querySelector('.reqdot');
+    if(!n){if(b)b.remove();return;}if(!b){b=document.createElement('span');b.className='reqdot';b.style.cssText='display:inline-block;min-width:18px;padding:0 5px;margin-left:6px;border-radius:9px;background:#e5484d;color:#fff;font:700 11px/18px system-ui;text-align:center;vertical-align:middle';el.appendChild(b);}b.textContent=n;});}
+function reqWatch(){if(reqWatch.on)return;if(!ACTOK()){setTimeout(reqWatch,2500);return;}reqWatch.on=1;let first=1;
+  GG.actions.listenReq(L=>{REQS=L.sort((x,y)=>(y.at||0)-(x.at||0));const seen=new Set(reqSeen()),fresh=REQS.filter(r=>!r.done&&!seen.has(r.id));
+    if(fresh.length){try{localStorage.setItem('gg-req-seen',JSON.stringify(REQS.map(r=>r.id).slice(0,200)));}catch(_){}
+      if(first&&fresh.length>1)toast('📬',fresh.length+' demandes en attente','Ouvre 🛠️ Gestion › Demandes');
+      else fresh.slice(0,3).forEach(r=>{const t=REQ_T[r.type]||['📬','Demande'];toast(t[0],t[1]+' · '+(r.fromName||'Joueur'),r.type==='bug'?String(r.msg||'').slice(0,60):'Ouvre Gestion › Demandes');});
+      try{sfx('ok');}catch(_){}}
+    first=0;reqBadge();if($('#admin').classList.contains('active')&&ADM.tab==='req')buildAdmin();});}
 function adminReqs(b){if(!ACTOK()){b.innerHTML='<div class="rkempty">📬 Les demandes arrivent sur le site du jeu.</div>';return;}
-  if(!adminReqs.on){adminReqs.on=1;GG.actions.listenReq(L=>{REQS=L.sort((x,y)=>(y.at||0)-(x.at||0));if($('#admin').classList.contains('active')&&ADM.tab==='req')buildAdmin();});}
+  reqWatch();
   const todo=REQS.filter(r=>!r.done),done=REQS.filter(r=>r.done).slice(0,20);
-  const row=r=>`<div class="prow"><span class="who">${r.type==='photo'?'📸 Nouvelle carte':'🎮 Nouveau mini-jeu'} · ${esc(r.fromName||'Joueur')}<small>${new Date(r.at).toLocaleString('fr-FR',{dateStyle:'short',timeStyle:'short'})}${r.type==='photo'&&!r.done?' · offre-lui sa carte avec 🎁 Offrir quand elle est prête':''}</small></span>${r.done?'<span class="mini">✅ fait</span>':`<button class="gift" data-r="${r.id}" aria-label="Fait">✔</button>`}</div>`;
-  b.innerHTML=`<div class="rkhead">📬 ${todo.length} demande${todo.length>1?'s':''} à traiter<small>Le joueur t'envoie les détails sur WhatsApp</small></div>${todo.length?todo.map(row).join(''):'<div class="rkempty">Aucune demande en attente.</div>'}${done.length?'<div class="rkhead" style="margin-top:14px">Déjà faites</div>'+done.map(row).join(''):''}`;
+  const row=r=>`<div class="prow"><span class="who">${(REQ_T[r.type]||['📬','Demande']).join(' ')} · ${esc(r.fromName||'Joueur')}<small>${new Date(r.at).toLocaleString('fr-FR',{dateStyle:'short',timeStyle:'short'})}${r.type==='photo'&&!r.done?' · offre-lui sa carte avec 🎁 Offrir quand elle est prête':''}${r.type==='bug'?' · v'+(r.v||'?')+' · '+esc(r.ua||'')+' · écran « '+esc(r.scr||'?')+' »':''}</small>${r.type==='bug'?`<span style="display:block;margin-top:4px;white-space:pre-wrap;font-size:13px">${esc(r.msg||'')}</span>`:''}</span>${r.done?'<span class="mini">✅ fait</span>':`<button class="gift" data-r="${r.id}" aria-label="Fait">✔</button>`}</div>`;
+  b.innerHTML=`<div class="rkhead">📬 ${todo.length} demande${todo.length>1?'s':''} à traiter<small>Cartes et mini-jeux : détails sur WhatsApp · bugs : message ci-dessous</small></div>${todo.length?todo.map(row).join(''):'<div class="rkempty">Aucune demande en attente.</div>'}${done.length?'<div class="rkhead" style="margin-top:14px">Déjà faites</div>'+done.map(row).join(''):''}`;
   b.querySelectorAll('[data-r]').forEach(x=>x.onclick=()=>{x.disabled=true;GG.actions.setReq(x.dataset.r,{done:true}).catch(()=>{x.disabled=false;});});}
 
 /* ---- Bataille du Bassin : stats et attaques de chaque carte ---- */
