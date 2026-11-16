@@ -6262,7 +6262,12 @@ const MEMBERS=[
   {"id": "center_parcs", "n": "Le club représenté à Center Parcs", "r": "E", "t": "Pas assez de travail au club. On va espionner la concurrence", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/center_parcs.webp?v=9a58fbf0", "thumb": "img/m/center_parcs_s.webp?v=dc708e75"},
   {"id": "national_vtt", "n": "National VTT", "r": "E", "t": "Le club ferait vraiment n’importe quoi pour notre UFOLEP chérie !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/national_vtt.webp?v=e77eda63", "thumb": "img/m/national_vtt_s.webp?v=b67bdbc1"},
   {"id": "impossible", "n": "Impossible", "r": "E", "t": "Même dans nos rêves les plus fou ce n’est pas possible !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/impossible.webp?v=5d33fd98", "thumb": "img/m/impossible_s.webp?v=bb5f835d"},
-  {"id": "impossible_2", "n": "Impossible 2", "r": "E", "t": "Même dans nos rêves les plus fou ce n’est VRAIMENT pas possible !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/impossible_2.webp?v=ea3302b3", "thumb": "img/m/impossible_2_s.webp?v=df97ebae"}
+  {"id": "impossible_2", "n": "Impossible 2", "r": "E", "t": "Même dans nos rêves les plus fou ce n’est VRAIMENT pas possible !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/impossible_2.webp?v=ea3302b3", "thumb": "img/m/impossible_2_s.webp?v=df97ebae"},
+  {"id": "24h_de_stan", "n": "Les 24h de stan !", "r": "E", "t": "Et oui le club est venu aider GSI Stan !", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/24h_de_stan.webp?v=d9d98bd0", "thumb": "img/m/24h_de_stan_s.webp?v=5fdd29ae"},
+  {"id": "nathan_beau_gosse", "n": "Nathan le beau gosse", "r": "E", "t": "Mais quel homme celui la", "pos": "50% 35%", "ar": 0.806, "full": 0, "img": "img/m/nathan_beau_gosse.webp?v=f032738b", "thumb": "img/m/nathan_beau_gosse_s.webp?v=acc43fd6"},
+  {"id": "piscine_belletanche", "n": "Piscine Belletanche", "r": "L", "t": "", "pos": "50% 35%", "ar": 0.528, "full": 1, "img": "img/m/piscine_belletanche.webp?v=6ad61a9a", "thumb": "img/m/piscine_belletanche_s.webp?v=12c36723"},
+  {"id": "piscine_lothaire", "n": "Piscine Lothaire", "r": "L", "t": "", "pos": "50% 35%", "ar": 0.528, "full": 1, "img": "img/m/piscine_lothaire.webp?v=c0a20ed2", "thumb": "img/m/piscine_lothaire_s.webp?v=ed91a588"},
+  {"id": "piscine_bon_pasteur", "n": "Piscine du Bon Pasteur", "r": "L", "t": "", "pos": "50% 35%", "ar": 0.528, "full": 1, "img": "img/m/piscine_bon_pasteur.webp?v=017ae3c6", "thumb": "img/m/piscine_bon_pasteur_s.webp?v=a2c9a757"}
 ];
 MEMBER_SLOTS=Math.max(60,MEMBERS.length);
 const memIdx=id=>MEMBERS.findIndex(m=>m.id===id);
@@ -6271,8 +6276,8 @@ const SPECIALS=[{id:'sp_shooter',n:'Offrir un shooter à Mathéo',r:'L',sp:1,t:'
 ];
 /* Cartes bonus (visuels provisoires en attendant ceux de Mathéo) */
 const BONUS=[{"id": "b_cadeau", "e": "🎁", "n": "Cadeau", "w": 31, "t": "Offre un booster de 5 cartes au joueur de ton choix (pas à toi !).", "r": "E", "bonus": 1, "img": "img/x/b7bb67f36f56.webp"}, {"id": "b_voleur", "e": "🦝", "n": "Voleur", "w": 24, "t": "Vole une carte au hasard au joueur de ton choix !", "r": "E", "bonus": 1, "img": "img/x/8d8b5809b585.webp"}, {"id": "b_joker", "e": "🌟", "n": "Joker", "w": 16, "t": "Choisis n'importe quelle carte membre qui te manque.", "r": "E", "bonus": 1, "img": "img/x/172d3081f9cf.webp"}, {"id": "b_myst", "e": "🃏", "n": "Carte mystère", "w": 8, "t": "Retourne-la : elle se transforme en une autre carte bonus au hasard !", "r": "E", "bonus": 1, "img": "img/x/e3e9172b0051.webp"}, {"id": "b_nouv", "e": "🆕", "n": "Paquet de nouveautés", "w": 9, "t": "Un booster de 5 cartes que tu n'as pas encore.", "r": "E", "bonus": 1, "img": "img/x/98a5146bf0fa.webp"}, {"id": "b_photo", "e": "📸", "n": "Photo à Mathéo", "w": 8, "t": "Propose une photo à Mathéo : il en fera une nouvelle carte, que tu recevras gratuitement !", "r": "E", "bonus": 1, "img": "img/x/5467679a7306.webp"}, {"id": "b_prime", "e": "🎯", "n": "Prime", "w": 6, "t": "Mets une prime sur un joueur : le prochain qui le bat en duel dans les 4 h gagne un booster de 5 cartes !", "r": "E", "bonus": 1, "img": "img/x/d1de55ec796d.webp"}, {"id": "b_mjeu", "e": "🎮", "n": "Mini-jeu à Mathéo", "w": 5, "t": "Propose une idée de mini-jeu à Mathéo : il le mettra dans le jeu !", "r": "E", "bonus": 1, "img": "img/x/9aee7cdf7aa8.webp"}, {"id": "b_suppr", "e": "💥", "n": "Supprimer la plus rare", "w": 5, "t": "Choisis un joueur et supprime une de ses cartes les plus rares (tous les exemplaires).", "r": "E", "bonus": 1, "img": "img/x/6b585af950a8.webp"}, {"id": "b_efface", "e": "🧹", "n": "Effacer les mini-jeux", "w": 2, "t": "Toutes les cartes mini-jeux du joueur de ton choix repassent « non réussies ».", "r": "E", "bonus": 1, "img": "img/x/61a2c238257f.webp"},
- {"id": "b_gel", "e": "🧊", "n": "Gel", "w": 1, "t": "Choisis un joueur : pendant 2 h, il ne peut plus jouer ni ouvrir de booster !", "r": "L", "bonus": 1, "img": "img/x/29107b87b791.webp"},
- {"id": "b_degel", "e": "🔥", "n": "Dégel", "w": 1, "t": "À utiliser quand tu es gelé : le blocage s'arrête tout de suite.", "r": "L", "bonus": 1, "img": "img/x/0cf880971c68.webp"}];
+ {"id": "b_gel", "e": "🧊", "n": "Gel", "w": 1, "t": "Choisis un joueur : pendant 2 h, il ne peut plus jouer ni ouvrir de booster !", "r": "L", "bonus": 1, "img": "img/x/c569bdf1dfe6.webp"},
+ {"id": "b_degel", "e": "🔥", "n": "Dégel", "w": 1, "t": "À utiliser quand tu es gelé : le blocage s'arrête tout de suite.", "r": "L", "bonus": 1, "img": "img/x/59e2151b71a7.webp"}];
 const memObj=id=>MEMBERS[memIdx(id)]||SPECIALS.find(x=>x.id===id)||BONUS.find(x=>x.id===id)||presCard(id);
 function memberHTML(id,big){const m=memObj(id),RR=m.bonus?{n:'Bonus',s:'⚡'}:m.sp?{n:'Spéciale',s:'🎉'}:RAR[m.r],num=m.bonus?'B'+(BONUS.indexOf(m)+1):m.sp?'SP':String(memIdx(id)+1).padStart(2,'0'),isNew=!big&&COL.members[id]&&!COL.seen['m_'+id];
   if(m.full)return `<div class="tcard mem full${m.fit?' fit':''}${m.ar>0.66&&m.ar<0.76?' r88':''} r-${m.r}${big?' big':''}${!m.sp&&!m.bonus&&presGold(COL.members[id])?' gold':''}${m.pres?' legend':''}" data-mem="${id}" role="button" aria-label="Carte ${m.n}">
@@ -6492,7 +6497,7 @@ async function newsList(){const wk=Date.now()-7*864e5,L=[];rows().forEach(r=>{co
   L.sort((a,b)=>b.t-a.t);const top=L.slice(0,20),names=await nameOf([...new Set(top.map(n=>n.id))]);top.forEach(n=>{n.me=isMe(n.id);n.n=n.me?'Toi':(names[n.id]||'Un joueur');n.h=n.me&&n.x.startsWith('a ')?'<b>Tu as</b> '+esc(n.x.slice(2)):'<b>'+esc(n.n)+'</b> '+esc(n.x);});return top;}
 function newsAgo(t){const m=Math.round((Date.now()-t)/60e3);return m<1?'à l\'instant':m<60?'il y a '+m+' min':m<1440?'il y a '+Math.round(m/60)+' h':'il y a '+Math.round(m/1440)+' j';}
 let NEWS={i:0,L:[],t:null};
-async function newsHub(){const el=$('#hNews');if(!el)return;let L=[];try{L=await newsList();}catch(_){}try{rushClaim();L=[rushItem()].concat(L);}catch(_){}NEWS.L=L;if(!L.length){el.hidden=true;return;}el.hidden=false;
+async function newsHub(){const el=$('#hNews');if(!el)return;let L=[];try{L=await newsList();}catch(_){}try{rushClaim();L=[rushItem()].concat(L);}catch(_){}try{gmCupClaim();}catch(_){}NEWS.L=L;if(!L.length){el.hidden=true;return;}el.hidden=false;
   const R=()=>{const n=NEWS.L[NEWS.i%NEWS.L.length];if(!n)return;el.innerHTML=`<span class="hne">${n.e}</span><span class="hnt">${n.h}</span><small>${n.rush?'›':newsAgo(n.t)}</small>`;el.classList.remove('in');void el.offsetWidth;el.classList.add('in');};
   NEWS.i=0;R();clearInterval(NEWS.t);NEWS.t=setInterval(()=>{if(!$('#hub').classList.contains('active')||!$('#hNews')){clearInterval(NEWS.t);return;}NEWS.i++;R();},5000);
   el.onclick=async()=>{let rh='';try{rh=await rushHTML();}catch(_){}const sh=sheet(rh+`<h3>📰 Les actus du club</h3><div class="newsl">${NEWS.L.filter(n=>!n.rush).map(n=>`<div class="newsr"><span>${n.e}</span><div>${n.h}<small>${newsAgo(n.t)}</small></div></div>`).join('')||'<div class="rkempty">Pas encore d\'actu cette semaine.</div>'}</div><div class="trbtns"><button class="btn alt" id="bx">Fermer</button></div>`);sh.querySelector('#bx').onclick=()=>sh.remove();};}
@@ -6666,7 +6671,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=63;
+const APP_V=64;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
@@ -6695,23 +6700,41 @@ function actDiag(r){if(isMe(r.id))return '';const L=[];
     if(r.nsv>1)L.push('👥 '+r.nsv+' sauvegardes avec le même joueur : il a peut-être recommencé une partie sur un autre appareil.');}
   return `<div class="actsx">${L.map(x=>`<div class="s" style="display:block">${x}</div>`).join('')}</div>`;}
 function adminAct(b,P){
-  /* sur le site : on lit directement les sauvegardes des joueurs (à jour toutes les 2 min), seulement quand tu ouvres cet onglet */
+  /* stats du club : rien par personne côté connexions, seulement des chiffres d'ensemble */
   if(window.GG&&GG.admin&&GG.saves&&!ACT.busy&&(!ACT.S||Date.now()-ACT.St>60e3)){ACT.busy=1;if(!ACT.S)b.innerHTML='<div class="rkempty">Chargement…</div>';
     GG.saves().then(S=>{ACT.S=S;ACT.St=Date.now();}).catch(()=>{}).finally(()=>{ACT.busy=0;if(ADM.tab==='act'&&$('#admin').classList.contains('active'))adminAct(b,P);});if(!ACT.S)return;}
-  const live=!!ACT.S;
-  const rows=P.map(p=>{const me=isMe(p.id),c=me?COL:(live?ACT.S[p.id]:null);
-    if(c)return{id:p.id,sx:c.sx||[],name:p.name+(me?' (toi)':''),pt:c.pt||0,pt7:ptSum(7,c),ptT:ptSum(1,c),last:me?Date.now():(c.lastAt||0),sess:c.sess||0,played:(c.st||{}).played||0,cards:p.cards,old:!me&&c.pt==null&&!(c.sx||[]).length,appv:c.appv||0,dev:c.dev||'',sv:c._at||0,nsv:c._n||1};
-    const st=(((BOARD[p.id]||{}).pf||{}).st||{});
-    return{id:p.id,sx:[],name:p.name,pt:st.pt||0,pt7:st.pt7||0,ptT:st.ptT||0,last:st.last||0,sess:st.sess||0,played:st.played||0,cards:p.cards,old:st.pt==null,nosave:live};});
-  rows.sort((a,b)=>(b[ACT.by]-a[ACT.by])||(b.last-a.last));const now=Date.now();
-  const d0=new Date();d0.setHours(0,0,0,0);const actT=rows.filter(r=>r.ptT>0||r.last>=d0.getTime()).length,act7=rows.filter(r=>r.pt7>0||r.last>=d0.getTime()-6*864e5).length,tot7=rows.reduce((s,r)=>s+r.pt7,0),med=['🥇','🥈','🥉'];
-  b.innerHTML=`<div class="abox"><h4>📈 Qui joue le plus ?</h4><div class="actsum"><div><b>${actT}</b><span>joueurs aujourd'hui</span></div><div><b>${act7}</b><span>sur 7 jours</span></div><div><b>${ptFmt(tot7)}</b><span>de jeu en 7 jours (club)</span></div></div>
-    <div class="asel">${[['ptT','Aujourd\'hui'],['pt7','7 jours'],['pt','Depuis le début'],['last','Dernière visite']].map(([k,t])=>`<button class="apill${ACT.by===k?' on':''}" data-actby="${k}">${t}</button>`).join('')}</div>
-    <p class="asum">Le temps compte seulement quand le jeu est ouvert à l'écran. ${live?'À jour à 2 min près.':'Arrondi au quart d\'heure (version sans compte).'} Touche un joueur pour voir ses heures d'ouverture et de fermeture. Visible par toi seul.${live?' <button class="gglink" id="actRf">🔄 Actualiser</button>':''}</p></div>
-    ${rows.map((r,i)=>`<div class="prow actrow${ACT.open===r.id?' open':''}" data-actp="${r.id}"><span class="pos">${ACT.by==='last'?'':(med[i]||i+1)}</span><span class="who">${esc(r.name)}<small>${r.old?'⏳ pas encore de temps enregistré (ancienne version du jeu)':`${actLast(r)} · ${r.sess} visite${r.sess>1?'s':''} · ${r.played} partie${r.played>1?'s':''} · ${r.cards} 🃏`}</small></span>
-      <span class="acttime"><b>${ptFmt(ACT.by==='ptT'?r.ptT:ACT.by==='pt'?r.pt:r.pt7)}</b><small>${ACT.by==='ptT'?'aujourd\'hui':ACT.by==='pt'?'au total':'7 jours'}</small></span></div>${ACT.open===r.id?actDiag(r)+actSess(r):''}`).join('')||'<div class="rkempty">Aucun joueur.</div>'}`;
-  b.querySelectorAll('[data-actby]').forEach(x=>x.onclick=()=>{ACT.by=x.dataset.actby;adminAct(b,P);});
-  b.querySelectorAll('[data-actp]').forEach(x=>x.onclick=()=>{ACT.open=ACT.open===x.dataset.actp?null:x.dataset.actp;adminAct(b,P);});
+  const live=!!ACT.S,N=P.length||1,tot=totalCards(),now=Date.now(),d0=new Date();d0.setHours(0,0,0,0);
+  const src=P.map(p=>{const me=isMe(p.id),c=me?COL:(live?ACT.S[p.id]:null),d=BOARD[p.id]||{};return{p,c,d,own:Array.isArray(d.own)?d.own:null};});
+  /* temps de jeu */
+  const days=[];for(let k=6;k>=0;k--){const key=dayShift(dayKey(),-k);let t=0;src.forEach(r=>{if(r.c&&r.c.ptd)t+=r.c.ptd[key]||0;});days.push({key,t,lb:new Date(key+'T12:00:00').toLocaleDateString('fr-FR',{weekday:'short'}).replace('.','')});}
+  const t7=days.reduce((a,x)=>a+x.t,0),tT=days[6].t,maxD=Math.max(1,...days.map(x=>x.t));
+  const actT=src.filter(r=>r.c&&(ptSum(1,r.c)>0||(r.c.lastAt||0)>=d0.getTime())).length,act7=src.filter(r=>r.c&&(ptSum(7,r.c)>0||(r.c.lastAt||0)>=d0.getTime()-6*864e5)).length;
+  /* heures les plus actives (7 derniers jours, tous joueurs confondus) */
+  const H=new Array(24).fill(0),m0=Math.floor(now/60000)-7*1440;src.forEach(r=>{(r.c&&r.c.sx||[]).forEach(x=>{if(!Array.isArray(x)||x[1]<m0)return;for(let m=Math.max(x[0],m0);m<=x[1];m+=5)H[new Date(m*60000).getHours()]+=5;});});
+  const maxH=Math.max(1,...H),peak=H.indexOf(Math.max(...H));
+  /* cartes */
+  const cards=P.reduce((a,p)=>a+p.cards,0),avg=Math.round(cards/N),full=P.filter(p=>p.cards>=tot).length,topC=P.slice().sort((a,b)=>b.cards-a.cards).slice(0,3);
+  const cnt={};src.forEach(r=>{(r.own||[]).forEach(id=>{cnt[id]=(cnt[id]||0)+1;});});
+  const rare=MEMBERS.filter(m=>!m.bonus&&!m.sp).map(m=>({n:m.n,r:m.r,c:cnt[m.id]||0})).sort((a,b)=>a.c-b.c||a.n.localeCompare(b.n)).slice(0,5);
+  /* mini-jeux */
+  const gc={};src.forEach(r=>{Object.keys(r.d.best||{}).forEach(k=>{if(CHARS[k]&&CHARS[k].game)gc[k]=(gc[k]||0)+1;});});
+  const gl=Object.keys(CHARS).filter(k=>CHARS[k].game&&MG_CARDS[k]&&k!=='bonus').map(k=>({n:CHARS[k].game,c:gc[k]||0})).sort((a,b)=>b.c-a.c),topG=gl.slice(0,5),lowG=gl.slice(-3).reverse();
+  const wins=P.reduce((a,p)=>a+p.recs,0);
+  /* manager et autres jeux */
+  const gms=src.filter(r=>r.d.gm),stars=gms.reduce((a,r)=>a+(r.d.gm.s||0),0),pres=src.filter(r=>(r.d.pres||0)>0).length,goP=src.filter(r=>(r.d.goc||0)>0).length;
+  const bar=(v,m,c)=>`<span class="adbar"><i style="width:${Math.max(2,Math.round(v/m*100))}%;${c?'background:'+c:''}"></i></span>`;
+  const row=(l,v,m)=>`<div class="adrow"><span>${l}</span>${bar(v,m)}<b>${v}</b></div>`;
+  b.innerHTML=`<style>.adbar{flex:1;height:8px;border-radius:5px;background:#0001;margin:0 8px;overflow:hidden;display:block}.adbar i{display:block;height:100%;background:var(--blue,#2a7de1);border-radius:5px}.adrow{display:flex;align-items:center;font-size:13px;padding:3px 0}.adrow span{width:42%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.adrow b{min-width:28px;text-align:right}.adcol{display:flex;align-items:flex-end;gap:3px;height:70px}.adcol div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;font-size:9px}.adcol i{display:block;width:100%;background:var(--blue,#2a7de1);border-radius:3px 3px 0 0}</style>
+    <div class="abox"><h4>📈 Le club en chiffres</h4><div class="actsum"><div><b>${P.length}</b><span>joueurs</span></div><div><b>${actT}</b><span>actifs aujourd'hui</span></div><div><b>${act7}</b><span>actifs sur 7 jours</span></div></div>
+    <div class="actsum" style="margin-top:8px"><div><b>${ptFmt(t7)}</b><span>de jeu en 7 jours</span></div><div><b>${act7?ptFmt(t7/act7):'—'}</b><span>par joueur actif</span></div><div><b>${wins}</b><span>records de mini-jeux</span></div></div>
+    <p class="asum">Visible par toi seul.${live?' À jour à 2 min près. <button class="gglink" id="actRf">🔄 Actualiser</button>':' (Le temps de jeu demande la version avec compte.)'}</p></div>
+    <div class="abox"><h4>⏱️ Temps de jeu par jour</h4><div class="adcol">${days.map(x=>`<div><i style="height:${Math.max(3,Math.round(x.t/maxD*54))}px" title="${ptFmt(x.t)}"></i>${x.lb}</div>`).join('')}</div><p class="asum">Aujourd'hui : <b>${ptFmt(tT)}</b></p></div>
+    <div class="abox"><h4>🕐 Heures les plus actives</h4>${live&&H.some(v=>v)?`<div class="adcol">${H.map((v,h)=>`<div><i style="height:${Math.max(2,Math.round(v/maxH*54))}px"></i>${h%3===0?h:''}</div>`).join('')}</div><p class="asum">Pic vers <b>${peak} h</b> · 7 derniers jours, tout le club.</p>`:'<p class="asum">Pas encore assez de données.</p>'}</div>
+    <div class="abox"><h4>🃏 Collection</h4><div class="actsum"><div><b>${cards}</b><span>cartes en tout</span></div><div><b>${avg}</b><span>par joueur (sur ${tot})</span></div><div><b>${full}</b><span>collection complète</span></div></div>
+      <div class="dsec">Plus gros collectionneurs</div>${topC.map((p,i)=>`<div class="adrow"><span>${['🥇','🥈','🥉'][i]} ${esc(p.name)}</span>${bar(p.cards,topC[0].cards||1)}<b>${p.cards}</b></div>`).join('')}
+      <div class="dsec">Cartes les plus rares du club</div>${rare.map(r=>`<div class="adrow"><span>${esc(r.n)}</span>${bar(r.c,N)}<b>${r.c?r.c+' joueur'+(r.c>1?'s':''):'personne'}</b></div>`).join('')}</div>
+    <div class="abox"><h4>🎮 Mini-jeux</h4><div class="dsec">Les plus joués (joueurs avec un record)</div>${topG.map(g=>row(esc(g.n),g.c,N)).join('')}<div class="dsec">Les moins joués</div>${lowG.map(g=>row(esc(g.n),g.c,N)).join('')}</div>
+    <div class="abox"><h4>🏢 Manager et autres</h4><div class="actsum"><div><b>${gms.length}</b><span>jouent au Manager</span></div><div><b>${stars}</b><span>étoiles en tout</span></div><div><b>${pres}</b><span>prestige</span></div></div><p class="asum">Gambetta GO : <b>${goP}</b> joueur${goP>1?'s ont':' a'} attrapé des créatures.</p></div>`;
   const rf=b.querySelector('#actRf');if(rf)rf.onclick=()=>{ACT.St=0;rf.textContent='Chargement…';adminAct(b,P);};}
 async function adminPlayers(){const list=Object.entries(BOARD).map(([id,d])=>({id,d:d||{}}));const names=await nameOf(list.map(r=>r.id));
   let codes={};try{if(window.GG&&GG.admin)codes=await GG.codes();}catch(_){}
@@ -9306,6 +9329,8 @@ function gmCupClaim(){try{const w=gmPrevWeek();if(COL.cupDone===w)return;const m
     COL.boosters=(COL.boosters||0)+n;saveCol();try{updBoostBtn();}catch(_){}
     const ov=document.createElement('div');ov.className='giftpop';ov.innerHTML=`<div class="gcard"><div class="emo">${['🏆','🥈','🥉'][i]||'🏅'}</div><h3>Coupe des clubs</h3><p>Tu termines <b>${pos}${pos===1?'er':'e'}</b> sur ${L.length} avec ${gmE(mine)} !<br><br>🎁 <b>${n} booster${n>1?'s':''}</b> ${n>1?'t\'attendent':'t\'attend'} dans ta collection.</p><div class="endbtns"><button class="btn">Super !</button></div></div>`;$('#app').appendChild(ov);ov.querySelector('.btn').onclick=()=>ov.remove();
   }catch(e){console.warn(e);}}
+/* récompense de la coupe : dès que le classement est chargé, sur l'écran Jouer ou le Manager (sans avoir à ouvrir le Manager) */
+setInterval(()=>{try{if(document.hidden||COL.cupDone===gmPrevWeek())return;const h=$('#hub'),m=$('#manager');if((h&&h.classList.contains('active'))||(m&&m.classList.contains('active')))gmCupClaim();}catch(_){}},8000);
 function gmWelcome(r){if(!(r&&r.off>60&&r.gain>0)||document.querySelector('.gmoff'))return;const cap=r.cap||28800,h=Math.floor(Math.min(r.off,cap)/3600),mn=Math.floor(Math.min(r.off,cap)%3600/60);
   const sh=sheet(`<div class="gmoff"><div class="e">🌙</div><h3>Pendant ton absence…</h3><p>Tes maîtres-nageurs ont fait tourner le club pendant <b>${h?h+' h ':''}${mn} min</b>${r.off>cap?' ('+Math.round(cap/3600)+' h maximum)':''}.</p><div class="big">+${gmE(r.gain)}</div></div><div class="trbtns"><button class="btn" id="bx">💶 Encaisser</button></div>`);
   sh.querySelector('#bx').onclick=()=>{sh.remove();gmFloat('+'+gmE(r.gain),'#2fb35a');};}
