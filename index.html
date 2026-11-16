@@ -6537,7 +6537,7 @@ function survFinish(){const P=PLAYCTX;if(!P||P.t!=='surv'||P.done)return;P.done=
 function survAfter(k,win){const P=PLAYCTX;if(!P||P.t!=='surv'||P.done)return '';if(win)P.s++;else P.l--;if(P.l<=0)survFinish();
   return `<div class="svbox">🌊 <b>Survie</b> · ${P.s} réussi${P.s>1?'s':''} · ${'❤️'.repeat(Math.max(0,P.l))}${'🤍'.repeat(3-Math.max(0,P.l))}${P.done?`<br><b>Fin de la survie !</b> ${P.rec?'🎉 Nouveau record perso !':'Ton record : '+((COL.surv||{}).b||0)}`:''}</div>`;}
 function svCardHTML(){const b=(COL.surv||{}).b||0;return `<button class="svcard" id="svGo"><span class="e">🌊</span><span><b>Gambetta Survie</b><small>Les mini-jeux s'enchaînent au hasard · 3 ❤️${b?' · ton record : '+b:''}</small></span><i>▶</i></button>`;}
-function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()=>{const GMR=COL.gm&&COL.gm.spr&&COL.gmBak&&!COL.gmBak.none?COL.gmBak:COL.gm;const o={pres:COL.pres||0,gm:GMR&&GMR.v===2?{s:GMR.stars||0,p:GMR.p||0,b:(x=>x<10?x:Math.pow(10,Math.floor(Math.log10(x))))(Math.floor(GMR.lifeAll||0))}:null,best:Object.assign({},COL.best),cards:cardCount(),dups:myDoubles().map(x=>x.id),chs:Object.assign({},COL.chs||{}),pf:pfPublic(),own:MEMBERS.filter(m=>COL.members[m.id]).map(m=>m.id),bbd:(()=>{try{return bbMyDeck();}catch(_){return null;}})(),bbt:COL.bbt||0,ptw:ST('ptWin'),ptp:ST('ptPlay'),goc:(COL.go&&COL.go.n)||0,sv:(COL.surv&&COL.surv.b)||0,rs:(()=>{const R=rushMe();return R.t!=null?{w:R.w,m:R.m,t:R.t}:{w:R.w,m:R.m};})(),rsp:COL.rushP||null,gcup:(()=>{const v=gmCupScore(gmWeek());if(!v)return null;const e=Math.pow(10,Math.max(0,Math.floor(Math.log10(v))-1));return{w:gmWeek(),s:Math.floor(v/e)*e};})(),gcupP:(()=>{const C=COL.gmc;if(!C||C.cup===gmWeek()||!C.lifeAll)return null;return{w:C.cup,s:Math.floor(C.lifeAll)};})(),ev:(COL.ev||[]).slice(0,6),gom:Math.floor(((COL.go&&COL.go.m)||0)/100)*100,bbj:COL.bbj&&COL.bbj.d===dayKey()?{d:COL.bbj.d,v:COL.bbj.v}:null,cw:(()=>{try{const c=GMR&&GMR.cw;return c&&c.w===gmWeek()?c:null;}catch(_){return null;}})()};
+function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()=>{const GMR=COL.gm&&COL.gm.spr&&COL.gmBak&&!COL.gmBak.none?COL.gmBak:COL.gm;const o={pres:COL.pres||0,gm:GMR&&GMR.v===2?{s:GMR.stars||0,p:GMR.p||0,b:(x=>x<10?x:Math.pow(10,Math.floor(Math.log10(x))))(Math.floor(GMR.lifeAll||0))}:null,best:Object.assign({},COL.best),cards:cardCount(),dups:myDoubles().map(x=>x.id),chs:Object.assign({},COL.chs||{}),pf:pfPublic(),own:MEMBERS.filter(m=>COL.members[m.id]).map(m=>m.id),bbd:(()=>{try{return bbMyDeck();}catch(_){return null;}})(),bbt:COL.bbt||0,ptw:ST('ptWin'),ptp:ST('ptPlay'),goc:(COL.go&&COL.go.n)||0,sv:(COL.surv&&COL.surv.b)||0,rs:(()=>{const R=rushMe();return R.t!=null?{w:R.w,m:R.m,t:R.t}:{w:R.w,m:R.m};})(),rsp:COL.rushP||null,gcup:(()=>{const v=gmCupScore(gmWeek());if(!v)return null;const e=Math.pow(10,Math.max(0,Math.floor(Math.log10(v))-1));return{w:gmWeek(),s:Math.floor(v/e)*e};})(),gcupP:(()=>{const C=COL.gmc,P=COL.gmcP;if(C&&C.cup!==gmWeek()&&C.lifeAll)return{w:C.cup,s:Math.floor(C.lifeAll)};if(P&&P.cup!==gmWeek())return{w:P.cup,s:P.s};return null;})(),ev:(COL.ev||[]).slice(0,6),gom:Math.floor(((COL.go&&COL.go.m)||0)/100)*100,bbj:COL.bbj&&COL.bbj.d===dayKey()?{d:COL.bbj.d,v:COL.bbj.v}:null,cw:(()=>{try{const c=GMR&&GMR.cw;return c&&c.w===gmWeek()?c:null;}catch(_){return null;}})()};
     /* on n'écrit que si quelque chose a changé (ou au moins une fois par heure, pour « vu récemment ») */
     const k=JSON.stringify(o),now=Date.now();if(k===pushBoard.k&&now-(pushBoard.t||0)<3600e3)return;
     // les simples compteurs (parties jouées, victoires…) ne partent qu'une fois toutes les 10 minutes :
@@ -6666,7 +6666,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=62;
+const APP_V=63;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
@@ -9241,7 +9241,7 @@ const GM_OBJ=[
 ];
 const GM={cup:0,tab:'act',bm:1,L:[],els:[],iv:0,raf:0,sw:[],fx:[],cv:null,pops:[],live:0,vis:null,visT:0,lanes:[]};
 /* ---------- état ---------- */
-function gmG(){if(GM.cup&&!GM.sprint)return gmCupG();if(COL.gm&&COL.gm.v===2)return gmFix(COL.gm);COL.gm={v:2,m:0,t:Date.now(),run:0,lifeAll:0,p:0,x:0,stars:0,act:{bebe:{l:1,pg:0,go:0}},mns:{},ben:{},man:{},manN:0,fr:{},obj:{}};return gmFix(COL.gm);}
+function gmG(){if(GM.cup&&!GM.sprint){if(gmCupOn())return gmCupG();GM.cup=0;}if(COL.gm&&COL.gm.v===2)return gmFix(COL.gm);COL.gm={v:2,m:0,t:Date.now(),run:0,lifeAll:0,p:0,x:0,stars:0,act:{bebe:{l:1,pg:0,go:0}},mns:{},ben:{},man:{},manN:0,fr:{},obj:{}};return gmFix(COL.gm);}
 function gmDef(a){if(GM_ACT[a])return GM_ACT[a];const i=+String(a).slice(1),X=GM_XTRA[i];if(!X)return null;
   return{n:X.n,e:X.e,t:900*(1+i),c0:2e10*Math.pow(40,i),g:1.09,rv:2e9*Math.pow(40,i),mns:X.mns||null,col:['#00a3a3','#e0217a','#6a2cc9','#ff5f5f','#3b7d2a','#0b6fa8','#9a6b00','#5a5f8a','#c2185b','#00796b'][i%10],xt:1};}
 function gmActs(G){return Object.keys(GM_ACT).concat(Array.from({length:G.x||0},(_,i)=>'x'+i));}
@@ -9287,10 +9287,10 @@ let gmSaveL=0;function gmSave(force){const now=Date.now();if(force||now-gmSaveL>
 function gmCupOn(){const d=new Date().getDay();return d===5||d===6||d===0;}
 function gmCupEnd(){const d=new Date(gmWeek()+'T00:00:00');d.setDate(d.getDate()+7);return d.getTime();}
 function gmPrevWeek(){const d=new Date(gmWeek()+'T12:00:00');d.setDate(d.getDate()-7);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
-function gmCupG(){const w=gmWeek();if(!COL.gmc||COL.gmc.cup!==w)COL.gmc={v:2,cup:w,m:0,t:Date.now(),run:0,lifeAll:0,p:0,x:0,stars:0,act:{bebe:{l:1,pg:0,go:0}},mns:{},ben:{},man:{},manN:0,fr:{},obj:{}};
+function gmCupG(){const w=gmWeek();if(COL.gmc&&COL.gmc.cup!==w&&(COL.gmc.lifeAll||0)>0)COL.gmcP={cup:COL.gmc.cup,s:Math.floor(COL.gmc.lifeAll)};if(!COL.gmc||COL.gmc.cup!==w)COL.gmc={v:2,cup:w,m:0,t:Date.now(),run:0,lifeAll:0,p:0,x:0,stars:0,act:{bebe:{l:1,pg:0,go:0}},mns:{},ben:{},man:{},manN:0,fr:{},obj:{}};
   const C=COL.gmc;/* coupe : toutes les activités sont débloquées (même celles qui demandent des saisons), pas d'étoiles */
   if(!C.all){C.all=1;C.stars=0;C.spent=0;}C.x=GM_XTRA.length;return gmFix(C);}
-function gmCupScore(w){const C=COL.gmc;return C&&C.cup===w?Math.floor(C.lifeAll||0):0;}
+function gmCupScore(w){const C=COL.gmc;if(C&&C.cup===w)return Math.floor(C.lifeAll||0);const P=COL.gmcP;if(P&&P.cup===w)return P.s||0;if(w!==gmWeek()){try{const r=rows().find(x=>isMe(x.id)),d=r&&r.d;if(d&&d.gcup&&d.gcup.w===w)return+d.gcup.s||0;if(d&&d.gcupP&&d.gcupP.w===w)return+d.gcupP.s||0;}catch(_){}}return 0;}
 function gmCupRows(w){const L=[];rows().forEach(r=>{const d=r.d||{},v=isMe(r.id)?gmCupScore(w):(d.gcup&&d.gcup.w===w?+d.gcup.s||0:(d.gcupP&&d.gcupP.w===w?+d.gcupP.s||0:0));if(v>0)L.push({id:r.id,v});});if(gmCupScore(w)>0&&!L.some(r=>isMe(r.id)))L.push({id:'me',v:gmCupScore(w),me:1});return L.sort((a,b)=>b.v-a.v);}
 function gmCupPos(){const L=gmCupRows(gmWeek()),i=L.findIndex(r=>r.me||isMe(r.id));return {pos:i+1,n:L.length};}
 function gmCupEnter(on){try{if(gmActive())gmCatch();}catch(_){}GM.cup=on?1:0;GM.view='club';try{gmCatch();}catch(_){}
