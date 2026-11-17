@@ -496,7 +496,9 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 .ainput{width:100%;font:inherit;font-size:15px;padding:10px;border:2.5px solid var(--ink);border-radius:12px;background:#fff;color:#1b2a3a}
 .amode{display:flex;gap:6px;margin-bottom:10px}
 .amode .apill{flex:1;text-align:center}
-.acards{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:8px;max-height:260px;overflow-y:auto;padding:4px}
+.wel{display:flex;gap:10px;align-items:flex-start;border:3px solid var(--ink,#1b2a3a);border-radius:14px;padding:10px;margin:8px 0;background:#fff}.wel>b{flex:0 0 30px;height:30px;border-radius:50%;background:var(--yellow,#ffcf33);display:grid;place-items:center;font-size:16px;border:3px solid var(--ink,#1b2a3a)}.wel>div{flex:1;min-width:0}.wel h4{margin:2px 0 2px;font-size:16px}.wel p{margin:0 0 6px;font-size:13px;text-align:left}.wel .btn{margin:0;padding:8px 12px;font-size:14px;width:100%}.wel.ok{background:#e9f9ee}.wel .ggcode{font-size:min(22px,6.2vw);letter-spacing:1px;padding:6px 8px;white-space:nowrap;overflow:hidden}.ggwel .ggcard{max-height:94vh;max-height:94dvh;overflow-y:auto;overscroll-behavior:contain}.ggwel #wGo{position:sticky;bottom:-2px;z-index:2;box-shadow:0 -10px 14px #fff}@media (max-height:780px){.ggwel .emo{display:none}.ggwel h3{margin:2px 0}.ggwel .ggcard>p{margin:2px 0 4px}.wel{padding:8px;margin:6px 0}.wel p{font-size:12px;margin-bottom:4px}.wel .btn{padding:6px 10px}}.wel.ok>b{background:#3cbf5a;color:#fff}
+.acbar{display:flex;gap:8px;align-items:center;margin-bottom:8px}.acbar .ainput{flex:1;margin:0}.acbar .apill{flex:0 0 auto}
+.acards{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:8px;max-height:380px;overflow-y:auto;padding:4px}
 .acards .tcard{cursor:pointer}
 .acards .sel{outline:4px solid var(--yellow);outline-offset:2px;border-radius:12px}
 .asend{width:100%;font-weight:700;font-size:18px;padding:13px;border-radius:16px;border:3px solid var(--ink);background:linear-gradient(90deg,#4a2a7a,#1b9fb2);color:#fff;box-shadow:0 5px 0 var(--ink);cursor:pointer}
@@ -1793,6 +1795,8 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
     if(inApp)return `<p>Tu as ouvert le jeu depuis une appli (WhatsApp, Instagram…).<br>Touche <b>⋮</b> ou <b>…</b> puis <b>« Ouvrir dans le navigateur »</b> (Safari ou Chrome), et reviens ici.</p>`;
     if(ios)return `<p style="text-align:left">1. Touche le bouton <b>Partager</b> <span style="display:inline-block;border:2px solid currentColor;border-radius:5px;padding:0 5px">⬆</span> en bas de Safari<br>2. Choisis <b>« Sur l'écran d'accueil »</b><br>3. Touche <b>Ajouter</b></p>`;
     return `<p style="text-align:left">1. Touche le menu <b>⋮</b> en haut à droite de Chrome<br>2. Choisis <b>« Ajouter à l'écran d'accueil »</b> ou <b>« Installer l'application »</b><br>3. Confirme</p>`;}
+  window.GGinst={standalone,ios,inApp,can:()=>!!deferred,steps:()=>steps(),
+    prompt:async()=>{if(!deferred)return false;deferred.prompt();const r=await deferred.userChoice.catch(()=>({}));deferred=null;if(r&&r.outcome==='accepted'){LS.set('gg-install','done');return true;}return false;}};
   window.GGinstall=function(force){
     if(standalone){if(force)alert('Le Gambetta Game est déjà sur ton écran d\'accueil 👍');return;}
     const d=card(`<div style="width:84px;margin:0 auto 6px"><img src="icon-192.png" alt="" style="width:100%;border-radius:20px;border:3px solid #1b2a3a"></div>
@@ -1810,8 +1814,8 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
   // Proposé tout seul à la première visite (puis une fois par semaine si « Plus tard »), quand aucune autre fenêtre n'est ouverte
   const st=LS.get('gg-install');if(standalone||st==='done')return;
   if(st&&st.startsWith('later:')&&Date.now()-(+st.slice(6))<7*864e5)return;
-  let tries=0;const t=setInterval(()=>{tries++;if(tries>120){clearInterval(t);return;}
-    const sel=document.getElementById('select');if(!sel||!sel.classList.contains('active'))return;
+  let tries=0;const t=setInterval(()=>{tries++;if(tries>900){clearInterval(t);return;}
+    const on=id=>{const e=document.getElementById(id);return e&&e.classList.contains('active');};if(!on('hub')&&!on('select'))return;
     if(document.querySelector('.ggpop,.giftpop,.trsheet'))return;clearInterval(t);setTimeout(()=>{if(!document.querySelector('.ggpop,.giftpop'))GGinstall(false);},1200);},1000);
 })();
 </script>
@@ -1896,7 +1900,7 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
         const data={pid,code,name,col:null,created:Date.now(),at:Date.now()};
         // le téléphone retient le code AVANT l'envoi : si on quitte pendant l'enregistrement, on ne repart pas de zéro
         LS.set('gg-code',code);LS.set('gg-new',JSON.stringify(data));
-        try{await fs.doc('players/'+code).set(data);LS.set('gg-new','');d.remove();showCode(code,name,true);resolve({code,data});}
+        try{await fs.doc('players/'+code).set(data);LS.set('gg-new','');d.remove();window.GGwelcome={code,name};try{window.dispatchEvent(new Event('ggwelcome'));}catch(_){}resolve({code,data});}
         catch(e){b.disabled=false;b.textContent="C'est parti !";err('Pas de connexion… réessaie.');}};
       d.querySelector('#ggHave').onclick=()=>{d.remove();askCode(resolve,true);};
     });}
@@ -1927,7 +1931,7 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
       ${isNew||!window.GGinstall?'':`<button class="btn alt" id="ggInst">📲 Ajouter à l'écran d'accueil</button>`}
       ${isNew?'':`<button class="gglink" id="ggAdmin">${GG.admin?'Admin connecté ✅ · Se déconnecter':'Connexion admin'}</button>`}`);
     d.querySelector('#ggCopy').onclick=e=>{window.ggCopy(code).then(ok=>{e.target.textContent=ok?'Copié ✅':'Copie impossible : note le code à la main';});};
-    d.querySelector('#ggClose').onclick=()=>d.remove();
+    d.querySelector('#ggClose').onclick=()=>{d.remove();if(isNew)try{window.dispatchEvent(new Event('ggnotifask'));}catch(_){}};
     const gi=d.querySelector('#ggInst');if(gi)gi.onclick=()=>{d.remove();GGinstall(true);};
     const o=d.querySelector('#ggOther');if(o)o.onclick=()=>{d.remove();askCode(null,false);};
     const a=d.querySelector('#ggAdmin');if(a)a.onclick=async()=>{
@@ -1941,11 +1945,11 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
     const u=await waitAuth;if(!u)return false;
     GG.admin=!!(u.email&&u.email.toLowerCase()===ADMIN_EMAIL&&u.emailVerified);
     // Remise à zéro décidée par l'admin : on nettoie aussi la copie gardée sur ce téléphone
-    try{const ss=await fs.doc('gifts/season').get();const se=ss.exists?ss.data():null;const mine=LS.get('gg-season');
+    try{const ss=await fs.doc('gifts/season').get();const se=ss.exists?ss.data():null;const mine=LS.get('gg-season');if(se)GG.season={n:se.n,mode:se.mode};
       if(se&&String(se.n)!==mine){LS.set('gg-season',String(se.n));
         if(LS.get('gambetta-col')){
-          if(se.mode==='all'){['gambetta-col','gambetta-wins','gg-code'].forEach(k=>{try{localStorage.removeItem(k);}catch(_){}});}
-          else{try{const c=JSON.parse(LS.get('gambetta-col'));c.best={};c.wins_n={};LS.set('gambetta-col',JSON.stringify(c));}catch(_){}}
+          if(se.mode==='all'){['gambetta-col','gambetta-wins','gg-code','gg-new','gambetta-bonus-best','gg-party','gg-qq','gg-qz','gg-qzh'].forEach(k=>{try{localStorage.removeItem(k);}catch(_){}});}
+          else{try{const c=JSON.parse(LS.get('gambetta-col'));c.best={};c.wins_n={};c.ssn=se.n;LS.set('gambetta-col',JSON.stringify(c));localStorage.removeItem('gambetta-bonus-best');}catch(_){}}
           location.reload();return false;}}}catch(_){}
     let code=LS.get('gg-code'),data=null;
     if(code){try{data=await loadPlayer(code);}catch(_){return false;}}
@@ -1962,9 +1966,9 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
     doc(path){
       if(/^data\/users\/[^/]+\/collection$/.test(path))return{
         get:async()=>{const s=await fs.doc('players/'+GG.code).get();const d=s.exists?s.data():{};return{exists:!!d.col,data:()=>d.col};},
-        set:o=>fs.doc('players/'+GG.code).set({pid:GG.pid,code:GG.code,name:GG.name,col:o,at:Date.now()})};
+        set:o=>GG.stopSave?Promise.resolve():fs.doc('players/'+GG.code).set({pid:GG.pid,code:GG.code,name:GG.name,col:o,at:Date.now()})};
       const r=fs.doc(path);
-      return{get:async()=>wrapSnap(await r.get()),set:o=>r.set(path.startsWith('board/')?Object.assign({},o,{name:GG.name}):o)};},
+      return{get:async()=>wrapSnap(await r.get()),set:o=>(GG.stopSave&&path.startsWith('board/'))?Promise.resolve():r.set(path.startsWith('board/')?Object.assign({},o,{name:GG.name}):o)};},
     collection(name){const map=q=>({docs:q.docs.map(d=>{const v=d.data();if(name==='board'&&v&&v.name)NAMES[d.id]=v.name;return{id:d.id,data:()=>v};})});
       return{onSnapshot(cb,err){return fs.collection(name).onSnapshot(q=>cb(map(q)),err||(()=>{}));},
         // lecture à la demande : tout, ou seulement ce qui a changé depuis une date (bien moins de lectures qu'une écoute en direct)
@@ -2099,6 +2103,10 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
     try{const r=RT();if(r){rtOn(1);const v=(await r.ref('battles').once('value')).val()||{};let k=0;
       for(const id in v){const sides=v[id]||{},at=Math.max(0,...Object.values(sides).map(x=>(x&&x.at)||0));if(at<now-D){await r.ref('battles/'+id).remove();k++;}}n.rt=k;rtOn(-1);}}catch(e){console.warn('Nettoyage direct',e);}
     return n;};
+  // remise à zéro faite pendant que le jeu est ouvert : on s'arrête de sauvegarder et on recharge (le nettoyage se fait au démarrage)
+  GG.checkSeason=async()=>{if(GG.stopSave)return;try{const s=await fs.doc('gifts/season').get();const n=s.exists?s.data().n:null;
+    if(n!=null&&String(n)!==LS.get('gg-season')){GG.stopSave=true;location.reload();}}catch(_){}};
+  READY.then(ok=>{if(!ok)return;setInterval(GG.checkSeason,5*60e3);document.addEventListener('visibilitychange',()=>{if(!document.hidden)GG.checkSeason();});});
   // une fois par jour, en arrière-plan, quand l'admin ouvre le jeu
   READY.then(ok=>{if(!ok||!GG.admin)return;const d=new Date().toISOString().slice(0,10);if(LS.get('gg-clean')===d)return;
     setTimeout(()=>GG.cleanup().then(()=>LS.set('gg-clean',d)).catch(e=>console.warn('Nettoyage',e)),30000);});
@@ -2131,15 +2139,17 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
       <button class="btn" id="ggGo" disabled style="background:var(--red);color:#fff">Effacer définitivement (5)</button><button class="gglink" id="ggNo">Non, annuler</button>`;
       const g=d.querySelector('#ggGo');d.querySelector('#ggNo').onclick=()=>{clearInterval(tm);d.remove();};
       const tm=setInterval(()=>{s--;if(s>0)g.textContent=`Effacer définitivement (${s})`;else{clearInterval(tm);g.textContent='Effacer définitivement';g.disabled=false;}},1000);
-      g.onclick=async()=>{g.disabled=true;g.textContent='Effacement…';
-        try{await wipe('board');if(mode==='all'){await wipe('players');await wipe('owners');await wipe('gifts');await wipe('trades');await wipe('duels');await wipe('tournaments');await wipe('events');await wipe('actions');await wipe('requests');await wipe('bounties');await wipe('battles');}
+      g.onclick=async()=>{g.disabled=true;g.textContent='Effacement…';GG.stopSave=true;
+        try{await wipe('board');if(mode==='all'){await wipe('players');await wipe('owners');await wipe('gifts');await wipe('trades');await wipe('duels');await wipe('tournaments');await wipe('events');await wipe('actions');await wipe('requests');await wipe('bounties');await wipe('battles');
+            // parties en direct (soirées, quiz, Qui est-ce, batailles en direct) : on vide aussi
+            try{const r=RT();if(r){rtOn(1);for(const root of ['party','battles']){const v=(await r.ref(root).once('value')).val()||{};for(const id in v){try{await r.ref(root+'/'+id).remove();}catch(_){}}}rtOn(-1);}}catch(_){}}
           const ss=await fs.doc('gifts/season').get();const n=((ss.exists&&ss.data().n)||0)+1;
           await fs.doc('gifts/season').set({n,mode,at:Date.now()});
-          ['gambetta-col','gambetta-wins','gg-code'].forEach(k=>{if(mode==='all')try{localStorage.removeItem(k);}catch(_){}});LS.set('gg-season',String(n));
-          if(mode!=='all'){try{const c=JSON.parse(LS.get('gambetta-col'));c.best={};c.wins_n={};LS.set('gambetta-col',JSON.stringify(c));}catch(_){}}
+          ['gambetta-col','gambetta-wins','gg-code','gg-new','gambetta-bonus-best','gg-party','gg-qq','gg-qz','gg-qzh'].forEach(k=>{if(mode==='all')try{localStorage.removeItem(k);}catch(_){}});LS.set('gg-season',String(n));
+          if(mode!=='all'){try{const c=JSON.parse(LS.get('gambetta-col'));c.best={};c.wins_n={};c.ssn=n;LS.set('gambetta-col',JSON.stringify(c));localStorage.removeItem('gambetta-bonus-best');}catch(_){}}
           d.querySelector('.ggcard').innerHTML=`<div class="emo">✅</div><h3>C'est fait</h3><p>${mode==='all'?'Tout a été effacé. Chaque joueur repartira de zéro à sa prochaine visite.':'Les classements sont remis à zéro.'}</p><button class="btn" id="ggOk">OK</button>`;
           d.querySelector('#ggOk').onclick=()=>location.reload();}
-        catch(e){g.disabled=false;g.textContent='Échec, réessaie';}};}
+        catch(e){GG.stopSave=false;g.disabled=false;g.textContent='Échec, réessaie';}};}
   };
 
   // Bouton « Ma sauvegarde » sur l'écran des persos
@@ -6228,6 +6238,7 @@ window.colDec=colDec;
   const user=await window.claude.use('user'),db=await window.claude.use('db');if(!user||!db)return;
   const id=await user.id();if(!id)return;const ref=db.doc('data/users/'+id+'/collection');
   const snap=await ref.get();if(snap.exists)mergeCol(colDec(snap.data()));
+  try{const S=window.GG&&GG.season;if(S&&S.n!=null){if(COL.ssn==null)COL.ssn=S.n;else if(COL.ssn<S.n){if(S.mode==='ranks'){COL.best={};COL.wins_n={};}COL.ssn=S.n;saveCol();}}}catch(_){}
   colRef=ref;cloudOK=true;try{cloudK=JSON.stringify(COL);await ref.set(colEnc(JSON.parse(cloudK)));}catch(e){cloudK='';console.warn('sauvegarde en ligne',e);}
   if($('#select').classList.contains('active'))buildSelect();if($('#collection').classList.contains('active'))buildCol();
 }catch(_){colRef=null;}})();
@@ -6738,7 +6749,7 @@ document.querySelectorAll('.tab.rt').forEach(b=>b.onclick=()=>{rkTab=b.dataset.r
 /* ================= ADMIN (propriétaire uniquement) + CADEAUX ================= */
 /* gifts/all et gifts/<id> : écrits par le propriétaire seulement, cumulatifs ; chaque joueur retient ce qu'il a déjà reçu */
 COL.got=COL.got||{all:0,me:0,cards:0};
-let DB=null,IS_ADMIN=false,GIFTS={},ADM={tab:'gift',to:'all',sel:[],mode:'boost',n:1,msg:'',card:null};
+let DB=null,IS_ADMIN=false,GIFTS={},ADM={tab:'gift',to:'all',sel:[],mode:'boost',n:1,msg:'',card:null,cards:[],find:'',cScroll:0};
 (async function giftInit(){try{if(!window.claude||!window.claude.use)return;const db=await window.claude.use('db'),u=await window.claude.use('user');if(!db||!u)return;DB=db;
   try{qzWatchLive();}catch(_){}IS_ADMIN=await u.isOwner();if(IS_ADMIN){$('#openAdmin').hidden=false;try{reqWatch();}catch(_){}db.collection('gifts').onSnapshot(q=>{const o={};q.docs.forEach(d=>o[d.id]=d.data());GIFTS=o;if($('#admin').classList.contains('active'))buildAdmin();},()=>{});}
   const id=await u.id();if(!id)return;
@@ -6777,7 +6788,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=69;
+const APP_V=70;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
@@ -6852,17 +6863,27 @@ async function buildAdmin(){const b=$('#admBody'),P=await adminPlayers();
     const selN=ADM.sel.map(id=>(P.find(p=>p.id===id)||{}).name||'Joueur'),toName=ADM.to==='all'?'tout le club':selN.length<=3?selN.join(', '):selN.slice(0,3).join(', ')+' et '+(selN.length-3)+' autre'+(selN.length>4?'s':'');
     b.innerHTML=`<div class="abox"><h4>1. À qui ?</h4><p class="asum" style="margin:0 0 8px">Touche une ou plusieurs personnes${ADM.to!=='all'?` · <b>${ADM.sel.length} sélectionnée${ADM.sel.length>1?'s':''}</b> · <a href="#" id="aClr">tout désélectionner</a>`:''}</p><div class="asel"><button class="apill all${ADM.to==='all'?' on':''}" data-to="all">👥 Tout le club</button>${P.map(p=>`<button class="apill${ADM.to!=='all'&&ADM.sel.includes(p.id)?' on':''}" data-to="${p.id}">${ADM.to!=='all'&&ADM.sel.includes(p.id)?'✓ ':''}${esc(p.name)}</button>`).join('')}</div>
       ${P.length?'':'<p class="asum">Les joueurs apparaîtront ici dès qu\'ils auront ouvert le jeu.</p>'}</div>
-      <div class="abox"><h4>2. Quoi ?</h4><div class="amode"><button class="apill${ADM.mode==='boost'?' on':''}" data-mode="boost">🎁 Des boosters</button><button class="apill${ADM.mode==='card'?' on':''}" data-mode="card"${ADM.to==='all'?' disabled style="opacity:.4"':''}>🃏 Une carte précise</button></div>
+      <div class="abox"><h4>2. Quoi ?</h4><div class="amode"><button class="apill${ADM.mode==='boost'?' on':''}" data-mode="boost">🎁 Des boosters</button><button class="apill${ADM.mode==='card'?' on':''}" data-mode="card"${ADM.to==='all'?' disabled style="opacity:.4"':''}>🃏 Des cartes</button></div>
       ${ADM.mode==='boost'?`<div class="astep"><button id="aMinus">−</button><b>${ADM.n}</b><button id="aPlus">+</button><span>booster${ADM.n>1?'s':''}</span></div>`:
-        `<div class="acards">${MEMBERS.concat(SPECIALS,BONUS).map(m=>`<div class="${ADM.card===m.id?'sel':''}" data-card="${m.id}">${memberHTML(m.id,false).replace(/<span class="newtag">NOUVEAU<\/span>/,'')}</div>`).join('')}</div>`}</div>
+        `<div class="acbar"><input class="ainput" id="aFind" placeholder="🔎 Chercher une carte…" value="${esc(ADM.find||'')}" autocomplete="off"><button class="apill" id="aCClr"${ADM.cards.length?'':' disabled'}>✕ Aucune</button></div>
+        <div class="acards" id="aCards">${MEMBERS.concat(SPECIALS,BONUS).map(m=>`<div class="${ADM.cards.includes(m.id)?'sel':''}" data-card="${m.id}" data-n="${esc(String(m.n||'').toLowerCase())}">${memberHTML(m.id,false).replace(/<span class="newtag">NOUVEAU<\/span>/,'')}</div>`).join('')}</div>`}</div>
       <div class="abox"><h4>3. Un petit mot ? (facultatif)</h4><input class="ainput" id="aMsg" maxlength="120" placeholder="Ex. : Bravo pour ta compétition !" value="${esc(ADM.msg)}"></div>
-      <div class="asum">${ADM.mode==='boost'?`${ADM.n} booster${ADM.n>1?'s':''} pour <b>${esc(toName)}</b>`:ADM.card?`La carte <b>${esc(memObj(ADM.card).n)}</b> pour <b>${esc(toName)}</b>`:'Choisis une carte'}</div>
-      <button class="asend" id="aSend"${(ADM.mode==='card'&&!ADM.card)?' disabled':''}>Envoyer 🚀</button>`;
+      <div class="asum" id="aSum"></div>
+      <button class="asend" id="aSend">Envoyer 🚀</button>`;
+    const sumUp=()=>{const n=ADM.cards.length,sm=b.querySelector('#aSum'),sd=b.querySelector('#aSend');
+      sm.innerHTML=ADM.mode==='boost'?`${ADM.n} booster${ADM.n>1?'s':''} pour <b>${esc(toName)}</b>`:n?`${n===1?'La carte':n+' cartes :'} <b>${ADM.cards.slice(0,4).map(id=>esc(memObj(id).n)).join(', ')}${n>4?'…':''}</b> pour <b>${esc(toName)}</b>`:'Touche une ou plusieurs cartes';
+      sd.disabled=ADM.mode==='card'&&!n;const cc=b.querySelector('#aCClr');if(cc)cc.disabled=!n;};
+    sumUp();
+    const ac=b.querySelector('#aCards');if(ac){ac.scrollTop=ADM.cScroll||0;ac.onscroll=()=>{ADM.cScroll=ac.scrollTop;};}
+    const flt=()=>{const q=(ADM.find||'').trim().toLowerCase();b.querySelectorAll('#aCards [data-card]').forEach(x=>{x.style.display=!q||x.dataset.n.includes(q)?'':'none';});};flt();
+    const fi=b.querySelector('#aFind');if(fi)fi.oninput=()=>{ADM.find=fi.value;flt();};
+    const cc=b.querySelector('#aCClr');if(cc)cc.onclick=()=>{ADM.cards=[];b.querySelectorAll('#aCards .sel').forEach(x=>x.classList.remove('sel'));sumUp();};
     b.querySelectorAll('[data-to]').forEach(x=>x.onclick=()=>{const id=x.dataset.to;if(id==='all'){ADM.to='all';ADM.sel=[];ADM.mode='boost';}else{if(ADM.to==='all')ADM.sel=[];ADM.to='sel';const i=ADM.sel.indexOf(id);if(i>=0)ADM.sel.splice(i,1);else ADM.sel.push(id);if(!ADM.sel.length){ADM.to='all';ADM.mode='boost';}}buildAdmin();});
     const clr=b.querySelector('#aClr');if(clr)clr.onclick=e=>{e.preventDefault();ADM.to='all';ADM.sel=[];ADM.mode='boost';buildAdmin();};
     b.querySelectorAll('[data-mode]').forEach(x=>x.onclick=()=>{if(x.disabled)return;ADM.mode=x.dataset.mode;buildAdmin();});
     const mi=b.querySelector('#aMinus'),pl=b.querySelector('#aPlus');if(mi)mi.onclick=()=>{ADM.n=Math.max(1,ADM.n-1);buildAdmin();};if(pl)pl.onclick=()=>{ADM.n=Math.min(20,ADM.n+1);buildAdmin();};
-    b.querySelectorAll('[data-card]').forEach(x=>x.onclick=()=>{ADM.card=x.dataset.card;buildAdmin();});
+    // plusieurs cartes : on coche / décoche sur place, sans tout redessiner (la liste reste où elle est)
+    b.querySelectorAll('#aCards [data-card]').forEach(x=>x.onclick=()=>{const id=x.dataset.card,i=ADM.cards.indexOf(id);if(i>=0)ADM.cards.splice(i,1);else ADM.cards.push(id);x.classList.toggle('sel',i<0);sumUp();});
     b.querySelector('#aMsg').oninput=e=>{ADM.msg=e.target.value;};
     b.querySelector('#aSend').onclick=sendGift;}
   else if(ADM.tab==='players'){
@@ -6885,14 +6906,14 @@ async function buildAdmin(){const b=$('#admBody'),P=await adminPlayers();
 function setATab(){document.querySelectorAll('.tab.at').forEach(x=>x.classList.toggle('on',x.dataset.a===ADM.tab));}
 async function sendGift(){const btn=$('#aSend');btn.disabled=true;btn.textContent='Envoi…';
   try{const P=await adminPlayers(),T=ADM.to==='all'?['all']:ADM.sel.slice(),nm=id=>id==='all'?'Tout le club':(P.find(p=>p.id===id)||{}).name||'Joueur',toName=T.map(nm).join(', ');let what,done=0;
-    if(ADM.mode==='card'&&T.includes('all'))throw new Error('carte pour tout le club');
+    if(ADM.mode==='card'&&T.includes('all'))throw new Error('carte pour tout le club');const CS=ADM.cards.slice();if(ADM.mode==='card'&&!CS.length)throw new Error('aucune carte');
     for(const id of T){const ref=DB.doc('gifts/'+id),cur=(await ref.get()).data()||{};
       if(ADM.mode==='boost')await ref.set(Object.assign({},cur,{boosters:(cur.boosters||0)+ADM.n,msg:ADM.msg||''}));
-      else await ref.set(Object.assign({},cur,{cards:(cur.cards||[]).concat([{id:ADM.card,msg:ADM.msg||'',at:Date.now()}])}));
+      else await ref.set(Object.assign({},cur,{cards:(cur.cards||[]).concat(CS.map((cid,k)=>({id:cid,msg:k?'':(ADM.msg||''),at:Date.now()+k})))}));
       done++;btn.textContent='Envoi… '+done+'/'+T.length;}
-    what=ADM.mode==='boost'?`🎁 ${ADM.n} booster${ADM.n>1?'s':''} → ${esc(toName)}`:`🃏 ${esc(memObj(ADM.card).n)} → ${esc(toName)}`;
+    what=ADM.mode==='boost'?`🎁 ${ADM.n} booster${ADM.n>1?'s':''} → ${esc(toName)}`:`🃏 ${CS.map(id=>esc(memObj(id).n)).join(', ')} → ${esc(toName)}`;
     const lg=DB.doc('gifts/log'),lc=(await lg.get()).data()||{};await lg.set({items:(lc.items||[]).concat([{what,msg:ADM.msg||'',at:Date.now()}]).slice(-100)});
-    btn.textContent=T.length>1?'Envoyé à '+T.length+' personnes ✅':'Envoyé ✅';ADM.msg='';setTimeout(buildAdmin,1200);
+    btn.textContent=T.length>1?'Envoyé à '+T.length+' personnes ✅':'Envoyé ✅';ADM.msg='';if(ADM.mode==='card')ADM.cards=[];setTimeout(buildAdmin,1200);
   }catch(e){btn.textContent='Échec, réessaie';btn.disabled=false;}}
 
 /* ================= ÉCHANGES DE CARTES (interface) ================= */
@@ -7151,6 +7172,45 @@ const pushStandalone=()=>!!(window.matchMedia&&matchMedia('(display-mode: standa
 function pushOn(){try{const OS=window.GGPUSH;return !!(OS&&OS.Notifications.permission&&OS.User.PushSubscription.optedIn);}catch(_){return false;}}
 function pushTxt(){if(!/github\.io$/.test(location.hostname))return 'Disponibles sur le site du jeu';if(pushOn())return '✅ Activées : quiz, événements, tournois…';
   if(pushIOS()&&!pushStandalone())return 'Ajoute d\'abord le jeu à l\'écran d\'accueil';return 'Sois prévenu des quiz, événements et tournois';}
+/* nouveau joueur : juste après « Garde ce code ! », une fenêtre pour activer les notifications */
+const pushStand=()=>{try{return matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;}catch(_){return false;}};
+function notifAsk(){try{if(pushOn())return;if(typeof Notification!=='undefined'&&Notification.permission==='denied')return;
+    if(pushIOS()&&!pushStand())return; // sur iPhone il faut d'abord l'écran d'accueil : la fenêtre d'installation s'en charge
+    if(document.querySelector('.permsh.notifask'))return;localStorage.setItem('gg-notif-ask','later:'+Date.now());}catch(_){}
+  const sh=sheet(`<h3>🔔 Active les notifications</h3><div class="sec">Pour savoir quand quelqu'un te propose un échange ou un duel, quand un quiz commence, et pour les annonces du club.</div>
+    <div class="trbtns"><button class="btn alt" id="nLater">Plus tard</button><button class="btn" id="nOk">Activer</button></div>`);
+  sh.classList.add('permsh','notifask');sh.querySelector('#nLater').onclick=()=>sh.remove();
+  sh.querySelector('#nOk').onclick=()=>{sh.remove();try{localStorage.setItem('gg-notif-ask','done');}catch(_){}if(window.GGPUSH||pushIOS()||!/github\.io$/.test(location.hostname)){pushAsk();return;}
+    try{localStorage.setItem('gg-push-ask','1');}catch(_){}try{if(window.Notification)Notification.requestPermission().then(()=>{try{buildMoi();}catch(_){}}).catch(()=>{});}catch(_){}};}
+window.addEventListener('ggnotifask',()=>setTimeout(notifAsk,500));
+/* ---- Bienvenue : 3 points à voir (code, notifications, écran d'accueil) dans une seule fenêtre ---- */
+function welcomeCard(){const W=window.GGwelcome;if(!W||document.querySelector('.ggwel'))return;window.GGwelcome=null;
+  try{localStorage.setItem('gg-notif-ask','later:'+Date.now());if(!localStorage.getItem('gg-install'))localStorage.setItem('gg-install','later:'+Date.now());}catch(_){}
+  const I=window.GGinst||{},stand=pushStand(),ios=pushIOS();
+  const d=document.createElement('div');d.className='ggpop ggwel';d.innerHTML=`<div class="ggcard" style="text-align:left"><div class="emo" style="text-align:center">🎉</div><h3 style="text-align:center">Bienvenue ${esc(W.name)} !</h3><p style="text-align:center">3 petites choses à voir avant de jouer :</p>
+    <div class="wel" id="w1"><b>1</b><div><h4>🔑 Ton code de sauvegarde</h4><p>Il te permet de retrouver ta partie sur un autre téléphone.</p><div class="ggcode" style="margin:6px 0">${W.code}</div><button class="btn alt" id="w1b">📋 Copier le code</button></div></div>
+    <div class="wel" id="w2"><b>2</b><div><h4>🔔 Les notifications</h4><p id="w2t">Pour les échanges, les duels, les quiz et les annonces du club.</p><button class="btn alt" id="w2b">Activer</button></div></div>
+    <div class="wel" id="w3"><b>3</b><div><h4>📲 Le jeu sur ton écran d'accueil</h4><p id="w3t">Pour le retrouver comme une appli${ios?' (et recevoir les notifications sur iPhone)':''}.</p><div id="w3h"></div><button class="btn alt" id="w3b">Ajouter</button></div></div>
+    <button class="btn" id="wGo" style="margin-top:10px">🎮 C'est parti !</button></div>`;
+  $('#app').appendChild(d);
+  const ok=(n,txt)=>{const e=d.querySelector('#w'+n);e.classList.add('ok');e.querySelector('b').textContent='✓';const bt=d.querySelector('#w'+n+'b');if(bt)bt.remove();if(txt)d.querySelector('#w'+n+'t').textContent=txt;};
+  const st2=()=>{try{if(pushOn())return ok(2,'Activées ✅');const p=typeof Notification!=='undefined'?Notification.permission:'none';
+    if(p==='denied'){d.querySelector('#w2t').textContent='Bloquées : tu peux les autoriser dans les réglages du téléphone.';const b=d.querySelector('#w2b');if(b)b.remove();}
+    else if(ios&&!stand){d.querySelector('#w2t').textContent='Sur iPhone, fais d\'abord le point 3, puis active-les depuis l\'appli.';const b=d.querySelector('#w2b');if(b)b.disabled=true;}}catch(_){}};
+  st2();if(stand)ok(3,'Déjà fait ✅');
+  d.querySelector('#w1b').onclick=()=>{window.ggCopy(W.code).then(c=>{if(c)ok(1,'');else d.querySelector('#w1b').textContent='Note-le à la main ✍️';});};
+  const b2=d.querySelector('#w2b');if(b2)b2.onclick=()=>{try{localStorage.setItem('gg-notif-ask','done');}catch(_){}
+    if(window.GGPUSH){pushAsk();}else{try{localStorage.setItem('gg-push-ask','1');if(window.Notification)Notification.requestPermission().catch(()=>{});}catch(_){}}
+    b2.textContent='…';let k=0;const t=setInterval(()=>{k++;st2();if(d.querySelector('#w2.ok')||k>20){clearInterval(t);if(!d.querySelector('#w2.ok')&&b2.isConnected)b2.textContent='Activer';}},700);};
+  const b3=d.querySelector('#w3b');if(b3)b3.onclick=async()=>{if(I.can&&I.can()){if(await I.prompt())return ok(3,'Ajouté ✅');}
+    window.ggCopy(W.code);d.querySelector('#w3h').innerHTML=(I.steps?I.steps():'<p>Dans le menu du navigateur, choisis « Ajouter à l\'écran d\'accueil ».</p>')+`<div class="ggtwin">🔑 Ton code est copié : dans l'appli, touche « J'ai déjà un code de sauvegarde » puis colle-le.</div>`;b3.remove();
+    try{localStorage.setItem('gg-install','done');}catch(_){}};
+  d.querySelector('#wGo').onclick=()=>d.remove();}
+window.addEventListener('ggwelcome',()=>setTimeout(welcomeCard,300));setTimeout(welcomeCard,1500);
+/* joueurs déjà inscrits (ou appli de l'écran d'accueil ouverte avec son code) : on propose aussi, une fois, sur l'écran Jouer */
+setInterval(()=>{try{if(document.hidden||pushOn())return;if(!$('#hub').classList.contains('active'))return;if(document.querySelector('.ggpop,.giftpop,.trsheet,.toast'))return;
+  if(typeof Notification==='undefined'||Notification.permission!=='default')return;if(pushIOS()&&!pushStand())return;if(!window.GG||!GG.pid)return;
+  const st=localStorage.getItem('gg-notif-ask')||'';if(st==='done'||(st.startsWith('later:')&&Date.now()-(+st.slice(6))<7*864e5))return;notifAsk();}catch(_){}},4000);
 async function pushAsk(){const OS=window.GGPUSH;
   if(!/github\.io$/.test(location.hostname)){toast('🔔','Notifications','Elles marchent sur le site du jeu');return;}
   if(pushIOS()&&!pushStandalone()){const sh=sheet(`<h3>🔔 Notifications sur iPhone</h3><div class="sec">Sur iPhone, les notifications ne marchent que si le jeu est installé sur l'écran d'accueil :</div><p>1. Dans Safari, touche le bouton <b>Partager</b> (le carré avec la flèche ⬆️)<br>2. Choisis <b>« Sur l'écran d'accueil »</b><br>3. Ouvre le jeu depuis la nouvelle icône, puis reviens ici ✅</p><div class="trbtns"><button class="btn" id="bx">Compris</button></div>`);sh.querySelector('#bx').onclick=()=>sh.remove();return;}
