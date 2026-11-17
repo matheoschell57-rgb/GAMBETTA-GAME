@@ -1883,14 +1883,12 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
     return new Promise(resolve=>{
       const d=pop(`<div class="emo">🏊</div><h3>Bienvenue !</h3><p>Choisis ton prénom ou ton pseudo.<br><b>C'est le nom que tout le club verra</b> : classements, échanges, duels… Mets un nom que les autres reconnaîtront !</p>${isApp?'<div class="ggtwin">📲 <b>Tu as déjà joué dans Safari ou sur un autre téléphone ?</b><br>Ne recrée pas de joueur : touche « J\'ai déjà un code de sauvegarde » en bas.</div>':''}
         <input class="ainput" id="ggName" maxlength="20" placeholder="Ton prénom ou pseudo" autocomplete="off">
-        ${pushCan()?`<label class="ggnotif"><input type="checkbox" id="ggNotif" checked><span><b>🔔 Recevoir les notifications</b><small>Quand on te propose un échange, un duel ou une partie, et les annonces du club</small></span></label>`:''}
         <div class="ggerr" id="ggErr"></div>
         <button class="btn" id="ggGo">C'est parti !</button>
         <button class="gglink" id="ggHave">J'ai déjà un code de sauvegarde</button>`);
       const err=m=>{d.querySelector('#ggErr').textContent=m;};
       const code='GMB-'+rnd(6),pid=rnd(14);
       d.querySelector('#ggGo').onclick=async()=>{const name=d.querySelector('#ggName').value.trim().replace(/\s+/g,' ').slice(0,20);if(!name)return err('Écris ton pseudo 🙂');
-        {const nb=d.querySelector('#ggNotif');if(nb&&nb.checked&&!d.__asked){d.__asked=1;pushAskNow();}}
         const b=d.querySelector('#ggGo');b.disabled=true;b.textContent='…';
         // Pseudo déjà utilisé ? Souvent la même personne sur un autre téléphone ou dans l'appli de l'écran d'accueil
         try{const nn=normName(name),q=await fs.collection('board').get();const tw=q.docs.find(x=>{const v=x.data()||{};return v.name&&normName(v.name)===nn;});
@@ -6788,7 +6786,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=70;
+const APP_V=71;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
