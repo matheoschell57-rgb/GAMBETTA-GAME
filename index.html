@@ -6346,7 +6346,7 @@ const MEMBERS=[
  {"id": "francis", "n": "Francis", "r": "R", "t": "Ça ne lui ressemble pas, mais je n’ai pas pu faire mieux. Désolé Francis, ne m’en voulez pas !", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/francis.webp?v=fc172fc8", "thumb": "img/m/francis_s.webp?v=47ea05d0"},
  {"id": "tony", "n": "Tony", "r": "R", "t": "C’est du vieux pour celle-là ! Mais il faut se rappeler des gens qui ont compté pour le club.", "pos": "50% 35%", "ar": 0.729, "full": 0, "img": "img/m/tony.webp?v=366ac627", "thumb": "img/m/tony_s.webp?v=bb15ae4f"},
  {"id": "marie", "n": "Marie", "r": "R", "t": "Elle a sauté dans le grand bain de bouche (rapport à son métier de dentiste).", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/marie.webp?v=549b7fc0", "thumb": "img/m/marie_s.webp?v=c9f55e48"},
- {"id": "les_6_bellules", "n": "Les 6-bellules", "r": "L", "t": "Les premiers à avoir fait de la natation désicônisée, et parfaitement assumée !", "pos": "50% 35%", "ar": 0.808, "full": 0, "img": "img/m/les_6_bellules.webp?v=5926e61a", "thumb": "img/m/les_6_bellules_s.webp?v=e2e4d20a"},
+ {"id": "les_6_bellules", "n": "Les 6-bellules", "r": "L", "t": "Les premiers à avoir fait de la natation désynchronisée, et parfaitement assumée !", "pos": "50% 35%", "ar": 0.808, "full": 0, "img": "img/m/les_6_bellules.webp?v=5926e61a", "thumb": "img/m/les_6_bellules_s.webp?v=e2e4d20a"},
  {"id": "chouky", "n": "Chouky", "r": "R", "t": "La sœur de la fratrie Schell au club.", "pos": "50% 35%", "ar": 0.805, "full": 0, "img": "img/m/chouky.webp?v=b45b887e", "thumb": "img/m/chouky_s.webp?v=95a001a5"},
 {"id": "christian", "n": "Christian", "r": "R", "t": "Un crâne chauve, un gros ventre et un tee-shirt moche. Pas de doute, c'est bien lui !", "pos": "50% 40%", "img": "img/m/christian.webp?v=783682a0", "full": 0, "thumb": "img/m/christian_s.webp?v=2a2221fe"},
 {"id": "laetitia", "n": "Laetitia", "r": "R", "t": "On n'oubliera jamais cette vidéo, JAMAIS !", "pos": "50% 40%", "img": "img/m/laetitia.webp?v=cc1c8bff", "full": 0, "thumb": "img/m/laetitia_s.webp?v=7ab1cc96"},
@@ -6786,7 +6786,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=71;
+const APP_V=72;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
