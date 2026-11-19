@@ -1903,7 +1903,7 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
       d.querySelector('#ggHave').onclick=()=>{d.remove();askCode(resolve,true);};
     });}
   // les cartes gardées sur ce téléphone appartiennent à l'ancien joueur : on les efface pour ne pas les mélanger avec un autre compte
-  const wipeLocal=()=>{['gambetta-col','gambetta-wins'].forEach(k=>{try{localStorage.removeItem(k);}catch(_){}});};
+  const wipeLocal=()=>{window.GG_NOSAVE=1;['gambetta-col','gambetta-wins'].forEach(k=>{try{localStorage.removeItem(k);}catch(_){}});};
   function askCode(resolve,first){
     const d=pop(`<div class="emo">🔑</div><h3>Mon code</h3><p>Tape le code de sauvegarde que le jeu t'a donné.</p>${first?'':'<div class="ggtwin">La partie actuelle reste sauvegardée sur son code. Ce téléphone passera sur la partie du nouveau code.</div>'}
       <input class="ainput" id="ggCode" maxlength="12" placeholder="GMB-XXXXXX" autocomplete="off" autocapitalize="characters">
@@ -1945,7 +1945,7 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
     // Remise à zéro décidée par l'admin : on nettoie aussi la copie gardée sur ce téléphone
     try{const ss=await fs.doc('gifts/season').get();const se=ss.exists?ss.data():null;const mine=LS.get('gg-season');if(se)GG.season={n:se.n,mode:se.mode};
       if(se&&String(se.n)!==mine){LS.set('gg-season',String(se.n));
-        if(LS.get('gambetta-col')){
+        if(LS.get('gambetta-col')){window.GG_NOSAVE=1;GG.stopSave=true;
           if(se.mode==='all'){['gambetta-col','gambetta-wins','gg-code','gg-new','gambetta-bonus-best','gg-party','gg-qq','gg-qz','gg-qzh'].forEach(k=>{try{localStorage.removeItem(k);}catch(_){}});}
           else{try{const c=JSON.parse(LS.get('gambetta-col'));c.best={};c.wins_n={};c.ssn=se.n;LS.set('gambetta-col',JSON.stringify(c));localStorage.removeItem('gambetta-bonus-best');}catch(_){}}
           location.reload();return false;}}}catch(_){}
@@ -2137,7 +2137,7 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
       <button class="btn" id="ggGo" disabled style="background:var(--red);color:#fff">Effacer définitivement (5)</button><button class="gglink" id="ggNo">Non, annuler</button>`;
       const g=d.querySelector('#ggGo');d.querySelector('#ggNo').onclick=()=>{clearInterval(tm);d.remove();};
       const tm=setInterval(()=>{s--;if(s>0)g.textContent=`Effacer définitivement (${s})`;else{clearInterval(tm);g.textContent='Effacer définitivement';g.disabled=false;}},1000);
-      g.onclick=async()=>{g.disabled=true;g.textContent='Effacement…';GG.stopSave=true;
+      g.onclick=async()=>{g.disabled=true;g.textContent='Effacement…';GG.stopSave=true;window.GG_NOSAVE=1;
         try{await wipe('board');if(mode==='all'){await wipe('players');await wipe('owners');await wipe('gifts');await wipe('trades');await wipe('duels');await wipe('tournaments');await wipe('events');await wipe('actions');await wipe('requests');await wipe('bounties');await wipe('battles');
             // parties en direct (soirées, quiz, Qui est-ce, batailles en direct) : on vide aussi
             try{const r=RT();if(r){rtOn(1);for(const root of ['party','battles']){const v=(await r.ref(root).once('value')).val()||{};for(const id in v){try{await r.ref(root+'/'+id).remove();}catch(_){}}}rtOn(-1);}}catch(_){}}
@@ -2147,7 +2147,7 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
           if(mode!=='all'){try{const c=JSON.parse(LS.get('gambetta-col'));c.best={};c.wins_n={};c.ssn=n;LS.set('gambetta-col',JSON.stringify(c));localStorage.removeItem('gambetta-bonus-best');}catch(_){}}
           d.querySelector('.ggcard').innerHTML=`<div class="emo">✅</div><h3>C'est fait</h3><p>${mode==='all'?'Tout a été effacé. Chaque joueur repartira de zéro à sa prochaine visite.':'Les classements sont remis à zéro.'}</p><button class="btn" id="ggOk">OK</button>`;
           d.querySelector('#ggOk').onclick=()=>location.reload();}
-        catch(e){GG.stopSave=false;g.disabled=false;g.textContent='Échec, réessaie';}};}
+        catch(e){GG.stopSave=false;window.GG_NOSAVE=0;g.disabled=false;g.textContent='Échec, réessaie';}};}
   };
 
   // Bouton « Ma sauvegarde » sur l'écran des persos
@@ -6207,7 +6207,7 @@ let COL={wins:{},cards:{},members:{},seen:{}},colRef=null,cloudOK=false;
 /* le mini-jeu de Willi a changé (photos évitées → course au temps) : on oublie les anciens records */
 function colMig(){try{if(COL.mgW!==1){if(COL.best&&COL.best.willi!=null)delete COL.best.willi;if(COL.chs)for(const d in COL.chs)if(COL.chs[d]&&COL.chs[d].k==='willi')delete COL.chs[d];COL.mgW=1;}}catch(_){}}
 colMig();
-function saveCol(){if(typeof progLater==='function')progLater();if(typeof pushBoard==='function')setTimeout(()=>{try{pushBoard();}catch(_){}},0);try{localStorage.setItem('gambetta-col',JSON.stringify(COL));}catch(_){}
+function saveCol(){if(window.GG_NOSAVE)return;if(typeof progLater==='function')progLater();if(typeof pushBoard==='function')setTimeout(()=>{try{pushBoard();}catch(_){}},0);try{localStorage.setItem('gambetta-col',JSON.stringify(COL));}catch(_){}
   if(colRef){clearTimeout(cloudT);cloudT=setTimeout(cloudFlush,1500);}}
 /* sauvegarde en ligne regroupée : une seule écriture après une rafale de changements, et rien si rien n'a changé */
 var cloudT=0,cloudK="";
@@ -6786,14 +6786,14 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=72;
+const APP_V=73;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
   setInterval(()=>{if(document.hidden)return;const k=dayKey();COL.pt=(COL.pt||0)+15;COL.ptd=COL.ptd||{};COL.ptd[k]=(COL.ptd[k]||0)+15;COL.lastAt=Date.now();sxTouch(false);
     const ks=Object.keys(COL.ptd);if(ks.length>35)ks.sort().slice(0,ks.length-35).forEach(x=>delete COL.ptd[x]);
     if(Date.now()-lastSave>60e3){lastSave=Date.now();try{saveCol();}catch(_){}}},15000);
-  addEventListener('pagehide',()=>{COL.lastAt=Date.now();sxTouch(false);try{localStorage.setItem('gambetta-col',JSON.stringify(COL));}catch(_){}try{cloudFlush();}catch(_){}});
+  addEventListener('pagehide',()=>{if(window.GG_NOSAVE)return;COL.lastAt=Date.now();sxTouch(false);try{localStorage.setItem('gambetta-col',JSON.stringify(COL));}catch(_){}try{cloudFlush();}catch(_){}});
   document.addEventListener('visibilitychange',()=>{if(document.hidden){hiddenAt=Date.now();COL.lastAt=Date.now();sxTouch(false);try{saveCol();cloudFlush();}catch(_){}}
     else{sxTouch(!!hiddenAt&&Date.now()-hiddenAt>5*60e3);COL.lastAt=Date.now();}});})();
 function ptFmt(sec){sec=Math.round(sec||0);if(sec<60)return sec?'< 1 min':(ACT.S?'—':'< 15 min');const h=Math.floor(sec/3600),m=Math.floor(sec%3600/60);return h?h+' h '+String(m).padStart(2,'0'):m+' min';}
@@ -9685,7 +9685,7 @@ function goFix(p){const c=p.coords,now=Date.now(),pos={lat:c.latitude,lng:c.long
     if(first)GO.map.setView([pos.lat,pos.lng],17);else if(GO.follow)GO.map.panTo([pos.lat,pos.lng],{animate:true});}
   goBar();goDraw();}
 /* la marche est gardée sur le téléphone en continu, mais n'est envoyée en ligne qu'au plus toutes les 3 minutes (et en quittant le jeu) */
-let goLS=0,goCL=Date.now();function goSaveLater(){const now=Date.now();if(now-goLS>5000){goLS=now;try{localStorage.setItem('gambetta-col',JSON.stringify(COL));}catch(_){}}if(now-goCL>180e3){goCL=now;saveCol();}}
+let goLS=0,goCL=Date.now();function goSaveLater(){if(window.GG_NOSAVE)return;const now=Date.now();if(now-goLS>5000){goLS=now;try{localStorage.setItem('gambetta-col',JSON.stringify(COL));}catch(_){}}if(now-goCL>180e3){goCL=now;saveCol();}}
 function goDraw(){if(!GO.map||!GO.pos)return;const S=goSpawns(GO.pos.lat,GO.pos.lng),keep={};
   S.forEach(s=>{keep[s.key]=1;if(GO.mk[s.key])return;const m=goMem(s.id);if(!m)return;
     const mk=L.marker([s.lat,s.lng],{icon:L.divIcon({className:'gocard r'+m.r+(s.sh?' shiny':''),html:`<img src="${m.thumb||m.img}" alt="" style="object-position:${m.pos||'50% 30%'}">${s.sh?'<b class="gosk">✨</b>':''}<i>${m.r==='L'?'★★★':m.r==='E'?'★★':'★'}</i>`,iconSize:[46,58],iconAnchor:[23,29]})}).addTo(GO.map);
