@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="color-scheme" content="only light">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Gambetta Game</title>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#e0217a">
@@ -25,6 +25,7 @@
   --ink:#1b2a3a;--yellow:#ffcf33;--coral:#ff6b5b;--green:#2fb36d;--red:#e63b3b;
 }
 :root{color-scheme:only light}
+*{touch-action:manipulation}
 html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg)}
 body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg),var(--bg2));color:var(--text);
   font-family:'Fredoka','Trebuchet MS',system-ui,sans-serif;overflow:hidden;
@@ -497,6 +498,7 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 .amode{display:flex;gap:6px;margin-bottom:10px}
 .amode .apill{flex:1;text-align:center}
 .wel{display:flex;gap:10px;align-items:flex-start;border:3px solid var(--ink,#1b2a3a);border-radius:14px;padding:10px;margin:8px 0;background:#fff}.wel>b{flex:0 0 30px;height:30px;border-radius:50%;background:var(--yellow,#ffcf33);display:grid;place-items:center;font-size:16px;border:3px solid var(--ink,#1b2a3a)}.wel>div{flex:1;min-width:0}.wel h4{margin:2px 0 2px;font-size:16px}.wel p{margin:0 0 6px;font-size:13px;text-align:left}.wel .btn{margin:0;padding:8px 12px;font-size:14px;width:100%}.wel.ok{background:#e9f9ee}.wel .ggcode{font-size:min(22px,6.2vw);letter-spacing:1px;padding:6px 8px;white-space:nowrap;overflow:hidden}.ggwel .ggcard{max-height:94vh;max-height:94dvh;overflow-y:auto;overscroll-behavior:contain}.ggwel #wGo{position:sticky;bottom:-2px;z-index:2;box-shadow:0 -10px 14px #fff}@media (max-height:780px){.ggwel .emo{display:none}.ggwel h3{margin:2px 0}.ggwel .ggcard>p{margin:2px 0 4px}.wel{padding:8px;margin:6px 0}.wel p{font-size:12px;margin-bottom:4px}.wel .btn{padding:6px 10px}}.wel.ok>b{background:#3cbf5a;color:#fff}
+.trnone{border:3px dashed var(--ink,#1b2a3a);border-radius:12px;aspect-ratio:.72;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fff8e1;font-weight:700;font-size:14px;text-align:center;padding:6px}.trnone b{font-size:30px}.trnone small{font-weight:500;font-size:11px;opacity:.75}
 .acbar{display:flex;gap:8px;align-items:center;margin-bottom:8px}.acbar .ainput{flex:1;margin:0}.acbar .apill{flex:0 0 auto}
 .acards{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:8px;max-height:380px;overflow-y:auto;padding:4px}
 .acards .tcard{cursor:pointer}
@@ -2304,14 +2306,23 @@ function floatText(ctx,f){
 function makeCanvas(stage){
   const c=document.createElement('canvas');stage.appendChild(c);
   const ctx=c.getContext('2d');const o={c,ctx,W:300,H:300};
-  o.fit=()=>{const r=stage.getBoundingClientRect();const d=Math.min(window.devicePixelRatio||1,2);
+  let tmr=0,dead=false;
+  o.fit=()=>{if(dead)return;const r=stage.getBoundingClientRect();const d=Math.min(window.devicePixelRatio||1,2);
+    // zone pas encore prête (appli en arrière-plan, écran caché…) : on réessaie plus tard au lieu de tout rapetisser
+    if(r.width<60||r.height<60){if(o.W>1&&o.H>1&&o.W!==300){clearTimeout(tmr);tmr=setTimeout(o.fit,300);return;}}
+    if(Math.abs(o.W-r.width)<1&&Math.abs(o.H-r.height)<1&&c.width)return;
     o.W=Math.max(1,r.width);o.H=Math.max(1,r.height);c.width=Math.round(o.W*d);c.height=Math.round(o.H*d);
     c.style.width=o.W+'px';c.style.height=o.H+'px';ctx.setTransform(d,0,0,d,0,0);};
-  o.fit();window.addEventListener('resize',o.fit);
-  o.destroy=()=>window.removeEventListener('resize',o.fit);
+  c.width=0;o.fit();window.addEventListener('resize',o.fit);
+  const ro=window.ResizeObserver?new ResizeObserver(()=>o.fit()):null;if(ro)ro.observe(stage);
+  const back=()=>{if(!document.hidden)setTimeout(o.fit,350);};document.addEventListener('visibilitychange',back);window.addEventListener('pageshow',back);
+  o.destroy=()=>{dead=true;clearTimeout(tmr);window.removeEventListener('resize',o.fit);document.removeEventListener('visibilitychange',back);window.removeEventListener('pageshow',back);if(ro)ro.disconnect();};
   o.pt=e=>{const r=c.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};};
   return o;
 }
+
+/* pas de zoom (double tap ou pincement) : c'est une appli de jeu */
+try{document.addEventListener('dblclick',e=>e.preventDefault(),{passive:false});document.addEventListener('gesturestart',e=>e.preventDefault(),{passive:false});}catch(_){}
 
 /* ---------- Persos ---------- */
 const CHARS={
@@ -6858,7 +6869,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=74;
+const APP_V=75;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
@@ -7002,11 +7013,11 @@ function trData(){if(window.__TRDEMO&&!TR._d){TR._d=1;Object.assign(TR,window.__
 function trAvail(id){const pend=TR.outgoing.filter(t=>t.st==='wait'&&t.give===id).length;return (COL.members[id]||0)-1-pend;}
 function trApplyAccepted(){if(!LIVE)return;COL.trDone=COL.trDone||{};
   LIVE.out.forEach(t=>{if(t.st!=='yes'||COL.trDone[t.id])return;COL.trDone[t.id]=1;
-    if((COL.members[t.give]||0)>0){COL.members[t.give]--;if(!COL.members[t.give])delete COL.members[t.give];}
+    if(t.give&&(COL.members[t.give]||0)>0){COL.members[t.give]--;if(!COL.members[t.give])delete COL.members[t.give];}
     COL.members[t.want]=(COL.members[t.want]||0)+1;stat('trades');saveCol();GG.trades.set(t.id,{done:true}).catch(()=>{});
     const a=document.createElement('div');a.className='giftpop';
     a.innerHTML=`<div class="gcard"><div class="emo">🤝</div><h3>Échange accepté !</h3><p><b>${esc(t.toName||'Un joueur')}</b> a accepté ton échange.</p>
-      <div class="trswap"><div><div class="lbl">Tu as donné</div>${mini(t.give)}</div><div class="arrow">⇄</div><div><div class="lbl">Tu as reçu</div>${mini(t.want)}</div></div>
+      <div class="trswap"><div><div class="lbl">Tu as donné</div>${trCard(t.give)}</div><div class="arrow">⇄</div><div><div class="lbl">Tu as reçu</div>${mini(t.want)}</div></div>
       <div class="endbtns" style="margin-top:14px"><button class="btn">Super !</button></div></div>`;
     $('#app').appendChild(a);a.querySelector('.btn').onclick=()=>a.remove();});}
 (async function trInit(){try{if(!window.claude||!window.claude.use)return;await window.claude.use('db');if(!LIVEOK())return;
@@ -7014,20 +7025,21 @@ function trApplyAccepted(){if(!LIVE)return;COL.trDone=COL.trDone||{};
 function trBadge(){const n=TR.incoming.filter(x=>x.st==='wait').length;TR.nIn=n;cardsBadge();document.querySelectorAll('.ctabs .ctn').forEach(c=>c.innerHTML=n?` <span class="cnt">${n}</span>`:'');
   const c=$('#trInCnt');if(c)c.innerHTML=n?` <span class="cnt">${n}</span>`:'';}
 function mini(id){return memberHTML(id,false).replace(/<span class="newtag">NOUVEAU<\/span>/,'');}
+function trCard(id){return id?mini(id):'<div class="trnone"><b>🎁</b>Rien<small>c\'est un cadeau</small></div>';}
 function buildTrade(){trData();trBadge();const b=$('#trBody'),d=myDoubles();
   if(!LIVEOK()&&!window.__TRDEMO){$('#trDup').textContent='';b.innerHTML='<div class="trempty">🔄 Les échanges marchent sur le site du jeu, avec ta sauvegarde en ligne.<br>Ouvre le jeu depuis son lien (ou l\'icône sur ton écran d\'accueil) pour échanger avec les autres joueurs !</div>';return;}
   $('#trDup').textContent=`${d.reduce((s,x)=>s+x.n-1,0)} double${d.reduce((s,x)=>s+x.n-1,0)>1?'s':''}`;
   if(TR.tab==='market'){
     let L=TR.market;if(TR.filter==='miss')L=L.filter(x=>!COL.members[x.card]);
-    b.innerHTML=`<div class="rkhead">Les doubles des autres joueurs<small>Touche une carte pour proposer un échange</small></div>
+    b.innerHTML=`<button class="btn" id="trAsk" style="width:100%;margin:2px 0 12px">🙋 Demander une carte à quelqu'un</button><div class="rkhead">Les doubles des autres joueurs<small>Touche une carte pour proposer un échange</small></div>
       <div class="trfilter"><button class="apill${TR.filter==='miss'?' on':''}" data-f="miss">✨ Celles qui me manquent</button><button class="apill${TR.filter==='all'?' on':''}" data-f="all">Toutes</button></div>
       ${L.length?`<div class="trgrid">${L.map(x=>`<div class="tritem" data-card="${x.card}">${!COL.members[x.card]?'<span class="miss">Il te la faut !</span>':''}${mini(x.card)}<div class="who">${x.owners.length===1?'👤 '+esc(x.owners[0].name||'Joueur'):'👥 '+x.owners.length+' joueurs'}</div></div>`).join('')}</div>`
         :`<div class="trempty">${TR.filter==='miss'?'Personne n\'a en double une carte qui te manque pour l\'instant.<br>Regarde « Toutes » ou reviens plus tard !':'Aucun double dans le club pour l\'instant.'}</div>`}`;
     b.querySelectorAll('[data-f]').forEach(x=>x.onclick=()=>{TR.filter=x.dataset.f;buildTrade();});
-    b.querySelectorAll('.tritem').forEach(x=>x.onclick=()=>trPropose(TR.market.find(m=>m.card===x.dataset.card)));}
+    b.querySelectorAll('.tritem').forEach(x=>x.onclick=()=>trPropose(TR.market.find(m=>m.card===x.dataset.card)));const ak=b.querySelector('#trAsk');if(ak)ak.onclick=trAsk;}
   else if(TR.tab==='in'){const L=TR.incoming;
-    b.innerHTML=L.length?L.map((t,k)=>`<div class="trow"><div class="top"><span>${esc(t.from)} te propose</span>${t.st==='wait'?'<small>il y a '+t.ago+'</small>':t.st==='yes'?'<span class="trstat yes">Accepté ✅</span>':'<span class="trstat nope">Refusé</span>'}</div>
-      <div class="trswap"><div><div class="lbl">Tu reçois</div>${mini(t.give)}</div><div class="arrow">⇄</div><div><div class="lbl">Tu donnes</div>${mini(t.want)}</div></div>
+    b.innerHTML=L.length?L.map((t,k)=>`<div class="trow"><div class="top"><span>${esc(t.from)} ${t.give?'te propose':'te demande une carte'}</span>${t.st==='wait'?'<small>il y a '+t.ago+'</small>':t.st==='yes'?'<span class="trstat yes">Accepté ✅</span>':'<span class="trstat nope">Refusé</span>'}</div>
+      <div class="trswap"><div><div class="lbl">Tu reçois</div>${trCard(t.give)}</div><div class="arrow">⇄</div><div><div class="lbl">Tu donnes</div>${mini(t.want)}</div></div>
       ${t.msg?`<q>« ${esc(t.msg)} »</q>`:''}
       ${t.st==='wait'?((COL.members[t.want]||0)>=1?`<div class="trbtns"><button class="btn no" data-no="${k}">✖ Refuser</button><button class="btn ok" data-ok="${k}">✔ Accepter</button></div>`:'<div class="trempty" style="margin-top:10px">Tu n\'as plus cette carte…</div>'):''}</div>`).join('')
       :'<div class="trempty">Aucune proposition reçue pour l\'instant.<br>Quand quelqu\'un voudra une de tes cartes en double, ça apparaîtra ici.</div>';
@@ -7035,44 +7047,59 @@ function buildTrade(){trData();trBadge();const b=$('#trBody'),d=myDoubles();
     b.querySelectorAll('[data-ok]').forEach(x=>x.onclick=()=>trAccept(TR.incoming[x.dataset.ok]));}
   else{const L=TR.outgoing;
     b.innerHTML=L.length?L.map((t,k)=>`<div class="trow"><div class="top"><span>À ${esc(t.to)}</span><span class="trstat ${t.st==='wait'?'wait':t.st==='yes'?'yes':'nope'}">${t.st==='wait'?'En attente ⏳':t.st==='yes'?'Accepté ✅':'Refusé'}</span></div>
-      <div class="trswap"><div><div class="lbl">Tu donnes</div>${mini(t.give)}</div><div class="arrow">⇄</div><div><div class="lbl">Tu reçois</div>${mini(t.want)}</div></div>
+      <div class="trswap"><div><div class="lbl">Tu donnes</div>${trCard(t.give)}</div><div class="arrow">⇄</div><div><div class="lbl">Tu reçois</div>${mini(t.want)}</div></div>
       ${t.msg?`<q>« ${esc(t.msg)} »</q>`:''}${t.st==='wait'?`<div class="trbtns"><button class="btn alt" data-cancel="${k}">Annuler la proposition</button></div>`:''}</div>`).join('')
       :'<div class="trempty">Tu n\'as encore rien proposé.<br>Va dans 🛒 Marché pour trouver une carte qui te manque.</div>';
     b.querySelectorAll('[data-cancel]').forEach(x=>x.onclick=()=>{const t=TR.outgoing[+x.dataset.cancel];x.disabled=true;if(LIVEOK()&&t.id)GG.trades.set(t.id,{st:'cancel'}).catch(()=>{x.disabled=false;});else{TR.outgoing.splice(+x.dataset.cancel,1);buildTrade();}});}}
 function trPropose(item){const d=myDoubles().map(x=>({id:x.id,n:x.n,av:trAvail(x.id)})).filter(x=>x.av>0);let owner=item.owners.length===1?item.owners[0]:null,give=null,msg='',q='';
   const sh=document.createElement('div');sh.className='trsheet';$('#app').appendChild(sh);
   function renderOwners(){const L=item.owners.filter(o=>o.name.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').includes(q.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')));
-    sh.querySelector('#trOwn').innerHTML=L.length?L.map(o=>`<button class="prow trown" data-o="${o.id}"><span class="who">${esc(o.name)}<small>l'a en double</small></span><span class="mini">Choisir ›</span></button>`).join(''):'<div class="trempty">Personne avec ce nom…</div>';
+    sh.querySelector('#trOwn').innerHTML=L.length?L.map(o=>`<button class="prow trown" data-o="${o.id}"><span class="who">${esc(o.name)}<small>${o.dup===false?'l\'a (une seule fois)':'l\'a en double'}</small></span><span class="mini">Choisir ›</span></button>`).join(''):'<div class="trempty">Personne avec ce nom…</div>';
     sh.querySelectorAll('[data-o]').forEach(x=>x.onclick=()=>{owner=item.owners.find(o=>o.id===x.dataset.o);render();});}
   function render(){if(!owner){sh.innerHTML=`<div class="in"><h3>Qui a cette carte ?</h3>
       <div style="width:min(46vw,170px);margin:0 auto 10px">${mini(item.card)}</div>
-      <div class="sec">${item.owners.length} joueurs l'ont en double</div>
+      <div class="sec">${item.owners.length} joueurs l'ont${item.owners.every(o=>o.dup!==false)?' en double':''}</div>
       <input class="ainput" id="trSearch" placeholder="🔍 Rechercher un joueur…" autocomplete="off" value="${esc(q)}">
       <div id="trOwn" style="margin-top:10px"></div>
       <div class="trbtns"><button class="btn alt" id="trCancel">Fermer</button></div></div>`;
       sh.querySelector('#trSearch').oninput=e=>{q=e.target.value;renderOwners();};
       sh.querySelector('#trCancel').onclick=()=>sh.remove();sh.onclick=e=>{if(e.target===sh)sh.remove();};renderOwners();return;}
-    sh.innerHTML=`<div class="in"><h3>🤝 Proposer un échange</h3>
-    <div class="trswap"><div><div class="lbl">Tu reçois</div>${mini(item.card)}</div><div class="arrow">⇄</div><div><div class="lbl">Tu donnes</div>${give?mini(give):'<div class="trempty" style="padding:22px 6px;font-size:13px">Choisis une carte ⬇️</div>'}</div></div>
+    sh.innerHTML=`<div class="in"><h3>${give===''?'🙋 Demander une carte':'🤝 Proposer un échange'}</h3>
+    <div class="trswap"><div><div class="lbl">Tu reçois</div>${mini(item.card)}</div><div class="arrow">⇄</div><div><div class="lbl">Tu donnes</div>${give!=null?trCard(give):'<div class="trempty" style="padding:22px 6px;font-size:13px">Choisis ⬇️</div>'}</div></div>
     <div class="sec">Avec ${esc(owner.name)} ${item.owners.length>1?'<button class="gglink" id="trChg" style="margin:0 0 0 6px;font-size:13px">changer</button>':''}</div>
-    <div class="sec">Tu donnes laquelle de tes cartes en double ?</div>
-    ${d.length?`<div class="pick">${d.map(x=>`<div data-g="${x.id}" class="${give===x.id?'sel':''}">${mini(x.id)}<span class="x2">×${x.n}</span></div>`).join('')}</div>`:'<div class="trempty">Tu n\'as pas encore de carte en double.<br>Ouvre des boosters pour en avoir à échanger !</div>'}
+    <div class="sec">Tu donnes quoi en échange ?</div>
+    <div class="pick"><div data-g="" class="${give===''?'sel':''}">${trCard('')}</div>${d.map(x=>`<div data-g="${x.id}" class="${give===x.id?'sel':''}">${mini(x.id)}<span class="x2">×${x.n}</span></div>`).join('')}</div>
+    ${d.length?'':'<div class="trempty" style="margin-top:6px">Pas encore de carte en double à donner : tu peux juste la demander 🎁</div>'}
     <div class="sec">Un petit mot ? (facultatif)</div><input class="ainput" id="trMsg" maxlength="80" placeholder="Ex. : Il me manque que celle-là !" value="${esc(msg)}">
-    <div class="trbtns"><button class="btn alt" id="trCancel">Annuler</button><button class="btn" id="trSend"${give?'':' disabled style="opacity:.5"'}>Proposer 🤝</button></div></div>`;
+    <div class="trbtns"><button class="btn alt" id="trCancel">Annuler</button><button class="btn" id="trSend"${give!=null?'':' disabled style="opacity:.5"'}>${give===''?'Demander 🙋':'Proposer 🤝'}</button></div></div>`;
     const chg=sh.querySelector('#trChg');if(chg)chg.onclick=()=>{owner=null;render();};
     sh.querySelectorAll('[data-g]').forEach(x=>x.onclick=()=>{give=x.dataset.g;render();});
     sh.querySelector('#trMsg').oninput=e=>{msg=e.target.value;};
     sh.querySelector('#trCancel').onclick=()=>sh.remove();
     sh.onclick=e=>{if(e.target===sh)sh.remove();};
-    sh.querySelector('#trSend').onclick=async e=>{if(!give)return;const bt=e.target;bt.disabled=true;bt.textContent='Envoi…';
+    sh.querySelector('#trSend').onclick=async e=>{if(give==null)return;const bt=e.target;bt.disabled=true;bt.textContent='Envoi…';
       if(LIVEOK()){try{await GG.trades.create({to:owner.id,toName:owner.name,give,want:item.card,msg:msg.slice(0,80)});ggNotify('trade',owner.id);}catch(err){bt.disabled=false;bt.textContent='Échec, réessaie';return;}}
       else TR.outgoing.unshift({to:owner.name,give,want:item.card,msg,st:'wait'});try{qHit('trade');}catch(_){}
       sh.remove();TR.tab='out';setTrTab();buildTrade();};}
   render();}
+/* demander n'importe quelle carte à un joueur qui l'a (en double ou pas) */
+function trAsk(){const own={};Object.entries(BOARD||{}).forEach(([pid,d])=>{if(pid===myId||!d||!Array.isArray(d.own))return;const dup=new Set(Array.isArray(d.dups)?d.dups:[]);
+    d.own.forEach(c=>{if(!memObj(c))return;(own[c]=own[c]||[]).push({id:pid,name:d.name||'Joueur',dup:dup.has(c)});});});
+  let miss=true,q='';const sh=document.createElement('div');sh.className='trsheet';$('#app').appendChild(sh);
+  const norm=x=>String(x||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  sh.innerHTML=`<div class="in"><h3>🙋 Demander une carte</h3><div class="sec">Choisis la carte, puis le joueur à qui la demander.</div>
+    <div class="trfilter"><button class="apill on" data-m="1">✨ Celles qui me manquent</button><button class="apill" data-m="0">Toutes</button></div>
+    <input class="ainput" id="trQ" placeholder="🔍 Chercher une carte…" autocomplete="off"><div class="trgrid" id="trAG" style="margin-top:10px;max-height:46vh;overflow:auto"></div>
+    <div class="trbtns"><button class="btn alt" id="trX">Fermer</button></div></div>`;
+  const draw=()=>{const L=MEMBERS.filter(m=>own[m.id]&&(!miss||!COL.members[m.id])&&(!q||norm(m.n).includes(norm(q))));
+    sh.querySelector('#trAG').innerHTML=L.length?L.map(m=>`<div class="tritem" data-c="${m.id}">${!COL.members[m.id]?'<span class="miss">Il te la faut !</span>':''}${mini(m.id)}<div class="who">${own[m.id].length===1?'👤 '+esc(own[m.id][0].name):'👥 '+own[m.id].length+' joueurs'}</div></div>`).join(''):'<div class="trempty">Aucune carte trouvée.</div>';
+    sh.querySelectorAll('[data-c]').forEach(x=>x.onclick=()=>{sh.remove();const c=x.dataset.c;trPropose({card:c,owners:own[c].slice().sort((a,b)=>(b.dup-a.dup)||a.name.localeCompare(b.name))});});};
+  sh.querySelectorAll('[data-m]').forEach(x=>x.onclick=()=>{miss=x.dataset.m==='1';sh.querySelectorAll('[data-m]').forEach(y=>y.classList.toggle('on',y===x));draw();});
+  sh.querySelector('#trQ').oninput=e=>{q=e.target.value;draw();};sh.querySelector('#trX').onclick=()=>sh.remove();sh.onclick=e=>{if(e.target===sh)sh.remove();};draw();}
 async function trAccept(t){if((COL.members[t.want]||0)<1)return;
   if(LIVEOK()&&t.id){try{await GG.trades.set(t.id,{st:'yes'});ggNotify('tradeok',t.from);}catch(_){alert('Échange impossible pour l\'instant, réessaie.');return;}COL.trDone=COL.trDone||{};COL.trDone[t.id]=1;}
-  const a=document.createElement('div');a.className='swapanim';a.innerHTML=`<div class="pair"><div>${mini(t.want)}</div><div>${mini(t.give)}</div></div><h3>Échange réussi ! 🤝</h3>`;$('#app').appendChild(a);
-  COL.members[t.want]--;if(COL.members[t.want]<=0)delete COL.members[t.want];COL.members[t.give]=(COL.members[t.give]||0)+1;stat('trades');saveCol();t.st='yes';
+  const a=document.createElement('div');a.className='swapanim';a.innerHTML=`<div class="pair"><div>${mini(t.want)}</div><div>${trCard(t.give)}</div></div><h3>${t.give?'Échange réussi ! 🤝':'Carte offerte ! 🎁'}</h3>`;$('#app').appendChild(a);
+  COL.members[t.want]--;if(COL.members[t.want]<=0)delete COL.members[t.want];if(t.give)COL.members[t.give]=(COL.members[t.give]||0)+1;stat('trades');saveCol();t.st='yes';
   setTimeout(()=>{a.remove();buildTrade();},1900);}
 function setTrTab(){document.querySelectorAll('.tab.tt').forEach(x=>x.classList.toggle('on',x.dataset.tr===TR.tab));}
 $('#openTrade').onclick=()=>{TR.tab='market';setTrTab();show('trade');buildTrade();};
@@ -10331,7 +10358,7 @@ const GM_DEC=[
     {t:'🙅 On ne change rien',d:'Rien ne change',go:()=> 'Marcel retourne à ses frites.'}]},
   {k:'doudou',e:'🧸',n:'Un doudou a disparu !',t:'Un petit nageur pleure : son doudou est introuvable dans les vestiaires.',o:c=>[
     {t:'🔦 Tout le monde cherche',d:'Bassin fermé 1 min, puis visiteurs surprises 2× plus souvent pendant 20 min',go:G=>{gmClose(G,1,'🔦');G.vlk=Date.now()+1200e3;return 'Doudou retrouvé ! Toute la piscine applaudit.';}},
-    {t:'🐶 Envoyer Bouchon',d:'1 chance sur 2 : retrouvé, +3 🏅. Sinon Bouchon s\'amuse avec : rien ne se passe',go:G=>{if(gmRoll(.5)){gmMed(G,3);return 'Bouchon rapporte le doudou, quel chien !';}return 'Bouchon a trouvé… une balle. Le doudou attendra.';}}]},
+    {t:'🐶 Envoyer Bouchon',d:'1 chance sur 2 : retrouvé, +3 🏅. Sinon Bouchon s\'amuse avec : rien ne se passe',go:G=>{if(gmRoll(.5)){gmMed(G,3);return 'Bouchon rapporte le doudou !';}return 'Bouchon a trouvé… une balle. Le doudou attendra.';}}]},
   {k:'bombes',e:'💥',n:'Concours de bombes !',t:'Les ados veulent organiser un concours de plongeons « bombe ». Ça éclabousse beaucoup…',o:c=>[
     {t:'🏆 Autoriser le concours',d:'Gains ×2 pendant 5 min, puis 1 chance sur 3 de fuite : bassin fermé 4 min',go:G=>{const n=Date.now();gmTB(G,{x:2,end:n+300e3,e:'💥'});if(gmRoll(1/3))gmTB(G,{x:0,st:n+300e3,end:n+540e3,e:'💧',bad:1});return 'PLOUF ! Le public adore.';}},
     {t:'📏 Concours de plongeons propres',d:'+2 🏅',go:G=>{gmMed(G,2);return 'Des plongeons tout en élégance.';}},
