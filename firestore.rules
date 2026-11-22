@@ -124,14 +124,14 @@ service cloud.firestore {
           || (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['played']) && selfPlayed()));
     }
 
-    // Cartes bonus utilisées contre / pour un autre joueur (cadeau, voleur, supprimer, effacer)
+    // Cartes bonus utilisées contre / pour un autre joueur (cadeau, voleur, supprimer, effacer, gel)
     match /actions/{aid} {
       function own(p) { return get(/databases/$(database)/documents/owners/$(p)).data.uid == request.auth.uid; }
       allow read: if signedIn();
       allow delete: if isAdmin();
       allow create: if signedIn()
         && request.resource.data.st == 'wait'
-        && request.resource.data.type in ['cadeau', 'voleur', 'suppr', 'efface']
+        && request.resource.data.type in ['cadeau', 'voleur', 'suppr', 'efface', 'gel']
         && request.resource.data.from != request.resource.data.to
         && own(request.resource.data.from);
       // la cible applique la carte
@@ -181,5 +181,29 @@ service cloud.firestore {
       allow create: if signedIn() && own(request.resource.data.from);
       allow read, update, delete: if isAdmin();
     }
+
+    // Messages entre joueurs : chats/{a__b}/chatm/{id}, lisibles et écrits seulement par les 2 joueurs de la conversation
+    match /chats/{cid}/chatm/{mid} {
+      function own(p) { return get(/databases/$(database)/documents/owners/$(p)).data.uid == request.auth.uid; }
+      function duo() { return cid.split('__').size() == 2; }
+      allow read: if signedIn() && duo() && (own(cid.split('__')[0]) || own(cid.split('__')[1]));
+      allow create: if signedIn() && duo()
+        && request.resource.data.from in cid.split('__')
+        && own(request.resource.data.from)
+        && request.resource.data.t is string && request.resource.data.t.size() <= 300;
+      allow delete: if isAdmin();
+    }
+
+    // Liste des conversations de chaque joueur : il lit la sienne ; les 2 joueurs d'une conversation peuvent la mettre à jour
+    match /inbox/{pid}/chatc/{cid} {
+      function own(p) { return get(/databases/$(database)/documents/owners/$(p)).data.uid == request.auth.uid; }
+      allow read: if signedIn() && own(pid);
+      allow write: if signedIn() && cid.split('__').size() == 2 && pid in cid.split('__')
+        && (own(cid.split('__')[0]) || own(cid.split('__')[1]));
+    }
+
+    // l'admin peut tout effacer lors d'une remise à zéro (recherche sur toutes les conversations)
+    match /{path=**}/chatm/{mid} { allow read, delete: if isAdmin(); }
+    match /{path=**}/chatc/{cid} { allow read, delete: if isAdmin(); }
   }
 }

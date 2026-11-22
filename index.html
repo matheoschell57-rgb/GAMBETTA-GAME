@@ -499,6 +499,17 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 .amode .apill{flex:1;text-align:center}
 .wel{display:flex;gap:10px;align-items:flex-start;border:3px solid var(--ink,#1b2a3a);border-radius:14px;padding:10px;margin:8px 0;background:#fff}.wel>b{flex:0 0 30px;height:30px;border-radius:50%;background:var(--yellow,#ffcf33);display:grid;place-items:center;font-size:16px;border:3px solid var(--ink,#1b2a3a)}.wel>div{flex:1;min-width:0}.wel h4{margin:2px 0 2px;font-size:16px}.wel p{margin:0 0 6px;font-size:13px;text-align:left}.wel .btn{margin:0;padding:8px 12px;font-size:14px;width:100%}.wel.ok{background:#e9f9ee}.wel .ggcode{font-size:min(22px,6.2vw);letter-spacing:1px;padding:6px 8px;white-space:nowrap;overflow:hidden}.ggwel .ggcard{max-height:94vh;max-height:94dvh;overflow-y:auto;overscroll-behavior:contain}.ggwel #wGo{position:sticky;bottom:-2px;z-index:2;box-shadow:0 -10px 14px #fff}@media (max-height:780px){.ggwel .emo{display:none}.ggwel h3{margin:2px 0}.ggwel .ggcard>p{margin:2px 0 4px}.wel{padding:8px;margin:6px 0}.wel p{font-size:12px;margin-bottom:4px}.wel .btn{padding:6px 10px}}.wel.ok>b{background:#3cbf5a;color:#fff}
 .trnone{border:3px dashed var(--ink,#1b2a3a);border-radius:12px;aspect-ratio:.72;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fff8e1;font-weight:700;font-size:14px;text-align:center;padding:6px}.trnone b{font-size:30px}.trnone small{font-weight:500;font-size:11px;opacity:.75}
+.moirow .cnt{display:inline-block;background:#e5484d;color:#fff;border-radius:10px;padding:0 7px;font-size:12px;line-height:18px;margin-left:6px;vertical-align:middle}
+.chatv{position:absolute;inset:0;z-index:30;background:var(--bg,#e8f6ff);display:flex;flex-direction:column}
+.chhead{display:flex;align-items:center;gap:10px;padding:10px 12px;padding-top:max(10px,env(safe-area-inset-top));border-bottom:3px solid var(--ink,#1b2a3a);background:#fff}.chhead b{flex:1;font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chlist{flex:1;overflow:auto;padding:10px}.chrow{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:#fff;border:3px solid var(--ink,#1b2a3a);border-radius:14px;padding:10px;margin-bottom:8px;font:inherit;color:inherit}
+.chrow .av{flex:0 0 40px;height:40px;border-radius:50%;background:var(--yellow,#ffcf33);border:3px solid var(--ink,#1b2a3a);display:grid;place-items:center;font-weight:800}.chrow .t{flex:1;min-width:0}.chrow .t b{display:block}.chrow .t small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:.75}
+.chrow .r{text-align:right}.chrow .r i{display:inline-block;min-width:20px;padding:0 6px;border-radius:10px;background:#e5484d;color:#fff;font-style:normal;font-weight:700;font-size:12px;line-height:20px}.chrow.un .t small{opacity:1;font-weight:700}
+.chmsgs{flex:1;overflow:auto;padding:10px 12px;display:flex;flex-direction:column;gap:6px}.chday{align-self:center;font-size:11px;opacity:.6;margin:8px 0 2px;text-transform:capitalize}
+.chm{max-width:80%;align-self:flex-start;display:flex;flex-direction:column}.chm.me{align-self:flex-end;align-items:flex-end}.chm .b{background:#fff;border:2.5px solid var(--ink,#1b2a3a);border-radius:16px 16px 16px 4px;padding:8px 11px;white-space:pre-wrap;word-break:break-word;font-size:15px}
+.chm.me .b{background:#ffd9ec;border-radius:16px 16px 4px 16px}.chm.sys .b{background:#fff6c9;font-weight:600}.chm small{font-size:10px;opacity:.6;margin:1px 4px}.chm .mini-b{margin-top:6px}
+.chact{display:flex;gap:8px;padding:6px 10px 0}.chact .apill{flex:1}
+.chin{display:flex;gap:8px;align-items:flex-end;padding:8px 10px;padding-bottom:max(8px,env(safe-area-inset-bottom))}.chin textarea{flex:1;resize:none;font:inherit;font-size:16px;border:3px solid var(--ink,#1b2a3a);border-radius:16px;padding:8px 12px;max-height:110px;background:#fff}.chin .btn{flex:0 0 auto;padding:8px 16px;margin:0}
 .acbar{display:flex;gap:8px;align-items:center;margin-bottom:8px}.acbar .ainput{flex:1;margin:0}.acbar .apill{flex:0 0 auto}
 .acards{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:8px;max-height:380px;overflow-y:auto;padding:4px}
 .acards .tcard{cursor:pointer}
@@ -1760,7 +1771,7 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
     <button data-go="collection"><i>🃏</i><span>Cartes</span><b class="nbadge" id="trBadge" hidden></b></button>
     <button data-go="defi"><i>⚔️</i><span>Défis</span><b class="nbadge" id="dfBadge" hidden></b></button>
     <button data-go="ranks"><i>🏆</i><span>Classements</span></button>
-    <button data-go="moi"><i>👤</i><span>Moi</span></button>
+    <button data-go="moi"><i>👤</i><span>Moi</span><b class="nbadge" id="moiBadge" hidden></b></button>
   </nav>
   <div class="cmodal" id="cmodal"></div>
 </div>
@@ -1985,6 +1996,19 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
     create(o){return fs.collection('trades').add(Object.assign({from:GG.pid,fromName:GG.name,st:'wait',done:false,at:Date.now()},o));},
     set(id,patch){return fs.doc('trades/'+id).update(patch);}
   };
+  // messages : chats/{a__b}/chatm/{id} (lisibles par les 2 joueurs) + inbox/{joueur}/chatc/{a__b} (la liste de ses conversations)
+  GG.chat={
+    cid:(a,b)=>[a,b].sort().join('__'),
+    listenInbox(cb){return fs.collection('inbox').doc(GG.pid).collection('chatc').onSnapshot(q=>cb(q.docs.map(d=>Object.assign({id:d.id},d.data()))),()=>{});},
+    listenMsgs(cid,cb){return fs.collection('chats').doc(cid).collection('chatm').orderBy('at','desc').limit(60).onSnapshot(q=>cb(q.docs.map(d=>Object.assign({id:d.id},d.data())).reverse()),()=>{});},
+    async send(to,toName,o){const cid=GG.chat.cid(GG.pid,to),at=Date.now(),m=Object.assign({},o,{from:GG.pid,at,t:String(o.t||'').slice(0,300)});
+      await fs.collection('chats').doc(cid).collection('chatm').add(m);
+      const last={t:m.t.slice(0,80),k:m.k||'txt',from:GG.pid,at},b=fs.batch(),ib=p=>fs.collection('inbox').doc(p).collection('chatc').doc(cid);
+      b.set(ib(GG.pid),{with:to,name:toName||'Joueur',last,at,unread:0},{merge:true});
+      b.set(ib(to),{with:GG.pid,name:GG.name||'Joueur',last,at,unread:firebase.firestore.FieldValue.increment(1)},{merge:true});
+      return b.commit();},
+    read(cid){return fs.collection('inbox').doc(GG.pid).collection('chatc').doc(cid).set({unread:0,seen:Date.now()},{merge:true});}
+  };
   GG.duels={
     listen(cb){let inc=[],out=[];const fire=()=>cb(inc.concat(out));const map=q=>q.docs.map(d=>Object.assign({id:d.id},d.data()));
       fs.collection('duels').where('to','==',GG.pid).onSnapshot(q=>{inc=map(q);fire();},()=>{});
@@ -2112,6 +2136,8 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
     setTimeout(()=>GG.cleanup().then(()=>LS.set('gg-clean',d)).catch(e=>console.warn('Nettoyage',e)),30000);});
 
   // Remise à zéro (admin) : 3 confirmations avant d'effacer
+  // messages : ce sont des sous-collections, on les efface par « groupe »
+  async function wipeGroup(g){const q=await fs.collectionGroup(g).get();let batch=fs.batch(),n=0;for(const d of q.docs){batch.delete(d.ref);if(++n>=400){await batch.commit();batch=fs.batch();n=0;}}if(n)await batch.commit();}
   async function wipe(col){const q=await fs.collection(col).get();let batch=fs.batch(),n=0;
     for(const d of q.docs){if(col==='gifts'&&d.id==='season')continue;batch.delete(d.ref);if(++n%400===0){await batch.commit();batch=fs.batch();}}await batch.commit();}
   GG.resetFlow=()=>{if(!GG.admin)return;let mode=null;
@@ -2140,7 +2166,7 @@ textarea.ainput{resize:vertical;min-height:70px;font:inherit;margin-top:8px}
       const g=d.querySelector('#ggGo');d.querySelector('#ggNo').onclick=()=>{clearInterval(tm);d.remove();};
       const tm=setInterval(()=>{s--;if(s>0)g.textContent=`Effacer définitivement (${s})`;else{clearInterval(tm);g.textContent='Effacer définitivement';g.disabled=false;}},1000);
       g.onclick=async()=>{g.disabled=true;g.textContent='Effacement…';GG.stopSave=true;window.GG_NOSAVE=1;
-        try{await wipe('board');if(mode==='all'){await wipe('players');await wipe('owners');await wipe('gifts');await wipe('trades');await wipe('duels');await wipe('tournaments');await wipe('events');await wipe('actions');await wipe('requests');await wipe('bounties');await wipe('battles');
+        try{await wipe('board');if(mode==='all'){await wipe('players');await wipe('owners');await wipe('gifts');await wipe('trades');await wipe('duels');await wipe('tournaments');await wipe('events');await wipe('actions');await wipe('requests');await wipe('bounties');await wipe('battles');try{await wipeGroup('chatm');await wipeGroup('chatc');}catch(_){}
             // parties en direct (soirées, quiz, Qui est-ce, batailles en direct) : on vide aussi
             try{const r=RT();if(r){rtOn(1);for(const root of ['party','battles']){const v=(await r.ref(root).once('value')).val()||{};for(const id in v){try{await r.ref(root+'/'+id).remove();}catch(_){}}}rtOn(-1);}}catch(_){}}
           const ss=await fs.doc('gifts/season').get();const n=((ss.exists&&ss.data().n)||0)+1;
@@ -6869,7 +6895,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=75;
+const APP_V=76;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
@@ -7078,7 +7104,8 @@ function trPropose(item){const d=myDoubles().map(x=>({id:x.id,n:x.n,av:trAvail(x
     sh.querySelector('#trCancel').onclick=()=>sh.remove();
     sh.onclick=e=>{if(e.target===sh)sh.remove();};
     sh.querySelector('#trSend').onclick=async e=>{if(give==null)return;const bt=e.target;bt.disabled=true;bt.textContent='Envoi…';
-      if(LIVEOK()){try{await GG.trades.create({to:owner.id,toName:owner.name,give,want:item.card,msg:msg.slice(0,80)});ggNotify('trade',owner.id);}catch(err){bt.disabled=false;bt.textContent='Échec, réessaie';return;}}
+      if(LIVEOK()){try{await GG.trades.create({to:owner.id,toName:owner.name,give,want:item.card,msg:msg.slice(0,80)});ggNotify('trade',owner.id);}catch(err){bt.disabled=false;bt.textContent='Échec, réessaie';return;}
+        try{const H=window.CHAT_HOOK;if(H&&H.to===owner.id){window.CHAT_HOOK=null;H.fn('trade',{give,want:item.card});}}catch(_){}}
       else TR.outgoing.unshift({to:owner.name,give,want:item.card,msg,st:'wait'});try{qHit('trade');}catch(_){}
       sh.remove();TR.tab='out';setTrTab();buildTrade();};}
   render();}
@@ -7206,7 +7233,7 @@ function buildMoi(){const b=$('#moiBody');if(!b)return;const name=(window.GG&&GG
   const row=(id,e,t1,t2)=>`<button class="moirow" id="${id}"><span class="e">${e}</span><span class="t"><b>${t1}</b><small>${t2}</small></span><span class="go">›</span></button>`;
   b.innerHTML=`<div class="moihead">${favHTML(COL.fav)}<div><h3>${esc(name)}${PRES()?`<span class="prestar">⭐${PRES()>1?PRES():""}</span>`:""}</h3><small>${PRES()?"Légende du bassin · Prestige "+PRES():"Membre du Club Gambetta"}</small></div></div>
     <div class="moistats"><div><b>${cardCount()}</b><span>cartes</span></div><div><b>${nb}</b><span>badges</span></div><div><b>${tier.e} ${t}</b><span>trophées</span></div><div><b>${st.won||0}</b><span>victoires</span></div></div>
-    <div class="moilist">${row('moiProf','📊','Mon profil','Statistiques, badges et carte préférée')}
+    <div class="moilist">${row('moiChat','💬','Messages<span id="moiChatN"></span>','Écris aux autres joueurs, propose un échange ou un duel')}${row('moiProf','📊','Mon profil','Statistiques, badges et carte préférée')}
       ${keyBtn&&!keyBtn.hidden?row('moiKey','🔑','Ma sauvegarde','Ton code pour retrouver ta partie sur un autre téléphone'):''}
       ${row('moiNotif','⚙️','Paramètres','Autorisations, son et animations')}
       ${row('moiCol','🃏','Ma collection','Toutes tes cartes et tes boosters')}
@@ -7217,7 +7244,7 @@ function buildMoi(){const b=$('#moiBody');if(!b)return;const name=(window.GG&&GG
     <div class="cloudnote">${window.GG&&GG.code?'☁️ Ta partie est sauvegardée en ligne.':'☁️ Ta partie est sauvegardée sur ce téléphone.'}</div>`;
   const on=(id,f)=>{const x=b.querySelector('#'+id);if(x)x.onclick=f;};
   on('moiProf',()=>openProfile(myId||'local'));on('moiKey',()=>{const k=document.querySelector('.selbtns .save');if(k)k.click();});
-  on('moiCol',()=>$('#openCol').click());on('moiNotif',permSheet);on('moiPres',presSheet);on('moiBat',()=>openBataille());on('moiAdm',()=>$('#openAdmin').click());on('moiBug',bugSheet);try{reqBadge();}catch(_){}}
+  on('moiCol',()=>$('#openCol').click());on('moiNotif',permSheet);on('moiPres',presSheet);on('moiBat',()=>openBataille());on('moiAdm',()=>$('#openAdmin').click());on('moiBug',bugSheet);on('moiChat',()=>chatOpen());try{reqBadge();}catch(_){}try{chatBadge();}catch(_){}}
 
 
 
@@ -7230,7 +7257,7 @@ const PUSH_GO={hub:'🏠 Accueil',day:'📅 Défis du jour',duel:'⚔️ Duels',
 function ggGo(g){try{const NAV={
     trade:()=>{TR.tab='market';setTrTab();show('trade');buildTrade();},tradein:()=>{TR.tab='in';setTrTab();show('trade');buildTrade();},tradeout:()=>{TR.tab='out';setTrTab();show('trade');buildTrade();},
     day:()=>{DF.tab='day';openDefi();},duel:()=>{DF.tab='duel';openDefi();},ev:()=>{DF.tab='ev';openDefi();},
-    bataille:()=>openBataille(),cards:()=>$('#openCol').click(),hub:()=>openHub(),
+    bataille:()=>openBataille(),cards:()=>$('#openCol').click(),hub:()=>openHub(),chat:()=>chatOpen(),
     quiz:()=>{if(QZ.live&&!QZ.code)qzJoin(QZ.live.code);else{openHub();toast('🧠','Pas de quiz en cours','Il apparaîtra ici dès qu\'il commence');}}};
   const m=/^(pt|qq)(\d{4})$/.exec(g||'');if(m){if(typeof BC!=='undefined'&&BC&&!BC.over)return;
     const busy=(PT.code&&PT.code!==m[2]&&PT.inGame)||(QQ.code&&QQ.code!==m[2]&&QQ.inGame)||QZ.code;
@@ -7477,7 +7504,7 @@ async function buildDefi(){const b=$('#dfBody'),today=dayKey(),k=chGame(today),c
   b.querySelectorAll('[data-dfin]').forEach(x=>x.onclick=()=>duFinish(x.dataset.dfin));
   b.querySelectorAll('[data-dcancel]').forEach(x=>x.onclick=()=>{x.disabled=true;GG.duels.set(x.dataset.dcancel,{st:'cancel'}).catch(()=>{x.disabled=false;});});
   dfBadge();}
-function duNew(pre,preName){if(typeof pre!=='string')pre=null;const mineActive=DUELS.filter(d=>d.from===myId&&['wait','on'].includes(duState(d))).length;
+function duNew(pre,preName,free){if(typeof pre!=='string')pre=null;const mineActive=DUELS.filter(d=>d.from===myId&&['wait','on'].includes(duState(d))).length;
   const sh=document.createElement('div');sh.className='trsheet';$('#app').appendChild(sh);
   if(mineActive>=DU_MAX){sh.innerHTML=`<div class="in"><h3>⚔️ Lancer un duel</h3><div class="trempty">Tu as déjà ${DU_MAX} duels en cours.<br>Termine-les avant d'en lancer un autre !</div><div class="trbtns"><button class="btn alt" id="duX">Fermer</button></div></div>`;
     sh.querySelector('#duX').onclick=()=>sh.remove();return;}
@@ -7490,7 +7517,7 @@ function duNew(pre,preName){if(typeof pre!=='string')pre=null;const mineActive=D
     if(!who){sh.innerHTML=`<div class="in"><h3>⚔️ Qui veux-tu défier ?</h3><input class="ainput" id="duQ" placeholder="🔍 Rechercher un joueur…" autocomplete="off" value="${esc(q)}"><div id="duList" style="margin-top:10px"></div>
       <div class="trbtns"><button class="btn alt" id="duX">Fermer</button></div></div>`;
       sh.querySelector('#duQ').oninput=e=>{q=e.target.value;renderList();};renderList();}
-    else{const lock=!!(pre&&who&&who.id===pre);sh.innerHTML=`<div class="in"><h3>${lock?'🎯 Défier '+esc(who.name):'⚔️ Duel contre '+esc(who.name)}</h3>${lock?`<div class="drew">🎯 Il y a une prime sur ${esc(who.name)} : bats-le en duel dans le temps restant pour gagner un booster de 5 cartes !</div>`:''}<div class="sec">Sur quel mini-jeu ?${lock?'':' <button class="gglink" id="duChg" style="margin:0 0 0 6px;font-size:13px">changer de joueur</button>'}</div>
+    else{const lock=!!(pre&&who&&who.id===pre&&!free);sh.innerHTML=`<div class="in"><h3>${lock?'🎯 Défier '+esc(who.name):'⚔️ Duel contre '+esc(who.name)}</h3>${lock?`<div class="drew">🎯 Il y a une prime sur ${esc(who.name)} : bats-le en duel dans le temps restant pour gagner un booster de 5 cartes !</div>`:''}<div class="sec">Sur quel mini-jeu ?${lock?'':' <button class="gglink" id="duChg" style="margin:0 0 0 6px;font-size:13px">changer de joueur</button>'}</div>
       <div class="ggrid">${['bataille'].concat(CH_GAMES()).map(k=>`<button data-g="${k}" class="${game===k?'sel':''}">${avSmall(k)}<span>${CHARS[k].game}</span></button>`).join('')}</div>
       ${game==='bataille'?`<div class="drew" style="margin-top:12px">📡 <b>En direct</b> : vous jouez l'un contre l'autre, maintenant. ${esc(who.name)} doit avoir le jeu ouvert pour accepter (2 min).<br>🤖 <b>Duel en différé</b> : chacun joue quand il veut contre le deck de l'autre, <b>joué par l'ordi</b> (${DU_TRIES} essais, ${DU_H} h, le meilleur score gagne une carte).</div>`
         :`<div class="drew" style="margin-top:12px">${DU_TRIES} essais chacun (ou « J'ai fini » pour s'arrêter avant), ${DU_H} h maximum. Le meilleur résultat gagne <b>une carte</b>.</div>`}
@@ -7500,10 +7527,73 @@ function duNew(pre,preName){if(typeof pre!=='string')pre=null;const mineActive=D
       const chg=sh.querySelector('#duChg');if(chg)chg.onclick=()=>{who=null;render();};
       sh.querySelectorAll('[data-g]').forEach(x=>x.onclick=()=>{game=x.dataset.g;const sc=sh.querySelector('.in').scrollTop;render();sh.querySelector('.in').scrollTop=sc;});
       sh.querySelector('#duGo').onclick=async e=>{e.target.disabled=true;e.target.textContent='…';
-        try{await GG.duels.create({to:who.id,toName:who.name,k:game});ggNotify('duel',who.id,{game:game==='bataille'?'Bataille du Bassin':((CHARS[game]||{}).game||'')});try{stat('duelNew');qHit('dnew');}catch(_){}sh.remove();openDefi();}
+        try{await GG.duels.create({to:who.id,toName:who.name,k:game});ggNotify('duel',who.id,{game:game==='bataille'?'Bataille du Bassin':((CHARS[game]||{}).game||'')});
+          try{const H=window.CHAT_HOOK;if(H&&H.to===who.id){window.CHAT_HOOK=null;H.fn('duel',{game:game==='bataille'?'Bataille du Bassin':((CHARS[game]||{}).game||'')});}}catch(_){}try{stat('duelNew');qHit('dnew');}catch(_){}sh.remove();openDefi();}
         catch(_){e.target.disabled=false;e.target.textContent=game==='bataille'?'🤖 Duel en différé':'⚔️ Lancer le duel';sh.querySelector('#duErr').textContent='Pas de connexion… réessaie.';}};}
     sh.querySelector('#duX').onclick=()=>sh.remove();sh.onclick=e=>{if(e.target===sh)sh.remove();};}
   render();}
+
+/* ================= MESSAGES ENTRE JOUEURS ================= */
+const CH={inbox:[],cur:null,unsub:null,msgs:[],notif:{},lastSend:0};
+function chatOK(){return !!(window.GG&&GG.chat&&GG.pid&&typeof LIVEOK==='function'&&LIVEOK());}
+function chatUnread(){return CH.inbox.reduce((s,c)=>s+(chatBlocked(c.with)?0:(c.unread||0)),0);}
+function chatBlocked(pid){return !!(COL.chBlock&&COL.chBlock[pid]);}
+function chatBadge(){const n=chatUnread(),b=$('#moiBadge');if(b){b.hidden=!n;b.textContent=n;}const r=$('#moiChatN');if(r)r.innerHTML=n?` <span class="cnt">${n}</span>`:'';}
+(async function chatInit(){try{if(!window.claude||!window.claude.use)return;await window.claude.use('db');if(!chatOK())return;
+  let first=true;GG.chat.listenInbox(L=>{const before={};CH.inbox.forEach(c=>before[c.id]=c.unread||0);
+    CH.inbox=L.sort((a,b)=>(b.at||0)-(a.at||0));chatBadge();
+    if(!first)L.forEach(c=>{if((c.unread||0)>(before[c.id]||0)&&!chatBlocked(c.with)&&!(CH.cur&&CH.cur.cid===c.id&&$('.chatv'))&&c.last&&c.last.from!==GG.pid)toast('💬',esc(c.name||'Message'),esc(c.last.t||'Nouveau message').slice(0,60));});
+    first=false;const v=$('.chatv');if(v&&!CH.cur)chatList(v);});}catch(_){}})();
+function chatOpen(pid,name){if(!chatOK()){toast('💬','Messages','Les messages marchent dans le jeu en ligne, avec ta sauvegarde.');return;}
+  let v=$('.chatv');if(!v){v=document.createElement('div');v.className='chatv';$('#app').appendChild(v);}
+  if(pid)chatConv(v,pid,name);else chatList(v);}
+function chatClose(){window.CHAT_HOOK=null;if(CH.unsub){try{CH.unsub();}catch(_){}CH.unsub=null;}CH.cur=null;const v=$('.chatv');if(v)v.remove();chatBadge();}
+function chatList(v){window.CHAT_HOOK=null;if(CH.unsub){try{CH.unsub();}catch(_){}CH.unsub=null;}CH.cur=null;
+  const L=CH.inbox.filter(c=>!chatBlocked(c.with));
+  v.innerHTML=`<div class="chhead"><button class="x" id="chX" aria-label="Fermer">←</button><b>💬 Messages</b><button class="mini-b" id="chNew">✏️ Nouveau</button></div>
+    <div class="chlist">${L.length?L.map(c=>`<button class="chrow${c.unread?' un':''}" data-c="${esc(c.with)}" data-n="${esc(c.name||'Joueur')}"><span class="av">${esc((c.name||'?').slice(0,1).toUpperCase())}</span><span class="t"><b>${esc(c.name||'Joueur')}</b><small>${c.last?(c.last.from===GG.pid?'Toi : ':'')+esc(c.last.t||''):''}</small></span><span class="r"><small>${c.at?trAgo(c.at):''}</small>${c.unread?`<i>${c.unread}</i>`:''}</span></button>`).join('')
+      :'<div class="trempty">Pas encore de message.<br>Touche ✏️ Nouveau pour écrire à quelqu\'un du club !</div>'}</div>`;
+  v.querySelector('#chX').onclick=chatClose;
+  v.querySelector('#chNew').onclick=()=>pickPlayer({e:'💬',n:'Nouveau message'},'À qui veux-tu écrire ?',p=>chatConv(v,p.id,p.name));
+  v.querySelectorAll('[data-c]').forEach(x=>x.onclick=()=>chatConv(v,x.dataset.c,x.dataset.n));}
+function chatConv(v,pid,name){if(CH.unsub){try{CH.unsub();}catch(_){}}const cid=GG.chat.cid(GG.pid,pid);CH.cur={cid,pid,name};CH.msgs=[];
+  v.innerHTML=`<div class="chhead"><button class="x" id="chB" aria-label="Retour">←</button><b>${esc(name||'Joueur')}</b><button class="mini-b" id="chMore" aria-label="Options">⋯</button></div>
+    <div class="chmsgs" id="chM"><div class="trempty">Chargement…</div></div>
+    <div class="chact"><button class="apill" id="chTr">🔄 Échange</button><button class="apill" id="chDu">⚔️ Duel / jeu</button></div>
+    <div class="chin"><textarea id="chT" rows="1" maxlength="300" placeholder="Ton message…"></textarea><button class="btn" id="chS" aria-label="Envoyer">➤</button></div>`;
+  v.querySelector('#chB').onclick=()=>chatList(v);
+  v.querySelector('#chMore').onclick=()=>{const bl=chatBlocked(pid);const sh=sheet(`<h3>${esc(name)}</h3><div class="trbtns" style="flex-direction:column"><button class="btn alt" id="chBl">${bl?'✅ Débloquer':'🚫 Bloquer'} ${esc(name)}</button><button class="btn alt" id="chCx">Fermer</button></div><div class="sec">${bl?'':'Bloquer : ses messages ne t\'arrivent plus et tu ne reçois plus de notification de sa part.'}</div>`);
+    sh.querySelector('#chCx').onclick=()=>sh.remove();sh.querySelector('#chBl').onclick=()=>{COL.chBlock=COL.chBlock||{};if(bl)delete COL.chBlock[pid];else COL.chBlock[pid]=1;saveCol();sh.remove();if(!bl)chatList(v);};};
+  const T=v.querySelector('#chT'),S=v.querySelector('#chS'),M=v.querySelector('#chM');
+  T.oninput=()=>{T.style.height='auto';T.style.height=Math.min(110,T.scrollHeight)+'px';};
+  T.onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();S.click();}};
+  S.onclick=async()=>{const t=T.value.trim();if(!t)return;if(Date.now()-CH.lastSend<800)return;CH.lastSend=Date.now();T.value='';T.style.height='auto';
+    try{await chatSend(pid,name,{k:'txt',t:t.slice(0,300)});}catch(_){T.value=t;toast('⚠️','Message non envoyé','Vérifie ta connexion et réessaie');}};
+  const hook=k=>{window.CHAT_HOOK={to:pid,fn:(kind,x)=>{chatSend(pid,name,Object.assign({k:kind,t:kind==='trade'?(x&&x.give===''?'🙋 Je t\'ai demandé une carte':'🔄 Je t\'ai proposé un échange'):kind==='bb'?'📡 Je t\'invite à une Bataille en direct !':'⚔️ Je t\'ai lancé un défi'+(x&&x.game?' sur « '+x.game+' »':'')},x||{})).catch(()=>{});}};};
+  v.querySelector('#chTr').onclick=()=>{hook();chatTradePick(pid,name);};
+  v.querySelector('#chDu').onclick=()=>{hook();duNew(pid,name,true);};
+  CH.unsub=GG.chat.listenMsgs(cid,L=>{if(!CH.cur||CH.cur.cid!==cid)return;CH.msgs=L;chatDraw(M);GG.chat.read(cid).catch(()=>{});});
+  GG.chat.read(cid).catch(()=>{});}
+function chatDraw(M){const near=M.scrollHeight-M.scrollTop-M.clientHeight<80;const me=GG.pid;let lastDay='';
+  M.innerHTML=CH.msgs.length?CH.msgs.map(m=>{const d=new Date(m.at||Date.now()),day=d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+    const sep=day!==lastDay?`<div class="chday">${day}</div>`:'';lastDay=day;const mine=m.from===me,hm=d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+    const act=m.k==='trade'?`<button class="mini-b" data-go="${mine?'tradeout':'tradein'}">Voir l'échange ›</button>`:m.k==='duel'?`<button class="mini-b" data-go="duel">Voir le duel ›</button>`:'';
+    return sep+`<div class="chm${mine?' me':''}${m.k!=='txt'?' sys':''}"><div class="b">${esc(m.t||'')}${act?'<br>'+act:''}</div><small>${hm}</small></div>`;}).join('')
+    :'<div class="trempty">Dis bonjour ! 👋</div>';
+  M.querySelectorAll('[data-go]').forEach(x=>x.onclick=()=>{const g=x.dataset.go;chatClose();ggGo(g);});
+  if(near||!M.dataset.init){M.scrollTop=M.scrollHeight;M.dataset.init=1;}}
+async function chatSend(pid,name,o){await GG.chat.send(pid,name,o);
+  // notification : pas plus d'une toutes les 3 minutes par conversation
+  const k=pid,now=Date.now();if(now-(CH.notif[k]||0)>180e3){CH.notif[k]=now;ggNotify('msg',pid);}}
+/* échange depuis le chat : choisir une carte de l'autre joueur */
+function chatTradePick(pid,name){const d=(BOARD||{})[pid]||{},own=Array.isArray(d.own)?d.own:[],dups=new Set(Array.isArray(d.dups)?d.dups:[]);
+  const L=MEMBERS.filter(m=>own.includes(m.id)).sort((a,b)=>(!!COL.members[a.id]-!!COL.members[b.id])||(dups.has(b.id)-dups.has(a.id)));
+  const sh=document.createElement('div');sh.className='trsheet';$('#app').appendChild(sh);
+  sh.innerHTML=`<div class="in"><h3>🔄 Quelle carte de ${esc(name)} ?</h3><div class="sec">Celles qui te manquent sont en premier.</div>
+    ${L.length?`<div class="trgrid" style="max-height:52vh;overflow:auto">${L.map(m=>`<div class="tritem" data-c="${m.id}">${!COL.members[m.id]?'<span class="miss">Il te la faut !</span>':''}${mini(m.id)}<div class="who">${dups.has(m.id)?'en double':'une seule'}</div></div>`).join('')}</div>`:'<div class="trempty">Pas encore de cartes visibles pour ce joueur.</div>'}
+    <div class="trbtns"><button class="btn alt" id="trX">Fermer</button></div></div>`;
+  sh.querySelector('#trX').onclick=()=>sh.remove();sh.onclick=e=>{if(e.target===sh)sh.remove();};
+  sh.querySelectorAll('[data-c]').forEach(x=>x.onclick=()=>{sh.remove();const c=x.dataset.c;trPropose({card:c,owners:[{id:pid,name,dup:dups.has(c)}]});});}
 
 /* ================= STATISTIQUES ================= */
 function stat(k,n){COL.st=COL.st||{};COL.st[k]=(COL.st[k]||0)+(n==null?1:n);}
@@ -8642,7 +8732,7 @@ function bbInvCheck(){const now=Date.now();
     pop.querySelector('#bbiOk').onclick=()=>{pop.remove();bbAccept(inc);};}}
 function bbInvite(){if(!BBOK())return;pickPlayer({e:'📡',n:'Bataille en direct'},'Choisis qui défier. Il doit avoir le jeu ouvert pour accepter (2 minutes).',bbInviteTo);}
 async function bbInviteTo(p){if(!BBOK()){toast('📡','Pas de connexion','Le direct marche seulement dans le jeu en ligne.');return;}
-  try{const r=await GG.battles.create({to:p.id,toName:p.name,da:bbMyDeck(),seed:bbSeed(),v:BB_VER});ggNotify('bb',p.id);BB.waiting=r.id;bbWaitUI(r.id,p.name);}catch(e){toast('📡','Pas de connexion','Réessaie dans un instant.');}}
+  try{const r=await GG.battles.create({to:p.id,toName:p.name,da:bbMyDeck(),seed:bbSeed(),v:BB_VER});ggNotify('bb',p.id);try{const H=window.CHAT_HOOK;if(H&&H.to===p.id){window.CHAT_HOOK=null;H.fn('bb',{});}}catch(_){}BB.waiting=r.id;bbWaitUI(r.id,p.name);}catch(e){toast('📡','Pas de connexion','Réessaie dans un instant.');}}
 function bbWaitUI(id,name){const t0=Date.now();const sh=sheet(`<div class="bbwait"></div><div class="emo" style="font-size:44px;text-align:center">📡</div><h3>En attente de ${esc(name)}…</h3>
   <div class="sec" id="bbwT">Il a 2 minutes pour accepter.</div><div class="trbtns"><button class="btn alt" id="bbwX">Annuler</button></div>`);sh.classList.add('bbwait');
   const tm=setInterval(()=>{if(!document.body.contains(sh)){clearInterval(tm);return;}const s=Math.max(0,Math.ceil((BB_INV-(Date.now()-t0))/1000));const e=sh.querySelector('#bbwT');if(e)e.textContent=`Il a encore ${Math.floor(s/60)}:${String(s%60).padStart(2,'0')} pour accepter.`;
@@ -10177,6 +10267,7 @@ function gmWire(b,G){const R=()=>{gmRender();gmSave(false);},sfx=k=>{try{fgSfx(k
   b.querySelectorAll('[data-obj]').forEach(x=>x.onclick=()=>{const o=GM_OBJ.find(z=>z.id===x.dataset.obj);if(!o||G.obj[o.id]||!o.ok(G))return;G.obj[o.id]=Date.now();grantPack(o.r,'Gambetta Manager · '+o.t);try{updBoostBtn();}catch(_){}
     toast('🎁','Objectif réussi : '+o.t,o.r>1?'Booster de '+o.r+' cartes':'Une carte');gmSave(true);R();});
   b.querySelectorAll('[data-bld]').forEach(x=>x.onclick=()=>{const B=GM_BLD.find(z=>z.k===x.dataset.bld),l=gmBL(G,B.k),c=B.c[l];if(c==null||(G.med||0)<c)return;G.med-=c;G.bld[B.k]=l+1;sfx('parry');gmFloat(B.e+' '+B.n+(l?' niveau '+(l+1):' construit')+' !','#ffd23f');try{fgSfx('super');}catch(_){}gmSave(true);R();});
+  b.querySelectorAll('[data-autot]').forEach(x=>x.onclick=()=>{G.autoOff=!G.autoOff;gmFloat(G.autoOff?'🤖 Gérant en pause':'🤖 Gérant automatique actif','#ffe36b');gmSave(true);R();});
   b.querySelectorAll('[data-perk]').forEach(x=>x.onclick=()=>{const P=GM_PERK.find(z=>z.k===x.dataset.perk),l=gmPL(G,P.k),c=P.c[l];if(c==null||gmPLock(G,P)||gmStarsFree(G)<c)return;G.spent=(G.spent||0)+c;G.perk[P.k]=l+1;if(P.k==='mns')Object.assign(G.mns,gmKeepMns(G));sfx('parry');gmFloat(P.e+' '+P.n+' !','#ffe36b');gmSave(true);R();});
   b.querySelectorAll('[data-clean]').forEach(x=>x.onclick=e=>{e.stopPropagation();const A=G.act[x.dataset.clean];if(!A)return;A.cl=1;sfx('pop');gmFloat('✨ '+gmDef(x.dataset.clean).n+' tout propre !','#7de3ff');try{stat('gmClean');}catch(_){}gmLive();gmSave(false);});
   b.querySelectorAll('[data-ag]').forEach(x=>x.onclick=()=>{const a=x.dataset.ag,c=gmAgCost(a);G.ag=G.ag||{};if(G.ag[a]||G.m<c)return;G.m-=c;G.ag[a]=1;if(G.act[a])G.act[a].cl=1;sfx('parry');gmFloat('🧹 Agent d\'entretien engagé : '+gmDef(a).n+' !','#7de3ff');gmSave(true);R();});
@@ -10442,8 +10533,8 @@ function gmConsHTML(G){return `<h3>⚡ Coups de pouce</h3><div class="gmhint">À
   return `<div class="gmper"><span class="gmbe">${C.e}</span><div class="i"><b>${C.n}</b><small>${C.d}</small></div><button class="mini-b gmh" data-cons="${C.k}" ${gmStarsFree(G)<c?'disabled':''}>Utiliser<br><b>⭐ ${gmFmt(c)}</b><small>−${gmFmt(c)} %</small></button></div>`;}).join('')+'<div style="height:8px"></div>';}
 function gmShopHTML(G){return `<h3>⭐ Les talents</h3><div class="gmhint">Chaque ⭐ étoile <b>non dépensée</b> donne +1 % de gains (au-delà de 500 étoiles, le bonus grandit moins vite). Tu peux aussi les dépenser pour des <b>talents gardés pour toujours</b>… mais une étoile dépensée ne donne plus son +1 %, et chaque niveau coûte environ 3× plus que le précédent. Certains talents ne s'ouvrent qu'après plusieurs saisons. À toi de choisir !</div>
   <div class="gmmed">⭐ <b>${gmFmt(gmStarsFree(G))}</b> étoiles libres <small>sur ${gmFmt(G.stars||0)} · +${gmStarPct(gmStarsFree(G))} % de gains</small></div>`+gmConsHTML(G)+'<h3>🌟 Talents pour toujours</h3>'+GM_PERK.map(P=>{const l=gmPL(G,P.k),mx=P.c.length,c=P.c[l];
-    return `<div class="gmper${l>=mx?' own':''}"><span class="gmbe${l?'':' off'}">${P.e}</span><div class="i"><b>${P.n}</b> <span class="lvs">${'★'.repeat(l)}${'☆'.repeat(mx-l)}</span><small>${l?'Maintenant : '+P.d(l):'Pas encore appris'}${l<mx?'<br>'+(l?'Niveau '+(l+1):'Apprendre')+' : <b>'+P.d(l+1)+'</b>':''}</small></div>
-    ${gmPLock(G,P)?`<span class="lockt">🔒 Après ${P.p} saison${P.p>1?'s':''} terminée${P.p>1?'s':''}</span>`:l<mx?`<button class="mini-b gmh" data-perk="${P.k}" ${gmStarsFree(G)<c?'disabled':''}>${l?'Améliorer':'Apprendre'}<br><b>⭐ ${gmFmt(c)}</b><small>−${gmFmt(c)} %</small></button>`:'<span class="ok">✅</span>'}</div>`;}).join('');}
+    return `<div class="gmper${l>=mx?' own':''}"><span class="gmbe${l?'':' off'}">${P.e}</span><div class="i"><b>${P.n}${P.k==='auto'&&l&&G.autoOff?' <span style="color:#e5484d">· en pause</span>':''}</b> <span class="lvs">${'★'.repeat(l)}${'☆'.repeat(mx-l)}</span><small>${l?'Maintenant : '+P.d(l):'Pas encore appris'}${l<mx?'<br>'+(l?'Niveau '+(l+1):'Apprendre')+' : <b>'+P.d(l+1)+'</b>':''}</small></div>
+    ${P.k==='auto'&&l?`<button class="mini-b gmh" data-autot="1" style="margin-right:6px">${G.autoOff?'▶️ Réactiver':'⏸️ Mettre<br>en pause'}</button>`:''}${gmPLock(G,P)?`<span class="lockt">🔒 Après ${P.p} saison${P.p>1?'s':''} terminée${P.p>1?'s':''}</span>`:l<mx?`<button class="mini-b gmh" data-perk="${P.k}" ${gmStarsFree(G)<c?'disabled':''}>${l?'Améliorer':'Apprendre'}<br><b>⭐ ${gmFmt(c)}</b><small>−${gmFmt(c)} %</small></button>`:'<span class="ok">✅</span>'}</div>`;}).join('');}
 function gmAutoBuy(G){let n=0;const budget=G.m*[0,.25,.5][gmPL(G,'auto')];let spent=0;while(n<25){let best=null,bc=Infinity;gmOpen(G).forEach(a=>{const c=gmCost(G,a,1);if(c<bc){bc=c;best=a;}});if(!best||spent+bc>budget)break;G.m-=bc;spent+=bc;G.act[best].l++;n++;}return n;}
 function gmPlusTick(G,now,dt){
   if(G.tb.length&&G.tb.some(b=>b.end<=now)){G.tb=G.tb.filter(b=>b.end>now);gmRender();}
@@ -10453,7 +10544,7 @@ function gmPlusTick(G,now,dt){
   else if(!busy&&now>(GM.incT||0)){if(GM.incT)gmIncSpawn(G);GM.incT=now+(120+Math.random()*150)*1000/(G.th==='sos'?2:1);}
   if(G.dec&&G.dec.exp<now){G.dec=null;}
   if(!G.dec&&!busy&&now>(GM.decT||0)){if(GM.decT)gmDecNew(G);GM.decT=now+(300+Math.random()*240)*1000/(G.th==='post'?2:1);}
-  if(gmPL(G,'auto')&&now>(GM.abT||0)){GM.abT=now+[0,4000,1000][gmPL(G,'auto')];if(gmAutoBuy(G))GM.abD=1;}if(GM.abD&&now>(GM.abR||0)&&!busy){GM.abD=0;GM.abR=now+4000;gmRender();}}
+  if(gmPL(G,'auto')&&!G.autoOff&&now>(GM.abT||0)){GM.abT=now+[0,4000,1000][gmPL(G,'auto')];if(gmAutoBuy(G))GM.abD=1;}if(GM.abD&&now>(GM.abR||0)&&!busy){GM.abD=0;GM.abR=now+4000;gmRender();}}
 /* dessin : incident et lignes fermées */
 function gmIncDraw(c,G,a,W,H,t,now){const C=GM.inc;
   const cl=(G.tb||[]).find(b=>b.x===0&&b.end>now&&(!b.st||b.st<=now)&&(!b.a||b.a===a));if(cl){c.fillStyle='rgba(27,42,58,.5)';c.fillRect(0,0,W,H);c.font='800 12px system-ui,sans-serif';c.fillStyle='#fff';c.textAlign='center';c.textBaseline='middle';c.fillText((cl.e||'🚧')+' Fermée · '+gmTime((cl.end-now)/1000),W/2,H*.52);}
