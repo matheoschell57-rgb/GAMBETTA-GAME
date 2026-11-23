@@ -6895,7 +6895,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=76;
+const APP_V=77;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
@@ -7338,6 +7338,17 @@ setInterval(()=>{try{if(document.hidden||pushOn())return;if(!$('#hub').classList
 async function pushAsk(){const OS=window.GGPUSH;
   if(!/github\.io$/.test(location.hostname)){toast('🔔','Notifications','Elles marchent sur le site du jeu');return;}
   if(pushIOS()&&!pushStandalone()){const sh=sheet(`<h3>🔔 Notifications sur iPhone</h3><div class="sec">Sur iPhone, les notifications ne marchent que si le jeu est installé sur l'écran d'accueil :</div><p>1. Dans Safari, touche le bouton <b>Partager</b> (le carré avec la flèche ⬆️)<br>2. Choisis <b>« Sur l'écran d'accueil »</b><br>3. Ouvre le jeu depuis la nouvelle icône, puis reviens ici ✅</p><div class="trbtns"><button class="btn" id="bx">Compris</button></div>`);sh.querySelector('#bx').onclick=()=>sh.remove();return;}
+  const N=typeof Notification!=='undefined'?Notification:null;
+  /* iPhone : la demande doit partir tout de suite, pendant l'appui (sinon iOS l'ignore sans rien afficher).
+     On demande donc l'autorisation directement, puis on inscrit le téléphone aux notifications. */
+  if(N&&N.permission==='default'){let pr;try{pr=N.requestPermission();}catch(_){pr=null;}
+    try{localStorage.setItem('gg-push-ask','1');}catch(_){}
+    Promise.resolve(pr).then(async p=>{p=p||N.permission;const O=window.GGPUSH;
+      if(p==='granted'&&O){try{await O.User.PushSubscription.optIn();}catch(_){}try{localStorage.removeItem('gg-push-ask');}catch(_){}}
+      setTimeout(()=>{if(pushOn())toast('🔔','Notifications activées !','Tu seras prévenu des messages, échanges et duels');
+        else if(N.permission==='denied')toast('🔕','Notifications bloquées','Autorise-les dans Réglages › Notifications › Gambetta');
+        try{buildMoi();}catch(_){}try{window.dispatchEvent(new Event('ggpush'));}catch(_){}},1500);}).catch(()=>{});
+    return;}
   if(!OS){toast('🔔','Un instant…','Les notifications se chargent, réessaie dans quelques secondes');return;}
   if(pushOn()){const sh=sheet(`<h3>🔔 Notifications activées</h3><div class="sec">Tu seras prévenu des quiz, événements, tournois et nouveautés du club.</div><div class="trbtns"><button class="btn alt" id="pOff">Les couper</button><button class="btn" id="bx">Super</button></div>`);
     sh.querySelector('#bx').onclick=()=>sh.remove();sh.querySelector('#pOff').onclick=async()=>{try{await OS.User.PushSubscription.optOut();}catch(_){}sh.remove();toast('🔕','Notifications coupées','Tu peux les remettre quand tu veux');try{buildMoi();}catch(_){}};return;}
