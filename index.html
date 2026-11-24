@@ -499,6 +499,25 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 .amode .apill{flex:1;text-align:center}
 .wel{display:flex;gap:10px;align-items:flex-start;border:3px solid var(--ink,#1b2a3a);border-radius:14px;padding:10px;margin:8px 0;background:#fff}.wel>b{flex:0 0 30px;height:30px;border-radius:50%;background:var(--yellow,#ffcf33);display:grid;place-items:center;font-size:16px;border:3px solid var(--ink,#1b2a3a)}.wel>div{flex:1;min-width:0}.wel h4{margin:2px 0 2px;font-size:16px}.wel p{margin:0 0 6px;font-size:13px;text-align:left}.wel .btn{margin:0;padding:8px 12px;font-size:14px;width:100%}.wel.ok{background:#e9f9ee}.wel .ggcode{font-size:min(22px,6.2vw);letter-spacing:1px;padding:6px 8px;white-space:nowrap;overflow:hidden}.ggwel .ggcard{max-height:94vh;max-height:94dvh;overflow-y:auto;overscroll-behavior:contain}.ggwel #wGo{position:sticky;bottom:-2px;z-index:2;box-shadow:0 -10px 14px #fff}@media (max-height:780px){.ggwel .emo{display:none}.ggwel h3{margin:2px 0}.ggwel .ggcard>p{margin:2px 0 4px}.wel{padding:8px;margin:6px 0}.wel p{font-size:12px;margin-bottom:4px}.wel .btn{padding:6px 10px}}.wel.ok>b{background:#3cbf5a;color:#fff}
 .trnone{border:3px dashed var(--ink,#1b2a3a);border-radius:12px;aspect-ratio:.72;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fff8e1;font-weight:700;font-size:14px;text-align:center;padding:6px}.trnone b{font-size:30px}.trnone small{font-weight:500;font-size:11px;opacity:.75}
+.xmas #xsnow{position:fixed;inset:0;pointer-events:none;z-index:4;overflow:hidden}#xsnow i{position:absolute;top:-12px;width:8px;height:8px;border-radius:50%;background:#fff;opacity:.85;box-shadow:0 0 4px #fff;animation:xfall linear infinite}
+@keyframes xfall{to{top:105%;margin-left:40px}}
+.xmas .hday.adv{background:linear-gradient(135deg,#e63b3b,#b31b2d);color:#fff}.xmas .hday.adv small,.xmas .hday.adv em{color:#fff}.hday.adv.todo{animation:xpulse 1.6s ease-in-out infinite}@keyframes xpulse{50%{transform:scale(1.02)}}
+.xmas .tcard{box-shadow:0 0 0 2px #fff,0 0 0 4px #2fb36d}.xfr{display:none}.xmas .tcard>.xfr{display:block;position:absolute;inset:0;border-radius:9px;pointer-events:none;z-index:4;padding:clamp(2px,3.2cqw,7px);background:repeating-linear-gradient(45deg,#e63b3b 0 6px,#fff 6px 11px,#2fb36d 11px 17px,#fff 17px 22px);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}.xmas .tcard>.xfh{display:block;position:absolute;top:-3cqw;right:-3cqw;width:19cqw;aspect-ratio:40/32;z-index:5;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 32'%3E%3Cpath d='M20 18C14 6 4 4 1 8c4 1 4 5 2 7 4-1 6 2 5 5 4-3 9-2 12-2z' fill='%232fb36d' stroke='%231b2a3a' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='M20 18c6-12 16-14 19-10-4 1-4 5-2 7-4-1-6 2-5 5-4-3-9-2-12-2z' fill='%2326a05f' stroke='%231b2a3a' stroke-width='1.6' stroke-linejoin='round'/%3E%3Ccircle cx='16' cy='21' r='4.2' fill='%23e63b3b' stroke='%231b2a3a' stroke-width='1.4'/%3E%3Ccircle cx='24' cy='21' r='4.2' fill='%23e63b3b' stroke='%231b2a3a' stroke-width='1.4'/%3E%3Ccircle cx='20' cy='15.5' r='4.2' fill='%23ff4d4d' stroke='%231b2a3a' stroke-width='1.4'/%3E%3Ccircle cx='18.6' cy='14.2' r='1.2' fill='%23fff'/%3E%3C/svg%3E") center/contain no-repeat;transform:rotate(12deg);filter:drop-shadow(0 1px 0 rgba(0,0,0,.25))}.xfh{display:none}.xmas .tcard.locked>.xfr,.xmas .tcard.locked>.xfh{display:none}
+.xmas #bnav{border-top-color:#e63b3b;box-shadow:0 -3px 0 #2fb36d}
+.xmas .logo.newlogo{position:relative}.xmas .logo.newlogo::after{content:'🎅';position:absolute;top:-6%;right:8%;font-size:clamp(34px,10vw,64px);transform:rotate(18deg)}
+.xmas #stage::after{content:'';position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(2px 2px at 20% 30%,#fff 50%,transparent 51%),radial-gradient(2px 2px at 70% 10%,#fff 50%,transparent 51%),radial-gradient(3px 3px at 40% 80%,#fff 50%,transparent 51%),radial-gradient(2px 2px at 85% 60%,#fff 50%,transparent 51%);background-size:180px 180px;opacity:.55;animation:xsn 9s linear infinite}
+@keyframes xsn{to{background-position:0 180px,40px 180px,-30px 180px,20px 180px}}
+.moihead.xprof{background:linear-gradient(135deg,#e63b3b,#2fb36d);color:#fff}.moihead.xprof small{color:#fff}
+.advv{position:absolute;inset:0;z-index:30;background:linear-gradient(180deg,#0d2a52,#14467a);display:flex;flex-direction:column;overflow:auto}.advv .chhead{background:#b31b2d;color:#fff}.advv .chhead .x{background:#fff}.advn{font-weight:800}
+.advgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:14px}.advd{aspect-ratio:1;border:3px solid var(--ink,#1b2a3a);border-radius:14px;background:#e63b3b;color:#fff;font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;box-shadow:0 4px 0 var(--ink,#1b2a3a)}
+.advd:nth-child(3n){background:#2fb36d}.advd:nth-child(4n){background:#d4a017}.advd b{font-size:26px;font-family:'Lilita One',Fredoka,sans-serif}.advd i{font-style:normal;font-size:12px;opacity:.8}
+.advd:disabled{opacity:.55}.advd.today{animation:xpulse 1.2s ease-in-out infinite;outline:4px solid #ffcf33}.advd.open{background:#fff8e1;color:var(--ink,#1b2a3a)}.advd.open .e{font-size:26px}.advd.open small{font-size:9px;line-height:1.1;text-align:center;padding:0 3px}
+.advd.flip{transition:transform .4s;transform:rotateY(90deg)}
+.xgcard{border-color:#e63b3b}.advlbl{display:block;text-align:center;font-weight:700;color:#e63b3b}
+.wheelbox{position:relative;width:230px;height:230px;margin:10px auto}.wptr{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:26px;z-index:2;color:#e63b3b}
+.wheel{width:230px;height:230px;border-radius:50%;border:5px solid var(--ink,#1b2a3a);background:conic-gradient(#e63b3b 0 45deg,#fff 45deg 90deg,#2fb36d 90deg 135deg,#ffcf33 135deg 180deg,#e63b3b 180deg 225deg,#fff 225deg 270deg,#2fb36d 270deg 315deg,#ffcf33 315deg 360deg);position:relative}
+.wheel span{position:absolute;left:50%;top:50%;margin:-14px 0 0 -14px;width:28px;height:28px;font-size:22px;text-align:center}
+.qzimg{width:160px;margin:8px auto}.qzopts{display:grid;gap:8px}.qzopts .btn{margin:0}.qzopts .good{background:#3cbf5a;color:#fff}.qzopts .bad{background:#e5484d;color:#fff}
 .moirow .cnt{display:inline-block;background:#e5484d;color:#fff;border-radius:10px;padding:0 7px;font-size:12px;line-height:18px;margin-left:6px;vertical-align:middle}
 .chatv{position:absolute;inset:0;z-index:30;background:var(--bg,#e8f6ff);display:flex;flex-direction:column}
 .chhead{display:flex;align-items:center;gap:10px;padding:10px 12px;padding-top:max(10px,env(safe-area-inset-top));border-bottom:3px solid var(--ink,#1b2a3a);background:#fff}.chhead b{flex:1;font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -556,7 +575,8 @@ button:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 @keyframes sheetup{from{transform:translateY(100%)}to{transform:none}}
 .trsheet h3{font-family:'Lilita One',sans-serif;font-weight:400;font-size:26px;margin:0 0 10px;text-align:center}
 .trsheet .sec{font-weight:700;margin:12px 0 6px}
-.trsheet .pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:10px}
+.trsheet .pfbig{display:flex;justify-content:center;padding:4px 0 10px}.pfcol>div{position:relative}
+.pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:10px}
 .trsheet .pick>div{border-radius:12px}.trsheet .pick .sel{outline:4px solid var(--yellow);outline-offset:2px}
 .trsheet .pick .x2{display:block;text-align:center;font-size:11px;font-weight:700;margin-top:3px}
 .trown{width:100%;font:inherit;text-align:left;cursor:pointer}
@@ -2213,6 +2233,7 @@ function carArt(col,opt){const vb=(opt&&opt.viewBox)||'0 0 200 230',st=`stroke="
   <circle cx="60" cy="144" r="17" fill="#2b2f36" ${st}/><circle cx="60" cy="144" r="6" fill="#cfd6de"/><circle cx="142" cy="144" r="17" fill="#2b2f36" ${st}/><circle cx="142" cy="144" r="6" fill="#cfd6de"/></svg>`;}
 function avatar(o,opt){
   o=o||{};opt=opt||{};if(o.car)return carArt(o.car,opt);
+  try{if(!o.santa&&!o.cap&&!o.hat&&!opt.nosanta&&xmasOn())o=Object.assign({},o,{santa:true});}catch(_){}
   const sk=o.skin||'#f2c49b',hc=o.hairColor||'#5a3a22',sh=o.shirt||'#2f80ed';
   const st=`stroke="${INK}" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"`;
   const vb=opt.viewBox||'0 0 200 230';const p=vb.split(' ').map(Number);
@@ -2482,6 +2503,9 @@ const CHARS={
   alex:{name:'Alex',game:'Le site fait main',bg:'#e3ecff',since:'2026-11-07',
     line:"Le site du club, je l'ai fait à la main, câble par câble. Et là… tout est débranché !",
     look:{skin:'#f2c8ac',hair:'short',hairColor:'#9a7650',beard:'short',beardColor:'#9a7650',shirt:PINK,logo:true}},
+  rennes:{name:'Père Noël',game:'Le relais des rennes',bg:'#ffe3e3',since:'2026-12-01',
+    line:"Ho ho ho ! Le relais de Noël commence : nage en rythme avec les clochettes !",
+    look:{skin:'#f6d3bd',hair:'white',hairColor:'#ffffff',beard:true,beardColor:'#ffffff',shirt:'#e63b3b',santa:true,redNose:true}},
   victor:{name:'Victor',game:'Victor le bavard',bg:'#d9f1ff',since:'2026-11-19',
     line:"Et tu sais quoi ? Et tu sais quoi ? ET TU SAIS QUOI ?!",
     look:{kid:true,kidScale:.78,skin:'#f6d3bd',hair:'short',hairColor:'#e8c37a',shirt:PINK,logo:true}},
@@ -5746,6 +5770,76 @@ function gameAlex(stage,api){
     destroy(){cv.c.removeEventListener('pointerdown',onDown);cv.destroy();}};
 }
 
+/* ================= NOËL : le relais des rennes (rythme, piscine) ================= */
+function gameRennes(stage,api){
+  const cv=makeCanvas(stage),ctx=cv.ctx,LEN=25,LEGS=[{e:'🦌',n:'Le renne',b:.62},{e:'🎅',n:'Le Père Noël',b:.56},{e:'🧝',n:'Le lutin',b:.5},{e:'⛄',n:'Le bonhomme de neige',b:.45}];
+  const RIV=[{e:'🦌',c:'#e63b3b',v:2.35},{e:'🦌',c:'#2fb36d',v:2.1},{e:'🦌',c:'#8a4fe0',v:1.85}];
+  const FANS=ORDER.filter(k=>k!=='bonus'&&k!=='rennes'&&CHARS[k]&&CHARS[k].look&&!CHARS[k].look.car).sort(()=>Math.random()-.5).slice(0,5).map(k=>svgImg(avatar(CHARS[k].look,{viewBox:'30 20 140 140'})));
+  let bk=0,t=0,leg=0,x=0,v=1.2,boost=0,combo=0,best=0,over=false,state='go',cd=2.6,beat0=0,hit=-1,fx=[],tch=0,dive=0,fault=0,riv=RIV.map(r=>({d:0,v:r.v*(0.95+Math.random()*.1)})),place=0,splash=[];
+  const per=()=>LEGS[Math.min(leg,3)].b,elapsed=()=>Math.max(0,t-2.6);
+  const hud=()=>api.hud(`${LEGS[leg]?LEGS[leg].e:'🏁'} Relais ${Math.min(leg+1,4)}/4  ⏱ ${elapsed().toFixed(1).replace('.',',')} s  🔥 ${combo}`);
+  function bell(hi){try{if(sndOff())return;const A=sndCtx();if(!A)return;INS.bell(A.currentTime+.01,hi?96:88,.25,hi?.05:.03,SND.fx);}catch(_){}}
+  const nextBeat=()=>beat0+Math.ceil((t-beat0)/per())*per();
+  function judge(){const p=per(),k=Math.round((t-beat0)/p),bt=beat0+k*p,dt=Math.abs(t-bt);
+    if(k===hit||dt>p*.42){combo=0;v=Math.max(.7,v-.35);fx.push({x:cv.W*.5,y:cv.H*.78,txt:'Raté…',t:0,c:'#e5484d'});return;}
+    hit=k;if(dt<.075){combo++;boost+=1.0+Math.min(.6,combo*.05);fx.push({x:cv.W*.5,y:cv.H*.78,txt:combo>4?'Parfait ! ×'+combo:'Parfait !',t:0,c:'#3cbf5a'});bell(1);}
+    else if(dt<.16){combo++;boost+=.6;fx.push({x:cv.W*.5,y:cv.H*.78,txt:'Bien',t:0,c:'#3c8ee6'});}
+    else{combo=0;boost+=.15;fx.push({x:cv.W*.5,y:cv.H*.78,txt:'Trop tôt / tard',t:0,c:'#ff8a3d'});}
+    best=Math.max(best,combo);}
+  const onDown=e=>{e.preventDefault();if(over)return;
+    if(state==='go'){if(t<2.6){fault=1;fx.push({x:cv.W/2,y:cv.H*.4,txt:'Faux départ ! +1 s',t:0,c:'#e5484d'});t-=1;}return;}
+    if(state==='relay'){const r=t-tch;state='swim';beat0=t;hit=0;
+      if(r<.45){boost+=1.6;fx.push({x:cv.W/2,y:cv.H*.4,txt:'Super relais ! 🚀',t:0,c:'#3cbf5a'});bell(1);}else fx.push({x:cv.W/2,y:cv.H*.4,txt:'Relais !',t:0,c:'#3c8ee6'});return;}
+    if(state==='swim')judge();};
+  cv.c.addEventListener('pointerdown',onDown);hud();
+  return{
+    update(dt){dt=Math.min(dt,.05);t+=dt;for(let k=fx.length-1;k>=0;k--){fx[k].t+=dt;if(fx[k].t>1)fx.splice(k,1);}
+      if(over)return;
+      if(state==='go'){if(t>=2.6){state='swim';beat0=t;hit=0;bell(1);}hud();return;}
+      // les autres équipes nagent toutes seules
+      riv.forEach(r=>{if(r.d<LEN*4)r.d+=r.v*dt*(0.92+0.16*Math.sin(t*.7+r.v));});
+      if(state==='swim'){const p=per();const k=Math.floor((t-beat0)/p);if(k>bk){bk=k;bell(0);}
+        if(k>hit+1&&hit>=0&&t-beat0>p*1.5){combo=0;hit=k-1;v=Math.max(.75,v-.12);}
+        boost*=Math.pow(.25,dt);v+=((1.25+boost)-v)*Math.min(1,dt*4);x+=v*dt;if(Math.random()<dt*8)splash.push({f:x,t:0});
+        if(x>=LEN){x=LEN;leg++;bk=0;bell(1);
+          if(leg>=4){over=true;const s=elapsed(),me=LEN*4;place=1+riv.filter(r=>r.d>=me-.01||r.d/r.v<0).length;
+            const ahead=riv.filter(r=>r.d>=me).length;place=1+ahead;const win=place<=3;
+            setTimeout(()=>api.end(win,win?['🥇 Victoire des rennes !','🥈 Deuxième place !','🥉 Sur le podium !'][place-1]:'Les rennes sont fatigués…',`${String(s.toFixed(1)).replace('.',',')} s sur 4 longueurs · meilleur combo ${best}. ${win?'Joyeux Noël au bord du bassin ! 🎄':'Il faut finir sur le podium : retente ta chance !'}`),500);return;}
+          state='relay';tch=t;x=0;v=1.1;combo=0;fx.push({x:cv.W/2,y:cv.H*.4,txt:LEGS[leg].e+' Touche pour plonger !',t:0,c:'#ffcf33'});}}
+      if(state==='relay'&&t-tch>1.6){state='swim';beat0=t;hit=0;}
+      hud();},
+    draw(){const W=cv.W,H=cv.H;ctx.clearRect(0,0,W,H);
+      // fond : piscine vue de dessus, 4 lignes
+      ctx.fillStyle='#0d2a52';ctx.fillRect(0,0,W,H);const top=H*.17,ph=H*.5,lane=ph/4,px0=W*.08,px1=W*.92;
+      const g=ctx.createLinearGradient(0,top,0,top+ph);g.addColorStop(0,'#5cc7f2');g.addColorStop(1,'#2a95d6');ctx.fillStyle=g;rr(ctx,px0-14,top-10,px1-px0+28,ph+20,14);ctx.fill();ctx.lineWidth=4;ctx.strokeStyle=INK;ctx.stroke();
+      for(let i=1;i<4;i++){for(let xx=px0;xx<px1;xx+=14){ctx.fillStyle=(Math.floor((xx-px0)/14)%2)?'#e63b3b':'#fff';ctx.beginPath();ctx.arc(xx,top+i*lane,3.5,0,7);ctx.fill();}}
+      ctx.strokeStyle='rgba(255,255,255,.25)';ctx.lineWidth=2;for(let i=0;i<4;i++){const yy=top+i*lane+lane/2;ctx.beginPath();for(let xx=px0;xx<=px1;xx+=10)ctx.lineTo(xx,yy+Math.sin(xx/30+t*2+i)*2);ctx.stroke();}
+      // guirlande + public avec bonnets
+      for(let i=0;i<16;i++){const gx=W*(i+.5)/16,gy=top*.32+Math.sin(i*1.4)*3;ctx.fillStyle=['#e63b3b','#ffcf33','#2fb36d','#3c8ee6'][i%4];ctx.beginPath();ctx.arc(gx,gy,5,0,7);ctx.fill();}
+      FANS.forEach((im,i)=>{const s=Math.min(46,W/7),fx0=W*(.14+i*.18),fy=top-s*.75+Math.abs(Math.sin(t*3+i))*-4;drawImg(ctx,im,fx0-s/2,fy-s/2+4,s,s);});
+      // nageurs : lignes 0,2,3 = adversaires, ligne 1 = toi
+      const lx=d=>{const L=Math.floor(d/LEN),f=(d%LEN)/LEN,pos=(L%2===0)?f:1-f;return px0+pos*(px1-px0);};
+      riv.forEach((r,i)=>{const ln=[0,2,3][i],yy=top+ln*lane+lane/2,xx=lx(Math.min(r.d,LEN*4-.01));ctx.font=Math.round(lane*.5)+'px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('🦌',xx,yy);
+        ctx.fillStyle=RIV[i].c;ctx.beginPath();ctx.arc(xx,yy-lane*.33,4,0,7);ctx.fill();});
+      const myD=Math.min(leg,3)*LEN+(leg>=4?LEN:x),yy=top+lane*1.5,xx=lx(Math.min(myD,LEN*4-.01));
+      ctx.fillStyle='rgba(255,207,51,.25)';ctx.fillRect(px0,top+lane,px1-px0,lane);
+      splash.forEach(s=>{s.t+=1/60;});splash=splash.filter(s=>s.t<.5);
+      ctx.fillStyle='rgba(255,255,255,.7)';for(const s of splash){const sx=lx(Math.min(leg,3)*LEN+s.f)+(Math.random()-.5)*8;ctx.beginPath();ctx.arc(sx,yy+(Math.random()-.5)*lane*.4,2+s.t*6,0,7);ctx.fill();}
+      ctx.font=Math.round(lane*.62)+'px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(LEGS[Math.min(leg,3)].e,xx,yy+Math.sin(t*14)*2);
+      ctx.textBaseline='alphabetic';
+      // anneau du rythme
+      const cx=W/2,cy=top+ph+(H-top-ph)*.52,R0=Math.min(42,W*.11);
+      ctx.lineWidth=6;ctx.strokeStyle='#ffcf33';ctx.beginPath();ctx.arc(cx,cy,R0,0,7);ctx.stroke();ctx.font=Math.round(R0*.9)+'px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('🔔',cx,cy+2);
+      if(state==='swim'){const p=per(),nb=nextBeat(),u=Math.max(0,(nb-t)/p);ctx.lineWidth=4;ctx.strokeStyle='rgba(255,255,255,'+(0.35+0.65*(1-u))+')';ctx.beginPath();ctx.arc(cx,cy,R0*(1+u*1.6),0,7);ctx.stroke();}
+      ctx.textBaseline='alphabetic';ctx.font='700 13px Fredoka,sans-serif';ctx.fillStyle='#fff';
+      ctx.fillText(state==='go'?(t<2.6?['À vos marques…','Prêts…','Partez !'][Math.min(2,Math.floor(t/.9))]:''):state==='relay'?'🏊 Touche vite pour plonger !':'Touche quand le cercle blanc arrive sur la cloche',W/2,cy+R0+26);
+      if(combo>2){ctx.font='800 15px Fredoka,sans-serif';ctx.fillStyle='#ffcf33';ctx.fillText('🔥 '+combo,cx+R0+38,cy+6);}
+      ctx.font='700 12px Fredoka,sans-serif';ctx.fillStyle='#bfe6ff';ctx.textAlign='left';ctx.fillText(LEGS[Math.min(leg,3)].n+' nage',px0,top+ph+24);
+      for(const f of fx)floatText(ctx,f);},
+    _dbg:()=>({t,leg,x,state,combo,over,per:per(),beat0,hit}),
+    destroy(){cv.c.removeEventListener('pointerdown',onDown);cv.destroy();}};
+}
+
 /* ================= VICTOR : le bavard ================= */
 function gameVictor(stage,api){
   const cv=makeCanvas(stage),ctx=cv.ctx,DUR=45,HP=3;
@@ -6240,13 +6334,13 @@ function gamePierre(stage,api){
 }
 
 /* ================= Navigation ================= */
-const GAMES={victor:gameVictor,parking:gameParking,clement:gameClement,simon:gameSimon,julien:gameJulien,alex:gameAlex,laurence:gameLaurence,romain:gameRomain,pierre:gamePierre,willi:gameWilli,maurice:gameMaurice,pascal:gamePascal,angelique:gameAngelique,helene:gameHelene,manon:gameManon,mickey:gameMickey,lilian:gameLilian,alix:gameAlix,kayak:gameKayak,dario:gameDario,bouchon:gameBouchon,zoe:gameZoe,francoise:gameFrancoise,matheo:gameMatheo,gwen:gameGwen,anthony:gameAnthony,david:gameDavid,jf:gameJF,richard:gameRichard,margaux:gameMargaux,stephane:gameStephane,manu:gameManu,christine:gameChristine,ethan:gameEthan,aude:gameAude,nathan:gameNathan,duo:gameDuo,roland:gameRoland,christian:gameChristian,laetitia:gameLaetitia,marcel:gameMarcel,christophe:gameChristophe,agnes:gameAgnes,jacky:gameJacky,noel:gameNoel,bonus:gameBonus};
+const GAMES={rennes:gameRennes,victor:gameVictor,parking:gameParking,clement:gameClement,simon:gameSimon,julien:gameJulien,alex:gameAlex,laurence:gameLaurence,romain:gameRomain,pierre:gamePierre,willi:gameWilli,maurice:gameMaurice,pascal:gamePascal,angelique:gameAngelique,helene:gameHelene,manon:gameManon,mickey:gameMickey,lilian:gameLilian,alix:gameAlix,kayak:gameKayak,dario:gameDario,bouchon:gameBouchon,zoe:gameZoe,francoise:gameFrancoise,matheo:gameMatheo,gwen:gameGwen,anthony:gameAnthony,david:gameDavid,jf:gameJF,richard:gameRichard,margaux:gameMargaux,stephane:gameStephane,manu:gameManu,christine:gameChristine,ethan:gameEthan,aude:gameAude,nathan:gameNathan,duo:gameDuo,roland:gameRoland,christian:gameChristian,laetitia:gameLaetitia,marcel:gameMarcel,christophe:gameChristophe,agnes:gameAgnes,jacky:gameJacky,noel:gameNoel,bonus:gameBonus};
 let current=null,raf=0,last=0,ended=false,curKey=null,typing=null,freshCard=null;
 /* historique des pages pour la flèche ← */
 const NAVH=[];let NAVSKIP=false;const NAV_NOHIST=['title','intro','game'];
 function navTrack(id){const cur=document.querySelector('.screen.active'),c=cur&&cur.id;if(!c||c===id)return;
   if(NAVH.length&&NAVH[NAVH.length-1]===id){NAVH.pop();return;}if(NAVSKIP||NAV_NOHIST.includes(c))return;NAVH.push(c);if(NAVH.length>30)NAVH.shift();}
-function show(id){if(frzBlock(id))return;try{bubApply();}catch(_){}try{if(SND.unlocked)setTimeout(()=>musPlay(musFor(id)),0);}catch(_){}if(id!=='gogo'){try{if(typeof goStopMap==='function'&&(GO.wid!=null||GO.map))goStopMap(true);}catch(_){}}try{navTrack(id);if(id==='hub')NAVH.length=0;}catch(_){}const _pv=(document.querySelector('.screen.active')||{}).id;document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));try{scrFx(_pv,id);}catch(_){}try{navSync(id);}catch(_){}try{if(boardRefresh){if(id==='ranks'||id==='defi')boardRefresh(60e3);else if(id==='hub')boardRefresh();}}catch(_){}
+function show(id){if(frzBlock(id))return;try{bubApply();}catch(_){}try{xApply();}catch(_){}try{if(SND.unlocked)setTimeout(()=>musPlay(musFor(id)),0);}catch(_){}if(id!=='gogo'){try{if(typeof goStopMap==='function'&&(GO.wid!=null||GO.map))goStopMap(true);}catch(_){}}try{navTrack(id);if(id==='hub')NAVH.length=0;}catch(_){}const _pv=(document.querySelector('.screen.active')||{}).id;document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));try{scrFx(_pv,id);}catch(_){}try{navSync(id);}catch(_){}try{if(boardRefresh){if(id==='ranks'||id==='defi')boardRefresh(60e3);else if(id==='hub')boardRefresh();}}catch(_){}
   try{const h=!NAVH.length&&id!=='intro';document.querySelectorAll('#'+id+' .navback').forEach(b=>b.hidden=h);}catch(_){}}
 function navBack(){const cur=(document.querySelector('.screen.active')||{}).id;let prev=NAVH.pop();while(prev&&prev===cur)prev=NAVH.pop();
   if(cur==='intro'&&!prev)prev='select';
@@ -6301,6 +6395,7 @@ const MG_CARDS={
   simon:{r:'R',e:'✍️',t:"Du sifflet au stylo : il raconte le bassin mieux que personne. Dédicaces à la buvette !"},
   julien:{r:'R',e:'🧔',t:"Une barbichette si longue qu'elle a sa propre ligne d'eau. Interdit de rire !"},
   alex:{r:'R',e:'💻',t:"Le site du club, fait main avant les IA. Chaque câble, chaque pixel : du travail d'artisan."},
+  rennes:{r:'E',e:'🦌',t:"Le relais de Noël : un renne, le Père Noël, un lutin et un bonhomme de neige, en rythme avec les clochettes !"},
   victor:{r:'R',e:'🗣️',t:"Victor a toujours quelque chose à raconter. Zoé, elle, a appris à esquiver !"},
   parking:{r:'R',e:'🚗',t:"Le parking de la fête du club est plein à craquer. Une voiture ne part que tout droit… et ça klaxonne !"},
   bonus:{r:'L',e:'🕶️',t:"Casquette, lunettes noires, et le plat le plus spectaculaire du club. Qui est-il vraiment ?"}
@@ -6322,7 +6417,7 @@ function saveCol(){if(window.GG_NOSAVE)return;if(typeof progLater==='function')p
 var cloudT=0,cloudK="";
 function cloudFlush(){clearTimeout(cloudT);cloudT=0;if(!colRef)return;try{const j=JSON.stringify(COL);if(j===cloudK)return;cloudK=j;const r=colRef.set(colEnc(JSON.parse(j)));if(r&&r.catch)r.catch(e=>{cloudK='';try{console.warn('sauvegarde en ligne',e);}catch(_){}});}catch(_){cloudK='';}}
 window.cloudFlush=cloudFlush;addEventListener('pagehide',cloudFlush);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')cloudFlush();});
-function mergeCol(o){if(!o)return;if(o.mgW!==1&&o.best&&o.best.willi!=null){o=Object.assign({},o,{best:Object.assign({},o.best)});delete o.best.willi;}
+function mergeCol(o){if(!o)return;try{if(o.adv&&COL.adv)for(const y in o.adv){COL.adv[y]=Object.assign({},o.adv[y],COL.adv[y]||{});}}catch(_){}if(o.mgW!==1&&o.best&&o.best.willi!=null){o=Object.assign({},o,{best:Object.assign({},o.best)});delete o.best.willi;}
   // ce que ce téléphone ne connaît pas encore (nouvel appareil, Safari ↔ appli…) : on reprend la sauvegarde en ligne
   for(const k in o){if(COL[k]===undefined&&o[k]!==undefined)COL[k]=o[k];}
   // temps de jeu : on garde le plus grand compteur de chaque jour et toutes les sessions, au lieu d'écraser
@@ -6492,7 +6587,7 @@ const MEMBERS=[
 MEMBER_SLOTS=Math.max(60,MEMBERS.length);
 const memIdx=id=>MEMBERS.findIndex(m=>m.id===id);
 /* Cartes spéciales : seulement pendant un événement, introuvables ailleurs */
-const SPECIALS=[{id:'sp_shooter',n:'Offrir un shooter à Mathéo',r:'L',sp:1,t:'Il te remercie d\'avance d\'avoir eu cette carte. Maintenant, t\'es obligé de le faire !',img:'img/x/ef7b082515c2.webp'}
+const SPECIALS=[{id:'sp_noel',n:'Joyeux Noël 2026',r:'L',sp:1,t:'La carte du 24 décembre : un sapin au bord du bassin, et tout le club autour. Joyeux Noël !',img:'img/x/79487d0ef56a.webp'},{id:'sp_neige',n:'Le bonhomme de neige',r:'E',sp:1,t:'Il nage en hiver comme en été. Bonnet de bain, lunettes et carotte : rien ne l\'arrête !',img:'img/x/6e69d3658830.webp'},{id:'sp_shooter',n:'Offrir un shooter à Mathéo',r:'L',sp:1,t:'Il te remercie d\'avance d\'avoir eu cette carte. Maintenant, t\'es obligé de le faire !',img:'img/x/ef7b082515c2.webp'}
 ];
 /* Cartes bonus (visuels provisoires en attendant ceux de Mathéo) */
 const BONUS=[{"id": "b_cadeau", "e": "🎁", "n": "Cadeau", "w": 31, "t": "Offre un booster de 5 cartes au joueur de ton choix (pas à toi !).", "r": "E", "bonus": 1, "img": "img/x/b7bb67f36f56.webp"}, {"id": "b_voleur", "e": "🦝", "n": "Voleur", "w": 24, "t": "Vole une carte au hasard au joueur de ton choix !", "r": "E", "bonus": 1, "img": "img/x/8d8b5809b585.webp"}, {"id": "b_joker", "e": "🌟", "n": "Joker", "w": 16, "t": "Choisis n'importe quelle carte membre qui te manque.", "r": "E", "bonus": 1, "img": "img/x/172d3081f9cf.webp"}, {"id": "b_myst", "e": "🃏", "n": "Carte mystère", "w": 8, "t": "Retourne-la : elle se transforme en une autre carte bonus au hasard !", "r": "E", "bonus": 1, "img": "img/x/e3e9172b0051.webp"}, {"id": "b_nouv", "e": "🆕", "n": "Paquet de nouveautés", "w": 9, "t": "Un booster de 5 cartes que tu n'as pas encore.", "r": "E", "bonus": 1, "img": "img/x/98a5146bf0fa.webp"}, {"id": "b_photo", "e": "📸", "n": "Photo à Mathéo", "w": 2, "t": "Propose une photo à Mathéo : il en fera une nouvelle carte, que tu recevras gratuitement !", "r": "E", "bonus": 1, "img": "img/x/5467679a7306.webp"}, {"id": "b_prime", "e": "🎯", "n": "Prime", "w": 6, "t": "Mets une prime sur un joueur : le prochain qui le bat en duel dans les 4 h gagne un booster de 5 cartes !", "r": "E", "bonus": 1, "img": "img/x/d1de55ec796d.webp"}, {"id": "b_mjeu", "e": "🎮", "n": "Mini-jeu à Mathéo", "w": 1, "t": "Propose une idée de mini-jeu à Mathéo : il le mettra dans le jeu !", "r": "E", "bonus": 1, "img": "img/x/9aee7cdf7aa8.webp"}, {"id": "b_suppr", "e": "💥", "n": "Supprimer la plus rare", "w": 5, "t": "Choisis un joueur et supprime une de ses cartes les plus rares (tous les exemplaires).", "r": "E", "bonus": 1, "img": "img/x/6b585af950a8.webp"}, {"id": "b_efface", "e": "🧹", "n": "Effacer les mini-jeux", "w": 2, "t": "Toutes les cartes mini-jeux du joueur de ton choix repassent « non réussies ».", "r": "E", "bonus": 1, "img": "img/x/61a2c238257f.webp"},
@@ -6523,7 +6618,7 @@ function buildCol(){
   const g=$('#cgrid');$('#rarLegend').style.display=colTab==='mem'?'flex':'none';
   if(colTab==='ser'){g.innerHTML=serHTML();}
   else if(colTab==='bon'){g.innerHTML=bonusTabHTML();}
-  else if(colTab==='mg'){g.innerHTML=`<div class="cmsg" style="border-style:solid">🎮 ${ownedMG()} / ${MG_ORDER.length} — Gagne un mini-jeu pour obtenir sa carte !</div>`+colSortBtn()+colOrd(MG_ORDER,k=>(MG_CARDS[k]||{}).r).map(k=>COL.cards[k]?cardHTML(k,false):lockedHTML(k)).join('');}
+  else if(colTab==='mg'){g.innerHTML=`<div class="cmsg" style="border-style:solid">🎮 ${ownedMG()} / ${MG_ORDER.length} — Gagne un mini-jeu pour obtenir sa carte !</div>`+colSortBtn()+colOrd(MG_ORDER.concat((COL.cards.rennes||(typeof xmasOn==='function'&&xmasOn()))?['rennes']:[]),k=>(MG_CARDS[k]||{}).r).map(k=>COL.cards[k]?cardHTML(k,false):lockedHTML(k)).join('');}
   else{const own=MEMBERS.filter(m=>COL.members[m.id]).length;
     g.innerHTML=`<div class="cmsg">👥 ${own} / ${MEMBER_SLOTS} — Les cartes membres s'obtiennent dans les <b>boosters</b>, les <b>pochettes</b> et le <b>booster du jour</b> 🎁</div>`+recyHTML()+
     (Object.keys(COL.members).some(k=>/^sp_pres/.test(k))?`<div class="cmsg" style="border-style:solid;background:linear-gradient(90deg,#ffe36b,#ffb84d);color:#1b2a3a">⭐ Cartes de légende</div>`+Object.keys(COL.members).filter(k=>/^sp_pres/.test(k)).sort().map(k=>memberHTML(k,false)).join(''):'')+(SPECIALS.some(x=>COL.members[x.id])?`<div class="cmsg" style="border-style:solid;background:#ffe9a8;color:#1b2a3a">🎉 Cartes spéciales d'événement</div>`+SPECIALS.filter(x=>COL.members[x.id]).map(x=>memberHTML(x.id,false)).join('')+`<div class="cmsg" style="border-style:solid">👥 Cartes membres</div>`:'')+
@@ -6766,7 +6861,7 @@ function survFinish(){const P=PLAYCTX;if(!P||P.t!=='surv'||P.done)return;P.done=
 function survAfter(k,win){const P=PLAYCTX;if(!P||P.t!=='surv'||P.done)return '';if(win)P.s++;else P.l--;if(P.l<=0)survFinish();
   return `<div class="svbox">🌊 <b>Survie</b> · ${P.s} réussi${P.s>1?'s':''} · ${'❤️'.repeat(Math.max(0,P.l))}${'🤍'.repeat(3-Math.max(0,P.l))}${P.done?`<br><b>Fin de la survie !</b> ${P.rec?'🎉 Nouveau record perso !':'Ton record : '+((COL.surv||{}).b||0)}`:''}</div>`;}
 function svCardHTML(){const b=(COL.surv||{}).b||0;return `<button class="svcard" id="svGo"><span class="e">🌊</span><span><b>Gambetta Survie</b><small>Les mini-jeux s'enchaînent au hasard · 3 ❤️${b?' · ton record : '+b:''}</small></span><i>▶</i></button>`;}
-function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()=>{const GMR=COL.gm&&COL.gm.spr&&COL.gmBak&&!COL.gmBak.none?COL.gmBak:COL.gm;const o={pres:COL.pres||0,gm:GMR&&GMR.v===2?{s:GMR.stars||0,p:GMR.p||0,b:(x=>x<10?x:Math.pow(10,Math.floor(Math.log10(x))))(Math.floor(GMR.lifeAll||0))}:null,best:Object.assign({},COL.best),cards:cardCount(),dups:myDoubles().map(x=>x.id),chs:Object.assign({},COL.chs||{}),pf:pfPublic(),own:MEMBERS.filter(m=>COL.members[m.id]).map(m=>m.id),bbd:(()=>{try{return bbMyDeck();}catch(_){return null;}})(),bbt:COL.bbt||0,ptw:ST('ptWin'),ptp:ST('ptPlay'),goc:(COL.go&&COL.go.n)||0,sv:(COL.surv&&COL.surv.b)||0,rs:(()=>{const R=rushMe();return R.t!=null?{w:R.w,m:R.m,t:R.t}:{w:R.w,m:R.m};})(),rsp:COL.rushP||null,gcup:(()=>{const v=gmCupScore(gmWeek());if(!v)return null;const e=Math.pow(10,Math.max(0,Math.floor(Math.log10(v))-1));return{w:gmWeek(),s:Math.floor(v/e)*e};})(),gcupP:(()=>{const C=COL.gmc,P=COL.gmcP;if(C&&C.cup!==gmWeek()&&C.lifeAll)return{w:C.cup,s:Math.floor(C.lifeAll)};if(P&&P.cup!==gmWeek())return{w:P.cup,s:P.s};return null;})(),ev:(COL.ev||[]).slice(0,6),gom:Math.floor(((COL.go&&COL.go.m)||0)/100)*100,bbj:COL.bbj&&COL.bbj.d===dayKey()?{d:COL.bbj.d,v:COL.bbj.v}:null,cw:(()=>{try{const c=GMR&&GMR.cw;return c&&c.w===gmWeek()?c:null;}catch(_){return null;}})()};
+function pushBoard(){if(!boardRef)return;clearTimeout(pushT);pushT=setTimeout(()=>{const GMR=COL.gm&&COL.gm.spr&&COL.gmBak&&!COL.gmBak.none?COL.gmBak:COL.gm;const o={pres:COL.pres||0,gm:GMR&&GMR.v===2?{s:GMR.stars||0,p:GMR.p||0,b:(x=>x<10?x:Math.pow(10,Math.floor(Math.log10(x))))(Math.floor(GMR.lifeAll||0))}:null,best:Object.assign({},COL.best),cards:cardCount(),dups:myDoubles().map(x=>x.id),chs:Object.assign({},COL.chs||{}),pf:pfPublic(),own:MEMBERS.filter(m=>COL.members[m.id]).map(m=>m.id),oc:(()=>{const o={};SPECIALS.concat(MEMBERS,BONUS).forEach(m=>{const n=COL.members[m.id]||0;if(n>0)o[m.id]=n;});return o;})(),omg:MG_ORDER.filter(k=>COL.cards[k]),bbd:(()=>{try{return bbMyDeck();}catch(_){return null;}})(),bbt:COL.bbt||0,ptw:ST('ptWin'),ptp:ST('ptPlay'),goc:(COL.go&&COL.go.n)||0,sv:(COL.surv&&COL.surv.b)||0,rs:(()=>{const R=rushMe();return R.t!=null?{w:R.w,m:R.m,t:R.t}:{w:R.w,m:R.m};})(),rsp:COL.rushP||null,xt:(COL.xtitle&&xmasOn())?1:0,rr:COL.rr||null,gcup:(()=>{const v=gmCupScore(gmWeek());if(!v)return null;const e=Math.pow(10,Math.max(0,Math.floor(Math.log10(v))-1));return{w:gmWeek(),s:Math.floor(v/e)*e};})(),gcupP:(()=>{const C=COL.gmc,P=COL.gmcP;if(C&&C.cup!==gmWeek()&&C.lifeAll)return{w:C.cup,s:Math.floor(C.lifeAll)};if(P&&P.cup!==gmWeek())return{w:P.cup,s:P.s};return null;})(),ev:(COL.ev||[]).slice(0,6),gom:Math.floor(((COL.go&&COL.go.m)||0)/100)*100,bbj:COL.bbj&&COL.bbj.d===dayKey()?{d:COL.bbj.d,v:COL.bbj.v}:null,cw:(()=>{try{const c=GMR&&GMR.cw;return c&&c.w===gmWeek()?c:null;}catch(_){return null;}})()};
     /* on n'écrit que si quelque chose a changé (ou au moins une fois par heure, pour « vu récemment ») */
     const k=JSON.stringify(o),now=Date.now();if(k===pushBoard.k&&now-(pushBoard.t||0)<3600e3)return;
     // les simples compteurs (parties jouées, victoires…) ne partent qu'une fois toutes les 10 minutes :
@@ -6895,7 +6990,7 @@ function ptSum(n,src){const d=(src||COL).ptd||{};let t=0;for(let i=0;i<n;i++){t+
 const mNow=()=>Math.floor(Date.now()/60000);
 function sxTouch(newSess){COL.sx=Array.isArray(COL.sx)?COL.sx:[];const m=mNow();
   if(newSess||!COL.sx.length){COL.sx.push([m,m]);COL.sess=(COL.sess||0)+1;if(COL.sx.length>30)COL.sx.splice(0,COL.sx.length-30);}else COL.sx[COL.sx.length-1][1]=m;}
-const APP_V=77;
+const APP_V=78;
 function ptDev(){try{const ua=navigator.userAgent||'',ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
   return (ios?'iPhone':/Android/.test(ua)?'Android':'Ordi')+(st?' (appli)':' (navigateur)');}catch(_){return '?';}}
 (function ptTrack(){let lastSave=Date.now(),hiddenAt=0;sxTouch(true);COL.lastAt=Date.now();COL.appv=APP_V;COL.dev=ptDev();
@@ -7179,6 +7274,7 @@ function hubTile(g,e,n,i,c1,c2,dot){return `<button class="htile" data-hg="${g}"
 function hubRender(){const b=$('#hubBody');if(!b)return;const d=hubData();let h='';
   if(d.qz)h+=`<button class="hquiz" data-hg="quiz"><span class="he">🧠</span><div><small>En direct</small><b>Quiz du Club</b></div><em>Rejoindre ›</em></button>`;
   else if(d.qzIn)h+=`<button class="hquiz" data-hg="party"><span class="he">🧠</span><div><small>Tu joues</small><b>Quiz du Club</b></div><em>Reprendre ›</em></button>`;
+  try{h+=hubAdvHTML();}catch(_){}
   h+=`<button class="hday${d.dd?' done':''}" data-hg="defi"><span class="he">🎯</span><div><small>Défi du jour</small><b>${esc(d.dn||'—')}</b></div><em>${d.dd?'✅ Fait':'À jouer'} ›</em></button>`;
   try{const O=ofToday(),tn=ofTodayN();h+=`<button class="hday of" data-hg="defi"><span class="he">${O.e}</span><div><small>Proposition du jour</small><b>${esc(O.n)}</b></div><em>${tn?'✅ ×'+tn:'🃏 '+ofCost(O).n} ›</em></button>`;}catch(_){}
   if(d.ev)h+=`<button class="hday ev" data-hg="defi"><span class="he">🎉</span><div><small>Événement</small><b>${esc(d.ev.name||'')}</b></div><em>fin à ${hhmm(d.ev.endAt)} ›</em></button>`;
@@ -7196,7 +7292,7 @@ function hubGo(g){PLAYCTX=null;
   if(g==='select'){buildSelect();show('select');const gr=$('#grid');if(gr)gr.scrollTop=0;}
   else if(g==='bataille')openBataille();else if(g==='fighter')openFighter();else if(g==='manager')openManager();else if(g==='pixel')openPixel();else if(g==='go')openGo();
   else if(g==='party'){if(!QQ.code)QQ.sub='party';openParty();}else if(g==='qq'){if(!PT.code)QQ.sub='qq';openParty();}
-  else if(g==='quiz'){if(QZ.live)qzJoin(QZ.live.code);else hubRender();}else openDefi();}
+  else if(g==='quiz'){if(QZ.live)qzJoin(QZ.live.code);else hubRender();}else if(g==='advent')openAdvent();else openDefi();}
 function openHub(){try{bbClose();}catch(_){}try{fgStop();}catch(_){}PLAYCTX=null;show('hub');HUB.h='';hubRender();const sc=$('#hubBody');if(sc)sc.scrollTop=0;
   setTimeout(dailyTry,500);
   clearInterval(HUB.t);HUB.t=setInterval(()=>{const H=$('#hub');if(!H||!H.classList.contains('active')){clearInterval(HUB.t);return;}hubRender();},2000);}
@@ -7231,7 +7327,7 @@ function buildMoi(){const b=$('#moiBody');if(!b)return;const name=(window.GG&&GG
   const st=pf.st||{},nb=(pf.b||[]).length,t=COL.bbt||0;let tier={e:'🥉',n:'Bronze'};try{tier=BB_TIERS[bbTier(t)];}catch(_){}
   const keyBtn=document.querySelector('.selbtns .save'),adm=$('#openAdmin'),isAdm=adm&&!adm.hidden;
   const row=(id,e,t1,t2)=>`<button class="moirow" id="${id}"><span class="e">${e}</span><span class="t"><b>${t1}</b><small>${t2}</small></span><span class="go">›</span></button>`;
-  b.innerHTML=`<div class="moihead">${favHTML(COL.fav)}<div><h3>${esc(name)}${PRES()?`<span class="prestar">⭐${PRES()>1?PRES():""}</span>`:""}</h3><small>${PRES()?"Légende du bassin · Prestige "+PRES():"Membre du Club Gambetta"}</small></div></div>
+  b.innerHTML=`<div class="moihead${COL.xprof?' xprof':''}">${favHTML(COL.fav)}<div><h3>${esc(name)}${PRES()?`<span class="prestar">⭐${PRES()>1?PRES():""}</span>`:""}</h3><small>${PRES()?"Légende du bassin · Prestige "+PRES():"Membre du Club Gambetta"}</small></div></div>
     <div class="moistats"><div><b>${cardCount()}</b><span>cartes</span></div><div><b>${nb}</b><span>badges</span></div><div><b>${tier.e} ${t}</b><span>trophées</span></div><div><b>${st.won||0}</b><span>victoires</span></div></div>
     <div class="moilist">${row('moiChat','💬','Messages<span id="moiChatN"></span>','Écris aux autres joueurs, propose un échange ou un duel')}${row('moiProf','📊','Mon profil','Statistiques, badges et carte préférée')}
       ${keyBtn&&!keyBtn.hidden?row('moiKey','🔑','Ma sauvegarde','Ton code pour retrouver ta partie sur un autre téléphone'):''}
@@ -7373,8 +7469,12 @@ async function permSheet(){document.querySelectorAll('.permsh').forEach(x=>x.rem
       <li>🔒 <b>Elle reste sur ton téléphone</b> : jamais envoyée, jamais enregistrée en ligne, jamais montrée aux autres joueurs.</li>
       <li>🙅 Tu peux refuser : tout le reste du jeu marche sans.</li></ul>
       ${g==='granted'||g==='none'?'':g==='denied'?'<p class="permw">Pour la réactiver, va dans les réglages de ton navigateur (ou de ton téléphone) pour ce site, puis autorise la position.</p>':'<button class="btn" id="permG">Autoriser la position</button>'}</div>
+    ${window.GG&&GG.admin?`<h4 class="permt">🎄 Test de Noël (toi seul)</h4><div class="permbox"><div class="permh"><span>📅</span><div><b>Faire comme si on était le…</b><small>Pour essayer le décor et le calendrier avant le 1er décembre</small></div></div>
+      <input type="date" class="ainput" id="xDate" value="${(()=>{try{return localStorage.getItem('gg-xmas-date')||'';}catch(_){return '';}})()}"><button class="btn alt" id="xOff">Revenir à la vraie date</button></div>`:''}
     <div class="trbtns"><button class="btn alt" id="bx">Fermer</button></div>`);
-  sh.classList.add('permsh');sh.querySelector('#bx').onclick=()=>sh.remove();
+  sh.classList.add('permsh');
+  const xd=sh.querySelector('#xDate');if(xd)xd.onchange=()=>{try{if(xd.value)localStorage.setItem('gg-xmas-date',xd.value);else localStorage.removeItem('gg-xmas-date');}catch(_){}xApply();HUB.h='';toast('🎄','Date de test',xd.value||'vraie date');};
+  const xo=sh.querySelector('#xOff');if(xo)xo.onclick=()=>{try{localStorage.removeItem('gg-xmas-date');}catch(_){}xd.value='';xApply();HUB.h='';toast('📅','Vraie date','Le décor suit de nouveau le calendrier');};sh.querySelector('#bx').onclick=()=>sh.remove();
   const sb=sh.querySelector('#setSnd');if(sb)sb.onclick=()=>{sb.textContent=sndCycle();};
   const bb=sh.querySelector('#setBub');if(bb)bb.onclick=()=>{COL.bub=bubOn()?0:1;saveCol();bubApply();bb.textContent=bubOn()?'✅ Activées':'🚫 Désactivées';};
   const n=sh.querySelector('#permN');if(n)n.onclick=()=>{sh.remove();pushAsk();};
@@ -7588,10 +7688,11 @@ function chatConv(v,pid,name){if(CH.unsub){try{CH.unsub();}catch(_){}}const cid=
 function chatDraw(M){const near=M.scrollHeight-M.scrollTop-M.clientHeight<80;const me=GG.pid;let lastDay='';
   M.innerHTML=CH.msgs.length?CH.msgs.map(m=>{const d=new Date(m.at||Date.now()),day=d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
     const sep=day!==lastDay?`<div class="chday">${day}</div>`:'';lastDay=day;const mine=m.from===me,hm=d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
-    const act=m.k==='trade'?`<button class="mini-b" data-go="${mine?'tradeout':'tradein'}">Voir l'échange ›</button>`:m.k==='duel'?`<button class="mini-b" data-go="duel">Voir le duel ›</button>`:'';
+    const act=m.k==='voeux'&&!mine?((COL.voeux||{})[m.id]?'<small>🎁 Booster récupéré</small>':`<button class="mini-b" data-vx="${m.id}">🎁 Ouvrir ma carte (+1 booster)</button>`):m.k==='trade'?`<button class="mini-b" data-go="${mine?'tradeout':'tradein'}">Voir l'échange ›</button>`:m.k==='duel'?`<button class="mini-b" data-go="duel">Voir le duel ›</button>`:'';
     return sep+`<div class="chm${mine?' me':''}${m.k!=='txt'?' sys':''}"><div class="b">${esc(m.t||'')}${act?'<br>'+act:''}</div><small>${hm}</small></div>`;}).join('')
     :'<div class="trempty">Dis bonjour ! 👋</div>';
   M.querySelectorAll('[data-go]').forEach(x=>x.onclick=()=>{const g=x.dataset.go;chatClose();ggGo(g);});
+  M.querySelectorAll('[data-vx]').forEach(x=>x.onclick=()=>{if(voeuxClaim(x.dataset.vx)){toast('💌','Joyeux Noël !','+1 booster dans ta collection');x.outerHTML='<small>🎁 Booster récupéré</small>';}});
   if(near||!M.dataset.init){M.scrollTop=M.scrollHeight;M.dataset.init=1;}}
 async function chatSend(pid,name,o){await GG.chat.send(pid,name,o);
   // notification : pas plus d'une toutes les 3 minutes par conversation
@@ -7605,6 +7706,125 @@ function chatTradePick(pid,name){const d=(BOARD||{})[pid]||{},own=Array.isArray(
     <div class="trbtns"><button class="btn alt" id="trX">Fermer</button></div></div>`;
   sh.querySelector('#trX').onclick=()=>sh.remove();sh.onclick=e=>{if(e.target===sh)sh.remove();};
   sh.querySelectorAll('[data-c]').forEach(x=>x.onclick=()=>{sh.remove();const c=x.dataset.c;trPropose({card:c,owners:[{id:pid,name,dup:dups.has(c)}]});});}
+
+/* ================= NOËL : décor (1er déc. → 6 janv.) + calendrier de l'Avent (1er → 24 déc.) ================= */
+function xNow(){try{const t=window.GG_XDATE||localStorage.getItem('gg-xmas-date');if(t&&(!window.GG||!GG.pid||GG.admin)){const d=new Date(t+'T12:00:00');if(!isNaN(d))return d;}}catch(_){}return new Date();}
+function xmasOn(){const d=xNow(),m=d.getMonth(),j=d.getDate();return m===11||(m===0&&j<=6);}
+function advDay(){const d=xNow();return d.getMonth()===11&&d.getDate()<=24?d.getDate():(d.getMonth()===11?25:0);}
+function advKey(){return 'noel'+xNow().getFullYear();}
+function xApply(){try{document.documentElement.classList.toggle('xmas',xmasOn());xSnow();xFrames();}catch(_){}}
+let XFO=null,XFR=0;function xFrameAll(){XFR=0;document.querySelectorAll('.tcard:not(.locked)').forEach(c=>{if(!c.querySelector(':scope>.xfr'))c.insertAdjacentHTML('beforeend','<i class="xfr"></i><i class="xfh"></i>');});}
+function xFrames(){if(!xmasOn()){if(XFO){XFO.disconnect();XFO=null;}return;}xFrameAll();if(XFO)return;XFO=new MutationObserver(()=>{if(!XFR)XFR=requestAnimationFrame(xFrameAll);});XFO.observe(document.body,{childList:true,subtree:true});}
+function xSnow(){let s=document.getElementById('xsnow');const on=xmasOn()&&(typeof bubOn!=='function'||bubOn())&&!FXQ;
+  if(!on){if(s)s.remove();return;}if(s)return;s=document.createElement('div');s.id='xsnow';s.setAttribute('aria-hidden','true');
+  let h='';for(let i=0;i<26;i++){const x=Math.random()*100,d=6+Math.random()*9,dl=-Math.random()*15,z=.5+Math.random()*.9;h+=`<i style="left:${x}%;animation-duration:${d}s;animation-delay:${dl}s;transform:scale(${z})"></i>`;}
+  s.innerHTML=h;document.body.appendChild(s);}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)xApply();});setTimeout(xApply,0);
+/* petites clochettes sur les victoires et les ouvertures */
+function xBells(){try{if(!xmasOn()||sndOff())return;const A=sndCtx();if(!A)return;const t=A.currentTime+.02;[88,93,96,100].forEach((n,i)=>INS.bell(t+i*.07,n,.35,.045,SND.fx));}catch(_){}}
+
+/* ---------- calendrier de l'Avent ---------- */
+function advState(){COL.adv=COL.adv||{};const k=advKey();COL.adv[k]=COL.adv[k]||{};return COL.adv[k];}
+function advCount(){return Object.keys(advState()).length;}
+function advBoost(n,why){COL.boosters=(COL.boosters||0)+n;try{updBoostBtn();}catch(_){}return `🎁 <b>${n} booster${n>1?'s':''}</b> ${why||''}`;}
+function advMissing(){const L=MEMBERS.filter(m=>!m.bonus&&!m.sp&&!COL.members[m.id]);const P=L.length?L:MEMBERS.filter(m=>!m.bonus&&!m.sp);return P[Math.floor(Math.random()*P.length)];}
+function advGive(id){COL.members[id]=(COL.members[id]||0)+1;try{stat('cards');}catch(_){}}
+function advCardHTML(id){return `<div style="width:150px;margin:8px auto">${mini(id)}</div>`;}
+const ADV_BONUS=()=>BONUS.filter(b=>!['b_gel','b_photo','b_mjeu','b_degel'].includes(b.id));
+function advCoins(h){if(!OF_GM())return advBoost(1,'(le Manager n\'est pas encore lancé)');const G=gmG(),v=gmRP(G)*3600*h;gmGain(G,v);try{gmSave(true);}catch(_){}return `🪙 <b>+${gmE(v)}</b> dans ton Manager (${h} h de gains) !`;}
+function advStars(){if(!OF_GM()||!(COL.gm.stars||0))return advBoost(1,'(pas encore d\'étoiles dans ton Manager)');const G=gmG(),n=Math.max(5,Math.round((G.stars||0)*.1));G.stars=(G.stars||0)+n;try{gmSave(true);}catch(_){}return `⭐ <b>+${n} étoiles</b> dans ton Manager !`;}
+function advCard(){const m=advMissing();advGive(m.id);return `🃏 La carte <b>${esc(m.n)}</b> !`+advCardHTML(m.id);}
+function advBonus(id){const B=id?BONUS.find(b=>b.id===id):pick(ADV_BONUS());advGive(B.id);return `⚡ La carte bonus <b>${esc(B.n)}</b> !`+advCardHTML(B.id);}
+const ADV_EVT={7:'defi',19:'cup',22:'gourm',23:'rennes'};
+/* les 24 surprises */
+const ADV=[null,
+ {e:'🎁',n:'Booster de Noël',go:()=>advBoost(1,'avec le cadre enneigé !')},
+ {e:'🪙',n:'La hotte de pièces',go:()=>advCoins(3)},
+ {e:'🃏',n:'La carte qui te manque',go:advCard},
+ {e:'🎨',n:'Thème Noël du profil',go:()=>{COL.xprof=1;return '🎨 Ta page <b>Moi</b> passe en tenue de Noël, et elle la garde pour toujours !';}},
+ {e:'⚡',n:'Carte bonus surprise',go:()=>advBonus()},
+ {e:'🎅',n:'Saint-Nicolas',go:()=>advBoost(3,'d\'un coup, joyeuse Saint-Nicolas !')},
+ {e:'🎯',n:'Le défi de Noël',go:()=>{const L=MG_ORDER.filter(k=>GAMES[k]),k=L[(xNow().getDate()*7)%L.length];COL.advDefi={d:dayKey(),k};return `🎯 Aujourd'hui, gagne <b>« ${esc(CHARS[k].game)} »</b> : un booster en plus si tu réussis !`;},act:()=>{const D=COL.advDefi;if(D&&D.d===dayKey())return {t:'Jouer maintenant',f:()=>{closeAll();PLAYCTX=null;openIntro(D.k);}};}},
+ {e:'💌',n:'La carte de vœux',go:()=>{COL.advVoeux=1;return '💌 Choisis un ami : il reçoit ta carte de vœux par message, et vous gagnez chacun un booster !';},act:()=>COL.advVoeux===1?{t:'Choisir un ami',f:advVoeux}:null},
+ {e:'⭐',n:'Étoile filante',go:advStars},
+ {e:'🎡',n:'La roue de la chance',go:()=>{COL.advWheel=1;return '🎡 Fais tourner la roue !';},act:()=>COL.advWheel===1?{t:'Tourner la roue',f:advWheel}:null},
+ {e:'⛄',n:'La créature des neiges',go:()=>{advGive('sp_neige');return '⛄ Un drôle de nageur t\'attendait au bord du bassin : la carte exclusive <b>Le bonhomme de neige</b> !'+advCardHTML('sp_neige');}},
+ {e:'🔁',n:'Le troc du lutin',go:()=>{COL.advTroc=1;return '🔁 Donne 3 cartes en double au lutin, il te rapporte une carte qui te manque !';},act:()=>COL.advTroc===1?{t:'Choisir mes 3 doubles',f:advTroc}:null},
+ {e:'🔥',n:'Carte Dégel',go:()=>advBonus('b_degel')},
+ {e:'🧩',n:'L\'atelier des lutins',go:()=>{const L=MEMBERS.filter(m=>!m.bonus&&!m.sp&&!COL.members[m.id]);const a=advMissing();advGive(a.id);let h=`🧩 Les lutins ont fabriqué <b>${esc(a.n)}</b>`;
+    if(L.length>1){const b=advMissing();advGive(b.id);h+=` et <b>${esc(b.n)}</b>`;}return h+' !';}},
+ {e:'🧝',n:'Titre « Lutin du club »',go:()=>{COL.xtitle=1;try{pushBoard();}catch(_){}return '🧝 Tout le club voit maintenant <b>🧝</b> devant ton nom dans les classements, jusqu\'au 6 janvier !';}},
+ {e:'🤶',n:'Le quiz de Noël',go:()=>{COL.advQuiz=1;return '🤶 5 questions : retrouve qui est sur la carte ! Plus tu as de bonnes réponses, plus tu gagnes.';},act:()=>COL.advQuiz===1?{t:'Commencer le quiz',f:advQuiz}:null},
+ {e:'🎁',n:'Carte Cadeau',go:()=>advBonus('b_cadeau')},
+ {e:'🎶',n:'Musique de Noël',go:()=>{COL.xmus=1;setTimeout(()=>{try{SND.track='';musScreen();}catch(_){}},300);return '🎶 La musique de Noël joue maintenant dans les menus. Elle revient chaque année !';}},
+ {e:'🏆',n:'La coupe de Noël',go:()=>{const d=xNow();if(d.getMonth()===11&&d.getDate()>=18&&d.getDate()<=20){COL.xcup=gmWeek();return '🏆 Ce week-end, les lots de la coupe du Manager sont <b>doublés</b> pour toi !';}return advBoost(2,'(la coupe de Noël est passée, voilà ton lot)');}},
+ {e:'🍫',n:'Le chocolat mystère',go:()=>pick([()=>advBoost(2),()=>advCard(),()=>advBonus(),()=>advCoins(4),()=>advStars()])()},
+ {e:'🦌',n:'Bonus des rennes',go:()=>{COL.advRen=dayKey();return '🦌 Aujourd\'hui, chaque course du <b>Relais des rennes</b> terminée sur le podium te rapporte un booster (jusqu\'à 3) !';},act:()=>({t:'Jouer au Relais des rennes',f:()=>{closeAll();PLAYCTX=null;openIntro('rennes');}})},
+ {e:'🍪',n:'Journée gourmande',go:()=>{if(advDay()===22){COL.advGourm=dayKey();return '🍪 Aujourd\'hui, <b>chaque mini-jeu gagné</b> te rapporte un booster (jusqu\'à 5) !';}return advBoost(3,'(la journée gourmande est passée, voilà ton lot)');}},
+ {e:'🦌',n:'La course des rennes',go:()=>{if(advDay()===23){COL.advCourse=dayKey();return '🦌 Toute la journée : fais ton meilleur temps au <b>Relais des rennes</b>. Demain, les 3 plus rapides du club gagnent des boosters !';}return advBoost(2,'(la course est passée, voilà ton lot)');},act:()=>advDay()===23?{t:'Jouer au Relais des rennes',f:()=>{closeAll();PLAYCTX=null;openIntro('rennes');}}:null},
+ {e:'🎄',n:'La grosse surprise',go:()=>{advGive('sp_noel');let h='🎄 <b>Joyeux Noël !</b> La carte exclusive <b>Joyeux Noël 2026</b>'+advCardHTML('sp_noel')+advBoost(5,'sous le sapin !');
+    if(advCount()>=23)h+='<br>🏅 Et le badge <b>Calendrier complet</b> !';try{advCourseClaim();}catch(_){}return h;}}
+];
+function closeAll(){document.querySelectorAll('.trsheet,.giftpop,.advv').forEach(x=>x.remove());}
+function advCanOpen(d){const t=advDay();return t>=1&&t<=24&&d<=t&&!advState()[d];}
+function hubAdvHTML(){const t=advDay();if(t<1||t>24)return '';const n=advCount(),todo=advState()[t]?0:1;
+  return `<button class="hday adv${todo?' todo':''}" data-hg="advent"><span class="he">🎄</span><div><small>Calendrier de l'Avent · ${n}/24</small><b>${todo?'La case du '+t+' t\'attend !':'À demain 🎅'}</b></div><em>${todo?'🎁':'✅'} ›</em></button>`;}
+function openAdvent(){document.querySelectorAll('.advv').forEach(x=>x.remove());const t=advDay(),S=advState();const v=document.createElement('div');v.className='advv';
+  v.innerHTML=`<div class="chhead"><button class="x" id="avX" aria-label="Fermer">←</button><b>🎄 Calendrier de l'Avent</b><span class="advn">${advCount()}/24</span></div>
+    <div class="advgrid">${Array.from({length:24},(_,i)=>{const d=[7,18,3,22,12,1,15,9,24,5,20,11,2,17,8,13,23,6,10,19,4,14,21,16][i],o=S[d],ok=advCanOpen(d),A=ADV[d];
+      return `<button class="advd${o?' open':''}${ok?' ok':''}${d===t&&!o?' today':''}" data-d="${d}" ${o||ok?'':'disabled'}>${o?`<span class="e">${A.e}</span><small>${esc(A.n)}</small>`:`<b>${d}</b>${ok?'':'<i>🔒</i>'}`}</button>`;}).join('')}</div>
+    <p class="asum" style="text-align:center;padding:0 16px 16px;color:#dfeeff">Une case par jour jusqu'au 24 décembre. Une case oubliée peut être rattrapée tant qu'on n'a pas dépassé le 24.</p>`;
+  $('#app').appendChild(v);v.querySelector('#avX').onclick=()=>v.remove();
+  v.querySelectorAll('[data-d]').forEach(x=>x.onclick=()=>{const d=+x.dataset.d;if(S[d]){advShow(d,null);return;}if(!advCanOpen(d))return;x.classList.add('flip');try{sfx('open');}catch(_){}setTimeout(()=>advOpen(d),420);});}
+function advOpen(d){const S=advState();if(S[d])return;S[d]=Date.now();let h='';try{h=ADV[d].go();}catch(e){console.warn(e);h=advBoost(1);}stat('advent');saveCol();xBells();try{hubRender();}catch(_){}
+  try{openAdventRefresh();}catch(_){}advShow(d,h);}
+function openAdventRefresh(){if(document.querySelector('.advv'))openAdvent();}
+function advShow(d,h){const A=ADV[d],act=A.act?A.act():null;const ov=document.createElement('div');ov.className='giftpop';
+  ov.innerHTML=`<div class="gcard xgcard"><div class="emo">${A.e}</div><small class="advlbl">${d} décembre</small><h3>${esc(A.n)}</h3><p>${h||'Déjà ouverte ✅'}</p><div class="endbtns">${act?`<button class="btn" id="advA">${act.t}</button>`:''}<button class="btn${act?' alt':''}" id="advOk">${act?'Plus tard':'Super !'}</button></div></div>`;
+  $('#app').appendChild(ov);ov.querySelector('#advOk').onclick=()=>ov.remove();if(act)ov.querySelector('#advA').onclick=()=>{ov.remove();act.f();};}
+/* jour 8 : carte de vœux */
+function advVoeux(){pickPlayer({e:'💌',n:'Carte de vœux'},'À qui envoies-tu ta carte de vœux ?',async p=>{COL.advVoeux=2;advBoost(1);saveCol();
+  try{if(typeof chatOK==='function'&&chatOK())await GG.chat.send(p.id,p.name,{k:'voeux',t:'💌 Joyeux Noël ! Je t\'envoie ma carte de vœux du Gambetta Game 🎄'});}catch(_){}
+  toast('💌','Carte envoyée à '+esc(p.name),'Un booster pour toi, et un pour '+esc(p.name)+' quand il l\'ouvrira !');xBells();});}
+function voeuxClaim(id){COL.voeux=COL.voeux||{};if(COL.voeux[id])return false;COL.voeux[id]=1;advBoost(1);saveCol();xBells();return true;}
+/* jour 10 : roue de la chance */
+function advWheel(){const L=[['🎁','1 booster',()=>advBoost(1)],['🪙','Pièces Manager',()=>advCoins(2)],['🃏','Une carte',()=>advCard()],['🎁🎁','2 boosters',()=>advBoost(2)],['⚡','Carte bonus',()=>advBonus()],['⭐','Étoiles',()=>advStars()],['🎁','1 booster',()=>advBoost(1)],['🎅','3 boosters',()=>advBoost(3)]];
+  const n=L.length,w=[16,14,14,12,12,12,16,4],tot=w.reduce((a,b)=>a+b,0);let r=Math.random()*tot,k=0;while(r>w[k]){r-=w[k];k++;}
+  const sh=sheet(`<h3>🎡 La roue de la chance</h3><div class="wheelbox"><div class="wptr">▼</div><div class="wheel" id="wh">${L.map((x,i)=>`<span style="transform:rotate(${i*360/n+180/n}deg) translateY(-92px) rotate(${-i*360/n-180/n}deg)">${x[0]}</span>`).join('')}</div></div><div class="sec" id="whT">C'est parti…</div><div class="trbtns"><button class="btn" id="whOk" disabled>…</button></div>`);
+  const wh=sh.querySelector('#wh'),deg=360*6+(360-(k*360/n+180/n));sh.onclick=null;
+  requestAnimationFrame(()=>{wh.style.transition='transform 4s cubic-bezier(.15,.85,.2,1)';wh.style.transform=`rotate(${deg}deg)`;});
+  setTimeout(()=>{COL.advWheel=2;const h=L[k][2]();saveCol();xBells();sh.querySelector('#whT').innerHTML='<b>'+L[k][0]+' '+L[k][1]+' !</b><br>'+h;const b=sh.querySelector('#whOk');b.disabled=false;b.textContent='Super !';b.onclick=()=>sh.remove();},4200);}
+/* jour 12 : le troc du lutin */
+function advTroc(){const D=Object.entries(COL.members).filter(([id,n])=>n>1&&memObj(id)&&!memObj(id).bonus).map(([id,n])=>({id,n}));
+  if(D.reduce((a,x)=>a+x.n-1,0)<3){COL.advTroc=2;const h=advBoost(1,'(pas assez de doubles : le lutin t\'offre un booster)');saveCol();toast('🧝','Le lutin est gentil',h.replace(/<[^>]+>/g,''));return;}
+  const sel=[];const sh=sheet(`<h3>🔁 Le troc du lutin</h3><div class="sec">Touche 3 cartes en double à donner.</div><div class="trgrid" style="max-height:48vh;overflow:auto">${D.map(x=>`<div class="tritem" data-t="${x.id}">${mini(x.id)}<div class="who">×${x.n}</div></div>`).join('')}</div><div class="trbtns"><button class="btn alt" id="tX">Plus tard</button><button class="btn" id="tGo" disabled>Échanger (0/3)</button></div>`);
+  const go=sh.querySelector('#tGo');sh.querySelector('#tX').onclick=()=>sh.remove();
+  sh.querySelectorAll('[data-t]').forEach(x=>x.onclick=()=>{const id=x.dataset.t,c=sel.filter(y=>y===id).length,max=(COL.members[id]||0)-1;
+    if(sel.length<3&&c<max){sel.push(id);}else{const i=sel.indexOf(id);if(i>=0)sel.splice(i,1);}
+    sh.querySelectorAll('[data-t]').forEach(y=>{const k=sel.filter(z=>z===y.dataset.t).length;y.classList.toggle('sel',k>0);y.querySelector('.who').textContent='×'+COL.members[y.dataset.t]+(k?' · −'+k:'');});
+    go.disabled=sel.length!==3;go.textContent=`Échanger (${sel.length}/3)`;});
+  go.onclick=()=>{sel.forEach(id=>{COL.members[id]--;});const m=advMissing();advGive(m.id);COL.advTroc=2;saveCol();xBells();sh.querySelector('.in').innerHTML=`<h3>🧝 Merci !</h3><div class="sec">Le lutin te rapporte :</div>${advCardHTML(m.id)}<div class="trbtns"><button class="btn" id="tOk">Super !</button></div>`;sh.querySelector('#tOk').onclick=()=>sh.remove();};}
+/* jour 16 : le quiz de Noël (qui est sur la carte ?) */
+function advQuiz(){const P=MEMBERS.filter(m=>!m.bonus&&!m.sp&&m.n&&(m.img||m.thumb));const Q=[];while(Q.length<5){const m=pick(P);if(!Q.some(q=>q.m.id===m.id))Q.push({m,o:[m.n].concat(P.filter(x=>x.n!==m.n).sort(()=>Math.random()-.5).slice(0,3).map(x=>x.n)).sort(()=>Math.random()-.5)});}
+  let i=0,ok=0;const sh=sheet('<div id="qzB"></div>');sh.onclick=null;
+  const draw=()=>{const q=Q[i],B=sh.querySelector('#qzB');B.innerHTML=`<h3>🤶 Question ${i+1}/5</h3><div class="sec">Quel est le nom de cette carte ?</div><div class="qzimg">${memberHTML(q.m.id,false).replace(/<div class="nm[^"]*">[\s\S]*?<\/div>/,'')}</div>
+      <div class="qzopts">${q.o.map(o=>`<button class="btn alt" data-o="${esc(o)}">${esc(o)}</button>`).join('')}</div>`;
+    B.querySelectorAll('[data-o]').forEach(x=>x.onclick=()=>{const good=x.dataset.o===q.m.n;if(good)ok++;x.classList.add(good?'good':'bad');B.querySelectorAll('[data-o]').forEach(y=>{y.disabled=true;if(y.dataset.o===q.m.n)y.classList.add('good');});try{sfx(good?'ok':'pop');}catch(_){}
+      setTimeout(()=>{i++;if(i<5)draw();else end();},900);});};
+  const end=()=>{COL.advQuiz=2;const n=ok>=5?3:ok>=3?2:1;const h=advBoost(n);saveCol();xBells();sh.querySelector('#qzB').innerHTML=`<h3>🤶 ${ok}/5 bonnes réponses !</h3><p style="text-align:center">${h}</p><div class="trbtns"><button class="btn" id="qOk">Super !</button></div>`;sh.querySelector('#qOk').onclick=()=>sh.remove();};
+  draw();}
+/* après chaque partie : défi de Noël, journée gourmande, bonus des rennes, course des rennes */
+function xWinHook(k,win,secs){try{const d=dayKey();
+  if(win&&COL.advDefi&&COL.advDefi.d===d&&COL.advDefi.k===k&&!COL.advDefi.ok){COL.advDefi.ok=1;advBoost(1);toast('🎯','Défi de Noël réussi !','Un booster de plus dans ta collection');xBells();}
+  if(win&&COL.advGourm===d){COL.advGN=COL.advGN&&COL.advGN.d===d?COL.advGN:{d,n:0};if(COL.advGN.n<5){COL.advGN.n++;advBoost(1);toast('🍪','Journée gourmande','+1 booster ('+COL.advGN.n+'/5)');}}
+  if(k==='rennes'&&win&&COL.advRen===d){COL.advRN=COL.advRN&&COL.advRN.d===d?COL.advRN:{d,n:0};if(COL.advRN.n<3){COL.advRN.n++;advBoost(1);toast('🦌','Bonus des rennes','+1 booster ('+COL.advRN.n+'/3)');}}
+  if(k==='rennes'&&win&&COL.advCourse===d&&secs>0){if(!COL.rr||COL.rr.d!==d||secs<COL.rr.t){COL.rr={d,t:Math.round(secs*10)/10};try{pushBoard();}catch(_){}}}
+  saveCol();}catch(_){}}
+/* le 24 : les 3 plus rapides de la course des rennes du 23 gagnent des boosters */
+function advCourseClaim(){const y=xNow().getFullYear(),d=y+'-12-23';if(!COL.rr||COL.rr.d!==d||COL.rrDone===d)return;
+  const L=Object.entries(BOARD||{}).map(([pid,b])=>({pid,t:b&&b.rr&&b.rr.d===d?b.rr.t:null})).filter(x=>x.t!=null).sort((a,b)=>a.t-b.t);
+  const i=L.findIndex(x=>isMe(x.pid));if(i<0)return;COL.rrDone=d;const n=[5,3,2][i]||0;if(!n)return;advBoost(n);
+  toast('🦌',['1er','2e','3e'][i]+' de la course des rennes !',n+' boosters en plus');}
 
 /* ================= STATISTIQUES ================= */
 function stat(k,n){COL.st=COL.st||{};COL.st[k]=(COL.st[k]||0)+(n==null?1:n);}
@@ -7715,6 +7935,7 @@ const BADGES=[
   {id:'of1',e:'✋',n:'Généreux',d:'Accepter une proposition du jour',ok:()=>ST('offers')>=1},
   {id:'of10',e:'💝',n:'Grand mécène',d:'Accepter 10 propositions du jour',ok:()=>ST('offers')>=10},
   {id:'of100',e:'🔥',n:'Feu de joie',d:'Sacrifier 100 cartes en double',ok:()=>ST('offCards')>=100},
+  {id:'avent',e:'🎄',n:'Calendrier complet',d:'Ouvrir les 24 cases du calendrier de l\'Avent',ok:()=>{try{return advCount()>=24;}catch(_){return false;}}},
   {id:'all',e:'🎯',n:'Touche-à-tout',d:'Jouer à tous les jeux : mini-jeux, Bataille, Combat, Manager, Party et Qui est-ce ?',ok:()=>ST('played')>0&&ST('bbW')+ST('bbL')>0&&ST('fgW')+ST('fgL')>0&&((COL.gm||{}).lifeAll||0)>0&&ST('ptPlay')>0&&ST('qqP')>0}
 ];
 const BADGE_GROUPS=[['col','🃏 Collection',/^(c25|c50|c100|call|mgall|ser1|ser3|x5|x10|tr1|tr10|re10|all|of1|of10|of100)$/],['mg','🎮 Mini-jeux & défis',/^(d1|d10|dw3|dl2|dl5|dl10|lo20|lo100|ch7|chp|ch1|chl|q7|tp|tw|to1)$/],
@@ -7835,12 +8056,37 @@ async function openProfile(pid){const me=isMe(pid)||pid===myId;let name,pf,cards
   const grp=g=>shown.filter(b=>{const G=BADGE_GROUPS.find(x=>x[2].test(b.id));return (G?G[0]:'col')===g;}).sort((a,b)=>(has.has(b.id)?1:0)-(has.has(a.id)?1:0));
   const bHTML=BADGE_GROUPS.map(([g,t])=>{const L=grp(g);if(!L.length)return '';const n=L.filter(b=>has.has(b.id)).length;return `<div class="pfsec">${t} <small>${n}/${L.length}</small></div><div class="bdg">${L.map(b=>`<div class="${has.has(b.id)?(b.f?'fail':''):'off'}"><i>${b.e}</i><b>${b.n}</b><small>${b.d}</small></div>`).join('')}</div>`;}).join('');
   function render(){sh.innerHTML=`<div class="in"><div class="pfhead">${favHTML(me?COL.fav:pf.fav)}<div><h3${(me?(COL.gold||0)>Date.now():(pf.gold||0)>Date.now())?' class="goldname"':''}>${(me?(COL.gold||0)>Date.now():(pf.gold||0)>Date.now())?'✨ ':''}${esc(me?name+' (toi)':name)}</h3><small>🃏 ${cards} / ${totalCards()} cartes<br>🏅 ${has.size} badge${has.size>1?'s':''} sur ${BADGES.length}</small>
+      <button class="gglink" id="pfCol" style="margin:6px 0 0;padding:0;font-size:13px;display:block">🃏 Voir ${me?'ma':'sa'} collection</button>
       ${me?'<button class="gglink" id="pfFav" style="margin:6px 0 0;padding:0;font-size:13px">⭐ Choisir ma carte préférée</button>':''}</div></div>
     <div class="sec">📊 Statistiques</div>${statsHTML}
     <div class="sec">🏅 Badges${me?'':' ('+has.size+')'}</div>${list.length?bHTML:'<div class="trempty">Pas encore de badge.</div>'}
     <div class="trbtns"><button class="btn alt" id="pfX">Fermer</button></div></div>`;
     sh.querySelector('#pfX').onclick=()=>sh.remove();sh.onclick=e=>{if(e.target===sh)sh.remove();};
-    const fb=sh.querySelector('#pfFav');if(fb)fb.onclick=pickFav;}
+    const fb=sh.querySelector('#pfFav');if(fb)fb.onclick=pickFav;sh.querySelector('#pfCol').onclick=pfCol;}
+  let pfTop=0;
+  function pfCol(){const b=(BOARD||{})[pid]||{};let C,MG;
+    if(me){C={};SPECIALS.concat(MEMBERS,BONUS).forEach(m=>{const n=COL.members[m.id]||0;if(n>0)C[m.id]=n;});MG=MG_ORDER.filter(k=>COL.cards[k]);}
+    else{C=b.oc||null;MG=b.omg||null;if(!C){C={};(b.own||[]).forEach(id=>C[id]=1);}}
+    const old=!me&&!b.oc,strip=h=>me?h:h.replace(/ gold(?=["\s])/,'').replace(/<span class="newtag">NOUVEAU<\/span>/,'');
+    const cell=(v,h,n)=>`<div data-v="${v}">${strip(h)}${n>1?`<b class="x2">×${n}</b>`:''}</div>`;
+    const memL=L=>L.filter(m=>C[m.id]),mem=memL(MEMBERS),sp=memL(SPECIALS),bo=memL(BONUS);
+    const dbl=Object.values(C).reduce((a,n)=>a+Math.max(0,n-1),0),tot=(MG?MG.length:0)+Object.keys(C).length;
+    const sec=(t,n,T,cells,empty)=>`<div class="pfsec">${t} <small>${n}${T?'/'+T:''}</small></div>${cells.length?`<div class="pick pfcol">${cells.join('')}</div>`:`<div class="trempty">${empty}</div>`}`;
+    sh.innerHTML=`<div class="in"><h3>🃏 ${me?'Ma collection':'Collection de '+esc(name)}</h3>
+      <div class="sec">${tot} carte${tot>1?'s':''} différente${tot>1?'s':''}${dbl?' · 🔁 '+dbl+' double'+(dbl>1?'s':''):''}</div>
+      ${old?'<div class="trempty" style="margin-bottom:8px">ℹ️ Ce joueur n\'a pas encore ouvert la dernière version du jeu : on ne voit pour l\'instant que ses cartes membres, sans le nombre d\'exemplaires.</div>':''}
+      ${sec('👥 Membres',mem.length,MEMBERS.length,mem.map(m=>cell('m:'+m.id,mini(m.id),C[m.id])),'Aucune carte membre.')}
+      ${sp.length?sec('🎉 Spéciales',sp.length,0,sp.map(m=>cell('m:'+m.id,mini(m.id),C[m.id])),''):''}
+      ${bo.length?sec('⚡ Bonus',bo.length,BONUS.length,bo.map(m=>cell('m:'+m.id,mini(m.id),C[m.id])),''):''}
+      ${MG?sec('🎮 Mini-jeux',MG.length,MG_ORDER.length,MG_ORDER.filter(k=>MG.includes(k)).map(k=>cell('k:'+k,cardHTML(k,false),1)),'Aucune carte mini-jeu.'):''}
+      <div class="trbtns"><button class="btn alt" id="pcBack">Retour</button></div></div>`;
+    const IN=sh.querySelector('.in');IN.scrollTop=pfTop;
+    sh.querySelector('#pcBack').onclick=()=>{pfTop=0;render();};
+    sh.querySelectorAll('[data-v]').forEach(x=>x.onclick=e=>{e.stopPropagation();pfTop=IN.scrollTop;const v=x.dataset.v,id=v.slice(2),isK=v[0]==='k',n=isK?1:(C[id]||1);
+      sh.innerHTML=`<div class="in"><div class="pfbig">${strip(isK?cardHTML(id,true):memberHTML(id,true))}</div>
+        <div class="sec" style="text-align:center">${me?'Tu l\'as':esc(name)+' l\'a'} en <b>${n}</b> exemplaire${n>1?'s':''}</div>
+        <div class="trbtns"><button class="btn alt" id="pcB2">Retour</button></div></div>`;
+      sh.querySelector('#pcB2').onclick=pfCol;});}
   function pickFav(){const own=SPECIALS.concat(MEMBERS).filter(m=>COL.members[m.id]).map(m=>m.id),mg=MG_ORDER.filter(k=>COL.cards[k]);
     sh.innerHTML=`<div class="in"><h3>⭐ Ma carte préférée</h3><div class="sec">Elle s'affichera en grand sur ton profil.</div>
       ${own.length+mg.length?`<div class="pick">${own.map(id=>`<div data-f="${id}" class="${COL.fav===id?'sel':''}">${mini(id)}</div>`).join('')}${mg.map(k=>`<div data-f="${k}" class="${COL.fav===k?'sel':''}">${cardHTML(k,false)}</div>`).join('')}</div>`:'<div class="trempty">Tu n\'as pas encore de carte.</div>'}
@@ -9719,7 +9965,7 @@ async function gmCupSheet(pw){const w=pw||gmWeek(),L=gmCupRows(w).slice(0,30),na
     ${L.length?L.map((r,i)=>`<div class="rkrow${r.me||isMe(r.id)?' me':''}"><span class="pos">${['🥇','🥈','🥉'][i]||i+1}</span><span class="who">${esc(r.me||isMe(r.id)?'Toi':(names[r.id]||'Joueur'))}</span><span class="v">${gmE(r.v)}</span></div>`).join(''):'<div class="rkempty">Personne n\'a encore joué cette semaine.</div>'}
     ${T.g||T.s||T.b?`<div class="gmhint" style="margin-top:10px">Tes trophées : ${T.g?'🏆 ×'+T.g+' ':''}${T.s?'🥈 ×'+T.s+' ':''}${T.b?'🥉 ×'+T.b:''}</div>`:''}<div class="trbtns"><button class="btn alt" id="bx">Fermer</button></div>`);sh.querySelector('#bx').onclick=()=>sh.remove();}
 function gmCupClaim(){try{const w=gmPrevWeek();if(COL.cupDone===w)return;const mine=gmCupScore(w);if(!mine){if(COL.gmc&&COL.gmc.cup!==w)COL.cupDone=w;return;}
-    if(!BOARD||!Object.keys(BOARD).length)return;const L=gmCupRows(w),i=L.findIndex(r=>r.me||isMe(r.id)),pos=i+1,n=[3,2,2][i]||1;COL.cupDone=w;COL.cupW=COL.cupW||{};
+    if(!BOARD||!Object.keys(BOARD).length)return;const L=gmCupRows(w),i=L.findIndex(r=>r.me||isMe(r.id)),pos=i+1,n=([3,2,2][i]||1)*(COL.xcup===w?2:1);COL.cupDone=w;COL.cupW=COL.cupW||{};
     if(pos===1&&L.length>1){COL.cupW.g=(COL.cupW.g||0)+1;try{newsAdd('🏆','a gagné la coupe des clubs de Gambetta Manager');}catch(_){}}else if(pos===2)COL.cupW.s=(COL.cupW.s||0)+1;else if(pos===3)COL.cupW.b=(COL.cupW.b||0)+1;
     COL.boosters=(COL.boosters||0)+n;saveCol();try{updBoostBtn();}catch(_){}
     const ov=document.createElement('div');ov.className='giftpop';ov.innerHTML=`<div class="gcard"><div class="emo">${['🏆','🥈','🥉'][i]||'🏅'}</div><h3>Coupe des clubs</h3><p>Tu termines <b>${pos}${pos===1?'er':'e'}</b> sur ${L.length} avec ${gmE(mine)} !<br><br>🎁 <b>${n} booster${n>1?'s':''}</b> ${n>1?'t\'attendent':'t\'attend'} dans ta collection.</p><div class="endbtns"><button class="btn">Super !</button></div></div>`;$('#app').appendChild(ov);ov.querySelector('.btn').onclick=()=>ov.remove();
@@ -10661,7 +10907,7 @@ function ofDo(O,id,take){if(ofCan(O))return;if(!take||!ofCheck(O,take).ok)return
   $('#app').appendChild(ov);ov.querySelector('.btn').onclick=()=>ov.remove();try{buildDefi();}catch(_){}}
 /* nom doré (la vitrine) dans les classements */
 function ofGoldOf(pid){if(isMe(pid))return (COL.gold||0)>Date.now();const b=(BOARD||{})[pid];return !!(b&&b.pf&&b.pf.gold>Date.now());}
-function ofGoldDeco(root){if(!root)return;root.querySelectorAll('.who[data-pid]:not([data-gd])').forEach(el=>{el.dataset.gd=1;if(ofGoldOf(el.dataset.pid)){el.classList.add('goldname');el.insertAdjacentText('afterbegin','✨ ');}});}
+function ofGoldDeco(root){if(!root)return;try{root.querySelectorAll('.who[data-pid]:not([data-xt])').forEach(el=>{el.dataset.xt=1;const b=(BOARD||{})[el.dataset.pid];if(b&&b.xt&&xmasOn())el.insertAdjacentText('afterbegin','🧝 ');});}catch(_){}root.querySelectorAll('.who[data-pid]:not([data-gd])').forEach(el=>{el.dataset.gd=1;if(ofGoldOf(el.dataset.pid)){el.classList.add('goldname');el.insertAdjacentText('afterbegin','✨ ');}});}
 ['#rkList','#dfBody'].forEach(s=>{const el=document.querySelector(s);if(el)new MutationObserver(()=>ofGoldDeco(el)).observe(el,{childList:true,subtree:true});});
 
 /* ---------- animations des manifestations ---------- */
@@ -10803,7 +11049,7 @@ function dClap(t,v,D){[0,.012,.026].forEach(o=>sn(t+o,.07,v*.7,{f:1500,ty:'bandp
 function dShk(t,v,D){sn(t,.05,v,{f:6000,ty:'bandpass',q:1.2,a:.012,dest:D});}
 /* effets sonores de l'interface et des événements */
 const PENTA=[72,74,76,79,81,84,86,88,91,93,96];
-function sfx(k){if(sndOff())return;if(k==='tab'&&!bubOn())return;const A=sndCtx();if(!A)return;try{if(A.state==='suspended')A.resume();const t=A.currentTime+.005;
+function sfx(k){if(sndOff())return;if(k==='win'||k==='open')try{xBells();}catch(_){}if(k==='tab'&&!bubOn())return;const A=sndCtx();if(!A)return;try{if(A.state==='suspended')A.resume();const t=A.currentTime+.005;
   switch(k){
     case 'tap':sv(t,{w:'sine',f:520,f1:820,d:.07,v:.11});sn(t,.015,.03,{f:5000,ty:'highpass'});break;
     case 'tab':sv(t,{w:'sine',f:340,f1:760,d:.1,v:.11});sv(t+.05,{w:'sine',f:620,f1:1100,d:.07,v:.05});break;
@@ -10826,6 +11072,10 @@ function sfx(k){if(sndOff())return;if(k==='tab'&&!bubOn())return;const A=sndCtx(
   }catch(_){}}
 /* ---------- musiques : 7 morceaux de 8 mesures (basse, accords, batterie, mélodie), avec une variante un tour sur deux ---------- */
 const TRACKS={
+  noel:{bpm:132,key:60,lead:'bell',lv:.09,comp:'pluck',cp:'..x...x...x...x.',bp:'r...f...r...f...',K:'x.......x.......',H:'s.s.s.s.s.s.s.s.',pad:1,
+    bars:[[0,[0,4,7]],[0,[0,4,7]],[0,[0,4,7]],[0,[0,4,7]],[5,[5,9,12]],[0,[0,4,7]],[2,[2,6,9]],[-5,[-5,-1,2]],[0,[0,4,7]],[0,[0,4,7]],[0,[0,4,7]],[0,[0,4,7]],[5,[5,9,12]],[0,[0,4,7]],[-5,[-5,-1,2]],[0,[0,4,7]]],
+    mel:[[4,null,4,null,4,null,null,null],[4,null,4,null,4,null,null,null],[4,null,7,null,0,null,2,null],[4,null,null,null,null,null,null,null],[5,null,5,null,5,null,5,null],[5,null,4,null,4,null,4,4],[4,null,2,null,2,null,4,null],[2,null,null,null,7,null,null,null],
+      [4,null,4,null,4,null,null,null],[4,null,4,null,4,null,null,null],[4,null,7,null,0,null,2,null],[4,null,null,null,null,null,null,null],[5,null,5,null,5,null,5,null],[5,null,4,null,4,null,4,4],[7,null,7,null,5,null,2,null],[0,null,null,null,null,null,null,null]]},
   menu:{bpm:104,key:60,sw:.14,lead:'bell',lv:.085,comp:'ep',cp:'..x..x....x..x..',bp:'r.....f.r.....f.',K:'x.....x.x.......',S:'....r.....r.r...',H:'s.s.s.s.s.s.s.s.',
     bars:[[0,[0,4,7,11]],[-3,[-3,0,4,7]],[2,[2,5,9,12]],[-5,[-5,-1,2,5]],[4,[-8,-5,-1,2]],[-3,[-3,0,4,7]],[2,[2,5,9,12]],[-5,[-5,-1,2,5]]],
     mel:[[4,null,7,null,11,9,7,null],[9,null,7,4,null,0,4,null],[5,null,9,null,12,9,5,null],[7,5,2,null,-1,null,2,null],[4,null,7,11,null,14,11,null],[12,null,9,null,7,4,null,null],[5,9,12,null,14,12,9,null],[11,null,7,null,2,null,null,null]]},
@@ -10865,7 +11115,7 @@ function musPlay(name){if(!musOn()||document.hidden)name='';if(name===SND.track&
   setTimeout(()=>{if(SND.track||!musOn())return;SND.track=name;SND.step=0;SND.next=A.currentTime+.08;const t2=A.currentTime;g.cancelScheduledValues(t2);g.setValueAtTime(0,t2);g.linearRampToValueAtTime(.46,t2+.8);
     SND.iv=setInterval(musTick,60);musTick();},280);}
 const MUS_OWN=['christine','stephane','richard'];
-function musFor(id){if(id==='game')return MUS_OWN.includes(typeof curKey!=='undefined'?curKey:'')?'':'game';if(id==='manager')return 'manager';if(id==='gogo')return 'go';if(id==='fighter'||id==='bataille')return 'fight';if(id==='party')return 'party';if(id==='collection'||id==='trade'||id==='pixel')return 'cards';return 'menu';}
+function musFor(id){try{if(COL.xmus&&xmasOn()&&!['game','manager','gogo','fighter','bataille','party'].includes(id))return 'noel';}catch(_){}if(id==='game')return MUS_OWN.includes(typeof curKey!=='undefined'?curKey:'')?'':'game';if(id==='manager')return 'manager';if(id==='gogo')return 'go';if(id==='fighter'||id==='bataille')return 'fight';if(id==='party')return 'party';if(id==='collection'||id==='trade'||id==='pixel')return 'cards';return 'menu';}
 function musScreen(){const s=document.querySelector('.screen.active');musPlay(s?musFor(s.id):'menu');}
 function sndUnlock(){if(SND.unlocked)return;SND.unlocked=true;const A=sndCtx();if(A){try{A.resume();}catch(_){}}musScreen();}
 document.addEventListener('pointerdown',sndUnlock,{capture:true});document.addEventListener('keydown',sndUnlock,{capture:true});
@@ -11855,7 +12105,7 @@ function buildSelect(){
       <div class="avwrap" style="background:${c.bg}">${charArt(c)}</div>
       <div class="nm">${c.name}</div><div class="gm">${c.game}</div></button>`;};
   const main=ORDER.filter(k=>k!=='bonus');
-  $('#grid').innerHTML=svCardHTML()+main.map(card).join('')+card('bonus');
+  $('#grid').innerHTML=svCardHTML()+(xmasOn()?card('rennes'):'')+main.map(card).join('')+card('bonus');
   $('#grid').querySelectorAll('button.char').forEach(b=>b.onclick=()=>{PLAYCTX=null;openIntro(b.dataset.k);});const sg=$('#svGo');if(sg)sg.onclick=()=>survStart();
   try{const k=chGame(dayKey());$('#dChip').innerHTML=`🎯 Défi du jour : <b>${CHARS[k].game}</b> ›`;evChip();}catch(_){}
 }
@@ -11928,7 +12178,7 @@ const api={
   score(v){pendingScore=v;},
   hud(t){const h=$('#hudInfo');if(h.textContent!==t){h.textContent=t;try{hudFx(t);}catch(_){}}},
   unlock(){if(saveWin(curKey))freshCard=curKey;},
-  end(win,title,msg){if(ended)return;ended=true;try{sfx(win?'win':'lose');}catch(_){}endFxNow(win);let rv=null;try{rv=recordResult(curKey,win);}catch(_){}try{evPlayed(curKey);}catch(_){}try{stat('played');stat(win?'won':'lost');qHit('play4');qHit(win?'win2':'lose');}catch(_){}let xl='';try{xl=ctxAfter(curKey,win,rv);}catch(_){}try{const mt=metricOf(curKey).t;ptAfter(curKey,win,mt==='time'?Math.round((performance.now()-gameT0)/100)/10:pendingScore);}catch(_){}pendingScore=null;if(win&&saveWin(curKey))freshCard=curKey;const fc=freshCard;freshCard=null;try{if(fc)qHit('newmg');}catch(_){}
+  end(win,title,msg){if(ended)return;ended=true;try{sfx(win?'win':'lose');}catch(_){}try{xWinHook(curKey,win,(performance.now()-gameT0)/1000);}catch(_){}endFxNow(win);let rv=null;try{rv=recordResult(curKey,win);}catch(_){}try{evPlayed(curKey);}catch(_){}try{stat('played');stat(win?'won':'lost');qHit('play4');qHit(win?'win2':'lose');}catch(_){}let xl='';try{xl=ctxAfter(curKey,win,rv);}catch(_){}try{const mt=metricOf(curKey).t;ptAfter(curKey,win,mt==='time'?Math.round((performance.now()-gameT0)/100)/10:pendingScore);}catch(_){}pendingScore=null;if(win&&saveWin(curKey))freshCard=curKey;const fc=freshCard;freshCard=null;try{if(fc)qHit('newmg');}catch(_){}
     setTimeout(()=>{try{endFx(win);}catch(_){$('#endEmo').textContent=win?'🏆':'💦';}$('#endTitle').textContent=title;$('#endMsg').textContent=msg;
       const ec=$('#endCard');const rw=fc?winRewards(fc):[];ec.innerHTML=(fc?`<div class="newcard">🃏 Nouvelle carte !${cardHTML(fc,false)}</div>`:'')
         +(rw.length?`<div class="rewbox">${rw.map(r=>`<div class="rew"><span>${r.e}</span>${r.t}</div>`).join('')}<button class="btn" id="rewOpen">Ouvrir maintenant 🎁</button></div>`:'')+xl;
@@ -11938,7 +12188,7 @@ const api={
       const ptc=PLAYCTX&&PLAYCTX.t==='party',svc=PLAYCTX&&PLAYCTX.t==='surv';$('#toSel').textContent=svc?(PLAYCTX.done?'Mini-jeux':'Arrêter'):ptc?'🎲 Retour à la partie':PLAYCTX?'⚔️ Défis':'Persos';$('#again').hidden=ptc;$('#again').textContent=svc?(PLAYCTX.done?'🔁 Rejouer la survie':'Suivant ▶'):'Rejouer';$('#end').classList.add('show');$('#again').focus();},400);}
 };
 /* règle du jeu : affichée au premier lancement de chaque mini-jeu, et avec le bouton ? */
-const RULES={"victor": {"b": "Esquive les paroles de Victor pendant 45 secondes, sans te faire toucher 3 fois.", "c": "Glisse ton doigt pour déplacer Zoé. Attrape le casque 🎧 : pendant 5 secondes, plus rien ne l'atteint !"}, "parking": {"b": "Vide les 4 parkings de la fête du club en moins de 4 minutes.", "c": "Touche une voiture : elle part tout droit, seulement si personne ne bloque la route jusqu'à la sortie. Sinon c'est l'accrochage… et ça râle !"}, "roland": {"b": "Ramène les 8 nageurs au bord en 45 secondes.", "c": "Touche l'écran pour lancer la bouée sur un nageur qui appelle à l'aide."}, "christian": {"b": "Fais un sans-faute.", "c": "Retiens qui a des cheveux, puis glisse chaque carte (ou touche un bouton) : cheveux ou pas de cheveux ?"}, "laetitia": {"b": "Tiens 40 secondes sans laisser 3 postes vides.", "c": "Touche les jeunes qui quittent leur poste pour les renvoyer surveiller."}, "marcel": {"b": "Sers tout le monde sans une seule erreur.", "c": "Eau pour un enfant, un nageur (bonnet, lunettes, serviette) ou quelqu'un qui a trop bu. Bière pour les autres."}, "christophe": {"b": "Démasque Christophe 3 fois avant la fin du chrono.", "c": "Cherche-le dans la foule et touche-le."}, "agnes": {"b": "Sers 15 nageurs avant d'en rater 5.", "c": "Touche un nageur affamé pour lui lancer une mini-quiche."}, "jacky": {"b": "Trouve les 7 différences à chaque manche avant la fin du temps.", "c": "Compare les deux images et touche chaque différence."}, "noel": {"b": "Ramasse 15 cadeaux en 45 secondes sans trop te mouiller.", "c": "Glisse le doigt pour déplacer le Père Noël : passe sur les cadeaux, évite l'eau."}, "duo": {"b": "Papote jusqu'à 100 % sans te faire prendre 3 fois.", "c": "Garde le doigt appuyé pour papoter et lâche dès que Christian regarde. Et surveille les enfants !"}, "christine": {"b": "Réussis au moins 70 % des mouvements.", "c": "Tape le bon mouvement au moment où il arrive dans le cercle."}, "ethan": {"b": "Soulève la barre en 15 secondes… et garde-la en haut !", "c": "Tape le plus vite possible : si tu ralentis, la barre redescend."}, "aude": {"b": "Tranche 30 oranges sans rater 3 fois.", "c": "Glisse le doigt pour trancher les oranges… mais jamais les bouteilles !"}, "nathan": {"b": "Amène Nathan jusqu'à sa chérie sans toucher un thon.", "c": "Pars de Nathan et trace son chemin avec le doigt. Chaque niveau a plus de thons."}, "manu": {"b": "Rattrape le soutien-gorge 5 fois avant qu'il tombe devant tout le monde.", "c": "Glisse le doigt pour placer Manue sous le soutien-gorge. Attention aux coups de vent !"}, "stephane": {"b": "Tiens 8 refrains pour faire craquer Stéphane.", "c": "Regarde la suite de touches qui s'allument, puis répète-la. Elle s'allonge à chaque fois. 3 erreurs max."}, "margaux": {"b": "Attrape 20 enfants en bas du toboggan, 5 erreurs max.", "c": "Touche les enfants qui arrivent seuls. Pas ceux qui sont déjà accompagnés !"}, "richard": {"b": "Fais sortir tous les enfants de l'eau sans casser d'oreilles.", "c": "Maintiens pour siffler : plus tu tiens, plus ça porte loin. Lâche avant le rouge, sinon AÏE !"}, "jf": {"b": "Marque 5 buts sur 10 tirs.", "c": "Tire le ballon en arrière, vise et lâche pour tirer."}, "david": {"b": "Échappe à Marcel pendant 6 manches sans vider ton portefeuille.", "c": "Touche une cachette pour David avant que Marcel arrive."}, "anthony": {"b": "Cours jusqu'au nageur en détresse sans tomber 3 fois.", "c": "Glisse à gauche ou à droite pour changer de côté, vers le haut (ou tape) pour sauter."}, "gwen": {"b": "Réussis 6 analyses de chlore, 3 erreurs max.", "c": "Glisse les produits dans le tube dans le bon ordre, puis lis le bon résultat."}, "francoise": {"b": "Ramène 12 enfants au bord, pas plus de 3 qui boivent la tasse.", "c": "Touche l'enfant le plus urgent pour sauter le chercher, puis tape gauche, droite… pour nager."}, "matheo": {"b": "Ramasse tout ce qui flotte au fond, sans manquer d'air.", "c": "Glisse le doigt pour guider l'épuisette et vide-la au bord quand elle est pleine. Remonte respirer !"}, "zoe": {"b": "Écrase le gâteau sur la tête de Christian sans te faire repérer 3 fois.", "c": "Glisse le doigt pour approcher en douceur et cache-toi derrière les obstacles. Touche sa tête pour lancer !"}, "alix": {"b": "Fais revenir Hulk sans avoir trop honte.", "c": "Maintiens pour remplir l'appel et lâche dans la bonne zone. Si Hulk file vers le bassin, attention au plouf !"}, "kayak": {"b": "Remonte les 2 téléphones au kayak sans manquer d'air.", "c": "Glisse le doigt pour plonger, suis les vibrations 📳, attrape le téléphone et ramène-le au kayak."}, "dario": {"b": "Trouve la bonne excuse à chaque rencontre pour échapper à l'aquajogging.", "c": "Lis bien ce qu'on te dit : un indice cache la seule excuse qui tient la route. 3 vies."}, "bouchon": {"b": "Récupère les 4 clés de chaque niveau avec Bouchon.", "c": "Glisse le doigt pour la déplacer. Évite les douches, les pieds, les vêtements et les bouches d'aspiration."}, "bonus": {"b": "Fais le plat parfait à chaque plongeoir.", "c": "Touche l'écran pour sauter : il faut arriver à plat (90°) dans l'eau. Plus c'est haut, plus ça tourne !"}, "lilian": {"b": "Grimpe jusqu'au sommet sans tomber 3 fois.", "c": "Touche à gauche ou à droite selon la prise qui brille. Quand une pierre tombe, ne bouge plus !"}, "mickey": {"b": "Donne 20 cartes du club sans te tromper 3 fois.", "c": "Donne une carte seulement aux futures mamans 🤰 et aux poussettes 👶. Pas aux autres !"}, "manon": {"b": "Tiens 45 secondes sans que personne ne voie les fesses de Manon.", "c": "Glisse la serviette devant chaque regard 👀. 2 vies seulement !"}, "helene": {"b": "Soigne 20 enfants sans te tromper 3 fois.", "c": "Écoute le bobo et touche le bon soin dans la trousse."}, "pascal": {"b": "Attrape 25 tire-au-flanc avant de te tromper 3 fois.", "c": "Touche ceux qui trichent… mais pas ceux qui font leur virage ou qui nagent vraiment !"}, "angelique": {"b": "Apporte au moins 8 verres à table en 3 tournées.", "c": "Glisse le doigt pour garder le plateau droit, même quand Angélique tangue un peu…"}, "maurice": {"b": "Fais avancer l'aquabike de Maurice avec 5 inventions folles.", "c": "Chaque invention a sa règle, écrite en haut de l'écran. 3 vies."}, "willi": {"b": "Emmène Willi jusqu'à Metz sur routes, rivières et lacs.", "c": "Touche pour changer : les flotteurs juste avant l'eau, les roues juste avant la route. Saute les obstacles !"}, "pierre": {"b": "Fais 60 points de scoops en 60 secondes.", "c": "Touche un scoop au bon moment pour le photographier. Les simples nageurs font perdre des points !"}, "laurence": {"b": "Fais 4 longueurs (100 m) sans toucher les lignes d'eau 3 fois.", "c": "Penche le téléphone vers l'avant pour courir, à gauche ou à droite pour rester au milieu. Attention aux remous ! Sans inclinaison : garde 🏃‍♀️ appuyé et utilise ◀ ▶."}, "romain": {"b": "Tiens 45 secondes sans laisser tomber 3 ballons.", "c": "Un pouce de chaque côté de l'écran : le gauche déplace Romain, le droit son coéquipier. Place-toi sous les ombres, là où les ballons vont tomber."}, "clement": {"b": "Remonte 5 films du club dans le bon ordre, le plus vite possible.", "c": "Fais glisser une image sur une autre pour les échanger (ou touche-les l'une après l'autre), puis ▶ Lecture. Mauvais ordre : +5 s. Touche le 🐟 caché pour gagner 3 s !"}, "simon": {"b": "8 niveaux : retrouve un mot de la piscine aux lettres mélangées, avec une lettre de plus à chaque niveau (de 4 à 11).", "c": "Touche les bouées dans le bon ordre pour écrire le mot (l'indice de Simon t'aide). Touche une lettre posée pour l'enlever. 💡 une lettre : +5 s, ⏭ passer : +10 s."}, "julien": {"b": "Garde le doigt 30 secondes sur la barbichette de Julien.", "c": "Julien bouge sans arrêt, et quand le club l'embête (❗ BOUH, ATCHOUM…), il sursaute d'un coup : suis sa barbichette du doigt ! Si tu la lâches ou lèves le doigt plus d'une seconde : une vie en moins (3 vies)."}, "alex": {"b": "Reconnecte les câbles du site du club sur 5 tableaux.", "c": "Touche une tuile pour la faire tourner. Relie le serveur 🖥️ à tous les écrans 📱 : les câbles branchés s'allument en bleu."}};
+const RULES={"rennes": {"b": "Finis le relais sur le podium : 4 longueurs, 4 nageurs de Noël.", "c": "Touche l'écran en rythme, quand le cercle blanc arrive sur la cloche 🔔. Parfait = plus vite ! Quand ton nageur touche le mur, touche vite pour faire plonger le suivant."}, "victor": {"b": "Esquive les paroles de Victor pendant 45 secondes, sans te faire toucher 3 fois.", "c": "Glisse ton doigt pour déplacer Zoé. Attrape le casque 🎧 : pendant 5 secondes, plus rien ne l'atteint !"}, "parking": {"b": "Vide les 4 parkings de la fête du club en moins de 4 minutes.", "c": "Touche une voiture : elle part tout droit, seulement si personne ne bloque la route jusqu'à la sortie. Sinon c'est l'accrochage… et ça râle !"}, "roland": {"b": "Ramène les 8 nageurs au bord en 45 secondes.", "c": "Touche l'écran pour lancer la bouée sur un nageur qui appelle à l'aide."}, "christian": {"b": "Fais un sans-faute.", "c": "Retiens qui a des cheveux, puis glisse chaque carte (ou touche un bouton) : cheveux ou pas de cheveux ?"}, "laetitia": {"b": "Tiens 40 secondes sans laisser 3 postes vides.", "c": "Touche les jeunes qui quittent leur poste pour les renvoyer surveiller."}, "marcel": {"b": "Sers tout le monde sans une seule erreur.", "c": "Eau pour un enfant, un nageur (bonnet, lunettes, serviette) ou quelqu'un qui a trop bu. Bière pour les autres."}, "christophe": {"b": "Démasque Christophe 3 fois avant la fin du chrono.", "c": "Cherche-le dans la foule et touche-le."}, "agnes": {"b": "Sers 15 nageurs avant d'en rater 5.", "c": "Touche un nageur affamé pour lui lancer une mini-quiche."}, "jacky": {"b": "Trouve les 7 différences à chaque manche avant la fin du temps.", "c": "Compare les deux images et touche chaque différence."}, "noel": {"b": "Ramasse 15 cadeaux en 45 secondes sans trop te mouiller.", "c": "Glisse le doigt pour déplacer le Père Noël : passe sur les cadeaux, évite l'eau."}, "duo": {"b": "Papote jusqu'à 100 % sans te faire prendre 3 fois.", "c": "Garde le doigt appuyé pour papoter et lâche dès que Christian regarde. Et surveille les enfants !"}, "christine": {"b": "Réussis au moins 70 % des mouvements.", "c": "Tape le bon mouvement au moment où il arrive dans le cercle."}, "ethan": {"b": "Soulève la barre en 15 secondes… et garde-la en haut !", "c": "Tape le plus vite possible : si tu ralentis, la barre redescend."}, "aude": {"b": "Tranche 30 oranges sans rater 3 fois.", "c": "Glisse le doigt pour trancher les oranges… mais jamais les bouteilles !"}, "nathan": {"b": "Amène Nathan jusqu'à sa chérie sans toucher un thon.", "c": "Pars de Nathan et trace son chemin avec le doigt. Chaque niveau a plus de thons."}, "manu": {"b": "Rattrape le soutien-gorge 5 fois avant qu'il tombe devant tout le monde.", "c": "Glisse le doigt pour placer Manue sous le soutien-gorge. Attention aux coups de vent !"}, "stephane": {"b": "Tiens 8 refrains pour faire craquer Stéphane.", "c": "Regarde la suite de touches qui s'allument, puis répète-la. Elle s'allonge à chaque fois. 3 erreurs max."}, "margaux": {"b": "Attrape 20 enfants en bas du toboggan, 5 erreurs max.", "c": "Touche les enfants qui arrivent seuls. Pas ceux qui sont déjà accompagnés !"}, "richard": {"b": "Fais sortir tous les enfants de l'eau sans casser d'oreilles.", "c": "Maintiens pour siffler : plus tu tiens, plus ça porte loin. Lâche avant le rouge, sinon AÏE !"}, "jf": {"b": "Marque 5 buts sur 10 tirs.", "c": "Tire le ballon en arrière, vise et lâche pour tirer."}, "david": {"b": "Échappe à Marcel pendant 6 manches sans vider ton portefeuille.", "c": "Touche une cachette pour David avant que Marcel arrive."}, "anthony": {"b": "Cours jusqu'au nageur en détresse sans tomber 3 fois.", "c": "Glisse à gauche ou à droite pour changer de côté, vers le haut (ou tape) pour sauter."}, "gwen": {"b": "Réussis 6 analyses de chlore, 3 erreurs max.", "c": "Glisse les produits dans le tube dans le bon ordre, puis lis le bon résultat."}, "francoise": {"b": "Ramène 12 enfants au bord, pas plus de 3 qui boivent la tasse.", "c": "Touche l'enfant le plus urgent pour sauter le chercher, puis tape gauche, droite… pour nager."}, "matheo": {"b": "Ramasse tout ce qui flotte au fond, sans manquer d'air.", "c": "Glisse le doigt pour guider l'épuisette et vide-la au bord quand elle est pleine. Remonte respirer !"}, "zoe": {"b": "Écrase le gâteau sur la tête de Christian sans te faire repérer 3 fois.", "c": "Glisse le doigt pour approcher en douceur et cache-toi derrière les obstacles. Touche sa tête pour lancer !"}, "alix": {"b": "Fais revenir Hulk sans avoir trop honte.", "c": "Maintiens pour remplir l'appel et lâche dans la bonne zone. Si Hulk file vers le bassin, attention au plouf !"}, "kayak": {"b": "Remonte les 2 téléphones au kayak sans manquer d'air.", "c": "Glisse le doigt pour plonger, suis les vibrations 📳, attrape le téléphone et ramène-le au kayak."}, "dario": {"b": "Trouve la bonne excuse à chaque rencontre pour échapper à l'aquajogging.", "c": "Lis bien ce qu'on te dit : un indice cache la seule excuse qui tient la route. 3 vies."}, "bouchon": {"b": "Récupère les 4 clés de chaque niveau avec Bouchon.", "c": "Glisse le doigt pour la déplacer. Évite les douches, les pieds, les vêtements et les bouches d'aspiration."}, "bonus": {"b": "Fais le plat parfait à chaque plongeoir.", "c": "Touche l'écran pour sauter : il faut arriver à plat (90°) dans l'eau. Plus c'est haut, plus ça tourne !"}, "lilian": {"b": "Grimpe jusqu'au sommet sans tomber 3 fois.", "c": "Touche à gauche ou à droite selon la prise qui brille. Quand une pierre tombe, ne bouge plus !"}, "mickey": {"b": "Donne 20 cartes du club sans te tromper 3 fois.", "c": "Donne une carte seulement aux futures mamans 🤰 et aux poussettes 👶. Pas aux autres !"}, "manon": {"b": "Tiens 45 secondes sans que personne ne voie les fesses de Manon.", "c": "Glisse la serviette devant chaque regard 👀. 2 vies seulement !"}, "helene": {"b": "Soigne 20 enfants sans te tromper 3 fois.", "c": "Écoute le bobo et touche le bon soin dans la trousse."}, "pascal": {"b": "Attrape 25 tire-au-flanc avant de te tromper 3 fois.", "c": "Touche ceux qui trichent… mais pas ceux qui font leur virage ou qui nagent vraiment !"}, "angelique": {"b": "Apporte au moins 8 verres à table en 3 tournées.", "c": "Glisse le doigt pour garder le plateau droit, même quand Angélique tangue un peu…"}, "maurice": {"b": "Fais avancer l'aquabike de Maurice avec 5 inventions folles.", "c": "Chaque invention a sa règle, écrite en haut de l'écran. 3 vies."}, "willi": {"b": "Emmène Willi jusqu'à Metz sur routes, rivières et lacs.", "c": "Touche pour changer : les flotteurs juste avant l'eau, les roues juste avant la route. Saute les obstacles !"}, "pierre": {"b": "Fais 60 points de scoops en 60 secondes.", "c": "Touche un scoop au bon moment pour le photographier. Les simples nageurs font perdre des points !"}, "laurence": {"b": "Fais 4 longueurs (100 m) sans toucher les lignes d'eau 3 fois.", "c": "Penche le téléphone vers l'avant pour courir, à gauche ou à droite pour rester au milieu. Attention aux remous ! Sans inclinaison : garde 🏃‍♀️ appuyé et utilise ◀ ▶."}, "romain": {"b": "Tiens 45 secondes sans laisser tomber 3 ballons.", "c": "Un pouce de chaque côté de l'écran : le gauche déplace Romain, le droit son coéquipier. Place-toi sous les ombres, là où les ballons vont tomber."}, "clement": {"b": "Remonte 5 films du club dans le bon ordre, le plus vite possible.", "c": "Fais glisser une image sur une autre pour les échanger (ou touche-les l'une après l'autre), puis ▶ Lecture. Mauvais ordre : +5 s. Touche le 🐟 caché pour gagner 3 s !"}, "simon": {"b": "8 niveaux : retrouve un mot de la piscine aux lettres mélangées, avec une lettre de plus à chaque niveau (de 4 à 11).", "c": "Touche les bouées dans le bon ordre pour écrire le mot (l'indice de Simon t'aide). Touche une lettre posée pour l'enlever. 💡 une lettre : +5 s, ⏭ passer : +10 s."}, "julien": {"b": "Garde le doigt 30 secondes sur la barbichette de Julien.", "c": "Julien bouge sans arrêt, et quand le club l'embête (❗ BOUH, ATCHOUM…), il sursaute d'un coup : suis sa barbichette du doigt ! Si tu la lâches ou lèves le doigt plus d'une seconde : une vie en moins (3 vies)."}, "alex": {"b": "Reconnecte les câbles du site du club sur 5 tableaux.", "c": "Touche une tuile pour la faire tourner. Relie le serveur 🖥️ à tous les écrans 📱 : les câbles branchés s'allument en bleu."}};
 function rulesShow(k,then){const R=RULES[k],g=$('#game');if(!R||!g){then();return;}document.querySelectorAll('.rulesov').forEach(x=>x.remove());
   const o=document.createElement('div');o.className='rulesov';o.innerHTML=`<div class="rulescard"><div class="rav" style="background:${CHARS[k].bg}">${avatar(CHARS[k].look,{viewBox:'30 20 140 140'})}</div><h3>${esc(CHARS[k].game)}</h3>
     <p><b>🎯 But</b>${esc(R.b)}</p><p><b>👆 Comment</b>${esc(R.c)}</p><button class="btn" id="rulesGo">J'ai compris ▶</button></div>`;
